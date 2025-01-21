@@ -1,23 +1,22 @@
-# Nextra Docs Template 
+<p align="center">
+  <a href="https://smartbills.io/?utm_source=github&utm_medium=logo" target="_blank">
+    <img src="https://cdn.smartbills.io/public/assets/logos/logo_black_transparent.svg" alt="smartbills" width="280" height="84">
+  </a>
+</p>
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+Smartbills is on a mission to help developers build the best financial tools. If you want to join us
+[<kbd>**Check out our open positions**</kbd>](https://smartbills.io/careers/)
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+# Official Smartbills API documentation
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+Welcome to the official Smartbills API documentation. Here you will find comprehensive guides and documentation to help you start working with Smartbills as quickly as possible, as well as support if you get stuck. 
 
-## Quick Start
+## Contribute
+Please help us maintaing a high quality API documentation by contributing to the repository.
 
-Click the button to clone this repository and deploy it on Vercel:
+## Links
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+- [![Documentation](https://img.shields.io/badge/documentation-smartbills.io-green.svg)](https://docs.smartbills.io/)
+- [![Stack Overflow](https://img.shields.io/badge/stack%20overflow-smartbills-green.svg)](http://stackoverflow.com/questions/tagged/smartbills)
+- [![Twitter Follow](https://img.shields.io/twitter/follow/SmartbillsApp?label=SmartbillsApp&style=social)](https://twitter.com/intent/follow?screen_name=SmartbillsApp)
 
-## Local Development
-
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
-
-## License
-
-This project is licensed under the MIT License.
