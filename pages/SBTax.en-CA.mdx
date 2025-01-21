@@ -1,0 +1,20 @@
+---
+title: SBTax | Smartbills API Documentation
+description: Learn more about the SBTax resource in the Smartbills API.
+---
+
+# SBTax
+This object represents a tax. A tax is applied to transactions and can be used to manage tax rates and details.
+
+| Attribute                   | Description                                     | Type                    | Required    |
+|-----------------------------|-------------------------------------------------|-------------------------|-------------|
+| `id`                        | Unique identifier of the tax                    | `integer`               | Yes         |
+| `isActive`                  | Indicates if the tax is active                  | `boolean`               | No          |
+| `country`                   | Country where the tax is applied                | `string`                | No          |
+| `description`               | Description of the tax                          | `string`                | No          |
+| `name`                      | Name of the tax                                 | `string`                | Yes         |
+| `taxType`                   | Type of the tax                                 | `string`                | Yes         |
+| `percentage`                | Tax rate in percentage                          | `number`                | Yes         |
+| `state`                     | State where the tax is applied                  | `string`                | No          |
+| `inclusive`                 | Indicates if the tax is inclusive               | `boolean`               | No          |
+| `taxIdentificationNumber`   | Tax identification number                       | `string`                | No          |

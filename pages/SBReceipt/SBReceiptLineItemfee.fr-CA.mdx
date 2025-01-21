@@ -1,0 +1,21 @@
+# SBReceiptLineItemFee
+
+Cet objet représente un frais applié à un item dans un reçu.
+
+| Attribut         | Description                                    | Type      | Obligatoire |
+|-----------------|------------------------------------------------|-----------|-------------|
+| `id`            | Identifiant unique de l'article                | `integer` | Oui         |
+| `product`       | Détails du produit associé à l'article         | `SBReceiptItemProduct` | Non         |
+| `productId`     | Identifiant du produit                         | `integer` | Non         |
+| `variantId`     | Identifiant de la variante du produit          | `integer` | Non         |
+| `variant`       | Détails de la variante du produit              | [`SBProductVariant`](/SBProductVariant)  | Non         |
+| `price`         | Prix unitaire du produit                       | `decimal` | Oui         |
+| `quantity`      | Quantité de produits achetés                   | `decimal` | Oui         |
+| `totalFees`| Total des frais appliquées à l'article    | `SBMoney` | Non         |
+| `totalDiscounts`| Total des réductions appliquées à l'article    | `SBMoney` | Non         |
+| `totalTaxes`    | Total des taxes appliquées à l'article         | `SBMoney` | Non         |
+| `subTotal`      | Sous-total avant réductions et taxes           | `SBMoney` | Oui         |
+| `total`         | Montant total après réductions et taxes        | `SBMoney` | Oui         |
+| `discounts`     | Liste des réductions appliquées à l'article    | `SBReceiptItemDiscount[]` | Non         |
+| `taxes`         | Liste des taxes appliquées à l'article         | `SBReceiptItemTax[]` | Non         |
+| `fees`| Total frais appliquées à l'article    | `SBReceiptLineItemFee[]` | Non         |

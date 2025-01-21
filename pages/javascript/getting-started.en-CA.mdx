@@ -1,0 +1,42 @@
+# Getting Started with @smartbills/sdk
+
+This guide will help you get started with the Smartbills JavaScript SDK, `@smartbills/sdk`.
+
+## Installation
+
+To install the SDK, use npm or yarn:
+
+```bash
+npm install @smartbills/sdk
+```
+
+or
+
+```bash
+yarn add @smartbills/sdk
+```
+
+## Initialization
+
+To use the SDK, you need to initialize the `SBClient` with your JWT Access token.
+
+```js
+import { SBClient } from '@smartbills/sdk';
+
+const client = new SBClient({
+  credentials: new SBAccessToken(token, refresh_token),
+});
+```
+
+
+or with your client credentials.
+
+```js
+import { SBClient } from '@smartbills/sdk';
+
+const client = new SBClient({
+  credentials: new SBClientCredentials(client_id, client_secret, scopes),
+});
+```
+
+You are now ready to make api calls to the Smartbills API.

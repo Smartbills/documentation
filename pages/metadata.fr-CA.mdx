@@ -1,0 +1,18 @@
+---
+title: Métadonnées | Smartbills API Reference
+description: Documentation de référence complète pour l'API Smartbills. Comprend des extraits de code et des exemples pour nos bibliothèques Node.js et .NET.
+---
+
+## Métadonnées
+
+Les objets Smartbills pouvant être mis à jour, notamment les factures, les clients, les produits et les commerçants, disposent d'un paramètre de métadonnées. Vous pouvez utiliser ce paramètre pour attacher des données clé-valeur à ces objets Smartbills.
+
+Vous pouvez spécifier jusqu'à 50 clés, avec des noms de clé comportant jusqu'à 40 caractères et des valeurs jusqu'à 500 caractères.
+
+Vous pouvez utiliser des métadonnées pour stocker des informations structurées supplémentaires sur un objet. Par exemple, vous pouvez stocker le nom complet de votre utilisateur et l'identifiant unique correspondant de votre système sur un objet Client Smartbills. Smartbills n'utilise pas de métadonnées. Par exemple, nous ne les utilisons pas pour autoriser ou refuser un prélèvement et vos utilisateurs ne les verront pas à moins que vous ne choisissiez de les leur montrer.
+
+Ne stockez aucune information sensible sous forme de métadonnées ou dans le paramètre de description.
+
+### Exemples de cas d'utilisation des métadonnées
+- **Identifiants de lien**: associez les identifiants uniques de votre système à un objet Smartbills pour simplifier les recherches. Par exemple, ajoutez votre numéro de commande à un facture.
+- **Détails du client**: annotez un client en stockant un identifiant interne pour votre utilisation future.

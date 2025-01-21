@@ -1,0 +1,537 @@
+---
+title: Emplacements | Documentation de l'API Smartbills
+description: Apprenez à utiliser les fonctionnalités de localisation de l'API Smartbills, y compris comment gérer les emplacements commerciaux et suivre les reçus par emplacement.
+---
+
+import { Tabs } from 'nextra/components'
+
+# Emplacements
+Cet objet représente un emplacement de votre entreprise. Utilisez-le pour suivre les reçus qui appartiennent au même emplacement.
+
+## Portées
+`locations:write`
+`locations.read`
+
+## Principes de base
+
+Un emplacement doit être unique par adresse.
+
+## Créer un emplacement
+Créer un nouvel emplacement. Nécessite la portée `locations:write`
+
+`POST https://api.smartbills.io/v1/locations`
+
+#### Corps de la requête 
+Nécessite un corps de type `LocationCreateRequest`
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `name` | Nom de l'emplacement | `string`  |  `obligatoire` |
+| `address` | Adresse de l'emplacement | `AddressRequest`  |  `obligatoire` |
+| `website` | Site web de l'emplacement | `string`  |  `facultatif` |
+| `description` | Description de l'emplacement | `string`  |  `facultatif` |
+| `merchantCategoryCode` | Code de catégorie du marchand | `string`  |  `obligatoire` |
+| `currency` | Devise utilisée | `string`  |  `facultatif` |
+| `timezone` | Fuseau horaire de l'emplacement | `string`  |  `facultatif` |
+| `phoneNumber` | Numéro de téléphone de l'emplacement | `string`  |  `facultatif` |
+| `facebookUrl` | URL Facebook de l'emplacement | `string`  |  `facultatif` |
+| `instagramUsername` | Nom d'utilisateur Instagram de l'emplacement | `string`  |  `facultatif` |
+| `twitterUsername` | Nom d'utilisateur Twitter de l'emplacement | `string`  |  `facultatif` |
+| `isActive` | Indique si l'emplacement est actif | `bool`  |  `facultatif` |
+| `locale` | Langue de l'emplacement | `string`  |  `facultatif` |
+| `email` | Email de l'emplacement | `string`  |  `facultatif` |
+| `logo` | URL du logo de l'emplacement | `string`  |  `facultatif` |
+| `images` | Liste des images associées à l'emplacement | `List<ImageRequest>`  |  `facultatif` |
+
+```json copy filename="LocationCreateRequest"
+{
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+
+#### Réponse
+Retourne un `SBLocation`
+```json copy filename="SBLocation"
+{
+    "id": 1,
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBLocation, LocationCreateRequest} from "@smartbills/sdk"
+    
+    const client: SBClient = new SBClient();
+    const request: LocationCreateRequest = {
+        "name": "Main Store",
+        "address": {
+            "street": "123 Main St",
+            "city": "Anytown",
+            "state": "California",
+            "stateCode": "CA",
+            "postalCode": "12345",
+            "country": "USA",
+            "countryCode": "US",
+            "location": {
+                "longitude": -122.4194,
+                "latitude": 37.7749
+            }
+        },
+        "merchantCategoryCode": "1234",
+        "currency": "USD",
+        "timezone": "America/Los_Angeles",
+        "phoneNumber": "(555) 555-5555",
+        "email": "mainstore@smartbills.io",
+        "locale": "fr-CA",
+        "isActive": true
+    };
+
+    const location: SBLocation = await client.location.create(request);
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new LocationCreateRequest
+    {
+        Name = "Main Store",
+        Address = new AddressRequest
+        {
+            Street = "123 Main St",
+            City = "Anytown",
+            State = "California",
+            StateCode = "CA",
+            PostalCode = "12345",
+            Country = "USA",
+            CountryCode = "US",
+            Location = new Coordinates {
+                Longitude = -122.4194,
+                Latitude = 37.7749    
+            }
+        
+        },
+        MerchantCategoryCode = "1234",
+        Currency = "USD",
+        Timezone = "America/Los_Angeles",
+        PhoneNumber = "(555) 555-5555",
+        Email = "mainstore@smartbills.io",
+        Locale = "fr-CA",
+        IsActive = true
+    };
+    var location = await client.Locations.CreateAsync(request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Récupérer un emplacement
+Récupérer un emplacement par ID. Nécessite la portée `locations.read`
+
+`GET https://api.smartbills.io/v1/locations/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID de l'emplacement à récupérer | `long`  |  `obligatoire` |
+
+#### Réponse
+Retourne un `SBLocation`
+```json copy filename="SBLocation"
+{
+    "id": 1,
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBLocation } from "@smartbills/sdk"
+    
+    const client:SBClient = new SBClient();
+    const location: SBLocation = await client.location.getByIdAsync(1);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Lister les emplacements
+Récupérer une liste d'emplacements. Nécessite la portée `locations.read`
+
+`GET https://api.smartbills.io/v1/locations?page=1&pageSize=100`
+
+#### Paramètres de requête 
+Nécessite des paramètres de requête de type `LocationListRequest`
+| Paramètre  | Description | Type  | Obligatoire | Par défaut|
+|---|---|---|---|---|
+| `page` | Page actuelle | `long`  |  `obligatoire` | 1|
+| `pageSize` | Nombre d'enregistrements à retourner | `long`  |  `obligatoire` | 100|
+| `orderBy` | Trier les résultats par une clé de SBLocation | `keyof SBLocation`  ||`createdAt` |
+| `sortOrder` | Ordre du tri  | `asc` ou `desc`  || `desc`|
+
+```json copy filename="LocationListRequest"
+{
+    "page": 1,
+    "pageSize": 100,
+    "orderBy": "createdAt",
+    "sortOrder": "desc"
+}
+```
+
+#### Réponse
+Retourne un `SBList<SBLocation>`
+```json copy filename="SBList<SBLocation>"
+{
+    "data": [{
+        "id": 1,
+        "name": "Main Store",
+        "address": {
+            "street": "123 Main St",
+            "city": "Anytown",
+            "state": "California",
+            "stateCode": "CA",
+            "postalCode": "12345",
+            "country": "USA",
+            "countryCode": "US",
+            "location": {
+                "longitude": -122.4194,
+                "latitude": 37.7749
+            }
+        },
+        "merchantCategoryCode": "1234",
+        "currency": "USD",
+        "timezone": "America/Los_Angeles",
+        "phoneNumber": "(555) 555-5555",
+        "email": "mainstore@smartbills.io",
+        "locale": "fr-CA",
+        "isActive": true
+    }],
+    "metadata": {
+        "page":1,
+        "pageSize":100,
+        "totalPages":1,
+        "count":1
+    }
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBLocation, SBList, LocationListRequest} from "@smartbills/sdk"
+    
+    const client = new SBClient();
+    const request: LocationListRequest = {
+        "page": 1,
+        "pageSize": 100,
+        "orderBy": "createdAt",
+        "sortOrder": "desc"
+    };
+
+    const locations: SBList<SBLocation> = await client.location.list(request);
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new LocationListRequest
+    {
+        Page = 1,
+        PageSize = 100,
+        OrderBy = "createdAt",
+        SortOrder = "desc"
+    };
+    var locations = await client.Locations.ListAsync(request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Mettre à jour un emplacement
+Mettre à jour les informations d'un emplacement. Nécessite la portée `locations.write`
+
+`PUT https://api.smartbills.io/v1/locations/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID de l'emplacement à mettre à jour | `long`  |  `obligatoire` |
+
+#### Paramètres du corps 
+Nécessite un corps de type `LocationUpdateRequest`
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `name` | Nom de l'emplacement | `string`  |  `obligatoire` |
+| `address` | Adresse de l'emplacement | `AddressRequest`  |  `obligatoire` |
+| `website` | Site web de l'emplacement | `string`  |  `facultatif` |
+| `description` | Description de l'emplacement | `string`  |  `facultatif` |
+| `merchantCategoryCode` | Code de catégorie du marchand | `string`  |  `obligatoire` |
+| `currency` | Devise utilisée | `string`  |  `facultatif` |
+| `timezone` | Fuseau horaire de l'emplacement | `string`  |  `facultatif` |
+| `phoneNumber` | Numéro de téléphone de l'emplacement | `string`  |  `facultatif` |
+| `facebookUrl` | URL Facebook de l'emplacement | `string`  |  `facultatif` |
+| `instagramUsername` | Nom d'utilisateur Instagram de l'emplacement | `string`  |  `facultatif` |
+| `twitterUsername` | Nom d'utilisateur Twitter de l'emplacement | `string`  |  `facultatif` |
+| `isActive` | Indique si l'emplacement est actif | `bool`  |  `facultatif` |
+| `locale` | Langue de l'emplacement | `string`  |  `facultatif` |
+| `email` | Email de l'emplacement | `string`  |  `facultatif` |
+| `logo` | URL du logo de l'emplacement | `string`  |  `facultatif` |
+| `images` | Liste des images associées à l'emplacement | `List<ImageRequest>`  |  `facultatif` |
+
+```json copy filename="LocationUpdateRequest"
+{
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+#### Réponse
+Retourne un `SBLocation`
+```json copy filename="SBLocation"
+{
+    "id": 1,
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+
+#### Exemple de code
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+
+    import { SBClient, SBLocation, LocationUpdateRequest} from "@smartbills/sdk"
+        
+        const client:SBClient = new SBClient();
+        const request: LocationUpdateRequest = {
+            "name": "Main Store",
+            "address": {
+                "street": "123 Main St",
+                "city": "Anytown",
+                "state": "California",
+                "stateCode": "CA",
+                "postalCode": "12345",
+                "country": "USA",
+                "countryCode": "US",
+                "location": {
+                    "longitude": -122.4194,
+                    "latitude": 37.7749
+                }
+            },
+            "merchantCategoryCode": "1234",
+            "currency": "USD",
+            "timezone": "America/Los_Angeles",
+            "phoneNumber": "(555) 555-5555",
+            "email": "mainstore@smartbills.io",
+            "locale": "fr-CA",
+            "isActive": true
+        }
+        const location:SBLocation = await client.locations.updateAsync(1, request);
+    
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new LocationUpdateRequest
+    {
+        Name = "Main Store",
+        Address = new AddressRequest
+        {
+            Street = "123 Main St",
+            City = "Anytown",
+            State = "California",
+            StateCode = "CA",
+            PostalCode = "12345",
+            Country = "USA",
+            CountryCode = "US",
+            Longitude = -122.4194,
+            Latitude = 37.7749
+        },
+        MerchantCategoryCode = "1234",
+        Currency = "USD",
+        Timezone = "America/Los_Angeles",
+        PhoneNumber = "(555) 555-5555",
+        Email = "mainstore@smartbills.io",
+        Locale = "fr-CA",
+        IsActive = true
+    };
+    var location = await client.Locations.UpdateAsync(1, request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Supprimer un emplacement
+
+Supprimer un emplacement. Nécessite la portée `locations:write`
+
+`DELETE https://api.smartbills.io/v1/locations/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID de l'emplacement à supprimer | `long`  |  `obligatoire` |
+
+#### Réponse
+Retourne un `SBLocation`
+```json copy filename="SBLocation"
+{
+    "id": 1,
+    "name": "Main Store",
+    "address": {
+        "street": "123 Main St",
+        "city": "Anytown",
+        "state": "California",
+        "stateCode": "CA",
+        "postalCode": "12345",
+        "country": "USA",
+        "countryCode": "US",
+        "location": {
+            "longitude": -122.4194,
+            "latitude": 37.7749
+        }
+    },
+    "merchantCategoryCode": "1234",
+    "currency": "USD",
+    "timezone": "America/Los_Angeles",
+    "phoneNumber": "(555) 555-5555",
+    "email": "mainstore@smartbills.io",
+    "locale": "fr-CA",
+    "isActive": true
+}
+```
+
+#### Exemple de code
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+
+    import { SBClient, SBLocation} from "@smartbills/sdk"
+        
+        const client:SBClient = new SBClient();
+        const location:SBLocation = await client.locations.deleteAsync(1);
+    
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var location = await client.Locations.DeleteAsync(1);
+    ```
+    </Tabs.Tab>
+</Tabs>

@@ -1,0 +1,10 @@
+# SBReceiptTax
+This object represents a tax applied to a receipt item.
+
+| Attribute         | Description                                   | Type      | Required |
+|------------------|-----------------------------------------------|-----------|----------|
+| `id`             | Unique identifier of the tax                  | `integer` | Yes      |
+| `name`           | Name of the tax                               | `string`  | Yes      |
+| `percentage`     | Tax rate in percentage                        | `decimal` | Yes      |
+| `total`          | Total amount of the tax                       | `SBMoney` | Yes      |
+| `taxId`          | Identifier of the tax                         | `integer` | No       |

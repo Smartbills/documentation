@@ -1,0 +1,20 @@
+---
+title: SBPromoCode | Documentation de l'API Smartbills
+description: En savoir plus sur la ressource SBPromoCode dans l'API Smartbills.
+---
+
+import { Tabs } from 'nextra/components'
+
+
+## SBPromoCode
+Cet objet représente un code promo. Un code promo est utilisé pour appliquer des réductions aux reçus.
+
+| Attribut                    | Description                                     | Type                    | Requis      |
+|-----------------------------|-------------------------------------------------|-------------------------|-------------|
+| `id`                        | ID du code promo                                | `integer`               | Requis      |
+| `name`                      | Nom du code promo                               | `string`                | Non         |
+| `type`                      | Type du code promo (`percentage` ou `amount`)   | `string`                | Requis      |
+| `amount`                    | Montant du code promo                           | [`SBMoney`](/SBMoney)                  | Non         |
+| `percentage`                | Pourcentage de réduction du code promo          | `number`                | Non         |
+| `createdAt`                 | Date de création du code promo                  | `string`                | Requis      |
+| `updatedAt`                 | Date de mise à jour du code promo               | `string`                | Non         |

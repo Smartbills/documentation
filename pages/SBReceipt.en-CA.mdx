@@ -1,0 +1,36 @@
+---
+title: SBReceipt | Smartbills API Documentation
+description: Learn more about the SBReceipt resource in the Smartbills API.
+---
+
+# SBReceipt
+Cet objet représente un reçu dans votre entreprise. Utilisez-le pour gérer les reçus émis par Smartbills.
+
+| **Property Name**                  | **Description**                                                                                                  | **Type**           | **Required** |
+|------------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------|--------------|
+| `id`                               | Unique identifier of the receipt.                                                                                | `long`             | Yes          |
+| `merchant`                         | Merchant details, including name, contact, and address.                                                          | `SBMerchant`       | Yes          |
+| `location`                         | Location details for the merchant, including name, address, and contact information.                             | `SBLocation`       | No           |
+| `items`                            | List of purchased items, including product, price, and discounts.                                                | `List<SBReceiptLineItem>`     | Yes          |
+| `totalItems`                       | Total cost of all items in the receipt.                                                                          | `SBMoney`         | Yes          |
+| `totalPayments`                    | Total payments made for the receipt.                                                                             | `SBMoney`         | Yes          |
+| `totalDiscounts`                   | Total discounts applied to the receipt.                                                                          | `SBMoney`         | No           |
+| `totalDuties`                      | Total duties applied to the receipt.                                                                             | `SBMoney`         | No           |
+| `totalShipping`                    | Total shipping cost for the receipt.                                                                             | `SBMoney`         | No           |
+| `totalTip`                         | Total tips included in the receipt.                                                                              | `SBMoney`         | No           |
+| `totalFees`                        | Total fees included in the receipt.                                                                              | `SBMoney`         | No           |
+| `subTotal`                         | Subtotal amount before taxes and discounts.                                                                      | `SBMoney`         | Yes          |
+| `totalTaxes`                       | Total taxes applied to the receipt.                                                                              | `SBMoney`         | Yes          |
+| `total`                            | Total amount of the receipt, including all fees, taxes, and discounts.                                           | `SBMoney`         | Yes          |
+| `payments`                         | List of payments made for the receipt.                                                                           | `List<SBReceiptPayment>`  | Yes          |
+| `taxes`                            | List of taxes applied to the receipt.                                                                            | `List<SBReceiptTax>`      | No           |
+| `receiptId`                        | Unique identifier of the receipt in string format.                                                               | `string`           | Yes          |
+| `type`                             | Type of receipt (e.g., "OFFICIAL").                                                                              | `string`           | Yes          |
+| `attachments`                        | List of associated documents.                                                                                    | `List<SBAttachment>` | No           |
+| `bankTransaction`                  | Associated bank transaction details.                                                                             | `SBBankTransaction`| No           |
+| `date`                             | Date of the receipt creation.                                                                                    | `DateTime`         | Yes          |
+| `cancelledAt`                      | Date the receipt was cancelled.                                                                                  | `DateTime?`        | No           |
+| `dueDate`                          | Due date for the payment.                                                                                        | `DateTime?`        | No           |
+| `closedAt`                         | Date the receipt was closed.                                                                                     | `DateTime?`        | No           |
+| `createdAt`                        | Date the receipt was created.                                                                                    | `DateTime`         | Yes          |
+| `url`                              | URL to the receipt or its details.                                                                               | `string`           | No           |

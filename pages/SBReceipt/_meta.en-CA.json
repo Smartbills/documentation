@@ -1,0 +1,10 @@
+{
+  "SBReceiptFee": "SBReceiptFee",
+  "SBReceiptDiscount": "SBReceiptDiscount",
+  "SBReceiptTax": "SBReceiptTax",
+  "SBReceiptPayment": "SBReceiptPayment",
+  "SBReceiptLineItem": "SBReceiptLineItem",
+  "SBReceiptLineItemFee": "SBReceiptLineItemFee",
+  "SBReceiptLineItemTax": "SBReceiptLineItemTax",
+  "SBReceiptLineItemDiscount": "SBReceiptLineItemDiscount"
+}

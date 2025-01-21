@@ -1,0 +1,118 @@
+---
+title: Product Variants | Smartbills API Documentation
+description: Learn how to use the product variant features of the Smartbills API, including how to manage different versions of products such as sizes, colors, and more.
+---
+
+import { Method } from '../../components/Method'
+import { JsonResponse } from '../../components/JsonResponse'
+import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# Product Variants
+This object represents a variant of a product in your business. Use it to manage different versions of products (like sizes, colors, etc.).
+
+## Scopes
+`products.read`
+`products.write`
+
+## Core principles
+A variant belongs to a product and can have its own price, SKU, and other attributes.
+
+## Create a product variant
+Create a new variant for a product. Requires scope `products.write`
+
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`POST` `https://api.smartbills.io/v1/products/{productId}/variants`
+  </Tabs.Tab>
+</Tabs>
+
+### Path Parameters
+| Parameter   | Description | Type   | Required |
+|------------|-------------|--------|----------|
+| `productId`| Product ID  | `long` | `true`   |
+
+### Request Body
+Requires body of type `ProductVariantCreateRequest`
+| Parameter      | Description        | Type      | Required |
+|---------------|-------------------|-----------|----------|
+| `initialPrice`| Initial price     | `decimal` | |
+| `price`       | Current price     | `decimal` | `true`   |
+| `weightUnit`  | Weight unit       | `string`  | |
+| `weight`      | Weight value      | `decimal` | |
+| `taxable`     | Is taxable        | `boolean` | |
+| `name`        | Variant name      | `string`  | |
+| `imageIds`    | Associated images | `long[]`  | |
+| `sku`         | SKU              | `string`  | |
+| `upc`         | UPC code         | `string`  | |
+
+```json copy filename="ProductVariantCreateRequest"
+{
+  "initialPrice": 0,
+  "price": 0,
+  "weightUnit": "string",
+  "weight": 0,
+  "taxable": true,
+  "name": "string",
+  "imageIds": [],
+  "sku": "string",
+  "upc": "string"
+}
+```
+
+## Get a product variant
+Retrieve a specific variant of a product. Requires scope `products.read`
+
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`GET` `https://api.smartbills.io/v1/products/{productId}/variants/{variantId}`
+  </Tabs.Tab>
+</Tabs>
+
+### Path Parameters
+| Parameter   | Description | Type   | Required |
+|------------|-------------|--------|----------|
+| `productId`| Product ID  | `long` | `true`   |
+| `variantId`| Variant ID  | `long` | `true`   |
+
+### Response
+Returns a `ProductVariantResponse` object.
+
+## Update a product variant
+Update an existing product variant. Requires scope `products.write`
+
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`PUT` `https://api.smartbills.io/v1/products/{productId}/variants/{variantId}`
+  </Tabs.Tab>
+</Tabs>
+
+### Path Parameters
+| Parameter   | Description | Type   | Required |
+|------------|-------------|--------|----------|
+| `productId`| Product ID  | `long` | `true`   |
+| `variantId`| Variant ID  | `long` | `true`   |
+
+### Request Body
+Same as create request (`ProductVariantCreateRequest`)
+
+## Delete a product variant
+Delete a product variant. Requires scope `products.write`
+
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`DELETE` `https://api.smartbills.io/v1/products/{productId}/variants/{variantId}`
+  </Tabs.Tab>
+</Tabs>
+
+### Path Parameters
+| Parameter   | Description | Type   | Required |
+|------------|-------------|--------|----------|
+| `productId`| Product ID  | `long` | `true`   |
+| `variantId`| Variant ID  | `long` | `true`   |
+
+### Response Codes
+| Code  | Description                  |
+|-------|------------------------------|
+| `200` | Variant deleted successfully |
+| `404` | Variant not found           |

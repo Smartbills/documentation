@@ -1,0 +1,13 @@
+# SBReceiptLineItemFee
+This object represents a fee applied to a receipt item.
+
+| Attribute         | Description                                   | Type      | Required |
+|------------------|-----------------------------------------------|-----------|----------|
+| `id`             | Unique identifier of the fee                  | `integer` | Yes      |
+| `type`           | Type of the fee                               | `SBFeeType`  | Yes      |
+| `name`           | Name of the fee                               | `string`  | Yes      |
+| `amount`         | Amount                         | `SBMoney` | Yes      |
+| `percentage`     | Fee rate in percentage                        | `decimal` | Yes      |
+| `total`          | Total amount of the fee                       | `SBMoney` | Yes      |
+| `feeId`          | Identifier of the fee                         | `integer` | No       |
+| `taxable`          | Identifier of the fee                         | `integer` | No       |

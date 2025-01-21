@@ -1,0 +1,30 @@
+## SBReceiptItemDiscount
+| Attribute         | Description                                          | Type                          | Required |
+|-------------------|-----------------------------------------------------|-------------------------------|-------------|
+| `id`            | Item promotion ID     | `long`           |
+| `promoCodeId`     | Promo code identifier                           | `long`                        | Yes         |
+| `amount`          | Discount amount                               | `SBMoney`                       | Yes         |
+| `percentage`      | Discount percentage                           | `decimal`                     | Yes         |
+| `type`            | Promo code type (e.g., discount, coupon)        | [`SBPromoCodeType`](/SBPromoCode)            | Yes         |
+| `name`            | Discount or promo code name                 | `string`                      | Yes         |
+| `total`            | Total amount discounted                 | `SBMoney`                      | Yes         |
+
+### Exemple
+
+```json
+{
+  "id":12,
+  "promoCodeId": 202,
+  "amount": {
+    "amount": 10.00,
+    "currency": "CAD"
+  },
+  "percentage": 15.0,
+  "type": "percentage",
+  "name": "Spring Sale Discount",
+    "total": {
+    "amount": 10.00,
+    "currency": "CAD"
+  },
+}
+```

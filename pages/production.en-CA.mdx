@@ -1,0 +1,47 @@
+---
+title: Going into production | Smartbills API Documentation
+description: Learn how to go into production with Smartbills, including verification steps, integration testing, and API key management.
+---
+
+import { Callout } from 'nextra/components'
+
+## Going into production
+Smartbills has designed its production and test modes so that they operate in a substantially similar manner. Changing mode therefore mainly comes down to your access point to the URL.
+
+If you are a developer, or a developer is creating an integration for you, follow the tips below before going live.
+
+
+### Request access
+Before you launch into production, your client must be authorized with our team.
+
+
+<Callout type="info" emoji='💡'>
+   Production access is disabled by default. When you are ready to go into production, please contact us at support@smartbills.io.
+</Callout>
+
+### Integration testing
+Be vigilant and test your integration with:
+
+- Incomplete data
+- Invalid data
+- Duplicate data (e.g. try the same query to see what happens).
+
+We also advise you to have your integration tested by a third party, particularly if that third party is not a developer themselves.
+
+It's always a shame to discover in production mode that your code was not written to support all possible types of errors, including those that should "never" occur. Make sure your code is defensive and handles all possible errors, not just the most common ones.
+
+When testing your error handling process, pay close attention to the information that is returned to the user.
+
+### Check your logs
+Smartbills saves all requests sent with your API keys, which can then be viewed in the Dashboard. We advise you to also back up all important data on your side, even if this may seem redundant. Your logs will save the day if your server can't connect to Smartbills or if there is a problem with your API keys, in which case we won't be able to save your request.
+
+Regularly check that your logs only store the information you need and that they do not store any confidential information (for example credit card information or personally identifiable information).
+
+### Objects in test mode
+
+Smartbills objects created in test mode (for example, invoices, customers, and products) cannot be used in production mode. This prevents your test data from being accidentally used in your production code.
+
+Your Smartbills account can have both test and production webhook endpoints. If you use webhooks, make sure you have defined production endpoints in your Smartbills account. Then confirm that the production endpoint works exactly like your test endpoint.
+
+### API keys
+As a security measure, we advise you to change your API keys regularly, as well as just before switching to production mode in case they have been saved outside of your code base during development. Make sure that at the end of the process, your keys are not represented or stored in multiple places, including in your version control software.

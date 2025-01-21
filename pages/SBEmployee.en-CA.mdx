@@ -1,0 +1,44 @@
+---
+title: SBEmployee | Smartbills API Documentation
+description: Learn more about the SBEmployee resource in the Smartbills API.
+---
+
+import { Tabs } from 'nextra/components'
+
+# Employees
+This object represents an employee of your business who interacts with customers.
+
+## Scopes
+`employees.read`
+`employees.write`
+
+## Core principles
+Smartbills employees are customer-facing employees who generate sales. You can associate invoices with employees. This allows for in-depth analysis of your employees and helps us generate detailed reports on how your customers interact with your employees.
+
+## SBEmployee
+
+```json copy filename="SBEmployee"
+{
+	"id": 1,
+	"firstName": "John",
+	"lastName": "Doe",
+	"gender": "MALE",
+	"email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01",
+	"createdAt": "2023-01-01",
+	"updatedAt": "2023-01-06"
+}
+```
+
+| Attribute | Description | Type |
+|---|---|---|
+| `id` | Smartbills unique ID of the employee | `long` |
+| `firstName` | First name of the employee. This is what the customer will see on their invoice. | `string` |
+| `lastName` | Last name of the employee | `string` |
+| `gender` | Gender of the employee | `MALE`, `FEMALE`, `OTHER` |
+| `locale` | Locale of the employee | `string` |
+| `email` | Email of the employee | `string` |
+| `birthdate` | Birthdate of the employee | `date` |
+| `createdAt` | The time the employee was created | `date` |
+| `updatedAt` | The time the employee was updated | `date` |

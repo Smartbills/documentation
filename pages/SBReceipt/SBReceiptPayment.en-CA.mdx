@@ -1,0 +1,27 @@
+# SBReceiptPayment
+This object represents a payment associated with a receipt.
+
+| Attribute         | Description                                   | Type      | Required |
+|------------------|-----------------------------------------------|-----------|----------|
+| `billingAddress` | Billing address associated with the payment   | `SBBillingAddress` | No       |
+| `shippingAddress`| Shipping address associated with the payment  | `SBBillingAddress` | No       |
+| `type`           | Type of payment                               | `SBReceiptPaymentType` | Yes      |
+| `statementDescriptor` | Statement descriptor                     | `string`  | No       |
+| `card`           | Information for a card payment                | `SBReceiptPaymentCard` | No       |
+| `cash`           | Information for a cash payment                | `SBReceiptPaymentCash` | No       |
+| `balanceTransaction` | Information for a credit payment          | `SBReceiptPaymentBalance` | No       |
+| `bankAccount`    | Information for a bank payment                | `SBReceiptPaymentBankAccount` | No       |
+| `external`       | Information for an external payment           | `SBReceiptPaymentExternal` | No       |
+| `note`           | Note about the payment                        | `string`  | No       |
+| `amount`         | Amount of the payment                         | `SBMoney` | Yes      |
+| `tip`            | Tip amount                                    | `SBMoney` | No       |
+| `applicationFee` | Application fee associated with the payment   | `SBMoney` | No       |
+| `processingFee`  | Processing fee associated with the payment    | `SBMoney` | No       |
+| `total`          | Total amount of the payment                   | `SBMoney` | Yes      |
+| `approved`       | Approved amount of the payment                | `SBMoney` | No       |
+| `refunded`       | Refunded amount of the payment                | `SBMoney` | No       |
+| `status`         | Status of the payment                         | `SBReceiptPaymentStatus` | Yes      |
+| `receiptNumber`  | Unique identifier for the receipt             | `string`  | No       |
+| `receiptUrl`     | URL of the receipt                            | `string`  | No       |
+| `riskEvaluation` | Risk evaluation associated with the payment   | `SBReceiptPaymentRiskEvaluation` | No       |
+| `refunds`        | List of refunds associated with the payment   | `SBReceiptPaymentRefund[]` | No       |

@@ -1,0 +1,22 @@
+---
+title: SBCustomer | Smartbills API Documentation
+description: Learn more about the SBCustomer resource in the Smartbills API.
+---
+
+## SBCustomer
+This object represents a customer of your business.
+
+| Attribute | Description | Type | Required |
+|---|---|---|---|
+| `id` | Unique identifier | `long` | Yes |
+| `firstName` | First name | `string` | No |
+| `lastName` | Last name | `string` | No |
+| `email` | Email address | `string` | Yes |
+| `billingAddress` | Billing address | `SBBillingAddress` | No |
+| `shippingAddress` | Shipping address | `SBBillingAddress` | No |
+| `phoneNumber` | Phone number | `string` | No |
+| `tags` | Tags associated with the customer | `List<string>` | No |
+| `currency` | Currency used | `string` | No |
+| `acceptsMarketing` | Accepts marketing | `bool` | No |
+| `createdAt` | Creation date | `DateTimeOffset` | Yes |
+| `updatedAt` | Update date | `DateTimeOffset?` | No |

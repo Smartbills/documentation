@@ -1,0 +1,558 @@
+---
+title: Customers | Smartbills API Documentation
+description: Learn how to manage customers in Smartbills, including creating, updating, retrieving, and deleting customers via the Smartbills API.
+---
+
+import { Tabs } from 'nextra/components'
+import { Endpoints } from '../components/Endpoints'
+import { Attributes } from '../components/Attributes'
+
+# Customers
+This object represents a customer of your business. Use it to track receipts that belong to the same customer.
+
+`POST https://api.smartbills.io/v1/customers`
+
+#### Request Body 
+Requires body of type `CustomerCreateRequest`
+CustomerCreateRequest
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `firstName` | First name of the customer | `string`  |  `required` |
+| `lastName` | Last name of the customer | `string`  |  `required` |
+| `locale` | Locale the customer | `string`  |  `required` |
+| `email` | Email of the customer | `string`  |  `required if no phone` |
+| `phone` | Phone of the customer | `string`  |  `required if no email` |
+
+```json copy filename="CustomerCreateRequest"
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+
+#### Response
+Returns a `SBCustomer`
+```json copy filename="SBCustomer"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+
+#### Code example
+ 
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+	```js copy
+	import { SBClient, SBCustomer, CustomerCreateRequest} from "@smartbills/sdk"
+	
+	const client: SBClient = new SBClient();
+	const request: CustomerCreateRequest = {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+};
+
+	const customer: SBCustomer = await client.customer.create(request);
+	```
+  </Tabs.Tab>
+    <Tabs.Tab>
+  	```c# copy
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	await client.receipt.create({});
+	```
+  </Tabs.Tab>
+</Tabs>
+
+## Retrieve customer
+Retrieve a customer by ID. Requires scope `customers.read`
+
+`GET https://api.smartbills.io/v1/customers/:id`
+
+#### Path parameters 
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `id` | ID of the customer to retrieve | `long`  |  `required` |
+
+#### Response
+Returns a `SBCustomer`
+```json copy filename="SBCustomer"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+
+#### Code example
+ 
+<Tabs items={['JS', '.NET']}>
+    <Tabs.Tab>
+	```js copy
+	import { SBClient, SBCustomer, CustomerCreateRequest} from "@smartbills/sdk"
+	
+	const client:SBClient = new SBClient();
+	const customer: SBCustomer = await client.customer.getByIdAsync(1);
+	```
+  </Tabs.Tab>
+</Tabs>
+
+## List customers
+Retrieve a list of customers. Requires scope `customers.read`
+
+`GET https://api.smartbills.io/v1/customers?page=1&pageSize=100`
+
+#### Query parameters 
+Requires query parameters of type `CustomerListRequest`
+| Parameter  | Description | Type  | Required | Default|
+|---|---|---|---|---|
+| `page` | Current page | `long`  |  `required` | 1|
+| `pageSize` | Number of records to return | `long`  |  `required` | 100|
+| `orderBy` | Order the results by a key of SBCustomer | `keyof SBCustomer`  ||`createdAt` |
+| `sortOrder` | Order of the sort  | `asc` or `desc`  || `desc`|
+
+```json copy filename="CustomerListRequest"
+{
+    "page": 1,
+    "pageSize": 100,
+	"orderBy": "createdAt",
+	"sortOrder": "desc",
+}
+```
+
+#### Response
+Returns a `SBList<SBCustomer>`
+```json copy filename="SBList<SBCustomer>"
+{
+	"data": [{
+		"id": 1,
+		"firstName": "John",
+		"lastName": "Doe",
+		"email": "john.doe@smartbills.io",
+		"taxExempt": true,
+		"phone": "(555) 555-5555",
+		"locale": "fr-CA",
+		"acceptsMarketing": true,
+	}],
+	"metadata": {
+		"page":1,
+		"pageSize":100,
+		"totalPages":1,
+		"count":1,
+	},
+	
+}
+```
+
+#### Code example
+ 
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+	```js copy
+	import { SBClient, SBCustomer, SBList, CustomerListRequest} from "@smartbills/sdk"
+	
+	const client = new SBClient();
+	const request: CustomerListRequest = {
+    "page": 1,
+    "pageSize": 100,
+	"orderBy": "createdAt",
+	"sortOrder": "desc",
+};
+
+	const customers: SBList<SBCustomer> = await client.customer.list(request);
+	```
+  </Tabs.Tab>
+    <Tabs.Tab>
+  	```c# copy
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	await client.receipt.create({});
+	```
+  </Tabs.Tab>
+</Tabs>
+
+## Update a customer
+Update information about a customer. Requires scope `customers.write`
+
+`PUT https://api.smartbills.io/v1/customers/:id`
+
+#### Path parameters 
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `id` | ID of the customer to update | `long`  |  `required` |
+
+#### Update body parameters 
+Requires a body of type `CustomerUpdateRequest`
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `firstName` | First name of the customer | `string`  |  `required` |
+| `lastName` | Last name of the customer | `string`  |  `required` |
+| `email` | Email of the customer | `string`  |  `required` |
+| `phone` | Phone of the customer | `string`  |  `required` |
+| `locale` | Locale the customer | `string`  |  `required` |
+
+```json copy filename="CustomerUpdateRequest"
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+#### Update response
+Returns a `SBCustomer`
+```json copy filename="SBCustomer"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+
+#### Update code example
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+	```js copy
+
+	import { SBClient, SBCustomer, CustomerUpdateRequest} from "@smartbills/sdk"
+		
+		const client:SBClient = new SBClient();
+		const request: CustomerUpdateRequest = {
+			"firstName": "John",
+			"lastName": "Doe",
+			"email": "john.doe@smartbills.io",
+			"taxExempt": true,
+			"phone": "(555) 555-5555",
+			"locale": "fr-CA",
+			"acceptsMarketing": true,
+		}
+		const customer:SBCustomer = await client.customers.updateAsync(1, request);
+	
+	```
+  </Tabs.Tab>
+    <Tabs.Tab>
+  	```c# copy
+
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	await client.customers.create({
+		"firstName": "John",
+		"lastName": "Doe",
+		"email": "john.doe@smartbills.io",
+		"taxExempt": true,
+		"phone": "(555) 555-5555",
+		"locale": "fr-CA",
+		"acceptsMarketing": true,
+	});
+	```
+  </Tabs.Tab>
+</Tabs>
+
+## Delete a customer
+
+Delete a customer. Requires scope `customers:delete`
+
+`DELETE https://api.smartbills.io/v1/customers/:id`
+
+#### Delete path parameters 
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `id` | ID of the customer to delete | `long`  |  `required` |
+
+#### Delete response
+Returns a `SBCustomer`
+```json copy filename="SBCustomer"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+    "taxExempt": true,
+    "phone": "(555) 555-5555",
+	"locale": "fr-CA",
+	"acceptsMarketing": true,
+}
+```
+
+#### Delete code example
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+	```js copy
+
+	import { SBClient, SBCustomer} from "@smartbills/sdk"
+		
+		const client:SBClient = new SBClient();
+		const customer:SBCustomer = await client.customers.deleteAsync(1);
+	
+	```
+  </Tabs.Tab>
+    <Tabs.Tab>
+  	```c# copy
+
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	await client.customers.create({
+		"firstName": "John",
+		"lastName": "Doe",
+		"email": "john.doe@smartbills.io",
+		"taxExempt": true,
+		"phone": "(555) 555-5555",
+		"locale": "fr-CA",
+		"acceptsMarketing": true,
+	});
+	```
+  </Tabs.Tab>
+</Tabs>
+
+## SBCustomer
+This object represents a customer of your business.
+
+| Attribute | Description | Type | Required |
+|---|---|---|---|
+| `id` | Unique identifier | `long` | Yes |
+| `firstName` | First name | `string` | No |
+| `lastName` | Last name | `string` | No |
+| `email` | Email address | `string` | Yes |
+| `billingAddress` | Billing address | `SBBillingAddress` | No |
+| `shippingAddress` | Shipping address | `SBBillingAddress` | No |
+| `phoneNumber` | Phone number | `string` | No |
+| `tags` | Tags associated with the customer | `List<string>` | No |
+| `currency` | Currency used | `string` | No |
+| `acceptsMarketing` | Accepts marketing | `bool` | No |
+| `createdAt` | Creation date | `DateTimeOffset` | Yes |
+| `updatedAt` | Update date | `DateTimeOffset?` | No |
+
+## Endpoints
+
+### Retrieve customer payment methods
+`GET /v{version}/customers/{customerId}/payment-methods`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `page` | Current page | `int` | No |
+| `pageSize` | Number of records to return | `int` | No |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a list of `SBPaymentMethodResponse`
+
+### Create a customer payment method
+`POST /v{version}/customers/{customerId}/payment-methods`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+`PaymentMethodCreateRequest`
+
+#### Response
+Returns a `SBPaymentMethodResponse`
+
+### Retrieve a payment method by ID
+`GET /v{version}/customers/{customerId}/payment-methods/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `id` | Payment method ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a `SBPaymentMethodResponse`
+
+### Update a payment method
+`PUT /v{version}/customers/{customerId}/payment-methods/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `id` | Payment method ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+`PaymentMethodUpdateRequest`
+
+#### Response
+Returns a `SBPaymentMethodResponse`
+
+### Delete a payment method
+`DELETE /v{version}/customers/{customerId}/payment-methods/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `id` | Payment method ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a `SBPaymentMethodResponse`
+
+### Create multiple payment methods for a customer
+`POST /v{version}/customers/{customerId}/payment-methods/batch`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+List of `PaymentMethodCreateRequest`
+
+#### Response
+Returns a list of `SBPaymentMethodResponse`
+
+### Update multiple payment methods for a customer
+`PUT /v{version}/customers/{customerId}/payment-methods/batch`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `customerId` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+List of `PaymentMethodUpdateRequest`
+
+#### Response
+Returns a list of `SBPaymentMethodResponse`
+
+### Retrieve a list of customers
+`GET /v{version}/customers`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `Email` | Customer email address | `string` | No |
+| `page` | Current page | `int` | No |
+| `pageSize` | Number of records to return | `int` | No |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a list of `SBCustomerResponse`
+
+### Create a customer
+`POST /v{version}/customers`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+`CustomerCreateRequest`
+
+#### Response
+Returns a `SBCustomerResponse`
+
+### Retrieve a customer by ID
+`GET /v{version}/customers/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `id` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a `SBCustomerResponse`
+
+### Update a customer
+`PUT /v{version}/customers/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `id` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+`CustomerUpdateRequest`
+
+#### Response
+Returns a `SBCustomerResponse`
+
+### Delete a customer
+`DELETE /v{version}/customers/{id}`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `id` | Customer ID | `long` | Yes |
+| `version` | API version | `string` | Yes |
+
+#### Response
+Returns a `SBCustomerResponse`
+
+### Create multiple customers
+`POST /v{version}/customers/batch`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+List of `CustomerCreateRequest`
+
+#### Response
+Returns a list of `SBCustomerResponse`
+
+### Update multiple customers
+`PUT /v{version}/customers/batch`
+
+#### Query Parameters
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `version` | API version | `string` | Yes |
+
+#### Request Body
+List of `CustomerBatchUpdateRequest`
+
+#### Response
+Returns a list of `SBCustomerResponse`

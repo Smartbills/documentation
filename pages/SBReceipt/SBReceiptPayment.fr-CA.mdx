@@ -1,0 +1,29 @@
+## API de paiements
+
+# SBReceiptPayment
+Cet objet représente un paiement associé à un reçu.
+
+| Attribut         | Description                                    | Type      | Obligatoire |
+|-----------------|------------------------------------------------|-----------|-------------|
+| `billingAddress`| Adresse de facturation associée au paiement    | `SBBillingAddress` | Non         |
+| `shippingAddress`| Adresse de livraison associée au paiement     | `SBBillingAddress` | Non         |
+| `type`           | Type de paiement                              | `SBReceiptPaymentType` | Oui         |
+| `statementDescriptor` | Libellé de relevé                        | `string`  | Non         |
+| `card`           | Informations pour un paiement par carte       | `SBReceiptPaymentCard` | Non         |
+| `cash`           | Informations pour un paiement en espèces      | `SBReceiptPaymentCash` | Non         |
+| `balanceTransaction` | Informations pour un paiement par crédit  | `SBReceiptPaymentBalance` | Non         |
+| `bankAccount`    | Informations pour un paiement par virement bancaire | `SBReceiptPaymentBankAccount` | Non         |
+| `external`       | Informations pour un paiement externe         | `SBReceiptPaymentExternal` | Non         |
+| `note`           | Note sur le paiement                          | `string`  | Non         |
+| `amount`         | Montant du paiement                           | `SBMoney` | Oui         |
+| `tip`            | Montant du pourboire                          | `SBMoney` | Non         |
+| `applicationFee` | Frais d'application associés au paiement      | `SBMoney` | Non         |
+| `processingFee`  | Frais de traitement associés au paiement      | `SBMoney` | Non         |
+| `total`          | Montant total du paiement                     | `SBMoney` | Oui         |
+| `approved`       | Montant approuvé du paiement                  | `SBMoney` | Non         |
+| `refunded`       | Montant remboursé du paiement                 | `SBMoney` | Non         |
+| `status`         | Statut du paiement                            | `SBReceiptPaymentStatus` | Oui         |
+| `receiptNumber`  | Identifiant unique pour le reçu               | `string`  | Non         |
+| `receiptUrl`     | URL du reçu                                   | `string`  | Non         |
+| `riskEvaluation` | Évaluation du risque associée au paiement     | `SBReceiptPaymentRiskEvaluation` | Non         |
+| `refunds`        | Liste des remboursements associés au paiement | `SBReceiptPaymentRefund[]` | Non         |

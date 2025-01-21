@@ -1,0 +1,89 @@
+---
+title: SBReceiptLineItem | Documentation de l'API Smartbills
+description: En savoir plus sur la ressource SBReceiptLineItem dans l'API Smartbills.
+---
+# SBReceiptLineItem
+Cet objet représente un article dans un reçu.
+
+| Attribut         | Description                                    | Type      | Obligatoire |
+|-----------------|------------------------------------------------|-----------|-------------|
+| `id`            | Identifiant unique de l'article                | `integer` | Oui         |
+| `product`       | Détails du produit associé à l'article         | `SBReceiptItemProduct` | Non         |
+| `productId`     | Identifiant du produit                         | `integer` | Non         |
+| `variantId`     | Identifiant de la variante du produit          | `integer` | Non         |
+| `variant`       | Détails de la variante du produit              | [`SBProductVariant`](/SBProductVariant)  | Non         |
+| `price`         | Prix unitaire du produit                       | `decimal` | Oui         |
+| `quantity`      | Quantité de produits achetés                   | `decimal` | Oui         |
+| `totalFees`| Total des frais appliquées à l'article    | `SBMoney` | Non         |
+| `totalDiscounts`| Total des réductions appliquées à l'article    | `SBMoney` | Non         |
+| `totalTaxes`    | Total des taxes appliquées à l'article         | `SBMoney` | Non         |
+| `subTotal`      | Sous-total avant réductions et taxes           | `SBMoney` | Oui         |
+| `total`         | Montant total après réductions et taxes        | `SBMoney` | Oui         |
+| `discounts`     | Liste des réductions appliquées à l'article    | `SBReceiptItemDiscount[]` | Non         |
+| `taxes`         | Liste des taxes appliquées à l'article         | `SBReceiptItemTax[]` | Non         |
+| `fees`| Total frais appliquées à l'article    | `SBReceiptLineItemFee[]` | Non         |
+
+### Exemple
+
+```json
+{
+  "product": {
+    "id": 1,
+    "name": "Example Product",
+    "description": "This is an example product."
+  },
+  "productId": 1,
+  "variantId": 2,
+  "price": 19.99,
+  "quantity": 3,
+  "totalDiscounts": {
+    "amount": 5.00,
+    "currency": "USD"
+  },
+  "totalTaxes": {
+    "amount": 2.00,
+    "currency": "USD"
+  },
+  "subTotal": {
+    "amount": 54.97,
+    "currency": "USD"
+  },
+  "total": {
+    "amount": 51.97,
+    "currency": "USD"
+  },
+  "discounts": [],
+  "taxes": [],
+  "variant": {
+    "id": 2,
+    "name": "Example Variant",
+    "additionalInfo": "This is an example variant."
+  }
+}
+```
+
+## SBReceiptItemTax
+| Attribut        | Descriptif                                          | Type                      
+|------------------|-----------------------------------------------------|----------------------------
+| `id`          | Identifiant unique associé à la taxe de l'item                              | `long`                   
+| `taxId`          | Identifiant de la taxe                              | `long?`                   
+| `name`           | Nom de la taxe                                      | `string`                   
+| `percentage`     | Pourcentage de la taxe                              | `decimal`                  
+| `total`          | Montant total de la taxe                            | [`SBMoney`](/SBMoney)                    
+
+---
+
+### Exemple
+
+```json
+{
+  "taxId": 101,
+  "name": "TPS",
+  "percentage": 7.5,
+  "total": {
+    "amount": 3.75,
+    "currency": "CAD"
+  }
+}
+```
+

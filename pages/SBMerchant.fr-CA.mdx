@@ -1,0 +1,22 @@
+# SBMerchant
+Cet object représente un marchand. Un marchand est une entreprise qui vends des produits à des consommateurs.
+
+
+| Attribut                     | Description                                      | Type                    | Obligatoire |
+|------------------------------|--------------------------------------------------|-------------------------|-------------|
+| `logo`                       | URL du logo du marchand                          | `string`                | Non         |
+| `isActive`                   | Indique si le marchand est actif                 | `bool`                  | Non         |
+| `name`                       | Nom du marchand                                  | `string`                | Obligatoire |
+| `description`                | Description du marchand                          | `string`                | Non         |
+| `address`                    | Adresse du marchand                              | `SBAddress`               | Obligatoire |
+| `phoneNumber`                | Numéro de téléphone du marchand                  | `string`                | Non         |
+| `locale`                     | Langue du marchand                               | `string`                | Non         |
+| `currency`                   | Devise utilisée                                  | `string`                | Obligatoire |
+| `facebookUrl`                | URL de la page Facebook du marchand              | `string`                | Non         |
+| `twitterUsername`            | Nom d'utilisateur Twitter du marchand            | `string`                | Non         |
+| `instagramUsername`          | Nom d'utilisateur Instagram du marchand          | `string`                | Non         |
+| `merchantCategoryCode`       | Code de catégorie du marchand                    | `string`                | Non         |
+| `timezone`                   | Fuseau horaire du marchand                       | `string`                | Obligatoire |
+| `images`                     | Liste des images associées au marchand           | `List<Image>`           | Non         |
+| `createdAt`                  | Date de création du marchand                     | `DateTimeOffset`        | Obligatoire |
+| `updatedAt`                  | Date de mise à jour du marchand                  | `DateTimeOffset?`       | Non         |

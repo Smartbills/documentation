@@ -1,0 +1,136 @@
+---
+title: API Fournisseurs | Documentation de l'API Smartbills
+description: Découvrez comment utiliser l'API Fournisseurs de Smartbills pour gérer les fournisseurs de votre entreprise, y compris la création, la mise à jour et la suppression des fournisseurs.
+---
+
+import { Method } from '../components/Method'
+import { JsonResponse } from '../components/JsonResponse'
+import { Callout } from 'nextra/components'
+import { Tabs } from 'nextra/components'
+
+# API Fournisseurs
+## Principes de base
+Cet objet représente un fournisseur de votre entreprise. Utilisez-le pour suivre les fournisseurs avec lesquels vous collaborez et gérez leurs informations.
+
+## Portées
+`vendors.read`
+`vendors.write`
+
+## Créer un fournisseur
+Permet de créer un fournisseur pour votre entreprise. Nécessite la portée `vendors.write`.
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`POST` `https://api.smartbills.io/v1/vendors`
+  </Tabs.Tab>
+</Tabs>
+
+### Requête
+#### Corps de la requête
+Vous devez fournir un corps de requête de type `VendorCreateRequest`.
+
+| Attribut         | Descriptif                             | Type        | Obligatoire |
+|------------------|----------------------------------------|-------------|-------------|
+| `name`           | Nom du fournisseur                     | `string`    | `obligatoire`|
+| `logo`    | Logo du fournisseur             | `string`    | `facultatif` |
+| `website`          | Site web du fournisseur      | `string`    | `obligatoire`|
+| `address`        | Adresse du fournisseur                 | `SBAddress` | `facultatif` |
+
+### Réponse
+
+#### Corps de la réponse
+
+[SBVendor](/SBVendor)
+
+#### Code d'état HTTP
+| Paramètre  | Description                                |
+|------------|---------------------------------------------|
+| `201`      | Le fournisseur a été créé avec succès       |
+| `400`      | La requête envoyée n'est pas valide.        |
+
+## Récupérer un fournisseur
+Récupère un fournisseur de l'entreprise. Nécessite la portée `vendors.read`.
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`GET` `https://api.smartbills.io/v1/vendors/:id`
+  </Tabs.Tab>
+</Tabs>
+
+### Paramètre de route
+| Attribut  | Descriptif                             | Type      | Obligatoire |
+|-----------|----------------------------------------|-----------|-------------|
+| `id`      | Identifiant unique du fournisseur      | `long`    | `obligatoire`|
+
+### Réponse
+[SBVendor](/SBVendor)
+
+## Récupérer une liste de fournisseurs
+Récupère une liste de fournisseurs de l'entreprise. Nécessite la portée `vendors.read`.
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`GET` `https://api.smartbills.io/v1/vendors`
+  </Tabs.Tab>
+</Tabs>
+
+### Paramètres de requête
+[`SBListRequest`](/pagination)
+| Attribut   | Descriptif                          | Type      | Obligatoire |
+|------------|-------------------------------------|-----------|-------------|
+| `page`     | Numéro de la page                   | `long`    | `obligatoire`|
+| `pageSize` | Nombre d'enregistrements à retourner| `long`    | `obligatoire`|
+
+### Réponse
+[SBVendor](/SBVendor)
+
+## Mettre à jour un fournisseur
+Permet de mettre à jour les informations d'un fournisseur pour votre entreprise. Nécessite la portée `vendors.write`.
+<Tabs items={['HTTP']}>
+  <Tabs.Tab>
+`PUT` `https://api.smartbills.io/v1/vendors/:id`
+  </Tabs.Tab>
+</Tabs>
+
+### Paramètre de route
+| Attribut  | Descriptif                             | Type      | Obligatoire |
+|-----------|----------------------------------------|-----------|-------------|
+| `id`      | Identifiant unique du fournisseur      | `long`    | `obligatoire`|
+
+### Corps de la requête
+Vous devez fournir un corps de requête de type `VendorCreateRequest`.
+
+| Attribut         | Descriptif                             | Type        | Obligatoire |
+|------------------|----------------------------------------|-------------|-------------|
+| `name`           | Nom du fournisseur                     | `string`    | `obligatoire`|
+| `logo`    | Logo du fournisseur             | `string`    | `facultatif` |
+| `website`          | Site web du fournisseur      | `string`    | `obligatoire`|
+| `address`        | Adresse du fournisseur                 | `SBAddress` | `facultatif` |
+
+### Réponse
+
+#### Code d'état HTTP
+| Paramètre  | Description                                |
+|------------|---------------------------------------------|
+| `200`      | Le fournisseur a été mis à jour avec succès |
+| `400`      | La requête envoyée n'est pas valide         |
+| `404`      | Aucun fournisseur n'a été trouvé            |
+
+[SBVendor](/SBVendor)
+
+## Supprimer un fournisseur
+Permet de supprimer un fournisseur pour votre entreprise.
+
+Nécessite la portée `vendors.write`. 
+
+`DELETE` `https://api.smartbills.io/v1/vendors/:id`
+
+### Paramètre de route
+| Attribut  | Descriptif                             | Type      | Obligatoire |
+|-----------|----------------------------------------|-----------|-------------|
+| `id`      | Identifiant unique du fournisseur      | `long`    | `obligatoire`|
+
+### Réponse
+
+#### Code d'état HTTP
+| Paramètre  | Description                                |
+|------------|---------------------------------------------|
+| `200`      | Le fournisseur a été supprimé avec succès   |
+| `404`      | Aucun fournisseur n'a été trouvé            |

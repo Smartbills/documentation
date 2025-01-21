@@ -1,0 +1,17 @@
+---
+title: Metadata | Smartbills API Reference
+description: Documentation de référence complète pour l'API Smartbills. Comprend des extraits de code et des exemples pour nos bibliothèques Node.js et .NET.
+---
+## Metadata
+
+Updateable Smartbills objects—including Receipts, Customer, Products and Merchants have a metadata parameter. You can use this parameter to attach key-value data to these Smartbills objects.
+
+You can specify up to 50 keys, with key names up to 40 characters long and values up to 500 characters long.
+
+You can use metadata to store additional, structured information on an object. For example, you could store your user’s full name and corresponding unique identifier from your system on a Smartbills Customer object. Smartbills doesn’t use metadata—for example, we don’t use it to authorize or decline a charge and it won’t be seen by your users unless you choose to show it to them.
+
+Don’t store any sensitive information as metadata or in the description parameter.
+
+### Sample metadata use cases
+- **Link IDs**: Attach your system’s unique IDs to a Smartbills object to simplify lookups. For example, add your order number to a receipt .
+- **Customer details**: Annotate a customer by storing an internal ID for your future use.

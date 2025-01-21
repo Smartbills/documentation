@@ -1,0 +1,407 @@
+---
+title: Frais | Documentation de l'API Smartbills
+description: Apprenez à gérer les frais dans Smartbills, y compris la création, la mise à jour, la récupération et la suppression de frais via l'API Smartbills.
+---
+
+import { Tabs } from 'nextra/components'
+
+# Frais
+Cet objet représente des frais ou commissions associés à une transaction ou un produit spécifique. Utilisez-le pour gérer les différents frais facturés à vos clients.
+
+## Portées
+`fees:write`
+`fees.read`
+
+## Principes de base
+
+Un frais doit être unique par nom.
+
+## Créer des frais
+Créer un nouveau frais. Nécessite la portée `fees:write`
+
+`POST https://api.smartbills.io/v1/fees`
+
+#### Corps de la requête 
+Nécessite un corps de type `FeeCreateRequest`
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `name` | Nom du frais | `string`  |  `obligatoire` |
+| `description` | Description du frais | `string`  |  `facultatif` |
+| `amount` | Montant des frais | [`SBMoney`](/SBMoney)   |  `obligatoire` |
+| `type` | Type de frais | `SBFeeType`  |  `facultatif` |
+| `category` | Catégorie de frais | `SBFeeCategory`  |  `facultatif` |
+| `percentage` | Pourcentage des frais | `number`  |  `facultatif` |
+| `locale` | Langue des frais | `string`  |  `facultatif` |
+| `defaultTranslation` | Traduction par défaut | `SBFeeTranslation`  |  `facultatif` |
+| `translations` | Traductions | `array`  |  `facultatif` |
+
+```json copy filename="FeeCreateRequest"
+{
+    "name": "Service Fee",
+    "description": "Fee for service",
+    "amount": {
+        "value": 10.00,
+        "currency": "USD"
+    },
+    "type": "fixed",
+    "category": "service",
+    "percentage": null,
+    "locale": "fr-CA",
+    "translations": [
+        {
+            "name": "Service Fee",
+            "description": "Fee for service",
+            "locale":"en-CA"
+        }
+    ]
+}
+```
+
+#### Réponse
+Retourne un `SBFee`
+```json copy filename="SBFee"
+{
+    "id": 1,
+    "name": "Service Fee",
+    "description": "Fee for service",
+    "amount": {
+        "value": 10.00,
+        "currency": "USD"
+    },
+    "type": "fixed",
+    "category": "service",
+    "percentage": null,
+    "locale": "fr-CA",
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBFee, FeeCreateRequest } from "@smartbills/sdk"
+    
+    const client: SBClient = new SBClient();
+    const request: FeeCreateRequest = {
+        "name": "Service Fee",
+        "description": "Fee for service",
+        "amount": {
+            "value": 10.00,
+            "currency": "USD"
+        },
+        "type": "fixed",
+        "category": "service",
+        "percentage": null,
+        "locale": "fr-CA",
+        "translations": [
+            {
+                "name": "Service Fee",
+                "description": "Fee for service"
+            }
+        ]
+    };
+
+    const fee: SBFee = await client.fees.create(request);
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new FeeCreateRequest
+    {
+        Name = "Service Fee",
+        Description = "Fee for service",
+        Amount = new Money
+        {
+            Value = 10.00m,
+            Currency = "USD"
+        },
+        Type = "fixed",
+        Category = "service",
+        Percentage = null,
+        Locale = "fr-CA",
+        Translations = new List<SBFeeTranslation>
+        {
+            new SBFeeTranslation
+            {
+                Name = "Service Fee",
+                Description = "Fee for service"
+              Locale = "en-CA",
+            }
+        }
+    };
+    var fee = await client.Fees.CreateAsync(request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Récupérer un frais
+Récupérer un frais par ID. Nécessite la portée `fees.read`
+
+`GET https://api.smartbills.io/v1/fees/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID du frais à récupérer | `long`  |  `obligatoire` |
+
+#### Réponse
+Retourne un `SBFee`
+```json copy filename="SBFee"
+{
+    "id": 1,
+    "name": "Service Fee",
+    "description": "Fee for service",
+    "amount": {
+        "value": 10.00,
+        "currency": "USD"
+    },
+    "type": "fixed",
+    "category": "service",
+    "percentage": null,
+    "locale": "fr-CA",
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBFee } from "@smartbills/sdk"
+    
+    const client:SBClient = new SBClient();
+    const fee: SBFee = await client.fees.getByIdAsync(1);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Lister les frais
+Récupérer une liste de frais. Nécessite la portée `fees.read`
+
+`GET https://api.smartbills.io/v1/fees?page=1&pageSize=100`
+
+#### Paramètres de requête 
+Nécessite des paramètres de requête de type `SBListRequest`
+| Paramètre  | Description | Type  | Obligatoire | Par défaut|
+|---|---|---|---|---|
+| `page` | Page actuelle | `long`  |  `obligatoire` | 1|
+| `pageSize` | Nombre d'enregistrements à retourner | `long`  |  `obligatoire` | 100|
+
+```json copy filename="SBListRequest"
+{
+    "page": 1,
+    "pageSize": 100
+}
+```
+
+#### Réponse
+Retourne un `SBList<SBFee>`
+```json copy filename="SBList<SBFee>"
+{
+    "data": [{
+        "id": 1,
+        "name": "Service Fee",
+        "description": "Fee for service",
+        "amount": {
+            "value": 10.00,
+            "currency": "USD"
+        },
+        "type": "fixed",
+        "category": "service",
+        "percentage": null,
+        "locale": "fr-CA",
+    }],
+    "metadata": {
+        "page":1,
+        "pageSize":100,
+        "totalPages":1,
+        "count":1
+    }
+}
+```
+
+#### Exemple de code
+
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+    import { SBClient, SBFee, SBList, SBListRequest} from "@smartbills/sdk"
+    
+    const client = new SBClient();
+    const request: SBListRequest = {
+        "page": 1,
+        "pageSize": 100
+    };
+
+    const fees: SBList<SBFee> = await client.fees.list(request);
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new SBListRequest
+    {
+        Page = 1,
+        PageSize = 100
+    };
+    var fees = await client.Fees.ListAsync(request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Mettre à jour un frais
+Mettre à jour les informations d'un frais. Nécessite la portée `fees.write`
+
+`PUT https://api.smartbills.io/v1/fees/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID du frais à mettre à jour | `long`  |  `obligatoire` |
+
+#### Paramètres du corps 
+Nécessite un corps de type `FeeUpdateRequest`
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `name` | Nom du frais | `object`  |  `facultatif` |
+| `amount` | Montant des frais | `number`  |  `obligatoire` |
+| `rate` | Taux des frais | `number`  |  `facultatif` |
+| `total` | Total des frais | `number`  |  `facultatif` |
+| `type` | Type de frais | `string`  |  `facultatif` |
+
+```json copy filename="FeeUpdateRequest"
+{
+    "name": {
+        "en": "Service Fee",
+        "fr": "Frais de service"
+    },
+    "amount": 10.00,
+    "rate": 0.1,
+    "total": 11.00,
+    "type": "fixed"
+}
+```
+#### Réponse
+Retourne un `SBFee`
+```json copy filename="SBFee"
+{
+    "id": 1,
+    "name": "Service Fee",
+    "description": "Fee for service",
+    "amount": {
+        "value": 10.00,
+        "currency": "USD"
+    },
+    "type": "fixed",
+    "category": "service",
+    "percentage": null,
+    "locale": "fr-CA",
+}
+```
+
+#### Exemple de code
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+
+    import { SBClient, SBFee, FeeUpdateRequest } from "@smartbills/sdk"
+        
+        const client:SBClient = new SBClient();
+        const request: FeeUpdateRequest = {
+            "name": {
+                "en": "Service Fee",
+                "fr": "Frais de service"
+            },
+            "amount": 10.00,
+            "rate": 0.1,
+            "total": 11.00,
+            "type": "fixed"
+        }
+        const fee:SBFee = await client.fees.updateAsync(1, request);
+    
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var request = new FeeUpdateRequest
+    {
+        Name = new Dictionary<string, string>
+        {
+            { "en", "Service Fee" },
+            { "fr", "Frais de service" }
+        },
+        Amount = 10.00m,
+        Rate = 0.1m,
+        Total = 11.00m,
+        Type = "fixed"
+    };
+    var fee = await client.Fees.UpdateAsync(1, request);
+    ```
+    </Tabs.Tab>
+</Tabs>
+
+## Supprimer un frais
+
+Supprimer un frais. Nécessite la portée `fees:write`
+
+`DELETE https://api.smartbills.io/v1/fees/:id`
+
+#### Paramètres de chemin 
+
+| Paramètre  | Description | Type  | Obligatoire |
+|---|---|---|---|
+| `id` | ID du frais à supprimer | `long`  |  `obligatoire` |
+
+#### Réponse
+Retourne un `SBFee`
+```json copy filename="SBFee"
+{
+    "id": 1,
+    "name": "Service Fee",
+    "description": "Fee for service",
+    "amount": {
+        "value": 10.00,
+        "currency": "USD"
+    },
+    "type": "fixed",
+    "category": "service",
+    "percentage": null,
+    "locale": "fr-CA",
+}
+```
+
+#### Exemple de code
+<Tabs items={['JS', '.NET']}>
+
+    <Tabs.Tab>
+    ```js copy
+
+    import { SBClient, SBFee} from "@smartbills/sdk"
+        
+        const client:SBClient = new SBClient();
+        const fee:SBFee = await client.fees.deleteAsync(1);
+    
+    ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```c# copy
+
+    using Smartbills.NET;
+    SBClient client = new SBClient();
+    var fee = await client.Fees.DeleteAsync(1);
+    ```
+    </Tabs.Tab>
+</Tabs>

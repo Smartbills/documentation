@@ -1,0 +1,245 @@
+## SBReceiptPayment
+| Attribut | Descriptif | Type
+|---|---|---|
+| `billingAddress` | Addresse de facturation associé au paiement | [`SBBillingAddress`](/billing-address)|
+| `shippingAddress` | Addresse de livraison associé au paiement. | [`SBBillingAddress`](/billing-address)|
+| `type` | Type de paiement. | `SBReceiptPaymentType` |
+| `statementDescriptor` | Nom de  | `string` |
+| `card` | Information pour un paiement de type `CARD` | `SBReceiptPaymentCard`|
+| `cash` |  Information pour un paiement de type `CASH` | `SBReceiptPaymentCash`|
+| `balanceTransaction` | Information pour un paiement de type `CREDIT`   | `SBReceiptPaymentBalance`|
+| `bankAccount` | Information pour un paiement de type `BANK`   | `SBReceiptPaymentBankAccount`|
+| `external` | Information pour un paiement de type `EXTERNAL`  | `SBReceiptPaymentExternal`|
+| `note` | Note sur le paiement | `string`|
+| `amount` | Montant  | [`SBMoney`](/SBMoney)|
+| `tip` | Pourboire | [`SBMoney`](/SBMoney)|
+| `applicationFee` | Liste de paiements associées à la facture. | [`SBMoney`](/SBMoney)||
+| `processingFee` | Frais liée au paiement | [`SBMoney`](/SBMoney)|
+| `total` | Total pai | [`SBMoney`](/SBMoney)|
+| `approved` | Montant approuvé lors du paiement | [`SBMoney`](/SBMoney)|
+| `refunded` | Montant remboursé lors du paiement | [`SBMoney`](/SBMoney)|
+| `status` | Status du paiement | `SBReceiptPaymentStatus`|
+| `receiptNumber` | Identifiant unique de votre côté pour identifier le reçu | `string`|
+| `receiptUrl` | Url du reçu associé au paiement | `string`|
+| `riskEvaluation` | Évaluation du risque associée à ce paiement | `SBReceiptPaymentRiskEvaluation`|
+| `refunds` | Liste des remboursements associées à ce paiement | `SBReceiptPaymentRefund[]`
+
+
+
+## SBReceiptPaymentType
+Énumération décrivant le type de paiement
+
+| Type | Caleur | Description
+|---|---|---|
+| `Card` | `0` | Payment par carte
+| `Cash` | `1` | Payment par argent comptant
+| `BankAccount` | `2` | Payment par compte bancaire
+| `External` | `3` | Payment externe
+| `Credits` | `4` | Payment par crédits au compte
+| `GiftCard` | `4` | Payment par carte cadeau
+| `Other` | `5` | Autre type de payment
+
+
+## SBReceiptPaymentBalance 
+## SBReceiptPaymentBankAccount 
+Détail du paiement effectué par virement bancaire
+
+| Attribut | Descriptif | Type | Obligatoire |
+|---|---|---|---|
+| `bankName` | Nom de la banque | `string` | `obligatoire` |
+| `accountNumber` | Numéro de compte bancaire | `string` | `obligatoire` |
+| `routingNumber` | Numéro d'acheminement (routing number) | `string` | `obligatoire` |
+| `accountType` | Type de compte bancaire (ex: "Checking", "Savings") | `string` | `obligatoire` |
+| `fingerprint` | Empreinte unique pour identification de compte | `string` ||
+| `statementDescriptor` | Libellé pour l'état de compte | `string` ||
+| `countryCode` | Code pays (ISO 3166-1 alpha-2) de la banque | `string` | `obligatoire` |
+
+---
+
+### Example
+
+```json
+{
+  "bankName": "Bank of America",
+  "accountNumber": "123456789",
+  "routingNumber": "987654321",
+  "accountType": "Checking",
+  "fingerprint": "abc123def456",
+  "statementDescriptor": "SMART* ",
+  "countryCode": "CA"
+}
+```
+
+## SBReceiptPaymentCard
+| Attribut | Descriptif | Type |
+|---|---|---|
+| `authorizationCode` | Code d'autorisation de la carte | `string` |
+| `statementDescriptor` | Nom affiché sur le relevé bancaire | `string` |
+| `method` | Méthode d'entrée de la carte | `SBReceiptPaymentCardEntryMethod` |
+| `emv` | Informations sur la carte EMV | `SBReceiptPaymentCardEMV` |
+| `paymentMethod` | Méthode de paiement utilisée | `SBReceiptPaymentMethodCard` |
+| `cvv` | Résultat de la vérification du CVV | `SBReceiptPaymentCardCvvResult` |
+| `avs` | Résultat de la vérification de l'adresse (AVS) | `SBReceiptPaymentCardAvsResult` |
+| `refundRequiresCardPresence` | Indique si un remboursement nécessite la présence de la carte | `bool` |
+| `timeline` | Chronologie des événements liés au paiement | `SBReceiptPaymentCardTimeline` |
+| `errors` | Liste des erreurs liées au paiement par carte | `List<SBReceiptPaymentCardError>` |
+
+## SBReceiptPaymentCardEMV 
+| Attribut                          | Descriptif                                          | Type                        | Obligatoire |
+|-----------------------------------|-----------------------------------------------------|-----------------------------|-------------|
+| `applicationId`                   | Identifiant de l'application de paiement            | `string`                   |          |
+| `applicationName`                 | Nom de l'application de paiement                    | `string`                   |          |
+| `applicationCryptogram`           | Cryptogramme de l'application                        | `string`                   |          |
+| `cardholderVerificationMethod`     | Méthode de vérification du titulaire de la carte    | `string`                   |          |
+| `cardholderVerificationResult`     | Résultat de la vérification du titulaire de la carte | `string`                   |          |
+| `receiptPaymentCardId`            | Identifiant du reçu de paiement par carte           | `long`                     |          |
+| `receiptPaymentCard`              | Référence à l'objet `SBReceiptPaymentCard` lié     | [`SBReceiptPaymentCard`](#SBReceiptPaymentCard)     | Non         |
+
+---
+
+### Exemple
+
+```json
+{
+  "applicationId": "APP123",
+  "applicationName": "PaymentApp",
+  "applicationCryptogram": "C3B6F2E4A5B8",
+  "cardholderVerificationMethod": "Signature",
+  "cardholderVerificationResult": "Success",
+  "receiptPaymentCardId": 12345,
+  "receiptPaymentCard": {
+    "authorizationCode": "AUTH456",
+    "statementDescriptor": "Test Transaction",
+    "method": "Tap",
+    "emv": null,
+    "paymentMethod": null,
+    "cvv": "CVVChecked",
+    "avs": "PostalCodeAddressChecked",
+    "refundRequiresCardPresence": false,
+    "timeline": {},
+    "errors": []
+  }
+}
+```
+
+## SBReceiptPaymentCardError
+Détail de l'erreur rencontré lors du paiment par carte de crédit.
+
+| Attribut                 | Descriptif                                       | Type                       | Obligatoire |
+|--------------------------|--------------------------------------------------|----------------------------|-------------|
+| `code`                   | Code d'erreur associé au paiement par carte      | `string`                   | `obligatoire`         |
+| `message`                | Message décrivant l'erreur                       | `string`                   | `obligatoire`         |
+
+---
+### Exemple
+
+```json
+{
+  "code": "ERR001",
+  "message": "Invalid CVV number.",
+  "receiptPaymentCardId": 12345,
+  "receiptPaymentCard": {
+    "authorizationCode": "AUTH123",
+    "statementDescriptor": "Test Transaction",
+    "method": "Swipe",
+    "emv": null,
+    "paymentMethod": null,
+    "cvv": "CVVChecked",
+    "avs": "PostalCodeAddressChecked",
+    "refundRequiresCardPresence": false,
+    "timeline": {},
+    "errors": []
+  }
+}
+```
+
+## SBReceiptPaymentCardTimeline 
+## SBReceiptPaymentCash 
+Détail du paiement effectué par argent comptant
+
+| Attribut | Descriptif | Type | Obligatoire |
+|---|---|---|---|
+| `cashGiven` | Montant d'argent donné en espèces | [`SBMoney`](/SBMoney) | `obligatoire` |
+| `changeReturned` | Montant de la monnaie rendue | [`SBMoney`](/SBMoney) | `obligatoire` |
+
+### Exemple
+```json
+{
+  "cashGiven": {
+    "amount": 50.00,
+    "currency": "CAD"
+  },
+  "changeReturned": {
+    "amount": 5.00,
+    "currency": "CAD"
+  }
+}
+```
+
+## SBReceiptPaymentExternal 
+Détail du paiement effectué par un fournisseur de paiement externe
+
+| Attribut     | Descriptif                                         | Type                              | Obligatoire |
+|--------------|----------------------------------------------------|-----------------------------------|-------------|
+| `source`     | Source du paiement externe (ex: "Klarna") | `string`                          | `obligatoire`         |
+| `sourceId`   | Identifiant unique du paiement dans la source       | `string`                          | `obligatoire`         |
+| `fee`        | Frais associés au paiement externe                   | `SBMoney`                         |       |
+---
+
+### Exemple
+
+```json
+{
+  "source": "Klarna",
+  "sourceId": "PAY123456789",
+  "fee": {
+    "amount": 2.50,
+    "currency": "CAD"
+  }
+}
+```
+
+Cela inclut des données fictives pour chaque attribut, avec une structure de frais sous `SBMoney`. Si tu as besoin d'autres détails ou ajustements, fais-le moi savoir !
+## SBReceiptPaymentMethodCard 
+Détail du paiement effectué par carte de crédit
+
+| Attribut | Descriptif | Type | Obligatoire |
+|---|---|---|---|
+| `cardholderName` | Nom complet du titulaire de la carte | `string` |
+| `cardholderFirstName` | Prénom du titulaire de la carte | `string` |
+| `cardholderLastName` | Nom de famille du titulaire de la carte | `string` |
+| `country` | Pays d'émission de la carte | `string` |
+| `brand` | Marque de la carte (ex: Visa, Mastercard) | `string` | `obligatoire` |
+| `coBrand` | Co-marque de la carte (ex: Air Miles, Costco) | `string` |
+| `expirationMonth` | Mois d'expiration de la carte | `int` | `obligatoire` |
+| `expirationYear` | Année d'expiration de la carte | `int` | `obligatoire` |
+| `last4` | Derniers 4 chiffres de la carte | `string` | `obligatoire` |
+| `dynamicLast4` | Derniers 4 chiffres dynamiques (si disponibles) | `string` |
+| `bin` | Numéro d'identification bancaire (BIN) de la carte | `string` |
+| `fingerprint` | Empreinte digitale de la carte pour l'identification unique | `SBPaymentMethodCardFingerprint` |
+
+```json
+{
+  "cardholderName": "John Doe",
+  "cardholderFirstName": "John",
+  "cardholderLastName": "Doe",
+  "country": "US",
+  "brand": "Visa",
+  "coBrand": "None",
+  "expirationMonth": 12,
+  "expirationYear": 2025,
+  "last4": "1234",
+  "dynamicLast4": "5678",
+  "bin": "411111",
+  "fingerprint": {
+    "id": "fp_1JhYbK2eZvKYlo2CljzWc",
+    "hash": "kdf9o3408fj2"
+  }
+}
+```
+
+### Exemple
+
+## SBReceiptPaymentProcessingFee 
+## SBReceiptPaymentRefund 
+## SBReceiptPaymentRiskEvaluation 

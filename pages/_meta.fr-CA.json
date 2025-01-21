@@ -1,0 +1,56 @@
+{
+  "index": "Introduction",
+  "getting-started": "Mise en route",
+  "basic-principles": {
+    "type": "separator",
+    "title": "Principes de base"
+  },
+  "authentication": "Authentification",
+  "localizations": "API multilangue",
+  "environments": "Environnements",
+  "errors": "Erreurs",
+  "versioning": "Gestion des versions",
+  "pagination": "Pagination",
+  "metadata": "Métadonnées",
+  "rate-limit": "Limites",
+  "production": "Mise en production",
+  "apiSeparator": {
+    "type": "separator",
+    "title": "APIs"
+  },
+  "merchants": "Merchants API",
+  "locations": "Locations API",
+  "customers": "Customers API",
+  "employees": "Employees API",
+  "products": "Products API",
+  "promo-codes": "Promo Codes API",
+  "fees": "Fees API",
+  "receipts": "Receipts API",
+  "payments": "Payments API",
+  "taxes": "Taxes API",
+  "vendors": "Vendors API",
+  "---": {
+    "type": "separator",
+    "title": "Ressources"
+  },
+  "SBEmployee": "SBEmployee",
+  "SBCustomer": "SBCustomer",
+  "SBMerchant": "SBMerchant",
+  "SBProductImage": "SBProductImage",
+  "SBProductVariant": "SBProductVariant",
+  "SBReceipt": "SBReceipt",
+  "SBLocation": "SBLocation",
+  "SBPromoCode": "SBPromoCode",
+  "SBProduct": "SBProduct",
+  "SBTax": "SBTax",
+  "SBMoney": "SBMoney",
+  "SBFee": "SBFee",
+  "SBVendor": "SBVendor",
+  "libraries": {
+    "type": "separator",
+    "title": "Bibliothèques clients"
+  },
+  "javascript": "Javascript SDK",
+  "dotnet": ".NET SDK",
+  "react": "React SDK"
+}

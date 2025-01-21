@@ -1,0 +1,257 @@
+---
+title: Employees | Smartbills API Documentation
+description: Learn how to manage employees in Smartbills, including creating, updating, retrieving, and deleting employees via the Smartbills API.
+---
+import { Tabs } from 'nextra/components'
+
+# Employees
+This object represents an employee of your business that interacts with customers and has sales associated with them.
+
+## Scopes
+`employees.read`
+`employees.write`
+
+## Core principles
+Smartbills employees are customer-facing employees that generate sales. You can associate receipts with employees. This enables in-depth analytics about your employees and helps us generate detailed reports about how your customers engage with your employees.
+
+## Create an employee
+Create a new employee. Requires scope `employees.write`
+
+`POST https://api.smartbills.io/v1/employees`
+
+#### Request Body 
+Requires body of type `EmployeeCreateRequest`
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `firstName` | First name of the employee | `string` | `required` |
+| `lastName` | Last name of the employee | `string` | |
+| `locale` | Locale of the employee | `string` | |
+| `email` | Email of the employee | `string` | |
+| `birthdate` | Birthdate of the employee | `date` | |
+
+```json copy filename="EmployeeCreateRequest"
+{
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01"
+}
+```
+
+#### Response
+Returns a `SBEmployee`
+```json copy filename="SBEmployee"
+{
+	"id": 1,
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01",
+	"createdAt": "2023-01-01",
+	"updatedAt": null
+}
+```
+
+#### Code example
+<Tabs items={['JS', '.NET']}>
+	<Tabs.Tab>
+	```js copy
+	import { SBClient, SBEmployee, EmployeeCreateRequest } from "@smartbills/sdk"
+
+	const client = new SBClient();
+	const request = {
+		"firstName": "John",
+		"lastName": "Doe",
+		"email": "john.doe@smartbills.io",
+		"locale": "en-CA",
+		"birthDate": "1990-01-01"
+	};
+
+	const employee = await client.employees.create(request);
+	```
+	</Tabs.Tab>
+	<Tabs.Tab>
+	```c# copy
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	var request = new EmployeeCreateRequest
+	{
+		FirstName = "John",
+		LastName = "Doe",
+		Email = "john.doe@smartbills.io",
+		Locale = "en-CA",
+		BirthDate = "1990-01-01"
+	};
+	var employee = await client.Employees.CreateAsync(request);
+	```
+	</Tabs.Tab>
+</Tabs>
+
+## Retrieve an employee
+Retrieve an employee by ID. Requires scope `employees.read`
+
+`GET https://api.smartbills.io/v1/employees/:id`
+
+#### Path parameters 
+
+| Parameter | Description | Type | Required |
+|---|---|---|---|
+| `id` | ID of the employee to retrieve | `long` | `required` |
+
+#### Response
+Returns a `SBEmployee`
+```json copy filename="SBEmployee"
+{
+	"id": 1,
+	"firstName": "John",
+	"lastName": "Doe",
+	"email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01",
+	"createdAt": "2023-01-01",
+	"updatedAt": "2023-01-06"
+}
+```
+
+#### Code example
+<Tabs items={['JS', '.NET']}>
+	<Tabs.Tab>
+	```js copy
+	import { SBClient, SBEmployee } from "@smartbills/sdk"
+
+	const client = new SBClient();
+	const employee = await client.employees.getByIdAsync(1);
+	```
+	</Tabs.Tab>
+</Tabs>
+
+## Update an employee
+Update information about an employee. Requires scope `employees.write`
+
+`PUT https://api.smartbills.io/v1/employees/:id`
+
+#### Path parameters 
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `id` | ID of the employee to update | `long`  |  `required` |
+
+#### Body parameters 
+Requires a body of type `EmployeeUpdateRequest`
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `firstName` | First name of the employee | `string`  |  `required` |
+| `lastName` | Last name of the employee | `string`  |  `required` |
+| `email` | Email of the employee | `string`  |  `required` |
+| `locale` | Locale of the employee | `string`  |  `required` |
+| `birthdate` | Birthdate of the employee | `date`  | |
+
+```json copy filename="EmployeeUpdateRequest"
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01"
+}
+```
+#### Response
+Returns a `SBEmployee`
+```json copy filename="SBEmployee"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01",
+	"createdAt": "2023-01-01",
+	"updatedAt": "2023-01-06"
+}
+```
+
+#### Code example
+<Tabs items={['JS', '.NET']}>
+    <Tabs.Tab>
+	```js copy
+	import { SBClient, SBEmployee, EmployeeUpdateRequest } from "@smartbills/sdk"
+		
+	const client = new SBClient();
+	const request = {
+		"firstName": "John",
+		"lastName": "Doe",
+		"email": "john.doe@smartbills.io",
+		"locale": "en-CA",
+		"birthDate": "1990-01-01"
+	};
+	const employee = await client.employees.updateAsync(1, request);
+	```
+	</Tabs.Tab>
+	<Tabs.Tab>
+	```c# copy
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	var request = new EmployeeUpdateRequest
+	{
+		FirstName = "John",
+		LastName = "Doe",
+		Email = "john.doe@smartbills.io",
+		Locale = "en-CA",
+		BirthDate = "1990-01-01"
+	};
+	var employee = await client.Employees.UpdateAsync(1, request);
+	```
+	</Tabs.Tab>
+</Tabs>
+
+## Delete an employee
+
+Delete an employee. Requires scope `employees.write`
+
+`DELETE https://api.smartbills.io/v1/employees/:id`
+
+#### Path parameters 
+
+| Parameter  | Description | Type  | Required |
+|---|---|---|---|
+| `id` | ID of the employee to delete | `long`  |  `required` |
+
+#### Response
+Returns a `SBEmployee`
+```json copy filename="SBEmployee"
+{
+	"id": 1,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@smartbills.io",
+	"locale": "en-CA",
+	"birthDate": "1990-01-01",
+	"createdAt": "2023-01-01",
+	"updatedAt": "2023-01-06"
+}
+```
+
+#### Code example
+<Tabs items={['JS', '.NET']}>
+    <Tabs.Tab>
+	```js copy
+	import { SBClient, SBEmployee } from "@smartbills/sdk"
+		
+	const client = new SBClient();
+	const employee = await client.employees.deleteAsync(1);
+	```
+	</Tabs.Tab>
+	<Tabs.Tab>
+	```c# copy
+	using Smartbills.NET;
+	SBClient client = new SBClient();
+	await client.Employees.DeleteAsync(1);
+	```
+	</Tabs.Tab>
+</Tabs>
+
+## List employees
+Retrieve a list of employees. Requires

@@ -1,0 +1,24 @@
+---
+title: SBProductVariant | Documentation de l'API Smartbills
+description: En savoir plus sur la ressource SBProductVariant dans l'API Smartbills.
+---
+
+# SBProductVariant
+Cet objet représente une variante de produit dans votre entreprise. Les variantes de produits permettent de définir différentes versions d'un même produit avec des attributs uniques comme la taille, la couleur ou d'autres caractéristiques.
+
+| Attribut         | Description                                    | Type      | Obligatoire |
+|-----------------|------------------------------------------------|-----------|-------------|
+| `id`            | Identifiant unique de la variante              | `integer` | Oui         |
+| `productId`     | ID du produit parent                           | `integer` | Oui         |
+| `name`          | Nom de la variante                             | `string`  | Non         |
+| `slug`          | Identifiant compatible URL                      | `string`  | Non         |
+| `taxable`       | Si la variante est taxable                     | `boolean` | Non         |
+| `weight`        | Poids de la variante                           | `decimal` | Non         |
+| `weightUnit`    | Unité de mesure du poids                       | `string`  | Non         |
+| `price`         | Prix actuel                                    | `decimal` | Oui         |
+| `initialPrice`  | Prix initial/original                          | `decimal` | Non         |
+| `sku`           | Unité de gestion des stocks                    | `string`  | Non         |
+| `upc`           | Code universel des produits                    | `string`  | Non         |
+| `gtin`          | Numéro international d'article                 | `string`  | Non         |
+| `createdAt`     | Date de création                        | `datetime`| Oui         |
+| `updatedAt`     | Date de dernière mise à jour            | `datetime`| Non         |

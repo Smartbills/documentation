@@ -1,0 +1,19 @@
+---
+title: Errors | Smartbills API Documentation
+description: Learn more about error codes in Smartbills, including how to interpret and handle different HTTP status codes and error responses.
+---
+## Errors
+Smartbills uses conventional HTTP response codes to indicate the success or failure of an API request. In general: Codes in the 2xx range indicate success. Codes in the 4xx range indicate an error that failed given the information provided (e.g., a required parameter was omitted, etc.). Codes in the 5xx range indicate an error with Smartbills’s servers (these are rare).
+
+Some 4xx errors that could be handled programmatically (e.g., a bad is declined) include an error code that briefly explains the error reported.
+
+
+##### HTTP Status Code
+
+| Parameters  | Description|
+|---|---|
+| `400` | You sent us an invalid request. Read the body of the response to understand why your request was refused.
+| `401` | You tried to access an API resource without providing authentication or by provind invalid authentication.
+| `403` | You don't have permission to access the resource. Ensure that your token include the scopes required to access the resource.
+| `409` | You tried to create a new resource, but inserting it would cause a conflict with data already present in the database.
+| `500` | Internal server error on our end. Please contact us if you encounted this error at support@smartbills.io
