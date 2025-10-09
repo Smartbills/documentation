@@ -1,11 +1,11 @@
 ---
 title: 'Rate Limits'
-description: 'Understand SmartBills API rate limiting and how to handle rate limit errors'
+description: 'Understand Smartbills API rate limiting and how to handle rate limit errors'
 ---
 
 ## Overview
 
-To ensure fair usage and maintain optimal performance, the SmartBills API implements rate limiting using the **Leaky Bucket** algorithm. This helps control incoming request traffic and provides a smooth, predictable API experience for all users.
+To ensure fair usage and maintain optimal performance, the Smartbills API implements rate limiting using the **Leaky Bucket** algorithm. This helps control incoming request traffic and provides a smooth, predictable API experience for all users.
 
 <Note>
   **Fair usage**: Rate limits ensure that no single user can monopolize API resources, maintaining quality service for everyone.
@@ -328,7 +328,7 @@ function makeRequestWithRetry($url, $apiKey, $maxRetries = 3) {
 Create a client that automatically handles rate limiting:
 
 ```javascript
-class SmartBillsClient {
+class SmartbillsClient {
   constructor(apiKey) {
     this.apiKey = apiKey;
     this.baseUrl = 'https://api.smartbills.io/v1';
@@ -392,7 +392,7 @@ class RateLimitError extends Error {
 }
 
 // Usage
-const client = new SmartBillsClient('YOUR_API_KEY');
+const client = new SmartbillsClient('YOUR_API_KEY');
 
 try {
   const expenses = await client.request('/expenses');

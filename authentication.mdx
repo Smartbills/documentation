@@ -1,15 +1,15 @@
 ---
 title: 'Authentication'
-description: 'Learn how to authenticate with the SmartBills API'
+description: 'Learn how to authenticate with the Smartbills API'
 ---
 
 ## Overview
 
-SmartBills API uses **JWT Bearer tokens** for authentication. All API requests must include a valid API key in the Authorization header.
+Smartbills API uses **JWT Bearer tokens** for authentication. All API requests must include a valid API key in the Authorization header.
 
 ## API Keys
 
-API keys are the primary method of authenticating with the SmartBills API. Each key is associated with a user account and inherits the permissions of that account.
+API keys are the primary method of authenticating with the Smartbills API. Each key is associated with a user account and inherits the permissions of that account.
 
 ### Getting Your API Key
 
@@ -69,7 +69,7 @@ response = requests.get('https://api.smartbills.io/v1/user', headers=headers)
 
 ## API Key Types
 
-SmartBills provides two types of API keys:
+Smartbills provides two types of API keys:
 
 ### Test Keys
 - Prefix: `sk_test_`
@@ -209,7 +209,7 @@ import requests
 API_KEY = os.environ.get('SMARTBILLS_API_KEY')
 BASE_URL = 'https://api.smartbills.io/v1'
 
-class SmartBillsClient:
+class SmartbillsClient:
     def __init__(self, api_key):
         self.api_key = api_key
         self.session = requests.Session()
@@ -231,7 +231,7 @@ class SmartBillsClient:
         return self.request('POST', endpoint, **kwargs)
 
 # Usage
-client = SmartBillsClient(API_KEY)
+client = SmartbillsClient(API_KEY)
 user = client.get('/user')
 expenses = client.get('/expenses')
 ```

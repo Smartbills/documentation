@@ -1,11 +1,11 @@
 ---
 title: 'Webhooks'
-description: 'Receive real-time notifications when events occur in your SmartBills account'
+description: 'Receive real-time notifications when events occur in your Smartbills account'
 ---
 
 ## Overview
 
-Webhooks allow you to receive HTTP notifications when specific events occur in your SmartBills account. Instead of polling the API for changes, SmartBills will push notifications to your server in real-time.
+Webhooks allow you to receive HTTP notifications when specific events occur in your Smartbills account. Instead of polling the API for changes, Smartbills will push notifications to your server in real-time.
 
 <Note>
   **Real-time updates**: Webhooks are delivered within seconds of the event occurring, making them ideal for automation and integrations.
@@ -15,15 +15,15 @@ Webhooks allow you to receive HTTP notifications when specific events occur in y
 
 <Steps>
   <Step title="Event Occurs">
-    An action happens in SmartBills (e.g., expense created, report approved)
+    An action happens in Smartbills (e.g., expense created, report approved)
   </Step>
   
   <Step title="Webhook Triggered">
-    SmartBills prepares a webhook payload with event details
+    Smartbills prepares a webhook payload with event details
   </Step>
   
   <Step title="HTTP POST Sent">
-    SmartBills sends an HTTP POST request to your configured endpoint
+    Smartbills sends an HTTP POST request to your configured endpoint
   </Step>
   
   <Step title="Your Server Responds">
@@ -31,7 +31,7 @@ Webhooks allow you to receive HTTP notifications when specific events occur in y
   </Step>
   
   <Step title="Confirmation">
-    SmartBills marks the webhook as delivered
+    Smartbills marks the webhook as delivered
   </Step>
 </Steps>
 
@@ -93,7 +93,7 @@ app = Flask(__name__)
 @app.route('/webhooks/smartbills', methods=['POST'])
 def handle_webhook():
     event = request.json
-    signature = request.headers.get('X-SmartBills-Signature')
+    signature = request.headers.get('X-Smartbills-Signature')
     
     # Verify signature
     if not verify_signature(event, signature):
@@ -174,7 +174,7 @@ end
 
 ### Register Your Webhook
 
-Register your endpoint with SmartBills:
+Register your endpoint with Smartbills:
 
 <CodeGroup>
 
@@ -408,7 +408,7 @@ All webhooks follow this structure:
 
 ### Verify Signatures
 
-Always verify webhook signatures to ensure requests are from SmartBills:
+Always verify webhook signatures to ensure requests are from Smartbills:
 
 <CodeGroup>
 
@@ -447,7 +447,7 @@ def verify_signature(payload, signature, secret):
 # Usage
 is_valid = verify_signature(
     request.data.decode(),
-    request.headers.get('X-SmartBills-Signature'),
+    request.headers.get('X-Smartbills-Signature'),
     os.environ['WEBHOOK_SECRET']
 )
 ```
@@ -506,7 +506,7 @@ is_valid = verify_signature(
   </Step>
   
   <Step title="Use IP Allowlist (Optional)">
-    Restrict webhook requests to SmartBills IP addresses
+    Restrict webhook requests to Smartbills IP addresses
   </Step>
 </Steps>
 
@@ -633,7 +633,7 @@ is_valid = verify_signature(
 
 ### Automatic Retries
 
-SmartBills automatically retries failed webhooks:
+Smartbills automatically retries failed webhooks:
 
 | Attempt | Delay |
 |---------|-------|
@@ -795,7 +795,7 @@ Use tools like ngrok to test webhooks locally:
   </Step>
   
   <Step title="Test">
-    Trigger events in SmartBills and watch your local server receive webhooks
+    Trigger events in Smartbills and watch your local server receive webhooks
   </Step>
 </Steps>
 
