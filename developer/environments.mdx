@@ -23,7 +23,7 @@ The production environment is where your live application runs and processes rea
 
 The pre-production environment is a safe space to develop and test your integration without affecting real data.
 
-**Base URL:** `https://api.preprod.smartbills.io`
+**Base URL:** `https://sandbox-api.smartbills.io`
 
 <Info>
   All developer accounts have immediate access to the pre-production environment.
@@ -33,7 +33,7 @@ The pre-production environment is a safe space to develop and test your integrat
 
 | Feature | Production | Pre-Production |
 |---------|-----------|----------------|
-| **Base URL** | `api.smartbills.io` | `api.preprod.smartbills.io` |
+| **Base URL** | `api.smartbills.io` | `sandbox-api.smartbills.io` |
 | **Data** | Real customer data | Test data only |
 | **API Keys** | Requires approval | Available immediately |
 | **Rate Limits** | Standard limits apply | More lenient limits |
@@ -50,12 +50,12 @@ You can switch between environments by changing the base URL in your API request
 const PROD_URL = 'https://api.smartbills.io';
 
 // Pre-Production
-const PREPROD_URL = 'https://api.preprod.smartbills.io';
+const SANDBOX_URL = 'https://sandbox-api.smartbills.io';
 
 // Use environment variable
 const BASE_URL = process.env.NODE_ENV === 'production' 
   ? PROD_URL 
-  : PREPROD_URL;
+  : SANDBOX_URL;
 
 const response = await fetch(`${BASE_URL}/v1/expenses`, {
   headers: {
@@ -71,10 +71,10 @@ import os
 PROD_URL = 'https://api.smartbills.io'
 
 # Pre-Production
-PREPROD_URL = 'https://api.preprod.smartbills.io'
+SANDBOX_URL = 'https://sandbox-api.smartbills.io'
 
 # Use environment variable
-BASE_URL = PROD_URL if os.getenv('ENV') == 'production' else PREPROD_URL
+BASE_URL = PROD_URL if os.getenv('ENV') == 'production' else SANDBOX_URL
 
 response = requests.get(
     f'{BASE_URL}/v1/expenses',
@@ -87,12 +87,12 @@ response = requests.get(
 const string PROD_URL = "https://api.smartbills.io";
 
 // Pre-Production
-const string PREPROD_URL = "https://api.preprod.smartbills.io";
+const string SANDBOX_URL = "https://sandbox-api.smartbills.io";
 
 // Use environment variable
 var baseUrl = Environment.GetEnvironmentVariable("ENV") == "production" 
     ? PROD_URL 
-    : PREPROD_URL;
+    : SANDBOX_URL;
 
 var response = await client.GetAsync($"{baseUrl}/v1/expenses");
 ```
@@ -107,8 +107,8 @@ var response = await client.GetAsync($"{baseUrl}/v1/expenses");
     
     ```bash
     # .env.development
-    SMARTBILLS_API_URL=https://api.preprod.smartbills.io
-    SMARTBILLS_API_KEY=your_preprod_key
+    SMARTBILLS_API_URL=https://sandbox-api.smartbills.io
+    SMARTBILLS_API_KEY=your_SANDBOX_key
     
     # .env.production
     SMARTBILLS_API_URL=https://api.smartbills.io
