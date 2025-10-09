@@ -1,0 +1,169 @@
+---
+title: "Update Employee"
+api: "PUT https://api.smartbills.io/v1/employees/{id}"
+description: "Update an existing employee's information"
+---
+
+## Overview
+
+Update the details of an existing employee. All fields in the request body will replace the existing values.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `employees.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the employee to update
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/employees/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "department": "Sales",
+    "position": "Senior Sales Associate",
+    "isActive": true
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const updatedEmployee = await client.employees.update(12345, {
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe@example.com",
+  department: "Sales",
+  position: "Senior Sales Associate",
+  isActive: true
+});
+
+console.log('Updated employee:', updatedEmployee);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+updated_employee = client.employees.update(
+    12345,
+    first_name="John",
+    last_name="Doe",
+    email="john.doe@example.com",
+    department="Sales",
+    position="Senior Sales Associate",
+    is_active=True
+)
+
+print('Updated employee:', updated_employee)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var updatedEmployee = await client.Employees.UpdateAsync(12345, new EmployeeUpdateRequest
+{
+    FirstName = "John",
+    LastName = "Doe",
+    Email = "john.doe@example.com",
+    Department = "Sales",
+    Position = "Senior Sales Associate",
+    IsActive = true
+});
+
+Console.WriteLine($"Updated employee: {updatedEmployee.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "department": "Sales",
+  "position": "Senior Sales Associate",
+  "isActive": true,
+  "totalSales": 125420.50,
+  "totalTransactions": 342,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Employee not found |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<Warning>
+  **Full Replacement**: The update operation replaces all fields. Include all required fields in your request.
+</Warning>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Fetch Before Update" icon="arrows-rotate">
+    Always fetch the current employee data before updating.
+    
+    ```javascript
+    const current = await client.employees.get(12345);
+    const updated = await client.employees.update(12345, {
+      ...current,
+      position: "Senior Sales Associate"
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Use isActive for Lifecycle" icon="toggle-on">
+    Use `isActive` to manage employee status instead of deleting records.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Employee" icon="plus" href="/api-reference/employees/create-employee">
+    Create a new employee
+  </Card>
+  <Card title="Get Employee" icon="eye" href="/api-reference/employees/get-employee">
+    Retrieve an employee by ID
+  </Card>
+  <Card title="List Employees" icon="list" href="/api-reference/employees/list-employees">
+    Get all employees
+  </Card>
+  <Card title="Delete Employee" icon="trash" href="/api-reference/employees/delete-employee">
+    Remove an employee
+  </Card>
+</CardGroup>
+

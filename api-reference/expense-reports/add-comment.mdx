@@ -1,0 +1,36 @@
+---
+title: "Add Comment"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/comments"
+description: "Add a comment to an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="comment" type="string" required>
+  Comment text
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/comments \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "comment": "Please review the hotel expense - it includes conference registration"
+  }'
+```
+
+</RequestExample>
+

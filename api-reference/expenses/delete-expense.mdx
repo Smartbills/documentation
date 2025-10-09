@@ -1,0 +1,79 @@
+---
+title: "Delete Expense"
+api: "DELETE https://api.smartbills.io/v1/expenses/{expenseId}"
+description: "Delete an expense"
+---
+
+## Path Parameters
+
+<ParamField path="expenseId" type="integer" required>
+  The unique identifier of the expense to delete
+</ParamField>
+
+## Response
+
+Returns a `200 OK` status with an empty body on successful deletion.
+
+<Warning>
+  This action cannot be undone. The expense and its attachments will be permanently deleted.
+</Warning>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/expenses/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.smartbills.io/v1/expenses/12345',
+  {
+    method: 'DELETE',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY'
+    }
+  }
+);
+
+if (response.ok) {
+  console.log('Expense deleted successfully');
+}
+```
+
+```python Python
+import requests
+
+url = 'https://api.smartbills.io/v1/expenses/12345'
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+
+response = requests.delete(url, headers=headers)
+if response.ok:
+    print('Expense deleted successfully')
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "message": "Expense deleted successfully"
+}
+```
+
+</ResponseExample>
+
+## Restrictions
+
+You cannot delete an expense if:
+
+- It's part of a submitted or approved expense report
+- It has been marked as reimbursed
+- It's been exported to your accounting system
+
+In these cases, you'll receive a `409 Conflict` error.
+

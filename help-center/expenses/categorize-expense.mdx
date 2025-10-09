@@ -1,0 +1,571 @@
+---
+title: 'Categorize Expenses'
+description: 'Learn how to organize expenses with categories and tags for better tracking and reporting'
+---
+
+<img
+  className="block"
+  src="/images/help-center/expenses/categorize-hero.png"
+  alt="Categorize Expenses"
+/>
+
+## Overview
+
+Proper categorization is essential for accurate expense tracking, tax compliance, and financial reporting. SmartBills makes it easy to organize expenses with categories, subcategories, and tags.
+
+<Note>
+  **Why categorize?** Proper categorization helps with tax deductions, budget tracking, and financial reporting. It's also often required by company policy.
+</Note>
+
+## Understanding Categories
+
+### What are Categories?
+
+Categories are predefined expense types that help organize and classify your spending. Common categories include:
+
+- **Travel** - Airfare, lodging, rental cars
+- **Meals & Entertainment** - Client dinners, team lunches
+- **Office Supplies** - Pens, paper, equipment
+- **Software & Subscriptions** - SaaS tools, licenses
+- **Professional Services** - Consultants, legal fees
+- **Marketing** - Advertising, promotional materials
+- **Utilities** - Internet, phone, electricity
+
+### Category Hierarchy
+
+Many categories have subcategories for more specific classification:
+
+```
+Travel
+├── Airfare
+├── Lodging
+├── Ground Transportation
+│   ├── Rental Car
+│   ├── Taxi/Rideshare
+│   └── Parking
+└── Mileage
+```
+
+## Categorizing on Web
+
+### Assign Category to Single Expense
+
+<Steps>
+  <Step title="Open the Expense">
+    1. Navigate to **Expenses** in sidebar
+    2. Click on the expense you want to categorize
+  </Step>
+  
+  <Step title="Select Category">
+    1. Click the **Category** dropdown
+    2. Browse or search for the category
+    3. Select the appropriate category
+  </Step>
+  
+  <Step title="Choose Subcategory (if applicable)">
+    1. If the category has subcategories, a second dropdown appears
+    2. Select the most specific subcategory
+    3. Example: Travel → Lodging
+  </Step>
+  
+  <Step title="Save">
+    1. Click **Save** or press Enter
+    2. Category is applied immediately
+  </Step>
+</Steps>
+
+<img
+  className="block"
+  src="/images/help-center/expenses/web-categorize.png"
+  alt="Categorize on web"
+/>
+
+### Quick Categorize (Inline)
+
+For faster categorization:
+
+1. **Hover over expense** in the list
+2. **Click the category field**
+3. **Select from dropdown**
+4. **Press Enter** to save
+
+No need to open the full expense details!
+
+### Bulk Categorize
+
+Categorize multiple expenses at once:
+
+<Steps>
+  <Step title="Select Expenses">
+    1. Check boxes next to expenses
+    2. Or use **Select All** checkbox
+  </Step>
+  
+  <Step title="Bulk Actions">
+    1. Click **Bulk Actions** button
+    2. Select **Change Category**
+  </Step>
+  
+  <Step title="Choose Category">
+    1. Select the category from dropdown
+    2. Choose subcategory if needed
+  </Step>
+  
+  <Step title="Apply">
+    1. Click **Apply to Selected**
+    2. All selected expenses are updated
+  </Step>
+</Steps>
+
+<Tip>
+  **Time saver**: Use bulk categorize for similar expenses like multiple taxi rides or coffee purchases.
+</Tip>
+
+## Categorizing on Mobile
+
+### iOS
+
+<Steps>
+  <Step title="Open Expense">
+    1. Tap **Expenses** tab
+    2. Tap the expense to open
+  </Step>
+  
+  <Step title="Tap Category">
+    1. Tap the **Category** field
+    2. Category picker appears
+  </Step>
+  
+  <Step title="Select Category">
+    1. Scroll through categories
+    2. Or use search bar at top
+    3. Tap to select
+  </Step>
+  
+  <Step title="Select Subcategory">
+    1. If applicable, subcategory picker appears
+    2. Tap the specific subcategory
+  </Step>
+  
+  <Step title="Save">
+    1. Tap **Done** or **Save**
+    2. Return to expense details
+  </Step>
+</Steps>
+
+<img
+  className="block"
+  src="/images/help-center/expenses/ios-categorize.png"
+  alt="iOS categorize"
+/>
+
+### Android
+
+<Steps>
+  <Step title="Open Expense">
+    1. Tap **Expenses** tab
+    2. Tap expense to open
+  </Step>
+  
+  <Step title="Tap Category">
+    1. Tap **Category** field
+    2. Category list appears
+  </Step>
+  
+  <Step title="Search or Browse">
+    1. Use search bar to find category
+    2. Or scroll through list
+    3. Tap to select
+  </Step>
+  
+  <Step title="Confirm">
+    1. Subcategory prompt if applicable
+    2. Tap checkmark to save
+  </Step>
+</Steps>
+
+<img
+  className="block"
+  src="/images/help-center/expenses/android-categorize.png"
+  alt="Android categorize"
+/>
+
+## Smart Categorization
+
+### Auto-Categorization
+
+SmartBills can automatically suggest categories based on:
+
+- **Merchant name** - "Starbucks" → Meals & Entertainment
+- **Past history** - You always categorize "Office Depot" as Office Supplies
+- **Amount patterns** - Small amounts from coffee shops → Meals
+- **AI learning** - System learns from your categorization patterns
+
+**Enable auto-categorization:**
+1. Go to Settings → Expenses
+2. Enable **Auto-Categorize**
+3. Choose confidence level (High, Medium, Low)
+
+<Tip>
+  **Review suggestions**: Always review auto-categorized expenses before submitting reports.
+</Tip>
+
+### Category Rules
+
+Create rules for automatic categorization:
+
+<Steps>
+  <Step title="Create Rule">
+    1. Go to Settings → Expenses → **Category Rules**
+    2. Click **Add Rule**
+  </Step>
+  
+  <Step title="Define Conditions">
+    Set conditions like:
+    - Merchant contains "Starbucks"
+    - Amount less than $50
+    - Payment method is "Corporate Card"
+  </Step>
+  
+  <Step title="Set Category">
+    1. Choose the category to apply
+    2. Select subcategory if needed
+  </Step>
+  
+  <Step title="Save Rule">
+    1. Name your rule
+    2. Click **Save**
+    3. Rule applies to future expenses
+  </Step>
+</Steps>
+
+**Example rules:**
+- All Uber/Lyft → Travel → Ground Transportation → Taxi/Rideshare
+- Amazon under $100 → Office Supplies
+- Hotel expenses → Travel → Lodging
+
+## Using Tags
+
+### What are Tags?
+
+Tags are flexible labels you can add to expenses for additional organization. Unlike categories (which are predefined), you can create custom tags.
+
+**Common uses:**
+- **Projects**: "Project Alpha", "Website Redesign"
+- **Clients**: "Acme Corp", "Client XYZ"
+- **Locations**: "NYC Office", "Remote"
+- **Status**: "Billable", "Urgent", "Reimbursable"
+- **Events**: "Conference 2024", "Team Offsite"
+
+### Adding Tags
+
+<Tabs>
+  <Tab title="Web">
+    1. Open the expense
+    2. Click **Tags** field
+    3. Start typing tag name
+    4. Select existing tag or create new
+    5. Add multiple tags if needed
+    6. Click **Save**
+  </Tab>
+  
+  <Tab title="Mobile">
+    1. Open expense
+    2. Tap **Tags**
+    3. Search or browse existing tags
+    4. Tap to add
+    5. Or tap **Create New Tag**
+    6. Tap **Done**
+  </Tab>
+</Tabs>
+
+### Tag Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Consistent Naming" icon="tags">
+    **Do:**
+    - "Q1-2024" (not "Q1 2024" or "q1-24")
+    - "Client-Acme" (not "Acme Client" or "ACME")
+    - "Billable" (not "bill" or "to-bill")
+    
+    **Why:** Consistency makes filtering and reporting easier
+  </Accordion>
+
+  <Accordion title="Create a Tag System" icon="sitemap">
+    Establish tag categories:
+    - **Project tags**: Project-Alpha, Project-Beta
+    - **Client tags**: Client-Acme, Client-XYZ
+    - **Status tags**: Billable, Non-Billable, Urgent
+    - **Location tags**: NYC, SF, Remote
+    
+    **Document your system** so team members use tags consistently
+  </Accordion>
+
+  <Accordion title="Don't Over-Tag" icon="ban">
+    **Avoid:**
+    - Adding too many tags to one expense
+    - Creating tags that duplicate category information
+    - Using tags for information that belongs in other fields
+    
+    **Keep it simple:** 2-3 relevant tags per expense is usually enough
+  </Accordion>
+
+  <Accordion title="Clean Up Unused Tags" icon="broom">
+    Periodically:
+    - Review tag list
+    - Merge similar tags
+    - Delete unused tags
+    - Rename for clarity
+    
+    **Access:** Settings → Expenses → Manage Tags
+  </Accordion>
+</AccordionGroup>
+
+## Category Management
+
+### View All Categories
+
+**Web:**
+1. Go to Settings → Expenses → **Categories**
+2. View complete category list
+3. See hierarchy and subcategories
+
+**Mobile:**
+1. Settings → Business Settings → **Categories**
+2. Browse category list
+
+### Request New Category
+
+If you need a category that doesn't exist:
+
+1. **Contact your administrator**
+2. Explain why you need the category
+3. Suggest where it fits in the hierarchy
+4. Admin can add it in Settings
+
+<Note>
+  **Admin only**: Only business administrators can add, edit, or delete categories.
+</Note>
+
+### Custom Categories (Admin)
+
+Administrators can create custom categories:
+
+<Steps>
+  <Step title="Access Category Settings">
+    Settings → Expenses → **Categories** → **Add Category**
+  </Step>
+  
+  <Step title="Enter Details">
+    - Category name
+    - Parent category (if subcategory)
+    - Description
+    - Tax treatment
+    - GL code (if applicable)
+  </Step>
+  
+  <Step title="Set Permissions">
+    - Who can use this category
+    - Approval requirements
+    - Spending limits
+  </Step>
+  
+  <Step title="Save">
+    Category is immediately available to users
+  </Step>
+</Steps>
+
+## Category Reports
+
+### View Spending by Category
+
+**Web:**
+1. Go to **Reports** → **Analytics**
+2. Select **Spending by Category**
+3. Choose date range
+4. View breakdown
+
+**Features:**
+- Pie chart visualization
+- Bar chart comparison
+- Trend over time
+- Export to Excel/PDF
+
+### Filter by Category
+
+**Find all expenses in a category:**
+
+1. Go to **Expenses**
+2. Click **Filter** button
+3. Select **Category**
+4. Choose category/subcategory
+5. Click **Apply**
+
+**Save the filter** for quick access later!
+
+## Tax Categories
+
+### Understanding Tax Treatment
+
+Some categories have specific tax implications:
+
+| Category | Tax Treatment | Notes |
+|----------|---------------|-------|
+| Meals & Entertainment | 50% deductible | IRS limitation |
+| Travel | Fully deductible | If business purpose |
+| Office Supplies | Fully deductible | Ordinary & necessary |
+| Personal | Not deductible | Should be reimbursed |
+
+<Warning>
+  **Consult your accountant**: Tax rules vary by jurisdiction and business type. Always verify with your tax professional.
+</Warning>
+
+### Tax Category Assignment
+
+Your administrator can set tax treatment for each category:
+
+1. Settings → Expenses → Categories
+2. Edit category
+3. Set **Tax Treatment**:
+   - Fully deductible
+   - Partially deductible (specify %)
+   - Not deductible
+   - Varies (case by case)
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Can't find the right category" icon="magnifying-glass">
+    **Try these:**
+    
+    1. **Use search** - Type keywords in category search
+    2. **Check subcategories** - Category might be nested
+    3. **Use "Other"** - Temporarily, then ask admin to add proper category
+    4. **Add notes** - Explain what the expense is for
+    
+    **Request new category** if you frequently can't find the right one
+  </Accordion>
+
+  <Accordion title="Category won't save" icon="circle-exclamation">
+    **Possible reasons:**
+    
+    1. **Required field** - Some categories require additional info
+    2. **Permission issue** - You might not have access to that category
+    3. **Network problem** - Check internet connection
+    4. **Validation error** - Check for error messages
+    
+    **Solution:** Try a different category or contact support
+  </Accordion>
+
+  <Accordion title="Wrong category applied" icon="triangle-exclamation">
+    **If auto-categorization is wrong:**
+    
+    1. **Manually correct** the category
+    2. **Disable auto-categorize** for that merchant
+    3. **Create a rule** for correct categorization
+    4. **Report issue** to help improve AI
+    
+    **Settings:** Settings → Expenses → Auto-Categorization
+  </Accordion>
+
+  <Accordion title="Tags not appearing" icon="tags">
+    **Check these:**
+    
+    1. **Spelling** - Tags are case-sensitive
+    2. **Permissions** - Some tags might be restricted
+    3. **Sync issue** - Refresh the page/app
+    4. **Deleted tag** - Admin might have removed it
+    
+    **Create new tag** if it doesn't exist
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+### For Employees
+
+<Steps>
+  <Step title="Categorize Immediately">
+    Categorize expenses as soon as you upload them. Don't wait until report time.
+  </Step>
+  
+  <Step title="Be Specific">
+    Use the most specific subcategory available. "Travel → Lodging" is better than just "Travel".
+  </Step>
+  
+  <Step title="Add Context">
+    Use tags and notes to add context that categories alone can't provide.
+  </Step>
+  
+  <Step title="Follow Company Policy">
+    Use categories as defined by your company policy. Don't create your own interpretation.
+  </Step>
+  
+  <Step title="Review Before Submitting">
+    Double-check all categories before submitting expense reports.
+  </Step>
+</Steps>
+
+### For Administrators
+
+<Steps>
+  <Step title="Keep It Simple">
+    Don't create too many categories. 15-25 main categories is usually sufficient.
+  </Step>
+  
+  <Step title="Document Your System">
+    Create a guide explaining:
+    - What each category is for
+    - When to use subcategories
+    - Examples for each category
+  </Step>
+  
+  <Step title="Align with Accounting">
+    Match categories to your chart of accounts for easier reconciliation.
+  </Step>
+  
+  <Step title="Review Regularly">
+    Quarterly review:
+    - Are categories being used correctly?
+    - Do you need new categories?
+    - Can any be merged or removed?
+  </Step>
+  
+  <Step title="Train Your Team">
+    Provide training on:
+    - How to categorize
+    - Why it matters
+    - Common mistakes to avoid
+  </Step>
+</Steps>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Create Expense Report" icon="file-invoice" href="/help-center/expense-reports/create-report">
+    Group categorized expenses into reports
+  </Card>
+  <Card title="Split Expenses" icon="scissors" href="/help-center/expenses/split-expense">
+    Divide expenses across multiple categories
+  </Card>
+  <Card title="Bulk Actions" icon="list-check" href="/help-center/expenses/bulk-actions">
+    Process multiple expenses at once
+  </Card>
+  <Card title="Category Settings" icon="gear" href="/help-center/settings/categories">
+    Manage categories (Admin)
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+- **Category questions**: Ask your administrator
+- **Tax questions**: Consult your accountant
+- **Technical issues**: [support@smartbills.io](mailto:support@smartbills.io)
+- **Video tutorial**: [Watch categorization guide](https://youtube.com/smartbills/categorize)
+
+---
+
+<Tip>
+  **Pro tip**: Set up category rules for your most common expenses. This saves time and ensures consistency across your team.
+</Tip>
+

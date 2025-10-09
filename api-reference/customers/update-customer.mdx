@@ -1,0 +1,184 @@
+---
+title: "Update Customer"
+api: "PUT https://api.smartbills.io/v1/customers/{id}"
+description: "Update an existing customer's information"
+---
+
+## Overview
+
+Update the details of an existing customer. All fields in the request body will replace the existing values.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `customers.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the customer to update
+</ParamField>
+
+## Request Body
+
+All fields from the create request are supported. Include all fields you want to keep.
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/customers/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe.updated@example.com",
+    "phone": "+1-555-123-4567",
+    "locale": "en-US",
+    "taxExempt": true,
+    "acceptsMarketing": true,
+    "tags": ["vip", "premium", "enterprise"]
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const updatedCustomer = await client.customers.update(12345, {
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe.updated@example.com",
+  phone: "+1-555-123-4567",
+  locale: "en-US",
+  taxExempt: true,
+  acceptsMarketing: true,
+  tags: ["vip", "premium", "enterprise"]
+});
+
+console.log('Updated customer:', updatedCustomer);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+updated_customer = client.customers.update(
+    12345,
+    first_name="John",
+    last_name="Doe",
+    email="john.doe.updated@example.com",
+    phone="+1-555-123-4567",
+    locale="en-US",
+    tax_exempt=True,
+    accepts_marketing=True,
+    tags=["vip", "premium", "enterprise"]
+)
+
+print('Updated customer:', updated_customer)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var updatedCustomer = await client.Customers.UpdateAsync(12345, new CustomerUpdateRequest
+{
+    FirstName = "John",
+    LastName = "Doe",
+    Email = "john.doe.updated@example.com",
+    Phone = "+1-555-123-4567",
+    Locale = "en-US",
+    TaxExempt = true,
+    AcceptsMarketing = true,
+    Tags = new[] { "vip", "premium", "enterprise" }
+});
+
+Console.WriteLine($"Updated customer: {updatedCustomer.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe.updated@example.com",
+  "phone": "+1-555-123-4567",
+  "locale": "en-US",
+  "taxExempt": true,
+  "acceptsMarketing": true,
+  "tags": ["vip", "premium", "enterprise"],
+  "totalSpent": 15420.50,
+  "totalOrders": 47,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Customer not found |
+| 409 | DUPLICATE_EMAIL | Email already used by another customer |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<Warning>
+  **Full Replacement**: The update operation replaces all fields. Include all required fields in your request.
+</Warning>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Fetch Before Update" icon="arrows-rotate">
+    Always fetch the current customer data before updating.
+    
+    ```javascript
+    const current = await client.customers.get(12345);
+    const updated = await client.customers.update(12345, {
+      ...current,
+      email: "new.email@example.com"
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Respect Marketing Preferences" icon="envelope">
+    Be careful when updating `acceptsMarketing` to comply with regulations.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Customer" icon="plus" href="/api-reference/customers/create-customer">
+    Create a new customer
+  </Card>
+  <Card title="Get Customer" icon="eye" href="/api-reference/customers/get-customer">
+    Retrieve a customer by ID
+  </Card>
+  <Card title="List Customers" icon="list" href="/api-reference/customers/list-customers">
+    Get all customers
+  </Card>
+  <Card title="Delete Customer" icon="trash" href="/api-reference/customers/delete-customer">
+    Remove a customer
+  </Card>
+</CardGroup>
+

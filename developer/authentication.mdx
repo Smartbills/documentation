@@ -1,0 +1,135 @@
+---
+title: 'Authentication'
+description: 'Learn about the authentication methods provided by Smartbills, including OAuth2 flows for secure access.'
+---
+
+## Getting Started
+
+To begin, you will need to create an API key from your Smartbills dashboard or contact us to obtain an API key. Head to https://developers.smartbills.io 
+
+### Connected Accounts
+
+To act on behalf of connected accounts, clients can make requests using the special `on-behalf-of` header. Ensure that this header contains a valid Smartbills account ID.
+
+## OAuth2 Authentication
+
+### Client Credentials Flow
+
+Use this flow for server-to-server communication.
+
+**Endpoint:** `https://api.smartbills.io/connect/token`
+
+**Request:**
+
+```http
+POST /connect/token HTTP/1.1
+Host: api.smartbills.io
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET
+```
+
+**Response:**
+
+```json
+{
+  "access_token": "YOUR_ACCESS_TOKEN",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+#### Code Example
+
+<CodeGroup>
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk"
+
+const client = new SBClient();
+const tokenResponse = await client.auth.getToken({
+  grant_type: "client_credentials",
+  client_id: "YOUR_CLIENT_ID",
+  client_secret: "YOUR_CLIENT_SECRET"
+});
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient();
+var tokenResponse = await client.Auth.GetTokenAsync(new TokenRequest
+{
+    GrantType = "client_credentials",
+    ClientId = "YOUR_CLIENT_ID",
+    ClientSecret = "YOUR_CLIENT_SECRET"
+});
+```
+
+</CodeGroup>
+
+### Authorization Code Flow
+
+Use this flow for user authentication.
+
+**Step 1: Redirect to Authorization Endpoint**
+
+```http
+GET /connect/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=YOUR_SCOPES
+Host: api.smartbills.io
+```
+
+**Step 2: Exchange Authorization Code for Access Token**
+
+```http
+POST /connect/token HTTP/1.1
+Host: api.smartbills.io
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=AUTHORIZATION_CODE&redirect_uri=YOUR_REDIRECT_URI&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET
+```
+
+**Response:**
+
+```json
+{
+  "access_token": "YOUR_ACCESS_TOKEN",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "YOUR_REFRESH_TOKEN"
+}
+```
+
+#### Code Example
+
+<CodeGroup>
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk"
+
+const client = new SBClient();
+const tokenResponse = await client.auth.getToken({
+  grant_type: "authorization_code",
+  code: "AUTHORIZATION_CODE",
+  redirect_uri: "YOUR_REDIRECT_URI",
+  client_id: "YOUR_CLIENT_ID",
+  client_secret: "YOUR_CLIENT_SECRET"
+});
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient();
+var tokenResponse = await client.Auth.GetTokenAsync(new TokenRequest
+{
+    GrantType = "authorization_code",
+    Code = "AUTHORIZATION_CODE",
+    RedirectUri = "YOUR_REDIRECT_URI",
+    ClientId = "YOUR_CLIENT_ID",
+    ClientSecret = "YOUR_CLIENT_SECRET"
+});
+```
+
+</CodeGroup>
+

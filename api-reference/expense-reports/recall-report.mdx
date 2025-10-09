@@ -1,0 +1,51 @@
+---
+title: "Recall Expense Report"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/recall"
+description: "Recall a submitted expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="reason" type="string">
+  Reason for recalling the report
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/recall \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "reason": "Need to add additional expenses"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2024 Business Trip",
+  "status": "draft",
+  "recalledAt": "2024-01-31T15:00:00Z",
+  "recallReason": "Need to add additional expenses",
+  "updatedAt": "2024-01-31T15:00:00Z"
+}
+```
+
+</ResponseExample>
+

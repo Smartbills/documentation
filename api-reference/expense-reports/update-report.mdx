@@ -1,0 +1,45 @@
+---
+title: "Update Expense Report"
+api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}"
+description: "Update an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="title" type="string">
+  Updated report title
+</ParamField>
+
+<ParamField body="description" type="string">
+  Updated description
+</ParamField>
+
+<ParamField body="expenseIds" type="array">
+  Updated array of expense IDs
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "title": "January 2024 Business Trip - Updated",
+    "expenseIds": [12345, 12346, 12347, 12348]
+  }'
+```
+
+</RequestExample>
+

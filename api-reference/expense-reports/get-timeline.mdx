@@ -1,0 +1,52 @@
+---
+title: "Get Report Timeline"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/timeline"
+description: "Retrieve the timeline of events for an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/timeline \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "events": [
+    {
+      "type": "created",
+      "userId": 789,
+      "timestamp": "2024-01-31T10:00:00Z"
+    },
+    {
+      "type": "submitted",
+      "userId": 789,
+      "timestamp": "2024-01-31T14:30:00Z"
+    },
+    {
+      "type": "approved",
+      "userId": 100,
+      "timestamp": "2024-02-01T09:00:00Z"
+    }
+  ]
+}
+```
+
+</ResponseExample>
+

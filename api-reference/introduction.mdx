@@ -1,0 +1,240 @@
+---
+title: 'API Reference'
+description: 'Complete reference for the SmartBills API'
+---
+
+## Welcome to the SmartBills API
+
+The SmartBills API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+
+## Base URL
+
+```
+https://api.smartbills.io/v1
+```
+
+## Authentication
+
+The SmartBills API uses JWT Bearer tokens for authentication. Include your API key in the `Authorization` header:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+See the [Authentication guide](/authentication) for more details.
+
+## Request Format
+
+### Headers
+
+All requests should include these headers:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+Content-Type: application/json
+```
+
+### Body
+
+Request bodies should be JSON-encoded:
+
+```json
+{
+  "name": "Office Supplies",
+  "amount": 49.99,
+  "currency": "USD"
+}
+```
+
+## Response Format
+
+### Success Response
+
+Successful responses return HTTP `200` (or `201` for creates) with JSON:
+
+```json
+{
+  "id": 12345,
+  "name": "Office Supplies",
+  "amount": 49.99,
+  "currency": "USD",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+### Error Response
+
+Error responses include an error object:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0"
+      }
+    ]
+  }
+}
+```
+
+## Pagination
+
+List endpoints return paginated results:
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "totalCount": 100,
+    "hasNext": true,
+    "hasPrevious": false
+  }
+}
+```
+
+### Pagination Parameters
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `page` | integer | 1 | Page number |
+| `pageSize` | integer | 20 | Items per page (max: 100) |
+
+## Filtering
+
+Many list endpoints support filtering:
+
+```bash
+GET /v1/expenses?status=pending&minAmount=100&maxAmount=500
+```
+
+## Sorting
+
+Control the sort order with query parameters:
+
+```bash
+GET /v1/expenses?sortBy=date&sortOrder=desc
+```
+
+### Common Sort Fields
+
+- `date` - Transaction date
+- `amount` - Amount
+- `createdAt` - Creation timestamp
+- `updatedAt` - Last update timestamp
+
+## Versioning
+
+The API is versioned via the URL path. The current version is `v1`.
+
+```
+https://api.smartbills.io/v1/expenses
+```
+
+## Rate Limiting
+
+API requests are rate-limited. See [Rate Limits](/developer/rate-limits) for details.
+
+## Timestamps
+
+All timestamps are returned in ISO 8601 format (UTC):
+
+```
+2024-01-15T10:30:00Z
+```
+
+## Currency
+
+Currency amounts are represented as decimal numbers with ISO 4217 currency codes:
+
+```json
+{
+  "amount": 49.99,
+  "currency": "USD"
+}
+```
+
+## IDs
+
+All resources have a unique numeric ID:
+
+```json
+{
+  "id": 12345
+}
+```
+
+## Metadata
+
+Some resources support custom metadata:
+
+```json
+{
+  "metadata": {
+    "customField1": "value1",
+    "customField2": "value2"
+  }
+}
+```
+
+## Idempotency
+
+To safely retry requests, use the `Idempotency-Key` header:
+
+```http
+Idempotency-Key: unique-key-12345
+```
+
+## Webhooks
+
+Receive real-time notifications via webhooks. See [Webhooks](/developer/webhooks) for details.
+
+## SDKs
+
+While we don't provide official SDKs, the API works with standard HTTP libraries in any language.
+
+## Support
+
+- **Documentation**: [docs.smartbills.io](https://docs.smartbills.io)
+- **Email**: [developers@smartbills.io](mailto:developers@smartbills.io)
+- **Status**: [status.smartbills.io](https://status.smartbills.io)
+
+## Quick Links
+
+<CardGroup cols={2}>
+  <Card
+    title="Expenses"
+    icon="receipt"
+    href="/api-reference/expenses/list-expenses"
+  >
+    Manage expenses and receipts
+  </Card>
+  <Card
+    title="Expense Reports"
+    icon="file-invoice"
+    href="/api-reference/expense-reports/list-reports"
+  >
+    Create and manage expense reports
+  </Card>
+  <Card
+    title="Businesses"
+    icon="building"
+    href="/api-reference/businesses/list-businesses"
+  >
+    Manage business entities
+  </Card>
+  <Card
+    title="Users"
+    icon="user"
+    href="/api-reference/user/get-user"
+  >
+    User account management
+  </Card>
+</CardGroup>
+

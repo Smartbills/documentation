@@ -1,0 +1,148 @@
+---
+title: "Create Tax"
+api: "POST https://api.smartbills.io/v1/taxes"
+description: "Create a new tax rate"
+---
+
+## Overview
+
+Create a new tax rate for your business transactions.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `taxes.write`
+
+## Request Body
+
+<ParamField body="name" type="string" required>
+  Tax name (e.g., "GST", "VAT", "Sales Tax")
+</ParamField>
+
+<ParamField body="rate" type="number" required>
+  Tax rate as a percentage (e.g., 5.0 for 5%)
+</ParamField>
+
+<ParamField body="type" type="string" required>
+  Tax type: `sales`, `vat`, `gst`, `hst`, `pst`, `other`
+</ParamField>
+
+<ParamField body="region" type="string">
+  Geographic region where tax applies
+</ParamField>
+
+<ParamField body="isCompound" type="boolean" default="false">
+  Whether this tax is compounded on other taxes
+</ParamField>
+
+<ParamField body="isActive" type="boolean" default="true">
+  Whether the tax is currently active
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Custom metadata
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/taxes \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "GST",
+    "rate": 5.0,
+    "type": "gst",
+    "region": "Canada",
+    "isCompound": false,
+    "isActive": true
+  }'
+```
+
+```javascript JavaScript
+const tax = await client.taxes.create({
+  name: "GST",
+  rate: 5.0,
+  type: "gst",
+  region: "Canada",
+  isCompound: false,
+  isActive: true
+});
+```
+
+```python Python
+tax = client.taxes.create(
+    name="GST",
+    rate=5.0,
+    type="gst",
+    region="Canada",
+    is_compound=False,
+    is_active=True
+)
+```
+
+```csharp C#
+var tax = await client.Taxes.CreateAsync(new TaxCreateRequest
+{
+    Name = "GST",
+    Rate = 5.0m,
+    Type = "gst",
+    Region = "Canada",
+    IsCompound = false,
+    IsActive = true
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "GST",
+  "rate": 5.0,
+  "type": "gst",
+  "region": "Canada",
+  "isCompound": false,
+  "isActive": true,
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Tax Types
+
+| Type | Description |
+|------|-------------|
+| `sales` | Sales tax |
+| `vat` | Value Added Tax |
+| `gst` | Goods and Services Tax |
+| `hst` | Harmonized Sales Tax |
+| `pst` | Provincial Sales Tax |
+| `other` | Other tax types |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Tax" icon="eye" href="/api-reference/taxes/get-tax">
+    Retrieve a tax by ID
+  </Card>
+  <Card title="List Taxes" icon="list" href="/api-reference/taxes/list-taxes">
+    Get all taxes
+  </Card>
+  <Card title="Update Tax" icon="pen" href="/api-reference/taxes/update-tax">
+    Modify tax details
+  </Card>
+  <Card title="Delete Tax" icon="trash" href="/api-reference/taxes/delete-tax">
+    Remove a tax
+  </Card>
+</CardGroup>
+

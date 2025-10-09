@@ -1,0 +1,60 @@
+---
+title: "Submit Expense Report"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/submit"
+description: "Submit an expense report for approval"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Response
+
+Returns the updated expense report with status changed to `submitted`.
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/submit \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.smartbills.io/v1/businesses/456/expense-reports/1001/submit',
+  {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY'
+    }
+  }
+);
+
+const report = await response.json();
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2024 Business Trip",
+  "status": "submitted",
+  "totalAmount": 1234.56,
+  "currency": "USD",
+  "submittedAt": "2024-01-31T14:30:00Z",
+  "updatedAt": "2024-01-31T14:30:00Z"
+}
+```
+
+</ResponseExample>
+

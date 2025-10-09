@@ -1,0 +1,475 @@
+---
+title: 'Guide de démarrage rapide'
+description: 'Démarrez avec l\'API SmartBills en moins de 5 minutes'
+---
+
+## Bienvenue!
+
+Ce guide de démarrage rapide vous aidera à effectuer votre premier appel API à SmartBills en quelques minutes seulement. À la fin de ce guide, vous aurez:
+
+- Créé un compte SmartBills
+- Généré votre clé API
+- Effectué votre première requête API
+- Téléchargé votre première dépense
+
+<Note>
+  **Prérequis**: Vous aurez besoin d'un compte SmartBills pour commencer. Inscrivez-vous gratuitement sur [app.smartbills.io](https://app.smartbills.io/register)
+</Note>
+
+## Étape 1: Créez votre compte
+
+Si vous ne l'avez pas déjà fait, créez votre compte SmartBills:
+
+1. Visitez [app.smartbills.io/register](https://app.smartbills.io/register)
+2. Entrez votre adresse courriel et créez un mot de passe
+3. Vérifiez votre adresse courriel
+4. Complétez la configuration de votre profil
+
+<Check>
+  Vous devriez maintenant avoir accès à votre tableau de bord SmartBills!
+</Check>
+
+## Étape 2: Générez votre clé API
+
+Pour utiliser l'API SmartBills, vous aurez besoin d'une clé API:
+
+1. Connectez-vous à votre [tableau de bord SmartBills](https://app.smartbills.io)
+2. Naviguez vers **Paramètres** → **Développeur** → **Clés API**
+3. Cliquez sur **Créer une nouvelle clé API**
+4. Donnez un nom descriptif à votre clé (par ex., "Clé de développement")
+5. Copiez la clé API et conservez-la en lieu sûr
+
+<Warning>
+  **Important**: Votre clé API n'est affichée qu'une seule fois. Conservez-la dans un endroit sécurisé comme un gestionnaire de mots de passe ou une variable d'environnement. Ne la commitez jamais dans le contrôle de version!
+</Warning>
+
+### Format de clé API
+
+Les clés API suivent ce format:
+- Clés de test: `sk_test_xxxxxxxxxxxxxxxx`
+- Clés en production: `sk_live_xxxxxxxxxxxxxxxx`
+
+<Tip>
+  Utilisez les clés de test pour le développement et les tests. Passez aux clés en production uniquement lorsque vous êtes prêt pour la production.
+</Tip>
+
+## Étape 3: Effectuez votre premier appel API
+
+Vérifions que votre clé API fonctionne en récupérant vos informations utilisateur:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/user \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const apiKey = 'VOTRE_CLE_API';
+
+const response = await fetch('https://api.smartbills.io/v1/user', {
+  method: 'GET',
+  headers: {
+    'Authorization': `Bearer ${apiKey}`,
+    'Content-Type': 'application/json'
+  }
+});
+
+const user = await response.json();
+console.log(user);
+```
+
+```python Python
+import requests
+
+api_key = 'VOTRE_CLE_API'
+
+headers = {
+    'Authorization': f'Bearer {api_key}',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get(
+    'https://api.smartbills.io/v1/user',
+    headers=headers
+)
+
+user = response.json()
+print(user)
+```
+
+```php PHP
+<?php
+$apiKey = 'VOTRE_CLE_API';
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://api.smartbills.io/v1/user');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json'
+]);
+
+$result = curl_exec($ch);
+curl_close($ch);
+
+$user = json_decode($result, true);
+print_r($user);
+?>
+```
+
+```ruby Ruby
+require 'net/http'
+require 'json'
+
+api_key = 'VOTRE_CLE_API'
+uri = URI('https://api.smartbills.io/v1/user')
+
+request = Net::HTTP::Get.new(uri)
+request['Authorization'] = "Bearer #{api_key}"
+request['Content-Type'] = 'application/json'
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+  http.request(request)
+end
+
+user = JSON.parse(response.body)
+puts user
+```
+
+```go Go
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "net/http"
+)
+
+func main() {
+    apiKey := "VOTRE_CLE_API"
+    
+    client := &http.Client{}
+    req, _ := http.NewRequest("GET", "https://api.smartbills.io/v1/user", nil)
+    req.Header.Add("Authorization", "Bearer "+apiKey)
+    req.Header.Add("Content-Type", "application/json")
+    
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+    
+    body, _ := ioutil.ReadAll(resp.Body)
+    fmt.Println(string(body))
+}
+```
+
+</CodeGroup>
+
+### Réponse attendue
+
+```json
+{
+  "id": 12345,
+  "email": "jean.dupont@exemple.com",
+  "firstName": "Jean",
+  "lastName": "Dupont",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "settings": {
+    "currency": "CAD",
+    "timezone": "America/Toronto"
+  }
+}
+```
+
+<Check>
+  **Succès!** Vous avez effectué votre premier appel API à SmartBills.
+</Check>
+
+## Étape 4: Téléchargez votre première dépense
+
+Maintenant, téléchargeons une image de reçu et créons une dépense:
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expenses/upload \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'Content-Type: multipart/form-data' \
+  --form 'file=@/chemin/vers/recu.jpg' \
+  --form 'businessId=123'
+```
+
+```javascript JavaScript
+const apiKey = 'VOTRE_CLE_API';
+const businessId = 123;
+
+// Obtenir le fichier depuis l'élément input
+const fileInput = document.querySelector('input[type="file"]');
+const file = fileInput.files[0];
+
+const formData = new FormData();
+formData.append('file', file);
+formData.append('businessId', businessId);
+
+const response = await fetch('https://api.smartbills.io/v1/expenses/upload', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${apiKey}`
+  },
+  body: formData
+});
+
+const expense = await response.json();
+console.log(expense);
+```
+
+```python Python
+import requests
+
+api_key = 'VOTRE_CLE_API'
+business_id = 123
+
+headers = {
+    'Authorization': f'Bearer {api_key}'
+}
+
+files = {
+    'file': open('/chemin/vers/recu.jpg', 'rb')
+}
+
+data = {
+    'businessId': business_id
+}
+
+response = requests.post(
+    'https://api.smartbills.io/v1/expenses/upload',
+    headers=headers,
+    files=files,
+    data=data
+)
+
+expense = response.json()
+print(expense)
+```
+
+```php PHP
+<?php
+$apiKey = 'VOTRE_CLE_API';
+$businessId = 123;
+
+$ch = curl_init();
+
+$file = new CURLFile('/chemin/vers/recu.jpg');
+$data = [
+    'file' => $file,
+    'businessId' => $businessId
+];
+
+curl_setopt($ch, CURLOPT_URL, 'https://api.smartbills.io/v1/expenses/upload');
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer ' . $apiKey
+]);
+
+$result = curl_exec($ch);
+curl_close($ch);
+
+$expense = json_decode($result, true);
+print_r($expense);
+?>
+```
+
+</CodeGroup>
+
+### Réponse attendue
+
+```json
+{
+  "id": 67890,
+  "businessId": 123,
+  "merchant": "Bureau en Gros",
+  "amount": 49.99,
+  "currency": "CAD",
+  "date": "2024-01-15",
+  "category": "Fournitures de bureau",
+  "status": "pending",
+  "attachments": [
+    {
+      "id": 1,
+      "filename": "recu.jpg",
+      "url": "https://cdn.smartbills.io/receipts/..."
+    }
+  ],
+  "createdAt": "2024-01-15T14:30:00Z"
+}
+```
+
+<Check>
+  **Génial!** SmartBills a automatiquement extrait les informations de votre reçu grâce à la technologie OCR.
+</Check>
+
+## Étape 5: Créez une entreprise (Optionnel)
+
+Si vous n'avez pas encore créé d'entreprise, voici comment faire:
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "Mon Entreprise Inc.",
+    "currency": "CAD",
+    "timezone": "America/Toronto"
+  }'
+```
+
+```javascript JavaScript
+const apiKey = 'VOTRE_CLE_API';
+
+const response = await fetch('https://api.smartbills.io/v1/businesses', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${apiKey}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'Mon Entreprise Inc.',
+    currency: 'CAD',
+    timezone: 'America/Toronto'
+  })
+});
+
+const business = await response.json();
+console.log(business);
+```
+
+```python Python
+import requests
+
+api_key = 'VOTRE_CLE_API'
+
+headers = {
+    'Authorization': f'Bearer {api_key}',
+    'Content-Type': 'application/json'
+}
+
+data = {
+    'name': 'Mon Entreprise Inc.',
+    'currency': 'CAD',
+    'timezone': 'America/Toronto'
+}
+
+response = requests.post(
+    'https://api.smartbills.io/v1/businesses',
+    headers=headers,
+    json=data
+)
+
+business = response.json()
+print(business)
+```
+
+</CodeGroup>
+
+## Et maintenant?
+
+Félicitations! Vous avez réussi à:
+- ✅ Créer un compte SmartBills
+- ✅ Générer une clé API
+- ✅ Effectuer votre premier appel API
+- ✅ Télécharger une dépense
+
+### Continuez l'apprentissage
+
+<CardGroup cols={2}>
+  <Card
+    title="Authentification"
+    icon="key"
+    href="/authentication"
+  >
+    Apprenez-en plus sur les clés API, les meilleures pratiques de sécurité et les permissions
+  </Card>
+  <Card
+    title="Référence API"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explorez tous les endpoints et fonctionnalités disponibles
+  </Card>
+  <Card
+    title="Rapports de dépenses"
+    icon="file-invoice"
+    href="/api-reference/expense-reports/create-report"
+  >
+    Apprenez à créer et gérer des rapports de dépenses
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/developer/webhooks"
+  >
+    Configurez des notifications d'événements en temps réel
+  </Card>
+</CardGroup>
+
+### Prochaines étapes courantes
+
+1. **Créer un rapport de dépenses**: Regroupez des dépenses pour soumission
+   ```bash
+   POST /v1/expense-reports
+   ```
+
+2. **Listez vos dépenses**: Récupérez toutes les dépenses avec filtrage
+   ```bash
+   GET /v1/expenses?status=pending&page=1&pageSize=20
+   ```
+
+3. **Mettez à jour une dépense**: Modifiez les détails d'une dépense
+   ```bash
+   PATCH /v1/expenses/{expenseId}
+   ```
+
+4. **Configurez des Webhooks**: Recevez des notifications en temps réel
+   ```bash
+   POST /v1/webhooks
+   ```
+
+## Besoin d'aide?
+
+<AccordionGroup>
+  <Accordion title="Problèmes courants" icon="circle-question">
+    **Erreur 401 Non autorisé**: Vérifiez que votre clé API est correcte et correctement formatée dans l'en-tête Authorization.
+    
+    **404 Non trouvé**: Vérifiez que vous utilisez la bonne URL de base: `https://api.smartbills.io/v1`
+    
+    **Échec du téléchargement de fichier**: Assurez-vous d'utiliser le type de contenu `multipart/form-data` et que le fichier fait moins de 10Mo.
+  </Accordion>
+
+  <Accordion title="Obtenir du support" icon="headset">
+    - **Documentation**: Parcourez notre [Centre d'aide](/help-center/overview)
+    - **Courriel**: [developers@smartbills.io](mailto:developers@smartbills.io)
+    - **Communauté**: Rejoignez notre [communauté Slack](https://community.smartbills.io)
+    - **Statut**: Consultez [status.smartbills.io](https://status.smartbills.io)
+  </Accordion>
+</AccordionGroup>
+
+## Exemples de code
+
+Vous voulez voir des exemples plus complexes? Consultez ces ressources:
+
+- **Exemples GitHub**: [github.com/smartbills/examples](https://github.com/smartbills/examples)
+- **Collection Postman**: [Importez notre collection Postman](https://www.postman.com/smartbills)
+- **Projets exemples**: Exemples d'intégration complets dans divers frameworks
+
+<Tip>
+  Mettez nos dépôts GitHub en favoris pour rester à jour avec les nouveaux exemples et le code d'exemple!
+</Tip>
+

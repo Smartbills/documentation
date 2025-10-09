@@ -1,0 +1,104 @@
+---
+title: "List Promo Codes"
+api: "GET https://api.smartbills.io/v1/promo-codes"
+description: "Retrieve a paginated list of promo codes"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `promo-codes.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Items per page (max: 100)
+</ParamField>
+
+<ParamField query="isActive" type="boolean">
+  Filter by active status
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search by code or description
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/promo-codes?isActive=true' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await client.promoCodes.list({
+  isActive: true
+});
+```
+
+```python Python
+response = client.promo_codes.list(is_active=True)
+```
+
+```csharp C#
+var response = await client.PromoCodes.ListAsync(new PromoCodeListRequest
+{
+    IsActive = true
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "code": "SUMMER2024",
+      "discountType": "percentage",
+      "discountValue": 20,
+      "usageCount": 245,
+      "usageLimit": 1000,
+      "isActive": true
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 2,
+    "count": 35
+  }
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Promo Code" icon="plus" href="/api-reference/promo-codes/create-promo-code">
+    Create a new promo code
+  </Card>
+  <Card title="Get Promo Code" icon="eye" href="/api-reference/promo-codes/get-promo-code">
+    Retrieve a promo code by ID
+  </Card>
+  <Card title="Validate Promo Code" icon="check" href="/api-reference/promo-codes/validate-promo-code">
+    Validate a promo code
+  </Card>
+  <Card title="Update Promo Code" icon="pen" href="/api-reference/promo-codes/update-promo-code">
+    Modify promo code
+  </Card>
+</CardGroup>
+

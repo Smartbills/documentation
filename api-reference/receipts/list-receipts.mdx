@@ -1,0 +1,129 @@
+---
+title: "List Receipts"
+api: "GET https://api.smartbills.io/v1/receipts"
+description: "Retrieve a paginated list of receipts"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `receipts.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Items per page (max: 100)
+</ParamField>
+
+<ParamField query="merchantId" type="integer">
+  Filter by merchant ID
+</ParamField>
+
+<ParamField query="locationId" type="integer">
+  Filter by location ID
+</ParamField>
+
+<ParamField query="customerId" type="integer">
+  Filter by customer ID
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Filter receipts from this date (ISO 8601)
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  Filter receipts until this date (ISO 8601)
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by status: `completed`, `pending`, `cancelled`
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/receipts?page=1&pageSize=20&status=completed' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await client.receipts.list({
+  page: 1,
+  pageSize: 20,
+  status: 'completed'
+});
+```
+
+```python Python
+response = client.receipts.list(
+    page=1,
+    page_size=20,
+    status='completed'
+)
+```
+
+```csharp C#
+var response = await client.Receipts.ListAsync(new ReceiptListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    Status = "completed"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "receiptNumber": "RCP-2024-001",
+      "receiptDate": "2024-01-15T14:30:00Z",
+      "total": {
+        "amount": 108.50,
+        "currency": "USD"
+      },
+      "status": "completed"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 15,
+    "count": 287
+  }
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Receipt" icon="plus" href="/api-reference/receipts/create-receipt">
+    Create a new receipt
+  </Card>
+  <Card title="Get Receipt" icon="eye" href="/api-reference/receipts/get-receipt">
+    Retrieve a receipt by ID
+  </Card>
+  <Card title="Update Receipt" icon="pen" href="/api-reference/receipts/update-receipt">
+    Modify receipt details
+  </Card>
+  <Card title="Delete Receipt" icon="trash" href="/api-reference/receipts/delete-receipt">
+    Remove a receipt
+  </Card>
+</CardGroup>
+

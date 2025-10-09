@@ -1,0 +1,133 @@
+---
+title: "Delete Employee"
+api: "DELETE https://api.smartbills.io/v1/employees/{id}"
+description: "Delete an employee from your account"
+---
+
+## Overview
+
+Permanently delete an employee from your Smartbills account. This action cannot be undone.
+
+<Warning>
+  **Destructive Action**: Deleting an employee is permanent. Consider marking them as inactive instead.
+</Warning>
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `employees.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the employee to delete
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/employees/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const deletedEmployee = await client.employees.delete(12345);
+console.log('Deleted employee:', deletedEmployee);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+deleted_employee = client.employees.delete(12345)
+print('Deleted employee:', deleted_employee)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var deletedEmployee = await client.Employees.DeleteAsync(12345);
+Console.WriteLine($"Deleted employee: {deletedEmployee.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T14:22:00Z",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Employee not found |
+| 409 | CONFLICT | Cannot delete employee with active transactions |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Important Considerations
+
+<AccordionGroup>
+  <Accordion title="Prefer Deactivation" icon="toggle-off">
+    Instead of deleting, consider marking the employee as inactive:
+    
+    ```javascript
+    await client.employees.update(12345, {
+      ...employee,
+      isActive: false
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Historical Data" icon="clock">
+    Deleting an employee may affect historical sales reports and analytics.
+  </Accordion>
+
+  <Accordion title="Associated Receipts" icon="receipt">
+    Check for associated receipts before deletion to maintain data integrity.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Employee" icon="plus" href="/api-reference/employees/create-employee">
+    Create a new employee
+  </Card>
+  <Card title="Get Employee" icon="eye" href="/api-reference/employees/get-employee">
+    Retrieve an employee by ID
+  </Card>
+  <Card title="List Employees" icon="list" href="/api-reference/employees/list-employees">
+    Get all employees
+  </Card>
+  <Card title="Update Employee" icon="pen" href="/api-reference/employees/update-employee">
+    Modify employee details
+  </Card>
+</CardGroup>
+

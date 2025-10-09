@@ -1,0 +1,91 @@
+---
+title: "Update Receipt"
+api: "PUT https://api.smartbills.io/v1/receipts/{id}"
+description: "Update an existing receipt"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `receipts.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the receipt to update
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/receipts/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "notes": "Updated notes for this receipt",
+    "status": "completed"
+  }'
+```
+
+```javascript JavaScript
+const updated = await client.receipts.update(12345, {
+  notes: "Updated notes for this receipt",
+  status: "completed"
+});
+```
+
+```python Python
+updated = client.receipts.update(
+    12345,
+    notes="Updated notes for this receipt",
+    status="completed"
+)
+```
+
+```csharp C#
+var updated = await client.Receipts.UpdateAsync(12345, new ReceiptUpdateRequest
+{
+    Notes = "Updated notes for this receipt",
+    Status = "completed"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "receiptNumber": "RCP-2024-001",
+  "notes": "Updated notes for this receipt",
+  "status": "completed",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Receipt" icon="plus" href="/api-reference/receipts/create-receipt">
+    Create a new receipt
+  </Card>
+  <Card title="Get Receipt" icon="eye" href="/api-reference/receipts/get-receipt">
+    Retrieve a receipt by ID
+  </Card>
+  <Card title="List Receipts" icon="list" href="/api-reference/receipts/list-receipts">
+    Get all receipts
+  </Card>
+  <Card title="Delete Receipt" icon="trash" href="/api-reference/receipts/delete-receipt">
+    Remove a receipt
+  </Card>
+</CardGroup>
+

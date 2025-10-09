@@ -1,0 +1,28 @@
+---
+title: "Get My Expense Reports"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/me"
+description: "Retrieve the current user's expense reports"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="status" type="string">
+  Filter by status
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/expense-reports/me?status=pending' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+

@@ -1,0 +1,273 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate with the SmartBills API'
+---
+
+## Overview
+
+SmartBills API uses **JWT Bearer tokens** for authentication. All API requests must include a valid API key in the Authorization header.
+
+## API Keys
+
+API keys are the primary method of authenticating with the SmartBills API. Each key is associated with a user account and inherits the permissions of that account.
+
+### Getting Your API Key
+
+1. Log in to [app.smartbills.io](https://app.smartbills.io)
+2. Navigate to **Settings** → **Developer** → **API Keys**
+3. Click **Generate New API Key**
+4. Give your key a descriptive name (e.g., "Production Server")
+5. Copy the key immediately (it won't be shown again)
+
+<Warning>
+  Store your API keys securely! They provide full access to your account.
+</Warning>
+
+### Using Your API Key
+
+Include your API key in the `Authorization` header of every request:
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/user \
+  --header 'Authorization: Bearer sk_live_1234567890abcdef' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const headers = {
+  'Authorization': 'Bearer sk_live_1234567890abcdef',
+  'Content-Type': 'application/json'
+};
+
+fetch('https://api.smartbills.io/v1/user', {
+  method: 'GET',
+  headers: headers
+});
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer sk_live_1234567890abcdef',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get('https://api.smartbills.io/v1/user', headers=headers)
+```
+
+</CodeGroup>
+
+## API Key Types
+
+SmartBills provides two types of API keys:
+
+### Test Keys
+- Prefix: `sk_test_`
+- Use for development and testing
+- Safe to use with test data
+- No real charges or processing
+
+### Live Keys
+- Prefix: `sk_live_`
+- Use in production environments
+- Process real expenses and data
+- Keep highly secure
+
+<Tip>
+  Always use test keys during development and only switch to live keys when you're ready for production.
+</Tip>
+
+## Scopes and Permissions
+
+API keys inherit the permissions of the user who created them. The available scopes include:
+
+<AccordionGroup>
+  <Accordion title="Business Scopes" icon="building">
+    - `business:read` - Read business information
+    - `business:write` - Create and update businesses
+    - `business:delete` - Delete businesses
+  </Accordion>
+
+  <Accordion title="Expense Scopes" icon="receipt">
+    - `expenses:read` - Read expenses
+    - `expenses:write` - Create and update expenses
+    - `expenses:delete` - Delete expenses
+  </Accordion>
+
+  <Accordion title="Expense Report Scopes" icon="file-invoice">
+    - `expense_reports:read` - Read expense reports
+    - `expense_reports:write` - Create and update expense reports
+    - `expense_reports:approve` - Approve or reject expense reports
+  </Accordion>
+
+  <Accordion title="User Scopes" icon="user">
+    - `user:read` - Read user information
+    - `user:write` - Update user information
+  </Accordion>
+</AccordionGroup>
+
+## Security Best Practices
+
+### Do's ✅
+- Store API keys in environment variables
+- Use different keys for development and production
+- Rotate keys regularly (every 90 days recommended)
+- Revoke keys immediately if compromised
+- Use HTTPS for all API requests
+
+### Don'ts ❌
+- Never commit API keys to version control
+- Don't expose keys in client-side code
+- Don't share keys between applications
+- Don't hardcode keys in your source code
+
+## Key Management
+
+### Rotating Keys
+
+To rotate your API key:
+
+1. Generate a new API key
+2. Update your application to use the new key
+3. Test thoroughly with the new key
+4. Revoke the old key once migration is complete
+
+### Revoking Keys
+
+If a key is compromised:
+
+1. Go to **Settings** → **Developer** → **API Keys**
+2. Find the compromised key
+3. Click **Revoke**
+4. Generate a new key immediately
+
+## Rate Limiting
+
+API requests are rate-limited by API key. See [Rate Limits](/developer/rate-limits) for details.
+
+## Error Codes
+
+### Authentication Errors
+
+| Code | Message | Solution |
+|------|---------|----------|
+| 401 | Invalid API key | Check that your API key is correct |
+| 401 | API key expired | Generate a new API key |
+| 403 | Insufficient permissions | Check your API key scopes |
+| 403 | API key revoked | Generate a new API key |
+
+## Example: Full Authentication Flow
+
+<CodeGroup>
+
+```javascript JavaScript
+// Store your API key securely
+const API_KEY = process.env.SMARTBILLS_API_KEY;
+
+// Create a reusable fetch function
+async function smartbillsAPI(endpoint, options = {}) {
+  const url = `https://api.smartbills.io/v1${endpoint}`;
+  
+  const headers = {
+    'Authorization': `Bearer ${API_KEY}`,
+    'Content-Type': 'application/json',
+    ...options.headers
+  };
+  
+  const response = await fetch(url, {
+    ...options,
+    headers
+  });
+  
+  if (!response.ok) {
+    throw new Error(`API error: ${response.status}`);
+  }
+  
+  return response.json();
+}
+
+// Usage
+const user = await smartbillsAPI('/user');
+const expenses = await smartbillsAPI('/expenses');
+```
+
+```python Python
+import os
+import requests
+
+# Store your API key securely
+API_KEY = os.environ.get('SMARTBILLS_API_KEY')
+BASE_URL = 'https://api.smartbills.io/v1'
+
+class SmartBillsClient:
+    def __init__(self, api_key):
+        self.api_key = api_key
+        self.session = requests.Session()
+        self.session.headers.update({
+            'Authorization': f'Bearer {api_key}',
+            'Content-Type': 'application/json'
+        })
+    
+    def request(self, method, endpoint, **kwargs):
+        url = f'{BASE_URL}{endpoint}'
+        response = self.session.request(method, url, **kwargs)
+        response.raise_for_status()
+        return response.json()
+    
+    def get(self, endpoint, **kwargs):
+        return self.request('GET', endpoint, **kwargs)
+    
+    def post(self, endpoint, **kwargs):
+        return self.request('POST', endpoint, **kwargs)
+
+# Usage
+client = SmartBillsClient(API_KEY)
+user = client.get('/user')
+expenses = client.get('/expenses')
+```
+
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="API Keys Guide"
+    icon="key"
+    href="/developer/api-keys"
+  >
+    Learn more about managing API keys
+  </Card>
+  <Card
+    title="Rate Limits"
+    icon="gauge"
+    href="/developer/rate-limits"
+  >
+    Understand rate limiting
+  </Card>
+  <Card
+    title="Errors"
+    icon="triangle-exclamation"
+    href="/developer/errors"
+  >
+    Handle errors effectively
+  </Card>
+  <Card
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Make your first API call
+  </Card>
+</CardGroup>
+

@@ -1,0 +1,22 @@
+---
+title: "Get Business"
+api: "GET https://api.smartbills.io/v1/businesses/{id}"
+description: "Retrieve a specific business"
+---
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  Business ID
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+

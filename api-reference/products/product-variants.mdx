@@ -1,0 +1,366 @@
+---
+title: "Product Variants"
+description: "Manage product variants for different sizes, colors, and configurations"
+---
+
+## Overview
+
+Product variants allow you to offer different versions of a product (e.g., different sizes, colors, or configurations) while keeping them organized under a single product.
+
+## What are Product Variants?
+
+Variants are different versions of the same product that share common attributes but differ in specific ways:
+
+- **Sizes**: Small, Medium, Large, XL
+- **Colors**: Red, Blue, Green, Black
+- **Materials**: Cotton, Polyester, Wool
+- **Configurations**: 128GB, 256GB, 512GB
+
+## Variant Structure
+
+Each variant includes:
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the variant
+</ResponseField>
+
+<ResponseField name="productId" type="integer">
+  ID of the parent product
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Variant title (e.g., "Large / Blue")
+</ResponseField>
+
+<ResponseField name="sku" type="string">
+  Stock Keeping Unit for inventory tracking
+</ResponseField>
+
+<ResponseField name="price" type="object">
+  Price object with amount and currency
+</ResponseField>
+
+<ResponseField name="compareAtPrice" type="object">
+  Original price for showing discounts
+</ResponseField>
+
+<ResponseField name="inventoryQuantity" type="integer">
+  Available quantity in stock
+</ResponseField>
+
+<ResponseField name="weight" type="number">
+  Weight of the variant
+</ResponseField>
+
+<ResponseField name="weightUnit" type="string">
+  Unit of weight (kg, lb, oz, g)
+</ResponseField>
+
+<ResponseField name="requiresShipping" type="boolean">
+  Whether the variant requires shipping
+</ResponseField>
+
+<ResponseField name="taxable" type="boolean">
+  Whether the variant is taxable
+</ResponseField>
+
+<ResponseField name="barcode" type="string">
+  Barcode (UPC, EAN, ISBN, etc.)
+</ResponseField>
+
+<ResponseField name="options" type="object">
+  Key-value pairs for variant options (e.g., {"size": "Large", "color": "Blue"})
+</ResponseField>
+
+## Creating Products with Variants
+
+When creating a product, include variants in the request:
+
+```javascript
+const product = await client.products.create({
+  name: "Classic T-Shirt",
+  description: "Comfortable cotton t-shirt",
+  variants: [
+    {
+      title: "Small / Black",
+      sku: "TSHIRT-S-BLK",
+      price: { amount: 19.99, currency: "USD" },
+      inventoryQuantity: 50,
+      options: {
+        size: "Small",
+        color: "Black"
+      }
+    },
+    {
+      title: "Medium / Black",
+      sku: "TSHIRT-M-BLK",
+      price: { amount: 19.99, currency: "USD" },
+      inventoryQuantity: 75,
+      options: {
+        size: "Medium",
+        color: "Black"
+      }
+    },
+    {
+      title: "Large / Black",
+      sku: "TSHIRT-L-BLK",
+      price: { amount: 19.99, currency: "USD" },
+      inventoryQuantity: 60,
+      options: {
+        size: "Large",
+        color: "Black"
+      }
+    }
+  ]
+});
+```
+
+## Variant Pricing
+
+Variants can have different prices:
+
+```javascript
+{
+  variants: [
+    {
+      title: "128GB",
+      price: { amount: 699.99, currency: "USD" }
+    },
+    {
+      title: "256GB",
+      price: { amount: 799.99, currency: "USD" }
+    },
+    {
+      title: "512GB",
+      price: { amount: 999.99, currency: "USD" }
+    }
+  ]
+}
+```
+
+## Showing Discounts
+
+Use `compareAtPrice` to show original prices and discounts:
+
+```javascript
+{
+  title: "Large / Red",
+  price: { amount: 15.99, currency: "USD" },
+  compareAtPrice: { amount: 24.99, currency: "USD" }
+  // Shows: $15.99 (was $24.99) - 36% off
+}
+```
+
+## Inventory Management
+
+Track inventory for each variant:
+
+```javascript
+{
+  title: "Medium / Blue",
+  sku: "TSHIRT-M-BLU",
+  inventoryQuantity: 25,
+  // When sold, update:
+  // inventoryQuantity: 24
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Descriptive Titles" icon="text">
+    Make variant titles clear and descriptive: "Large / Blue" instead of "Variant 1"
+  </Accordion>
+
+  <Accordion title="Unique SKUs" icon="barcode">
+    Assign unique SKUs to each variant for inventory tracking
+    
+    ```javascript
+    // Good SKU pattern
+    "PRODUCT-SIZE-COLOR"
+    "TSHIRT-L-BLU"
+    "SHOE-10-BLK"
+    ```
+  </Accordion>
+
+  <Accordion title="Consistent Options" icon="layer-group">
+    Use consistent option names across all variants of a product
+    
+    ```javascript
+    // Good: Consistent options
+    { size: "Small", color: "Red" }
+    { size: "Medium", color: "Red" }
+    
+    // Avoid: Inconsistent options
+    { size: "Small", color: "Red" }
+    { Size: "Medium", colour: "Red" }  // Different casing/spelling
+    ```
+  </Accordion>
+
+  <Accordion title="Set Realistic Inventory" icon="boxes-stacked">
+    Always set accurate inventory quantities and update them as sales occur
+  </Accordion>
+
+  <Accordion title="Include Weight for Shipping" icon="weight-hanging">
+    Include weight information for variants that require shipping
+    
+    ```javascript
+    {
+      weight: 0.5,
+      weightUnit: "kg",
+      requiresShipping: true
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Example: Complete Product with Variants
+
+```json
+{
+  "name": "Premium Hoodie",
+  "description": "Comfortable cotton blend hoodie",
+  "category": "Apparel",
+  "variants": [
+    {
+      "title": "Small / Black",
+      "sku": "HOODIE-S-BLK",
+      "price": {
+        "amount": 49.99,
+        "currency": "USD"
+      },
+      "compareAtPrice": {
+        "amount": 69.99,
+        "currency": "USD"
+      },
+      "inventoryQuantity": 30,
+      "weight": 0.6,
+      "weightUnit": "kg",
+      "requiresShipping": true,
+      "taxable": true,
+      "barcode": "123456789012",
+      "options": {
+        "size": "Small",
+        "color": "Black"
+      }
+    },
+    {
+      "title": "Medium / Black",
+      "sku": "HOODIE-M-BLK",
+      "price": {
+        "amount": 49.99,
+        "currency": "USD"
+      },
+      "compareAtPrice": {
+        "amount": 69.99,
+        "currency": "USD"
+      },
+      "inventoryQuantity": 45,
+      "weight": 0.65,
+      "weightUnit": "kg",
+      "requiresShipping": true,
+      "taxable": true,
+      "barcode": "123456789013",
+      "options": {
+        "size": "Medium",
+        "color": "Black"
+      }
+    },
+    {
+      "title": "Large / Black",
+      "sku": "HOODIE-L-BLK",
+      "price": {
+        "amount": 49.99,
+        "currency": "USD"
+      },
+      "compareAtPrice": {
+        "amount": 69.99,
+        "currency": "USD"
+      },
+      "inventoryQuantity": 40,
+      "weight": 0.7,
+      "weightUnit": "kg",
+      "requiresShipping": true,
+      "taxable": true,
+      "barcode": "123456789014",
+      "options": {
+        "size": "Large",
+        "color": "Black"
+      }
+    }
+  ]
+}
+```
+
+## Common Variant Patterns
+
+### Size Variants
+
+```javascript
+{
+  variants: [
+    { title: "XS", options: { size: "XS" } },
+    { title: "S", options: { size: "S" } },
+    { title: "M", options: { size: "M" } },
+    { title: "L", options: { size: "L" } },
+    { title: "XL", options: { size: "XL" } },
+    { title: "XXL", options: { size: "XXL" } }
+  ]
+}
+```
+
+### Color Variants
+
+```javascript
+{
+  variants: [
+    { title: "Black", options: { color: "Black" } },
+    { title: "White", options: { color: "White" } },
+    { title: "Navy", options: { color: "Navy" } },
+    { title: "Gray", options: { color: "Gray" } }
+  ]
+}
+```
+
+### Size + Color Combinations
+
+```javascript
+{
+  variants: [
+    { title: "Small / Black", options: { size: "Small", color: "Black" } },
+    { title: "Small / White", options: { size: "Small", color: "White" } },
+    { title: "Medium / Black", options: { size: "Medium", color: "Black" } },
+    { title: "Medium / White", options: { size: "Medium", color: "White" } }
+  ]
+}
+```
+
+### Capacity Variants
+
+```javascript
+{
+  variants: [
+    { title: "64GB", options: { capacity: "64GB" }, price: { amount: 599.99, currency: "USD" } },
+    { title: "128GB", options: { capacity: "128GB" }, price: { amount: 699.99, currency: "USD" } },
+    { title: "256GB", options: { capacity: "256GB" }, price: { amount: 799.99, currency: "USD" } }
+  ]
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Product" icon="plus" href="/api-reference/products/create-product">
+    Create a product with variants
+  </Card>
+  <Card title="Update Product" icon="pen" href="/api-reference/products/update-product">
+    Update product and variants
+  </Card>
+  <Card title="Get Product" icon="eye" href="/api-reference/products/get-product">
+    View product with all variants
+  </Card>
+  <Card title="List Products" icon="list" href="/api-reference/products/list-products">
+    Browse all products
+  </Card>
+</CardGroup>
+

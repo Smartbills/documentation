@@ -1,0 +1,112 @@
+---
+title: "Validate Expense"
+api: "POST https://api.smartbills.io/v1/expenses/validate"
+description: "Validate expense data before uploading"
+---
+
+## Request Body
+
+This endpoint accepts `multipart/form-data` for file uploads.
+
+<ParamField body="file" type="file" required>
+  The receipt or invoice file to validate
+</ParamField>
+
+## Response
+
+Returns validation results without creating an expense.
+
+<ResponseField name="valid" type="boolean">
+  Whether the file is valid for upload
+</ResponseField>
+
+<ResponseField name="errors" type="array">
+  Array of validation errors (if any)
+</ResponseField>
+
+<ResponseField name="warnings" type="array">
+  Array of validation warnings
+</ResponseField>
+
+<ResponseField name="fileInfo" type="object">
+  Information about the uploaded file
+  
+  <Expandable title="File Info">
+    <ResponseField name="size" type="integer">
+      File size in bytes
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      MIME type
+    </ResponseField>
+
+    <ResponseField name="format" type="string">
+      File format (PDF, JPG, PNG, etc.)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expenses/validate \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: multipart/form-data' \
+  --form 'file=@/path/to/receipt.pdf'
+```
+
+```javascript JavaScript
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+
+const response = await fetch(
+  'https://api.smartbills.io/v1/expenses/validate',
+  {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY'
+    },
+    body: formData
+  }
+);
+
+const validation = await response.json();
+console.log(validation);
+```
+
+```python Python
+import requests
+
+url = 'https://api.smartbills.io/v1/expenses/validate'
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY'
+}
+files = {
+    'file': open('/path/to/receipt.pdf', 'rb')
+}
+
+response = requests.post(url, headers=headers, files=files)
+validation = response.json()
+print(validation)
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [],
+  "fileInfo": {
+    "size": 245678,
+    "type": "application/pdf",
+    "format": "PDF"
+  }
+}
+```
+
+</ResponseExample>
+

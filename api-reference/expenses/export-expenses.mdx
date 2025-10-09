@@ -1,0 +1,159 @@
+---
+title: "Export Expenses"
+api: "POST https://api.smartbills.io/v1/expenses/export"
+description: "Export expenses to various formats (CSV, Excel, PDF)"
+---
+
+## Request Body
+
+<ParamField body="expenseIds" type="array">
+  Array of expense IDs to export (leave empty to export all)
+</ParamField>
+
+<ParamField body="format" type="string" required>
+  Export format: `csv`, `excel`, `pdf`
+</ParamField>
+
+<ParamField body="filters" type="object">
+  Filter criteria for expenses
+  
+  <Expandable title="Filters">
+    <ParamField body="startDate" type="string">
+      Filter from this date
+    </ParamField>
+
+    <ParamField body="endDate" type="string">
+      Filter until this date
+    </ParamField>
+
+    <ParamField body="status" type="string">
+      Filter by status
+    </ParamField>
+
+    <ParamField body="category" type="string">
+      Filter by category
+    </ParamField>
+
+    <ParamField body="minAmount" type="number">
+      Minimum amount
+    </ParamField>
+
+    <ParamField body="maxAmount" type="number">
+      Maximum amount
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="includeAttachments" type="boolean" default="false">
+  Include receipt attachments in export (PDF only)
+</ParamField>
+
+<ParamField body="columns" type="array">
+  Columns to include in export (default: all)
+  
+  Available columns: `date`, `merchant`, `amount`, `currency`, `category`, `status`, `description`, `tags`
+</ParamField>
+
+## Response
+
+Returns the exported file in the requested format.
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expenses/export \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "format": "excel",
+    "filters": {
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "status": "approved"
+    },
+    "columns": ["date", "merchant", "amount", "category", "status"]
+  }' \
+  --output expenses.xlsx
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.smartbills.io/v1/expenses/export',
+  {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      format: 'excel',
+      filters: {
+        startDate: '2024-01-01',
+        endDate: '2024-01-31',
+        status: 'approved'
+      },
+      columns: ['date', 'merchant', 'amount', 'category', 'status']
+    })
+  }
+);
+
+const blob = await response.blob();
+const url = window.URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'expenses.xlsx';
+a.click();
+```
+
+```python Python
+import requests
+
+url = 'https://api.smartbills.io/v1/expenses/export'
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+data = {
+    'format': 'excel',
+    'filters': {
+        'startDate': '2024-01-01',
+        'endDate': '2024-01-31',
+        'status': 'approved'
+    },
+    'columns': ['date', 'merchant', 'amount', 'category', 'status']
+}
+
+response = requests.post(url, headers=headers, json=data)
+with open('expenses.xlsx', 'wb') as f:
+    f.write(response.content)
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```text Response Headers (Excel)
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.xlsx"
+Content-Length: 45678
+```
+
+```text Response Headers (CSV)
+Content-Type: text/csv
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.csv"
+Content-Length: 12345
+```
+
+```text Response Headers (PDF)
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.pdf"
+Content-Length: 234567
+```
+
+</ResponseExample>
+
+<Tip>
+  PDF exports with `includeAttachments: true` will include all receipt images in the document.
+</Tip>
+

@@ -1,0 +1,647 @@
+---
+title: 'Pagination'
+description: 'Learn how to paginate through large result sets in the SmartBills API'
+---
+
+## Overview
+
+All SmartBills API list endpoints support pagination to help you efficiently retrieve large datasets. We use cursor-based pagination for optimal performance and consistency.
+
+<Note>
+  **Cursor-based pagination**: SmartBills uses cursor-based pagination rather than offset-based pagination for better performance and reliability with large datasets.
+</Note>
+
+## How Pagination Works
+
+### Request Parameters
+
+All list endpoints accept these pagination parameters:
+
+<ParamField query="page" type="integer" default="1">
+  Page number to retrieve (starts at 1)
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="20">
+  Number of items per page
+  
+  - Minimum: 1
+  - Maximum: 100
+  - Default: 20
+</ParamField>
+
+### Response Format
+
+Paginated responses include both data and pagination metadata:
+
+```json
+{
+  "data": [
+    // Array of objects
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "totalCount": 95,
+    "hasNext": true,
+    "hasPrevious": false
+  }
+}
+```
+
+### Pagination Object
+
+<ResponseField name="pagination" type="object">
+  Pagination metadata
+  
+  <Expandable title="Properties">
+    <ResponseField name="page" type="integer">
+      Current page number
+    </ResponseField>
+    
+    <ResponseField name="pageSize" type="integer">
+      Number of items per page
+    </ResponseField>
+    
+    <ResponseField name="totalPages" type="integer">
+      Total number of pages available
+    </ResponseField>
+    
+    <ResponseField name="totalCount" type="integer">
+      Total number of items across all pages
+    </ResponseField>
+    
+    <ResponseField name="hasNext" type="boolean">
+      Whether there is a next page available
+    </ResponseField>
+    
+    <ResponseField name="hasPrevious" type="boolean">
+      Whether there is a previous page available
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Basic Examples
+
+### First Page
+
+Retrieve the first page of results:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/expenses?page=1&pageSize=20' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.smartbills.io/v1/expenses?page=1&pageSize=20',
+  {
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY'
+    }
+  }
+);
+
+const result = await response.json();
+console.log(`Page ${result.pagination.page} of ${result.pagination.totalPages}`);
+console.log(`Total items: ${result.pagination.totalCount}`);
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    'https://api.smartbills.io/v1/expenses',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    params={'page': 1, 'pageSize': 20}
+)
+
+result = response.json()
+print(f"Page {result['pagination']['page']} of {result['pagination']['totalPages']}")
+print(f"Total items: {result['pagination']['totalCount']}")
+```
+
+</CodeGroup>
+
+### Next Page
+
+Navigate to the next page:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/expenses?page=2&pageSize=20' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+// Check if next page exists
+if (result.pagination.hasNext) {
+  const nextPage = result.pagination.page + 1;
+  
+  const response = await fetch(
+    `https://api.smartbills.io/v1/expenses?page=${nextPage}&pageSize=20`,
+    {
+      headers: {
+        'Authorization': 'Bearer YOUR_API_KEY'
+      }
+    }
+  );
+  
+  const nextResult = await response.json();
+}
+```
+
+```python Python
+# Check if next page exists
+if result['pagination']['hasNext']:
+    next_page = result['pagination']['page'] + 1
+    
+    response = requests.get(
+        'https://api.smartbills.io/v1/expenses',
+        headers={'Authorization': 'Bearer YOUR_API_KEY'},
+        params={'page': next_page, 'pageSize': 20}
+    )
+    
+    next_result = response.json()
+```
+
+</CodeGroup>
+
+## Iterating Through All Pages
+
+### Simple Iteration
+
+Loop through all pages to retrieve all results:
+
+<CodeGroup>
+
+```javascript JavaScript
+async function getAllExpenses() {
+  const allExpenses = [];
+  let page = 1;
+  let hasMore = true;
+  
+  while (hasMore) {
+    const response = await fetch(
+      `https://api.smartbills.io/v1/expenses?page=${page}&pageSize=100`,
+      {
+        headers: {
+          'Authorization': 'Bearer YOUR_API_KEY'
+        }
+      }
+    );
+    
+    const result = await response.json();
+    allExpenses.push(...result.data);
+    
+    hasMore = result.pagination.hasNext;
+    page++;
+  }
+  
+  return allExpenses;
+}
+
+// Usage
+const expenses = await getAllExpenses();
+console.log(`Retrieved ${expenses.length} expenses`);
+```
+
+```python Python
+def get_all_expenses():
+    all_expenses = []
+    page = 1
+    has_more = True
+    
+    while has_more:
+        response = requests.get(
+            'https://api.smartbills.io/v1/expenses',
+            headers={'Authorization': 'Bearer YOUR_API_KEY'},
+            params={'page': page, 'pageSize': 100}
+        )
+        
+        result = response.json()
+        all_expenses.extend(result['data'])
+        
+        has_more = result['pagination']['hasNext']
+        page += 1
+    
+    return all_expenses
+
+# Usage
+expenses = get_all_expenses()
+print(f"Retrieved {len(expenses)} expenses")
+```
+
+```php PHP
+<?php
+function getAllExpenses($apiKey) {
+    $allExpenses = [];
+    $page = 1;
+    $hasMore = true;
+    
+    while ($hasMore) {
+        $url = "https://api.smartbills.io/v1/expenses?page={$page}&pageSize=100";
+        
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $apiKey
+        ]);
+        
+        $response = curl_exec($ch);
+        curl_close($ch);
+        
+        $result = json_decode($response, true);
+        $allExpenses = array_merge($allExpenses, $result['data']);
+        
+        $hasMore = $result['pagination']['hasNext'];
+        $page++;
+    }
+    
+    return $allExpenses;
+}
+
+$expenses = getAllExpenses('YOUR_API_KEY');
+echo "Retrieved " . count($expenses) . " expenses\n";
+?>
+```
+
+</CodeGroup>
+
+### With Error Handling
+
+Production-ready pagination with error handling:
+
+```javascript
+async function getAllExpensesSafely() {
+  const allExpenses = [];
+  let page = 1;
+  const maxPages = 100; // Safety limit
+  
+  while (page <= maxPages) {
+    try {
+      const response = await fetch(
+        `https://api.smartbills.io/v1/expenses?page=${page}&pageSize=100`,
+        {
+          headers: {
+            'Authorization': 'Bearer YOUR_API_KEY'
+          }
+        }
+      );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      allExpenses.push(...result.data);
+      
+      console.log(`Fetched page ${page}/${result.pagination.totalPages}`);
+      
+      if (!result.pagination.hasNext) {
+        break;
+      }
+      
+      page++;
+      
+      // Rate limiting: small delay between requests
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+    } catch (error) {
+      console.error(`Error fetching page ${page}:`, error);
+      throw error;
+    }
+  }
+  
+  return allExpenses;
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Appropriate Page Sizes" icon="list">
+    **Choose the right page size for your use case:**
+    
+    - **Small pages (20-50)**: Better for UI pagination, faster initial response
+    - **Large pages (100)**: Better for batch processing, fewer API calls
+    - **Default (20)**: Good balance for most use cases
+    
+    ```javascript
+    // UI pagination - smaller pages
+    const uiResults = await fetch(
+      'https://api.smartbills.io/v1/expenses?page=1&pageSize=20'
+    );
+    
+    // Batch processing - larger pages
+    const batchResults = await fetch(
+      'https://api.smartbills.io/v1/expenses?page=1&pageSize=100'
+    );
+    ```
+  </Accordion>
+
+  <Accordion title="Check hasNext Before Fetching" icon="check">
+    **Always check if there's a next page before making the request:**
+    
+    ```javascript
+    // Good
+    if (result.pagination.hasNext) {
+      // Fetch next page
+    }
+    
+    // Avoid
+    // Fetching without checking (may result in empty pages)
+    ```
+    
+    This prevents unnecessary API calls when you've reached the end.
+  </Accordion>
+
+  <Accordion title="Handle Rate Limits" icon="gauge">
+    **Add delays when fetching multiple pages:**
+    
+    ```javascript
+    for (let page = 1; page <= totalPages; page++) {
+      await fetchPage(page);
+      
+      // Small delay to respect rate limits
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
+    ```
+    
+    See [Rate Limits](/developer/rate-limits) for more details.
+  </Accordion>
+
+  <Accordion title="Cache Results When Possible" icon="database">
+    **Cache paginated results to reduce API calls:**
+    
+    ```javascript
+    const cache = new Map();
+    
+    async function getCachedPage(page) {
+      const cacheKey = `expenses_page_${page}`;
+      
+      if (cache.has(cacheKey)) {
+        return cache.get(cacheKey);
+      }
+      
+      const result = await fetchPage(page);
+      cache.set(cacheKey, result);
+      
+      return result;
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Show Progress for Large Datasets" icon="spinner">
+    **Provide feedback when fetching many pages:**
+    
+    ```javascript
+    async function getAllWithProgress(onProgress) {
+      const allItems = [];
+      let page = 1;
+      
+      while (true) {
+        const result = await fetchPage(page);
+        allItems.push(...result.data);
+        
+        // Report progress
+        const progress = (page / result.pagination.totalPages) * 100;
+        onProgress(progress, page, result.pagination.totalPages);
+        
+        if (!result.pagination.hasNext) break;
+        page++;
+      }
+      
+      return allItems;
+    }
+    
+    // Usage
+    await getAllWithProgress((progress, current, total) => {
+      console.log(`Progress: ${progress.toFixed(1)}% (${current}/${total})`);
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Pagination with Filters
+
+Combine pagination with filtering:
+
+```javascript
+// Get all pending expenses from January 2024
+async function getPendingExpensesForMonth() {
+  const allExpenses = [];
+  let page = 1;
+  
+  while (true) {
+    const params = new URLSearchParams({
+      page: page,
+      pageSize: 100,
+      status: 'pending',
+      startDate: '2024-01-01',
+      endDate: '2024-01-31'
+    });
+    
+    const response = await fetch(
+      `https://api.smartbills.io/v1/expenses?${params}`,
+      {
+        headers: {
+          'Authorization': 'Bearer YOUR_API_KEY'
+        }
+      }
+    );
+    
+    const result = await response.json();
+    allExpenses.push(...result.data);
+    
+    if (!result.pagination.hasNext) break;
+    page++;
+  }
+  
+  return allExpenses;
+}
+```
+
+## Pagination Limits
+
+### Maximum Page Size
+
+- **Maximum**: 100 items per page
+- **Default**: 20 items per page
+- **Minimum**: 1 item per page
+
+<Warning>
+  **Requesting more than 100 items** per page will result in a validation error. The API will return a 400 Bad Request response.
+</Warning>
+
+### Maximum Pages
+
+There is no hard limit on the number of pages, but:
+
+- Very large datasets may take time to process
+- Consider using filters to narrow results
+- Implement caching for frequently accessed data
+
+## Common Patterns
+
+### Infinite Scroll (UI)
+
+Implement infinite scroll in your application:
+
+```javascript
+class ExpenseList {
+  constructor() {
+    this.expenses = [];
+    this.currentPage = 1;
+    this.loading = false;
+    this.hasMore = true;
+  }
+  
+  async loadMore() {
+    if (this.loading || !this.hasMore) return;
+    
+    this.loading = true;
+    
+    try {
+      const response = await fetch(
+        `https://api.smartbills.io/v1/expenses?page=${this.currentPage}&pageSize=20`,
+        {
+          headers: {
+            'Authorization': 'Bearer YOUR_API_KEY'
+          }
+        }
+      );
+      
+      const result = await response.json();
+      this.expenses.push(...result.data);
+      this.hasMore = result.pagination.hasNext;
+      this.currentPage++;
+      
+    } finally {
+      this.loading = false;
+    }
+  }
+}
+
+// Usage
+const list = new ExpenseList();
+await list.loadMore(); // Load first page
+
+// User scrolls to bottom
+await list.loadMore(); // Load next page
+```
+
+### Page Navigation (UI)
+
+Implement page-based navigation:
+
+```javascript
+class PaginatedExpenses {
+  constructor() {
+    this.currentPage = 1;
+    this.totalPages = 1;
+  }
+  
+  async goToPage(page) {
+    const response = await fetch(
+      `https://api.smartbills.io/v1/expenses?page=${page}&pageSize=20`,
+      {
+        headers: {
+          'Authorization': 'Bearer YOUR_API_KEY'
+        }
+      }
+    );
+    
+    const result = await response.json();
+    this.currentPage = result.pagination.page;
+    this.totalPages = result.pagination.totalPages;
+    
+    return result.data;
+  }
+  
+  async nextPage() {
+    if (this.currentPage < this.totalPages) {
+      return this.goToPage(this.currentPage + 1);
+    }
+  }
+  
+  async previousPage() {
+    if (this.currentPage > 1) {
+      return this.goToPage(this.currentPage - 1);
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Empty results on valid page" icon="circle-question">
+    **Problem**: Getting empty results even though pagination says there are more pages
+    
+    **Possible causes**:
+    - Data was deleted between requests
+    - Filters are too restrictive
+    - Race condition with concurrent modifications
+    
+    **Solution**: Refetch from the beginning or adjust filters
+  </Accordion>
+
+  <Accordion title="Inconsistent page counts" icon="calculator">
+    **Problem**: Total pages changes between requests
+    
+    **Reason**: This is normal! Data can be added or removed while you're paginating.
+    
+    **Solution**: 
+    - Use `hasNext` instead of relying on `totalPages`
+    - Implement refresh mechanisms
+    - Consider using timestamps to detect changes
+  </Accordion>
+
+  <Accordion title="Slow pagination performance" icon="hourglass">
+    **Problem**: Pagination is slow, especially on later pages
+    
+    **Solutions**:
+    - Use larger page sizes (up to 100)
+    - Add filters to reduce total dataset
+    - Cache results when appropriate
+    - Consider using webhooks for real-time updates instead
+  </Accordion>
+</AccordionGroup>
+
+## Related Topics
+
+<CardGroup cols={2}>
+  <Card title="Filtering" icon="filter" href="/developer/filtering">
+    Learn how to filter results
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/developer/rate-limits">
+    Understand API rate limiting
+  </Card>
+  <Card title="List Expenses" icon="receipt" href="/api-reference/expenses/list-expenses">
+    Expenses list endpoint
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/developer/errors">
+    Handle pagination errors
+  </Card>
+</CardGroup>
+
+## Summary
+
+- ✅ Use `page` and `pageSize` parameters
+- ✅ Check `hasNext` before fetching next page
+- ✅ Maximum page size is 100 items
+- ✅ Add delays between requests for rate limiting
+- ✅ Handle errors gracefully
+- ✅ Cache results when possible
+- ✅ Show progress for large datasets
+
+<Tip>
+  **Performance tip**: For batch processing, use the maximum page size (100) to minimize the number of API calls.
+</Tip>
+

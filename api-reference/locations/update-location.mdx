@@ -1,0 +1,317 @@
+---
+title: "Update Location"
+api: "PUT https://api.smartbills.io/v1/locations/{id}"
+description: "Update an existing location's information"
+---
+
+## Overview
+
+Update the details of an existing business location. All fields in the request body will replace the existing values.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `locations.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the location to update
+</ParamField>
+
+## Request Body
+
+<ParamField body="name" type="string" required>
+  Name of the location
+</ParamField>
+
+<ParamField body="address" type="object" required>
+  Complete address object (all fields required)
+</ParamField>
+
+<ParamField body="merchantCategoryCode" type="string" required>
+  MCC (Merchant Category Code)
+</ParamField>
+
+<ParamField body="currency" type="string">
+  Currency code
+</ParamField>
+
+<ParamField body="timezone" type="string">
+  IANA timezone identifier
+</ParamField>
+
+<ParamField body="phoneNumber" type="string">
+  Phone number
+</ParamField>
+
+<ParamField body="email" type="string">
+  Email address
+</ParamField>
+
+<ParamField body="website" type="string">
+  Website URL
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description
+</ParamField>
+
+<ParamField body="locale" type="string">
+  Locale code
+</ParamField>
+
+<ParamField body="isActive" type="boolean">
+  Active status
+</ParamField>
+
+<ParamField body="logo" type="string">
+  Logo URL
+</ParamField>
+
+<ParamField body="images" type="array">
+  Array of image URLs
+</ParamField>
+
+<ParamField body="facebookUrl" type="string">
+  Facebook page URL
+</ParamField>
+
+<ParamField body="instagramUsername" type="string">
+  Instagram username
+</ParamField>
+
+<ParamField body="twitterUsername" type="string">
+  Twitter/X username
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/locations/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "Downtown Store - Renovated",
+    "address": {
+      "street": "123 Main Street",
+      "city": "New York",
+      "state": "New York",
+      "stateCode": "NY",
+      "country": "United States",
+      "countryCode": "US",
+      "postalCode": "10001",
+      "location": {
+        "latitude": 40.7128,
+        "longitude": -74.0060
+      }
+    },
+    "merchantCategoryCode": "5411",
+    "currency": "USD",
+    "timezone": "America/New_York",
+    "phoneNumber": "+1-555-123-4567",
+    "email": "downtown@example.com",
+    "description": "Our newly renovated flagship store",
+    "locale": "en-US",
+    "isActive": true
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const updatedLocation = await client.locations.update(12345, {
+  name: "Downtown Store - Renovated",
+  address: {
+    street: "123 Main Street",
+    city: "New York",
+    state: "New York",
+    stateCode: "NY",
+    country: "United States",
+    countryCode: "US",
+    postalCode: "10001",
+    location: {
+      latitude: 40.7128,
+      longitude: -74.0060
+    }
+  },
+  merchantCategoryCode: "5411",
+  currency: "USD",
+  timezone: "America/New_York",
+  phoneNumber: "+1-555-123-4567",
+  email: "downtown@example.com",
+  description: "Our newly renovated flagship store",
+  locale: "en-US",
+  isActive: true
+});
+
+console.log('Updated location:', updatedLocation);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+updated_location = client.locations.update(
+    12345,
+    name="Downtown Store - Renovated",
+    address={
+        "street": "123 Main Street",
+        "city": "New York",
+        "state": "New York",
+        "state_code": "NY",
+        "country": "United States",
+        "country_code": "US",
+        "postal_code": "10001",
+        "location": {
+            "latitude": 40.7128,
+            "longitude": -74.0060
+        }
+    },
+    merchant_category_code="5411",
+    currency="USD",
+    timezone="America/New_York",
+    phone_number="+1-555-123-4567",
+    email="downtown@example.com",
+    description="Our newly renovated flagship store",
+    locale="en-US",
+    is_active=True
+)
+
+print('Updated location:', updated_location)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var updatedLocation = await client.Locations.UpdateAsync(12345, new LocationUpdateRequest
+{
+    Name = "Downtown Store - Renovated",
+    Address = new AddressRequest
+    {
+        Street = "123 Main Street",
+        City = "New York",
+        State = "New York",
+        StateCode = "NY",
+        Country = "United States",
+        CountryCode = "US",
+        PostalCode = "10001",
+        Location = new Coordinates
+        {
+            Latitude = 40.7128,
+            Longitude = -74.0060
+        }
+    },
+    MerchantCategoryCode = "5411",
+    Currency = "USD",
+    Timezone = "America/New_York",
+    PhoneNumber = "+1-555-123-4567",
+    Email = "downtown@example.com",
+    Description = "Our newly renovated flagship store",
+    Locale = "en-US",
+    IsActive = true
+});
+
+Console.WriteLine($"Updated location: {updatedLocation.Name}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Downtown Store - Renovated",
+  "address": {
+    "street": "123 Main Street",
+    "city": "New York",
+    "state": "New York",
+    "stateCode": "NY",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "10001",
+    "location": {
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "formattedAddress": "123 Main Street, New York, NY 10001, United States"
+  },
+  "merchantCategoryCode": "5411",
+  "currency": "USD",
+  "timezone": "America/New_York",
+  "phoneNumber": "+1-555-123-4567",
+  "email": "downtown@example.com",
+  "description": "Our newly renovated flagship store",
+  "locale": "en-US",
+  "isActive": true,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Location not found |
+| 409 | DUPLICATE_LOCATION | Address already used by another location |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<Warning>
+  **Full Replacement**: The update operation replaces all fields. Include all required fields in your request.
+</Warning>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Fetch Before Update" icon="arrows-rotate">
+    Always fetch the current location data before updating to avoid overwriting fields.
+    
+    ```javascript
+    const current = await client.locations.get(12345);
+    const updated = await client.locations.update(12345, {
+      ...current,
+      name: "New Name"
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Validate Address Changes" icon="location-dot">
+    Ensure address uniqueness when updating to prevent conflicts.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Location" icon="plus" href="/api-reference/locations/create-location">
+    Create a new location
+  </Card>
+  <Card title="Get Location" icon="eye" href="/api-reference/locations/get-location">
+    Retrieve a location by ID
+  </Card>
+  <Card title="List Locations" icon="list" href="/api-reference/locations/list-locations">
+    Get all locations
+  </Card>
+  <Card title="Delete Location" icon="trash" href="/api-reference/locations/delete-location">
+    Remove a location
+  </Card>
+</CardGroup>
+

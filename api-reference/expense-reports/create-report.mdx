@@ -1,0 +1,674 @@
+---
+title: "Create Expense Report"
+api: "POST https://api.smartbills.io/v1/expense-reports"
+description: "Create a new expense report to group expenses for submission and approval"
+---
+
+## Overview
+
+Create a new expense report to organize and submit expenses for approval. You can create an empty report and add expenses later, or include expense IDs during creation.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Request Body
+
+<ParamField body="name" type="string" required>
+  Descriptive name for the expense report
+  
+  Example: "January 2024 Travel Expenses"
+</ParamField>
+
+<ParamField body="businessId" type="integer" required>
+  ID of the business this report belongs to
+</ParamField>
+
+<ParamField body="description" type="string">
+  Detailed description of the report purpose
+  
+  Example: "Business trip to NYC for client meetings"
+</ParamField>
+
+<ParamField body="startDate" type="string">
+  Start date of the expense period (ISO 8601 format: YYYY-MM-DD)
+  
+  Example: "2024-01-01"
+</ParamField>
+
+<ParamField body="endDate" type="string">
+  End date of the expense period (ISO 8601 format: YYYY-MM-DD)
+  
+  Example: "2024-01-31"
+</ParamField>
+
+<ParamField body="expenseIds" type="array">
+  Array of expense IDs to include in the report
+  
+  Example: `[12345, 12346, 12347]`
+</ParamField>
+
+<ParamField body="projectId" type="integer">
+  ID of the project this report is associated with
+</ParamField>
+
+<ParamField body="departmentId" type="integer">
+  ID of the department submitting the report
+</ParamField>
+
+<ParamField body="tags" type="array">
+  Array of tags for categorization
+  
+  Example: `["Q1-2024", "client-visit", "NYC"]`
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Additional notes for the approver
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Custom metadata key-value pairs
+  
+  Example: `{"costCenter": "CC-001", "purchaseOrder": "PO-12345"}`
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the expense report
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Report name
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  Business ID
+</ResponseField>
+
+<ResponseField name="userId" type="integer">
+  ID of the user who created the report
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Report description
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status: `draft`, `submitted`, `approved`, `rejected`, `reimbursed`
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Total amount of all expenses in the report
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code (ISO 4217)
+</ResponseField>
+
+<ResponseField name="expenseCount" type="integer">
+  Number of expenses in the report
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+  Period start date
+</ResponseField>
+
+<ResponseField name="endDate" type="string">
+  Period end date
+</ResponseField>
+
+<ResponseField name="expenses" type="array">
+  Array of expense objects included in the report
+  
+  <Expandable title="Expense Object">
+    <ResponseField name="id" type="integer">
+      Expense ID
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Expense amount
+    </ResponseField>
+    <ResponseField name="merchant" type="string">
+      Merchant name
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      Expense date
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="projectId" type="integer">
+  Associated project ID
+</ResponseField>
+
+<ResponseField name="departmentId" type="integer">
+  Associated department ID
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  Array of tags
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Approver notes
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Custom metadata
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Timestamp when report was created (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of last update (ISO 8601)
+</ResponseField>
+
+<ResponseField name="submittedAt" type="string">
+  Timestamp when report was submitted (null if not submitted)
+</ResponseField>
+
+<ResponseField name="approvedAt" type="string">
+  Timestamp when report was approved (null if not approved)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expense-reports \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "January 2024 Travel Expenses",
+    "businessId": 100,
+    "description": "Business trip to NYC for client meetings",
+    "startDate": "2024-01-15",
+    "endDate": "2024-01-18",
+    "expenseIds": [12345, 12346, 12347],
+    "tags": ["Q1-2024", "client-visit", "NYC"]
+  }'
+```
+
+```javascript JavaScript
+const apiKey = 'YOUR_API_KEY';
+
+const reportData = {
+  name: 'January 2024 Travel Expenses',
+  businessId: 100,
+  description: 'Business trip to NYC for client meetings',
+  startDate: '2024-01-15',
+  endDate: '2024-01-18',
+  expenseIds: [12345, 12346, 12347],
+  tags: ['Q1-2024', 'client-visit', 'NYC']
+};
+
+const response = await fetch('https://api.smartbills.io/v1/expense-reports', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${apiKey}`,
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(reportData)
+});
+
+const report = await response.json();
+console.log('Report created:', report.id);
+```
+
+```python Python
+import requests
+
+api_key = 'YOUR_API_KEY'
+
+headers = {
+    'Authorization': f'Bearer {api_key}',
+    'Content-Type': 'application/json'
+}
+
+data = {
+    'name': 'January 2024 Travel Expenses',
+    'businessId': 100,
+    'description': 'Business trip to NYC for client meetings',
+    'startDate': '2024-01-15',
+    'endDate': '2024-01-18',
+    'expenseIds': [12345, 12346, 12347],
+    'tags': ['Q1-2024', 'client-visit', 'NYC']
+}
+
+response = requests.post(
+    'https://api.smartbills.io/v1/expense-reports',
+    headers=headers,
+    json=data
+)
+
+report = response.json()
+print(f"Report created: {report['id']}")
+```
+
+```php PHP
+<?php
+$apiKey = 'YOUR_API_KEY';
+
+$data = [
+    'name' => 'January 2024 Travel Expenses',
+    'businessId' => 100,
+    'description' => 'Business trip to NYC for client meetings',
+    'startDate' => '2024-01-15',
+    'endDate' => '2024-01-18',
+    'expenseIds' => [12345, 12346, 12347],
+    'tags' => ['Q1-2024', 'client-visit', 'NYC']
+];
+
+$ch = curl_init('https://api.smartbills.io/v1/expense-reports');
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'Authorization: Bearer ' . $apiKey,
+    'Content-Type: application/json'
+]);
+
+$result = curl_exec($ch);
+curl_close($ch);
+
+$report = json_decode($result, true);
+echo "Report created: " . $report['id'];
+?>
+```
+
+```ruby Ruby
+require 'net/http'
+require 'json'
+
+api_key = 'YOUR_API_KEY'
+uri = URI('https://api.smartbills.io/v1/expense-reports')
+
+data = {
+  name: 'January 2024 Travel Expenses',
+  businessId: 100,
+  description: 'Business trip to NYC for client meetings',
+  startDate: '2024-01-15',
+  endDate: '2024-01-18',
+  expenseIds: [12345, 12346, 12347],
+  tags: ['Q1-2024', 'client-visit', 'NYC']
+}
+
+request = Net::HTTP::Post.new(uri)
+request['Authorization'] = "Bearer #{api_key}"
+request['Content-Type'] = 'application/json'
+request.body = data.to_json
+
+response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
+  http.request(request)
+end
+
+report = JSON.parse(response.body)
+puts "Report created: #{report['id']}"
+```
+
+```go Go
+package main
+
+import (
+    "bytes"
+    "encoding/json"
+    "fmt"
+    "net/http"
+)
+
+func main() {
+    apiKey := "YOUR_API_KEY"
+    
+    data := map[string]interface{}{
+        "name":        "January 2024 Travel Expenses",
+        "businessId":  100,
+        "description": "Business trip to NYC for client meetings",
+        "startDate":   "2024-01-15",
+        "endDate":     "2024-01-18",
+        "expenseIds":  []int{12345, 12346, 12347},
+        "tags":        []string{"Q1-2024", "client-visit", "NYC"},
+    }
+    
+    jsonData, _ := json.Marshal(data)
+    
+    req, _ := http.NewRequest("POST", "https://api.smartbills.io/v1/expense-reports", bytes.NewBuffer(jsonData))
+    req.Header.Add("Authorization", "Bearer "+apiKey)
+    req.Header.Add("Content-Type", "application/json")
+    
+    client := &http.Client{}
+    resp, _ := client.Do(req)
+    defer resp.Body.Close()
+    
+    var report map[string]interface{}
+    json.NewDecoder(resp.Body).Decode(&report)
+    
+    fmt.Printf("Report created: %v\n", report["id"])
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 789,
+  "name": "January 2024 Travel Expenses",
+  "businessId": 100,
+  "userId": 500,
+  "description": "Business trip to NYC for client meetings",
+  "status": "draft",
+  "totalAmount": 1250.00,
+  "currency": "USD",
+  "expenseCount": 3,
+  "startDate": "2024-01-15",
+  "endDate": "2024-01-18",
+  "expenses": [
+    {
+      "id": 12345,
+      "amount": 450.00,
+      "currency": "USD",
+      "merchant": "Delta Airlines",
+      "date": "2024-01-15",
+      "category": "Travel - Airfare"
+    },
+    {
+      "id": 12346,
+      "amount": 600.00,
+      "currency": "USD",
+      "merchant": "Marriott Hotel",
+      "date": "2024-01-16",
+      "category": "Travel - Lodging"
+    },
+    {
+      "id": 12347,
+      "amount": 200.00,
+      "currency": "USD",
+      "merchant": "Various Restaurants",
+      "date": "2024-01-17",
+      "category": "Meals & Entertainment"
+    }
+  ],
+  "projectId": null,
+  "departmentId": 5,
+  "tags": ["Q1-2024", "client-visit", "NYC"],
+  "notes": null,
+  "metadata": {},
+  "createdAt": "2024-01-18T10:30:00Z",
+  "updatedAt": "2024-01-18T10:30:00Z",
+  "submittedAt": null,
+  "approvedAt": null
+}
+```
+
+</ResponseExample>
+
+## Validation Rules
+
+### Report Name
+- **Required**: Yes
+- **Min length**: 3 characters
+- **Max length**: 200 characters
+- **Format**: Any text
+
+### Business ID
+- **Required**: Yes
+- **Must exist**: Business must be accessible by the user
+- **Type**: Integer
+
+### Date Range
+- **Required**: No (both optional)
+- **Format**: YYYY-MM-DD
+- **Validation**: `endDate` must be after `startDate` if both provided
+
+### Expense IDs
+- **Required**: No (can create empty report)
+- **Validation**: 
+  - All expenses must exist
+  - All expenses must belong to the specified business
+  - All expenses must be in "pending" status
+  - Expenses cannot already be in another report
+
+## Error Responses
+
+<ResponseField name="error" type="object">
+  Error details when request fails
+  
+  <Expandable title="Error Object">
+    <ResponseField name="code" type="string">
+      Error code
+    </ResponseField>
+    <ResponseField name="message" type="string">
+      Human-readable error message
+    </ResponseField>
+    <ResponseField name="details" type="array">
+      Additional error details
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+### Common Errors
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Invalid request data |
+| 400 | INVALID_DATE_RANGE | End date before start date |
+| 400 | EXPENSE_NOT_FOUND | One or more expense IDs don't exist |
+| 400 | EXPENSE_ALREADY_IN_REPORT | Expense already in another report |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | No access to specified business |
+| 404 | BUSINESS_NOT_FOUND | Business ID doesn't exist |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<ResponseExample>
+
+```json Error Response
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "name",
+        "message": "Report name is required"
+      },
+      {
+        "field": "expenseIds",
+        "message": "Expense 12346 is already in report 788"
+      }
+    ]
+  }
+}
+```
+
+</ResponseExample>
+
+## Use Cases
+
+### Create Empty Report
+
+Create a report and add expenses later:
+
+```javascript
+const report = await fetch('https://api.smartbills.io/v1/expense-reports', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'February 2024 Expenses',
+    businessId: 100,
+    description: 'Monthly expense report'
+  })
+}).then(r => r.json());
+
+// Add expenses later using PATCH /v1/expense-reports/{reportId}
+```
+
+### Create with Expenses
+
+Create a report with expenses in one request:
+
+```javascript
+const report = await fetch('https://api.smartbills.io/v1/expense-reports', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'January 2024 Travel',
+    businessId: 100,
+    expenseIds: [12345, 12346, 12347],
+    startDate: '2024-01-01',
+    endDate: '2024-01-31'
+  })
+}).then(r => r.json());
+```
+
+### Create with Metadata
+
+Include custom metadata for integration:
+
+```javascript
+const report = await fetch('https://api.smartbills.io/v1/expense-reports', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'Project Alpha Expenses',
+    businessId: 100,
+    projectId: 42,
+    metadata: {
+      costCenter: 'CC-001',
+      purchaseOrder: 'PO-12345',
+      clientId: 'CLIENT-789',
+      billingCode: 'BILL-456'
+    }
+  })
+}).then(r => r.json());
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Descriptive Names" icon="tag">
+    Use clear, descriptive names that indicate:
+    - Time period (month, quarter, trip dates)
+    - Purpose (travel, office supplies, client meeting)
+    - Project or client name
+    
+    **Good examples:**
+    - "January 2024 Office Supplies"
+    - "Q1 2024 Marketing Expenses"
+    - "NYC Client Visit - Jan 15-18"
+    
+    **Avoid:**
+    - "Report 1"
+    - "Expenses"
+    - "Misc"
+  </Accordion>
+
+  <Accordion title="Set Date Ranges" icon="calendar">
+    Always include start and end dates when possible:
+    - Helps filter eligible expenses
+    - Provides context for approvers
+    - Useful for reporting and analytics
+    - Required by some company policies
+  </Accordion>
+
+  <Accordion title="Add Context" icon="note-sticky">
+    Include a description that explains:
+    - Purpose of the expenses
+    - Project or client details
+    - Any special circumstances
+    - Relevant background information
+    
+    This helps approvers make informed decisions.
+  </Accordion>
+
+  <Accordion title="Use Tags" icon="tags">
+    Tag reports for better organization:
+    - Project names
+    - Client names
+    - Department codes
+    - Fiscal periods
+    - Billable/non-billable
+    
+    Tags make reports easier to find and analyze later.
+  </Accordion>
+
+  <Accordion title="Validate Expenses" icon="check">
+    Before creating a report:
+    - Verify all expenses are categorized
+    - Ensure receipts are attached
+    - Check amounts are correct
+    - Confirm dates are accurate
+    
+    This prevents errors and speeds up approval.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+After creating a report:
+
+1. **Add More Expenses** (if needed)
+   ```
+   PATCH /v1/expense-reports/{reportId}
+   ```
+
+2. **Review Report Details**
+   ```
+   GET /v1/expense-reports/{reportId}
+   ```
+
+3. **Submit for Approval**
+   ```
+   POST /v1/expense-reports/{reportId}/submit
+   ```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Reports" icon="list" href="/api-reference/expense-reports/list-reports">
+    Get all expense reports
+  </Card>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve a single report
+  </Card>
+  <Card title="Update Report" icon="pen" href="/api-reference/expense-reports/update-report">
+    Modify report details
+  </Card>
+  <Card title="Submit Report" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Submit for approval
+  </Card>
+</CardGroup>
+
+## Rate Limiting
+
+This endpoint is subject to rate limiting. See [Rate Limits](/developer/rate-limits) for details.
+
+**Rate limit headers:**
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640000000
+```
+
+## Webhooks
+
+Subscribe to these events to receive notifications:
+
+- `report.created` - New report created
+- `report.updated` - Report modified
+- `report.submitted` - Report submitted for approval
+
+See [Webhooks](/developer/webhooks) for setup instructions.

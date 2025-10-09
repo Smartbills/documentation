@@ -1,0 +1,292 @@
+---
+title: "List Locations"
+api: "GET https://api.smartbills.io/v1/locations"
+description: "Retrieve a paginated list of locations"
+---
+
+## Overview
+
+Retrieve a list of all business locations in your account with pagination, sorting, and filtering options.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `locations.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number for pagination (starts at 1)
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Number of items per page (max: 100)
+</ParamField>
+
+<ParamField query="orderBy" type="string" default="createdAt">
+  Field to sort by. Options: `id`, `name`, `createdAt`, `updatedAt`
+</ParamField>
+
+<ParamField query="sortOrder" type="string" default="desc">
+  Sort order. Options: `asc`, `desc`
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search locations by name, city, or address
+</ParamField>
+
+<ParamField query="isActive" type="boolean">
+  Filter by active status
+</ParamField>
+
+<ParamField query="city" type="string">
+  Filter by city name
+</ParamField>
+
+<ParamField query="state" type="string">
+  Filter by state or province
+</ParamField>
+
+<ParamField query="country" type="string">
+  Filter by country
+</ParamField>
+
+<ParamField query="merchantCategoryCode" type="string">
+  Filter by MCC code
+</ParamField>
+
+## Response
+
+<ResponseField name="data" type="array">
+  Array of location objects
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Pagination metadata
+  
+  <Expandable title="Metadata Object">
+    <ResponseField name="page" type="integer">
+      Current page number
+    </ResponseField>
+    
+    <ResponseField name="pageSize" type="integer">
+      Number of items per page
+    </ResponseField>
+    
+    <ResponseField name="totalPages" type="integer">
+      Total number of pages
+    </ResponseField>
+    
+    <ResponseField name="count" type="integer">
+      Total number of locations
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/locations?page=1&pageSize=20&isActive=true' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const response = await client.locations.list({
+  page: 1,
+  pageSize: 20,
+  isActive: true,
+  orderBy: 'name',
+  sortOrder: 'asc'
+});
+
+console.log(`Found ${response.metadata.count} locations`);
+console.log('Locations:', response.data);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+response = client.locations.list(
+    page=1,
+    page_size=20,
+    is_active=True,
+    order_by='name',
+    sort_order='asc'
+)
+
+print(f"Found {response.metadata.count} locations")
+print('Locations:', response.data)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var response = await client.Locations.ListAsync(new LocationListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    IsActive = true,
+    OrderBy = "name",
+    SortOrder = "asc"
+});
+
+Console.WriteLine($"Found {response.Metadata.Count} locations");
+foreach (var location in response.Data)
+{
+    Console.WriteLine($"- {location.Name}");
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "name": "Downtown Store",
+      "address": {
+        "street": "123 Main Street",
+        "city": "New York",
+        "state": "New York",
+        "stateCode": "NY",
+        "country": "United States",
+        "countryCode": "US",
+        "postalCode": "10001",
+        "location": {
+          "latitude": 40.7128,
+          "longitude": -74.0060
+        },
+        "formattedAddress": "123 Main Street, New York, NY 10001, United States"
+      },
+      "merchantCategoryCode": "5411",
+      "currency": "USD",
+      "timezone": "America/New_York",
+      "phoneNumber": "+1-555-123-4567",
+      "email": "downtown@example.com",
+      "isActive": true,
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 12346,
+      "name": "Uptown Branch",
+      "address": {
+        "street": "456 Park Avenue",
+        "city": "New York",
+        "state": "New York",
+        "stateCode": "NY",
+        "country": "United States",
+        "countryCode": "US",
+        "postalCode": "10022",
+        "location": {
+          "latitude": 40.7614,
+          "longitude": -73.9776
+        },
+        "formattedAddress": "456 Park Avenue, New York, NY 10022, United States"
+      },
+      "merchantCategoryCode": "5411",
+      "currency": "USD",
+      "timezone": "America/New_York",
+      "phoneNumber": "+1-555-987-6543",
+      "email": "uptown@example.com",
+      "isActive": true,
+      "createdAt": "2024-01-14T09:15:00Z",
+      "updatedAt": "2024-01-14T09:15:00Z"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 3,
+    "count": 45
+  }
+}
+```
+
+</ResponseExample>
+
+## Filtering Examples
+
+### Search by Name or Address
+
+```bash
+GET /v1/locations?search=downtown
+```
+
+### Filter by City
+
+```bash
+GET /v1/locations?city=New York
+```
+
+### Filter Active Locations Only
+
+```bash
+GET /v1/locations?isActive=true
+```
+
+### Combine Filters
+
+```bash
+GET /v1/locations?city=New York&isActive=true&orderBy=name&sortOrder=asc
+```
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid query parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Pagination" icon="list">
+    Always use pagination for better performance. Don't request more than you need.
+  </Accordion>
+
+  <Accordion title="Filter Active Locations" icon="filter">
+    Use `isActive=true` to filter out inactive locations in production queries.
+  </Accordion>
+
+  <Accordion title="Cache Results" icon="database">
+    Cache location data when appropriate to reduce API calls.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Location" icon="plus" href="/api-reference/locations/create-location">
+    Create a new location
+  </Card>
+  <Card title="Get Location" icon="eye" href="/api-reference/locations/get-location">
+    Retrieve a location by ID
+  </Card>
+  <Card title="Update Location" icon="pen" href="/api-reference/locations/update-location">
+    Modify location details
+  </Card>
+  <Card title="Delete Location" icon="trash" href="/api-reference/locations/delete-location">
+    Remove a location
+  </Card>
+</CardGroup>
+

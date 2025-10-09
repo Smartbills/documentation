@@ -1,0 +1,492 @@
+---
+title: "Create Receipt"
+api: "POST https://api.smartbills.io/v1/receipts"
+description: "Create a new receipt in Smartbills"
+---
+
+## Overview
+
+Create a new receipt to track transactions. Smartbills can be easily implemented alongside your billing system, allowing you to continue operating as usual while providing consumers with their receipts in the Smartbills app.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `receipts.write`
+
+## Distributing Receipts
+
+### Known Client
+If you know the client and they exist in your Smartbills database, provide:
+- Smartbills Client ID
+- Email address
+- Phone number
+
+### Unknown Client
+If you don't know the client, provide payment method information:
+- **Credit card**: BIN, last 4 digits, cardholder name, expiration date
+- **Virtual credit card**: Same as credit card + wallet type
+- **Bank account**: Institution number, transit number, account number
+
+<Warning>
+  If you do not know the client, it is not possible to guarantee that the receipt will end up in the client's Smartbills account.
+</Warning>
+
+## Request Body
+
+<ParamField body="merchantId" type="integer">
+  Identifier of the merchant
+</ParamField>
+
+<ParamField body="locationId" type="integer">
+  Identifier of the location
+</ParamField>
+
+<ParamField body="location" type="object">
+  Location details (if creating new location)
+</ParamField>
+
+<ParamField body="customer" type="object">
+  Customer details
+  
+  <Expandable title="Customer Object">
+    <ParamField body="customerId" type="integer">
+      Existing customer ID
+    </ParamField>
+    
+    <ParamField body="email" type="string">
+      Customer email
+    </ParamField>
+    
+    <ParamField body="phone" type="string">
+      Customer phone number
+    </ParamField>
+    
+    <ParamField body="firstName" type="string">
+      First name
+    </ParamField>
+    
+    <ParamField body="lastName" type="string">
+      Last name
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="receiptNumber" type="string" required>
+  Unique receipt number
+</ParamField>
+
+<ParamField body="receiptDate" type="string" required>
+  Receipt date (ISO 8601 format)
+</ParamField>
+
+<ParamField body="subtotal" type="object" required>
+  Subtotal amount before taxes
+  
+  <Expandable title="Money Object">
+    <ParamField body="amount" type="number" required>
+      Monetary value
+    </ParamField>
+    
+    <ParamField body="currency" type="string" required>
+      Three-letter ISO currency code
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="total" type="object" required>
+  Total amount including taxes
+</ParamField>
+
+<ParamField body="taxes" type="array">
+  Array of tax line items
+  
+  <Expandable title="Tax Item">
+    <ParamField body="name" type="string" required>
+      Tax name
+    </ParamField>
+    
+    <ParamField body="rate" type="number" required>
+      Tax rate percentage
+    </ParamField>
+    
+    <ParamField body="amount" type="object" required>
+      Tax amount
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  Array of line items on the receipt
+  
+  <Expandable title="Line Item">
+    <ParamField body="description" type="string" required>
+      Item description
+    </ParamField>
+    
+    <ParamField body="quantity" type="number" required>
+      Quantity
+    </ParamField>
+    
+    <ParamField body="unitPrice" type="object" required>
+      Price per unit
+    </ParamField>
+    
+    <ParamField body="total" type="object" required>
+      Line item total
+    </ParamField>
+    
+    <ParamField body="sku" type="string">
+      Stock Keeping Unit
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="paymentMethod" type="object">
+  Payment method information
+  
+  <Expandable title="Payment Method">
+    <ParamField body="type" type="string" required>
+      Payment type: `credit_card`, `debit_card`, `cash`, `bank_transfer`, `other`
+    </ParamField>
+    
+    <ParamField body="last4" type="string">
+      Last 4 digits of card
+    </ParamField>
+    
+    <ParamField body="cardBrand" type="string">
+      Card brand (Visa, Mastercard, etc.)
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="employeeId" type="integer">
+  ID of employee who processed the transaction
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Additional notes
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Custom metadata
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/receipts \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "merchantId": 123,
+    "locationId": 456,
+    "customer": {
+      "email": "customer@example.com",
+      "firstName": "John",
+      "lastName": "Doe"
+    },
+    "receiptNumber": "RCP-2024-001",
+    "receiptDate": "2024-01-15T14:30:00Z",
+    "subtotal": {
+      "amount": 100.00,
+      "currency": "USD"
+    },
+    "taxes": [
+      {
+        "name": "Sales Tax",
+        "rate": 8.5,
+        "amount": {
+          "amount": 8.50,
+          "currency": "USD"
+        }
+      }
+    ],
+    "total": {
+      "amount": 108.50,
+      "currency": "USD"
+    },
+    "lineItems": [
+      {
+        "description": "Premium Coffee Beans",
+        "quantity": 2,
+        "unitPrice": {
+          "amount": 50.00,
+          "currency": "USD"
+        },
+        "total": {
+          "amount": 100.00,
+          "currency": "USD"
+        },
+        "sku": "COFFEE-001"
+      }
+    ],
+    "paymentMethod": {
+      "type": "credit_card",
+      "last4": "4242",
+      "cardBrand": "Visa"
+    }
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const receipt = await client.receipts.create({
+  merchantId: 123,
+  locationId: 456,
+  customer: {
+    email: "customer@example.com",
+    firstName: "John",
+    lastName: "Doe"
+  },
+  receiptNumber: "RCP-2024-001",
+  receiptDate: "2024-01-15T14:30:00Z",
+  subtotal: {
+    amount: 100.00,
+    currency: "USD"
+  },
+  taxes: [
+    {
+      name: "Sales Tax",
+      rate: 8.5,
+      amount: {
+        amount: 8.50,
+        currency: "USD"
+      }
+    }
+  ],
+  total: {
+    amount: 108.50,
+    currency: "USD"
+  },
+  lineItems: [
+    {
+      description: "Premium Coffee Beans",
+      quantity: 2,
+      unitPrice: { amount: 50.00, currency: "USD" },
+      total: { amount: 100.00, currency: "USD" },
+      sku: "COFFEE-001"
+    }
+  ],
+  paymentMethod: {
+    type: "credit_card",
+    last4: "4242",
+    cardBrand: "Visa"
+  }
+});
+
+console.log('Created receipt:', receipt);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+receipt = client.receipts.create(
+    merchant_id=123,
+    location_id=456,
+    customer={
+        "email": "customer@example.com",
+        "first_name": "John",
+        "last_name": "Doe"
+    },
+    receipt_number="RCP-2024-001",
+    receipt_date="2024-01-15T14:30:00Z",
+    subtotal={"amount": 100.00, "currency": "USD"},
+    taxes=[
+        {
+            "name": "Sales Tax",
+            "rate": 8.5,
+            "amount": {"amount": 8.50, "currency": "USD"}
+        }
+    ],
+    total={"amount": 108.50, "currency": "USD"},
+    line_items=[
+        {
+            "description": "Premium Coffee Beans",
+            "quantity": 2,
+            "unit_price": {"amount": 50.00, "currency": "USD"},
+            "total": {"amount": 100.00, "currency": "USD"},
+            "sku": "COFFEE-001"
+        }
+    ],
+    payment_method={
+        "type": "credit_card",
+        "last4": "4242",
+        "card_brand": "Visa"
+    }
+)
+
+print('Created receipt:', receipt)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var receipt = await client.Receipts.CreateAsync(new ReceiptCreateRequest
+{
+    MerchantId = 123,
+    LocationId = 456,
+    Customer = new CustomerCreateRequest
+    {
+        Email = "customer@example.com",
+        FirstName = "John",
+        LastName = "Doe"
+    },
+    ReceiptNumber = "RCP-2024-001",
+    ReceiptDate = "2024-01-15T14:30:00Z",
+    Subtotal = new Money { Amount = 100.00m, Currency = "USD" },
+    Taxes = new[]
+    {
+        new TaxLineItem
+        {
+            Name = "Sales Tax",
+            Rate = 8.5m,
+            Amount = new Money { Amount = 8.50m, Currency = "USD" }
+        }
+    },
+    Total = new Money { Amount = 108.50m, Currency = "USD" },
+    LineItems = new[]
+    {
+        new LineItem
+        {
+            Description = "Premium Coffee Beans",
+            Quantity = 2,
+            UnitPrice = new Money { Amount = 50.00m, Currency = "USD" },
+            Total = new Money { Amount = 100.00m, Currency = "USD" },
+            Sku = "COFFEE-001"
+        }
+    },
+    PaymentMethod = new PaymentMethod
+    {
+        Type = "credit_card",
+        Last4 = "4242",
+        CardBrand = "Visa"
+    }
+});
+
+Console.WriteLine($"Created receipt: {receipt.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "receiptNumber": "RCP-2024-001",
+  "receiptDate": "2024-01-15T14:30:00Z",
+  "merchantId": 123,
+  "locationId": 456,
+  "customer": {
+    "id": 789,
+    "email": "customer@example.com",
+    "firstName": "John",
+    "lastName": "Doe"
+  },
+  "subtotal": {
+    "amount": 100.00,
+    "currency": "USD"
+  },
+  "taxes": [
+    {
+      "name": "Sales Tax",
+      "rate": 8.5,
+      "amount": {
+        "amount": 8.50,
+        "currency": "USD"
+      }
+    }
+  ],
+  "total": {
+    "amount": 108.50,
+    "currency": "USD"
+  },
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Premium Coffee Beans",
+      "quantity": 2,
+      "unitPrice": {
+        "amount": 50.00,
+        "currency": "USD"
+      },
+      "total": {
+        "amount": 100.00,
+        "currency": "USD"
+      },
+      "sku": "COFFEE-001"
+    }
+  ],
+  "paymentMethod": {
+    "type": "credit_card",
+    "last4": "4242",
+    "cardBrand": "Visa"
+  },
+  "status": "completed",
+  "createdAt": "2024-01-15T14:30:00Z",
+  "updatedAt": "2024-01-15T14:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 409 | DUPLICATE_RECEIPT | Receipt number already exists |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Unique Receipt Numbers" icon="hashtag">
+    Always use unique receipt numbers to avoid duplicates.
+  </Accordion>
+
+  <Accordion title="Include Customer Information" icon="user">
+    Provide as much customer information as possible for accurate receipt delivery.
+  </Accordion>
+
+  <Accordion title="Detailed Line Items" icon="list">
+    Include detailed line items for better expense tracking and categorization.
+  </Accordion>
+
+  <Accordion title="Payment Method Details" icon="credit-card">
+    Include payment method information to help customers identify transactions.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Receipt" icon="eye" href="/api-reference/receipts/get-receipt">
+    Retrieve a receipt by ID
+  </Card>
+  <Card title="List Receipts" icon="list" href="/api-reference/receipts/list-receipts">
+    Get all receipts
+  </Card>
+  <Card title="Update Receipt" icon="pen" href="/api-reference/receipts/update-receipt">
+    Modify receipt details
+  </Card>
+  <Card title="Delete Receipt" icon="trash" href="/api-reference/receipts/delete-receipt">
+    Remove a receipt
+  </Card>
+</CardGroup>
+

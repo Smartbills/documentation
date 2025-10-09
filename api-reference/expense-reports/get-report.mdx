@@ -1,0 +1,54 @@
+---
+title: "Get Expense Report"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}"
+description: "Retrieve a specific expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2024 Business Trip",
+  "description": "Expenses from NYC client meeting",
+  "status": "submitted",
+  "totalAmount": 1234.56,
+  "currency": "USD",
+  "expenseCount": 3,
+  "expenses": [
+    {
+      "id": 12345,
+      "amount": 500.00,
+      "merchant": "Delta Airlines",
+      "category": "Travel"
+    }
+  ],
+  "submitterId": 789,
+  "submittedAt": "2024-01-31T14:30:00Z",
+  "createdAt": "2024-01-31T10:00:00Z",
+  "updatedAt": "2024-01-31T14:30:00Z"
+}
+```
+
+</ResponseExample>
+

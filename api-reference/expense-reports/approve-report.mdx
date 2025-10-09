@@ -1,0 +1,83 @@
+---
+title: "Approve Expense Report"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/approvals"
+description: "Approve or partially approve an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="approved" type="boolean" required>
+  Whether to approve the report
+</ParamField>
+
+<ParamField body="expenseIds" type="array">
+  Array of expense IDs to approve (for partial approval)
+</ParamField>
+
+<ParamField body="comments" type="string">
+  Approval comments
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+# Full Approval
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approvals \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "approved": true,
+    "comments": "Approved for reimbursement"
+  }'
+
+# Partial Approval
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approvals \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "approved": true,
+    "expenseIds": [12345, 12346],
+    "comments": "Approved items 1 and 2, please resubmit item 3 with correct amount"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Full Approval Response
+{
+  "id": 1001,
+  "status": "approved",
+  "approvedBy": 100,
+  "approvedAt": "2024-02-01T09:00:00Z",
+  "approvalComments": "Approved for reimbursement"
+}
+```
+
+```json Partial Approval Response
+{
+  "id": 1001,
+  "status": "partially_approved",
+  "approvedBy": 100,
+  "approvedAt": "2024-02-01T09:00:00Z",
+  "approvalComments": "Approved items 1 and 2, please resubmit item 3 with correct amount",
+  "approvedExpenseIds": [12345, 12346],
+  "rejectedExpenseIds": [12347]
+}
+```
+
+</ResponseExample>
+

@@ -1,0 +1,351 @@
+---
+title: "List Merchants"
+api: "GET https://api.smartbills.io/v1/merchants"
+description: "Retrieve a paginated list of merchants"
+---
+
+## Overview
+
+Retrieve a list of all merchants in your account with pagination, sorting, and filtering options.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `merchants.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number for pagination (starts at 1)
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Number of items per page (max: 100)
+</ParamField>
+
+<ParamField query="orderBy" type="string" default="createdAt">
+  Field to sort by. Options: `id`, `name`, `createdAt`, `updatedAt`
+</ParamField>
+
+<ParamField query="sortOrder" type="string" default="desc">
+  Sort order. Options: `asc`, `desc`
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search merchants by name or website
+</ParamField>
+
+<ParamField query="currency" type="string">
+  Filter by currency code (e.g., USD, CAD, EUR)
+</ParamField>
+
+## Response
+
+<ResponseField name="data" type="array">
+  Array of merchant objects
+  
+  <Expandable title="Merchant Object">
+    <ResponseField name="id" type="integer">
+      Unique identifier for the merchant
+    </ResponseField>
+    
+    <ResponseField name="name" type="string">
+      Name of the merchant
+    </ResponseField>
+    
+    <ResponseField name="slug" type="string">
+      URL-friendly slug
+    </ResponseField>
+    
+    <ResponseField name="website" type="string">
+      Website URL
+    </ResponseField>
+    
+    <ResponseField name="currency" type="string">
+      Currency code
+    </ResponseField>
+    
+    <ResponseField name="timezone" type="string">
+      Timezone
+    </ResponseField>
+    
+    <ResponseField name="phoneNumber" type="string">
+      Phone number
+    </ResponseField>
+    
+    <ResponseField name="locale" type="string">
+      Locale code
+    </ResponseField>
+    
+    <ResponseField name="logo" type="string">
+      Logo URL
+    </ResponseField>
+    
+    <ResponseField name="address" type="object">
+      Physical address with all fields
+    </ResponseField>
+    
+    <ResponseField name="createdAt" type="string">
+      Creation timestamp
+    </ResponseField>
+    
+    <ResponseField name="updatedAt" type="string">
+      Last update timestamp
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Pagination metadata
+  
+  <Expandable title="Metadata Object">
+    <ResponseField name="page" type="integer">
+      Current page number
+    </ResponseField>
+    
+    <ResponseField name="pageSize" type="integer">
+      Number of items per page
+    </ResponseField>
+    
+    <ResponseField name="totalPages" type="integer">
+      Total number of pages
+    </ResponseField>
+    
+    <ResponseField name="count" type="integer">
+      Total number of merchants
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/merchants?page=1&pageSize=20&orderBy=name&sortOrder=asc' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const response = await client.merchants.list({
+  page: 1,
+  pageSize: 20,
+  orderBy: 'name',
+  sortOrder: 'asc'
+});
+
+console.log(`Found ${response.metadata.count} merchants`);
+console.log('Merchants:', response.data);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+response = client.merchants.list(
+    page=1,
+    page_size=20,
+    order_by='name',
+    sort_order='asc'
+)
+
+print(f"Found {response.metadata.count} merchants")
+print('Merchants:', response.data)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var response = await client.Merchants.ListAsync(new MerchantListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    OrderBy = "name",
+    SortOrder = "asc"
+});
+
+Console.WriteLine($"Found {response.Metadata.Count} merchants");
+foreach (var merchant in response.Data)
+{
+    Console.WriteLine($"- {merchant.Name}");
+}
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "name": "Acme Coffee Shop",
+      "slug": "acme-coffee-shop",
+      "website": "https://acmecoffee.com",
+      "currency": "USD",
+      "timezone": "America/New_York",
+      "phoneNumber": "+1-555-123-4567",
+      "locale": "en-US",
+      "logo": "https://acmecoffee.com/logo.png",
+      "address": {
+        "line1": "123 Main Street",
+        "city": "New York",
+        "state": "New York",
+        "stateCode": "NY",
+        "country": "United States",
+        "countryCode": "US",
+        "postalCode": "10001",
+        "location": {
+          "latitude": 40.7128,
+          "longitude": -74.0060
+        },
+        "formattedAddress": "123 Main Street, New York, NY 10001, United States"
+      },
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-15T10:30:00Z"
+    },
+    {
+      "id": 12346,
+      "name": "Best Bakery",
+      "slug": "best-bakery",
+      "website": "https://bestbakery.com",
+      "currency": "USD",
+      "timezone": "America/Los_Angeles",
+      "phoneNumber": "+1-555-987-6543",
+      "locale": "en-US",
+      "logo": "https://bestbakery.com/logo.png",
+      "address": {
+        "line1": "456 Oak Avenue",
+        "city": "San Francisco",
+        "state": "California",
+        "stateCode": "CA",
+        "country": "United States",
+        "countryCode": "US",
+        "postalCode": "94102",
+        "location": {
+          "latitude": 37.7749,
+          "longitude": -122.4194
+        },
+        "formattedAddress": "456 Oak Avenue, San Francisco, CA 94102, United States"
+      },
+      "createdAt": "2024-01-14T09:15:00Z",
+      "updatedAt": "2024-01-14T09:15:00Z"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "count": 95
+  }
+}
+```
+
+</ResponseExample>
+
+## Filtering and Searching
+
+### Search by Name or Website
+
+```bash
+GET /v1/merchants?search=coffee
+```
+
+This will return all merchants where the name or website contains "coffee".
+
+### Filter by Currency
+
+```bash
+GET /v1/merchants?currency=USD
+```
+
+### Combine Filters
+
+```bash
+GET /v1/merchants?currency=USD&orderBy=name&sortOrder=asc&pageSize=50
+```
+
+## Pagination Example
+
+To fetch all merchants, iterate through pages:
+
+```javascript
+async function getAllMerchants() {
+  const allMerchants = [];
+  let page = 1;
+  let hasMore = true;
+  
+  while (hasMore) {
+    const response = await client.merchants.list({ page, pageSize: 100 });
+    allMerchants.push(...response.data);
+    
+    hasMore = page < response.metadata.totalPages;
+    page++;
+  }
+  
+  return allMerchants;
+}
+```
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid query parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Pagination" icon="list">
+    Always use pagination for better performance. Don't request more than you need.
+    
+    ```javascript
+    // Good: Reasonable page size
+    const merchants = await client.merchants.list({ pageSize: 50 });
+    
+    // Avoid: Requesting maximum every time
+    const merchants = await client.merchants.list({ pageSize: 100 });
+    ```
+  </Accordion>
+
+  <Accordion title="Cache Results" icon="database">
+    Cache merchant data when appropriate to reduce API calls. Merchants don't change frequently.
+  </Accordion>
+
+  <Accordion title="Use Search Efficiently" icon="magnifying-glass">
+    Use the search parameter to filter results server-side rather than fetching all and filtering client-side.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Merchant" icon="plus" href="/api-reference/merchants/create-merchant">
+    Create a new merchant
+  </Card>
+  <Card title="Get Merchant" icon="eye" href="/api-reference/merchants/get-merchant">
+    Retrieve a merchant by ID
+  </Card>
+  <Card title="Update Merchant" icon="pen" href="/api-reference/merchants/update-merchant">
+    Modify merchant details
+  </Card>
+  <Card title="Delete Merchant" icon="trash" href="/api-reference/merchants/delete-merchant">
+    Remove a merchant
+  </Card>
+</CardGroup>
+

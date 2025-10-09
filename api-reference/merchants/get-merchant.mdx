@@ -1,0 +1,239 @@
+---
+title: "Get Merchant"
+api: "GET https://api.smartbills.io/v1/merchants/{id}"
+description: "Retrieve a merchant by ID"
+---
+
+## Overview
+
+Retrieve detailed information about a specific merchant using its unique identifier.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `merchants.read`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the merchant to retrieve
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the merchant
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Name of the merchant
+</ResponseField>
+
+<ResponseField name="slug" type="string">
+  URL-friendly slug generated from the merchant name
+</ResponseField>
+
+<ResponseField name="website" type="string">
+  Website URL of the merchant
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Three-letter ISO currency code
+</ResponseField>
+
+<ResponseField name="timezone" type="string">
+  IANA timezone identifier
+</ResponseField>
+
+<ResponseField name="phoneNumber" type="string">
+  Phone number of the merchant
+</ResponseField>
+
+<ResponseField name="locale" type="string">
+  Locale code (e.g., "en-US", "fr-CA")
+</ResponseField>
+
+<ResponseField name="logo" type="string">
+  URL of the merchant's logo image
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Physical address of the merchant
+  
+  <Expandable title="Address Object">
+    <ResponseField name="line1" type="string">
+      First line of the address
+    </ResponseField>
+    
+    <ResponseField name="line2" type="string">
+      Second line of the address
+    </ResponseField>
+    
+    <ResponseField name="city" type="string">
+      City name
+    </ResponseField>
+    
+    <ResponseField name="state" type="string">
+      State or province name
+    </ResponseField>
+    
+    <ResponseField name="stateCode" type="string">
+      Two-letter state/province code
+    </ResponseField>
+    
+    <ResponseField name="country" type="string">
+      Country name
+    </ResponseField>
+    
+    <ResponseField name="countryCode" type="string">
+      Two-letter ISO country code
+    </ResponseField>
+    
+    <ResponseField name="postalCode" type="string">
+      Postal or ZIP code
+    </ResponseField>
+    
+    <ResponseField name="location" type="object">
+      Geographic coordinates
+      
+      <Expandable title="Location">
+        <ResponseField name="latitude" type="number">
+          Latitude coordinate
+        </ResponseField>
+        
+        <ResponseField name="longitude" type="number">
+          Longitude coordinate
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    
+    <ResponseField name="formattedAddress" type="string">
+      Complete formatted address string
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  ISO 8601 timestamp of when the merchant was created
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  ISO 8601 timestamp of when the merchant was last updated
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/merchants/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const merchant = await client.merchants.get(12345);
+console.log('Merchant:', merchant);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+merchant = client.merchants.get(12345)
+print('Merchant:', merchant)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var merchant = await client.Merchants.GetAsync(12345);
+Console.WriteLine($"Merchant: {merchant.Name}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "John's Coffee Shop",
+  "slug": "johns-coffee-shop",
+  "website": "https://johnscoffee.com",
+  "currency": "USD",
+  "timezone": "America/New_York",
+  "phoneNumber": "+1-555-123-4567",
+  "locale": "en-US",
+  "logo": "https://johnscoffee.com/logo.png",
+  "address": {
+    "line1": "123 Main Street",
+    "line2": "Suite 100",
+    "city": "New York",
+    "state": "New York",
+    "stateCode": "NY",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "10001",
+    "location": {
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "formattedAddress": "123 Main Street, Suite 100, New York, NY 10001, United States"
+  },
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-15T14:22:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions (missing `merchants.read` scope) |
+| 404 | NOT_FOUND | Merchant with the specified ID does not exist |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<ResponseExample>
+
+```json Error Response
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Merchant with ID 12345 not found"
+  }
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Merchant" icon="plus" href="/api-reference/merchants/create-merchant">
+    Create a new merchant
+  </Card>
+  <Card title="List Merchants" icon="list" href="/api-reference/merchants/list-merchants">
+    Get all merchants
+  </Card>
+  <Card title="Update Merchant" icon="pen" href="/api-reference/merchants/update-merchant">
+    Modify merchant details
+  </Card>
+  <Card title="Delete Merchant" icon="trash" href="/api-reference/merchants/delete-merchant">
+    Remove a merchant
+  </Card>
+</CardGroup>
+

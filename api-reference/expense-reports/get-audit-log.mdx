@@ -1,0 +1,58 @@
+---
+title: "Get Audit Log"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/audit-log"
+description: "Retrieve the complete audit log for an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/audit-log \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "auditLog": [
+    {
+      "id": 1,
+      "action": "CREATED",
+      "userId": 789,
+      "changes": {
+        "title": "January 2024 Business Trip"
+      },
+      "timestamp": "2024-01-31T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "action": "UPDATED",
+      "userId": 789,
+      "changes": {
+        "expenseIds": {
+          "before": [12345, 12346],
+          "after": [12345, 12346, 12347]
+        }
+      },
+      "timestamp": "2024-01-31T12:00:00Z"
+    }
+  ]
+}
+```
+
+</ResponseExample>
+

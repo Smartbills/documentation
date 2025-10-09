@@ -1,0 +1,77 @@
+---
+title: "Delete Receipt"
+api: "DELETE https://api.smartbills.io/v1/receipts/{id}"
+description: "Delete a receipt from your account"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `receipts.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the receipt to delete
+</ParamField>
+
+<Warning>
+  **Destructive Action**: Deleting a receipt is permanent and cannot be undone.
+</Warning>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/receipts/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const deleted = await client.receipts.delete(12345);
+```
+
+```python Python
+deleted = client.receipts.delete(12345)
+```
+
+```csharp C#
+var deleted = await client.Receipts.DeleteAsync(12345);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "receiptNumber": "RCP-2024-001",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Receipt" icon="plus" href="/api-reference/receipts/create-receipt">
+    Create a new receipt
+  </Card>
+  <Card title="Get Receipt" icon="eye" href="/api-reference/receipts/get-receipt">
+    Retrieve a receipt by ID
+  </Card>
+  <Card title="List Receipts" icon="list" href="/api-reference/receipts/list-receipts">
+    Get all receipts
+  </Card>
+  <Card title="Update Receipt" icon="pen" href="/api-reference/receipts/update-receipt">
+    Modify receipt details
+  </Card>
+</CardGroup>
+

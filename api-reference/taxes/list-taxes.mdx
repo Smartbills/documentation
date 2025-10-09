@@ -1,0 +1,107 @@
+---
+title: "List Taxes"
+api: "GET https://api.smartbills.io/v1/taxes"
+description: "Retrieve a paginated list of taxes"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `taxes.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Items per page (max: 100)
+</ParamField>
+
+<ParamField query="type" type="string">
+  Filter by tax type
+</ParamField>
+
+<ParamField query="region" type="string">
+  Filter by region
+</ParamField>
+
+<ParamField query="isActive" type="boolean">
+  Filter by active status
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/taxes?isActive=true' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await client.taxes.list({
+  isActive: true
+});
+```
+
+```python Python
+response = client.taxes.list(is_active=True)
+```
+
+```csharp C#
+var response = await client.Taxes.ListAsync(new TaxListRequest
+{
+    IsActive = true
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "name": "GST",
+      "rate": 5.0,
+      "type": "gst",
+      "region": "Canada",
+      "isActive": true
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 1,
+    "count": 12
+  }
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Tax" icon="plus" href="/api-reference/taxes/create-tax">
+    Create a new tax
+  </Card>
+  <Card title="Get Tax" icon="eye" href="/api-reference/taxes/get-tax">
+    Retrieve a tax by ID
+  </Card>
+  <Card title="Update Tax" icon="pen" href="/api-reference/taxes/update-tax">
+    Modify tax details
+  </Card>
+  <Card title="Delete Tax" icon="trash" href="/api-reference/taxes/delete-tax">
+    Remove a tax
+  </Card>
+</CardGroup>
+

@@ -1,0 +1,30 @@
+---
+title: "Delete Expense Report"
+api: "DELETE https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}"
+description: "Delete an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+<Warning>
+  Can only delete reports in draft status. Submitted or approved reports cannot be deleted.
+</Warning>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+

@@ -1,0 +1,90 @@
+---
+title: "Update Tax"
+api: "PUT https://api.smartbills.io/v1/taxes/{id}"
+description: "Update an existing tax"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `taxes.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the tax to update
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/taxes/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "GST - Updated",
+    "rate": 5.5
+  }'
+```
+
+```javascript JavaScript
+const updated = await client.taxes.update(12345, {
+  name: "GST - Updated",
+  rate: 5.5
+});
+```
+
+```python Python
+updated = client.taxes.update(
+    12345,
+    name="GST - Updated",
+    rate=5.5
+)
+```
+
+```csharp C#
+var updated = await client.Taxes.UpdateAsync(12345, new TaxUpdateRequest
+{
+    Name = "GST - Updated",
+    Rate = 5.5m
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "GST - Updated",
+  "rate": 5.5,
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Tax" icon="plus" href="/api-reference/taxes/create-tax">
+    Create a new tax
+  </Card>
+  <Card title="Get Tax" icon="eye" href="/api-reference/taxes/get-tax">
+    Retrieve a tax by ID
+  </Card>
+  <Card title="List Taxes" icon="list" href="/api-reference/taxes/list-taxes">
+    Get all taxes
+  </Card>
+  <Card title="Delete Tax" icon="trash" href="/api-reference/taxes/delete-tax">
+    Remove a tax
+  </Card>
+</CardGroup>
+

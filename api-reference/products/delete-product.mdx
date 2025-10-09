@@ -1,0 +1,132 @@
+---
+title: "Delete Product"
+api: "DELETE https://api.smartbills.io/v1/products/{id}"
+description: "Delete a product from your catalog"
+---
+
+## Overview
+
+Permanently delete a product from your Smartbills catalog. This action cannot be undone.
+
+<Warning>
+  **Destructive Action**: Deleting a product is permanent and will also delete all associated variants and images.
+</Warning>
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `products.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the product to delete
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/products/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const deletedProduct = await client.products.delete(12345);
+console.log('Deleted product:', deletedProduct);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+deleted_product = client.products.delete(12345)
+print('Deleted product:', deleted_product)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var deletedProduct = await client.Products.DeleteAsync(12345);
+Console.WriteLine($"Deleted product: {deletedProduct.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Premium Coffee Beans",
+  "slug": "premium-coffee-beans",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T14:22:00Z",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Product not found |
+| 409 | CONFLICT | Cannot delete product with active orders |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Important Considerations
+
+<AccordionGroup>
+  <Accordion title="Impact on Orders" icon="receipt">
+    Check for active orders before deleting a product.
+  </Accordion>
+
+  <Accordion title="Unpublish Alternative" icon="eye-slash">
+    Consider unpublishing the product instead of deleting:
+    
+    ```javascript
+    await client.products.update(12345, {
+      ...product,
+      publishedAt: null
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Cascading Deletion" icon="layer-group">
+    Deleting a product will also delete all its variants and images.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Product" icon="plus" href="/api-reference/products/create-product">
+    Create a new product
+  </Card>
+  <Card title="Get Product" icon="eye" href="/api-reference/products/get-product">
+    Retrieve a product by ID
+  </Card>
+  <Card title="List Products" icon="list" href="/api-reference/products/list-products">
+    Get all products
+  </Card>
+  <Card title="Update Product" icon="pen" href="/api-reference/products/update-product">
+    Modify product details
+  </Card>
+</CardGroup>
+

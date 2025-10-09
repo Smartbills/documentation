@@ -1,0 +1,159 @@
+---
+title: "Update Product"
+api: "PUT https://api.smartbills.io/v1/products/{id}"
+description: "Update an existing product's information"
+---
+
+## Overview
+
+Update the details of an existing product including variants and images.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `products.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the product to update
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/products/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "Premium Coffee Beans - Updated",
+    "description": "Organic single-origin coffee beans from Colombia - Now Fair Trade Certified",
+    "category": "Beverages",
+    "tags": ["coffee", "organic", "premium", "fair-trade"]
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const updatedProduct = await client.products.update(12345, {
+  name: "Premium Coffee Beans - Updated",
+  description: "Organic single-origin coffee beans from Colombia - Now Fair Trade Certified",
+  category: "Beverages",
+  tags: ["coffee", "organic", "premium", "fair-trade"]
+});
+
+console.log('Updated product:', updatedProduct);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+updated_product = client.products.update(
+    12345,
+    name="Premium Coffee Beans - Updated",
+    description="Organic single-origin coffee beans from Colombia - Now Fair Trade Certified",
+    category="Beverages",
+    tags=["coffee", "organic", "premium", "fair-trade"]
+)
+
+print('Updated product:', updated_product)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var updatedProduct = await client.Products.UpdateAsync(12345, new ProductUpdateRequest
+{
+    Name = "Premium Coffee Beans - Updated",
+    Description = "Organic single-origin coffee beans from Colombia - Now Fair Trade Certified",
+    Category = "Beverages",
+    Tags = new[] { "coffee", "organic", "premium", "fair-trade" }
+});
+
+Console.WriteLine($"Updated product: {updatedProduct.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Premium Coffee Beans - Updated",
+  "description": "Organic single-origin coffee beans from Colombia - Now Fair Trade Certified",
+  "slug": "premium-coffee-beans-updated",
+  "category": "Beverages",
+  "tags": ["coffee", "organic", "premium", "fair-trade"],
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Product not found |
+| 409 | DUPLICATE_PRODUCT | Product name or slug already exists |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<Warning>
+  **Full Replacement**: The update operation replaces all fields. Include all required fields in your request.
+</Warning>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Fetch Before Update" icon="arrows-rotate">
+    Always fetch the current product data before updating.
+    
+    ```javascript
+    const current = await client.products.get(12345);
+    const updated = await client.products.update(12345, {
+      ...current,
+      description: "Updated description"
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Update Variants Separately" icon="layer-group">
+    Use dedicated variant endpoints to update individual variants.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Product" icon="plus" href="/api-reference/products/create-product">
+    Create a new product
+  </Card>
+  <Card title="Get Product" icon="eye" href="/api-reference/products/get-product">
+    Retrieve a product by ID
+  </Card>
+  <Card title="List Products" icon="list" href="/api-reference/products/list-products">
+    Get all products
+  </Card>
+  <Card title="Delete Product" icon="trash" href="/api-reference/products/delete-product">
+    Remove a product
+  </Card>
+</CardGroup>
+

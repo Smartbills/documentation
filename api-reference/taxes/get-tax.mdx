@@ -1,0 +1,78 @@
+---
+title: "Get Tax"
+api: "GET https://api.smartbills.io/v1/taxes/{id}"
+description: "Retrieve a tax by ID"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `taxes.read`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the tax
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/taxes/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const tax = await client.taxes.get(12345);
+```
+
+```python Python
+tax = client.taxes.get(12345)
+```
+
+```csharp C#
+var tax = await client.Taxes.GetAsync(12345);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "GST",
+  "rate": 5.0,
+  "type": "gst",
+  "region": "Canada",
+  "isCompound": false,
+  "isActive": true,
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Tax" icon="plus" href="/api-reference/taxes/create-tax">
+    Create a new tax
+  </Card>
+  <Card title="List Taxes" icon="list" href="/api-reference/taxes/list-taxes">
+    Get all taxes
+  </Card>
+  <Card title="Update Tax" icon="pen" href="/api-reference/taxes/update-tax">
+    Modify tax details
+  </Card>
+  <Card title="Delete Tax" icon="trash" href="/api-reference/taxes/delete-tax">
+    Remove a tax
+  </Card>
+</CardGroup>
+

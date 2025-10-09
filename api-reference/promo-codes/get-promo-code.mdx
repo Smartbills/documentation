@@ -1,0 +1,79 @@
+---
+title: "Get Promo Code"
+api: "GET https://api.smartbills.io/v1/promo-codes/{id}"
+description: "Retrieve a promo code by ID"
+---
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication
+</ParamField>
+
+## Required Scopes
+
+- `promo-codes.read`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the promo code
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/promo-codes/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const promoCode = await client.promoCodes.get(12345);
+```
+
+```python Python
+promo_code = client.promo_codes.get(12345)
+```
+
+```csharp C#
+var promoCode = await client.PromoCodes.GetAsync(12345);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "code": "SUMMER2024",
+  "description": "Summer sale - 20% off",
+  "discountType": "percentage",
+  "discountValue": 20,
+  "usageCount": 245,
+  "usageLimit": 1000,
+  "isActive": true,
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Promo Code" icon="plus" href="/api-reference/promo-codes/create-promo-code">
+    Create a new promo code
+  </Card>
+  <Card title="Validate Promo Code" icon="check" href="/api-reference/promo-codes/validate-promo-code">
+    Validate a promo code
+  </Card>
+  <Card title="List Promo Codes" icon="list" href="/api-reference/promo-codes/list-promo-codes">
+    Get all promo codes
+  </Card>
+  <Card title="Update Promo Code" icon="pen" href="/api-reference/promo-codes/update-promo-code">
+    Modify promo code
+  </Card>
+</CardGroup>
+

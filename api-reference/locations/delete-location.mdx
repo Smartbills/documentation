@@ -1,0 +1,182 @@
+---
+title: "Delete Location"
+api: "DELETE https://api.smartbills.io/v1/locations/{id}"
+description: "Delete a location from your account"
+---
+
+## Overview
+
+Permanently delete a business location from your Smartbills account. This action cannot be undone.
+
+<Warning>
+  **Destructive Action**: Deleting a location is permanent and cannot be undone. Consider the impact on related receipts and transactions.
+</Warning>
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `locations.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the location to delete
+</ParamField>
+
+## Response
+
+Returns the deleted location object for confirmation.
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/locations/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const deletedLocation = await client.locations.delete(12345);
+console.log('Deleted location:', deletedLocation);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+deleted_location = client.locations.delete(12345)
+print('Deleted location:', deleted_location)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var deletedLocation = await client.Locations.DeleteAsync(12345);
+Console.WriteLine($"Deleted location: {deletedLocation.Name}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Downtown Store",
+  "address": {
+    "street": "123 Main Street",
+    "city": "New York",
+    "state": "New York",
+    "stateCode": "NY",
+    "country": "United States",
+    "countryCode": "US",
+    "postalCode": "10001",
+    "location": {
+      "latitude": 40.7128,
+      "longitude": -74.0060
+    },
+    "formattedAddress": "123 Main Street, New York, NY 10001, United States"
+  },
+  "merchantCategoryCode": "5411",
+  "isActive": false,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T14:22:00Z",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Location not found |
+| 409 | CONFLICT | Cannot delete location with active receipts |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<ResponseExample>
+
+```json Error Response
+{
+  "error": {
+    "code": "CONFLICT",
+    "message": "Cannot delete location with active receipts",
+    "details": [
+      {
+        "field": "receipts",
+        "message": "Location has 23 active receipts",
+        "activeReceiptsCount": 23
+      }
+    ]
+  }
+}
+```
+
+</ResponseExample>
+
+## Important Considerations
+
+<AccordionGroup>
+  <Accordion title="Impact on Receipts" icon="receipt">
+    Check for associated receipts before deleting a location.
+    
+    ```javascript
+    const receipts = await client.receipts.list({ locationId: 12345 });
+    
+    if (receipts.data.length > 0) {
+      console.warn(`Location has ${receipts.data.length} receipts`);
+      // Handle receipts before deletion
+    } else {
+      await client.locations.delete(12345);
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Soft Delete Alternative" icon="archive">
+    Consider marking locations as inactive instead of deleting:
+    
+    ```javascript
+    await client.locations.update(12345, {
+      ...currentLocation,
+      isActive: false
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Confirmation Pattern" icon="triangle-exclamation">
+    Always implement user confirmation before deletion.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Location" icon="plus" href="/api-reference/locations/create-location">
+    Create a new location
+  </Card>
+  <Card title="Get Location" icon="eye" href="/api-reference/locations/get-location">
+    Retrieve a location by ID
+  </Card>
+  <Card title="List Locations" icon="list" href="/api-reference/locations/list-locations">
+    Get all locations
+  </Card>
+  <Card title="Update Location" icon="pen" href="/api-reference/locations/update-location">
+    Modify location details
+  </Card>
+</CardGroup>
+

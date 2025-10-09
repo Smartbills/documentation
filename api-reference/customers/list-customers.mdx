@@ -1,0 +1,229 @@
+---
+title: "List Customers"
+api: "GET https://api.smartbills.io/v1/customers"
+description: "Retrieve a paginated list of customers"
+---
+
+## Overview
+
+Retrieve a list of all customers in your account with pagination, sorting, and filtering options.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `customers.read`
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Number of items per page (max: 100)
+</ParamField>
+
+<ParamField query="orderBy" type="string" default="createdAt">
+  Field to sort by: `id`, `firstName`, `lastName`, `email`, `createdAt`, `updatedAt`, `totalSpent`
+</ParamField>
+
+<ParamField query="sortOrder" type="string" default="desc">
+  Sort order: `asc`, `desc`
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search by name or email
+</ParamField>
+
+<ParamField query="email" type="string">
+  Filter by exact email address
+</ParamField>
+
+<ParamField query="taxExempt" type="boolean">
+  Filter by tax exempt status
+</ParamField>
+
+<ParamField query="acceptsMarketing" type="boolean">
+  Filter by marketing acceptance
+</ParamField>
+
+<ParamField query="tags" type="string">
+  Filter by tags (comma-separated)
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/customers?page=1&pageSize=20&orderBy=totalSpent&sortOrder=desc' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const response = await client.customers.list({
+  page: 1,
+  pageSize: 20,
+  orderBy: 'totalSpent',
+  sortOrder: 'desc'
+});
+
+console.log(`Found ${response.metadata.count} customers`);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+response = client.customers.list(
+    page=1,
+    page_size=20,
+    order_by='totalSpent',
+    sort_order='desc'
+)
+
+print(f"Found {response.metadata.count} customers")
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var response = await client.Customers.ListAsync(new CustomerListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    OrderBy = "totalSpent",
+    SortOrder = "desc"
+});
+
+Console.WriteLine($"Found {response.Metadata.Count} customers");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1-555-123-4567",
+      "locale": "en-US",
+      "taxExempt": false,
+      "acceptsMarketing": true,
+      "tags": ["vip", "premium"],
+      "totalSpent": 15420.50,
+      "totalOrders": 47,
+      "createdAt": "2024-01-15T10:30:00Z",
+      "updatedAt": "2024-01-20T14:22:00Z"
+    },
+    {
+      "id": 12346,
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "email": "jane.smith@example.com",
+      "phone": "+1-555-987-6543",
+      "locale": "en-US",
+      "taxExempt": false,
+      "acceptsMarketing": false,
+      "tags": ["wholesale"],
+      "totalSpent": 8750.25,
+      "totalOrders": 23,
+      "createdAt": "2024-01-14T09:15:00Z",
+      "updatedAt": "2024-01-19T11:30:00Z"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 8,
+    "count": 156
+  }
+}
+```
+
+</ResponseExample>
+
+## Filtering Examples
+
+### Search by Name or Email
+
+```bash
+GET /v1/customers?search=john
+```
+
+### Filter by Tag
+
+```bash
+GET /v1/customers?tags=vip
+```
+
+### Filter Marketing Opt-ins
+
+```bash
+GET /v1/customers?acceptsMarketing=true
+```
+
+### Get Top Spenders
+
+```bash
+GET /v1/customers?orderBy=totalSpent&sortOrder=desc&pageSize=10
+```
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid query parameter |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Pagination" icon="list">
+    Always use pagination for better performance.
+  </Accordion>
+
+  <Accordion title="Cache Results" icon="database">
+    Cache customer data when appropriate to reduce API calls.
+  </Accordion>
+
+  <Accordion title="Search Efficiently" icon="magnifying-glass">
+    Use the search parameter for user-facing search features.
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Customer" icon="plus" href="/api-reference/customers/create-customer">
+    Create a new customer
+  </Card>
+  <Card title="Get Customer" icon="eye" href="/api-reference/customers/get-customer">
+    Retrieve a customer by ID
+  </Card>
+  <Card title="Update Customer" icon="pen" href="/api-reference/customers/update-customer">
+    Modify customer details
+  </Card>
+  <Card title="Delete Customer" icon="trash" href="/api-reference/customers/delete-customer">
+    Remove a customer
+  </Card>
+</CardGroup>
+

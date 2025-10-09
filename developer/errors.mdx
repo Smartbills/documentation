@@ -1,0 +1,657 @@
+---
+title: 'Error Handling'
+description: 'Learn how to handle errors in the SmartBills API'
+---
+
+## Overview
+
+The SmartBills API uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success, `4xx` indicate client errors, and `5xx` indicate server errors.
+
+## HTTP Status Codes
+
+| Code | Status | Description |
+|------|--------|-------------|
+| 200 | OK | Request succeeded |
+| 201 | Created | Resource created successfully |
+| 204 | No Content | Request succeeded with no response body |
+| 400 | Bad Request | Invalid request parameters |
+| 401 | Unauthorized | Invalid or missing API key |
+| 403 | Forbidden | Insufficient permissions |
+| 404 | Not Found | Resource not found |
+| 409 | Conflict | Resource conflict (e.g., duplicate) |
+| 422 | Unprocessable Entity | Validation error |
+| 429 | Too Many Requests | Rate limit exceeded |
+| 500 | Internal Server Error | Server error |
+| 503 | Service Unavailable | Service temporarily unavailable |
+
+## Error Response Format
+
+All errors follow a consistent JSON structure:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0",
+        "code": "INVALID_AMOUNT"
+      }
+    ],
+    "requestId": "req_1234567890abcdef",
+    "timestamp": "2024-01-15T10:30:00Z"
+  }
+}
+```
+
+### Error Fields
+
+| Field | Description |
+|-------|-------------|
+| `code` | Machine-readable error code |
+| `message` | Human-readable error message |
+| `details` | Array of detailed error information (for validation errors) |
+| `requestId` | Unique request identifier for debugging |
+| `timestamp` | When the error occurred |
+
+## Error Codes
+
+### Authentication Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `UNAUTHORIZED` | 401 | Invalid or missing API key |
+| `API_KEY_EXPIRED` | 401 | API key has expired |
+| `API_KEY_REVOKED` | 401 | API key has been revoked |
+| `INVALID_TOKEN` | 401 | Invalid JWT token |
+
+### Permission Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `FORBIDDEN` | 403 | Insufficient permissions |
+| `INSUFFICIENT_PERMISSIONS` | 403 | Missing required scopes |
+| `BUSINESS_ACCESS_DENIED` | 403 | No access to this business |
+
+### Validation Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `VALIDATION_FAILED` | 400 | Request validation failed |
+| `INVALID_AMOUNT` | 400 | Invalid amount value |
+| `INVALID_CURRENCY` | 400 | Invalid currency code |
+| `INVALID_DATE` | 400 | Invalid date format |
+| `MISSING_REQUIRED_FIELD` | 400 | Required field is missing |
+
+### Resource Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `NOT_FOUND` | 404 | Resource not found |
+| `ALREADY_EXISTS` | 409 | Resource already exists |
+| `CONFLICT` | 409 | Resource state conflict |
+| `DELETED` | 410 | Resource has been deleted |
+
+### Rate Limit Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `RATE_LIMIT_EXCEEDED` | 429 | Rate limit exceeded |
+
+### Server Errors
+
+| Code | HTTP Status | Description |
+|------|------------|-------------|
+| `INTERNAL_ERROR` | 500 | Internal server error |
+| `SERVICE_UNAVAILABLE` | 503 | Service temporarily unavailable |
+
+## Handling Errors
+
+### Basic Error Handling
+
+<CodeGroup>
+
+```javascript JavaScript
+async function fetchExpense(id) {
+  try {
+    const response = await fetch(
+      `https://api.smartbills.io/v1/expenses/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${API_KEY}`
+        }
+      }
+    );
+    
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error.message);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch expense:', error);
+    throw error;
+  }
+}
+```
+
+```python Python
+import requests
+
+def fetch_expense(id):
+    try:
+        response = requests.get(
+            f'https://api.smartbills.io/v1/expenses/{id}',
+            headers={'Authorization': f'Bearer {API_KEY}'}
+        )
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.HTTPError as e:
+        error = e.response.json()
+        print(f'Failed to fetch expense: {error["error"]["message"]}')
+        raise
+```
+
+</CodeGroup>
+
+### Detailed Error Handling
+
+<CodeGroup>
+
+```javascript JavaScript
+async function handleApiRequest(url, options = {}) {
+  try {
+    const response = await fetch(url, {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        ...options.headers
+      }
+    });
+    
+    if (!response.ok) {
+      const error = await response.json();
+      
+      switch (response.status) {
+        case 400:
+          throw new ValidationError(error);
+        case 401:
+          throw new AuthenticationError(error);
+        case 403:
+          throw new PermissionError(error);
+        case 404:
+          throw new NotFoundError(error);
+        case 429:
+          throw new RateLimitError(error);
+        case 500:
+          throw new ServerError(error);
+        default:
+          throw new APIError(error);
+      }
+    }
+    
+    return await response.json();
+  } catch (error) {
+    // Log error for debugging
+    console.error('API Request failed:', {
+      url,
+      error: error.message,
+      requestId: error.requestId
+    });
+    
+    throw error;
+  }
+}
+
+// Custom Error Classes
+class APIError extends Error {
+  constructor(error) {
+    super(error.error.message);
+    this.code = error.error.code;
+    this.requestId = error.error.requestId;
+    this.details = error.error.details;
+  }
+}
+
+class ValidationError extends APIError {
+  getFieldErrors() {
+    return this.details || [];
+  }
+}
+
+class AuthenticationError extends APIError {}
+class PermissionError extends APIError {}
+class NotFoundError extends APIError {}
+class RateLimitError extends APIError {
+  getRetryAfter() {
+    return this.details?.retryAfter || 60;
+  }
+}
+class ServerError extends APIError {}
+```
+
+```python Python
+import requests
+from typing import Optional, Dict, Any
+
+class APIError(Exception):
+    def __init__(self, error_data: Dict[str, Any]):
+        self.code = error_data.get('code')
+        self.message = error_data.get('message')
+        self.request_id = error_data.get('requestId')
+        self.details = error_data.get('details', [])
+        super().__init__(self.message)
+
+class ValidationError(APIError):
+    def get_field_errors(self):
+        return self.details
+
+class AuthenticationError(APIError):
+    pass
+
+class PermissionError(APIError):
+    pass
+
+class NotFoundError(APIError):
+    pass
+
+class RateLimitError(APIError):
+    def get_retry_after(self):
+        if self.details:
+            return self.details.get('retryAfter', 60)
+        return 60
+
+class ServerError(APIError):
+    pass
+
+def handle_api_request(url: str, **kwargs) -> Dict[str, Any]:
+    try:
+        response = requests.request(
+            kwargs.get('method', 'GET'),
+            url,
+            headers={'Authorization': f'Bearer {API_KEY}', **kwargs.get('headers', {})},
+            **{k: v for k, v in kwargs.items() if k not in ['method', 'headers']}
+        )
+        
+        if not response.ok:
+            error_data = response.json().get('error', {})
+            
+            if response.status_code == 400:
+                raise ValidationError(error_data)
+            elif response.status_code == 401:
+                raise AuthenticationError(error_data)
+            elif response.status_code == 403:
+                raise PermissionError(error_data)
+            elif response.status_code == 404:
+                raise NotFoundError(error_data)
+            elif response.status_code == 429:
+                raise RateLimitError(error_data)
+            elif response.status_code >= 500:
+                raise ServerError(error_data)
+            else:
+                raise APIError(error_data)
+        
+        return response.json()
+        
+    except requests.exceptions.RequestException as e:
+        print(f'API Request failed: {e}')
+        raise
+```
+
+</CodeGroup>
+
+## Validation Errors
+
+Validation errors include detailed information about which fields failed validation:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0",
+        "code": "INVALID_AMOUNT"
+      },
+      {
+        "field": "currency",
+        "message": "Currency code must be a valid ISO 4217 code",
+        "code": "INVALID_CURRENCY"
+      },
+      {
+        "field": "date",
+        "message": "Date must be in ISO 8601 format",
+        "code": "INVALID_DATE_FORMAT"
+      }
+    ]
+  }
+}
+```
+
+### Handling Validation Errors
+
+<CodeGroup>
+
+```javascript JavaScript
+async function createExpense(data) {
+  try {
+    return await apiRequest('/expenses', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  } catch (error) {
+    if (error instanceof ValidationError) {
+      const fieldErrors = error.getFieldErrors();
+      
+      // Display errors to user
+      fieldErrors.forEach(({ field, message }) => {
+        showFieldError(field, message);
+      });
+      
+      return null;
+    }
+    throw error;
+  }
+}
+```
+
+```python Python
+def create_expense(data):
+    try:
+        return api_request('/expenses', method='POST', json=data)
+    except ValidationError as e:
+        field_errors = e.get_field_errors()
+        
+        # Display errors to user
+        for error in field_errors:
+            show_field_error(error['field'], error['message'])
+        
+        return None
+```
+
+</CodeGroup>
+
+## Retry Logic
+
+Implement retry logic for transient errors:
+
+<CodeGroup>
+
+```javascript JavaScript
+async function retryableRequest(fn, maxRetries = 3) {
+  const retryableStatuses = [408, 429, 500, 502, 503, 504];
+  
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      const isLastAttempt = attempt === maxRetries - 1;
+      const shouldRetry = error.status && 
+                         retryableStatuses.includes(error.status);
+      
+      if (isLastAttempt || !shouldRetry) {
+        throw error;
+      }
+      
+      // Calculate backoff delay
+      const delay = Math.min(
+        1000 * Math.pow(2, attempt),
+        10000
+      );
+      
+      console.log(
+        `Request failed, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`
+      );
+      
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
+// Usage
+const expense = await retryableRequest(() => 
+  fetchExpense(123)
+);
+```
+
+```python Python
+import time
+import requests
+
+def retryable_request(fn, max_retries=3):
+    retryable_statuses = [408, 429, 500, 502, 503, 504]
+    
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except requests.exceptions.HTTPError as e:
+            is_last_attempt = attempt == max_retries - 1
+            should_retry = e.response.status_code in retryable_statuses
+            
+            if is_last_attempt or not should_retry:
+                raise
+            
+            # Calculate backoff delay
+            delay = min(2 ** attempt, 10)
+            
+            print(f'Request failed, retrying in {delay}s (attempt {attempt + 1}/{max_retries})')
+            
+            time.sleep(delay)
+
+# Usage
+expense = retryable_request(lambda: fetch_expense(123))
+```
+
+</CodeGroup>
+
+## Debugging
+
+### Request IDs
+
+Every error response includes a `requestId` that you can use to debug issues:
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An internal error occurred",
+    "requestId": "req_1234567890abcdef"
+  }
+}
+```
+
+When contacting support, include the `requestId` to help us investigate:
+
+```
+Subject: Error creating expense
+Request ID: req_1234567890abcdef
+```
+
+### Logging
+
+Log errors with sufficient context:
+
+```javascript
+function logError(error, context = {}) {
+  console.error('API Error:', {
+    code: error.code,
+    message: error.message,
+    requestId: error.requestId,
+    context,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Send to error tracking service
+  trackError(error, context);
+}
+```
+
+## Common Error Scenarios
+
+### Invalid API Key
+
+```json
+{
+  "error": {
+    "code": "UNAUTHORIZED",
+    "message": "Invalid API key"
+  }
+}
+```
+
+**Solution**: Verify your API key is correct and hasn't been revoked.
+
+### Insufficient Permissions
+
+```json
+{
+  "error": {
+    "code": "INSUFFICIENT_PERMISSIONS",
+    "message": "Your API key doesn't have the required permissions"
+  }
+}
+```
+
+**Solution**: Check your API key's scopes or generate a new key with appropriate permissions.
+
+### Resource Not Found
+
+```json
+{
+  "error": {
+    "code": "NOT_FOUND",
+    "message": "Expense not found"
+  }
+}
+```
+
+**Solution**: Verify the resource ID is correct and you have access to it.
+
+### Rate Limit Exceeded
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Rate limit exceeded",
+    "details": {
+      "retryAfter": 60
+    }
+  }
+}
+```
+
+**Solution**: Implement exponential backoff or upgrade your plan. See [Rate Limits](/developer/rate-limits).
+
+## Best Practices
+
+### 1. Always Check Response Status
+
+```javascript
+if (!response.ok) {
+  // Handle error
+}
+```
+
+### 2. Implement Proper Error Handling
+
+Don't ignore errors - handle them appropriately:
+
+```javascript
+try {
+  const result = await apiCall();
+  return result;
+} catch (error) {
+  // Log error
+  logger.error(error);
+  
+  // Show user-friendly message
+  showError('Failed to load data. Please try again.');
+  
+  // Optionally re-throw
+  throw error;
+}
+```
+
+### 3. Use Type-Specific Error Handlers
+
+Handle different error types differently:
+
+```javascript
+catch (error) {
+  if (error instanceof ValidationError) {
+    // Show validation errors in form
+  } else if (error instanceof AuthenticationError) {
+    // Redirect to login
+  } else if (error instanceof RateLimitError) {
+    // Wait and retry
+  } else {
+    // Show generic error
+  }
+}
+```
+
+### 4. Log Errors for Debugging
+
+Include sufficient context:
+
+```javascript
+console.error('Failed to create expense:', {
+  error: error.message,
+  code: error.code,
+  requestId: error.requestId,
+  data: expenseData
+});
+```
+
+### 5. Display User-Friendly Messages
+
+Don't show raw API errors to users:
+
+```javascript
+// ❌ Don't
+alert(error.message);
+
+// ✅ Do
+const userMessage = getUserFriendlyMessage(error);
+showNotification(userMessage);
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Rate Limits"
+    icon="gauge"
+    href="/developer/rate-limits"
+  >
+    Handle rate limiting
+  </Card>
+  <Card
+    title="Authentication"
+    icon="shield"
+    href="/authentication"
+  >
+    Learn about authentication
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explore all endpoints
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/developer/webhooks"
+  >
+    Set up webhooks
+  </Card>
+</CardGroup>
+

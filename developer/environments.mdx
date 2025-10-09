@@ -1,0 +1,166 @@
+---
+title: 'Environments'
+description: 'Learn about the different environments available in Smartbills API for testing and production'
+---
+
+## Environments
+
+Smartbills provides two distinct environments to help you develop and test your integration before going live.
+
+## Available Environments
+
+### Production Environment
+
+The production environment is where your live application runs and processes real transactions.
+
+**Base URL:** `https://api.smartbills.io`
+
+<Note>
+  Production API keys are only enabled once your application has been approved by our team.
+</Note>
+
+### Pre-Production (Sandbox) Environment
+
+The pre-production environment is a safe space to develop and test your integration without affecting real data.
+
+**Base URL:** `https://api.preprod.smartbills.io`
+
+<Info>
+  All developer accounts have immediate access to the pre-production environment.
+</Info>
+
+## Key Differences
+
+| Feature | Production | Pre-Production |
+|---------|-----------|----------------|
+| **Base URL** | `api.smartbills.io` | `api.preprod.smartbills.io` |
+| **Data** | Real customer data | Test data only |
+| **API Keys** | Requires approval | Available immediately |
+| **Rate Limits** | Standard limits apply | More lenient limits |
+| **Webhooks** | Sent to production URLs | Sent to test URLs |
+
+## Using Different Environments
+
+You can switch between environments by changing the base URL in your API requests:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Production
+const PROD_URL = 'https://api.smartbills.io';
+
+// Pre-Production
+const PREPROD_URL = 'https://api.preprod.smartbills.io';
+
+// Use environment variable
+const BASE_URL = process.env.NODE_ENV === 'production' 
+  ? PROD_URL 
+  : PREPROD_URL;
+
+const response = await fetch(`${BASE_URL}/v1/expenses`, {
+  headers: {
+    'Authorization': `Bearer ${API_KEY}`
+  }
+});
+```
+
+```python Python
+import os
+
+# Production
+PROD_URL = 'https://api.smartbills.io'
+
+# Pre-Production
+PREPROD_URL = 'https://api.preprod.smartbills.io'
+
+# Use environment variable
+BASE_URL = PROD_URL if os.getenv('ENV') == 'production' else PREPROD_URL
+
+response = requests.get(
+    f'{BASE_URL}/v1/expenses',
+    headers={'Authorization': f'Bearer {API_KEY}'}
+)
+```
+
+```csharp C#
+// Production
+const string PROD_URL = "https://api.smartbills.io";
+
+// Pre-Production
+const string PREPROD_URL = "https://api.preprod.smartbills.io";
+
+// Use environment variable
+var baseUrl = Environment.GetEnvironmentVariable("ENV") == "production" 
+    ? PROD_URL 
+    : PREPROD_URL;
+
+var response = await client.GetAsync($"{baseUrl}/v1/expenses");
+```
+
+</CodeGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Environment Variables" icon="gear">
+    Store your API keys and base URLs as environment variables to easily switch between environments.
+    
+    ```bash
+    # .env.development
+    SMARTBILLS_API_URL=https://api.preprod.smartbills.io
+    SMARTBILLS_API_KEY=your_preprod_key
+    
+    # .env.production
+    SMARTBILLS_API_URL=https://api.smartbills.io
+    SMARTBILLS_API_KEY=your_prod_key
+    ```
+  </Accordion>
+
+  <Accordion title="Test Thoroughly in Pre-Production" icon="flask">
+    Always test your integration thoroughly in the pre-production environment before deploying to production.
+    
+    - Test all API endpoints
+    - Verify error handling
+    - Test webhook delivery
+    - Validate data formats
+  </Accordion>
+
+  <Accordion title="Keep Separate API Keys" icon="key">
+    Use different API keys for each environment and never use production keys in development.
+  </Accordion>
+
+  <Accordion title="Monitor Both Environments" icon="chart-line">
+    Set up monitoring and logging for both environments to catch issues early.
+  </Accordion>
+</AccordionGroup>
+
+## Getting Access
+
+### Pre-Production Access
+
+1. Create a Smartbills account at [smartbills.io](https://smartbills.io)
+2. Visit the [developer portal](https://developers.smartbills.io)
+3. Create a new application
+4. Your pre-production API keys will be generated immediately
+
+### Production Access
+
+1. Complete your integration in pre-production
+2. Submit your application for review
+3. Our team will review your integration
+4. Once approved, your production API keys will be activated
+
+<Warning>
+  Production API keys will only work with the production base URL (`api.smartbills.io`). Using production keys with the pre-production URL will result in authentication errors.
+</Warning>
+
+## Data Isolation
+
+Data between environments is completely isolated:
+
+- Users created in pre-production do not exist in production
+- Receipts and transactions are environment-specific
+- Webhooks are sent to different endpoints per environment
+
+This ensures that your testing activities never affect your production data or users.
+

@@ -1,0 +1,157 @@
+---
+title: "Delete Customer"
+api: "DELETE https://api.smartbills.io/v1/customers/{id}"
+description: "Delete a customer from your account"
+---
+
+## Overview
+
+Permanently delete a customer from your Smartbills account. This action cannot be undone.
+
+<Warning>
+  **Destructive Action**: Deleting a customer is permanent and cannot be undone. Consider the impact on related receipts and orders.
+</Warning>
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Required Scopes
+
+- `customers.write`
+
+## Path Parameters
+
+<ParamField path="id" type="integer" required>
+  The unique identifier of the customer to delete
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/customers/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const deletedCustomer = await client.customers.delete(12345);
+console.log('Deleted customer:', deletedCustomer);
+```
+
+```python Python
+from smartbills import SmartBills
+
+client = SmartBills(api_key='YOUR_API_KEY')
+
+deleted_customer = client.customers.delete(12345)
+print('Deleted customer:', deleted_customer)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var deletedCustomer = await client.Customers.DeleteAsync(12345);
+Console.WriteLine($"Deleted customer: {deletedCustomer.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T14:22:00Z",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | NOT_FOUND | Customer not found |
+| 409 | CONFLICT | Cannot delete customer with active orders |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+<ResponseExample>
+
+```json Error Response
+{
+  "error": {
+    "code": "CONFLICT",
+    "message": "Cannot delete customer with active orders",
+    "details": [
+      {
+        "field": "orders",
+        "message": "Customer has 5 active orders",
+        "activeOrdersCount": 5
+      }
+    ]
+  }
+}
+```
+
+</ResponseExample>
+
+## Important Considerations
+
+<AccordionGroup>
+  <Accordion title="GDPR Compliance" icon="shield">
+    Deleting a customer may be required for GDPR "right to be forgotten" requests.
+  </Accordion>
+
+  <Accordion title="Data Retention" icon="clock">
+    Consider your data retention policies before deletion.
+  </Accordion>
+
+  <Accordion title="Anonymize Alternative" icon="user-slash">
+    Consider anonymizing customer data instead of deleting:
+    
+    ```javascript
+    await client.customers.update(12345, {
+      ...customer,
+      firstName: "Deleted",
+      lastName: "User",
+      email: `deleted-${customer.id}@example.com`,
+      phone: null,
+      metadata: { anonymized: true }
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Create Customer" icon="plus" href="/api-reference/customers/create-customer">
+    Create a new customer
+  </Card>
+  <Card title="Get Customer" icon="eye" href="/api-reference/customers/get-customer">
+    Retrieve a customer by ID
+  </Card>
+  <Card title="List Customers" icon="list" href="/api-reference/customers/list-customers">
+    Get all customers
+  </Card>
+  <Card title="Update Customer" icon="pen" href="/api-reference/customers/update-customer">
+    Modify customer details
+  </Card>
+</CardGroup>
+

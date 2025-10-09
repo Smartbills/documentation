@@ -1,0 +1,36 @@
+---
+title: "Create Business"
+api: "POST https://api.smartbills.io/v1/businesses"
+description: "Create a new business"
+---
+
+## Request Body
+
+<ParamField body="name" type="string" required>
+  Business name
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Default currency (USD, CAD, EUR, etc.)
+</ParamField>
+
+<ParamField body="timezone" type="string" required>
+  Timezone (e.g., America/New_York)
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "My Company Inc.",
+    "currency": "USD",
+    "timezone": "America/New_York"
+  }'
+```
+
+</RequestExample>
+

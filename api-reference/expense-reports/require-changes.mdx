@@ -1,0 +1,49 @@
+---
+title: "Require Changes"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/approvals/require-changes"
+description: "Request changes to an expense report"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="changeRequirements" type="string" required>
+  Description of required changes
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approvals/require-changes \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "changeRequirements": "Please update expense #12347 with the correct amount and provide a detailed receipt"
+  }'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "status": "changes_required",
+  "changeRequirements": "Please update expense #12347 with the correct amount and provide a detailed receipt",
+  "updatedAt": "2024-02-01T10:00:00Z"
+}
+```
+
+</ResponseExample>
+
