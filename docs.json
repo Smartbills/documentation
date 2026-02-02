@@ -1,0 +1,126 @@
+{
+  "$schema": "https://mintlify.com/schema.json",
+  "name": "Smartbills",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#6366F1",
+    "light": "#818CF8",
+    "dark": "#4F46E5",
+    "background": {
+      "dark": "#0F0F10",
+      "light": "#FFFFFF"
+    },
+    "anchors": {
+      "from": "#6366F1",
+      "to": "#8B5CF6"
+    }
+  },
+  "theme": "quill",
+  "modeToggle": {
+    "default": "dark"
+  },
+  "topbarLinks": [
+    { "name": "Support", "url": "mailto:support@smartbills.io" }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.smartbills.io"
+  },
+  "anchors": [
+    { "name": "API Reference", "icon": "code", "url": "api-reference" },
+    { "name": "SDKs", "icon": "cube", "url": "sdks" },
+    { "name": "Community", "icon": "slack", "url": "https://community.smartbills.io" },
+    { "name": "Status", "icon": "signal-bars", "url": "https://status.smartbills.io" }
+  ],
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Platform",
+        "groups": [
+          { "group": "Getting Started", "pages": ["en/introduction", "en/quickstart", "en/authentication"] },
+          { "group": "Platform", "pages": ["en/platform/overview"] },
+          { "group": "Digital Receipts", "pages": ["en/platform/digital-receipts/overview", "en/platform/digital-receipts/automatic-delivery", "en/platform/digital-receipts/customization"] },
+          { "group": "Loyalty & Rewards", "pages": ["en/platform/loyalty/overview"] },
+          { "group": "Post-Purchase Engagement", "pages": ["en/platform/engagement/overview", "en/platform/engagement/reviews"] },
+          { "group": "Core Concepts", "pages": ["en/platform/concepts/expenses","en/platform/concepts/reports","en/platform/concepts/approval-workflows","en/platform/concepts/categories","en/platform/concepts/vendors","en/platform/concepts/departments"] },
+          { "group": "Expenses", "pages": ["en/platform/expenses/overview","en/platform/expenses/upload","en/platform/expenses/edit","en/platform/expenses/categorize","en/platform/expenses/split","en/platform/expenses/export"] },
+          { "group": "Expense Reports", "pages": ["en/platform/reports/overview","en/platform/reports/create","en/platform/reports/submit","en/platform/reports/approve","en/platform/reports/reimburse"] },
+          { "group": "Bills & Invoices", "pages": ["en/platform/bills/overview","en/platform/bills/upload","en/platform/bills/approval","en/platform/invoices/overview"] },
+          { "group": "Email Inbox", "pages": ["en/platform/inbox/overview","en/platform/inbox/email-providers"] },
+          { "group": "Workflows", "pages": ["en/platform/workflows/overview","en/platform/workflows/create","en/platform/workflows/triggers","en/platform/workflows/actions"] },
+          { "group": "Mobile App", "pages": ["en/platform/mobile/overview","en/platform/mobile/receipt-scanning"] },
+          { "group": "Settings", "pages": ["en/platform/settings/overview","en/platform/settings/users","en/platform/settings/categories","en/platform/settings/departments","en/platform/settings/delegations"] }
+        ]
+      },
+      {
+        "tab": "For Shoppers",
+        "groups": [
+          { "group": "For Shoppers", "pages": ["en/consumers/overview","en/consumers/getting-started","en/consumers/spending","en/consumers/split-bills"] }
+        ]
+      },
+      {
+        "tab": "Developer",
+        "groups": [
+          { "group": "Developer Guide", "pages": ["en/developer/getting-started","en/developer/create-account","en/developer/api-keys","en/developer/authentication","en/developer/webhooks","en/developer/rate-limits","en/developer/errors","en/developer/pagination","en/developer/environments","en/developer/versioning","en/developer/localizations","en/developer/metadata","en/developer/production"] },
+          { "group": "SDKs", "pages": ["en/sdks/overview","en/sdks/javascript","en/sdks/react","en/sdks/react-native","en/sdks/dotnet"] },
+          { "group": "API Documentation", "pages": ["en/api-reference/introduction"] }
+        ]
+      },
+      {
+        "tab": "Integrations",
+        "groups": [
+          { "group": "Integrations", "pages": ["en/integrations/overview"] },
+          { "group": "Accounting", "pages": ["en/integrations/quickbooks","en/integrations/xero"] },
+          { "group": "Point of Sale", "pages": ["en/integrations/shopify","en/integrations/square","en/integrations/clover","en/integrations/lightspeed"] },
+          { "group": "Communication", "pages": ["en/integrations/slack","en/integrations/microsoft-teams"] },
+          { "group": "Cloud Storage", "pages": ["en/integrations/google-drive","en/integrations/onedrive"] },
+          { "group": "Payments", "pages": ["en/integrations/stripe","en/integrations/plaid"] },
+          { "group": "Automation", "pages": ["en/integrations/zapier"] }
+        ]
+      },
+      {
+        "tab": "Changelog",
+        "groups": [
+          { "group": "Changelog", "pages": ["en/changelog/overview","en/changelog/2025-01"] }
+        ]
+      },
+      {
+        "tab": "Legal",
+        "groups": [
+          { "group": "Legal", "pages": ["en/legal/overview","en/legal/terms","en/legal/privacy","en/legal/security"] }
+        ]
+      },
+      {
+        "tab": "FAQs",
+        "groups": [
+          { "group": "FAQs", "pages": ["en/faqs/overview"] }
+        ]
+      },
+      {
+        "tab": "Français",
+        "groups": [
+          { "group": "Commencer", "pages": ["fr/introduction","fr/quickstart"] },
+          { "group": "Reçus Numériques", "pages": ["fr/platform/digital-receipts/overview"] },
+          { "group": "Fidélité et Récompenses", "pages": ["fr/platform/loyalty/overview"] },
+          { "group": "Engagement Post-Achat", "pages": ["fr/platform/engagement/overview"] },
+          { "group": "Gestion des Dépenses", "pages": ["fr/platform/expenses/overview"] },
+          { "group": "Rapports de Dépenses", "pages": ["fr/platform/reports/overview"] }
+        ]
+      }
+    ]
+  },
+  "footerSocials": {
+    "twitter": "https://twitter.com/smartbills",
+    "github": "https://github.com/smartbills",
+    "linkedin": "https://www.linkedin.com/company/smartbills"
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  }
+}
