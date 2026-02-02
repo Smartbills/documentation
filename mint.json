@@ -85,9 +85,7 @@
       "url": "https://status.smartbills.io"
     }
   ],
-  "navigation": {
-    "languages": [
-      {
+  "navigation": [{
         "language": "en",
         "groups": [
           {
@@ -470,7 +468,7 @@
         ]
       }
     ]
-  },
+  ,
   "footerSocials": {
     "twitter": "https://twitter.com/smartbills",
     "github": "https://github.com/smartbills",
