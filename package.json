@@ -1,0 +1,18 @@
+{
+  "name": "documentation",
+  "packageManager": "yarn@4.12.0",
+  "scripts": {
+    "dev": "mint dev",
+    "build": "mint build",
+    "start": "mint start",
+    "lint": "mint lint",
+    "format": "mint format",
+    "test": "mint test",
+    "test:watch": "mint test:watch",
+    "test:coverage": "mint test:coverage",
+    "test:coverage:watch": "mint test:coverage:watch"
+  },
+  "dependencies": {
+    "mint": "^4.2.313"
+  }
+}
