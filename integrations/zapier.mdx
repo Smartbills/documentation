@@ -1,0 +1,132 @@
+---
+title: "Zapier Integration"
+description: "Connect Smartbills with 5000+ apps via Zapier"
+---
+
+## Overview
+
+Use Zapier to connect Smartbills with thousands of other applications, automating workflows without writing code.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Triggers** | Start workflows from Smartbills events |
+| **Actions** | Perform actions in Smartbills |
+| **Multi-step Zaps** | Complex automation workflows |
+| **Filters** | Conditional automation |
+
+## Available Triggers
+
+Start a Zap when:
+
+| Trigger | Description |
+|---------|-------------|
+| Expense Created | New expense uploaded |
+| Report Submitted | Report submitted for approval |
+| Report Approved | Report fully approved |
+| Report Rejected | Report rejected |
+| Expense Updated | Expense modified |
+
+## Available Actions
+
+Perform these actions in Smartbills:
+
+| Action | Description |
+|--------|-------------|
+| Create Expense | Upload new expense |
+| Update Expense | Modify expense details |
+| Create Report | Start new report |
+| Add to Report | Add expense to report |
+| Add Comment | Comment on report |
+
+## Setup
+
+### Connect Smartbills to Zapier
+
+<Steps>
+  <Step title="Log in to Zapier">
+    Go to zapier.com and sign in
+  </Step>
+  <Step title="Create Zap">
+    Click **Create Zap**
+  </Step>
+  <Step title="Find Smartbills">
+    Search for Smartbills in app list
+  </Step>
+  <Step title="Connect Account">
+    Enter your Smartbills API key
+  </Step>
+  <Step title="Configure">
+    Set up triggers and actions
+  </Step>
+</Steps>
+
+## Popular Zaps
+
+### Expense to Google Sheets
+
+```
+Trigger: New Expense in Smartbills
+Action: Add Row to Google Sheets
+```
+
+### Slack Notification
+
+```
+Trigger: Report Submitted
+Action: Send Slack Message to #expenses
+```
+
+### Email Receipt Capture
+
+```
+Trigger: New Email with Attachment (Gmail)
+Action: Create Expense in Smartbills
+```
+
+### Accounting Sync
+
+```
+Trigger: Report Approved
+Action: Create Bill in QuickBooks
+```
+
+## Example Zap Configurations
+
+### Notify Manager on Large Expense
+
+```yaml
+Trigger: Expense Created (Smartbills)
+Filter: Amount > $500
+Action: Send Email (Gmail)
+  To: manager@company.com
+  Subject: Large expense submitted - ${amount}
+```
+
+### Create Follow-up Task
+
+```yaml
+Trigger: Report Rejected (Smartbills)
+Action: Create Task (Asana)
+  Title: Fix expense report - ${report_name}
+  Assignee: ${submitter_email}
+```
+
+## Best Practices
+
+<Tip>
+**Start simple** - Begin with basic Zaps before complex workflows.
+</Tip>
+
+<Tip>
+**Use filters** - Only trigger on relevant events.
+</Tip>
+
+<Tip>
+**Test thoroughly** - Test Zaps before activating.
+</Tip>
+
+<Tip>
+**Monitor usage** - Check Zapier task history regularly.
+</Tip>

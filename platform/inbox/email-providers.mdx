@@ -1,0 +1,103 @@
+---
+title: "Email Providers"
+description: "Connect different email providers to Smartbills"
+---
+
+## Supported Providers
+
+Connect your email account to automatically import receipt emails.
+
+## Gmail
+
+### Connect Gmail
+
+1. Click **Add Email Account > Gmail**
+2. Sign in with your Google account
+3. Grant read access
+4. Select labels to scan
+
+### Gmail-Specific Features
+
+- Label filtering
+- Search operators
+- Smart categorization
+
+## Outlook / Microsoft 365
+
+### Connect Outlook
+
+1. Click **Add Email Account > Microsoft**
+2. Sign in with Microsoft account
+3. Grant access
+4. Select folders
+
+### Outlook Features
+
+- Folder selection
+- Shared mailbox support
+- Calendar integration
+
+## Yahoo Mail
+
+### Connect Yahoo
+
+1. Click **Add Email Account > Yahoo**
+2. Sign in to Yahoo
+3. Authorize Smartbills
+4. Configure settings
+
+## Zoho Mail
+
+### Connect Zoho
+
+1. Click **Add Email Account > Zoho**
+2. Sign in to Zoho
+3. Grant access
+4. Set up scanning
+
+## Generic IMAP
+
+For other providers:
+
+### IMAP Setup
+
+1. Click **Add Email Account > IMAP**
+2. Enter server details:
+   - IMAP server
+   - Port (usually 993)
+   - Username/email
+   - App-specific password
+3. Test connection
+4. Configure folders
+
+### Common IMAP Settings
+
+| Provider | Server | Port |
+|----------|--------|------|
+| iCloud | imap.mail.me.com | 993 |
+| Fastmail | imap.fastmail.com | 993 |
+| Proton | 127.0.0.1 (Bridge) | 1143 |
+
+## Security Considerations
+
+### OAuth 2.0 (Preferred)
+
+- No password stored
+- Revocable access
+- Scoped permissions
+
+### App Passwords
+
+For IMAP connections:
+
+1. Enable 2FA on your email
+2. Generate app-specific password
+3. Use this password in Smartbills
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection failed | Check credentials |
+| No emails found | Verify folder selection |
+| Duplicate imports | Check date range settings |

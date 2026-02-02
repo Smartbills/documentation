@@ -1,0 +1,100 @@
+---
+title: "Workflows Overview"
+description: "Automate expense management with custom workflows"
+---
+
+## What are Workflows?
+
+Workflows automate repetitive tasks and enforce business rules in your expense management process.
+
+## Workflow Components
+
+### Triggers
+
+Events that start a workflow:
+
+| Trigger | Description |
+|---------|-------------|
+| Expense Created | When expense uploaded |
+| Report Submitted | When report submitted |
+| Report Approved | When report approved |
+| Amount Threshold | When amount exceeds limit |
+
+### Conditions
+
+Filter when workflow runs:
+
+| Condition | Example |
+|-----------|---------|
+| Amount | Greater than $500 |
+| Category | Equals Travel |
+| Department | Equals Engineering |
+| Employee | Is in list |
+
+### Actions
+
+What happens when workflow runs:
+
+| Action | Description |
+|--------|-------------|
+| Send notification | Email/Slack/Teams |
+| Assign approver | Route to specific person |
+| Add tag | Apply label |
+| Change status | Update expense status |
+
+## Workflow Examples
+
+### Over-Budget Alert
+
+```
+Trigger: Expense Created
+Condition: Amount > $500 AND Category = Meals
+Action: Send email to Manager
+```
+
+### Auto-Categorization
+
+```
+Trigger: Expense Created
+Condition: Merchant contains "Uber"
+Action: Set Category to "Transportation"
+```
+
+### Escalation
+
+```
+Trigger: Report Pending > 3 days
+Condition: None
+Action: Notify VP and original approver
+```
+
+## Creating Workflows
+
+1. Go to **Settings > Workflows**
+2. Click **Create Workflow**
+3. Select trigger
+4. Add conditions
+5. Configure actions
+6. Test and activate
+
+## Workflow Status
+
+| Status | Description |
+|--------|-------------|
+| Active | Running on events |
+| Paused | Temporarily disabled |
+| Draft | Not yet activated |
+
+## Best Practices
+
+<Tip>
+**Start simple** - Begin with basic workflows.
+</Tip>
+
+<Tip>
+**Test thoroughly** - Test before activating.
+</Tip>
+
+<Tip>
+**Monitor results** - Review workflow logs.
+</Tip>

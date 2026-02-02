@@ -1,0 +1,116 @@
+---
+title: "Xero Integration"
+description: "Connect Smartbills with Xero accounting software"
+---
+
+## Overview
+
+Integrate Smartbills with Xero to automatically export approved expenses and keep your accounting in sync.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Export** | Export expenses to Xero as bills |
+| **Account Mapping** | Map categories to Xero accounts |
+| **Contact Sync** | Sync vendors as Xero contacts |
+| **Tax Rate Mapping** | Map tax codes |
+| **Tracking Categories** | Use Xero tracking for departments |
+
+## Setup
+
+### Prerequisites
+
+- Xero account with Standard or Premium plan
+- Smartbills Business plan or higher
+- Admin access to both systems
+
+### Connect Xero
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Xero">
+    Search for Xero in the marketplace
+  </Step>
+  <Step title="Click Connect">
+    Click the **Connect** button
+  </Step>
+  <Step title="Authorize">
+    Sign in to Xero and authorize access
+  </Step>
+  <Step title="Select Organization">
+    Choose the Xero organization to connect
+  </Step>
+  <Step title="Configure">
+    Set up account mapping
+  </Step>
+</Steps>
+
+## Configuration
+
+### Account Mapping
+
+Map expense categories to Xero accounts:
+
+| Smartbills | Xero Account |
+|------------|--------------|
+| Travel | 493 - Travel |
+| Meals | 497 - Entertainment |
+| Office | 473 - Office Expenses |
+
+### Tax Mapping
+
+| Smartbills | Xero Tax Rate |
+|------------|---------------|
+| Standard | GST on Expenses |
+| Zero-rated | No GST |
+| Exempt | BAS Excluded |
+
+### Tracking Categories
+
+Use Xero tracking for cost centers:
+
+| Smartbills Department | Xero Tracking |
+|-----------------------|---------------|
+| Engineering | Engineering |
+| Sales | Sales & Marketing |
+
+## Sync Behavior
+
+### Export Settings
+
+| Option | Description |
+|--------|-------------|
+| As Bills | Create purchase bills |
+| As Expenses | Create expense claims |
+| With Receipts | Attach receipt images |
+
+### Timing
+
+| Option | Description |
+|--------|-------------|
+| On Approval | Export when report approved |
+| Daily | Batch export daily |
+| Manual | Export on demand |
+
+## Troubleshooting
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| Connection lost | Reconnect Xero |
+| Wrong organization | Check selected org |
+| Missing account | Update mapping |
+
+## Best Practices
+
+<Tip>
+**Import accounts first** - Sync Xero chart of accounts before mapping.
+</Tip>
+
+<Tip>
+**Use tracking** - Leverage tracking categories for detailed reporting.
+</Tip>

@@ -1,0 +1,274 @@
+---
+title: "JavaScript SDK"
+description: "Official Smartbills SDK for JavaScript and TypeScript applications"
+---
+
+## Installation
+
+```bash
+npm install @smartbills/sdk
+```
+
+Or with Yarn:
+
+```bash
+yarn add @smartbills/sdk
+```
+
+## Quick Start
+
+```typescript
+import { SBClient } from '@smartbills/sdk';
+
+const client = new SBClient({
+  apiKey: 'sk_live_xxxxx',
+  environment: 'production'
+});
+
+const expenses = await client.expenses.list({
+  page: 1,
+  pageSize: 20
+});
+```
+
+## Configuration
+
+### Client Options
+
+```typescript
+interface SBClientOptions {
+  apiKey?: string;
+  accessToken?: string;
+  environment: 'sandbox' | 'production';
+  timeout?: number;
+  retryConfig?: {
+    maxRetries: number;
+    retryDelay: number;
+  };
+}
+```
+
+### Environment Configuration
+
+```typescript
+const client = new SBClient({
+  environment: 'sandbox',
+  apiKey: process.env.SMARTBILLS_API_KEY
+});
+```
+
+## Available Services
+
+### Expenses
+
+```typescript
+const expenseService = client.expenses;
+
+const expenses = await expenseService.list({ page: 1 });
+
+const expense = await expenseService.get(expenseId);
+
+const newExpense = await expenseService.upload({
+  file: fileBuffer,
+  businessId: 123,
+  categoryId: 456
+});
+
+await expenseService.update(expenseId, {
+  categoryId: 789,
+  description: 'Updated description'
+});
+
+await expenseService.delete(expenseId);
+```
+
+### Expense Reports
+
+```typescript
+const reportsService = client.expenseReports;
+
+const reports = await reportsService.list({ status: 'pending' });
+
+const report = await reportsService.create({
+  title: 'Q1 2025 Expenses',
+  expenseIds: [1, 2, 3]
+});
+
+await reportsService.submit(reportId);
+
+await reportsService.approve(reportId, { comment: 'Looks good!' });
+```
+
+### Businesses
+
+```typescript
+const businessService = client.businesses;
+
+const businesses = await businessService.list();
+
+const business = await businessService.get(businessId);
+
+const newBusiness = await businessService.create({
+  name: 'Acme Corp',
+  currency: 'USD'
+});
+```
+
+### Vendors
+
+```typescript
+const vendorService = client.vendors;
+
+const vendors = await vendorService.list({ businessId: 123 });
+
+const vendor = await vendorService.create({
+  businessId: 123,
+  name: 'Office Depot',
+  category: 'Office Supplies'
+});
+```
+
+### Webhooks
+
+```typescript
+const webhookService = client.webhooks;
+
+const webhook = await webhookService.create({
+  url: 'https://your-app.com/webhooks',
+  events: ['expense.created', 'report.submitted']
+});
+
+const webhooks = await webhookService.list();
+
+await webhookService.delete(webhookId);
+```
+
+## Error Handling
+
+```typescript
+import { SBError, SBValidationError, SBAuthError } from '@smartbills/sdk';
+
+try {
+  const expense = await client.expenses.get(expenseId);
+} catch (error) {
+  if (error instanceof SBAuthError) {
+    console.error('Authentication failed:', error.message);
+  } else if (error instanceof SBValidationError) {
+    console.error('Validation errors:', error.errors);
+  } else if (error instanceof SBError) {
+    console.error('API error:', error.message, error.code);
+  }
+}
+```
+
+## Pagination
+
+```typescript
+const firstPage = await client.expenses.list({ page: 1, pageSize: 50 });
+
+console.log(firstPage.data);
+console.log(firstPage.total);
+console.log(firstPage.totalPages);
+
+const secondPage = await client.expenses.list({ page: 2, pageSize: 50 });
+```
+
+## File Uploads
+
+```typescript
+import { readFileSync } from 'fs';
+
+const file = readFileSync('./receipt.jpg');
+
+const expense = await client.expenses.upload({
+  file,
+  filename: 'receipt.jpg',
+  businessId: 123
+});
+```
+
+### Browser File Upload
+
+```typescript
+const fileInput = document.querySelector('input[type="file"]');
+const file = fileInput.files[0];
+
+const expense = await client.expenses.upload({
+  file,
+  businessId: 123
+});
+```
+
+## TypeScript Support
+
+The SDK is written in TypeScript and provides full type definitions:
+
+```typescript
+import type { 
+  Expense, 
+  ExpenseReport, 
+  Business, 
+  Vendor,
+  PaginatedResponse 
+} from '@smartbills/sdk';
+
+const expenses: PaginatedResponse<Expense> = await client.expenses.list();
+
+const expense: Expense = expenses.data[0];
+```
+
+## Best Practices
+
+<Tip>
+**Use environment variables** - Never hardcode API keys in your source code.
+</Tip>
+
+<Tip>
+**Handle errors gracefully** - Always wrap API calls in try-catch blocks.
+</Tip>
+
+<Tip>
+**Use TypeScript** - Take advantage of type safety for better developer experience.
+</Tip>
+
+## Examples
+
+### Express.js Integration
+
+```typescript
+import express from 'express';
+import { SBClient } from '@smartbills/sdk';
+
+const app = express();
+const client = new SBClient({
+  apiKey: process.env.SMARTBILLS_API_KEY,
+  environment: 'production'
+});
+
+app.get('/expenses', async (req, res) => {
+  const expenses = await client.expenses.list({
+    page: parseInt(req.query.page) || 1
+  });
+  res.json(expenses);
+});
+```
+
+### Next.js API Route
+
+```typescript
+import { SBClient } from '@smartbills/sdk';
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+const client = new SBClient({
+  apiKey: process.env.SMARTBILLS_API_KEY,
+  environment: 'production'
+});
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const expenses = await client.expenses.list();
+  res.status(200).json(expenses);
+}
+```

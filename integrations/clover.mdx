@@ -1,0 +1,80 @@
+---
+title: "Clover Integration"
+description: "Connect Smartbills with Clover POS"
+---
+
+## Overview
+
+Integrate with Clover to sync transactions, items, and customer data automatically.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Real-time Sync** | Instant transaction import |
+| **Item Catalog** | Sync Clover inventory |
+| **Customer Data** | Link customer profiles |
+| **Multi-device** | Support all Clover devices |
+| **Tax Handling** | Configure tax mapping |
+| **Modifier Support** | Handle item modifiers |
+
+## Setup
+
+### Connect Clover
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Clover">
+    Search for Clover in the marketplace
+  </Step>
+  <Step title="Enter Merchant ID">
+    Enter your Clover merchant ID
+  </Step>
+  <Step title="Authorize">
+    Grant access via Clover
+  </Step>
+  <Step title="Configure">
+    Map items, taxes, and locations
+  </Step>
+</Steps>
+
+## Configuration
+
+### Item Mapping
+
+| Clover Item | Smartbills Product |
+|-------------|-------------------|
+| Coffee - Large | Large Coffee |
+| Bagel | Plain Bagel |
+
+### Tax Setup
+
+| Clover Tax | Smartbills Tax |
+|------------|----------------|
+| Sales Tax | State Sales Tax |
+| Food Tax | Reduced Rate |
+
+## Sync Behavior
+
+### Transaction Flow
+
+```
+Clover Payment → Webhook → Smartbills Receipt → Customer Notification
+```
+
+### What Syncs
+
+- Orders and payments
+- Refunds and voids
+- Customer information
+- Item details with modifiers
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| No data syncing | Verify webhook URL |
+| Items missing | Refresh catalog sync |
+| Wrong taxes | Check tax mapping |

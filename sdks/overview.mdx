@@ -1,0 +1,130 @@
+---
+title: "SDKs Overview"
+description: "Official Smartbills SDKs for integrating with your applications"
+---
+
+## Available SDKs
+
+Smartbills provides official SDKs for popular programming languages and frameworks to help you integrate expense management into your applications.
+
+<CardGroup cols={2}>
+  <Card title="JavaScript SDK" icon="js" href="/sdks/javascript">
+    Full-featured SDK for Node.js and browser applications
+  </Card>
+  <Card title="React SDK" icon="react" href="/sdks/react">
+    React hooks and components for web applications
+  </Card>
+  <Card title="React Native SDK" icon="mobile" href="/sdks/react-native">
+    Build native mobile apps with expense management
+  </Card>
+  <Card title=".NET SDK" icon="microsoft" href="/sdks/dotnet">
+    SDK for C# and .NET applications
+  </Card>
+</CardGroup>
+
+## Installation
+
+### JavaScript/TypeScript
+
+```bash
+npm install @smartbills/sdk
+```
+
+### React
+
+```bash
+npm install @smartbills/react-sdk @smartbills/sdk
+```
+
+### React Native
+
+```bash
+npm install @smartbills/react-native-sdk @smartbills/sdk
+```
+
+### .NET
+
+```bash
+dotnet add package Smartbills.NET
+```
+
+## Quick Start
+
+All SDKs follow a similar pattern for initialization:
+
+<CodeGroup>
+
+```typescript JavaScript
+import { SBClient } from '@smartbills/sdk';
+
+const client = new SBClient({
+  apiKey: 'YOUR_API_KEY',
+  environment: 'production'
+});
+
+const expenses = await client.expenses.list({ page: 1, pageSize: 20 });
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SmartbillsClient("YOUR_API_KEY");
+
+var expenses = await client.Expenses.ListAsync(new ExpenseListRequest { 
+    Page = 1, 
+    PageSize = 20 
+});
+```
+
+</CodeGroup>
+
+## Authentication
+
+All SDKs support multiple authentication methods:
+
+| Method | Use Case |
+|--------|----------|
+| API Key | Server-side applications |
+| OAuth 2.0 | User-facing applications |
+| Session Token | Embedded applications |
+
+## Features
+
+### Common Features Across All SDKs
+
+- **Type Safety** - Full TypeScript/C# type definitions
+- **Error Handling** - Consistent error types and messages
+- **Pagination** - Built-in pagination support
+- **Retry Logic** - Automatic retry for transient failures
+- **Rate Limiting** - Automatic rate limit handling
+
+### SDK-Specific Features
+
+| Feature | JS | React | React Native | .NET |
+|---------|----|----|----|----|
+| Expense Upload | Yes | Yes | Yes | Yes |
+| Receipt Scanning | Yes | Yes | Yes | Yes |
+| Offline Mode | - | - | Yes | - |
+| Camera Integration | - | - | Yes | - |
+| React Hooks | - | Yes | Yes | - |
+| UI Components | - | Yes | Yes | - |
+
+## Version Compatibility
+
+| SDK | Minimum Version | API Version |
+|-----|----------------|-------------|
+| JavaScript | Node.js 16+ | v1 |
+| React | React 17+ | v1 |
+| React Native | RN 0.70+ | v1 |
+| .NET | .NET 6+ | v1 |
+
+## Support
+
+<CardGroup cols={2}>
+  <Card title="GitHub Issues" icon="github" href="https://github.com/smartbills">
+    Report bugs and request features
+  </Card>
+  <Card title="Community" icon="slack" href="https://community.smartbills.io">
+    Get help from the community
+  </Card>
+</CardGroup>

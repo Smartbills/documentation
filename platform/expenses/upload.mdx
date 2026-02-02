@@ -1,0 +1,174 @@
+---
+title: "Upload Expenses"
+description: "Learn how to upload receipts and create expenses"
+---
+
+## Uploading Receipts
+
+Smartbills supports multiple ways to upload receipts and create expenses automatically.
+
+## Supported File Types
+
+| Format | Extensions | Max Size |
+|--------|------------|----------|
+| Images | .jpg, .jpeg, .png, .gif, .webp | 10 MB |
+| Documents | .pdf | 25 MB |
+| HEIC/HEIF | .heic, .heif | 10 MB |
+
+## Upload Methods
+
+### Drag and Drop
+
+1. Navigate to **Expenses** in the dashboard
+2. Click **Add Expense** or simply drag files onto the page
+3. Drop your receipt image or PDF
+4. Wait for automatic processing
+
+### File Browser
+
+1. Click **Add Expense**
+2. Click **Browse** or the upload area
+3. Select one or more files from your computer
+4. Click **Open** to start upload
+
+### Bulk Upload
+
+Upload multiple receipts at once:
+
+1. Click **Add Expense**
+2. Select multiple files (hold Ctrl/Cmd to select multiple)
+3. Each file creates a separate expense
+4. Review each expense in the queue
+
+## Automatic Data Extraction
+
+When you upload a receipt, Smartbills automatically extracts:
+
+| Field | Accuracy | Notes |
+|-------|----------|-------|
+| Merchant Name | 95%+ | Usually extracted from logo or header |
+| Total Amount | 98%+ | Identifies total including tax |
+| Date | 95%+ | Transaction date from receipt |
+| Tax Amount | 90%+ | Extracted when clearly visible |
+| Currency | 99%+ | Based on currency symbol and locale |
+| Line Items | 85%+ | Individual items when available |
+
+### Improving Extraction Accuracy
+
+<Tip>
+**Good lighting** - Ensure receipts are well-lit without shadows.
+</Tip>
+
+<Tip>
+**Flat surface** - Place receipts on a flat surface before photographing.
+</Tip>
+
+<Tip>
+**Clear focus** - Make sure text is sharp and readable.
+</Tip>
+
+<Tip>
+**Full receipt** - Include the entire receipt in the frame.
+</Tip>
+
+## Processing Status
+
+After upload, expenses go through these stages:
+
+<Steps>
+  <Step title="Uploading">
+    File is being transferred to Smartbills servers.
+  </Step>
+  <Step title="Processing">
+    OCR engine is extracting text from the image.
+  </Step>
+  <Step title="Analyzing">
+    AI is identifying and parsing expense data.
+  </Step>
+  <Step title="Ready for Review">
+    Expense is created and ready for your review.
+  </Step>
+</Steps>
+
+## Review Extracted Data
+
+After processing completes:
+
+1. Click on the newly created expense
+2. Review the extracted merchant, amount, and date
+3. Correct any errors by clicking the field
+4. Select or confirm the category
+5. Add optional description or notes
+6. Click **Save**
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| Wrong amount | Click the amount field and correct it |
+| Missing merchant | Type the merchant name manually |
+| Wrong date | Select the correct date from picker |
+| Currency incorrect | Change currency from dropdown |
+
+## Duplicate Detection
+
+Smartbills automatically detects potential duplicate receipts:
+
+- Same merchant + amount + date within 7 days
+- Similar image fingerprint
+- Matching transaction from connected bank
+
+When a potential duplicate is found:
+
+1. You'll see a warning banner
+2. Review the suspected duplicate
+3. Choose to **Keep Both** or **Discard**
+
+## Receipt Quality Requirements
+
+For best results, receipts should:
+
+<Check>Be legible and clear</Check>
+<Check>Show the full receipt including total</Check>
+<Check>Be properly oriented (not upside down)</Check>
+<Check>Have adequate contrast</Check>
+
+Receipts may fail processing if:
+
+<Cross>Text is too blurry to read</Cross>
+<Cross>Image is too dark or overexposed</Cross>
+<Cross>Receipt is partially cut off</Cross>
+<Cross>Heavy creasing obscures text</Cross>
+
+## Mobile Upload
+
+Upload receipts from your phone:
+
+### iOS
+
+1. Open the Smartbills app
+2. Tap the **+** button
+3. Choose **Take Photo** or **Choose from Library**
+4. Capture or select the receipt
+5. Review and save
+
+### Android
+
+1. Open the Smartbills app
+2. Tap the **+** button
+3. Choose **Camera** or **Gallery**
+4. Capture or select the receipt
+5. Review and save
+
+## API Upload
+
+Upload receipts programmatically:
+
+```bash
+curl -X POST https://api.smartbills.io/v1/expenses/upload \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "file=@receipt.jpg" \
+  -F "businessId=123"
+```
+
+See the [API Reference](/api-reference/expenses/upload-expense) for complete documentation.

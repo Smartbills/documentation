@@ -1,0 +1,102 @@
+---
+title: "Google Drive Integration"
+description: "Automatically backup receipts to Google Drive"
+---
+
+## Overview
+
+Connect Google Drive to automatically backup all your expense receipts and documents to your preferred Google Drive folder.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Auto-backup** | Automatic receipt archival |
+| **Folder Organization** | Organize by date/category |
+| **Shared Drives** | Support for team drives |
+| **Search** | Find receipts in Drive |
+
+## Setup
+
+### Connect Google Drive
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Google Drive">
+    Search for Google Drive in the marketplace
+  </Step>
+  <Step title="Sign In">
+    Sign in with your Google account
+  </Step>
+  <Step title="Grant Access">
+    Allow Smartbills to access Drive
+  </Step>
+  <Step title="Select Folder">
+    Choose or create destination folder
+  </Step>
+</Steps>
+
+## Configuration
+
+### Folder Structure
+
+Choose how files are organized:
+
+| Structure | Example |
+|-----------|---------|
+| By Year/Month | `2025/01/receipt.jpg` |
+| By Category | `Travel/receipt.jpg` |
+| By Employee | `John Smith/receipt.jpg` |
+| Flat | `receipt_12345.jpg` |
+
+### File Naming
+
+| Template | Result |
+|----------|--------|
+| `{date}_{merchant}` | `2025-01-15_Starbucks.jpg` |
+| `{id}_{amount}` | `12345_$45.99.jpg` |
+| `{category}_{merchant}_{date}` | `Travel_United_2025-01-15.jpg` |
+
+## Sync Behavior
+
+### When Files Upload
+
+| Trigger | Timing |
+|---------|--------|
+| On expense creation | Immediately |
+| On report approval | Batch upload |
+| Scheduled | Daily at midnight |
+
+### File Types
+
+All receipt formats supported:
+
+- Images (JPEG, PNG, HEIC)
+- PDFs
+- Documents
+
+## Shared Drives
+
+### Using Team Drives
+
+1. Select Shared Drive during setup
+2. Choose team folder
+3. All team receipts sync to shared location
+
+### Permissions
+
+Smartbills needs:
+
+- View files
+- Create files
+- Edit file metadata
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Files not uploading | Check Drive storage space |
+| Permission denied | Re-authorize connection |
+| Wrong folder | Update folder settings |

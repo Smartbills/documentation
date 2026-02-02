@@ -1,0 +1,163 @@
+---
+title: "Integrations Overview"
+description: "Connect Smartbills with your favorite tools and services"
+---
+
+## Available Integrations
+
+Smartbills integrates with popular accounting, POS, communication, and productivity tools to streamline your expense management workflow.
+
+<CardGroup cols={2}>
+  <Card title="Accounting" icon="calculator">
+    Sync expenses with your accounting software
+  </Card>
+  <Card title="Point of Sale" icon="cash-register">
+    Connect with POS systems for automated receipt capture
+  </Card>
+  <Card title="Communication" icon="comments">
+    Submit expenses via Slack or Teams
+  </Card>
+  <Card title="Cloud Storage" icon="cloud">
+    Auto-backup receipts to cloud storage
+  </Card>
+</CardGroup>
+
+## Integration Categories
+
+### Accounting Software
+
+| Integration | Features |
+|-------------|----------|
+| [QuickBooks](/integrations/quickbooks) | Two-way sync, auto-categorization |
+| [Xero](/integrations/xero) | Expense export, vendor sync |
+
+### Point of Sale
+
+| Integration | Features |
+|-------------|----------|
+| [Shopify](/integrations/shopify) | Receipt sync, product mapping |
+| [Square](/integrations/square) | Transaction import, location sync |
+| [Clover](/integrations/clover) | Real-time receipts, tax mapping |
+| [Lightspeed](/integrations/lightspeed) | Multi-location, inventory sync |
+
+### Communication
+
+| Integration | Features |
+|-------------|----------|
+| [Slack](/integrations/slack) | Expense submission, approvals |
+| [Microsoft Teams](/integrations/microsoft-teams) | Notifications, quick actions |
+
+### Cloud Storage
+
+| Integration | Features |
+|-------------|----------|
+| [Google Drive](/integrations/google-drive) | Auto-backup receipts |
+| [OneDrive](/integrations/onedrive) | Receipt archival |
+
+### Payments
+
+| Integration | Features |
+|-------------|----------|
+| [Stripe](/integrations/stripe) | Payment processing, reconciliation |
+| [Plaid](/integrations/plaid) | Bank account connection |
+
+### Automation
+
+| Integration | Features |
+|-------------|----------|
+| [Zapier](/integrations/zapier) | Connect with 5000+ apps |
+
+## How Integrations Work
+
+### Connection Flow
+
+<Steps>
+  <Step title="Browse">
+    Find the integration in the Apps marketplace
+  </Step>
+  <Step title="Connect">
+    Authorize Smartbills to access the service
+  </Step>
+  <Step title="Configure">
+    Set up mapping and sync preferences
+  </Step>
+  <Step title="Sync">
+    Data flows automatically between systems
+  </Step>
+</Steps>
+
+### Authorization Types
+
+| Type | Security | Use Case |
+|------|----------|----------|
+| OAuth 2.0 | High | Most integrations |
+| API Key | Medium | Developer tools |
+| Webhook | Varies | Event notifications |
+
+## Managing Integrations
+
+### View Connected Apps
+
+1. Go to **Settings > Apps**
+2. See all connected integrations
+3. View status and last sync time
+
+### Configure Integration
+
+1. Click on the integration
+2. Adjust settings
+3. Configure mapping
+4. Test connection
+
+### Disconnect Integration
+
+1. Go to **Settings > Apps**
+2. Click on the integration
+3. Click **Disconnect**
+4. Confirm disconnection
+
+## Data Sync
+
+### Sync Direction
+
+| Direction | Description |
+|-----------|-------------|
+| One-way (import) | Data comes into Smartbills |
+| One-way (export) | Data goes out to other app |
+| Two-way | Bidirectional sync |
+
+### Sync Frequency
+
+| Type | Timing |
+|------|--------|
+| Real-time | Instant via webhooks |
+| Scheduled | Every 15 min, hourly, daily |
+| Manual | On-demand sync |
+
+## Troubleshooting
+
+### Connection Issues
+
+| Issue | Solution |
+|-------|----------|
+| Authorization expired | Reconnect the integration |
+| Sync failed | Check credentials, retry |
+| Data mismatch | Review mapping settings |
+
+### Getting Help
+
+- Check integration-specific documentation
+- Contact Smartbills support
+- View integration status page
+
+## Building Custom Integrations
+
+Use our API and webhooks to build custom integrations:
+
+<Card title="API Reference" icon="code" href="/api-reference">
+  Full REST API documentation
+</Card>
+
+<Card title="Webhooks" icon="bolt" href="/api-reference/webhooks/overview">
+  Real-time event notifications
+</Card>

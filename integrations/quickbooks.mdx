@@ -1,0 +1,176 @@
+---
+title: "QuickBooks Integration"
+description: "Connect Smartbills with QuickBooks for seamless accounting"
+---
+
+## Overview
+
+The QuickBooks integration enables two-way synchronization between Smartbills and QuickBooks Online, automating expense tracking and financial reporting.
+
+<Info>
+This integration is available for QuickBooks Online. QuickBooks Desktop requires a different setup.
+</Info>
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Sync** | Sync expenses to QuickBooks as bills or expenses |
+| **Category Mapping** | Map Smartbills categories to GL accounts |
+| **Vendor Sync** | Sync vendors between systems |
+| **Tax Mapping** | Map tax rates and codes |
+| **Customer Sync** | Link billable expenses to customers |
+| **Auto-reconciliation** | Match expenses with bank transactions |
+
+## Setup
+
+### Prerequisites
+
+- QuickBooks Online account (Essentials or Plus)
+- Smartbills Business plan or higher
+- Admin access to both systems
+
+### Connect QuickBooks
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find QuickBooks">
+    Search for QuickBooks in the marketplace
+  </Step>
+  <Step title="Click Connect">
+    Click the **Connect** button
+  </Step>
+  <Step title="Authorize">
+    Sign in to QuickBooks and authorize Smartbills
+  </Step>
+  <Step title="Configure">
+    Set up mapping and sync preferences
+  </Step>
+</Steps>
+
+## Configuration
+
+### Category Mapping
+
+Map Smartbills categories to QuickBooks expense accounts:
+
+| Smartbills Category | QuickBooks Account |
+|---------------------|-------------------|
+| Travel - Airfare | 6200 Travel Expense |
+| Meals & Entertainment | 6400 Meals & Entertainment |
+| Office Supplies | 6100 Office Expense |
+
+### Vendor Mapping
+
+Choose how vendors sync:
+
+| Option | Behavior |
+|--------|----------|
+| Create if missing | New vendors auto-created in QB |
+| Match by name | Link to existing vendors |
+| Manual mapping | Map vendors individually |
+
+### Tax Configuration
+
+Map tax codes:
+
+| Smartbills Tax | QuickBooks Tax |
+|----------------|----------------|
+| GST/HST | HST ON |
+| PST | PST BC |
+| No Tax | Out of Scope |
+
+## Sync Options
+
+### What to Sync
+
+| Data Type | Direction | Options |
+|-----------|-----------|---------|
+| Expenses | To QB | As bills, expenses, or journal entries |
+| Vendors | Both ways | Auto-create or match |
+| Categories | From QB | Import chart of accounts |
+| Customers | From QB | For billable expenses |
+
+### Sync Timing
+
+| Frequency | Description |
+|-----------|-------------|
+| Real-time | Sync when expense approved |
+| Scheduled | Sync daily at specified time |
+| Manual | Sync on demand |
+
+## How It Works
+
+### Expense Export Flow
+
+```
+Expense Approved → Category Mapped → Vendor Matched → Created in QB
+```
+
+### Typical Export
+
+When an approved expense syncs:
+
+1. Smartbills finds the mapped GL account
+2. Matches or creates the vendor
+3. Creates expense/bill in QuickBooks
+4. Links receipt attachment
+5. Logs the sync transaction
+
+### Example
+
+Smartbills expense:
+```
+Vendor: Office Depot
+Amount: $45.99
+Category: Office Supplies
+Date: Jan 15, 2025
+```
+
+QuickBooks entry:
+```
+Expense Account: 6100 Office Expense
+Vendor: Office Depot
+Amount: $45.99
+Date: Jan 15, 2025
+Memo: Expense #12345
+```
+
+## Troubleshooting
+
+### Common Issues
+
+| Issue | Solution |
+|-------|----------|
+| Connection expired | Reconnect QuickBooks |
+| Vendor not found | Check vendor mapping |
+| Category missing | Update category mapping |
+| Duplicate entries | Check sync settings |
+
+### Error Messages
+
+| Error | Meaning | Fix |
+|-------|---------|-----|
+| AUTH_EXPIRED | Token expired | Reconnect |
+| VENDOR_NOT_FOUND | Vendor missing | Create in QB or map |
+| ACCOUNT_INACTIVE | GL account inactive | Activate in QB |
+
+## Best Practices
+
+<Tip>
+**Test with one expense** - Before bulk syncing, test with a single expense.
+</Tip>
+
+<Tip>
+**Review mappings regularly** - Update mappings when chart of accounts changes.
+</Tip>
+
+<Tip>
+**Use scheduled sync** - Reduces real-time API calls.
+</Tip>
+
+<Tip>
+**Keep QB connection active** - Reconnect if you change QB credentials.
+</Tip>

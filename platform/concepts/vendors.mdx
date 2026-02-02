@@ -1,0 +1,168 @@
+---
+title: "Vendors"
+description: "Understanding vendor management in Smartbills"
+---
+
+## What are Vendors?
+
+Vendors in Smartbills represent the merchants and suppliers where business expenses occur. Tracking vendors enables spending analysis, relationship management, and policy enforcement.
+
+## Vendor Data
+
+### Core Information
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| Name | Vendor name | Office Depot |
+| Category | Default category | Office Supplies |
+| Address | Location | 123 Main St |
+| Website | URL | officedepo.com |
+| Tax ID | Vendor tax number | 12-3456789 |
+
+### Spending Data
+
+| Metric | Description |
+|--------|-------------|
+| Total Spent | All-time spending |
+| This Month | Current month |
+| This Year | Year to date |
+| Expense Count | Number of transactions |
+| Last Transaction | Most recent purchase |
+
+## Automatic Vendor Creation
+
+When you upload an expense:
+
+1. AI extracts merchant name
+2. Checks against existing vendors
+3. If new, creates vendor record
+4. Links expense to vendor
+
+### Vendor Matching
+
+Smartbills intelligently matches variations:
+
+- "Uber" → "Uber Technologies"
+- "AMZN" → "Amazon"
+- "SQ *Coffee Shop" → "Square - Coffee Shop"
+
+## Vendor Management
+
+### View Vendors
+
+1. Go to **Vendors** in sidebar
+2. Browse vendor list
+3. Filter by category, spending, etc.
+4. Click vendor for details
+
+### Edit Vendor
+
+1. Click on vendor name
+2. Click **Edit**
+3. Update information
+4. Click **Save**
+
+### Merge Vendors
+
+Combine duplicate vendors:
+
+1. Select vendors to merge
+2. Click **Merge**
+3. Choose primary vendor
+4. Confirm merge
+
+## Vendor Categories
+
+Assign default categories:
+
+| Vendor | Default Category |
+|--------|------------------|
+| United Airlines | Travel - Airfare |
+| Marriott | Travel - Lodging |
+| Uber | Travel - Ground |
+| Staples | Office Supplies |
+
+## Vendor Policies
+
+### Spending Limits
+
+Set limits per vendor:
+
+```yaml
+vendor: "Restaurant XYZ"
+policies:
+  - max_per_transaction: $100
+  - max_per_month: $500
+  - requires_approval: $200+
+```
+
+### Preferred Vendors
+
+Mark vendors as preferred:
+
+- Flag non-preferred spending
+- Encourage compliance
+- Track adoption rates
+
+### Blocked Vendors
+
+Block certain merchants:
+
+- Gaming/gambling
+- Personal services
+- Competitors
+
+## Vendor Analytics
+
+### Spending by Vendor
+
+```
+Top 10 Vendors (This Year)
+1. Amazon           $12,450
+2. United Airlines   $8,200
+3. Marriott          $6,800
+4. Uber              $4,500
+5. Office Depot      $3,200
+```
+
+### Vendor Trends
+
+- Month-over-month changes
+- Seasonal patterns
+- Growth rates
+
+## Vendor Connections
+
+### Link Bank Transactions
+
+Connect vendors to bank accounts:
+
+1. Vendor automatically recognized
+2. Expenses matched to transactions
+3. Reconciliation simplified
+
+### Integration with POS
+
+For retail businesses:
+
+- Sync vendor data from POS
+- Track supplier payments
+- Manage inventory vendors
+
+## Best Practices
+
+<Tip>
+**Clean up duplicates** - Regularly merge duplicate vendors.
+</Tip>
+
+<Tip>
+**Set defaults** - Configure default categories for common vendors.
+</Tip>
+
+<Tip>
+**Review spending** - Monitor vendor spending trends.
+</Tip>
+
+<Tip>
+**Use preferred vendors** - Negotiate rates with frequent vendors.
+</Tip>

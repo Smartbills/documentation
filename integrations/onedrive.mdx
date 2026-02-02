@@ -1,0 +1,87 @@
+---
+title: "OneDrive Integration"
+description: "Backup receipts to Microsoft OneDrive"
+---
+
+## Overview
+
+Connect OneDrive to automatically archive expense receipts and documents to your Microsoft cloud storage.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Auto-sync** | Automatic receipt backup |
+| **SharePoint** | Support for SharePoint sites |
+| **Organization** | Structured folder hierarchy |
+| **Search** | Receipts searchable in OneDrive |
+
+## Setup
+
+### Connect OneDrive
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find OneDrive">
+    Search for OneDrive in the marketplace
+  </Step>
+  <Step title="Sign In">
+    Sign in with Microsoft account
+  </Step>
+  <Step title="Grant Access">
+    Authorize Smartbills access
+  </Step>
+  <Step title="Select Folder">
+    Choose destination folder
+  </Step>
+</Steps>
+
+## Configuration
+
+### Folder Options
+
+| Type | Description |
+|------|-------------|
+| Personal OneDrive | Your personal storage |
+| OneDrive for Business | Company storage |
+| SharePoint | Team site document library |
+
+### Folder Structure
+
+```
+Smartbills Receipts/
+├── 2025/
+│   ├── Q1/
+│   │   ├── January/
+│   │   ├── February/
+│   │   └── March/
+│   └── Q2/
+```
+
+## Sync Settings
+
+### Timing
+
+| Option | Behavior |
+|--------|----------|
+| Real-time | Upload immediately |
+| Daily | Batch at end of day |
+| Weekly | Weekly summary upload |
+
+### Include
+
+- Receipt images
+- Expense PDFs
+- Report exports
+
+## Best Practices
+
+<Tip>
+**Use business OneDrive** - Keep company expenses in company storage.
+</Tip>
+
+<Tip>
+**Set retention policy** - Configure OneDrive retention for compliance.
+</Tip>

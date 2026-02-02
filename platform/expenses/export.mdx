@@ -1,0 +1,244 @@
+---
+title: "Export Expenses"
+description: "Learn how to export expenses for accounting and reporting"
+---
+
+## Export Options
+
+Smartbills provides multiple ways to export your expense data for accounting, reporting, and compliance purposes.
+
+## Export Formats
+
+| Format | Best For | Includes Receipts |
+|--------|----------|-------------------|
+| **CSV** | Spreadsheet analysis, accounting import | No |
+| **Excel (XLSX)** | Formatted reports, pivot tables | No |
+| **PDF** | Audit documentation, expense reports | Yes (embedded) |
+| **ZIP** | Bulk receipt download | Yes (separate files) |
+| **JSON** | API integrations, data processing | No |
+
+## How to Export
+
+### Export from Expenses List
+
+1. Go to **Expenses** in the main navigation
+2. Apply filters to select the expenses you want
+3. Click the **Export** button
+4. Choose your format
+5. Click **Download**
+
+### Export Selected Expenses
+
+1. Select specific expenses using checkboxes
+2. Click **Bulk Actions > Export**
+3. Choose your format
+4. Click **Download**
+
+### Export from Reports
+
+1. Go to **Reports**
+2. Open the desired report
+3. Click **Export** in the report toolbar
+4. Select format and options
+5. Click **Download**
+
+## Export Fields
+
+### Standard Fields
+
+| Field | Description |
+|-------|-------------|
+| `id` | Unique expense identifier |
+| `date` | Transaction date |
+| `merchant` | Vendor name |
+| `amount` | Expense amount |
+| `currency` | Transaction currency |
+| `category` | Expense category |
+| `description` | Notes/description |
+| `status` | Current status |
+| `employee` | Submitter name |
+| `department` | Department code |
+| `project` | Project/cost center |
+| `payment_method` | How expense was paid |
+| `reimbursable` | Is reimbursable (true/false) |
+| `created_at` | When expense was created |
+| `updated_at` | Last modification date |
+
+### Accounting Fields
+
+| Field | Description |
+|-------|-------------|
+| `gl_code` | General ledger account code |
+| `tax_amount` | Tax portion of expense |
+| `tax_code` | Tax classification |
+| `report_id` | Associated expense report |
+| `report_name` | Expense report name |
+| `approval_date` | When approved |
+
+## CSV Export
+
+### Default Format
+
+```csv
+id,date,merchant,amount,currency,category,description,employee,department
+12345,2025-01-15,Office Depot,45.99,USD,Office Supplies,Printer paper,John Smith,Engineering
+12346,2025-01-16,Uber,22.50,USD,Transportation,Airport transfer,John Smith,Engineering
+```
+
+### Custom Columns
+
+Select which columns to include:
+
+1. Click **Export** > **CSV**
+2. Click **Customize Columns**
+3. Check/uncheck desired fields
+4. Drag to reorder columns
+5. Save as template (optional)
+6. Click **Export**
+
+### Accounting Software Formats
+
+Pre-configured formats for popular accounting systems:
+
+| Software | Format Name |
+|----------|-------------|
+| QuickBooks Online | QBO CSV Import |
+| QuickBooks Desktop | IIF Format |
+| Xero | Xero CSV |
+| Sage | Sage Import |
+| NetSuite | NetSuite CSV |
+| SAP | SAP Compatible |
+
+## PDF Export
+
+### Expense Detail PDF
+
+Generates a detailed document for each expense:
+
+- Expense metadata
+- Receipt image(s)
+- Approval history
+- Notes and comments
+
+### Expense Summary PDF
+
+Tabular summary of multiple expenses:
+
+- Grouped by category, project, or date
+- Subtotals and grand total
+- Charts and visualizations
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| Include receipts | Embed receipt images |
+| Include history | Show approval timeline |
+| Group by | Category, date, project, employee |
+| Sort by | Date, amount, merchant |
+| Page size | Letter, A4, Legal |
+
+## Bulk Receipt Download
+
+Download all receipt images and documents:
+
+### As ZIP Archive
+
+1. Select expenses to export
+2. Click **Export > Download Receipts**
+3. Choose file naming convention:
+   - By expense ID: `expense_12345.jpg`
+   - By date and merchant: `2025-01-15_OfficeDepot.jpg`
+   - By report: `Q1-Report/expense_12345.jpg`
+4. Click **Download ZIP**
+
+### File Organization
+
+```
+receipts_export_2025-01-29/
+├── Office_Supplies/
+│   ├── 2025-01-15_OfficeDepot_12345.jpg
+│   └── 2025-01-20_Staples_12348.jpg
+├── Travel/
+│   ├── 2025-01-16_Uber_12346.jpg
+│   └── 2025-01-17_Hilton_12347.pdf
+└── manifest.csv
+```
+
+## Scheduled Exports
+
+Set up automatic exports:
+
+### Create a Schedule
+
+1. Go to **Settings > Integrations > Exports**
+2. Click **Add Scheduled Export**
+3. Configure:
+   - Frequency: Daily, Weekly, Monthly
+   - Filter criteria
+   - Export format
+   - Delivery method (email, SFTP, cloud storage)
+4. Click **Save**
+
+### Delivery Options
+
+| Method | Setup |
+|--------|-------|
+| Email | Enter recipient addresses |
+| SFTP | Configure server credentials |
+| S3 | Provide bucket and credentials |
+| Google Drive | Connect account |
+| Dropbox | Connect account |
+
+## API Export
+
+Export data programmatically:
+
+```bash
+curl -X GET "https://api.smartbills.io/v1/expenses/export" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "format": "csv",
+    "from_date": "2025-01-01",
+    "to_date": "2025-01-31",
+    "include_receipts": false
+  }'
+```
+
+See [API Reference](/api-reference/expenses/export-expenses) for details.
+
+## Data Compliance
+
+### Audit Trail
+
+Exports include audit information:
+
+- Export timestamp
+- User who performed export
+- Filters applied
+- Number of records
+
+### Data Retention
+
+- Exports are available for download for 7 days
+- After 7 days, regenerate the export
+- Historical exports logged for compliance
+
+## Best Practices
+
+<Tip>
+**Export regularly** - Set up scheduled exports for consistent backups.
+</Tip>
+
+<Tip>
+**Match accounting periods** - Export by month to align with accounting close.
+</Tip>
+
+<Tip>
+**Verify totals** - Cross-check export totals with dashboard metrics.
+</Tip>
+
+<Tip>
+**Secure files** - Store exported files securely, especially those with receipts.
+</Tip>

@@ -1,0 +1,110 @@
+---
+title: "Shopify Integration"
+description: "Connect Smartbills with your Shopify store"
+---
+
+## Overview
+
+The Shopify integration enables automatic receipt generation and synchronization for your e-commerce orders.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Order Sync** | Import orders as receipts |
+| **Customer Sync** | Link customers between systems |
+| **Product Mapping** | Map Shopify products |
+| **Location Sync** | Sync multi-location inventory |
+| **Tax Mapping** | Configure tax handling |
+| **Refund Handling** | Process refunds automatically |
+
+## Setup
+
+### Prerequisites
+
+- Shopify store (any plan)
+- Smartbills Business plan
+- Admin access to Shopify
+
+### Connect Shopify
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Shopify">
+    Search for Shopify in the marketplace
+  </Step>
+  <Step title="Enter Store URL">
+    Enter your Shopify store URL
+  </Step>
+  <Step title="Install App">
+    Click Install and authorize in Shopify
+  </Step>
+  <Step title="Configure">
+    Map locations, products, and taxes
+  </Step>
+</Steps>
+
+## Configuration
+
+### Location Mapping
+
+Map Shopify locations to Smartbills:
+
+| Shopify Location | Smartbills Location |
+|-----------------|---------------------|
+| Main Warehouse | Main Store |
+| Retail Store | Downtown Location |
+
+### Product Mapping
+
+| Option | Description |
+|--------|-------------|
+| Auto-create | Create products automatically |
+| Match by SKU | Link by SKU code |
+| Manual | Map individually |
+
+### Tax Configuration
+
+| Shopify Tax | Smartbills Tax |
+|-------------|----------------|
+| State Tax | Sales Tax |
+| VAT | VAT Standard |
+
+## Sync Behavior
+
+### Order Import
+
+When a Shopify order is placed:
+
+1. Order details imported
+2. Customer matched/created
+3. Receipt generated
+4. Inventory updated
+
+### Refunds
+
+Refund handling options:
+
+- Create credit notes
+- Void original receipt
+- Partial refund support
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Orders not syncing | Check webhook status |
+| Products mismatched | Review SKU mapping |
+| Tax incorrect | Update tax configuration |
+
+## Best Practices
+
+<Tip>
+**Map all locations** - Ensure all Shopify locations are mapped.
+</Tip>
+
+<Tip>
+**Test with test order** - Create a test order to verify sync.
+</Tip>

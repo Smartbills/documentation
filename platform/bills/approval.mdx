@@ -1,0 +1,69 @@
+---
+title: "Bill Approval"
+description: "Configure and manage bill approval workflows"
+---
+
+## Bill Approval Process
+
+Bills can require approval before payment, providing financial controls and oversight.
+
+## Approval Workflow
+
+### Configuration
+
+Set up approval rules in **Settings > Bill Approvals**:
+
+| Threshold | Approvers |
+|-----------|-----------|
+| Under $500 | Auto-approve |
+| $500 - $5,000 | Manager |
+| Over $5,000 | Manager + Finance |
+
+### Approval Flow
+
+```
+Bill Created → Review → Approval Needed → Approved → Ready for Payment
+```
+
+## Approving Bills
+
+### Pending Queue
+
+1. Go to **Bills > Pending Approval**
+2. Review pending bills
+3. Click on bill to view details
+4. Verify invoice and details
+5. Approve or reject
+
+### Approval Actions
+
+| Action | Result |
+|--------|--------|
+| Approve | Bill ready for payment |
+| Reject | Returned to submitter |
+| Request Info | Ask for clarification |
+| Delegate | Forward to another approver |
+
+## 3-Way Matching
+
+For purchase orders:
+
+1. **Invoice** - Vendor invoice
+2. **PO** - Purchase order
+3. **Receipt** - Goods received
+
+Mismatches flagged for review.
+
+## Best Practices
+
+<Tip>
+**Review supporting docs** - Check PO and receipts.
+</Tip>
+
+<Tip>
+**Set appropriate thresholds** - Balance control with efficiency.
+</Tip>
+
+<Tip>
+**Delegate when away** - Ensure bills don't stall.
+</Tip>

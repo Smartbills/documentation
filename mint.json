@@ -7,13 +7,21 @@
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#6366F1",
+    "light": "#818CF8",
+    "dark": "#4F46E5",
+    "background": {
+      "dark": "#0F0F10",
+      "light": "#FFFFFF"
+    },
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#6366F1",
+      "to": "#8B5CF6"
     }
+  },
+  "theme": "quill",
+  "modeToggle": {
+    "default": "dark"
   },
   "topbarLinks": [
     {
@@ -27,23 +35,44 @@
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "Platform",
+      "url": "platform"
     },
     {
-      "name": "Help Center",
-      "url": "help-center"
+      "name": "For Shoppers",
+      "url": "consumers"
     },
     {
-      "name": "Developer Guide",
+      "name": "Developer",
       "url": "developer"
+    },
+    {
+      "name": "Integrations",
+      "url": "integrations"
+    },
+    {
+      "name": "Changelog",
+      "url": "changelog"
+    },
+    {
+      "name": "Legal",
+      "url": "legal"
+    },
+    {
+      "name": "FAQs",
+      "url": "faqs"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://docs.smartbills.io"
+      "name": "API Reference",
+      "icon": "code",
+      "url": "api-reference"
+    },
+    {
+      "name": "SDKs",
+      "icon": "cube",
+      "url": "sdks"
     },
     {
       "name": "Community",
@@ -51,296 +80,397 @@
       "url": "https://community.smartbills.io"
     },
     {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://blog.smartbills.io"
-    },
-    {
       "name": "Status",
       "icon": "signal-bars",
       "url": "https://status.smartbills.io"
     }
   ],
-  "navigation": [
-    {
-      "group": "Getting Started",
-      "pages": ["introduction", "quickstart", "authentication"]
-    },
-    {
-      "group": "Developer Guide",
-      "pages": [
-        "developer/getting-started",
-        "developer/create-account",
-        "developer/api-keys",
-        "developer/authentication",
-        "developer/webhooks",
-        "developer/rate-limits",
-        "developer/errors",
-        "developer/pagination",
-        "developer/environments",
-        "developer/versioning",
-        "developer/localizations",
-        "developer/metadata",
-        "developer/production"
-      ]
-    },
-    {
-      "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
-    },
-    {
-      "group": "Expenses API",
-      "pages": [
-        "api-reference/expenses/list-expenses",
-        "api-reference/expenses/get-expense",
-        "api-reference/expenses/upload-expense",
-        "api-reference/expenses/update-expense",
-        "api-reference/expenses/batch-update-expenses",
-        "api-reference/expenses/delete-expense",
-        "api-reference/expenses/validate-expense",
-        "api-reference/expenses/download-attachment",
-        "api-reference/expenses/download-attachments",
-        "api-reference/expenses/export-expenses"
-      ]
-    },
-    {
-      "group": "Expense Reports API",
-      "pages": [
-        "api-reference/expense-reports/list-reports",
-        "api-reference/expense-reports/get-report",
-        "api-reference/expense-reports/get-my-reports",
-        "api-reference/expense-reports/create-report",
-        "api-reference/expense-reports/update-report",
-        "api-reference/expense-reports/submit-report",
-        "api-reference/expense-reports/delete-report",
-        "api-reference/expense-reports/recall-report",
-        "api-reference/expense-reports/approve-report",
-        "api-reference/expense-reports/reject-report",
-        "api-reference/expense-reports/require-changes",
-        "api-reference/expense-reports/add-comment",
-        "api-reference/expense-reports/get-timeline",
-        "api-reference/expense-reports/get-audit-log"
-      ]
-    },
-    {
-      "group": "Businesses API",
-      "pages": [
-        "api-reference/businesses/list-businesses",
-        "api-reference/businesses/get-business",
-        "api-reference/businesses/create-business",
-        "api-reference/businesses/update-business",
-        "api-reference/businesses/delete-business"
-      ]
-    },
-    {
-      "group": "Merchants API",
-      "pages": [
-        "api-reference/merchants/create-merchant",
-        "api-reference/merchants/get-merchant",
-        "api-reference/merchants/list-merchants",
-        "api-reference/merchants/update-merchant",
-        "api-reference/merchants/delete-merchant"
-      ]
-    },
-    {
-      "group": "Locations API",
-      "pages": [
-        "api-reference/locations/create-location",
-        "api-reference/locations/get-location",
-        "api-reference/locations/list-locations",
-        "api-reference/locations/update-location",
-        "api-reference/locations/delete-location"
-      ]
-    },
-    {
-      "group": "Customers API",
-      "pages": [
-        "api-reference/customers/create-customer",
-        "api-reference/customers/get-customer",
-        "api-reference/customers/list-customers",
-        "api-reference/customers/update-customer",
-        "api-reference/customers/delete-customer"
-      ]
-    },
-    {
-      "group": "Employees API",
-      "pages": [
-        "api-reference/employees/create-employee",
-        "api-reference/employees/get-employee",
-        "api-reference/employees/list-employees",
-        "api-reference/employees/update-employee",
-        "api-reference/employees/delete-employee"
-      ]
-    },
-    {
-      "group": "Products API",
-      "pages": [
-        "api-reference/products/create-product",
-        "api-reference/products/get-product",
-        "api-reference/products/list-products",
-        "api-reference/products/update-product",
-        "api-reference/products/delete-product",
-        "api-reference/products/product-variants"
-      ]
-    },
-    {
-      "group": "Fees API",
-      "pages": [
-        "api-reference/fees/create-fee",
-        "api-reference/fees/get-fee",
-        "api-reference/fees/list-fees",
-        "api-reference/fees/update-fee",
-        "api-reference/fees/delete-fee"
-      ]
-    },
-    {
-      "group": "Promo Codes API",
-      "pages": [
-        "api-reference/promo-codes/create-promo-code",
-        "api-reference/promo-codes/get-promo-code",
-        "api-reference/promo-codes/list-promo-codes",
-        "api-reference/promo-codes/update-promo-code",
-        "api-reference/promo-codes/delete-promo-code",
-        "api-reference/promo-codes/validate-promo-code"
-      ]
-    },
-    {
-      "group": "Vendors API",
-      "pages": [
-        "api-reference/vendors/create-vendor",
-        "api-reference/vendors/get-vendor",
-        "api-reference/vendors/list-vendors",
-        "api-reference/vendors/update-vendor",
-        "api-reference/vendors/delete-vendor"
-      ]
-    },
-    {
-      "group": "Taxes API",
-      "pages": [
-        "api-reference/taxes/create-tax",
-        "api-reference/taxes/get-tax",
-        "api-reference/taxes/list-taxes",
-        "api-reference/taxes/update-tax",
-        "api-reference/taxes/delete-tax"
-      ]
-    },
-    {
-      "group": "Receipts API",
-      "pages": [
-        "api-reference/receipts/create-receipt",
-        "api-reference/receipts/get-receipt",
-        "api-reference/receipts/list-receipts",
-        "api-reference/receipts/update-receipt",
-        "api-reference/receipts/delete-receipt"
-      ]
-    },
-    {
-      "group": "Business Users API",
-      "pages": [
-        "api-reference/business-users/list-users",
-        "api-reference/business-users/get-user",
-        "api-reference/business-users/invite-user",
-        "api-reference/business-users/update-user",
-        "api-reference/business-users/remove-user"
-      ]
-    },
-    {
-      "group": "User API",
-      "pages": [
-        "api-reference/user/get-user",
-        "api-reference/user/update-user",
-        "api-reference/user/delete-user"
-      ]
-    },
-    {
-      "group": "Help Center",
-      "pages": ["help-center/overview"]
-    },
-    {
-      "group": "Account Management",
-      "pages": [
-        "help-center/account/create-account",
-        "help-center/account/login",
-        "help-center/account/reset-password",
-        "help-center/account/update-profile",
-        "help-center/account/two-factor-auth",
-        "help-center/account/delete-account"
-      ]
-    },
-    {
-      "group": "Managing Expenses",
-      "pages": [
-        "help-center/expenses/upload-expense",
-        "help-center/expenses/scan-receipt-mobile",
-        "help-center/expenses/edit-expense",
-        "help-center/expenses/categorize-expense",
-        "help-center/expenses/split-expense",
-        "help-center/expenses/duplicate-expense",
-        "help-center/expenses/delete-expense",
-        "help-center/expenses/bulk-actions"
-      ]
-    },
-    {
-      "group": "Expense Reports",
-      "pages": [
-        "help-center/expense-reports/create-report",
-        "help-center/expense-reports/add-expenses-to-report",
-        "help-center/expense-reports/edit-report",
-        "help-center/expense-reports/submit-report",
-        "help-center/expense-reports/recall-report",
-        "help-center/expense-reports/approve-report",
-        "help-center/expense-reports/partially-approve",
-        "help-center/expense-reports/reject-report",
-        "help-center/expense-reports/reimbursement",
-        "help-center/expense-reports/export-report"
-      ]
-    },
-    {
-      "group": "Business Settings",
-      "pages": [
-        "help-center/settings/general-settings",
-        "help-center/settings/manage-users",
-        "help-center/settings/user-roles",
-        "help-center/settings/departments",
-        "help-center/settings/categories",
-        "help-center/settings/approval-workflow",
-        "help-center/settings/spending-policies",
-        "help-center/settings/currency",
-        "help-center/settings/tax-settings",
-        "help-center/settings/notifications"
-      ]
-    },
-    {
-      "group": "Integrations",
-      "pages": [
-        "help-center/integrations/overview",
-        "help-center/integrations/quickbooks",
-        "help-center/integrations/xero",
-        "help-center/integrations/banking",
-        "help-center/integrations/slack",
-        "help-center/integrations/zapier"
-      ]
-    },
-    {
-      "group": "Mobile App",
-      "pages": [
-        "help-center/mobile/getting-started",
-        "help-center/mobile/scan-receipts",
-        "help-center/mobile/offline-mode",
-        "help-center/mobile/notifications",
-        "help-center/mobile/troubleshooting"
-      ]
-    },
-    {
-      "group": "Troubleshooting",
-      "pages": [
-        "help-center/troubleshooting/common-issues",
-        "help-center/troubleshooting/upload-problems",
-        "help-center/troubleshooting/sync-issues",
-        "help-center/troubleshooting/login-problems"
-      ]
-    }
-  ],
+  "navigation": {
+    "languages": [
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["introduction", "quickstart", "authentication"]
+          },
+          {
+            "group": "Platform",
+            "pages": ["platform/overview"]
+          },
+          {
+            "group": "Digital Receipts",
+            "pages": [
+              "platform/digital-receipts/overview",
+              "platform/digital-receipts/automatic-delivery",
+              "platform/digital-receipts/customization"
+            ]
+          },
+          {
+            "group": "Loyalty & Rewards",
+            "pages": ["platform/loyalty/overview"]
+          },
+          {
+            "group": "Post-Purchase Engagement",
+            "pages": [
+              "platform/engagement/overview",
+              "platform/engagement/reviews"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "platform/concepts/expenses",
+              "platform/concepts/reports",
+              "platform/concepts/approval-workflows",
+              "platform/concepts/categories",
+              "platform/concepts/vendors",
+              "platform/concepts/departments"
+            ]
+          },
+          {
+            "group": "Expenses",
+            "pages": [
+              "platform/expenses/overview",
+              "platform/expenses/upload",
+              "platform/expenses/edit",
+              "platform/expenses/categorize",
+              "platform/expenses/split",
+              "platform/expenses/export"
+            ]
+          },
+          {
+            "group": "Expense Reports",
+            "pages": [
+              "platform/reports/overview",
+              "platform/reports/create",
+              "platform/reports/submit",
+              "platform/reports/approve",
+              "platform/reports/reimburse"
+            ]
+          },
+          {
+            "group": "Bills & Invoices",
+            "pages": [
+              "platform/bills/overview",
+              "platform/bills/upload",
+              "platform/bills/approval",
+              "platform/invoices/overview"
+            ]
+          },
+          {
+            "group": "Email Inbox",
+            "pages": [
+              "platform/inbox/overview",
+              "platform/inbox/email-providers"
+            ]
+          },
+          {
+            "group": "Workflows",
+            "pages": [
+              "platform/workflows/overview",
+              "platform/workflows/create",
+              "platform/workflows/triggers",
+              "platform/workflows/actions"
+            ]
+          },
+          {
+            "group": "Mobile App",
+            "pages": [
+              "platform/mobile/overview",
+              "platform/mobile/receipt-scanning"
+            ]
+          },
+          {
+            "group": "Settings",
+            "pages": [
+              "platform/settings/overview",
+              "platform/settings/users",
+              "platform/settings/categories",
+              "platform/settings/departments",
+              "platform/settings/delegations"
+            ]
+          },
+          {
+            "group": "For Shoppers",
+            "pages": [
+              "consumers/overview",
+              "consumers/getting-started",
+              "consumers/spending",
+              "consumers/split-bills"
+            ]
+          },
+          {
+            "group": "Developer Guide",
+            "pages": [
+              "developer/getting-started",
+              "developer/create-account",
+              "developer/api-keys",
+              "developer/authentication",
+              "developer/webhooks",
+              "developer/rate-limits",
+              "developer/errors",
+              "developer/pagination",
+              "developer/environments",
+              "developer/versioning",
+              "developer/localizations",
+              "developer/metadata",
+              "developer/production"
+            ]
+          },
+          {
+            "group": "SDKs",
+            "pages": [
+              "sdks/overview",
+              "sdks/javascript",
+              "sdks/react",
+              "sdks/react-native",
+              "sdks/dotnet"
+            ]
+          },
+          {
+            "group": "API Documentation",
+            "pages": ["api-reference/introduction"]
+          },
+          {
+            "group": "Expenses API",
+            "pages": [
+              "api-reference/expenses/list-expenses",
+              "api-reference/expenses/get-expense",
+              "api-reference/expenses/upload-expense",
+              "api-reference/expenses/update-expense",
+              "api-reference/expenses/batch-update-expenses",
+              "api-reference/expenses/delete-expense",
+              "api-reference/expenses/validate-expense",
+              "api-reference/expenses/download-attachment",
+              "api-reference/expenses/download-attachments",
+              "api-reference/expenses/export-expenses"
+            ]
+          },
+          {
+            "group": "Expense Reports API",
+            "pages": [
+              "api-reference/expense-reports/list-reports",
+              "api-reference/expense-reports/get-report",
+              "api-reference/expense-reports/get-my-reports",
+              "api-reference/expense-reports/create-report",
+              "api-reference/expense-reports/update-report",
+              "api-reference/expense-reports/submit-report",
+              "api-reference/expense-reports/delete-report",
+              "api-reference/expense-reports/recall-report",
+              "api-reference/expense-reports/approve-report",
+              "api-reference/expense-reports/reject-report",
+              "api-reference/expense-reports/require-changes",
+              "api-reference/expense-reports/add-comment",
+              "api-reference/expense-reports/get-timeline",
+              "api-reference/expense-reports/get-audit-log"
+            ]
+          },
+          {
+            "group": "Receipts API",
+            "pages": [
+              "api-reference/receipts/create-receipt",
+              "api-reference/receipts/get-receipt",
+              "api-reference/receipts/list-receipts",
+              "api-reference/receipts/update-receipt",
+              "api-reference/receipts/delete-receipt"
+            ]
+          },
+          {
+            "group": "Businesses API",
+            "pages": [
+              "api-reference/businesses/list-businesses",
+              "api-reference/businesses/get-business",
+              "api-reference/businesses/create-business",
+              "api-reference/businesses/update-business",
+              "api-reference/businesses/delete-business"
+            ]
+          },
+          {
+            "group": "Merchants API",
+            "pages": [
+              "api-reference/merchants/create-merchant",
+              "api-reference/merchants/get-merchant",
+              "api-reference/merchants/list-merchants",
+              "api-reference/merchants/update-merchant",
+              "api-reference/merchants/delete-merchant"
+            ]
+          },
+          {
+            "group": "Locations API",
+            "pages": [
+              "api-reference/locations/create-location",
+              "api-reference/locations/get-location",
+              "api-reference/locations/list-locations",
+              "api-reference/locations/update-location",
+              "api-reference/locations/delete-location"
+            ]
+          },
+          {
+            "group": "Customers API",
+            "pages": [
+              "api-reference/customers/create-customer",
+              "api-reference/customers/get-customer",
+              "api-reference/customers/list-customers",
+              "api-reference/customers/update-customer",
+              "api-reference/customers/delete-customer"
+            ]
+          },
+          {
+            "group": "Employees API",
+            "pages": [
+              "api-reference/employees/create-employee",
+              "api-reference/employees/get-employee",
+              "api-reference/employees/list-employees",
+              "api-reference/employees/update-employee",
+              "api-reference/employees/delete-employee"
+            ]
+          },
+          {
+            "group": "Products API",
+            "pages": [
+              "api-reference/products/create-product",
+              "api-reference/products/get-product",
+              "api-reference/products/list-products",
+              "api-reference/products/update-product",
+              "api-reference/products/delete-product",
+              "api-reference/products/product-variants"
+            ]
+          },
+          {
+            "group": "Vendors API",
+            "pages": [
+              "api-reference/vendors/create-vendor",
+              "api-reference/vendors/get-vendor",
+              "api-reference/vendors/list-vendors",
+              "api-reference/vendors/update-vendor",
+              "api-reference/vendors/delete-vendor"
+            ]
+          },
+          {
+            "group": "Taxes API",
+            "pages": [
+              "api-reference/taxes/create-tax",
+              "api-reference/taxes/get-tax",
+              "api-reference/taxes/list-taxes",
+              "api-reference/taxes/update-tax",
+              "api-reference/taxes/delete-tax"
+            ]
+          },
+          {
+            "group": "Fees API",
+            "pages": [
+              "api-reference/fees/create-fee",
+              "api-reference/fees/get-fee",
+              "api-reference/fees/list-fees",
+              "api-reference/fees/update-fee",
+              "api-reference/fees/delete-fee"
+            ]
+          },
+          {
+            "group": "Promo Codes API",
+            "pages": [
+              "api-reference/promo-codes/create-promo-code",
+              "api-reference/promo-codes/get-promo-code",
+              "api-reference/promo-codes/list-promo-codes",
+              "api-reference/promo-codes/update-promo-code",
+              "api-reference/promo-codes/delete-promo-code",
+              "api-reference/promo-codes/validate-promo-code"
+            ]
+          },
+          {
+            "group": "Webhooks API",
+            "pages": [
+              "api-reference/webhooks/overview",
+              "api-reference/webhooks/create-webhook",
+              "api-reference/webhooks/list-webhooks",
+              "api-reference/webhooks/delete-webhook",
+              "api-reference/webhooks/events"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": ["integrations/overview"]
+          },
+          {
+            "group": "Accounting",
+            "pages": ["integrations/quickbooks", "integrations/xero"]
+          },
+          {
+            "group": "Point of Sale",
+            "pages": [
+              "integrations/shopify",
+              "integrations/square",
+              "integrations/clover",
+              "integrations/lightspeed"
+            ]
+          },
+          {
+            "group": "Communication",
+            "pages": ["integrations/slack", "integrations/microsoft-teams"]
+          },
+          {
+            "group": "Cloud Storage",
+            "pages": ["integrations/google-drive", "integrations/onedrive"]
+          },
+          {
+            "group": "Payments",
+            "pages": ["integrations/stripe", "integrations/plaid"]
+          },
+          {
+            "group": "Automation",
+            "pages": ["integrations/zapier"]
+          },
+          {
+            "group": "Changelog",
+            "pages": ["changelog/overview", "changelog/2025-01"]
+          },
+          {
+            "group": "Legal",
+            "pages": [
+              "legal/overview",
+              "legal/terms",
+              "legal/privacy",
+              "legal/security"
+            ]
+          },
+          {
+            "group": "FAQs",
+            "pages": ["faqs/overview"]
+          }
+        ]
+      },
+      {
+        "language": "fr",
+        "groups": [
+          {
+            "group": "Commencer",
+            "pages": ["fr/introduction", "fr/quickstart"]
+          },
+          {
+            "group": "Reçus Numériques",
+            "pages": ["fr/platform/digital-receipts/overview"]
+          },
+          {
+            "group": "Fidélité et Récompenses",
+            "pages": ["fr/platform/loyalty/overview"]
+          },
+          {
+            "group": "Engagement Post-Achat",
+            "pages": ["fr/platform/engagement/overview"]
+          },
+          {
+            "group": "Gestion des Dépenses",
+            "pages": ["fr/platform/expenses/overview"]
+          },
+          {
+            "group": "Rapports de Dépenses",
+            "pages": ["fr/platform/reports/overview"]
+          }
+        ]
+      }
+    ]
+  },
   "footerSocials": {
     "twitter": "https://twitter.com/smartbills",
     "github": "https://github.com/smartbills",

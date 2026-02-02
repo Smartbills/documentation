@@ -1,0 +1,120 @@
+---
+title: "Webhook Events"
+description: "All available webhook event types"
+---
+
+## Available Events
+
+Subscribe to these events when creating webhooks.
+
+## Expense Events
+
+| Event | Description |
+|-------|-------------|
+| `expense.created` | New expense uploaded |
+| `expense.updated` | Expense modified |
+| `expense.deleted` | Expense removed |
+| `expense.processed` | OCR processing complete |
+
+### expense.created
+
+```json
+{
+  "type": "expense.created",
+  "data": {
+    "object": {
+      "id": 12345,
+      "merchant": "Office Depot",
+      "amount": 45.99,
+      "currency": "USD",
+      "date": "2025-01-15",
+      "category": "Office Supplies",
+      "employeeId": 100,
+      "businessId": 1
+    }
+  }
+}
+```
+
+## Report Events
+
+| Event | Description |
+|-------|-------------|
+| `report.created` | New report created |
+| `report.submitted` | Report submitted for approval |
+| `report.approved` | Report fully approved |
+| `report.rejected` | Report rejected |
+| `report.recalled` | Report recalled by submitter |
+
+### report.submitted
+
+```json
+{
+  "type": "report.submitted",
+  "data": {
+    "object": {
+      "id": 5678,
+      "title": "January Expenses",
+      "total": 1245.00,
+      "expenseCount": 12,
+      "employeeId": 100,
+      "businessId": 1,
+      "submittedAt": "2025-01-31T17:00:00Z"
+    }
+  }
+}
+```
+
+### report.approved
+
+```json
+{
+  "type": "report.approved",
+  "data": {
+    "object": {
+      "id": 5678,
+      "title": "January Expenses",
+      "total": 1245.00,
+      "approvedBy": 200,
+      "approvedAt": "2025-02-01T10:30:00Z"
+    }
+  }
+}
+```
+
+## Business Events
+
+| Event | Description |
+|-------|-------------|
+| `business.created` | New business created |
+| `business.updated` | Business settings changed |
+
+## User Events
+
+| Event | Description |
+|-------|-------------|
+| `employee.invited` | User invited to business |
+| `employee.joined` | User accepted invitation |
+| `employee.removed` | User removed from business |
+
+## Vendor Events
+
+| Event | Description |
+|-------|-------------|
+| `vendor.created` | New vendor added |
+| `vendor.updated` | Vendor details changed |
+
+## Wildcard
+
+Use `*` to subscribe to all events:
+
+```json
+{
+  "url": "https://your-app.com/webhooks",
+  "events": ["*"]
+}
+```
+
+<Warning>
+Subscribing to all events may generate high webhook volume.
+</Warning>

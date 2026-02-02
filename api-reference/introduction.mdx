@@ -1,13 +1,15 @@
 ---
-title: 'API Reference'
-description: 'Complete reference for the Smartbills API'
+title: "API Reference"
+description: "Complete reference documentation for the Smartbills REST API"
 ---
 
-## Welcome to the Smartbills API
+## Introduction
 
-The Smartbills API is organized around REST. Our API has predictable resource-oriented URLs, accepts JSON-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response codes, authentication, and verbs.
+The Smartbills API is a RESTful API that allows you to programmatically manage expenses, reports, businesses, and more. Use this API to integrate expense management into your applications.
 
 ## Base URL
+
+All API requests should be made to:
 
 ```
 https://api.smartbills.io/v1
@@ -15,62 +17,90 @@ https://api.smartbills.io/v1
 
 ## Authentication
 
-The Smartbills API uses JWT Bearer tokens for authentication. Include your API key in the `Authorization` header:
+All API requests require authentication via an API key or OAuth 2.0 token.
+
+### API Key
+
+Include your API key in the `Authorization` header:
 
 ```bash
-Authorization: Bearer YOUR_API_KEY
+curl https://api.smartbills.io/v1/expenses \
+  -H "Authorization: Bearer sk_live_xxxxx"
 ```
 
-See the [Authentication guide](/authentication) for more details.
+### OAuth 2.0
+
+For user-facing applications, use OAuth 2.0:
+
+```bash
+curl https://api.smartbills.io/v1/expenses \
+  -H "Authorization: Bearer oauth_token_xxxxx"
+```
+
+See [Authentication](/developer/authentication) for details.
 
 ## Request Format
 
 ### Headers
 
-All requests should include these headers:
+| Header | Value | Required |
+|--------|-------|----------|
+| `Authorization` | `Bearer {token}` | Yes |
+| `Content-Type` | `application/json` | For POST/PUT |
+| `Accept` | `application/json` | Recommended |
 
-```http
-Authorization: Bearer YOUR_API_KEY
-Content-Type: application/json
-```
+### JSON Body
 
-### Body
-
-Request bodies should be JSON-encoded:
+For POST and PUT requests, send JSON in the request body:
 
 ```json
 {
-  "name": "Office Supplies",
-  "amount": 49.99,
-  "currency": "USD"
+  "merchant": "Office Depot",
+  "amount": 45.99,
+  "currency": "USD",
+  "date": "2025-01-15"
 }
 ```
 
 ## Response Format
 
-### Success Response
+All responses are JSON:
 
-Successful responses return HTTP `200` (or `201` for creates) with JSON:
+### Success Response
 
 ```json
 {
-  "id": 12345,
-  "name": "Office Supplies",
-  "amount": 49.99,
-  "currency": "USD",
-  "createdAt": "2024-01-15T10:30:00Z"
+  "data": {
+    "id": 12345,
+    "merchant": "Office Depot",
+    "amount": 45.99,
+    "currency": "USD"
+  }
+}
+```
+
+### List Response
+
+```json
+{
+  "data": [
+    { "id": 1, ... },
+    { "id": 2, ... }
+  ],
+  "page": 1,
+  "pageSize": 20,
+  "total": 150,
+  "totalPages": 8
 }
 ```
 
 ### Error Response
 
-Error responses include an error object:
-
 ```json
 {
   "error": {
-    "code": "VALIDATION_FAILED",
-    "message": "The request data is invalid",
+    "code": "VALIDATION_ERROR",
+    "message": "Amount is required",
     "details": [
       {
         "field": "amount",
@@ -81,160 +111,95 @@ Error responses include an error object:
 }
 ```
 
+## HTTP Status Codes
+
+| Code | Description |
+|------|-------------|
+| `200` | Success |
+| `201` | Created |
+| `204` | No content (successful delete) |
+| `400` | Bad request (validation error) |
+| `401` | Unauthorized |
+| `403` | Forbidden |
+| `404` | Not found |
+| `429` | Rate limited |
+| `500` | Server error |
+
 ## Pagination
 
-List endpoints return paginated results:
+List endpoints support pagination:
 
-```json
-{
-  "data": [...],
-  "pagination": {
-    "page": 1,
-    "pageSize": 20,
-    "totalPages": 5,
-    "totalCount": 100,
-    "hasNext": true,
-    "hasPrevious": false
-  }
-}
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `page` | Page number (1-based) | 1 |
+| `pageSize` | Items per page | 20 |
+| `sort` | Sort field | `createdAt` |
+| `order` | Sort direction (`asc`/`desc`) | `desc` |
+
+Example:
+
+```bash
+GET /v1/expenses?page=2&pageSize=50&sort=date&order=desc
 ```
-
-### Pagination Parameters
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `page` | integer | 1 | Page number |
-| `pageSize` | integer | 20 | Items per page (max: 100) |
 
 ## Filtering
 
-Many list endpoints support filtering:
+Many endpoints support filtering:
 
 ```bash
-GET /v1/expenses?status=pending&minAmount=100&maxAmount=500
+GET /v1/expenses?category=travel&status=approved&from=2025-01-01&to=2025-01-31
 ```
 
-## Sorting
+## Rate Limits
 
-Control the sort order with query parameters:
+| Plan | Requests/minute |
+|------|-----------------|
+| Free | 60 |
+| Starter | 300 |
+| Business | 1,000 |
+| Enterprise | Custom |
 
-```bash
-GET /v1/expenses?sortBy=date&sortOrder=desc
+Rate limit headers:
+
 ```
-
-### Common Sort Fields
-
-- `date` - Transaction date
-- `amount` - Amount
-- `createdAt` - Creation timestamp
-- `updatedAt` - Last update timestamp
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1706540400
+```
 
 ## Versioning
 
-The API is versioned via the URL path. The current version is `v1`.
+The API version is included in the URL path:
 
 ```
 https://api.smartbills.io/v1/expenses
 ```
 
-## Rate Limiting
+We maintain backward compatibility within major versions.
 
-API requests are rate-limited. See [Rate Limits](/developer/rate-limits) for details.
+## Environments
 
-## Timestamps
-
-All timestamps are returned in ISO 8601 format (UTC):
-
-```
-2024-01-15T10:30:00Z
-```
-
-## Currency
-
-Currency amounts are represented as decimal numbers with ISO 4217 currency codes:
-
-```json
-{
-  "amount": 49.99,
-  "currency": "USD"
-}
-```
-
-## IDs
-
-All resources have a unique numeric ID:
-
-```json
-{
-  "id": 12345
-}
-```
-
-## Metadata
-
-Some resources support custom metadata:
-
-```json
-{
-  "metadata": {
-    "customField1": "value1",
-    "customField2": "value2"
-  }
-}
-```
-
-## Idempotency
-
-To safely retry requests, use the `Idempotency-Key` header:
-
-```http
-Idempotency-Key: unique-key-12345
-```
-
-## Webhooks
-
-Receive real-time notifications via webhooks. See [Webhooks](/developer/webhooks) for details.
+| Environment | Base URL |
+|-------------|----------|
+| Production | `https://api.smartbills.io` |
+| Sandbox | `https://sandbox.api.smartbills.io` |
 
 ## SDKs
 
-While we don't provide official SDKs, the API works with standard HTTP libraries in any language.
+Official SDKs are available:
 
-## Support
+- [JavaScript SDK](/sdks/javascript)
+- [React SDK](/sdks/react)
+- [React Native SDK](/sdks/react-native)
+- [.NET SDK](/sdks/dotnet)
 
-- **Documentation**: [docs.smartbills.io](https://docs.smartbills.io)
-- **Email**: [developers@smartbills.io](mailto:developers@smartbills.io)
-- **Status**: [status.smartbills.io](https://status.smartbills.io)
-
-## Quick Links
+## Need Help?
 
 <CardGroup cols={2}>
-  <Card
-    title="Expenses"
-    icon="receipt"
-    href="/api-reference/expenses/list-expenses"
-  >
-    Manage expenses and receipts
+  <Card title="API Keys" icon="key" href="/developer/api-keys">
+    Get your API credentials
   </Card>
-  <Card
-    title="Expense Reports"
-    icon="file-invoice"
-    href="/api-reference/expense-reports/list-reports"
-  >
-    Create and manage expense reports
-  </Card>
-  <Card
-    title="Businesses"
-    icon="building"
-    href="/api-reference/businesses/list-businesses"
-  >
-    Manage business entities
-  </Card>
-  <Card
-    title="Users"
-    icon="user"
-    href="/api-reference/user/get-user"
-  >
-    User account management
+  <Card title="Support" icon="headset" href="mailto:support@smartbills.io">
+    Contact support
   </Card>
 </CardGroup>
-

@@ -1,0 +1,229 @@
+---
+title: "Categorize Expenses"
+description: "Learn how to categorize expenses for proper accounting"
+---
+
+## Why Categorize?
+
+Proper expense categorization is essential for:
+
+- **Accurate Reporting** - Generate meaningful spending reports
+- **Tax Compliance** - Ensure proper tax treatment
+- **Budget Tracking** - Monitor spending against budgets
+- **Accounting Integration** - Map to your chart of accounts
+- **Policy Compliance** - Apply correct approval workflows
+
+## Default Categories
+
+Smartbills includes common expense categories out of the box:
+
+| Category | Description | Example Expenses |
+|----------|-------------|------------------|
+| **Travel - Airfare** | Flight tickets and fees | Plane tickets, baggage fees |
+| **Travel - Lodging** | Hotel and accommodation | Hotels, Airbnb, hostels |
+| **Travel - Ground Transport** | Local transportation | Taxis, Uber, rental cars |
+| **Meals & Entertainment** | Business meals | Client dinners, team lunches |
+| **Office Supplies** | Workplace supplies | Pens, paper, desk accessories |
+| **Software & Subscriptions** | Digital tools | SaaS subscriptions, licenses |
+| **Equipment** | Business equipment | Computers, monitors, phones |
+| **Professional Services** | Outside services | Consulting, legal, accounting |
+| **Telecommunications** | Communication costs | Phone bills, internet |
+| **Advertising & Marketing** | Marketing expenses | Ads, promotional materials |
+| **Training & Education** | Learning expenses | Courses, conferences, books |
+| **Miscellaneous** | Other expenses | Uncategorized items |
+
+## Automatic Categorization
+
+Smartbills uses AI to automatically suggest categories:
+
+### How It Works
+
+1. **Merchant Recognition** - Known merchants are mapped to categories
+2. **Receipt Analysis** - AI reads receipt content for context
+3. **Historical Learning** - Learns from your past categorization choices
+4. **Industry Patterns** - Uses common patterns for your industry
+
+### Category Suggestions
+
+When you upload an expense:
+
+1. AI analyzes the receipt
+2. Top category suggestions appear
+3. Click to select the best match
+4. Or search for a different category
+
+### Improving Auto-Categorization
+
+<Tip>
+**Be consistent** - Always select the same category for similar expenses.
+</Tip>
+
+<Tip>
+**Review suggestions** - Correct AI suggestions to improve future accuracy.
+</Tip>
+
+<Tip>
+**Use vendor rules** - Set up automatic rules for frequent vendors.
+</Tip>
+
+## Manual Categorization
+
+### Single Expense
+
+1. Open the expense details
+2. Click on the **Category** field
+3. Search or browse for the category
+4. Select the appropriate category
+5. Click **Save**
+
+### Bulk Categorization
+
+1. Select multiple expenses using checkboxes
+2. Click **Bulk Actions > Categorize**
+3. Choose the category to apply
+4. Click **Apply to Selected**
+
+## Custom Categories
+
+Create categories that match your business needs:
+
+### Add a Category
+
+1. Go to **Settings > Categories**
+2. Click **Add Category**
+3. Enter the category name
+4. Optionally set:
+   - Description
+   - GL account code
+   - Tax treatment
+   - Parent category (for hierarchy)
+5. Click **Save**
+
+### Category Hierarchy
+
+Organize categories in a tree structure:
+
+```
+Travel
+├── Airfare
+├── Lodging
+├── Ground Transportation
+│   ├── Taxi & Rideshare
+│   ├── Rental Car
+│   └── Parking
+└── Meals (Travel)
+```
+
+### Edit Categories
+
+1. Go to **Settings > Categories**
+2. Click on a category to edit
+3. Modify name, description, or GL code
+4. Click **Save**
+
+### Deactivate Categories
+
+To hide unused categories:
+
+1. Go to **Settings > Categories**
+2. Click on the category
+3. Toggle **Active** to off
+4. Category will be hidden from selection
+5. Existing expenses retain the category
+
+## Category Rules
+
+Set up automatic categorization rules:
+
+### Merchant-Based Rules
+
+1. Go to **Settings > Category Rules**
+2. Click **Add Rule**
+3. Select **Merchant Contains**
+4. Enter the merchant name or keyword
+5. Select the category to assign
+6. Click **Save**
+
+Example rules:
+
+| Condition | Category |
+|-----------|----------|
+| Merchant contains "Uber" | Travel - Ground Transport |
+| Merchant contains "Hilton" | Travel - Lodging |
+| Merchant contains "Amazon" | Office Supplies |
+| Merchant contains "Starbucks" | Meals & Entertainment |
+
+### Amount-Based Rules
+
+Categorize by expense amount:
+
+| Condition | Category |
+|-----------|----------|
+| Amount > $500 | Equipment (requires review) |
+| Amount < $25 | Petty Cash |
+
+## Accounting Integration
+
+### GL Account Mapping
+
+Map categories to your chart of accounts:
+
+1. Go to **Settings > Categories**
+2. Click on a category
+3. Enter the **GL Account Code**
+4. This code syncs to your accounting software
+
+Example mapping:
+
+| Category | GL Account | Description |
+|----------|------------|-------------|
+| Travel - Airfare | 6200-100 | Travel Expenses - Air |
+| Meals & Entertainment | 6400-200 | Entertainment |
+| Office Supplies | 6100-100 | Office Expense |
+
+### Tax Treatment
+
+Set tax rules per category:
+
+| Category | Tax Treatment |
+|----------|---------------|
+| Meals (50% deductible) | 50% deductible |
+| Entertainment | Non-deductible |
+| Business Travel | Fully deductible |
+
+## Category Reporting
+
+### Spending by Category
+
+View spending breakdown:
+
+1. Go to **Reports > Spending Analysis**
+2. Select date range
+3. View pie chart of spending by category
+4. Click any category to drill down
+
+### Budget vs Actual
+
+Compare spending to budgets:
+
+1. Go to **Reports > Budget Comparison**
+2. View category-level budget performance
+3. Identify over-budget categories
+
+## Best Practices
+
+<Tip>
+**Keep it simple** - Use fewer, broader categories for easier management.
+</Tip>
+
+<Tip>
+**Map to accounting** - Ensure categories align with your chart of accounts.
+</Tip>
+
+<Tip>
+**Train your team** - Document category guidelines for consistency.
+</Tip>
+
+<Tip>
+**Review regularly** - Audit categorization accuracy monthly.
+</Tip>

@@ -1,0 +1,340 @@
+---
+title: "React SDK"
+description: "React hooks and components for Smartbills integration"
+---
+
+## Installation
+
+```bash
+npm install @smartbills/react-sdk @smartbills/sdk
+```
+
+## Quick Start
+
+### Provider Setup
+
+Wrap your application with the Smartbills provider:
+
+```tsx
+import { SmartbillsProvider } from '@smartbills/react-sdk';
+
+function App() {
+  return (
+    <SmartbillsProvider
+      apiKey="sk_live_xxxxx"
+      environment="production"
+    >
+      <YourApp />
+    </SmartbillsProvider>
+  );
+}
+```
+
+### Using Hooks
+
+```tsx
+import { useExpenses, useExpenseReports } from '@smartbills/react-sdk';
+
+function ExpenseList() {
+  const { data, isLoading, error } = useExpenses({ page: 1 });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <ul>
+      {data?.data.map(expense => (
+        <li key={expense.id}>{expense.merchant} - ${expense.amount}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Available Hooks
+
+### Expense Hooks
+
+```tsx
+import {
+  useExpenses,
+  useExpense,
+  useUploadExpense,
+  useUpdateExpense,
+  useDeleteExpense
+} from '@smartbills/react-sdk';
+
+function ExpenseManager() {
+  const { data: expenses } = useExpenses({ page: 1 });
+
+  const { data: expense } = useExpense(expenseId);
+
+  const uploadMutation = useUploadExpense();
+  const updateMutation = useUpdateExpense();
+  const deleteMutation = useDeleteExpense();
+
+  const handleUpload = async (file: File) => {
+    await uploadMutation.mutateAsync({
+      file,
+      businessId: 123
+    });
+  };
+
+  const handleUpdate = async () => {
+    await updateMutation.mutateAsync({
+      id: expenseId,
+      categoryId: 456
+    });
+  };
+
+  const handleDelete = async () => {
+    await deleteMutation.mutateAsync(expenseId);
+  };
+}
+```
+
+### Expense Report Hooks
+
+```tsx
+import {
+  useExpenseReports,
+  useExpenseReport,
+  useCreateExpenseReport,
+  useSubmitExpenseReport,
+  useApproveExpenseReport
+} from '@smartbills/react-sdk';
+
+function ReportManager() {
+  const { data: reports } = useExpenseReports({ status: 'draft' });
+
+  const createMutation = useCreateExpenseReport();
+  const submitMutation = useSubmitExpenseReport();
+  const approveMutation = useApproveExpenseReport();
+
+  const handleCreate = async () => {
+    const report = await createMutation.mutateAsync({
+      title: 'January Expenses',
+      expenseIds: [1, 2, 3]
+    });
+  };
+
+  const handleSubmit = async (reportId: number) => {
+    await submitMutation.mutateAsync(reportId);
+  };
+}
+```
+
+### Business Hooks
+
+```tsx
+import {
+  useBusinesses,
+  useBusiness,
+  useBusinessMembers
+} from '@smartbills/react-sdk';
+
+function BusinessSelector() {
+  const { data: businesses } = useBusinesses();
+  const { data: currentBusiness } = useBusiness(businessId);
+  const { data: members } = useBusinessMembers(businessId);
+}
+```
+
+### Vendor Hooks
+
+```tsx
+import {
+  useVendors,
+  useVendor,
+  useCreateVendor
+} from '@smartbills/react-sdk';
+
+function VendorManager() {
+  const { data: vendors } = useVendors({ businessId: 123 });
+  
+  const createMutation = useCreateVendor();
+  
+  const handleCreate = async () => {
+    await createMutation.mutateAsync({
+      businessId: 123,
+      name: 'New Vendor'
+    });
+  };
+}
+```
+
+## Components
+
+### ExpenseUploader
+
+```tsx
+import { ExpenseUploader } from '@smartbills/react-sdk';
+
+function UploadPage() {
+  return (
+    <ExpenseUploader
+      businessId={123}
+      onSuccess={(expense) => console.log('Uploaded:', expense)}
+      onError={(error) => console.error('Error:', error)}
+      allowMultiple={true}
+      acceptedFormats={['image/*', 'application/pdf']}
+    />
+  );
+}
+```
+
+### ReceiptViewer
+
+```tsx
+import { ReceiptViewer } from '@smartbills/react-sdk';
+
+function ExpenseDetail({ expenseId }) {
+  return (
+    <ReceiptViewer
+      expenseId={expenseId}
+      showMetadata={true}
+      allowZoom={true}
+    />
+  );
+}
+```
+
+## Configuration
+
+### Provider Options
+
+```tsx
+<SmartbillsProvider
+  apiKey="sk_live_xxxxx"
+  environment="production"
+  onError={(error) => console.error(error)}
+  queryConfig={{
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000
+  }}
+>
+  <App />
+</SmartbillsProvider>
+```
+
+### With Existing React Query Client
+
+```tsx
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SmartbillsProvider } from '@smartbills/react-sdk';
+
+const queryClient = new QueryClient();
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsProvider apiKey="sk_live_xxxxx">
+        <YourApp />
+      </SmartbillsProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+## Error Handling
+
+```tsx
+import { useExpenses } from '@smartbills/react-sdk';
+
+function ExpenseList() {
+  const { data, isLoading, error, refetch } = useExpenses();
+
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+        <button onClick={() => refetch()}>Retry</button>
+      </div>
+    );
+  }
+
+  return <div>{/* render expenses */}</div>;
+}
+```
+
+## TypeScript Support
+
+```tsx
+import type { Expense, ExpenseReport } from '@smartbills/sdk';
+import { useExpenses, useExpenseReports } from '@smartbills/react-sdk';
+
+function TypedComponent() {
+  const { data } = useExpenses();
+  
+  const expenses: Expense[] = data?.data ?? [];
+  
+  return (
+    <div>
+      {expenses.map(expense => (
+        <div key={expense.id}>{expense.merchant}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+## Best Practices
+
+<Tip>
+**Use React Query DevTools** - Install `@tanstack/react-query-devtools` to debug queries.
+</Tip>
+
+<Tip>
+**Optimize re-renders** - Use `select` option to subscribe to specific parts of the data.
+</Tip>
+
+<Tip>
+**Handle loading states** - Always show loading indicators for better UX.
+</Tip>
+
+## Example: Complete Expense Dashboard
+
+```tsx
+import {
+  SmartbillsProvider,
+  useExpenses,
+  useExpenseReports,
+  ExpenseUploader
+} from '@smartbills/react-sdk';
+
+function ExpenseDashboard() {
+  const { data: expenses, isLoading: expensesLoading } = useExpenses();
+  const { data: reports, isLoading: reportsLoading } = useExpenseReports();
+
+  if (expensesLoading || reportsLoading) {
+    return <LoadingSpinner />;
+  }
+
+  return (
+    <div className="dashboard">
+      <section>
+        <h2>Upload Expense</h2>
+        <ExpenseUploader businessId={123} />
+      </section>
+      
+      <section>
+        <h2>Recent Expenses ({expenses?.total})</h2>
+        <ExpenseList expenses={expenses?.data} />
+      </section>
+      
+      <section>
+        <h2>Pending Reports ({reports?.total})</h2>
+        <ReportList reports={reports?.data} />
+      </section>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <SmartbillsProvider apiKey={process.env.REACT_APP_SMARTBILLS_API_KEY}>
+      <ExpenseDashboard />
+    </SmartbillsProvider>
+  );
+}
+```

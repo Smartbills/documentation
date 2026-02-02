@@ -1,0 +1,166 @@
+---
+title: "Slack Integration"
+description: "Submit and manage expenses directly from Slack"
+---
+
+## Overview
+
+The Slack integration brings expense management into your workspace, enabling quick expense submission, approvals, and notifications without leaving Slack.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Submission** | Upload receipts via Slack |
+| **Approval Workflow** | Approve/reject from Slack |
+| **Notifications** | Get alerts in channels |
+| **Slash Commands** | Quick expense actions |
+| **Bot Interactions** | Conversational expense entry |
+| **Channel Reports** | Share reports in channels |
+
+## Setup
+
+### Install Smartbills for Slack
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Slack">
+    Search for Slack in the marketplace
+  </Step>
+  <Step title="Add to Slack">
+    Click **Add to Slack** button
+  </Step>
+  <Step title="Authorize">
+    Select workspace and authorize
+  </Step>
+  <Step title="Configure">
+    Set up channels and preferences
+  </Step>
+</Steps>
+
+## Slash Commands
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `/expense` | Start expense submission |
+| `/expenses` | View recent expenses |
+| `/report` | View expense reports |
+| `/approve` | View pending approvals |
+
+### Examples
+
+```
+/expense
+```
+Opens the expense submission dialog.
+
+```
+/expenses today
+```
+Lists today's expenses.
+
+## Submitting Expenses
+
+### Via Slash Command
+
+1. Type `/expense` in any channel
+2. Fill in the expense details
+3. Upload receipt image
+4. Click Submit
+
+### Via Direct Message
+
+1. Send a receipt image to @Smartbills bot
+2. Bot extracts data automatically
+3. Confirm or edit details
+4. Submit expense
+
+### Via Channel Upload
+
+1. Upload receipt to expense channel
+2. Bot prompts for details
+3. Confirm and submit
+
+## Approvals
+
+### Notification
+
+Approvers receive a message:
+
+```
+📋 Expense Report for Review
+From: John Smith
+Amount: $245.00
+Expenses: 5 items
+[Approve] [View Details] [Reject]
+```
+
+### Quick Actions
+
+- **Approve** - One-click approval
+- **View Details** - Open full report
+- **Reject** - Reject with reason
+
+## Notifications
+
+### Configure Channels
+
+Set up notification channels:
+
+| Notification | Channel |
+|--------------|---------|
+| New submissions | #expense-reports |
+| Approvals needed | #approvers |
+| Report approved | DM to submitter |
+
+### Notification Types
+
+| Event | Recipients |
+|-------|------------|
+| Expense submitted | Approvers |
+| Report approved | Submitter |
+| Report rejected | Submitter |
+| Changes requested | Submitter |
+
+## Bot Conversations
+
+### Natural Language
+
+The bot understands natural language:
+
+```
+User: I spent $45 on office supplies at Staples yesterday
+Bot: I'll create an expense for you:
+     Amount: $45.00
+     Category: Office Supplies
+     Vendor: Staples
+     Date: Yesterday
+     
+     Is this correct? [Confirm] [Edit]
+```
+
+## Best Practices
+
+<Tip>
+**Use dedicated channels** - Set up channels for expenses and approvals.
+</Tip>
+
+<Tip>
+**Enable notifications** - Stay informed about report status.
+</Tip>
+
+<Tip>
+**Train your team** - Share slash command documentation.
+</Tip>
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Commands not working | Reinstall Slack app |
+| Missing notifications | Check channel settings |
+| Bot not responding | Verify bot is in channel |

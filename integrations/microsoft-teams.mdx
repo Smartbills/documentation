@@ -1,0 +1,100 @@
+---
+title: "Microsoft Teams Integration"
+description: "Manage expenses within Microsoft Teams"
+---
+
+## Overview
+
+Bring expense management into Microsoft Teams with notifications, approvals, and expense submission directly from your Teams workspace.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Tab App** | Full expense dashboard in Teams |
+| **Bot** | Conversational expense submission |
+| **Notifications** | Approval alerts in channels |
+| **Adaptive Cards** | Rich approval cards |
+| **SSO** | Single sign-on support |
+
+## Setup
+
+### Install Teams App
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in Smartbills
+  </Step>
+  <Step title="Find Teams">
+    Search for Microsoft Teams in the marketplace
+  </Step>
+  <Step title="Add to Teams">
+    Click **Add to Microsoft Teams**
+  </Step>
+  <Step title="Authorize">
+    Grant permissions in Teams
+  </Step>
+  <Step title="Configure">
+    Add to channels and configure
+  </Step>
+</Steps>
+
+## Using the Tab App
+
+### Add to Channel
+
+1. Go to desired channel
+2. Click + to add tab
+3. Search for Smartbills
+4. Add and configure
+
+### Features
+
+- Full dashboard view
+- Create and submit expenses
+- Review and approve reports
+- View analytics
+
+## Bot Commands
+
+| Command | Description |
+|---------|-------------|
+| `@Smartbills expense` | Submit expense |
+| `@Smartbills status` | Check report status |
+| `@Smartbills approvals` | View pending |
+
+## Approval Cards
+
+Approvers receive rich adaptive cards:
+
+```
+┌────────────────────────────────────────┐
+│ 📋 Expense Report - January Travel     │
+│                                        │
+│ Submitted by: John Smith               │
+│ Total: $1,245.00                       │
+│ Expenses: 8 items                      │
+│                                        │
+│ [✓ Approve] [✕ Reject] [View Details]  │
+└────────────────────────────────────────┘
+```
+
+## Notifications
+
+### Configure Notifications
+
+| Event | Delivery |
+|-------|----------|
+| Report submitted | Channel post |
+| Approval needed | Direct mention |
+| Report status change | DM |
+
+## Best Practices
+
+<Tip>
+**Use dedicated channel** - Create #expenses channel for team visibility.
+</Tip>
+
+<Tip>
+**Pin the tab** - Make expense dashboard easily accessible.
+</Tip>

@@ -1,0 +1,75 @@
+---
+title: "January 2025"
+description: "Smartbills updates for January 2025"
+---
+
+## Version 2.5.0
+
+**Released: January 15, 2025**
+
+### New Features
+
+#### Email Inbox
+
+Automatically capture expenses from your email:
+- Connect Gmail, Outlook, or other providers
+- AI extracts receipt data from emails
+- Review and approve in the Inbox tab
+- [Learn more](/platform/inbox/overview)
+
+#### Mobile Offline Mode
+
+Full offline support for the mobile app:
+- Capture receipts without internet
+- View cached expenses and reports
+- Changes sync when back online
+- Works on iOS and Android
+
+#### Bulk Expense Actions
+
+Perform actions on multiple expenses at once:
+- Bulk categorization
+- Bulk add to report
+- Bulk delete
+- Bulk export
+
+### Improvements
+
+- **AI Receipt Scanning**: Improved accuracy for handwritten receipts
+- **Report Creation**: Faster report creation wizard
+- **Search**: Enhanced search with more filters
+- **Performance**: 40% faster page load times
+- **Mobile**: New camera interface with better edge detection
+
+### Bug Fixes
+
+- Fixed issue where currency conversion showed incorrect rates
+- Resolved duplicate expense detection false positives
+- Fixed approval workflow not triggering for certain categories
+- Corrected date picker timezone issues
+- Fixed PDF export formatting on certain reports
+
+### API Updates
+
+- New `/expenses/bulk` endpoint for bulk operations
+- Added `inbox` scope for email integration
+- Webhook support for email capture events
+- Rate limit increased to 1000 requests/minute
+
+### Security
+
+- Updated TLS to version 1.3
+- Enhanced OAuth token refresh handling
+- Improved session management
+
+---
+
+## Version 2.4.1
+
+**Released: January 5, 2025**
+
+### Bug Fixes
+
+- Fixed login issues for Google SSO users
+- Resolved mobile app crash on receipt capture
+- Corrected QuickBooks sync date formatting

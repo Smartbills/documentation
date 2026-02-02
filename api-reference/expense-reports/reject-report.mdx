@@ -1,0 +1,113 @@
+---
+title: "Reject Report"
+api: "POST /v1/expense-reports/{reportId}/reject"
+description: "Reject an expense report"
+---
+
+## Overview
+
+Rejects an expense report that is pending approval. This action notifies the submitter that their report has been rejected with the provided reason.
+
+## Path Parameters
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report to reject
+</ParamField>
+
+## Request Body
+
+<ParamField body="reason" type="string" required>
+  The reason for rejecting the report. This will be visible to the submitter.
+</ParamField>
+
+<ParamField body="comment" type="string">
+  Optional additional comment for the submitter
+</ParamField>
+
+## Response
+
+Returns the updated expense report object with status set to "rejected".
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the expense report
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  The report status (will be "rejected")
+</ResponseField>
+
+<ResponseField name="rejectedAt" type="string">
+  ISO 8601 timestamp of when the report was rejected
+</ResponseField>
+
+<ResponseField name="rejectedBy" type="object">
+  The user who rejected the report
+</ResponseField>
+
+<ResponseField name="rejectionReason" type="string">
+  The reason provided for the rejection
+</ResponseField>
+
+## Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expense-reports/123/reject \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "reason": "Missing receipts for hotel expenses",
+    "comment": "Please upload the hotel receipt and resubmit"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.smartbills.io/v1/expense-reports/123/reject', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    reason: 'Missing receipts for hotel expenses',
+    comment: 'Please upload the hotel receipt and resubmit'
+  })
+});
+
+const report = await response.json();
+```
+
+</CodeGroup>
+
+## Example Response
+
+```json
+{
+  "id": 123,
+  "title": "January 2025 Travel Expenses",
+  "status": "rejected",
+  "totalAmount": {
+    "amount": 1250.00,
+    "currency": "USD"
+  },
+  "expenseCount": 5,
+  "rejectedAt": "2025-01-20T14:30:00Z",
+  "rejectedBy": {
+    "id": 456,
+    "email": "manager@company.com",
+    "name": "John Manager"
+  },
+  "rejectionReason": "Missing receipts for hotel expenses"
+}
+```
+
+## Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 400 | Invalid request (missing reason) |
+| 403 | User not authorized to reject this report |
+| 404 | Report not found |
+| 409 | Report is not in a rejectable state |

@@ -1,0 +1,182 @@
+---
+title: "Expense Reports"
+description: "Understanding expense reports in Smartbills"
+---
+
+## What is an Expense Report?
+
+An expense report is a formal document that bundles multiple individual expenses together for submission, approval, and reimbursement. It serves as the primary mechanism for employees to request reimbursement for business expenses.
+
+## Why Use Reports?
+
+### Benefits
+
+| Benefit | Description |
+|---------|-------------|
+| **Organization** | Group related expenses logically |
+| **Efficiency** | Process multiple expenses at once |
+| **Accountability** | Clear audit trail |
+| **Approval** | Single workflow for multiple items |
+| **Compliance** | Enforce policies consistently |
+
+## Report Structure
+
+### Header Information
+
+```
+┌─────────────────────────────────────────┐
+│ Report: Q1 2025 Business Travel         │
+│ Submitted by: John Smith                │
+│ Department: Engineering                 │
+│ Date Range: Jan 1 - Mar 31, 2025        │
+│ Total: $2,450.00                        │
+└─────────────────────────────────────────┘
+```
+
+### Line Items
+
+Each expense in the report:
+
+| Expense | Date | Amount | Category | Receipt |
+|---------|------|--------|----------|---------|
+| Flight to NYC | Jan 15 | $450 | Airfare | ✓ |
+| Hotel - Hilton | Jan 15-17 | $600 | Lodging | ✓ |
+| Client dinner | Jan 16 | $150 | Meals | ✓ |
+
+## Report States
+
+### State Machine
+
+```
+     ┌─────────┐
+     │  Draft  │ ←──────────────────────┐
+     └────┬────┘                        │
+          │ Submit                      │
+          ▼                             │
+     ┌─────────┐    Recall         ┌────┴────┐
+     │Submitted│ ─────────────────→│ Recalled │
+     └────┬────┘                   └──────────┘
+          │
+          ▼
+     ┌─────────┐
+     │In Review│
+     └────┬────┘
+          │
+    ┌─────┴─────┬─────────────┐
+    ▼           ▼             ▼
+┌───────┐  ┌────────┐   ┌─────────┐
+│Approved│  │Rejected│   │ Changes │
+└───┬───┘  └────────┘   │Requested│
+    │                   └────┬────┘
+    ▼                        │
+┌─────────┐                  │
+│Reimbursed│←────────────────┘
+└─────────┘  (after fixes)
+```
+
+## Report Types
+
+### By Purpose
+
+| Type | Use Case | Typical Content |
+|------|----------|-----------------|
+| **Travel** | Business trips | Flights, hotels, meals |
+| **Monthly** | Regular expenses | Various categories |
+| **Project** | Client work | Project-specific costs |
+| **Event** | Conferences | Registration, travel |
+
+### By Scope
+
+- **Individual** - Single employee's expenses
+- **Team** - Shared team expenses
+- **Department** - Department-wide costs
+
+## Report Policies
+
+### Submission Deadlines
+
+| Policy | Deadline |
+|--------|----------|
+| Travel expenses | 30 days after trip |
+| Monthly expenses | 5th of following month |
+| Quarterly close | End of fiscal quarter |
+
+### Amount Thresholds
+
+| Level | Approval Required |
+|-------|-------------------|
+| Under $100 | Auto-approve |
+| $100 - $500 | Manager |
+| $500 - $2,000 | Manager + Director |
+| Over $2,000 | VP approval |
+
+## Report Calculations
+
+### Automatic Summaries
+
+```
+Expense Total:    $1,245.00
+├─ Travel:          $800.00
+├─ Meals:           $245.00
+└─ Transportation:  $200.00
+
+Tax Breakdown:
+├─ GST/HST:         $125.45
+└─ PST:              $45.00
+
+Reimbursable:     $1,145.00
+Non-reimbursable:   $100.00
+```
+
+## Approval Workflow
+
+Reports flow through configured approval chains:
+
+### Simple Workflow
+
+Employee → Manager → Approved
+
+### Complex Workflow
+
+Employee → Manager → Department Head → Finance → Approved
+
+### Conditional Workflow
+
+- Under threshold: Fast-track approval
+- Over threshold: Multi-level review
+- Policy exception: Additional scrutiny
+
+## Report Analytics
+
+### Available Metrics
+
+- Average report size
+- Approval time
+- Rejection rate
+- Most common categories
+- Spending trends
+
+### Dashboard Widgets
+
+- Pending approvals count
+- Total pending reimbursement
+- Reports by status
+- Approval timeline
+
+## Best Practices
+
+<Tip>
+**Group logically** - Create reports around trips, projects, or time periods.
+</Tip>
+
+<Tip>
+**Submit promptly** - Don't let expenses accumulate.
+</Tip>
+
+<Tip>
+**Be thorough** - Include all related expenses in one report.
+</Tip>
+
+<Tip>
+**Add context** - Describe the business purpose clearly.
+</Tip>
