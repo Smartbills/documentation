@@ -1,0 +1,10 @@
+---
+title: "Clés API"
+description: "Créer, gérer et sécuriser vos clés API Smartbills"
+---
+
+Les clés API sont la méthode principale d'authentification avec l'API Smartbills. Chaque clé est liée à votre compte utilisateur et hérite de vos permissions. Traitez vos clés comme des mots de passe et ne les exposez jamais publiquement.
+
+Smartbills offre deux types de clés : les clés de test (préfixe `sk_test_`) pour le développement et les clés de production (préfixe `sk_live_`) pour les environnements réels. Les clés de test utilisent des données séparées et ne génèrent aucune transaction réelle.
+
+Pour créer une clé, accédez à Paramètres → Développeur → Clés API, cliquez sur Créer une clé, donnez-lui un nom descriptif et copiez-la immédiatement — elle ne sera affichée qu'une seule fois. Stockez vos clés dans des variables d'environnement ou un gestionnaire de mots de passe.

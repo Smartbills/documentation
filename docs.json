@@ -6,7 +6,7 @@
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.png",
-"colors": {
+  "colors": {
     "primary": "#6366F1",
     "light": "#818CF8",
     "dark": "#4F46E5"
@@ -28,79 +28,171 @@
     { "name": "Community", "icon": "slack", "url": "https://community.smartbills.io" },
     { "name": "Status", "icon": "signal-bars", "url": "https://status.smartbills.io" }
   ],
+  "integrations": {
+    "gtm": {
+      "tagId": "GTM-XXXXXXX"
+    }
+  },
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "Platform",
-        "groups": [
-          { "group": "Getting Started", "pages": ["en/introduction", "en/quickstart", "en/authentication"] },
-          { "group": "Platform", "pages": ["en/platform/overview"] },
-          { "group": "Digital Receipts", "pages": ["en/platform/digital-receipts/overview", "en/platform/digital-receipts/automatic-delivery", "en/platform/digital-receipts/customization"] },
-          { "group": "Loyalty & Rewards", "pages": ["en/platform/loyalty/overview"] },
-          { "group": "Post-Purchase Engagement", "pages": ["en/platform/engagement/overview", "en/platform/engagement/reviews"] },
-          { "group": "Core Concepts", "pages": ["en/platform/concepts/expenses","en/platform/concepts/reports","en/platform/concepts/approval-workflows","en/platform/concepts/categories","en/platform/concepts/vendors","en/platform/concepts/departments"] },
-          { "group": "Expenses", "pages": ["en/platform/expenses/overview","en/platform/expenses/upload","en/platform/expenses/edit","en/platform/expenses/categorize","en/platform/expenses/split","en/platform/expenses/export"] },
-          { "group": "Expense Reports", "pages": ["en/platform/reports/overview","en/platform/reports/create","en/platform/reports/submit","en/platform/reports/approve","en/platform/reports/reimburse"] },
-          { "group": "Bills & Invoices", "pages": ["en/platform/bills/overview","en/platform/bills/upload","en/platform/bills/approval","en/platform/invoices/overview"] },
-          { "group": "Email Inbox", "pages": ["en/platform/inbox/overview","en/platform/inbox/email-providers"] },
-          { "group": "Workflows", "pages": ["en/platform/workflows/overview","en/platform/workflows/create","en/platform/workflows/triggers","en/platform/workflows/actions"] },
-          { "group": "Mobile App", "pages": ["en/platform/mobile/overview","en/platform/mobile/receipt-scanning"] },
-          { "group": "Settings", "pages": ["en/platform/settings/overview","en/platform/settings/users","en/platform/settings/categories","en/platform/settings/departments","en/platform/settings/delegations"] }
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Platform",
+            "groups": [
+              { "group": "Getting Started", "pages": ["introduction", "quickstart", "authentication"] },
+              { "group": "Platform", "pages": ["platform/overview"] },
+              { "group": "Digital Receipts", "pages": ["platform/digital-receipts/overview", "platform/digital-receipts/automatic-delivery", "platform/digital-receipts/customization"] },
+              { "group": "Loyalty & Rewards", "pages": ["platform/loyalty/overview"] },
+              { "group": "Post-Purchase Engagement", "pages": ["platform/engagement/overview", "platform/engagement/reviews"] },
+              { "group": "Core Concepts", "pages": ["platform/concepts/expenses", "platform/concepts/reports", "platform/concepts/approval-workflows", "platform/concepts/categories", "platform/concepts/vendors", "platform/concepts/departments"] },
+              { "group": "Expenses", "pages": ["platform/expenses/overview", "platform/expenses/upload", "platform/expenses/edit", "platform/expenses/categorize", "platform/expenses/split", "platform/expenses/export"] },
+              { "group": "Expense Reports", "pages": ["platform/reports/overview", "platform/reports/create", "platform/reports/submit", "platform/reports/approve", "platform/reports/reimburse"] },
+              { "group": "Bills & Invoices", "pages": ["platform/bills/overview", "platform/bills/upload", "platform/bills/approval", "platform/invoices/overview"] },
+              { "group": "Email Inbox", "pages": ["platform/inbox/overview", "platform/inbox/email-providers"] },
+              { "group": "Workflows", "pages": ["platform/workflows/overview", "platform/workflows/create", "platform/workflows/triggers", "platform/workflows/actions"] },
+              { "group": "Mobile App", "pages": ["platform/mobile/overview", "platform/mobile/receipt-scanning"] },
+              { "group": "Settings", "pages": ["platform/settings/overview", "platform/settings/users", "platform/settings/categories", "platform/settings/departments", "platform/settings/delegations"] }
+            ]
+          },
+          {
+            "tab": "For Shoppers",
+            "groups": [
+              { "group": "For Shoppers", "pages": ["consumers/overview", "consumers/getting-started", "consumers/spending", "consumers/split-bills"] }
+            ]
+          },
+          {
+            "tab": "Developer",
+            "groups": [
+              { "group": "Developer Guide", "pages": ["developer/getting-started", "developer/create-account", "developer/api-keys", "developer/authentication", "developer/webhooks", "developer/rate-limits", "developer/errors", "developer/pagination", "developer/environments", "developer/versioning", "developer/localizations", "developer/metadata", "developer/production"] },
+              { "group": "SDKs", "pages": ["sdks/overview", "sdks/javascript", "sdks/react", "sdks/react-native", "sdks/dotnet"] },
+              { "group": "API Documentation", "pages": ["api-reference/introduction"] }
+            ]
+          },
+          {
+            "tab": "Integrations",
+            "groups": [
+              { "group": "Integrations", "pages": ["integrations/overview"] },
+              { "group": "Accounting", "pages": ["integrations/quickbooks", "integrations/xero"] },
+              { "group": "Point of Sale", "pages": ["integrations/shopify", "integrations/square", "integrations/clover", "integrations/lightspeed"] },
+              { "group": "Communication", "pages": ["integrations/slack", "integrations/microsoft-teams"] },
+              { "group": "Cloud Storage", "pages": ["integrations/google-drive", "integrations/onedrive"] },
+              { "group": "Payments", "pages": ["integrations/stripe", "integrations/plaid"] },
+              { "group": "Automation", "pages": ["integrations/zapier"] }
+            ]
+          },
+          {
+            "tab": "Help Center",
+            "groups": [
+              { "group": "Help Center", "pages": ["help-center/overview"] },
+              { "group": "Account", "pages": ["help-center/account/create-account", "help-center/account/login", "help-center/account/reset-password", "help-center/account/update-profile", "help-center/account/two-factor-auth", "help-center/account/delete-account"] },
+              { "group": "Expenses", "pages": ["help-center/expenses/upload-expense", "help-center/expenses/edit-expense", "help-center/expenses/categorize-expense", "help-center/expenses/organize-expenses", "help-center/expenses/split-expense", "help-center/expenses/duplicate-expense", "help-center/expenses/bulk-actions", "help-center/expenses/scan-receipt-mobile"] },
+              { "group": "Expense Reports", "pages": ["help-center/expense-reports/create-report", "help-center/expense-reports/add-expenses-to-report", "help-center/expense-reports/submit-report", "help-center/expense-reports/approve-report", "help-center/expense-reports/reject-report", "help-center/expense-reports/export-report", "help-center/expense-reports/recall-report"] },
+              { "group": "Settings", "pages": ["help-center/settings/general-settings", "help-center/settings/manage-users", "help-center/settings/user-roles", "help-center/settings/departments", "help-center/settings/categories", "help-center/settings/approval-workflow", "help-center/settings/spending-policies"] },
+              { "group": "Integrations", "pages": ["help-center/integrations/quickbooks", "help-center/integrations/xero", "help-center/integrations/banking", "help-center/integrations/slack", "help-center/integrations/zapier"] },
+              { "group": "Mobile", "pages": ["help-center/mobile/getting-started", "help-center/mobile/scan-receipts", "help-center/mobile/offline-mode", "help-center/mobile/notifications"] },
+              { "group": "Troubleshooting", "pages": ["help-center/troubleshooting/login-problems", "help-center/troubleshooting/upload-problems", "help-center/troubleshooting/sync-issues"] }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              { "group": "Changelog", "pages": ["changelog/overview", "changelog/2025-01"] }
+            ]
+          },
+          {
+            "tab": "Legal",
+            "groups": [
+              { "group": "Legal", "pages": ["legal/overview", "legal/terms", "legal/privacy", "legal/security"] }
+            ]
+          },
+          {
+            "tab": "FAQs",
+            "groups": [
+              { "group": "FAQs", "pages": ["faqs/overview"] }
+            ]
+          }
         ]
       },
       {
-        "tab": "For Shoppers",
-        "groups": [
-          { "group": "For Shoppers", "pages": ["en/consumers/overview","en/consumers/getting-started","en/consumers/spending","en/consumers/split-bills"] }
-        ]
-      },
-      {
-        "tab": "Developer",
-        "groups": [
-          { "group": "Developer Guide", "pages": ["en/developer/getting-started","en/developer/create-account","en/developer/api-keys","en/developer/authentication","en/developer/webhooks","en/developer/rate-limits","en/developer/errors","en/developer/pagination","en/developer/environments","en/developer/versioning","en/developer/localizations","en/developer/metadata","en/developer/production"] },
-          { "group": "SDKs", "pages": ["en/sdks/overview","en/sdks/javascript","en/sdks/react","en/sdks/react-native","en/sdks/dotnet"] },
-          { "group": "API Documentation", "pages": ["en/api-reference/introduction"] }
-        ]
-      },
-      {
-        "tab": "Integrations",
-        "groups": [
-          { "group": "Integrations", "pages": ["en/integrations/overview"] },
-          { "group": "Accounting", "pages": ["en/integrations/quickbooks","en/integrations/xero"] },
-          { "group": "Point of Sale", "pages": ["en/integrations/shopify","en/integrations/square","en/integrations/clover","en/integrations/lightspeed"] },
-          { "group": "Communication", "pages": ["en/integrations/slack","en/integrations/microsoft-teams"] },
-          { "group": "Cloud Storage", "pages": ["en/integrations/google-drive","en/integrations/onedrive"] },
-          { "group": "Payments", "pages": ["en/integrations/stripe","en/integrations/plaid"] },
-          { "group": "Automation", "pages": ["en/integrations/zapier"] }
-        ]
-      },
-      {
-        "tab": "Changelog",
-        "groups": [
-          { "group": "Changelog", "pages": ["en/changelog/overview","en/changelog/2025-01"] }
-        ]
-      },
-      {
-        "tab": "Legal",
-        "groups": [
-          { "group": "Legal", "pages": ["en/legal/overview","en/legal/terms","en/legal/privacy","en/legal/security"] }
-        ]
-      },
-      {
-        "tab": "FAQs",
-        "groups": [
-          { "group": "FAQs", "pages": ["en/faqs/overview"] }
-        ]
-      },
-      {
-        "tab": "Français",
-        "groups": [
-          { "group": "Commencer", "pages": ["fr/introduction","fr/quickstart"] },
-          { "group": "Reçus Numériques", "pages": ["fr/platform/digital-receipts/overview"] },
-          { "group": "Fidélité et Récompenses", "pages": ["fr/platform/loyalty/overview"] },
-          { "group": "Engagement Post-Achat", "pages": ["fr/platform/engagement/overview"] },
-          { "group": "Gestion des Dépenses", "pages": ["fr/platform/expenses/overview"] },
-          { "group": "Rapports de Dépenses", "pages": ["fr/platform/reports/overview"] }
+        "language": "fr",
+        "tabs": [
+          {
+            "tab": "Plateforme",
+            "groups": [
+              { "group": "Commencer", "pages": ["fr/introduction", "fr/quickstart", "fr/authentication"] },
+              { "group": "Plateforme", "pages": ["fr/platform/overview"] },
+              { "group": "Reçus Numériques", "pages": ["fr/platform/digital-receipts/overview", "fr/platform/digital-receipts/automatic-delivery", "fr/platform/digital-receipts/customization"] },
+              { "group": "Fidélité et Récompenses", "pages": ["fr/platform/loyalty/overview"] },
+              { "group": "Engagement Post-Achat", "pages": ["fr/platform/engagement/overview", "fr/platform/engagement/reviews"] },
+              { "group": "Concepts Fondamentaux", "pages": ["fr/platform/concepts/expenses", "fr/platform/concepts/reports", "fr/platform/concepts/approval-workflows", "fr/platform/concepts/categories", "fr/platform/concepts/vendors", "fr/platform/concepts/departments"] },
+              { "group": "Dépenses", "pages": ["fr/platform/expenses/overview", "fr/platform/expenses/upload", "fr/platform/expenses/edit", "fr/platform/expenses/categorize", "fr/platform/expenses/split", "fr/platform/expenses/export"] },
+              { "group": "Rapports de Dépenses", "pages": ["fr/platform/reports/overview", "fr/platform/reports/create", "fr/platform/reports/submit", "fr/platform/reports/approve", "fr/platform/reports/reimburse"] },
+              { "group": "Factures", "pages": ["fr/platform/bills/overview", "fr/platform/bills/upload", "fr/platform/bills/approval", "fr/platform/invoices/overview"] },
+              { "group": "Boîte de Réception", "pages": ["fr/platform/inbox/overview", "fr/platform/inbox/email-providers"] },
+              { "group": "Automatisations", "pages": ["fr/platform/workflows/overview", "fr/platform/workflows/create", "fr/platform/workflows/triggers", "fr/platform/workflows/actions"] },
+              { "group": "Application Mobile", "pages": ["fr/platform/mobile/overview", "fr/platform/mobile/receipt-scanning"] },
+              { "group": "Paramètres", "pages": ["fr/platform/settings/overview", "fr/platform/settings/users", "fr/platform/settings/categories", "fr/platform/settings/departments", "fr/platform/settings/delegations"] }
+            ]
+          },
+          {
+            "tab": "Pour les Consommateurs",
+            "groups": [
+              { "group": "Pour les Consommateurs", "pages": ["fr/consumers/overview", "fr/consumers/getting-started", "fr/consumers/spending", "fr/consumers/split-bills"] }
+            ]
+          },
+          {
+            "tab": "Développeur",
+            "groups": [
+              { "group": "Guide du Développeur", "pages": ["fr/developer/getting-started", "fr/developer/create-account", "fr/developer/api-keys", "fr/developer/authentication", "fr/developer/webhooks", "fr/developer/rate-limits", "fr/developer/errors", "fr/developer/pagination", "fr/developer/environments", "fr/developer/versioning", "fr/developer/localizations", "fr/developer/metadata", "fr/developer/production"] },
+              { "group": "SDKs", "pages": ["fr/sdks/overview", "fr/sdks/javascript", "fr/sdks/react", "fr/sdks/react-native", "fr/sdks/dotnet"] },
+              { "group": "Documentation API", "pages": ["fr/api-reference/introduction"] }
+            ]
+          },
+          {
+            "tab": "Intégrations",
+            "groups": [
+              { "group": "Intégrations", "pages": ["fr/integrations/overview"] },
+              { "group": "Comptabilité", "pages": ["fr/integrations/quickbooks", "fr/integrations/xero"] },
+              { "group": "Point de Vente", "pages": ["fr/integrations/shopify", "fr/integrations/square", "fr/integrations/clover", "fr/integrations/lightspeed"] },
+              { "group": "Communication", "pages": ["fr/integrations/slack", "fr/integrations/microsoft-teams"] },
+              { "group": "Stockage Cloud", "pages": ["fr/integrations/google-drive", "fr/integrations/onedrive"] },
+              { "group": "Paiements", "pages": ["fr/integrations/stripe", "fr/integrations/plaid"] },
+              { "group": "Automatisation", "pages": ["fr/integrations/zapier"] }
+            ]
+          },
+          {
+            "tab": "Centre d'Aide",
+            "groups": [
+              { "group": "Centre d'Aide", "pages": ["fr/help-center/overview"] },
+              { "group": "Compte", "pages": ["fr/help-center/account/create-account", "fr/help-center/account/login", "fr/help-center/account/reset-password", "fr/help-center/account/update-profile", "fr/help-center/account/two-factor-auth", "fr/help-center/account/delete-account"] },
+              { "group": "Dépenses", "pages": ["fr/help-center/expenses/upload-expense", "fr/help-center/expenses/edit-expense", "fr/help-center/expenses/categorize-expense", "fr/help-center/expenses/organize-expenses", "fr/help-center/expenses/split-expense", "fr/help-center/expenses/duplicate-expense", "fr/help-center/expenses/bulk-actions", "fr/help-center/expenses/scan-receipt-mobile"] },
+              { "group": "Rapports de Dépenses", "pages": ["fr/help-center/expense-reports/create-report", "fr/help-center/expense-reports/add-expenses-to-report", "fr/help-center/expense-reports/submit-report", "fr/help-center/expense-reports/approve-report", "fr/help-center/expense-reports/reject-report", "fr/help-center/expense-reports/export-report", "fr/help-center/expense-reports/recall-report"] },
+              { "group": "Paramètres", "pages": ["fr/help-center/settings/general-settings", "fr/help-center/settings/manage-users", "fr/help-center/settings/user-roles", "fr/help-center/settings/departments", "fr/help-center/settings/categories", "fr/help-center/settings/approval-workflow", "fr/help-center/settings/spending-policies"] },
+              { "group": "Intégrations", "pages": ["fr/help-center/integrations/quickbooks", "fr/help-center/integrations/xero", "fr/help-center/integrations/banking", "fr/help-center/integrations/slack", "fr/help-center/integrations/zapier"] },
+              { "group": "Mobile", "pages": ["fr/help-center/mobile/getting-started", "fr/help-center/mobile/scan-receipts", "fr/help-center/mobile/offline-mode", "fr/help-center/mobile/notifications"] },
+              { "group": "Dépannage", "pages": ["fr/help-center/troubleshooting/login-problems", "fr/help-center/troubleshooting/upload-problems", "fr/help-center/troubleshooting/sync-issues"] }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              { "group": "Changelog", "pages": ["fr/changelog/overview", "fr/changelog/2025-01"] }
+            ]
+          },
+          {
+            "tab": "Légal",
+            "groups": [
+              { "group": "Légal", "pages": ["fr/legal/overview", "fr/legal/terms", "fr/legal/privacy", "fr/legal/security"] }
+            ]
+          },
+          {
+            "tab": "FAQ",
+            "groups": [
+              { "group": "FAQ", "pages": ["fr/faqs/overview"] }
+            ]
+          }
         ]
       }
     ]

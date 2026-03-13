@@ -1,0 +1,55 @@
+---
+title: "Sync Issues"
+description: "Resolve data sync problems between devices, apps, and integrations"
+---
+
+## Common Issues
+
+### Data Not Appearing
+
+<AccordionGroup>
+  <Accordion title="New expenses not showing">
+    - Pull to refresh (mobile) or press F5 (web)
+    - Check that you're viewing the correct business — switch using the business selector
+    - Verify the expense was uploaded to the right account (personal vs business)
+  </Accordion>
+
+  <Accordion title="Changes not reflecting across devices">
+    - Changes sync in real-time when connected to the internet
+    - On mobile, ensure the app isn't in offline mode
+    - Sign out and back in to force a full refresh
+  </Accordion>
+
+  <Accordion title="Integration data out of sync">
+    If data isn't syncing to QuickBooks, Xero, or other integrations:
+    - Check the integration status in **Settings** → **Integrations**
+    - Re-authorize the integration if the connection expired
+    - Verify account mappings are still valid
+    - Check for sync errors in the integration detail page
+  </Accordion>
+</AccordionGroup>
+
+### Mobile App Sync
+
+If the mobile app isn't syncing:
+
+1. **Check connectivity** — Ensure you have a stable internet connection
+2. **Force sync** — Pull down to refresh on any list screen
+3. **Check pending uploads** — Look for a pending upload indicator
+4. **Update the app** — Install the latest version from the App Store or Google Play
+5. **Reinstall** — As a last resort, uninstall and reinstall the app
+
+### Real-Time Updates
+
+Smartbills uses real-time connections (SignalR) to push updates instantly. If real-time updates stop working:
+
+- Check your internet connection
+- Disable VPNs or proxies that may block WebSocket connections
+- Refresh the page to re-establish the connection
+
+## Still Having Issues?
+
+Contact [support@smartbills.io](mailto:support@smartbills.io) and include:
+- Which data is not syncing
+- Which devices/platforms are affected
+- When the issue started

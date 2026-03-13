@@ -1,0 +1,24 @@
+---
+title: "Rôles et Permissions"
+description: "Comprendre les rôles utilisateur et les niveaux d'accès dans Smartbills"
+---
+
+Smartbills utilise un système de rôles pour contrôler ce que chaque utilisateur peut faire. Les trois rôles principaux sont **Employé**, **Gestionnaire** et **Administrateur**. Chaque rôle dispose d'un ensemble de permissions spécifiques.
+
+Les employés peuvent créer des dépenses et soumettre des rapports. Les gestionnaires peuvent approuver ou rejeter les rapports de leur équipe. Les administrateurs ont un accès complet, y compris la gestion des utilisateurs, des paramètres et des intégrations.
+
+<AccordionGroup>
+  <Accordion title="Employé" icon="user">
+    Peut créer et modifier ses propres dépenses, soumettre des rapports et consulter l'historique personnel.
+  </Accordion>
+  <Accordion title="Gestionnaire" icon="user-tie">
+    Toutes les permissions d'un employé, plus l'approbation des rapports et la vue de l'équipe.
+  </Accordion>
+  <Accordion title="Administrateur" icon="user-shield">
+    Accès complet : paramètres, utilisateurs, intégrations, et configuration de l'entreprise.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+Seuls les administrateurs peuvent modifier les rôles des utilisateurs.
+</Warning>

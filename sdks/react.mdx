@@ -1,234 +1,46 @@
 ---
 title: "React SDK"
-description: "React hooks and components for Smartbills integration"
+description: "React Query hooks and components for Smartbills integration"
 ---
+
+The Smartbills React SDK provides two packages:
+
+- **`@smartbills/react-hooks-sdk`** — React Query hooks for data fetching and mutations
+- **`@smartbills/react-sdk`** — Pre-built React components (Receipt, Bank, etc.)
+
+Both packages build on top of `@smartbills/sdk` and `@tanstack/react-query`.
 
 ## Installation
 
 ```bash
-npm install @smartbills/react-sdk @smartbills/sdk
+npm install @smartbills/sdk @smartbills/react-hooks-sdk @tanstack/react-query
+```
+
+For pre-built components:
+
+```bash
+npm install @smartbills/react-sdk
 ```
 
 ## Quick Start
 
 ### Provider Setup
 
-Wrap your application with the Smartbills provider:
-
 ```tsx
-import { SmartbillsProvider } from '@smartbills/react-sdk';
-
-function App() {
-  return (
-    <SmartbillsProvider
-      apiKey="sk_live_xxxxx"
-      environment="production"
-    >
-      <YourApp />
-    </SmartbillsProvider>
-  );
-}
-```
-
-### Using Hooks
-
-```tsx
-import { useExpenses, useExpenseReports } from '@smartbills/react-sdk';
-
-function ExpenseList() {
-  const { data, isLoading, error } = useExpenses({ page: 1 });
-
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
-
-  return (
-    <ul>
-      {data?.data.map(expense => (
-        <li key={expense.id}>{expense.merchant} - ${expense.amount}</li>
-      ))}
-    </ul>
-  );
-}
-```
-
-## Available Hooks
-
-### Expense Hooks
-
-```tsx
-import {
-  useExpenses,
-  useExpense,
-  useUploadExpense,
-  useUpdateExpense,
-  useDeleteExpense
-} from '@smartbills/react-sdk';
-
-function ExpenseManager() {
-  const { data: expenses } = useExpenses({ page: 1 });
-
-  const { data: expense } = useExpense(expenseId);
-
-  const uploadMutation = useUploadExpense();
-  const updateMutation = useUpdateExpense();
-  const deleteMutation = useDeleteExpense();
-
-  const handleUpload = async (file: File) => {
-    await uploadMutation.mutateAsync({
-      file,
-      businessId: 123
-    });
-  };
-
-  const handleUpdate = async () => {
-    await updateMutation.mutateAsync({
-      id: expenseId,
-      categoryId: 456
-    });
-  };
-
-  const handleDelete = async () => {
-    await deleteMutation.mutateAsync(expenseId);
-  };
-}
-```
-
-### Expense Report Hooks
-
-```tsx
-import {
-  useExpenseReports,
-  useExpenseReport,
-  useCreateExpenseReport,
-  useSubmitExpenseReport,
-  useApproveExpenseReport
-} from '@smartbills/react-sdk';
-
-function ReportManager() {
-  const { data: reports } = useExpenseReports({ status: 'draft' });
-
-  const createMutation = useCreateExpenseReport();
-  const submitMutation = useSubmitExpenseReport();
-  const approveMutation = useApproveExpenseReport();
-
-  const handleCreate = async () => {
-    const report = await createMutation.mutateAsync({
-      title: 'January Expenses',
-      expenseIds: [1, 2, 3]
-    });
-  };
-
-  const handleSubmit = async (reportId: number) => {
-    await submitMutation.mutateAsync(reportId);
-  };
-}
-```
-
-### Business Hooks
-
-```tsx
-import {
-  useBusinesses,
-  useBusiness,
-  useBusinessMembers
-} from '@smartbills/react-sdk';
-
-function BusinessSelector() {
-  const { data: businesses } = useBusinesses();
-  const { data: currentBusiness } = useBusiness(businessId);
-  const { data: members } = useBusinessMembers(businessId);
-}
-```
-
-### Vendor Hooks
-
-```tsx
-import {
-  useVendors,
-  useVendor,
-  useCreateVendor
-} from '@smartbills/react-sdk';
-
-function VendorManager() {
-  const { data: vendors } = useVendors({ businessId: 123 });
-  
-  const createMutation = useCreateVendor();
-  
-  const handleCreate = async () => {
-    await createMutation.mutateAsync({
-      businessId: 123,
-      name: 'New Vendor'
-    });
-  };
-}
-```
-
-## Components
-
-### ExpenseUploader
-
-```tsx
-import { ExpenseUploader } from '@smartbills/react-sdk';
-
-function UploadPage() {
-  return (
-    <ExpenseUploader
-      businessId={123}
-      onSuccess={(expense) => console.log('Uploaded:', expense)}
-      onError={(error) => console.error('Error:', error)}
-      allowMultiple={true}
-      acceptedFormats={['image/*', 'application/pdf']}
-    />
-  );
-}
-```
-
-### ReceiptViewer
-
-```tsx
-import { ReceiptViewer } from '@smartbills/react-sdk';
-
-function ExpenseDetail({ expenseId }) {
-  return (
-    <ReceiptViewer
-      expenseId={expenseId}
-      showMetadata={true}
-      allowZoom={true}
-    />
-  );
-}
-```
-
-## Configuration
-
-### Provider Options
-
-```tsx
-<SmartbillsProvider
-  apiKey="sk_live_xxxxx"
-  environment="production"
-  onError={(error) => console.error(error)}
-  queryConfig={{
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000
-  }}
->
-  <App />
-</SmartbillsProvider>
-```
-
-### With Existing React Query Client
-
-```tsx
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SmartbillsProvider } from '@smartbills/react-sdk';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { SmartbillsProvider } from "@smartbills/react-hooks-sdk";
 
 const queryClient = new QueryClient();
+const client = new SmartbillsClient({
+  accessToken: "your-token",
+  businessId: 42,
+});
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <SmartbillsProvider apiKey="sk_live_xxxxx">
+      <SmartbillsProvider client={client} businessId={42}>
         <YourApp />
       </SmartbillsProvider>
     </QueryClientProvider>
@@ -236,105 +48,613 @@ function App() {
 }
 ```
 
-## Error Handling
+### Using Hooks
 
 ```tsx
-import { useExpenses } from '@smartbills/react-sdk';
+import { useExpenses, useUpdateExpense } from "@smartbills/react-hooks-sdk";
 
 function ExpenseList() {
-  const { data, isLoading, error, refetch } = useExpenses();
+  const { data, fetchNextPage, hasNextPage, isLoading } = useExpenses({
+    limit: 25,
+  });
 
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-        <button onClick={() => refetch()}>Retry</button>
-      </div>
-    );
-  }
+  const updateMutation = useUpdateExpense();
 
-  return <div>{/* render expenses */}</div>;
-}
-```
+  if (isLoading) return <div>Loading...</div>;
 
-## TypeScript Support
+  const expenses = data?.pages.flatMap((page) => page.data) ?? [];
 
-```tsx
-import type { Expense, ExpenseReport } from '@smartbills/sdk';
-import { useExpenses, useExpenseReports } from '@smartbills/react-sdk';
-
-function TypedComponent() {
-  const { data } = useExpenses();
-  
-  const expenses: Expense[] = data?.data ?? [];
-  
   return (
-    <div>
-      {expenses.map(expense => (
-        <div key={expense.id}>{expense.merchant}</div>
+    <ul>
+      {expenses.map((expense) => (
+        <li key={expense.id}>
+          {expense.vendor?.name} — ${expense.total?.amount}
+        </li>
       ))}
-    </div>
+      {hasNextPage && <button onClick={() => fetchNextPage()}>Load More</button>}
+    </ul>
   );
 }
 ```
 
-## Best Practices
+## Configuration
 
-<Tip>
-**Use React Query DevTools** - Install `@tanstack/react-query-devtools` to debug queries.
-</Tip>
+### SmartbillsProvider Props
 
-<Tip>
-**Optimize re-renders** - Use `select` option to subscribe to specific parts of the data.
-</Tip>
+```typescript
+interface SmartbillsProviderProps {
+  client: SmartbillsClient;
+  businessId?: number;
+  queryClient?: QueryClient;
+  onError?: (error: SmartbillsError) => void;
+  children: ReactNode;
+}
+```
 
-<Tip>
-**Handle loading states** - Always show loading indicators for better UX.
-</Tip>
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `client` | `SmartbillsClient` | Yes | Configured SDK client instance |
+| `businessId` | `number` | No | Default business context |
+| `queryClient` | `QueryClient` | No | Custom React Query client (will use existing provider if omitted) |
+| `onError` | `(error) => void` | No | Global error handler |
+| `children` | `ReactNode` | Yes | Child components |
 
-## Example: Complete Expense Dashboard
+### useSmartbills Hook
+
+Access the provider context from any child component:
+
+```tsx
+import { useSmartbills } from "@smartbills/react-hooks-sdk";
+
+function BusinessSwitcher() {
+  const { client, businessId, setBusinessId } = useSmartbills();
+
+  return (
+    <button onClick={() => setBusinessId(newBusinessId)}>
+      Switch Business
+    </button>
+  );
+}
+```
+
+### Query Keys
+
+Use `queryKeys` for custom query invalidation or cache manipulation:
+
+```tsx
+import { queryKeys } from "@smartbills/react-hooks-sdk";
+import { useQueryClient } from "@tanstack/react-query";
+
+function RefreshButton() {
+  const queryClient = useQueryClient();
+
+  const handleRefresh = () => {
+    queryClient.invalidateQueries({ queryKey: queryKeys.expenses.list() });
+  };
+
+  return <button onClick={handleRefresh}>Refresh</button>;
+}
+```
+
+## Hooks Reference
+
+All list hooks use `useInfiniteQuery` for automatic pagination. All mutation hooks use `useMutation` with proper cache invalidation.
+
+### Expenses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenses` | Query (infinite) | List business expenses |
+| `useEmployeeExpenses` | Query (infinite) | List expenses for a specific employee |
+| `useMyExpenses` | Query (infinite) | List current user's expenses |
+| `useUpdateExpense` | Mutation | Update an expense |
+| `useDeleteExpense` | Mutation | Delete an expense |
+| `useUploadExpenses` | Mutation | Upload business expenses (FormData) |
+| `useUploadMyExpenses` | Mutation | Upload current user expenses |
+| `useBulkAssignCategory` | Mutation | Bulk assign category to expenses |
+| `useBulkAssignPayerType` | Mutation | Bulk assign payer type |
+| `useBulkAssignExpenseReport` | Mutation | Bulk assign expenses to a report |
+| `useBulkAssignVendor` | Mutation | Bulk assign vendor |
+| `useBulkDeleteExpenses` | Mutation | Bulk delete expenses |
+| `useBulkSetNote` | Mutation | Bulk set note on expenses |
+| `useExportExpenses` | Mutation | Export expenses as file |
+| `useExportExpensesWithFilename` | Mutation | Export with filename |
+| `useDownloadExpenseAttachments` | Mutation | Download expense attachments |
+| `useDownloadExpenseAttachmentsWithFilename` | Mutation | Download with filename |
+| `useDownloadSingleExpenseAttachment` | Mutation | Download a single attachment |
+| `useUpdateExpenseCategory` | Mutation | Update expense category |
+| `useUpdateExpenseNote` | Mutation | Update expense note |
+| `useAssignExpenseToReport` | Mutation | Assign expense to report |
+| `useUpdateExpenseReview` | Mutation | Update review status |
+| `useSplitExpense` | Mutation | Split an expense |
+
+#### Example: Upload Expenses
+
+```tsx
+import { useUploadExpenses } from "@smartbills/react-hooks-sdk";
+
+function UploadButton() {
+  const uploadMutation = useUploadExpenses();
+
+  const handleUpload = async (files: FileList) => {
+    const formData = new FormData();
+    Array.from(files).forEach((file) => formData.append("files", file));
+    await uploadMutation.mutateAsync(formData);
+  };
+
+  return (
+    <input
+      type="file"
+      multiple
+      accept="image/*,application/pdf"
+      onChange={(e) => e.target.files && handleUpload(e.target.files)}
+    />
+  );
+}
+```
+
+#### Example: Bulk Actions
 
 ```tsx
 import {
-  SmartbillsProvider,
-  useExpenses,
-  useExpenseReports,
-  ExpenseUploader
-} from '@smartbills/react-sdk';
+  useBulkAssignCategory,
+  useBulkDeleteExpenses,
+} from "@smartbills/react-hooks-sdk";
 
-function ExpenseDashboard() {
-  const { data: expenses, isLoading: expensesLoading } = useExpenses();
-  const { data: reports, isLoading: reportsLoading } = useExpenseReports();
-
-  if (expensesLoading || reportsLoading) {
-    return <LoadingSpinner />;
-  }
+function BulkActions({ selectedIds }: { selectedIds: number[] }) {
+  const assignCategory = useBulkAssignCategory();
+  const bulkDelete = useBulkDeleteExpenses();
 
   return (
-    <div className="dashboard">
-      <section>
-        <h2>Upload Expense</h2>
-        <ExpenseUploader businessId={123} />
-      </section>
-      
-      <section>
-        <h2>Recent Expenses ({expenses?.total})</h2>
-        <ExpenseList expenses={expenses?.data} />
-      </section>
-      
-      <section>
-        <h2>Pending Reports ({reports?.total})</h2>
-        <ReportList reports={reports?.data} />
-      </section>
+    <div>
+      <button
+        onClick={() =>
+          assignCategory.mutate({ expenseIds: selectedIds, categoryId: 10 })
+        }
+      >
+        Assign Category
+      </button>
+      <button
+        onClick={() => bulkDelete.mutate({ expenseIds: selectedIds })}
+      >
+        Delete Selected
+      </button>
     </div>
   );
 }
+```
+
+### Presigned Upload
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `usePresignedUpload` | Mutation | Get presigned S3 upload URL |
+| `usePresignedEmployeeUpload` | Mutation | Presigned upload for employee |
+
+```tsx
+import { usePresignedUpload } from "@smartbills/react-hooks-sdk";
+import { uploadFileToS3 } from "@smartbills/sdk";
+
+function PresignedUploader() {
+  const presign = usePresignedUpload();
+
+  const handleUpload = async (file: File) => {
+    const { url, fields } = await presign.mutateAsync({
+      fileName: file.name,
+      contentType: file.type,
+    });
+
+    await uploadFileToS3(url, fields, file);
+  };
+
+  return <input type="file" onChange={(e) => handleUpload(e.target.files![0])} />;
+}
+```
+
+### Expense Reports
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenseReports` | Query (infinite) | List expense reports |
+| `useExpenseReport` | Query | Get report by ID |
+| `useExpenseReportSummary` | Query | Get report summary statistics |
+| `useExpenseReportTimeline` | Query | Get report timeline |
+| `useExpenseReportAuditLog` | Query | Get report audit log |
+| `useCreateExpenseReport` | Mutation | Create a new report |
+| `useUpdateExpenseReport` | Mutation | Update a report |
+| `useDeleteExpenseReport` | Mutation | Delete a report |
+| `useSubmitExpenseReport` | Mutation | Submit report for approval |
+| `useRecallExpenseReport` | Mutation | Recall a submitted report |
+| `useApproveExpenseReport` | Mutation | Approve a report |
+| `useRejectExpenseReport` | Mutation | Reject a report |
+| `useReimburseExpenseReport` | Mutation | Reimburse a report |
+| `useAddExpenseReportComment` | Mutation | Add comment to report |
+| `useBulkDeleteExpenseReports` | Mutation | Bulk delete reports |
+| `useExportExpenseReports` | Mutation | Export reports |
+
+#### Example: Report Lifecycle
+
+```tsx
+import {
+  useCreateExpenseReport,
+  useSubmitExpenseReport,
+  useExpenseReports,
+} from "@smartbills/react-hooks-sdk";
+
+function ReportManager() {
+  const { data } = useExpenseReports({ limit: 25 });
+  const createReport = useCreateExpenseReport();
+  const submitReport = useSubmitExpenseReport();
+
+  const handleCreate = async () => {
+    const report = await createReport.mutateAsync({ name: "Q1 Travel" });
+    await submitReport.mutateAsync(report.id);
+  };
+
+  return <button onClick={handleCreate}>Create & Submit Report</button>;
+}
+```
+
+### Report Expense Management
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useAddExpenseToReport` | Mutation | Add expense to report |
+| `useBatchAddExpensesToReport` | Mutation | Batch add expenses |
+| `useRemoveExpenseFromReport` | Mutation | Remove expense from report |
+| `useEditExpenseInReport` | Mutation | Edit expense within report |
+| `useBulkRemoveReportExpenses` | Mutation | Bulk remove expenses |
+| `useReplaceExpenseInReport` | Mutation | Replace expense in report |
+
+### Report Payments
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useReimburseReport` | Mutation | Reimburse a report |
+| `usePartialReimburseReport` | Mutation | Partially reimburse |
+| `usePlanReimbursement` | Mutation | Schedule reimbursement |
+
+### Expense Jobs
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenseJobs` | Query (infinite) | List processing jobs |
+| `useEmployeeExpenseJobs` | Query (infinite) | List jobs for employee |
+| `useExpenseJob` | Query | Get job by ID |
+| `useExpenseReportJobs` | Query (infinite) | List jobs for report |
+
+### Approbations (Approvals)
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `usePendingApprobations` | Query (infinite) | List pending approvals |
+| `useApprovedApprobations` | Query (infinite) | List approved reports |
+| `useRejectedApprobations` | Query (infinite) | List rejected reports |
+| `useReimbursedApprobations` | Query (infinite) | List reimbursed reports |
+| `useRequiresChangesApprobations` | Query (infinite) | Reports requiring changes |
+| `usePendingReimbursementApprobations` | Query (infinite) | Pending reimbursement |
+| `useApprobationSummary` | Query | Approval summary stats |
+| `useApproveApprobation` | Mutation | Approve a report |
+| `useRejectApprobation` | Mutation | Reject a report |
+| `useRequestApprobationChanges` | Mutation | Request changes |
+| `useReimburseApprobation` | Mutation | Reimburse approved report |
+| `useRevertApprobationToReview` | Mutation | Revert to review |
+| `useMarkApprobationReimbursed` | Mutation | Mark as reimbursed |
+| `usePlanApprobationReimbursement` | Mutation | Schedule reimbursement |
+| `useExportApprobationCsv` | Mutation | Export as CSV |
+| `useDownloadApprobationAttachmentsPdf` | Mutation | Download as PDF |
+| `useDownloadApprobationAttachmentsZip` | Mutation | Download as ZIP |
+
+### Bills
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBills` | Query (infinite) | List bills |
+| `useBill` | Query | Get bill by ID |
+| `useBillStatusSummary` | Query | Bill status summary |
+| `useBillHistory` | Query | Bill approval history |
+| `useCreateBill` | Mutation | Create a bill |
+| `useUpdateBill` | Mutation | Update a bill |
+| `useDeleteBill` | Mutation | Delete a bill |
+| `useSubmitBillForApproval` | Mutation | Submit for approval |
+| `useApproveBill` | Mutation | Approve a bill |
+| `useScheduleBillPayment` | Mutation | Schedule payment |
+| `useMarkBillPaid` | Mutation | Mark as paid |
+| `useCancelBill` | Mutation | Cancel a bill |
+| `useRescheduleBillPayment` | Mutation | Reschedule payment |
+| `useBulkApproveBills` | Mutation | Bulk approve |
+| `useBulkMarkBillsPaid` | Mutation | Bulk mark paid |
+| `useBulkScheduleBillsPayment` | Mutation | Bulk schedule payment |
+| `useBulkDeleteBills` | Mutation | Bulk delete |
+
+### Vendors
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendors` | Query (infinite) | List vendors |
+| `useBusinessVendors` | Query (infinite) | List business vendors |
+| `useVendor` | Query | Get vendor by ID |
+| `useCreateVendor` | Mutation | Create a vendor |
+| `useCreateBusinessVendor` | Mutation | Create business vendor |
+| `useUpdateVendor` | Mutation | Update a vendor |
+| `useDeleteVendor` | Mutation | Delete a vendor |
+| `useMergeVendors` | Mutation | Merge two vendors |
+| `useBulkDeleteVendors` | Mutation | Bulk delete vendors |
+
+### Vendor Connections
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendorConnections` | Query | Get vendor connections |
+| `useVendorConnectionLinkToken` | Query | Get link token |
+| `useConnectVendor` | Mutation | Connect vendor |
+| `useDisconnectVendor` | Mutation | Disconnect vendor |
+
+### Users & Profile
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useUserProfile` | Query | Current user profile |
+| `useUpdateUserProfile` | Mutation | Update profile |
+| `useDeleteAccount` | Mutation | Delete account |
+| `useUploadAvatar` | Mutation | Upload avatar |
+| `useUserInvitations` | Query | User's invitations |
+| `useUserMemberships` | Query | User's memberships |
+
+### Businesses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBusinesses` | Query (infinite) | List businesses |
+| `useBusiness` | Query | Get business by ID |
+| `useBusinessCount` | Query | Count businesses |
+| `useCreateBusiness` | Mutation | Create business |
+| `useUpdateBusiness` | Mutation | Update business |
+| `useDeleteBusiness` | Mutation | Delete business |
+
+### Business Users
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBusinessUsers` | Query (infinite) | List business members |
+| `useBusinessUser` | Query | Get member by ID |
+| `useInviteBusinessUser` | Mutation | Invite a user |
+| `useUpdateBusinessUserRole` | Mutation | Update role |
+| `useRemoveBusinessUser` | Mutation | Remove member |
+| `useSetBusinessUserInactive` | Mutation | Deactivate member |
+| `useReinviteBusinessUser` | Mutation | Resend invitation |
+| `useAddBusinessUser` | Mutation | Add existing user |
+| `useValidateBusinessEmail` | Query | Validate email |
+
+### Invitations
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useInvitations` | Query (infinite) | List invitations |
+| `useInvitation` | Query | Get invitation |
+| `useSendInvitation` | Mutation | Send invitation |
+| `useAcceptInvitation` | Mutation | Accept invitation |
+| `useRefuseInvitation` | Mutation | Refuse invitation |
+| `useDeleteInvitation` | Mutation | Delete invitation |
+
+### Notifications
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useNotifications` | Query (infinite) | Business notifications |
+| `usePersonalNotifications` | Query (infinite) | Personal notifications |
+| `useMarkNotificationRead` | Mutation | Mark as read |
+| `useMarkAllNotificationsRead` | Mutation | Mark all as read |
+| `useMarkPersonalNotificationRead` | Mutation | Mark personal as read |
+| `useMarkAllPersonalNotificationsRead` | Mutation | Mark all personal as read |
+
+### Categories
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useCategories` | Query | List categories |
+| `useCreateCategory` | Mutation | Create category |
+| `useUpdateCategory` | Mutation | Update category |
+| `useDeleteCategory` | Mutation | Delete category |
+
+### Employees
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useEmployeeList` | Query | List employees |
+| `useEmployee` | Query | Get employee by ID |
+| `useCreateEmployee` | Mutation | Create employee |
+| `useUpdateEmployee` | Mutation | Update employee |
+| `useDeleteEmployee` | Mutation | Delete employee |
+| `useSetEmployeeManager` | Mutation | Set manager |
+| `useBulkAssignManager` | Mutation | Bulk assign manager |
+| `useSetEmployeeActive` | Mutation | Activate employee |
+| `useSetEmployeeInactive` | Mutation | Deactivate employee |
+
+### Departments
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useDepartments` | Query | List departments |
+| `useDepartment` | Query | Get department |
+| `useCreateDepartment` | Mutation | Create department |
+| `useUpdateDepartment` | Mutation | Update department |
+| `useDeleteDepartment` | Mutation | Delete department |
+
+### Reporting & Analytics
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenseMonthlySummary` | Query | Monthly expense summary |
+| `useExpenseByCategory` | Query | Expenses by category |
+| `useExpenseByVendor` | Query | Expenses by vendor |
+| `useExpenseByEmployee` | Query | Expenses by employee |
+| `useExpenseDaily` | Query | Daily expense data |
+| `useExpenseOverTime` | Query | Expenses over time |
+| `useEmployeeCategoryBreakdown` | Query | Employee category breakdown |
+| `useTaxSummary` | Query | Tax summary |
+| `useTaxByType` | Query | Taxes by type |
+| `useTaxByVendor` | Query | Taxes by vendor |
+| `useTaxByCategory` | Query | Taxes by category |
+
+### Email Accounts
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useEmailAccounts` | Query (infinite) | List email accounts |
+| `useEmailAccount` | Query | Get account by ID |
+| `useEmailAccountMailboxes` | Query | Get mailboxes |
+| `useAuthorizeEmailAccount` | Mutation | Authorize via OAuth |
+| `useCreateImapEmailAccount` | Mutation | Create IMAP account |
+| `useUpdateEmailAccount` | Mutation | Update account |
+| `useDeleteEmailAccount` | Mutation | Delete account |
+| `useSyncEmailAccount` | Mutation | Trigger sync |
+| `useEnableEmailAccount` | Mutation | Enable account |
+| `useDisableEmailAccount` | Mutation | Disable account |
+| `useReconnectEmailAccount` | Mutation | Reconnect account |
+
+### Email Forwarding
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBusinessEmailForwarding` | Query | Business forwarding config |
+| `useUserEmailForwarding` | Query | User forwarding config |
+| `useConfigureBusinessEmailForwarding` | Mutation | Configure business forwarding |
+| `useConfigureUserEmailForwarding` | Mutation | Configure user forwarding |
+| `useDisableBusinessEmailForwarding` | Mutation | Disable business forwarding |
+| `useDisableUserEmailForwarding` | Mutation | Disable user forwarding |
+
+### Authorized Senders
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useAuthorizedSenders` | Query | List authorized senders |
+| `useCreateAuthorizedSender` | Mutation | Add authorized sender |
+| `useDeleteAuthorizedSender` | Mutation | Remove authorized sender |
+
+### Integrations & Apps
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useIntegrations` | Query (infinite) | List integrations |
+| `useIntegration` | Query | Get integration |
+| `useMarketplaceApps` | Query | List marketplace apps |
+| `useMarketplaceApp` | Query | Get app by slug |
+| `useInstallation` | Query | Get installation |
+| `useInstallationById` | Query | Get installation by ID |
+| `useIntegrationCallback` | Mutation | OAuth callback |
+| `useDeleteIntegration` | Mutation | Delete integration |
+| `useAuthorizeIntegration` | Mutation | Authorize integration |
+| `useRetryInstallation` | Mutation | Retry installation |
+| `useAbortInstallation` | Mutation | Abort installation |
+
+### Billing & Subscription
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useSubscription` | Query | Current subscription |
+| `useBillingPlans` | Query | Available plans |
+| `useBillingInvoices` | Query (infinite) | Billing invoices |
+| `useBillingUsage` | Query | Current usage |
+| `useUpcomingInvoice` | Query | Next invoice preview |
+| `useUpgradeSubscription` | Mutation | Upgrade plan |
+| `useCancelSubscription` | Mutation | Cancel subscription |
+| `useStartTrial` | Mutation | Start trial |
+| `useCreatePortalSession` | Mutation | Open billing portal |
+
+### Workflows
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useWorkflows` | Query (infinite) | List workflows |
+| `useWorkflow` | Query | Get workflow |
+| `useCreateWorkflow` | Mutation | Create workflow |
+| `useUpdateWorkflow` | Mutation | Update workflow |
+| `useDeleteWorkflow` | Mutation | Delete workflow |
+| `useTestWorkflow` | Mutation | Test workflow |
+
+### Attachments (Vault)
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useAttachments` | Query | List attachments |
+| `useAttachmentsInfinite` | Query (infinite) | Paginated attachments |
+| `useAttachment` | Query | Get attachment |
+| `useRenameAttachment` | Mutation | Rename attachment |
+| `useDeleteAttachment` | Mutation | Delete attachment |
+
+### Additional Domains
+
+Hooks also exist for: `Receipts`, `Transactions`, `Customers`, `Products`, `Taxes`, `Locations`, `Tables`, `Payment Methods`, `Loyalty`, `Memberships`, `Connect`, `Checkout`.
+
+## React SDK Components
+
+The `@smartbills/react-sdk` package provides pre-built components:
+
+### SmartbillsElements Provider
+
+```tsx
+import { SmartbillsElements } from "@smartbills/react-sdk";
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({ accessToken: "token" });
 
 function App() {
   return (
-    <SmartbillsProvider apiKey={process.env.REACT_APP_SMARTBILLS_API_KEY}>
-      <ExpenseDashboard />
-    </SmartbillsProvider>
+    <SmartbillsElements client={client}>
+      <Receipt receiptId={123} />
+    </SmartbillsElements>
   );
 }
 ```
+
+### Receipt Components
+
+```tsx
+import { Receipt, ReceiptSkeleton, EmbeddedReceipt } from "@smartbills/react-sdk";
+
+<Receipt receiptId={123} />
+
+<ReceiptSkeleton />
+
+<EmbeddedReceipt receiptId={123} />
+```
+
+## Error Handling
+
+```tsx
+import { useSmartbillsError } from "@smartbills/react-hooks-sdk";
+
+function ErrorDisplay() {
+  const { error, clearError } = useSmartbillsError();
+
+  if (!error) return null;
+
+  return (
+    <div>
+      <p>{error.message}</p>
+      <button onClick={clearError}>Dismiss</button>
+    </div>
+  );
+}
+```
+
+## Pagination Helper
+
+```tsx
+import { getNextPageParam } from "@smartbills/react-hooks-sdk";
+```
+
+The `getNextPageParam` utility is automatically used by infinite query hooks to determine the next page.
+
+<Tip>
+**Use React Query DevTools** — Install `@tanstack/react-query-devtools` to inspect queries and cache.
+</Tip>
+
+<Tip>
+**Optimistic Updates** — Mutation hooks automatically invalidate related queries on success, keeping the UI in sync.
+</Tip>
+
+<Tip>
+**Use TypeScript** — All hooks are fully typed, providing autocomplete for parameters and return values.
+</Tip>

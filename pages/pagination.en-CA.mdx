@@ -1,9 +1,0 @@
----
-title: Metadata | Smartbills API Reference
-description: Documentation de référence complète pour l'API Smartbills. Comprend des extraits de code et des exemples pour nos bibliothèques Node.js et .NET.
----
-
-# Pagination
-All top-level API resources have support for bulk fetches through “list” API methods. For example, you can list charges, list customers, and list invoices. These list API methods share a common structure and accept, at a minimum, the following three parameters: limit, starting_after, and ending_before.
-
-Smartbills's list API methods use cursor-based pagination through the starting_after and ending_before parameters. Both parameters accept an existing object ID value (see below) and return objects in reverse chronological order. The ending_before parameter returns objects listed before the named object. The starting_after parameter returns objects listed after the named object. These parameters are mutually exclusive. You can use either the starting_after or ending_before parameter, but not both simultaneously.

@@ -1,0 +1,43 @@
+---
+title: "Aperçu des SDKs"
+description: "SDKs officiels Smartbills pour intégrer la gestion des dépenses dans vos applications"
+---
+
+Smartbills propose des SDKs officiels pour JavaScript, TypeScript, React, React Native et .NET afin de vous aider à intégrer la gestion des dépenses, les reçus numériques et l'automatisation financière dans vos applications.
+
+Chaque SDK offre des définitions de types complètes, une gestion d'erreurs typée avec des gardes (`isNotFoundError`, `isValidationError`, etc.), une prise en charge native de la pagination et une logique de retry automatique pour les défaillances transitoires. Les limites de requêtes sont gérées automatiquement.
+
+<CardGroup cols={2}>
+  <Card title="SDK JavaScript" icon="js" href="/fr/sdks/javascript">
+    SDK principal pour les applications Node.js et navigateur — `@smartbills/sdk`
+  </Card>
+  <Card title="SDK React" icon="react" href="/fr/sdks/react">
+    Hooks React Query et composants — `@smartbills/react-hooks-sdk`
+  </Card>
+  <Card title="SDK React Native" icon="mobile" href="/fr/sdks/react-native">
+    Affichage natif des reçus et composants mobiles — `@smartbills/react-native-sdk`
+  </Card>
+  <Card title="SDK .NET" icon="microsoft" href="/fr/sdks/dotnet">
+    SDK C# pour les applications .NET — `Smartbills.SDK`
+  </Card>
+</CardGroup>
+
+## Installation rapide
+
+```bash
+npm install @smartbills/sdk
+```
+
+```bash
+npm install @smartbills/sdk @smartbills/react-hooks-sdk @tanstack/react-query
+```
+
+```bash
+npm install @smartbills/react-native-sdk @smartbills/react-hooks-sdk @smartbills/sdk
+```
+
+```bash
+dotnet add package Smartbills.SDK
+```
+
+Tous les SDKs utilisent le même `SmartbillsClient` pour l'initialisation. L'authentification repose sur des tokens porteurs OAuth 2.0, que ce soit pour les applications côté serveur ou client. Consultez la [documentation d'authentification](/fr/developer/authentication) pour les flux OAuth complets.

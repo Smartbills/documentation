@@ -1,0 +1,10 @@
+---
+title: "Pagination"
+description: "Parcourir les grands ensembles de résultats dans l'API Smartbills"
+---
+
+Tous les endpoints de liste de l'API Smartbills supportent la pagination pour récupérer efficacement de grands volumes de données. Utilisez les paramètres `page` (numéro de page, à partir de 1) et `pageSize` (éléments par page, maximum 100).
+
+Les réponses paginées incluent un objet `pagination` avec `page`, `pageSize`, `totalPages`, `totalCount`, `hasNext` et `hasPrevious`. Pour parcourir toutes les pages, vérifiez `hasNext` avant de demander la page suivante.
+
+Les SDK officiels gèrent la pagination automatiquement et exposent des helpers comme `getNextPageParam` pour les requêtes infinies. Pour les appels directs à l'API, bouclez sur les pages jusqu'à ce que `hasNext` soit false.

@@ -1,0 +1,45 @@
+---
+title: "SDK React Native"
+description: "Composants natifs pour l'affichage des reçus et la gestion des dépenses sur mobile"
+---
+
+Le SDK React Native Smartbills fournit des composants natifs pour afficher les reçus, les codes-barres et les codes QR dans les applications React Native et Expo. Il s'intègre avec `@smartbills/react-hooks-sdk` pour le chargement des données.
+
+## Installation
+
+```bash
+npm install @smartbills/react-native-sdk @smartbills/react-hooks-sdk @smartbills/sdk
+```
+
+Dépendances peer requises :
+
+```bash
+npm install react-native-svg expo-font @expo/vector-icons dayjs react-i18next i18next
+```
+
+## Démarrage rapide
+
+Appelez `initReactNativeSDK()` au point d'entrée de votre application avant le rendu. Enveloppez ensuite l'application avec `SmartbillsReactNativeProvider` :
+
+```tsx
+import { initReactNativeSDK, SmartbillsReactNativeProvider, Receipt } from "@smartbills/react-native-sdk";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+initReactNativeSDK();
+
+const queryClient = new QueryClient();
+const client = new SmartbillsClient({ accessToken: "your-token", businessId: 42 });
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsReactNativeProvider client={client}>
+        <Receipt receiptId={123} />
+      </SmartbillsReactNativeProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+Les composants principaux incluent `Receipt`, `ReceiptOriginal`, `ReceiptSkeleton`, ainsi que des sous-composants (`ReceiptMerchant`, `ReceiptItems`, `ReceiptPayment`, `ReceiptQRCode`, etc.). Pour iOS, configurez `NSCameraUsageDescription` et `NSPhotoLibraryUsageDescription`; pour Android, ajoutez les permissions CAMERA et READ_MEDIA_IMAGES.

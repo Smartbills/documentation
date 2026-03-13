@@ -3,72 +3,103 @@ title: ".NET SDK"
 description: "Official Smartbills SDK for C# and .NET applications"
 ---
 
+<Note>
+The .NET SDK is coming soon. The API surface below represents the planned design and may change before release.
+</Note>
+
 ## Installation
 
 ### NuGet Package Manager
 
 ```bash
-dotnet add package Smartbills.NET
+dotnet add package Smartbills.SDK
 ```
 
 ### Package Manager Console
 
 ```powershell
-Install-Package Smartbills.NET
+Install-Package Smartbills.SDK
 ```
 
 ## Quick Start
 
 ```csharp
-using Smartbills.NET;
+using Smartbills.SDK;
 
-var client = new SmartbillsClient("sk_live_xxxxx");
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "your-access-token",
+    BusinessId = 42
+});
 
-var expenses = await client.Expenses.ListAsync(new ExpenseListRequest
+var expenses = await client.Expenses.ListBusinessAsync(new ExpenseListRequest
 {
     Page = 1,
-    PageSize = 20
+    Limit = 25
 });
 
 foreach (var expense in expenses.Data)
 {
-    Console.WriteLine($"{expense.Merchant}: ${expense.Amount}");
+    Console.WriteLine($"{expense.Vendor?.Name}: {expense.Total?.Amount} {expense.Total?.Currency}");
 }
 ```
 
 ## Configuration
 
-### Basic Configuration
+### Client Options
 
 ```csharp
-var client = new SmartbillsClient(new SmartbillsConfiguration
+var client = new SmartbillsClient(new SmartbillsClientOptions
 {
-    ApiKey = "sk_live_xxxxx",
-    Environment = SmartbillsEnvironment.Production,
-    Timeout = TimeSpan.FromSeconds(30)
+    BaseUrl = "https://api.smartbills.io",
+    AccessToken = "your-access-token",
+    BusinessId = 42,
+    Locale = "en-CA",
+    Timeout = TimeSpan.FromSeconds(30),
+    MaxRetries = 3,
+    RetryDelay = TimeSpan.FromSeconds(1)
 });
 ```
 
-### With Dependency Injection
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `BaseUrl` | `string` | `https://api.smartbills.io` | API base URL |
+| `AccessToken` | `string` | — | OAuth2 bearer token |
+| `BusinessId` | `int?` | — | Default business context |
+| `Locale` | `string` | — | Locale for localized responses |
+| `Timeout` | `TimeSpan` | 30s | Request timeout |
+| `MaxRetries` | `int` | 3 | Maximum automatic retries |
+| `RetryDelay` | `TimeSpan` | 1s | Delay between retries |
+
+### ASP.NET Core Dependency Injection
 
 ```csharp
 services.AddSmartbills(options =>
 {
-    options.ApiKey = Configuration["Smartbills:ApiKey"];
-    options.Environment = SmartbillsEnvironment.Production;
+    options.AccessToken = Configuration["Smartbills:AccessToken"];
+    options.BusinessId = int.Parse(Configuration["Smartbills:BusinessId"]);
 });
 ```
 
-### ASP.NET Core Integration
-
 ```csharp
-using Smartbills.NET.AspNetCore;
-
-public class Startup
+[ApiController]
+[Route("api/[controller]")]
+public class ExpensesController : ControllerBase
 {
-    public void ConfigureServices(IServiceCollection services)
+    private readonly ISmartbillsClient _client;
+
+    public ExpensesController(ISmartbillsClient client)
     {
-        services.AddSmartbills(Configuration.GetSection("Smartbills"));
+        _client = client;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetExpenses([FromQuery] int page = 1)
+    {
+        var expenses = await _client.Expenses.ListBusinessAsync(
+            new ExpenseListRequest { Page = page, Limit = 25 }
+        );
+        return Ok(expenses);
     }
 }
 ```
@@ -78,129 +109,109 @@ public class Startup
 ### Expenses
 
 ```csharp
-var expenseClient = client.Expenses;
+var list = await client.Expenses.ListBusinessAsync(new ExpenseListRequest { Limit = 25 });
 
-var expenses = await expenseClient.ListAsync(new ExpenseListRequest
-{
-    BusinessId = 123,
-    Status = ExpenseStatus.Pending,
-    Page = 1
-});
+var expense = await client.Expenses.GetByIdAsync(expenseId);
 
-var expense = await expenseClient.GetAsync(expenseId);
-
-using var stream = File.OpenRead("receipt.jpg");
-var newExpense = await expenseClient.UploadAsync(new ExpenseUploadRequest
-{
-    BusinessId = 123,
-    File = stream,
-    FileName = "receipt.jpg"
-});
-
-await expenseClient.UpdateAsync(expenseId, new ExpenseUpdateRequest
+await client.Expenses.UpdateAsync(expenseId, new TransactionUpdateRequest
 {
     CategoryId = 456,
-    Description = "Office supplies"
+    Note = "Office supplies"
 });
 
-await expenseClient.DeleteAsync(expenseId);
+await client.Expenses.DeleteAsync(expenseId);
+
+await client.Expenses.BulkAssignCategoryAsync(new BulkAssignCategoryRequest
+{
+    ExpenseIds = new[] { 1, 2, 3 },
+    CategoryId = 10
+});
+
+await client.Expenses.BulkDeleteAsync(new BulkDeleteExpensesRequest
+{
+    ExpenseIds = new[] { 1, 2, 3 }
+});
 ```
 
 ### Expense Reports
 
 ```csharp
-var reportClient = client.ExpenseReports;
-
-var reports = await reportClient.ListAsync(new ExpenseReportListRequest
+var reports = await client.ExpenseReports.ListAsync(new ExpenseReportListRequest
 {
-    BusinessId = 123,
-    Status = ReportStatus.Draft
+    Status = "draft"
 });
 
-var report = await reportClient.CreateAsync(new ExpenseReportCreateRequest
+var report = await client.ExpenseReports.CreateAsync(new ExpenseReportCreateRequest
 {
-    BusinessId = 123,
-    Title = "Q1 2025 Expenses",
-    ExpenseIds = new[] { 1, 2, 3 }
+    Name = "Q1 2025 Expenses"
 });
 
-await reportClient.SubmitAsync(reportId);
+await client.ExpenseReports.SubmitAsync(reportId);
 
-await reportClient.ApproveAsync(reportId, new ApprovalRequest
+await client.ExpenseReports.ApproveAsync(reportId, new ExpenseReportApproveRequest
 {
-    Comment = "Approved!"
+    Comment = "Looks good!"
 });
 
-await reportClient.RejectAsync(reportId, new RejectionRequest
+await client.ExpenseReports.RejectAsync(reportId, new ExpenseReportRejectRequest
 {
     Reason = "Missing receipts"
+});
+
+await client.ExpenseReports.ReimburseAsync(reportId);
+```
+
+### Bills
+
+```csharp
+var bills = await client.Bills.ListAsync(new BillListRequest { Limit = 25 });
+
+var bill = await client.Bills.CreateAsync(new BillCreateRequest
+{
+    VendorId = 10,
+    Amount = 1500,
+    DueDate = "2025-04-01"
+});
+
+await client.Bills.SubmitForApprovalAsync(billId);
+await client.Bills.ApproveAsync(billId);
+await client.Bills.MarkPaidAsync(billId);
+```
+
+### Vendors
+
+```csharp
+var vendors = await client.Vendors.ListAsync(new VendorListRequest { Limit = 25 });
+
+var vendor = await client.Vendors.CreateAsync(new VendorCreateRequest
+{
+    Name = "Office Depot",
+    Email = "billing@officedepot.com"
+});
+
+await client.Vendors.MergeAsync(new VendorMergeRequest
+{
+    SourceVendorId = 2,
+    TargetVendorId = 1
 });
 ```
 
 ### Businesses
 
 ```csharp
-var businessClient = client.Businesses;
-
-var businesses = await businessClient.ListAsync();
-
-var business = await businessClient.GetAsync(businessId);
-
-var newBusiness = await businessClient.CreateAsync(new BusinessCreateRequest
-{
-    Name = "Acme Corp",
-    Currency = "USD",
-    Timezone = "America/New_York"
-});
-
-await businessClient.UpdateAsync(businessId, new BusinessUpdateRequest
-{
-    Name = "Acme Corporation"
-});
-```
-
-### Vendors
-
-```csharp
-var vendorClient = client.Vendors;
-
-var vendors = await vendorClient.ListAsync(new VendorListRequest
-{
-    BusinessId = 123
-});
-
-var vendor = await vendorClient.CreateAsync(new VendorCreateRequest
-{
-    BusinessId = 123,
-    Name = "Office Depot",
-    Category = "Office Supplies"
-});
-```
-
-### Webhooks
-
-```csharp
-var webhookClient = client.Webhooks;
-
-var webhook = await webhookClient.CreateAsync(new WebhookCreateRequest
-{
-    Url = "https://your-app.com/webhooks",
-    Events = new[] { "expense.created", "report.submitted" }
-});
-
-var webhooks = await webhookClient.ListAsync();
-
-await webhookClient.DeleteAsync(webhookId);
+var businesses = await client.Businesses.ListAsync();
+var business = await client.Businesses.GetByIdAsync(businessId);
+var count = await client.Businesses.CountAsync();
 ```
 
 ## Error Handling
 
 ```csharp
-using Smartbills.NET.Exceptions;
+using Smartbills.SDK.Exceptions;
 
 try
 {
-    var expense = await client.Expenses.GetAsync(expenseId);
+    var expense = await client.Expenses.GetByIdAsync(expenseId);
 }
 catch (SmartbillsAuthenticationException ex)
 {
@@ -230,43 +241,23 @@ catch (SmartbillsException ex)
 ## Pagination
 
 ```csharp
-var request = new ExpenseListRequest
-{
-    BusinessId = 123,
-    Page = 1,
-    PageSize = 50
-};
+var request = new ExpenseListRequest { Page = 1, Limit = 50 };
+var firstPage = await client.Expenses.ListBusinessAsync(request);
 
-var firstPage = await client.Expenses.ListAsync(request);
+Console.WriteLine($"Total: {firstPage.Pagination.Count}");
+Console.WriteLine($"Pages: {firstPage.Pagination.PageCount}");
 
-Console.WriteLine($"Total: {firstPage.Total}");
-Console.WriteLine($"Pages: {firstPage.TotalPages}");
-
-while (request.Page < firstPage.TotalPages)
+while (request.Page < firstPage.Pagination.PageCount)
 {
     request.Page++;
-    var nextPage = await client.Expenses.ListAsync(request);
+    var nextPage = await client.Expenses.ListBusinessAsync(request);
 }
-```
-
-## Async/Await Support
-
-All methods have async versions:
-
-```csharp
-var expense = await client.Expenses.GetAsync(expenseId);
-
-var expenses = await client.Expenses.ListAsync(request);
-
-await client.Expenses.UpdateAsync(expenseId, updateRequest);
-
-await client.Expenses.DeleteAsync(expenseId);
 ```
 
 ## Webhook Signature Verification
 
 ```csharp
-using Smartbills.NET.Webhooks;
+using Smartbills.SDK.Webhooks;
 
 [HttpPost("webhooks")]
 public async Task<IActionResult> HandleWebhook()
@@ -284,10 +275,10 @@ public async Task<IActionResult> HandleWebhook()
     switch (webhookEvent.Type)
     {
         case "expense.created":
-            var expense = webhookEvent.Data.ToObject<Expense>();
+            var expense = webhookEvent.Data.Deserialize<SBTransaction>();
             break;
         case "report.submitted":
-            var report = webhookEvent.Data.ToObject<ExpenseReport>();
+            var report = webhookEvent.Data.Deserialize<SBExpenseReport>();
             break;
     }
 
@@ -295,70 +286,21 @@ public async Task<IActionResult> HandleWebhook()
 }
 ```
 
-## Best Practices
+## Version Compatibility
+
+| Requirement | Minimum Version |
+|-------------|----------------|
+| .NET | 6.0+ |
+| API Version | v1 |
 
 <Tip>
-**Use dependency injection** - Register the client as a singleton for better performance.
+**Use dependency injection** — Register `ISmartbillsClient` as a singleton for best performance.
 </Tip>
 
 <Tip>
-**Handle rate limits** - Implement exponential backoff for retries.
+**Use async methods** — All service methods are async. Avoid blocking calls in web applications.
 </Tip>
 
 <Tip>
-**Dispose streams** - Always dispose file streams after upload.
+**Handle rate limits** — Implement exponential backoff for retries in production environments.
 </Tip>
-
-<Tip>
-**Use async methods** - Avoid blocking calls in web applications.
-</Tip>
-
-## Example: ASP.NET Core Controller
-
-```csharp
-using Microsoft.AspNetCore.Mvc;
-using Smartbills.NET;
-
-[ApiController]
-[Route("api/[controller]")]
-public class ExpensesController : ControllerBase
-{
-    private readonly ISmartbillsClient _client;
-
-    public ExpensesController(ISmartbillsClient client)
-    {
-        _client = client;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetExpenses([FromQuery] int page = 1)
-    {
-        var expenses = await _client.Expenses.ListAsync(new ExpenseListRequest
-        {
-            Page = page,
-            PageSize = 20
-        });
-        return Ok(expenses);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> UploadExpense(IFormFile file)
-    {
-        using var stream = file.OpenReadStream();
-        var expense = await _client.Expenses.UploadAsync(new ExpenseUploadRequest
-        {
-            File = stream,
-            FileName = file.FileName,
-            BusinessId = 123
-        });
-        return CreatedAtAction(nameof(GetExpense), new { id = expense.Id }, expense);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetExpense(int id)
-    {
-        var expense = await _client.Expenses.GetAsync(id);
-        return Ok(expense);
-    }
-}
-```

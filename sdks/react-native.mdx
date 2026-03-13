@@ -1,363 +1,249 @@
 ---
 title: "React Native SDK"
-description: "Build native mobile apps with Smartbills expense management"
+description: "Build native mobile apps with Smartbills receipt display and expense management"
 ---
+
+The Smartbills React Native SDK provides native components for displaying receipts, barcodes, and integrating with the Smartbills platform in React Native and Expo applications.
 
 ## Installation
 
 ```bash
-npm install @smartbills/react-native-sdk @smartbills/sdk
+npm install @smartbills/react-native-sdk @smartbills/react-hooks-sdk @smartbills/sdk
 ```
 
-### Additional Dependencies
+### Peer Dependencies
+
+The following peer dependencies are required:
 
 ```bash
-npm install react-native-camera react-native-image-picker
-```
-
-For iOS, run:
-
-```bash
-cd ios && pod install
+npm install react-native-svg expo-font @expo/vector-icons dayjs react-i18next i18next
 ```
 
 ## Quick Start
 
-### Provider Setup
+### Initialize the SDK
+
+Call `initReactNativeSDK()` at the entry point of your application before rendering:
 
 ```tsx
-import { SmartbillsReactNativeProvider } from '@smartbills/react-native-sdk';
+import { initReactNativeSDK } from "@smartbills/react-native-sdk";
+
+initReactNativeSDK();
+```
+
+### Provider Setup
+
+Wrap your application with `SmartbillsReactNativeProvider`:
+
+```tsx
+import { SmartbillsReactNativeProvider } from "@smartbills/react-native-sdk";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+const client = new SmartbillsClient({
+  accessToken: "your-token",
+  businessId: 42,
+});
 
 function App() {
   return (
-    <SmartbillsReactNativeProvider
-      apiKey="sk_live_xxxxx"
-      environment="production"
-    >
-      <Navigation />
-    </SmartbillsReactNativeProvider>
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsReactNativeProvider client={client}>
+        <Navigation />
+      </SmartbillsReactNativeProvider>
+    </QueryClientProvider>
   );
 }
-```
-
-## Camera Integration
-
-### Receipt Scanner
-
-```tsx
-import { ReceiptScanner } from '@smartbills/react-native-sdk';
-
-function ScanScreen() {
-  const handleCapture = async (expense) => {
-    console.log('Expense created:', expense);
-    navigation.navigate('ExpenseDetail', { id: expense.id });
-  };
-
-  return (
-    <ReceiptScanner
-      businessId={123}
-      onCapture={handleCapture}
-      onError={(error) => Alert.alert('Error', error.message)}
-      autoProcess={true}
-      showGuide={true}
-    />
-  );
-}
-```
-
-### Manual Camera Control
-
-```tsx
-import { useReceiptCamera } from '@smartbills/react-native-sdk';
-
-function CustomScanScreen() {
-  const {
-    capture,
-    isProcessing,
-    cameraRef,
-    focusPoint,
-    setFocusPoint
-  } = useReceiptCamera();
-
-  const handleCapture = async () => {
-    const expense = await capture({
-      businessId: 123,
-      autoProcess: true
-    });
-    console.log('Created expense:', expense);
-  };
-
-  return (
-    <View style={styles.container}>
-      <Camera
-        ref={cameraRef}
-        style={styles.camera}
-        onTap={setFocusPoint}
-      />
-      {focusPoint && <FocusIndicator point={focusPoint} />}
-      <CaptureButton
-        onPress={handleCapture}
-        loading={isProcessing}
-      />
-    </View>
-  );
-}
-```
-
-## Offline Mode
-
-The React Native SDK supports offline-first architecture:
-
-```tsx
-import { useOfflineExpenses } from '@smartbills/react-native-sdk';
-
-function OfflineExpenseList() {
-  const {
-    expenses,
-    pendingUploads,
-    syncStatus,
-    sync
-  } = useOfflineExpenses();
-
-  return (
-    <View>
-      <Text>Sync Status: {syncStatus}</Text>
-      <Text>Pending Uploads: {pendingUploads.length}</Text>
-      
-      <Button title="Sync Now" onPress={sync} />
-      
-      <FlatList
-        data={expenses}
-        renderItem={({ item }) => <ExpenseCard expense={item} />}
-      />
-    </View>
-  );
-}
-```
-
-### Offline Configuration
-
-```tsx
-<SmartbillsReactNativeProvider
-  apiKey="sk_live_xxxxx"
-  offlineConfig={{
-    enabled: true,
-    syncInterval: 30000,
-    maxPendingUploads: 50,
-    onSyncComplete: (results) => console.log('Synced:', results)
-  }}
->
-  <App />
-</SmartbillsReactNativeProvider>
 ```
 
 ## Components
 
-### ExpenseCard
+### Receipt
+
+The main receipt display component that renders a full digital receipt:
 
 ```tsx
-import { ExpenseCard } from '@smartbills/react-native-sdk';
+import { Receipt } from "@smartbills/react-native-sdk";
 
-function ExpenseList({ expenses }) {
-  return (
-    <FlatList
-      data={expenses}
-      renderItem={({ item }) => (
-        <ExpenseCard
-          expense={item}
-          onPress={() => navigation.navigate('ExpenseDetail', { id: item.id })}
-          showReceipt={true}
-          showCategory={true}
-        />
-      )}
-    />
-  );
+function ReceiptScreen({ receiptId }) {
+  return <Receipt receiptId={receiptId} />;
 }
 ```
 
-### ReceiptThumbnail
+### ReceiptOriginal
+
+Displays the original format of a receipt:
 
 ```tsx
-import { ReceiptThumbnail } from '@smartbills/react-native-sdk';
+import { ReceiptOriginal } from "@smartbills/react-native-sdk";
 
-function ExpenseItem({ expense }) {
-  return (
-    <View style={styles.container}>
-      <ReceiptThumbnail
-        expenseId={expense.id}
-        size={60}
-        borderRadius={8}
-      />
-      <View style={styles.details}>
-        <Text>{expense.merchant}</Text>
-        <Text>${expense.amount}</Text>
-      </View>
-    </View>
-  );
+<ReceiptOriginal receiptId={receiptId} />
+```
+
+### ReceiptSkeleton
+
+Loading placeholder while receipt data is fetching:
+
+```tsx
+import { ReceiptSkeleton } from "@smartbills/react-native-sdk";
+
+function LoadingReceipt() {
+  return <ReceiptSkeleton />;
 }
 ```
 
-### ExpenseForm
+### Receipt Sub-Components
+
+Individual receipt sections for custom layouts:
 
 ```tsx
-import { ExpenseForm } from '@smartbills/react-native-sdk';
+import {
+  ReceiptMerchant,
+  ReceiptLocation,
+  ReceiptItems,
+  ReceiptPayment,
+  ReceiptPaymentCard,
+  ReceiptPaymentCash,
+  ReceiptFooter,
+  ReceiptQRCode,
+  ReceiptError,
+} from "@smartbills/react-native-sdk";
+```
 
-function EditExpenseScreen({ route }) {
-  const { expenseId } = route.params;
+| Component | Description |
+|-----------|-------------|
+| `ReceiptMerchant` | Merchant name, logo, and branding |
+| `ReceiptLocation` | Store location and address |
+| `ReceiptItems` | Line items list |
+| `ReceiptPayment` | Payment summary |
+| `ReceiptPaymentCard` | Card payment details |
+| `ReceiptPaymentCash` | Cash payment details |
+| `ReceiptFooter` | Receipt footer content |
+| `ReceiptQRCode` | QR code display |
+| `ReceiptError` | Error state display |
 
-  return (
-    <ExpenseForm
-      expenseId={expenseId}
-      onSave={(expense) => {
-        navigation.goBack();
-      }}
-      onCancel={() => navigation.goBack()}
-      fields={['merchant', 'amount', 'date', 'category', 'description']}
-    />
-  );
-}
+### Barcode & QR Code
+
+Standalone barcode and QR code rendering:
+
+```tsx
+import { Barcode, QRCode } from "@smartbills/react-native-sdk";
+
+<Barcode value="1234567890" format="CODE128" />
+
+<QRCode value="https://smartbills.io/receipt/abc123" size={200} />
+```
+
+### Money
+
+Formatted money display with currency support:
+
+```tsx
+import { Money } from "@smartbills/react-native-sdk";
+
+<Money amount={49.99} currency="CAD" />
+```
+
+### PowerBySmartbills
+
+Branding attribution component:
+
+```tsx
+import { PowerBySmartbills } from "@smartbills/react-native-sdk";
+
+<PowerBySmartbills />
 ```
 
 ## Hooks
 
-### useExpenses
+### useReceiptRef
+
+Get a reference to the receipt component for programmatic actions:
 
 ```tsx
-import { useExpenses } from '@smartbills/react-native-sdk';
+import { useReceiptRef } from "@smartbills/react-native-sdk";
+
+function ReceiptViewer() {
+  const receiptRef = useReceiptRef();
+
+  return <Receipt ref={receiptRef} receiptId={123} />;
+}
+```
+
+### useReactNativeSDK
+
+Access the React Native SDK context:
+
+```tsx
+import { useReactNativeSDK } from "@smartbills/react-native-sdk";
+
+function MyComponent() {
+  const sdk = useReactNativeSDK();
+  return <Text>{sdk.locale}</Text>;
+}
+```
+
+## Using React Hooks SDK
+
+The React Native SDK works alongside `@smartbills/react-hooks-sdk` for data fetching. All hooks from the [React SDK](/sdks/react) are available:
+
+```tsx
+import { useExpenses, useExpenseReports } from "@smartbills/react-hooks-sdk";
 
 function ExpenseListScreen() {
-  const {
-    expenses,
-    isLoading,
-    error,
-    refetch,
-    loadMore,
-    hasMore
-  } = useExpenses({ businessId: 123 });
+  const { data, fetchNextPage, hasNextPage, isLoading } = useExpenses({
+    limit: 20,
+  });
+
+  const expenses = data?.pages.flatMap((page) => page.data) ?? [];
 
   return (
     <FlatList
       data={expenses}
-      renderItem={({ item }) => <ExpenseCard expense={item} />}
-      onRefresh={refetch}
-      refreshing={isLoading}
-      onEndReached={hasMore ? loadMore : undefined}
-    />
-  );
-}
-```
-
-### useExpenseReports
-
-```tsx
-import { useExpenseReports } from '@smartbills/react-native-sdk';
-
-function ReportsScreen() {
-  const { reports, submitReport, isSubmitting } = useExpenseReports();
-
-  const handleSubmit = async (reportId) => {
-    await submitReport(reportId);
-    Alert.alert('Success', 'Report submitted!');
-  };
-
-  return (
-    <FlatList
-      data={reports}
       renderItem={({ item }) => (
-        <ReportCard
-          report={item}
-          onSubmit={() => handleSubmit(item.id)}
-          submitting={isSubmitting}
-        />
+        <Text>
+          {item.vendor?.name} — ${item.total?.amount}
+        </Text>
       )}
+      onEndReached={hasNextPage ? () => fetchNextPage() : undefined}
+      refreshing={isLoading}
     />
   );
 }
 ```
 
-## Push Notifications
-
-```tsx
-import { useExpenseNotifications } from '@smartbills/react-native-sdk';
-
-function NotificationHandler() {
-  useExpenseNotifications({
-    onReportApproved: (report) => {
-      Alert.alert('Report Approved', `${report.title} was approved!`);
-    },
-    onReportRejected: (report) => {
-      Alert.alert('Report Rejected', report.rejectionReason);
-    },
-    onExpenseProcessed: (expense) => {
-      console.log('Expense processed:', expense);
-    }
-  });
-
-  return null;
-}
-```
-
-## Permissions
-
-The SDK handles camera and storage permissions automatically, but you can customize:
-
-```tsx
-import { usePermissions } from '@smartbills/react-native-sdk';
-
-function PermissionGate({ children }) {
-  const { 
-    camera, 
-    storage,
-    requestCamera,
-    requestStorage
-  } = usePermissions();
-
-  if (!camera.granted) {
-    return (
-      <View>
-        <Text>Camera permission required</Text>
-        <Button title="Grant Access" onPress={requestCamera} />
-      </View>
-    );
-  }
-
-  return children;
-}
-```
-
-## Best Practices
-
-<Tip>
-**Enable offline mode** - Users often capture receipts without connectivity.
-</Tip>
-
-<Tip>
-**Handle permissions gracefully** - Always provide fallback options.
-</Tip>
-
-<Tip>
-**Optimize images** - Use compression before uploading large receipts.
-</Tip>
-
-<Tip>
-**Test on real devices** - Camera functionality differs from simulators.
-</Tip>
-
-## Platform-Specific Configuration
+## Platform Configuration
 
 ### iOS (Info.plist)
 
 ```xml
 <key>NSCameraUsageDescription</key>
-<string>We need camera access to scan receipts</string>
+<string>Smartbills needs camera access to scan receipts</string>
 <key>NSPhotoLibraryUsageDescription</key>
-<string>We need photo library access to select receipt images</string>
+<string>Smartbills needs photo library access to select receipt images</string>
 ```
 
 ### Android (AndroidManifest.xml)
 
 ```xml
 <uses-permission android:name="android.permission.CAMERA" />
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 ```
+
+## Version Compatibility
+
+| Requirement | Minimum Version |
+|-------------|----------------|
+| React Native | 0.70+ |
+| Expo | 49+ |
+| React | 18.0+ |
+| Node.js | 16+ |
+
+<Tip>
+**Test on real devices** — Camera and barcode scanning functionality may differ from simulators.
+</Tip>
+
+<Tip>
+**Use Expo** — The SDK is optimized for Expo projects but works with bare React Native as well.
+</Tip>

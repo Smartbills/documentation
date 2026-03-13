@@ -1,0 +1,62 @@
+---
+title: "Upload Problems"
+description: "Fix issues when uploading receipts and documents to Smartbills"
+---
+
+## Common Issues
+
+### Upload Failing
+
+<AccordionGroup>
+  <Accordion title="File too large">
+    The maximum file size is 10 MB per file. If your file exceeds this:
+    - Reduce the image resolution before uploading
+    - Compress PDFs using an online tool
+    - Take a new photo with lower camera resolution settings
+  </Accordion>
+
+  <Accordion title="Unsupported format">
+    Supported formats:
+    - **Images**: JPEG, PNG, HEIC, WEBP
+    - **Documents**: PDF
+    
+    Unsupported: Word documents, Excel files, GIFs, SVGs
+  </Accordion>
+
+  <Accordion title="Network timeout">
+    - Check your internet connection
+    - Try switching between Wi-Fi and cellular data
+    - On mobile, enable offline mode — the upload will queue and complete when connected
+  </Accordion>
+
+  <Accordion title="Upload stuck at processing">
+    If an expense stays in "Processing" for more than 5 minutes:
+    - Refresh the page (web) or pull to refresh (mobile)
+    - Check the processing queue in the upload progress screen
+    - The file may have been uploaded but OCR is still running
+  </Accordion>
+</AccordionGroup>
+
+### OCR Not Working Correctly
+
+If the extracted data is inaccurate:
+
+- **Blurry image** — Retake the photo with better focus
+- **Poor lighting** — Ensure even lighting without shadows
+- **Folded receipt** — Flatten the receipt before scanning
+- **Faded text** — Thermal receipts fade over time; try increasing contrast
+- **Non-English receipt** — OCR supports multiple languages but accuracy varies
+
+You can always manually edit the extracted fields after processing.
+
+### Browser-Specific Issues
+
+| Browser | Known Issues |
+|---------|-------------|
+| Safari | May block drag-and-drop uploads in some configurations |
+| Firefox | Ensure pop-up blocker isn't interfering |
+| Chrome | Clear cache if uploads fail repeatedly |
+
+## Still Having Issues?
+
+Contact [support@smartbills.io](mailto:support@smartbills.io) with the file you're trying to upload (if not sensitive) and the error message.

@@ -9,8 +9,6 @@ description: "Official Smartbills SDK for JavaScript and TypeScript applications
 npm install @smartbills/sdk
 ```
 
-Or with Yarn:
-
 ```bash
 yarn add @smartbills/sdk
 ```
@@ -18,17 +16,15 @@ yarn add @smartbills/sdk
 ## Quick Start
 
 ```typescript
-import { SBClient } from '@smartbills/sdk';
+import { SmartbillsClient } from "@smartbills/sdk";
 
-const client = new SBClient({
-  apiKey: 'sk_live_xxxxx',
-  environment: 'production'
+const client = new SmartbillsClient({
+  accessToken: "your-access-token",
+  businessId: 42,
+  locale: "en-CA",
 });
 
-const expenses = await client.expenses.list({
-  page: 1,
-  pageSize: 20
-});
+const { data, pagination } = await client.expenses.listBusiness({ limit: 25 });
 ```
 
 ## Configuration
@@ -36,239 +32,611 @@ const expenses = await client.expenses.list({
 ### Client Options
 
 ```typescript
-interface SBClientOptions {
-  apiKey?: string;
+interface SmartbillsClientOptions {
+  baseUrl?: string;
   accessToken?: string;
-  environment: 'sandbox' | 'production';
+  businessId?: number;
+  locale?: string;
   timeout?: number;
-  retryConfig?: {
-    maxRetries: number;
-    retryDelay: number;
-  };
+  maxRetries?: number;
+  retryDelay?: number;
 }
 ```
 
-### Environment Configuration
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `baseUrl` | `string` | `https://api.smartbills.io` | API base URL |
+| `accessToken` | `string` | — | OAuth2 bearer token |
+| `businessId` | `number` | — | Default business context for requests |
+| `locale` | `string` | — | Locale for localized responses (`en-CA`, `fr-CA`) |
+| `timeout` | `number` | — | Request timeout in milliseconds |
+| `maxRetries` | `number` | — | Maximum automatic retries on transient failures |
+| `retryDelay` | `number` | — | Delay between retries in milliseconds |
+
+### Runtime Configuration
 
 ```typescript
-const client = new SBClient({
-  environment: 'sandbox',
-  apiKey: process.env.SMARTBILLS_API_KEY
-});
+const client = new SmartbillsClient();
+
+client.setAccessToken("new-token");
+client.setBusinessId(42);
+client.setLocale("fr-CA");
+
+console.log(client.accessToken);
+console.log(client.businessId);
+console.log(client.locale);
 ```
 
-## Available Services
+## Services
+
+Every service is accessed as a property on `SmartbillsClient`. All methods accept an optional `RequestOptions` parameter to override `businessId`, `locale`, or pass an `AbortSignal`.
+
+```typescript
+interface RequestOptions {
+  businessId?: number;
+  locale?: string;
+  signal?: AbortSignal;
+}
+```
 
 ### Expenses
 
 ```typescript
-const expenseService = client.expenses;
+const expenses = client.expenses;
 
-const expenses = await expenseService.list({ page: 1 });
+const list = await expenses.listBusiness({ limit: 25, page: 1 });
 
-const expense = await expenseService.get(expenseId);
+const myExpenses = await expenses.listMy({ limit: 10 });
 
-const newExpense = await expenseService.upload({
-  file: fileBuffer,
-  businessId: 123,
-  categoryId: 456
+const employeeExpenses = await expenses.listEmployee(employeeId, { limit: 10 });
+
+const expense = await expenses.getById(expenseId);
+
+await expenses.update(expenseId, {
+  categoryId: 456,
+  note: "Office supplies",
 });
 
-await expenseService.update(expenseId, {
-  categoryId: 789,
-  description: 'Updated description'
+await expenses.delete(expenseId);
+
+await expenses.updateCategory(expenseId, { categoryId: 789 });
+
+await expenses.updateNote(expenseId, { note: "Updated note" });
+
+await expenses.updateReport(expenseId, { expenseReportId: 10 });
+
+await expenses.updateReview(expenseId, { reviewed: true });
+```
+
+#### Upload Expenses
+
+```typescript
+const formData = new FormData();
+formData.append("files", file);
+
+const uploaded = await expenses.uploadBusiness(formData);
+
+const myUploaded = await expenses.uploadMy(formData);
+
+const employeeUploaded = await expenses.uploadEmployee(employeeId, formData);
+```
+
+#### Presigned Upload (S3)
+
+```typescript
+const { url, fields } = await expenses.presignUpload({
+  fileName: "receipt.jpg",
+  contentType: "image/jpeg",
 });
 
-await expenseService.delete(expenseId);
+await uploadFileToS3(url, fields, file);
+
+await expenses.confirmUpload({ key: fields.key });
+```
+
+#### Bulk Operations
+
+```typescript
+await expenses.bulkAssignCategory({ expenseIds: [1, 2, 3], categoryId: 10 });
+
+await expenses.bulkAssignPayerType({ expenseIds: [1, 2], payerType: "BUSINESS" });
+
+await expenses.bulkAssignReport({ expenseIds: [1, 2, 3], expenseReportId: 5 });
+
+await expenses.bulkAssignVendor({ expenseIds: [1, 2], vendorId: 20 });
+
+await expenses.bulkSetNote({ expenseIds: [1, 2], note: "Q1 expenses" });
+
+await expenses.bulkDelete({ expenseIds: [1, 2, 3] });
+```
+
+#### Export & Download
+
+```typescript
+const blob = await expenses.export({ expenseIds: [1, 2, 3] });
+
+const { blob: file, filename } = await expenses.exportWithFilename({
+  expenseIds: [1, 2, 3],
+});
+
+const attachments = await expenses.downloadAttachments({ expenseIds: [1, 2] });
+
+const single = await expenses.downloadSingleAttachment(expenseId);
+```
+
+#### Split
+
+```typescript
+const splits = await expenses.split(expenseId, {
+  splits: [
+    { amount: 50, categoryId: 1 },
+    { amount: 50, categoryId: 2 },
+  ],
+});
 ```
 
 ### Expense Reports
 
 ```typescript
-const reportsService = client.expenseReports;
+const reports = client.expenseReports;
 
-const reports = await reportsService.list({ status: 'pending' });
+const list = await reports.list({ status: "draft", limit: 25 });
 
-const report = await reportsService.create({
-  title: 'Q1 2025 Expenses',
-  expenseIds: [1, 2, 3]
-});
+const report = await reports.getById(reportId);
 
-await reportsService.submit(reportId);
+const mine = await reports.getMine({ status: "submitted" });
 
-await reportsService.approve(reportId, { comment: 'Looks good!' });
+const summary = await reports.getSummary();
+
+const pending = await reports.getPendingApprovals();
 ```
 
-### Businesses
+#### Lifecycle
 
 ```typescript
-const businessService = client.businesses;
+const created = await reports.create({ name: "Q1 Travel" });
 
-const businesses = await businessService.list();
+await reports.update(reportId, { name: "Q1 Travel - Updated" });
 
-const business = await businessService.get(businessId);
+await reports.submit(reportId);
 
-const newBusiness = await businessService.create({
-  name: 'Acme Corp',
-  currency: 'USD'
+await reports.approve(reportId, { comment: "Looks good!" });
+
+await reports.reject(reportId, { reason: "Missing receipts" });
+
+await reports.requestChanges(reportId, { comment: "Please add hotel receipt" });
+
+await reports.recall(reportId);
+
+await reports.reimburse(reportId);
+
+await reports.planReimbursement(reportId, { scheduledDate: "2025-03-15" });
+```
+
+#### Timeline & Audit
+
+```typescript
+const timeline = await reports.getTimeline(reportId);
+
+const auditLog = await reports.getAuditLog(reportId);
+
+await reports.addComment(reportId, { content: "Updated totals" });
+```
+
+#### Accounting
+
+```typescript
+await reports.assignLedgerAccount(reportId, { ledgerAccountId: 100 });
+
+await reports.assignExpenseLedgerAccount(reportId, expenseId, {
+  ledgerAccountId: 100,
 });
+```
+
+### Bills
+
+```typescript
+const bills = client.bills;
+
+const list = await bills.list({ limit: 25 });
+
+const bill = await bills.getById(billId);
+
+const created = await bills.create({
+  vendorId: 10,
+  amount: 1500,
+  dueDate: "2025-04-01",
+});
+
+await bills.update(billId, { amount: 1600 });
+
+await bills.delete(billId);
+```
+
+#### Bill Status Workflow
+
+```typescript
+const statusSummary = await bills.getStatusSummary();
+
+const allowedTransitions = await bills.getAllowedTransitions(billId);
+
+await bills.submitForApproval(billId);
+
+await bills.approve(billId, { comment: "Approved" });
+
+await bills.schedulePayment(billId, { paymentDate: "2025-04-01" });
+
+await bills.markPaid(billId);
+
+await bills.cancel(billId, { reason: "Duplicate" });
+
+await bills.revertToDraft(billId);
+
+await bills.reschedulePayment(billId, { paymentDate: "2025-04-15" });
+```
+
+#### Bulk Bill Operations
+
+```typescript
+await bills.bulkApprove({ billIds: [1, 2, 3] });
+
+await bills.bulkMarkPaid({ billIds: [1, 2] });
+
+await bills.bulkSchedulePayment({ billIds: [1, 2], paymentDate: "2025-04-01" });
+
+await bills.bulkDelete({ billIds: [1, 2, 3] });
 ```
 
 ### Vendors
 
 ```typescript
-const vendorService = client.vendors;
+const vendors = client.vendors;
 
-const vendors = await vendorService.list({ businessId: 123 });
+const list = await vendors.list({ limit: 25 });
 
-const vendor = await vendorService.create({
-  businessId: 123,
-  name: 'Office Depot',
-  category: 'Office Supplies'
+const vendor = await vendors.getById(vendorId);
+
+const created = await vendors.create({
+  name: "Office Depot",
+  email: "billing@officedepot.com",
 });
+
+await vendors.update(vendorId, { name: "Office Depot Inc." });
+
+await vendors.delete(vendorId);
 ```
 
-### Webhooks
+#### Vendor Business Operations
 
 ```typescript
-const webhookService = client.webhooks;
+const businessVendors = await vendors.listBusiness();
 
-const webhook = await webhookService.create({
-  url: 'https://your-app.com/webhooks',
-  events: ['expense.created', 'report.submitted']
+const businessVendor = await vendors.getBusinessVendor(vendorId);
+
+await vendors.createBusiness({ name: "New Supplier" });
+
+await vendors.updateBusiness(vendorId, { name: "Updated Supplier" });
+
+await vendors.deleteBusiness(vendorId);
+
+await vendors.refreshBusiness(vendorId);
+```
+
+#### Batch & Import
+
+```typescript
+await vendors.batchCreate([
+  { name: "Vendor A" },
+  { name: "Vendor B" },
+]);
+
+await vendors.bulkDelete({ vendorIds: [1, 2, 3] });
+
+await vendors.merge({ sourceVendorId: 2, targetVendorId: 1 });
+
+const result = await vendors.importCsv(csvFile);
+
+const template = await vendors.downloadImportTemplate();
+```
+
+### Businesses
+
+```typescript
+const businesses = client.businesses;
+
+const list = await businesses.list({ limit: 10 });
+
+const business = await businesses.getById(businessId);
+
+const count = await businesses.count();
+
+const created = await businesses.create({
+  name: "Acme Corp",
+  currency: "CAD",
 });
 
-const webhooks = await webhookService.list();
+await businesses.update(businessId, { name: "Acme Corporation" });
 
-await webhookService.delete(webhookId);
+await businesses.delete(businessId);
+
+await businesses.createBrand(businessId, { name: "Acme Brand" });
 ```
+
+### All Available Services
+
+| Property | Service | Description |
+|----------|---------|-------------|
+| `users` | UserService | User profile and account management |
+| `businesses` | BusinessService | Business CRUD and listing |
+| `businessUsers` | BusinessUserService | Business user management |
+| `invitations` | InvitationService | Team invitations |
+| `memberships` | MembershipService | Business memberships |
+| `receipts` | ReceiptService | Receipt CRUD and OCR processing |
+| `bills` | BillService | Bill management and approval workflow |
+| `transactions` | TransactionService | Transaction history |
+| `expenses` | ExpenseService | Expense management with bulk operations |
+| `expenseReports` | ExpenseReportService | Expense report lifecycle |
+| `expenseReportExpenses` | ExpenseReportExpenseService | Report-expense associations |
+| `expenseReportPayments` | ExpenseReportPaymentService | Report payment tracking |
+| `expenseJobs` | ExpenseJobService | Background processing jobs |
+| `approbations` | ApprobationService | Approval management |
+| `vendors` | VendorService | Vendor management with import/merge |
+| `vendorConnections` | VendorConnectionService | Vendor connection management |
+| `notifications` | NotificationService | In-app notifications |
+| `paymentMethods` | PaymentMethodService | Payment method management |
+| `integrations` | IntegrationService | Third-party integrations |
+| `appInstallations` | AppInstallationService | App installation management |
+| `emailAccounts` | EmailAccountService | Email account configuration |
+| `reports` | ReportingService | Reporting and analytics |
+| `checkout` | CheckoutService | Checkout flows |
+| `connect` | ConnectService | Connect account management |
+| `locations` | LocationService | Location management |
+| `tables` | TableService | Table management |
+| `billing` | BillingService | Subscription and billing |
+| `workflows` | WorkflowService | Automation workflows |
+| `customers` | CustomerService | Customer management |
+| `departments` | DepartmentService | Department management |
+| `products` | ProductService | Product catalog |
+| `taxes` | TaxService | Tax configuration |
+| `promoCodes` | PromoCodeService | Promo code management |
+| `categories` | CategoryService | Expense category management |
+| `employees` | EmployeeService | Employee management |
+| `attachments` | AttachmentService | File attachment management |
+| `emailForwarding` | EmailForwardingService | Email forwarding rules |
+| `authorizedSenders` | AuthorizedSenderService | Authorized sender management |
+| `loyalty` | LoyaltyService | Loyalty program management |
 
 ## Error Handling
 
 ```typescript
-import { SBError, SBValidationError, SBAuthError } from '@smartbills/sdk';
+import {
+  SmartbillsError,
+  SmartbillsApiError,
+  SmartbillsValidationError,
+  SmartbillsAuthenticationError,
+  SmartbillsPermissionError,
+  SmartbillsNotFoundError,
+  SmartbillsRateLimitError,
+  SmartbillsNetworkError,
+  SmartbillsConflictError,
+  SmartbillsQuotaError,
+  isSmartbillsError,
+  isRetryableError,
+} from "@smartbills/sdk";
 
 try {
-  const expense = await client.expenses.get(expenseId);
+  const expense = await client.expenses.getById(expenseId);
 } catch (error) {
-  if (error instanceof SBAuthError) {
-    console.error('Authentication failed:', error.message);
-  } else if (error instanceof SBValidationError) {
-    console.error('Validation errors:', error.errors);
-  } else if (error instanceof SBError) {
-    console.error('API error:', error.message, error.code);
+  if (isSmartbillsError(error)) {
+    if (error instanceof SmartbillsAuthenticationError) {
+      console.error("Authentication failed:", error.message);
+    } else if (error instanceof SmartbillsValidationError) {
+      error.errors.forEach((fieldError) => {
+        console.error(`${fieldError.field}: ${fieldError.message}`);
+      });
+    } else if (error instanceof SmartbillsNotFoundError) {
+      console.error("Resource not found:", error.message);
+    } else if (error instanceof SmartbillsRateLimitError) {
+      console.error("Rate limited - retry later");
+    } else if (error instanceof SmartbillsPermissionError) {
+      console.error("Insufficient permissions:", error.message);
+    } else if (error instanceof SmartbillsNetworkError) {
+      console.error("Network error:", error.message);
+    }
   }
 }
 ```
 
-## Pagination
+### Error Types
+
+| Error Class | HTTP Status | Description |
+|-------------|-------------|-------------|
+| `SmartbillsError` | — | Base error class |
+| `SmartbillsApiError` | Various | Generic API error |
+| `SmartbillsValidationError` | 400 | Field-level validation errors |
+| `SmartbillsAuthenticationError` | 401 | Invalid or expired token |
+| `SmartbillsPermissionError` | 403 | Insufficient permissions |
+| `SmartbillsNotFoundError` | 404 | Resource not found |
+| `SmartbillsConflictError` | 409 | Resource conflict |
+| `SmartbillsRateLimitError` | 429 | Rate limit exceeded |
+| `SmartbillsQuotaError` | — | Quota exceeded |
+| `SmartbillsNetworkError` | — | Network connectivity issues |
+
+### Type Guards
 
 ```typescript
-const firstPage = await client.expenses.list({ page: 1, pageSize: 50 });
+import {
+  isSmartbillsError,
+  isApiError,
+  isValidationError,
+  isRateLimitError,
+  isNetworkError,
+  isAuthenticationError,
+  isPermissionError,
+  isNotFoundError,
+  isConflictError,
+  isQuotaError,
+  isRetryableError,
+} from "@smartbills/sdk";
+```
 
-console.log(firstPage.data);
-console.log(firstPage.total);
-console.log(firstPage.totalPages);
+## Pagination
 
-const secondPage = await client.expenses.list({ page: 2, pageSize: 50 });
+All list endpoints return a standard paginated response:
+
+```typescript
+interface SBListResponse<T> {
+  data: T[];
+  pagination: SBPagination;
+}
+
+interface SBPagination {
+  count: number;
+  limit: number;
+  currentPage: number;
+  pageCount: number;
+}
+```
+
+```typescript
+const page1 = await client.expenses.listBusiness({ page: 1, limit: 25 });
+
+console.log(page1.pagination.count);
+console.log(page1.pagination.pageCount);
+
+if (page1.pagination.currentPage < page1.pagination.pageCount) {
+  const page2 = await client.expenses.listBusiness({ page: 2, limit: 25 });
+}
+```
+
+### Sorting
+
+```typescript
+const sorted = await client.expenses.listBusiness({
+  sortBy: "createdAt",
+  sortDirection: "desc",
+  limit: 25,
+});
+```
+
+## Common Types
+
+```typescript
+import type {
+  SBEntity,
+  SBTimestamps,
+  SBListResponse,
+  SBPagination,
+  PaginationRequest,
+  SBAddress,
+  SBCoordinate,
+  SBMoney,
+  SBBillingAddress,
+  SBBatchResponse,
+  SBBulkActionResponse,
+  SBFileDownloadResponse,
+  RequestOptions,
+} from "@smartbills/sdk";
 ```
 
 ## File Uploads
 
+### S3 Presigned Upload (Recommended)
+
 ```typescript
-import { readFileSync } from 'fs';
+import { uploadFileToS3 } from "@smartbills/sdk";
 
-const file = readFileSync('./receipt.jpg');
-
-const expense = await client.expenses.upload({
-  file,
-  filename: 'receipt.jpg',
-  businessId: 123
+const presigned = await client.expenses.presignUpload({
+  fileName: "receipt.jpg",
+  contentType: "image/jpeg",
 });
+
+await uploadFileToS3(presigned.url, presigned.fields, file);
+
+await client.expenses.confirmUpload({ key: presigned.fields.key });
 ```
 
-### Browser File Upload
+### Direct FormData Upload
 
 ```typescript
-const fileInput = document.querySelector('input[type="file"]');
-const file = fileInput.files[0];
+const formData = new FormData();
+formData.append("files", fileInput.files[0]);
 
-const expense = await client.expenses.upload({
-  file,
-  businessId: 123
-});
+const results = await client.expenses.uploadBusiness(formData);
 ```
 
 ## TypeScript Support
 
-The SDK is written in TypeScript and provides full type definitions:
+The SDK is written in TypeScript and ships with full type definitions. All entity types, request types, and response types are exported:
 
 ```typescript
-import type { 
-  Expense, 
-  ExpenseReport, 
-  Business, 
-  Vendor,
-  PaginatedResponse 
-} from '@smartbills/sdk';
-
-const expenses: PaginatedResponse<Expense> = await client.expenses.list();
-
-const expense: Expense = expenses.data[0];
+import type {
+  SBTransaction,
+  SBExpenseReport,
+  SBBusiness,
+  SBVendor,
+  SBBill,
+  ExpenseReportStatus,
+  BillStatus,
+  PayerType,
+  MembershipRole,
+} from "@smartbills/sdk";
 ```
-
-## Best Practices
-
-<Tip>
-**Use environment variables** - Never hardcode API keys in your source code.
-</Tip>
-
-<Tip>
-**Handle errors gracefully** - Always wrap API calls in try-catch blocks.
-</Tip>
-
-<Tip>
-**Use TypeScript** - Take advantage of type safety for better developer experience.
-</Tip>
 
 ## Examples
 
 ### Express.js Integration
 
 ```typescript
-import express from 'express';
-import { SBClient } from '@smartbills/sdk';
+import express from "express";
+import { SmartbillsClient } from "@smartbills/sdk";
 
 const app = express();
-const client = new SBClient({
-  apiKey: process.env.SMARTBILLS_API_KEY,
-  environment: 'production'
+const client = new SmartbillsClient({
+  accessToken: process.env.SMARTBILLS_ACCESS_TOKEN,
+  businessId: parseInt(process.env.SMARTBILLS_BUSINESS_ID!),
 });
 
-app.get('/expenses', async (req, res) => {
-  const expenses = await client.expenses.list({
-    page: parseInt(req.query.page) || 1
+app.get("/expenses", async (req, res) => {
+  const expenses = await client.expenses.listBusiness({
+    page: parseInt(req.query.page as string) || 1,
+    limit: 25,
   });
   res.json(expenses);
 });
+
+app.listen(3000);
 ```
 
-### Next.js API Route
+### Next.js Server Action
 
 ```typescript
-import { SBClient } from '@smartbills/sdk';
-import type { NextApiRequest, NextApiResponse } from 'next';
+"use server";
 
-const client = new SBClient({
-  apiKey: process.env.SMARTBILLS_API_KEY,
-  environment: 'production'
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({
+  accessToken: process.env.SMARTBILLS_ACCESS_TOKEN,
+  businessId: parseInt(process.env.SMARTBILLS_BUSINESS_ID!),
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const expenses = await client.expenses.list();
-  res.status(200).json(expenses);
+export async function getExpenses(page: number = 1) {
+  return client.expenses.listBusiness({ page, limit: 25 });
+}
+
+export async function createExpenseReport(name: string, expenseIds: number[]) {
+  return client.expenseReports.create({ name });
 }
 ```
+
+<Tip>
+**Use environment variables** — Never hardcode access tokens in your source code.
+</Tip>
+
+<Tip>
+**Handle errors gracefully** — Always wrap API calls in try-catch blocks and use the type guards to handle specific error types.
+</Tip>
+
+<Tip>
+**Use TypeScript** — Take advantage of full type safety for better developer experience and catch issues at compile time.
+</Tip>

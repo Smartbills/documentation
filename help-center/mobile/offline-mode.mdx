@@ -1,0 +1,43 @@
+---
+title: "Offline Mode"
+description: "Use Smartbills without an internet connection"
+---
+
+## Overview
+
+The Smartbills mobile app works offline so you can scan and save receipts anywhere, even without connectivity.
+
+## How It Works
+
+1. **Scan receipts** — Capture receipts normally using the camera
+2. **Data queued** — Photos and expense data are stored locally on your device
+3. **Auto-sync** — When you regain connectivity, everything syncs automatically
+4. **Processing** — OCR processing happens once the data reaches our servers
+
+## What Works Offline
+
+| Feature | Offline Support |
+|---------|----------------|
+| Scan/capture receipts | Yes |
+| Save expense drafts | Yes |
+| View cached expenses | Yes |
+| OCR processing | No — queued until online |
+| Submit reports | No — queued until online |
+| Push notifications | No |
+
+## Syncing
+
+When your device reconnects to the internet:
+
+- Queued receipts upload automatically in the background
+- OCR processing begins on the server
+- You receive notifications when processing completes
+- Any pending report submissions are sent
+
+<Tip>
+Check the upload queue in the app to see how many items are waiting to sync. A badge indicator shows pending uploads.
+</Tip>
+
+<Note>
+Offline mode stores data locally on your device. Make sure you have sufficient storage space for receipt photos.
+</Note>

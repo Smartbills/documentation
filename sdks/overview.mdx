@@ -1,127 +1,163 @@
 ---
 title: "SDKs Overview"
-description: "Official Smartbills SDKs for integrating with your applications"
+description: "Official Smartbills SDKs for integrating expense management into your applications"
 ---
 
 ## Available SDKs
 
-Smartbills provides official SDKs for popular programming languages and frameworks to help you integrate expense management into your applications.
+Smartbills provides official SDKs for JavaScript, TypeScript, React, React Native, and .NET to help you integrate expense management, digital receipts, and financial automation into your applications.
 
 <CardGroup cols={2}>
   <Card title="JavaScript SDK" icon="js" href="/sdks/javascript">
-    Full-featured SDK for Node.js and browser applications
+    Core SDK for Node.js and browser applications — `@smartbills/sdk`
   </Card>
   <Card title="React SDK" icon="react" href="/sdks/react">
-    React hooks and components for web applications
+    React Query hooks and components — `@smartbills/react-hooks-sdk`
   </Card>
   <Card title="React Native SDK" icon="mobile" href="/sdks/react-native">
-    Build native mobile apps with expense management
+    Native receipt display and mobile components — `@smartbills/react-native-sdk`
   </Card>
   <Card title=".NET SDK" icon="microsoft" href="/sdks/dotnet">
-    SDK for C# and .NET applications
+    C# SDK for .NET applications — `Smartbills.SDK`
   </Card>
 </CardGroup>
 
 ## Installation
 
-### JavaScript/TypeScript
+<CodeGroup>
 
-```bash
+```bash JavaScript / TypeScript
 npm install @smartbills/sdk
 ```
 
-### React
-
-```bash
-npm install @smartbills/react-sdk @smartbills/sdk
+```bash React (Hooks)
+npm install @smartbills/sdk @smartbills/react-hooks-sdk @tanstack/react-query
 ```
 
-### React Native
-
-```bash
-npm install @smartbills/react-native-sdk @smartbills/sdk
+```bash React (Components)
+npm install @smartbills/react-sdk
 ```
 
-### .NET
-
-```bash
-dotnet add package Smartbills.NET
+```bash React Native
+npm install @smartbills/react-native-sdk @smartbills/react-hooks-sdk @smartbills/sdk
 ```
 
-## Quick Start
-
-All SDKs follow a similar pattern for initialization:
-
-<CodeGroup>
-
-```typescript JavaScript
-import { SBClient } from '@smartbills/sdk';
-
-const client = new SBClient({
-  apiKey: 'YOUR_API_KEY',
-  environment: 'production'
-});
-
-const expenses = await client.expenses.list({ page: 1, pageSize: 20 });
-```
-
-```csharp C#
-using Smartbills.NET;
-
-var client = new SmartbillsClient("YOUR_API_KEY");
-
-var expenses = await client.Expenses.ListAsync(new ExpenseListRequest { 
-    Page = 1, 
-    PageSize = 20 
-});
+```bash .NET
+dotnet add package Smartbills.SDK
 ```
 
 </CodeGroup>
 
+## Quick Start
+
+All SDKs use the same `SmartbillsClient` for initialization:
+
+<CodeGroup>
+
+```typescript JavaScript
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({
+  accessToken: "your-access-token",
+  businessId: 42,
+});
+
+const { data } = await client.expenses.listBusiness({ limit: 25 });
+```
+
+```tsx React
+import { SmartbillsProvider, useExpenses } from "@smartbills/react-hooks-sdk";
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({ accessToken: "token", businessId: 42 });
+
+function App() {
+  return (
+    <SmartbillsProvider client={client} businessId={42}>
+      <ExpenseList />
+    </SmartbillsProvider>
+  );
+}
+
+function ExpenseList() {
+  const { data, isLoading } = useExpenses({ limit: 25 });
+  if (isLoading) return <div>Loading...</div>;
+  return <ul>{data?.pages.flatMap(p => p.data).map(e => <li key={e.id}>{e.vendor?.name}</li>)}</ul>;
+}
+```
+
+```csharp C#
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "your-access-token",
+    BusinessId = 42
+});
+
+var expenses = await client.Expenses.ListBusinessAsync(
+    new ExpenseListRequest { Limit = 25 }
+);
+```
+
+</CodeGroup>
+
+## SDK Architecture
+
+```mermaid
+graph TD
+    CoreSDK["@smartbills/sdk<br/>Core Client"] --> API["Smartbills API"]
+    ReactHooksSDK["@smartbills/react-hooks-sdk<br/>React Query Hooks"] --> CoreSDK
+    ReactSDK["@smartbills/react-sdk<br/>React Components"] --> ReactHooksSDK
+    ReactNativeSDK["@smartbills/react-native-sdk<br/>Native Components"] --> ReactHooksSDK
+    DotNetSDK["Smartbills.SDK<br/>.NET Client"] --> API
+```
+
 ## Authentication
 
-All SDKs support multiple authentication methods:
+All SDKs use OAuth 2.0 bearer tokens:
 
 | Method | Use Case |
 |--------|----------|
-| API Key | Server-side applications |
-| OAuth 2.0 | User-facing applications |
-| Session Token | Embedded applications |
+| Access Token | Server-side and client-side applications |
+| OAuth 2.0 Flow | User-facing applications requiring login |
 
 ## Features
 
-### Common Features Across All SDKs
+### Common Features
 
-- **Type Safety** - Full TypeScript/C# type definitions
-- **Error Handling** - Consistent error types and messages
-- **Pagination** - Built-in pagination support
-- **Retry Logic** - Automatic retry for transient failures
-- **Rate Limiting** - Automatic rate limit handling
+- **Type Safety** — Full TypeScript / C# type definitions
+- **Error Handling** — Typed error classes with guards (`isNotFoundError`, `isValidationError`, etc.)
+- **Pagination** — Built-in support for paginated list endpoints
+- **Retry Logic** — Automatic retry for transient failures with configurable backoff
+- **Rate Limiting** — Automatic rate limit handling
 
-### SDK-Specific Features
+### Feature Matrix
 
-| Feature | JS | React | React Native | .NET |
-|---------|----|----|----|----|
-| Expense Upload | Yes | Yes | Yes | Yes |
-| Receipt Scanning | Yes | Yes | Yes | Yes |
-| Offline Mode | - | - | Yes | - |
-| Camera Integration | - | - | Yes | - |
-| React Hooks | - | Yes | Yes | - |
-| UI Components | - | Yes | Yes | - |
+| Feature | JS SDK | React Hooks | React Components | React Native | .NET |
+|---------|--------|-------------|-----------------|--------------|------|
+| Expense CRUD | Yes | Yes | — | Yes | Yes |
+| Bulk Operations | Yes | Yes | — | Yes | Yes |
+| Presigned Upload | Yes | Yes | — | Yes | — |
+| Receipt Display | — | — | Yes | Yes | — |
+| Barcode / QR Code | — | — | — | Yes | — |
+| Infinite Scroll | — | Yes | — | Yes | — |
+| Optimistic Updates | — | Yes | — | Yes | — |
 
 ## Version Compatibility
 
-| SDK | Minimum Version | API Version |
+| SDK | Minimum Runtime | API Version |
 |-----|----------------|-------------|
-| JavaScript | Node.js 16+ | v1 |
-| React | React 17+ | v1 |
-| React Native | RN 0.70+ | v1 |
-| .NET | .NET 6+ | v1 |
+| `@smartbills/sdk` | Node.js 16+ / Modern browsers | v1 |
+| `@smartbills/react-hooks-sdk` | React 18+ | v1 |
+| `@smartbills/react-sdk` | React 18+ | v1 |
+| `@smartbills/react-native-sdk` | React Native 0.70+ / Expo 49+ | v1 |
+| `Smartbills.SDK` | .NET 6+ | v1 |
 
 ## Support
 
 <CardGroup cols={2}>
-  <Card title="GitHub Issues" icon="github" href="https://github.com/smartbills">
+  <Card title="GitHub" icon="github" href="https://github.com/smartbills">
     Report bugs and request features
   </Card>
   <Card title="Community" icon="slack" href="https://community.smartbills.io">
