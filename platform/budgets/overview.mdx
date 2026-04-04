@@ -1,0 +1,39 @@
+---
+title: "Budgets"
+description: "Create and monitor spending budgets across your organization."
+---
+
+## Overview
+
+Smartbills Budgets provides visibility into organizational spending against defined budget targets. Set up budgets by department, project, or any custom grouping, then track actual spending in real time.
+
+### Key capabilities
+
+- **Budget creation** — Define budgets with a name, total amount, currency, and date range.
+- **Category breakdown** — Split a budget into categories to track spending granularly.
+- **Utilization tracking** — See actuals, committed amounts, remaining balance, and utilization percentage at a glance.
+- **Notifications** — Configure threshold-based alerts (e.g., notify at 75%, 90%, 100%) to stay ahead of overspending.
+
+### Permissions
+
+| Permission | Description |
+|---|---|
+| `BUDGETS_VIEW` | View budgets and their utilization |
+| `BUDGETS_MANAGE` | Create, edit, and delete budgets |
+
+Administrators and accountants have both permissions by default.
+
+### API endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/v1/businesses/{businessId}/budgets` | List budgets |
+| `POST` | `/v1/businesses/{businessId}/budgets` | Create a budget |
+| `GET` | `/v1/businesses/{businessId}/budgets/{budgetId}` | Get budget details |
+| `PUT` | `/v1/businesses/{businessId}/budgets/{budgetId}` | Update a budget |
+| `DELETE` | `/v1/businesses/{businessId}/budgets/{budgetId}` | Delete a budget |
+| `POST` | `/v1/businesses/{businessId}/budgets/{budgetId}/categories` | Add category |
+| `PUT` | `/v1/businesses/{businessId}/budgets/{budgetId}/categories/{categoryId}` | Update category |
+| `DELETE` | `/v1/businesses/{businessId}/budgets/{budgetId}/categories/{categoryId}` | Remove category |
+| `POST` | `/v1/businesses/{businessId}/budgets/{budgetId}/notifications` | Create notification |
+| `DELETE` | `/v1/businesses/{businessId}/budgets/{budgetId}/notifications/{notificationId}` | Delete notification |

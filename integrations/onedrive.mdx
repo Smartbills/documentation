@@ -11,10 +11,15 @@ Connect OneDrive to automatically archive expense receipts and documents to your
 
 | Feature | Description |
 |---------|-------------|
+| **Two-way Sync** | Import receipts from OneDrive and export from Smartbills |
+| **Folder Selection** | Choose specific folders for import and export |
+| **Custom Export Paths** | Template-based folder paths for exports |
 | **Auto-sync** | Automatic receipt backup |
 | **SharePoint** | Support for SharePoint sites |
 | **Organization** | Structured folder hierarchy |
-| **Search** | Receipts searchable in OneDrive |
+| **Per-Employee Folders** | Each employee can connect their own OneDrive |
+| **Business Folders** | Admin-configured shared folders for the whole business |
+| **Delta Sync** | Microsoft Graph delta API for efficient change detection |
 
 ## Setup
 
@@ -40,6 +45,28 @@ Connect OneDrive to automatically archive expense receipts and documents to your
 
 ## Configuration
 
+### Folder Configuration
+
+Add folders for import, export, or both:
+
+| Direction | Description |
+|-----------|-------------|
+| **Import** | Watch folder for new receipt files to import into Smartbills |
+| **Export** | Export Smartbills receipts to this folder |
+| **Both** | Two-way sync - import new files and export receipts |
+
+### Export Path Templates
+
+Customize where exported receipts are saved:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{year}}` | Current year | 2026 |
+| `{{month}}` | Current month | 03 |
+| `{{day}}` | Current day | 15 |
+| `{{vendor}}` | Vendor name | Starbucks |
+| `{{category}}` | Expense category | Travel |
+
 ### Folder Options
 
 | Type | Description |
@@ -52,7 +79,7 @@ Connect OneDrive to automatically archive expense receipts and documents to your
 
 ```
 Smartbills Receipts/
-├── 2025/
+├── 2026/
 │   ├── Q1/
 │   │   ├── January/
 │   │   ├── February/
@@ -66,9 +93,9 @@ Smartbills Receipts/
 
 | Option | Behavior |
 |--------|----------|
-| Real-time | Upload immediately |
-| Daily | Batch at end of day |
-| Weekly | Weekly summary upload |
+| Real-time | Upload immediately via webhooks |
+| Delta Sync | Efficient change detection via Microsoft Graph |
+| Manual | Trigger from integration settings |
 
 ### Include
 

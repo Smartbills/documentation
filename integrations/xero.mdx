@@ -11,11 +11,15 @@ Integrate Smartbills with Xero to automatically export approved expenses and kee
 
 | Feature | Description |
 |---------|-------------|
-| **Expense Export** | Export expenses to Xero as bills |
+| **Expense Export** | Export expenses to Xero as bills (ACCPAY invoices) |
+| **Expense Reports** | Sync reports as manual journal entries |
+| **Reimbursements** | Track reimbursement payments |
 | **Account Mapping** | Map categories to Xero accounts |
 | **Contact Sync** | Sync vendors as Xero contacts |
-| **Tax Rate Mapping** | Map tax codes |
+| **Tax Rate Mapping** | Map GST, HST, PST, QST, VAT tax codes |
 | **Tracking Categories** | Use Xero tracking for departments |
+| **Receipt Attachments** | Attach receipt images to invoices |
+| **Bidirectional Sync** | Import and export data both ways |
 
 ## Setup
 
@@ -79,21 +83,41 @@ Use Xero tracking for cost centers:
 
 ## Sync Behavior
 
-### Export Settings
+### What Gets Synced
 
-| Option | Description |
-|--------|-------------|
-| As Bills | Create purchase bills |
-| As Expenses | Create expense claims |
-| With Receipts | Attach receipt images |
+| Smartbills Entity | Xero Entity |
+|-------------------|-------------|
+| Business Expense | Invoice (ACCPAY) |
+| Expense Report | Manual Journal |
+| Reimbursement | Payment |
+| Vendor | Contact |
+| Receipt | Attachment |
 
-### Timing
+### Double-Entry Bookkeeping
 
-| Option | Description |
-|--------|-------------|
-| On Approval | Export when report approved |
-| Daily | Batch export daily |
-| Manual | Export on demand |
+Expense reports create proper manual journal entries:
+
+| Debit | Credit |
+|-------|--------|
+| Expense Account (per line) | Accounts Payable |
+| Tax Account (if applicable) | - |
+
+### Sync Timing
+
+| Trigger | Description |
+|---------|-------------|
+| On Approval | Automatically when approved |
+| On Reimbursement | When payment is processed |
+| Manual | Trigger from integration settings |
+| Initial Sync | Full sync on first connection |
+
+### Webhook Events
+
+| Event | Action |
+|-------|--------|
+| `InvoiceCreated` | Import new expense from Xero |
+| `InvoiceUpdated` | Update synced expense |
+| `ContactCreated` | Import new vendor |
 
 ## Troubleshooting
 

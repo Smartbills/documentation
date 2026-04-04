@@ -11,10 +11,15 @@ Connect Google Drive to automatically backup all your expense receipts and docum
 
 | Feature | Description |
 |---------|-------------|
+| **Two-way Sync** | Import receipts from Drive and export from Smartbills |
+| **Folder Selection** | Choose specific folders for import and export |
+| **Custom Export Paths** | Template-based folder paths for exports |
 | **Auto-backup** | Automatic receipt archival |
-| **Folder Organization** | Organize by date/category |
+| **Folder Organization** | Organize by date/category/vendor |
 | **Shared Drives** | Support for team drives |
-| **Search** | Find receipts in Drive |
+| **Per-Employee Folders** | Each employee can connect their own Drive |
+| **Business Folders** | Admin-configured shared folders for the whole business |
+| **Change Detection** | Webhooks detect new files in watched folders |
 
 ## Setup
 
@@ -40,13 +45,37 @@ Connect Google Drive to automatically backup all your expense receipts and docum
 
 ## Configuration
 
+### Folder Configuration
+
+Add folders for import, export, or both:
+
+| Direction | Description |
+|-----------|-------------|
+| **Import** | Watch folder for new receipt files to import into Smartbills |
+| **Export** | Export Smartbills receipts to this folder |
+| **Both** | Two-way sync - import new files and export receipts |
+
+### Export Path Templates
+
+Customize where exported receipts are saved using template variables:
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `{{year}}` | Current year | 2026 |
+| `{{month}}` | Current month | 03 |
+| `{{day}}` | Current day | 15 |
+| `{{vendor}}` | Vendor name | Starbucks |
+| `{{category}}` | Expense category | Travel |
+
+Example path: `/Receipts/{{year}}/{{month}}/{{vendor}}_{{day}}.pdf`
+
 ### Folder Structure
 
-Choose how files are organized:
+Choose how exported files are organized:
 
 | Structure | Example |
 |-----------|---------|
-| By Year/Month | `2025/01/receipt.jpg` |
+| By Year/Month | `2026/03/receipt.jpg` |
 | By Category | `Travel/receipt.jpg` |
 | By Employee | `John Smith/receipt.jpg` |
 | Flat | `receipt_12345.jpg` |
@@ -55,9 +84,9 @@ Choose how files are organized:
 
 | Template | Result |
 |----------|--------|
-| `{date}_{merchant}` | `2025-01-15_Starbucks.jpg` |
+| `{date}_{merchant}` | `2026-03-15_Starbucks.jpg` |
 | `{id}_{amount}` | `12345_$45.99.jpg` |
-| `{category}_{merchant}_{date}` | `Travel_United_2025-01-15.jpg` |
+| `{category}_{merchant}_{date}` | `Travel_United_2026-03-15.jpg` |
 
 ## Sync Behavior
 

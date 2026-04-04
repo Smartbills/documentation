@@ -1,0 +1,67 @@
+---
+title: "Trips"
+description: "Create and manage business trips, associate expenses, and track spending per journey."
+---
+
+## Creating a trip
+
+Navigate to **Travel** in the sidebar and click **New Trip**. Fill in:
+
+- **Name** — A descriptive label (e.g., "Q1 Client Visit — Toronto").
+- **Destination** — The primary destination city or region.
+- **Traveler** — The employee taking the trip.
+- **Dates** — Start and end dates for the journey.
+- **Currency** — The currency for tracking trip expenses.
+
+## Trip statuses
+
+| Status | Description |
+|---|---|
+| `PLANNED` | Trip is scheduled but hasn't started |
+| `ACTIVE` | Trip is currently in progress |
+| `COMPLETED` | Trip has ended |
+
+## Associating expenses
+
+From a trip's detail page, use **Add Expense** to link existing wallet expenses. This groups all trip-related spending under one view and calculates the total trip cost automatically.
+
+You can also associate expenses from the expense detail page by selecting the trip from the trip picker.
+
+## Per diem summary
+
+Each trip detail page shows a per diem summary that compares the traveler's actual spending against the applicable per diem policy. This helps identify over- or under-spending relative to the daily allowance.
+
+## SDK usage
+
+<CodeGroup>
+
+```typescript JavaScript
+const trips = await client.trips.list(businessId, { status: "ACTIVE" });
+
+const trip = await client.trips.create(businessId, {
+  name: "Q1 Client Visit",
+  destination: "Toronto",
+  startDate: "2026-04-01",
+  endDate: "2026-04-05",
+  travelerId: 123,
+  currency: "CAD",
+});
+
+await client.trips.addExpense(businessId, trip.id, { transactionId: 456 });
+```
+
+```csharp .NET
+var trips = await tripClient.ListAsync(businessId, new TripListRequest { Status = "ACTIVE" }, options);
+
+var trip = await tripClient.CreateAsync(new TripCreateRequest
+{
+    Name = "Q1 Client Visit",
+    Destination = "Toronto",
+    StartDate = "2026-04-01",
+    EndDate = "2026-04-05",
+    TravelerId = 123,
+    Currency = "CAD"
+}, options);
+```
+
+</CodeGroup>

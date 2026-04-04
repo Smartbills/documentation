@@ -1,0 +1,124 @@
+---
+title: "AI Assistant"
+description: "Use the Smartbills AI Assistant to manage expenses, reports, and settings through natural language conversation"
+---
+
+## What is the AI Assistant?
+
+The Smartbills AI Assistant is an intelligent conversational interface built into the dashboard. It allows you to manage your business operations — expenses, reports, invoices, bank transactions, categories, and more — by simply typing natural language requests.
+
+The assistant uses specialized sub-agents that understand your business context and can perform actions on your behalf, with built-in confirmation for destructive operations.
+
+## Key Features
+
+- **Natural language control** — Ask questions or give instructions in plain English or French
+- **Multi-domain expertise** — Handles expenses, reports, banking, settings, categories, invoices, and more
+- **Confirmation flow** — Destructive actions (deletes, updates) require your explicit approval before execution
+- **Conversation history** — Past conversations are stored and accessible for reference
+- **Real-time streaming** — Responses stream in real-time with tool execution indicators
+
+## Getting Started
+
+<Steps>
+  <Step title="Open the Assistant">
+    Click the sparkle button in the bottom-right corner of the dashboard.
+  </Step>
+  <Step title="Start a Conversation">
+    Type your request in the input field. For example: "Show me my pending expense reports" or "Create a new category called Travel."
+  </Step>
+  <Step title="Review Actions">
+    When the assistant needs to perform a destructive action (like deleting an expense), it will ask for your confirmation before proceeding.
+  </Step>
+  <Step title="Continue the Conversation">
+    You can ask follow-up questions or give additional instructions in the same conversation thread.
+  </Step>
+</Steps>
+
+## What Can You Do?
+
+| Domain | Example Requests |
+|--------|-----------------|
+| Expenses | "List my recent expenses", "Upload a receipt", "Split expense #123" |
+| Reports | "Create an expense report for March", "Submit report #45" |
+| Banking | "Show my bank transactions this month", "What's my account balance?" |
+| Categories | "Create a new category called Marketing", "List all categories" |
+| Settings | "Update my notification preferences", "Show business settings" |
+| Invoices | "List pending invoices", "Show invoice #789" |
+| Team | "Invite user@example.com as a member", "List team members" |
+
+## Confirmation Flow
+
+For any action that modifies data, the assistant will present a confirmation banner showing:
+
+- The action description (e.g., "Delete expense #123")
+- The tool being called
+- **Approve** or **Deny** buttons
+
+Only after you click **Approve** will the action be executed. Clicking **Deny** cancels the action and the assistant will acknowledge the cancellation.
+
+## API Endpoints
+
+All assistant endpoints are scoped under `/v1/assistants/chats`.
+
+### Conversations
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/v1/assistants/chats` | List conversations |
+| `GET` | `/v1/assistants/chats/{id}` | Get conversation history |
+| `POST` | `/v1/assistants/chats` | Create a new conversation |
+| `PUT` | `/v1/assistants/chats/{id}/title` | Update conversation title |
+| `DELETE` | `/v1/assistants/chats/{id}` | Delete a conversation |
+
+### Messages
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/v1/assistants/chats/{id}/messages` | Send a message (SSE stream response) |
+| `POST` | `/v1/assistants/chats/confirm` | Confirm or deny a pending action |
+
+## SDK Usage
+
+```typescript
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({ accessToken: "..." });
+
+const conversations = await client.conversations.list();
+
+const conversation = await client.conversations.create({
+  title: "March expense review",
+});
+
+const history = await client.conversations.getHistory(conversation.id);
+
+await client.conversations.confirmAction({
+  threadId: "thread_abc",
+  toolCallId: "call_xyz",
+  approved: true,
+});
+```
+
+## Server-Sent Events (SSE)
+
+When sending a message, the response is streamed as Server-Sent Events. Event types include:
+
+| Event | Description |
+|-------|-------------|
+| `token` | A text token from the assistant's response |
+| `tool_start` | The assistant has started executing a tool |
+| `tool_end` | A tool has finished executing |
+| `pending_action` | A destructive action awaits user confirmation |
+| `error` | An error occurred during processing |
+| `done` | The stream is complete |
+
+## Architecture
+
+The AI Assistant uses a multi-agent architecture:
+
+1. **Supervisor Agent** — Routes requests to the appropriate specialized agent
+2. **Business Agent** — Handles business settings, team management, categories
+3. **Expense Agent** — Manages expenses, reports, and processing jobs
+4. **Banking Agent** — Handles bank connections, accounts, and transactions
+
+All agents communicate through the main Smartbills API, which proxies requests to the agent microservice while preserving authentication context.

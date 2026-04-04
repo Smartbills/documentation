@@ -1,0 +1,38 @@
+---
+title: "Travel Management"
+description: "Manage business trips, associate expenses, and configure per diem policies."
+---
+
+## Overview
+
+Smartbills Travel lets your organization track business trips and associate expenses to specific journeys. Administrators can define per diem policies that control daily allowances for meals, lodging, and incidentals.
+
+### Key capabilities
+
+- **Trip management** — Create, update, and close trips with start/end dates, destination, and assigned traveler.
+- **Expense association** — Link wallet expenses to a trip so spending is grouped by journey.
+- **Per diem policies** — Set daily rates (flat or GSA-based) and track compliance across the organization.
+- **Status tracking** — Trips progress through `PLANNED`, `ACTIVE`, and `COMPLETED` states automatically based on dates, or can be manually updated.
+
+### Permissions
+
+| Permission | Description |
+|---|---|
+| `TRAVEL_VIEW` | View trips and travel policies |
+| `TRAVEL_MANAGE` | Create, edit, and delete trips and policies |
+
+Administrators and accountants have both permissions by default. Employees have `TRAVEL_VIEW`.
+
+### API endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/v1/businesses/{businessId}/trips` | List trips |
+| `POST` | `/v1/businesses/{businessId}/trips` | Create a trip |
+| `GET` | `/v1/businesses/{businessId}/trips/{tripId}` | Get trip details |
+| `PUT` | `/v1/businesses/{businessId}/trips/{tripId}` | Update a trip |
+| `DELETE` | `/v1/businesses/{businessId}/trips/{tripId}` | Delete a trip |
+| `POST` | `/v1/businesses/{businessId}/trips/{tripId}/expenses` | Add expense to trip |
+| `DELETE` | `/v1/businesses/{businessId}/trips/{tripId}/expenses/{expenseId}` | Remove expense from trip |
+| `GET` | `/v1/businesses/{businessId}/travel-policies` | List travel policies |
+| `POST` | `/v1/businesses/{businessId}/travel-policies` | Create a travel policy |

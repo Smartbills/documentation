@@ -1,0 +1,153 @@
+---
+title: "Sage Integration"
+description: "Connect Smartbills with Sage accounting software"
+---
+
+## Overview
+
+Integrate Smartbills with Sage Accounting to automatically sync expenses, expense reports, and reimbursements. Sage's purchase invoice API enables full double-entry bookkeeping.
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Purchase Invoices** | Export expenses as purchase invoices |
+| **Journal Entries** | Sync expense reports as journals |
+| **Payments** | Track reimbursement payments |
+| **Contact Sync** | Sync vendors as Sage contacts |
+| **Tax Rate Mapping** | Map to Sage tax rate IDs |
+| **Ledger Accounts** | Map to Sage chart of accounts |
+| **Receipt Attachments** | Attach receipt images |
+| **Bidirectional Sync** | Import and export data both ways |
+
+## Setup
+
+### Prerequisites
+
+- Sage Accounting account
+- Smartbills Business plan or higher
+- Admin access to both systems
+
+### Connect Sage
+
+<Steps>
+  <Step title="Navigate to Apps">
+    Go to **Settings > Apps** in your Smartbills dashboard
+  </Step>
+  <Step title="Find Sage">
+    Search for Sage in the marketplace
+  </Step>
+  <Step title="Click Connect">
+    Click the **Connect** button to start the OAuth flow
+  </Step>
+  <Step title="Authorize">
+    Sign in to Sage and authorize Smartbills access
+  </Step>
+  <Step title="Select Business">
+    Choose the Sage business to connect
+  </Step>
+  <Step title="Configure">
+    Set up ledger account and tax rate mappings
+  </Step>
+</Steps>
+
+## Configuration
+
+### Sync Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| Sync Expenses | Export as purchase invoices | Enabled |
+| Sync Expense Reports | Export as journal entries | Enabled |
+| Sync Reimbursements | Track payments | Enabled |
+| Auto-create Vendors | Create contacts when not found | Enabled |
+| Push on Approval | Auto-export when approved | Enabled |
+| Attach Receipts | Include receipt images | Enabled |
+
+### Tax Rate Mapping
+
+Sage uses tax rate IDs for compound tax support:
+
+| Smartbills Tax | Sage Tax Rate |
+|---------------|---------------|
+| GST (5%) | CA_GST |
+| HST (13%) | CA_HST_ON |
+| QST (9.975%) | CA_QST |
+| PST (7%) | CA_PST_BC |
+| VAT (20%) | GB_STANDARD |
+| Zero-rated | ZERO_RATED |
+
+### Ledger Account Mapping
+
+| Smartbills Category | Sage Ledger Account |
+|--------------------|---------------------|
+| Travel | Travel & Subsistence |
+| Meals | Entertainment |
+| Office Supplies | Office Stationery |
+| Software | Computer Software |
+
+## Sync Behavior
+
+### What Gets Synced
+
+| Smartbills Entity | Sage Entity |
+|-------------------|-------------|
+| Business Expense | Purchase Invoice |
+| Expense Report | Journal Entry |
+| Reimbursement | Payment |
+| Vendor | Contact |
+| Receipt | Attachment |
+
+### Double-Entry Bookkeeping
+
+Expense reports are synced as proper journal entries:
+
+| Debit | Credit |
+|-------|--------|
+| Expense Account (per line) | Accounts Payable |
+| Tax Account (if applicable) | - |
+
+Reimbursements create payment records:
+
+| Debit | Credit |
+|-------|--------|
+| Accounts Payable | Bank Account |
+
+### Sync Timing
+
+| Trigger | Description |
+|---------|-------------|
+| On Approval | Automatically when approved |
+| On Reimbursement | When payment is processed |
+| Manual | Trigger from integration settings |
+| Initial Sync | Full sync on first connection |
+
+## API Reference
+
+Sage API v3.1 endpoints used:
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /purchase_invoices` | Create expense |
+| `POST /journals` | Create journal entry |
+| `POST /contact_payments` | Record payment |
+| `GET /ledger_accounts` | Fetch chart of accounts |
+| `GET /tax_rates` | Fetch tax rates |
+| `GET /contacts` | Fetch/create vendors |
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Connection expired | Re-authorize via Settings > Apps |
+| Tax rate not found | Update tax mapping |
+| Ledger account missing | Sync chart of accounts |
+| Duplicate invoices | Check sync direction settings |
+
+<Warning>
+Sage API rate limits apply. Initial syncs with large datasets may take time.
+</Warning>
+
+<Tip>
+**Import chart of accounts first** - Sync your Sage ledger accounts before setting up category mappings.
+</Tip>

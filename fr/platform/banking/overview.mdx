@@ -1,0 +1,77 @@
+---
+title: "Aperçu bancaire"
+description: "Connectez vos comptes bancaires à Smartbills pour l'importation automatique des transactions et la réconciliation"
+---
+
+## Qu'est-ce que la fonctionnalité bancaire?
+
+La fonctionnalité bancaire de Smartbills permet aux entreprises et aux employés de connecter leurs comptes bancaires via Plaid. Une fois connectés, les transactions bancaires sont automatiquement importées et peuvent être associées aux dépenses pour une réconciliation simplifiée.
+
+## Fonctionnalités clés
+
+- **Connexions bancaires d'entreprise** — Connectez les comptes bancaires corporatifs pour importer les transactions d'affaires
+- **Connexions bancaires employés** — Les employés peuvent lier leurs comptes personnels pour associer les transactions avec leurs rapports de dépenses
+- **Synchronisation automatique** — Les transactions sont synchronisées via des webhooks lorsque de nouvelles activités surviennent
+- **Réconciliation** — Associez les transactions bancaires aux dépenses pour des dossiers prêts pour l'audit
+
+## Flux de connexion
+
+<Steps>
+  <Step title="Initier la connexion">
+    Cliquez sur « Connecter un compte bancaire » dans le tableau de bord. Cela génère un jeton Plaid Link sécurisé.
+  </Step>
+  <Step title="S'authentifier auprès de la banque">
+    Utilisez l'interface Plaid Link pour sélectionner votre banque et vous authentifier.
+  </Step>
+  <Step title="Sélectionner les comptes">
+    Choisissez les comptes à connecter de votre institution.
+  </Step>
+  <Step title="Échange de jeton">
+    Le jeton public est échangé contre un jeton d'accès sécurisé stocké de manière chiffrée sur nos serveurs.
+  </Step>
+  <Step title="Synchronisation initiale">
+    Une synchronisation initiale est déclenchée pour récupérer les transactions récentes dans Smartbills.
+  </Step>
+  <Step title="Synchronisation continue">
+    Plaid envoie des webhooks lorsque de nouvelles transactions sont disponibles, déclenchant des synchronisations automatiques.
+  </Step>
+</Steps>
+
+## Connexions entreprise vs employé
+
+| Fonctionnalité | Connexion entreprise | Connexion employé |
+|----------------|---------------------|-------------------|
+| Portée | Comptes corporatifs de l'entreprise | Comptes personnels de l'employé |
+| Visibilité | Visible par les administrateurs et l'équipe financière | Visible uniquement par l'employé |
+| Cas d'utilisation | Réconciliation de cartes corporatives | Association aux rapports de dépenses |
+
+## Points de terminaison API
+
+### Banques
+
+| Méthode | Point de terminaison | Description |
+|---------|---------------------|-------------|
+| `GET` | `/v1/banks` | Lister les banques connectées |
+| `GET` | `/v1/banks/{id}` | Obtenir une banque par ID |
+| `GET` | `/v1/banks/link/token` | Obtenir un jeton Plaid Link |
+| `POST` | `/v1/banks/connect` | Connecter une banque |
+| `POST` | `/v1/banks/disconnect` | Déconnecter une banque |
+| `POST` | `/v1/banks/{id}/sync` | Déclencher une synchronisation manuelle |
+
+### Comptes bancaires
+
+| Méthode | Point de terminaison | Description |
+|---------|---------------------|-------------|
+| `GET` | `/v1/bank-accounts` | Lister les comptes bancaires |
+| `GET` | `/v1/bank-accounts/{id}` | Obtenir un compte par ID |
+| `GET` | `/v1/bank-accounts/{id}/transactions` | Lister les transactions du compte |
+| `GET` | `/v1/bank-accounts/{id}/balance` | Obtenir le solde du compte |
+
+### Transactions bancaires
+
+| Méthode | Point de terminaison | Description |
+|---------|---------------------|-------------|
+| `GET` | `/v1/bank-transactions` | Lister les transactions bancaires |
+| `GET` | `/v1/bank-transactions/{id}` | Obtenir une transaction par ID |
+| `PUT` | `/v1/bank-transactions/{id}` | Mettre à jour une transaction |
+| `POST` | `/v1/bank-transactions/{id}/receipt` | Associer un reçu à une transaction |

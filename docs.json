@@ -53,7 +53,11 @@
               { "group": "Email Inbox", "pages": ["platform/inbox/overview", "platform/inbox/email-providers"] },
               { "group": "Workflows", "pages": ["platform/workflows/overview", "platform/workflows/create", "platform/workflows/triggers", "platform/workflows/actions"] },
               { "group": "Mobile App", "pages": ["platform/mobile/overview", "platform/mobile/receipt-scanning"] },
-              { "group": "Settings", "pages": ["platform/settings/overview", "platform/settings/users", "platform/settings/categories", "platform/settings/departments", "platform/settings/delegations"] }
+              { "group": "Settings", "pages": ["platform/settings/overview", "platform/settings/users", "platform/settings/categories", "platform/settings/departments", "platform/settings/delegations"] },
+              { "group": "Travel", "pages": ["platform/travel/overview", "platform/travel/trips", "platform/travel/per-diem-policies"] },
+              { "group": "Budgets", "pages": ["platform/budgets/overview", "platform/budgets/manage", "platform/budgets/notifications"] },
+              { "group": "Banking", "pages": ["platform/banking/overview"] },
+              { "group": "AI Assistant", "pages": ["platform/ai-assistant/overview"] }
             ]
           },
           {
@@ -74,7 +78,7 @@
             "tab": "Integrations",
             "groups": [
               { "group": "Integrations", "pages": ["integrations/overview"] },
-              { "group": "Accounting", "pages": ["integrations/quickbooks", "integrations/xero"] },
+              { "group": "Accounting", "pages": ["integrations/quickbooks", "integrations/xero", "integrations/freshbooks", "integrations/sage"] },
               { "group": "Point of Sale", "pages": ["integrations/shopify", "integrations/square", "integrations/clover", "integrations/lightspeed"] },
               { "group": "Communication", "pages": ["integrations/slack", "integrations/microsoft-teams"] },
               { "group": "Cloud Storage", "pages": ["integrations/google-drive", "integrations/onedrive"] },
@@ -133,7 +137,11 @@
               { "group": "Boîte de Réception", "pages": ["fr/platform/inbox/overview", "fr/platform/inbox/email-providers"] },
               { "group": "Automatisations", "pages": ["fr/platform/workflows/overview", "fr/platform/workflows/create", "fr/platform/workflows/triggers", "fr/platform/workflows/actions"] },
               { "group": "Application Mobile", "pages": ["fr/platform/mobile/overview", "fr/platform/mobile/receipt-scanning"] },
-              { "group": "Paramètres", "pages": ["fr/platform/settings/overview", "fr/platform/settings/users", "fr/platform/settings/categories", "fr/platform/settings/departments", "fr/platform/settings/delegations"] }
+              { "group": "Paramètres", "pages": ["fr/platform/settings/overview", "fr/platform/settings/users", "fr/platform/settings/categories", "fr/platform/settings/departments", "fr/platform/settings/delegations"] },
+              { "group": "Voyages", "pages": ["fr/platform/travel/overview", "fr/platform/travel/trips", "fr/platform/travel/per-diem-policies"] },
+              { "group": "Budgets", "pages": ["fr/platform/budgets/overview", "fr/platform/budgets/manage", "fr/platform/budgets/notifications"] },
+              { "group": "Bancaire", "pages": ["fr/platform/banking/overview"] },
+              { "group": "Assistant IA", "pages": ["fr/platform/ai-assistant/overview"] }
             ]
           },
           {
@@ -154,7 +162,7 @@
             "tab": "Intégrations",
             "groups": [
               { "group": "Intégrations", "pages": ["fr/integrations/overview"] },
-              { "group": "Comptabilité", "pages": ["fr/integrations/quickbooks", "fr/integrations/xero"] },
+              { "group": "Comptabilité", "pages": ["fr/integrations/quickbooks", "fr/integrations/xero", "fr/integrations/freshbooks", "fr/integrations/sage"] },
               { "group": "Point de Vente", "pages": ["fr/integrations/shopify", "fr/integrations/square", "fr/integrations/clover", "fr/integrations/lightspeed"] },
               { "group": "Communication", "pages": ["fr/integrations/slack", "fr/integrations/microsoft-teams"] },
               { "group": "Stockage Cloud", "pages": ["fr/integrations/google-drive", "fr/integrations/onedrive"] },

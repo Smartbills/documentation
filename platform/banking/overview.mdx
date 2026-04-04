@@ -1,0 +1,114 @@
+---
+title: "Banking Overview"
+description: "Connect bank accounts to Smartbills for automatic transaction import and reconciliation"
+---
+
+## What is Banking?
+
+The Banking feature in Smartbills allows businesses and employees to connect their bank accounts through Plaid. Once connected, bank transactions are automatically imported and can be matched with expenses for seamless reconciliation.
+
+## Key Features
+
+- **Business bank connections** — Connect corporate bank accounts to import business transactions
+- **Employee bank connections** — Employees can link personal accounts to match transactions with expense reports
+- **Automatic sync** — Transactions are synced via webhooks whenever new activity occurs
+- **Reconciliation** — Match bank transactions to expenses for audit-ready records
+
+## Connection Flow
+
+<Steps>
+  <Step title="Initiate Connection">
+    Click "Connect Bank Account" in the dashboard. This generates a secure Plaid Link token.
+  </Step>
+  <Step title="Authenticate with Bank">
+    Use the Plaid Link interface to select your bank and authenticate with your credentials.
+  </Step>
+  <Step title="Select Accounts">
+    Choose which accounts to connect from your institution.
+  </Step>
+  <Step title="Exchange Token">
+    The public token is exchanged for a secure access token stored encrypted on our servers.
+  </Step>
+  <Step title="Initial Sync">
+    An initial transaction sync is triggered to pull recent transactions into Smartbills.
+  </Step>
+  <Step title="Ongoing Sync">
+    Plaid sends webhooks when new transactions are available, triggering automatic syncs.
+  </Step>
+</Steps>
+
+## Business vs Employee Connections
+
+| Feature | Business Connection | Employee Connection |
+|---------|-------------------|-------------------|
+| Scope | Business-wide corporate accounts | Personal employee accounts |
+| Visibility | Visible to admins and finance team | Visible only to the employee |
+| Use Case | Corporate card reconciliation | Expense report matching |
+| BusinessId | Set to the business | Optional or null |
+
+## API Endpoints
+
+### Banks
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/v1/banks` | List connected banks |
+| `GET` | `/v1/banks/{id}` | Get bank by ID |
+| `GET` | `/v1/banks/link/token` | Get Plaid Link token |
+| `POST` | `/v1/banks/connect` | Connect a bank (exchange public token) |
+| `POST` | `/v1/banks/disconnect` | Disconnect a bank |
+| `POST` | `/v1/banks/{id}/sync` | Trigger manual sync |
+
+### Bank Accounts
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/v1/bank-accounts` | List bank accounts |
+| `GET` | `/v1/bank-accounts/{id}` | Get bank account by ID |
+| `GET` | `/v1/bank-accounts/{id}/transactions` | List account transactions |
+| `GET` | `/v1/bank-accounts/{id}/balance` | Get account balance |
+
+### Bank Transactions
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/v1/bank-transactions` | List bank transactions |
+| `GET` | `/v1/bank-transactions/{id}` | Get transaction by ID |
+| `PUT` | `/v1/bank-transactions/{id}` | Update transaction |
+| `POST` | `/v1/bank-transactions/{id}/receipt` | Associate receipt with transaction |
+
+## SDK Usage
+
+```typescript
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({ accessToken: "..." });
+
+const linkToken = await client.banks.getLinkToken();
+
+const bank = await client.banks.connect({
+  publicToken: "public-sandbox-...",
+  institutionId: "ins_3",
+  institutionName: "Chase",
+  accounts: [{ id: "acc_1", name: "Checking", type: "depository" }],
+});
+
+const transactions = await client.bankTransactions.list({
+  startDate: "2026-01-01",
+  endDate: "2026-03-30",
+});
+```
+
+## Webhook Events
+
+Smartbills uses an event-driven architecture for bank synchronization:
+
+| Event | Description |
+|-------|-------------|
+| `plaid.webhook.received` | Raw Plaid webhook received |
+| `plaid.transaction_sync.requested` | Transaction sync initiated |
+| `plaid.transaction.created` | Individual transaction processed |
+| `bank.connection.transactions_synced` | Sync batch completed |
+| `bank.connection.error` | Connection error occurred |
+| `bank.connection.login_required` | Re-authentication needed |
+| `bank.connection.disconnected` | Bank disconnected |

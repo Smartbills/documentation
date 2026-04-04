@@ -1,0 +1,57 @@
+---
+title: "Politiques de per diem"
+description: "Configurez les politiques d'indemnités journalières pour les voyages d'affaires."
+---
+
+## Aperçu
+
+Les politiques de per diem définissent l'indemnité journalière maximale qu'un employé peut réclamer en voyage. Smartbills prend en charge les configurations de per diem à taux fixe et basées sur les taux GSA.
+
+## Créer une politique
+
+Naviguez vers **Voyages > Politiques** et cliquez sur **Créer une politique**.
+
+### Paramètres de la politique
+
+- **Nom** — Un nom descriptif (ex. : « Voyage domestique standard »).
+- **Par défaut** — Marquer comme politique par défaut appliquée aux nouveaux voyages.
+
+### Règles de per diem
+
+Chaque politique contient une ou plusieurs règles de per diem :
+
+| Champ | Description |
+|---|---|
+| **Taux journalier par défaut** | Le montant de l'indemnité journalière forfaitaire |
+| **Type d'indemnité** | `FLAT_RATE` ou `GSA_RATE` |
+| **Ajustement du taux GSA** | Pour les taux basés sur GSA : `FULL`, `SEVENTY_FIVE_PERCENT` ou `FIFTY_PERCENT` |
+| **Catégories de suivi** | Les catégories de dépenses comptabilisées dans le per diem (repas, frais accessoires, etc.) |
+
+### Taux GSA
+
+Lors de l'utilisation du per diem basé sur GSA, le taux journalier est déterminé par la destination du voyage en utilisant les taux de la General Services Administration des États-Unis. Vous pouvez appliquer un facteur d'ajustement pour moduler le taux.
+
+## Utilisation du SDK
+
+<CodeGroup>
+
+```typescript JavaScript
+const policies = await client.travelPolicies.list(businessId);
+
+const policy = await client.travelPolicies.create(businessId, {
+  name: "Domestique standard",
+  isDefault: true,
+});
+```
+
+```csharp .NET
+var policies = await travelPolicyClient.ListAsync(businessId, options);
+
+var policy = await travelPolicyClient.CreateAsync(new TravelPolicyCreateRequest
+{
+    Name = "Domestique standard",
+    IsDefault = true
+}, options);
+```
+
+</CodeGroup>

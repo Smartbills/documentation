@@ -1,0 +1,78 @@
+---
+title: "Gestion des budgets"
+description: "Créez, configurez et suivez les budgets de votre organisation."
+---
+
+## Créer un budget
+
+Naviguez vers **Budgets** dans la barre latérale et cliquez sur **Créer un budget**.
+
+### Champs requis
+
+- **Nom** — Un libellé descriptif (ex. : « Budget marketing T2 »).
+- **Budget total** — Le montant total alloué.
+- **Devise** — La devise du budget.
+- **Date de début / Date de fin** — La période du budget.
+
+## Statuts des budgets
+
+| Statut | Description |
+|---|---|
+| `ACTIVE` | Le budget est dans sa période et accepte les dépenses |
+| `DRAFT` | Le budget est en préparation mais pas encore actif |
+| `CLOSED` | La période du budget est terminée |
+| `OVER_BUDGET` | Les dépenses ont dépassé le budget total |
+
+## Catégories
+
+Divisez un budget en catégories pour suivre les dépenses de manière plus granulaire. Chaque catégorie a son propre montant alloué et suit les dépenses réelles indépendamment.
+
+Depuis la page de détail du budget, cliquez sur **Ajouter une catégorie** et spécifiez :
+- **Nom** — Libellé de la catégorie.
+- **Montant alloué** — La portion du budget total assignée à cette catégorie.
+
+## Métriques d'utilisation
+
+Chaque budget affiche :
+- **Réels** — Total des dépenses confirmées.
+- **Engagés** — Montants approuvés mais pas encore finalisés.
+- **Restant** — Budget moins les réels et les engagés.
+- **Utilisation %** — Pourcentage du budget consommé.
+
+Une barre de progression visualise l'utilisation, passant à l'orange à 75 % et au rouge à 100 %.
+
+## Utilisation du SDK
+
+<CodeGroup>
+
+```typescript JavaScript
+const budgets = await client.budgets.list(businessId, { status: "ACTIVE" });
+
+const budget = await client.budgets.create(businessId, {
+  name: "Marketing T2",
+  totalBudget: 50000,
+  currency: "CAD",
+  startDate: "2026-04-01",
+  endDate: "2026-06-30",
+});
+
+await client.budgets.createCategory(businessId, budget.id, {
+  name: "Publicité",
+  allocatedAmount: 20000,
+});
+```
+
+```csharp .NET
+var budgets = await budgetClient.ListAsync(businessId, new BudgetListRequest { Status = "ACTIVE" }, options);
+
+var budget = await budgetClient.CreateAsync(new BudgetCreateRequest
+{
+    Name = "Marketing T2",
+    TotalBudget = 50000,
+    Currency = "CAD",
+    StartDate = "2026-04-01",
+    EndDate = "2026-06-30"
+}, options);
+```
+
+</CodeGroup>

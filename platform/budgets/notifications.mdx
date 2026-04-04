@@ -1,0 +1,51 @@
+---
+title: "Budget Notifications"
+description: "Set up threshold-based alerts to stay ahead of budget overruns."
+---
+
+## Overview
+
+Budget notifications alert stakeholders when spending reaches predefined thresholds. This helps prevent surprise overruns and enables proactive budget management.
+
+## Setting up notifications
+
+From a budget's **Settings** page:
+
+1. Click **Add Notification**.
+2. Enter a **threshold percentage** (e.g., 75, 90, 100).
+3. Save. The notification fires when actual spending crosses that percentage of the total budget.
+
+### Common thresholds
+
+| Threshold | Purpose |
+|---|---|
+| 50% | Early awareness of spending pace |
+| 75% | Warning that budget is being consumed quickly |
+| 90% | Urgent alert before budget exhaustion |
+| 100% | Budget fully consumed |
+
+## Notification delivery
+
+Notifications are delivered through the Smartbills notification system. Depending on your configuration, alerts may appear as:
+- In-app notifications
+- Email alerts
+- Push notifications (mobile)
+
+## SDK usage
+
+<CodeGroup>
+
+```typescript JavaScript
+await client.budgets.createNotification(businessId, budgetId, {
+  thresholdPercentage: 75,
+});
+
+await client.budgets.deleteNotification(businessId, budgetId, notificationId);
+```
+
+```csharp .NET
+// Notification management is handled through the budget settings UI
+// or via the API endpoints directly.
+```
+
+</CodeGroup>

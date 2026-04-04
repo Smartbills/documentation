@@ -1,0 +1,116 @@
+---
+title: "Intégration Sage"
+description: "Connectez Smartbills avec le logiciel comptable Sage"
+---
+
+## Aperçu
+
+Intégrez Smartbills avec Sage Accounting pour synchroniser automatiquement les dépenses, les rapports de dépenses et les remboursements. L'API de factures d'achat de Sage permet une comptabilité en partie double complète.
+
+## Fonctionnalités
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Factures d'achat** | Exporter les dépenses comme factures d'achat |
+| **Écritures de journal** | Synchroniser les rapports comme journaux |
+| **Paiements** | Suivre les paiements de remboursement |
+| **Sync des contacts** | Synchroniser les fournisseurs comme contacts Sage |
+| **Mapping des taux de taxe** | Mapper vers les IDs de taux de taxe Sage |
+| **Comptes du grand livre** | Mapper vers le plan comptable Sage |
+| **Pièces jointes** | Joindre les images de reçus |
+| **Sync bidirectionnelle** | Importer et exporter les données dans les deux sens |
+
+## Configuration
+
+### Prérequis
+
+- Compte Sage Accounting
+- Plan Smartbills Entreprise ou supérieur
+- Accès administrateur aux deux systèmes
+
+### Connecter Sage
+
+<Steps>
+  <Step title="Naviguer vers les applications">
+    Allez dans **Paramètres > Applications** dans votre tableau de bord Smartbills
+  </Step>
+  <Step title="Trouver Sage">
+    Recherchez Sage dans le marketplace
+  </Step>
+  <Step title="Cliquer sur Connecter">
+    Cliquez sur le bouton **Connecter** pour démarrer le flux OAuth
+  </Step>
+  <Step title="Autoriser">
+    Connectez-vous à Sage et autorisez l'accès Smartbills
+  </Step>
+  <Step title="Sélectionner l'entreprise">
+    Choisissez l'entreprise Sage à connecter
+  </Step>
+  <Step title="Configurer">
+    Configurez les mappings de comptes et de taux de taxe
+  </Step>
+</Steps>
+
+## Paramètres de synchronisation
+
+| Paramètre | Description | Par défaut |
+|-----------|-------------|------------|
+| Sync des dépenses | Exporter comme factures d'achat | Activé |
+| Sync des rapports | Exporter comme écritures de journal | Activé |
+| Sync des remboursements | Suivre les paiements | Activé |
+| Créer auto les fournisseurs | Créer les contacts manquants | Activé |
+| Envoyer à l'approbation | Auto-exporter à l'approbation | Activé |
+| Joindre les reçus | Inclure les images de reçus | Activé |
+
+## Mapping des taux de taxe
+
+| Taxe Smartbills | Taux de taxe Sage |
+|-----------------|-------------------|
+| TPS (5%) | CA_GST |
+| TVH (13%) | CA_HST_ON |
+| TVQ (9,975%) | CA_QST |
+| TVP (7%) | CA_PST_BC |
+| TVA (20%) | GB_STANDARD |
+| Taux zéro | ZERO_RATED |
+
+## Comptabilité en partie double
+
+Les rapports de dépenses sont synchronisés comme écritures de journal :
+
+| Débit | Crédit |
+|-------|--------|
+| Compte de dépenses (par ligne) | Comptes fournisseurs |
+| Compte de taxe (si applicable) | - |
+
+Les remboursements créent des enregistrements de paiement :
+
+| Débit | Crédit |
+|-------|--------|
+| Comptes fournisseurs | Compte bancaire |
+
+## Comportement de synchronisation
+
+| Entité Smartbills | Entité Sage |
+|-------------------|-------------|
+| Dépense d'entreprise | Facture d'achat |
+| Rapport de dépenses | Écriture de journal |
+| Remboursement | Paiement |
+| Fournisseur | Contact |
+| Reçu | Pièce jointe |
+
+## Dépannage
+
+| Problème | Solution |
+|----------|----------|
+| Connexion expirée | Réautoriser via Paramètres > Applications |
+| Taux de taxe introuvable | Mettre à jour le mapping des taxes |
+| Compte du grand livre manquant | Synchroniser le plan comptable |
+| Factures en double | Vérifier les paramètres de direction de sync |
+
+<Warning>
+Les limites de taux de l'API Sage s'appliquent. Les synchronisations initiales avec de grands ensembles de données peuvent prendre du temps.
+</Warning>
+
+<Tip>
+**Importez le plan comptable d'abord** - Synchronisez vos comptes du grand livre Sage avant de configurer les mappings de catégories.
+</Tip>

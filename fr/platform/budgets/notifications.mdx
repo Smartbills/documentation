@@ -1,0 +1,51 @@
+---
+title: "Notifications de budget"
+description: "Configurez des alertes basées sur des seuils pour anticiper les dépassements de budget."
+---
+
+## Aperçu
+
+Les notifications de budget alertent les parties prenantes lorsque les dépenses atteignent des seuils prédéfinis. Cela aide à prévenir les dépassements imprévus et permet une gestion proactive du budget.
+
+## Configurer les notifications
+
+Depuis la page **Paramètres** d'un budget :
+
+1. Cliquez sur **Ajouter une notification**.
+2. Entrez un **pourcentage de seuil** (ex. : 75, 90, 100).
+3. Enregistrez. La notification se déclenche lorsque les dépenses réelles franchissent ce pourcentage du budget total.
+
+### Seuils courants
+
+| Seuil | Objectif |
+|---|---|
+| 50 % | Sensibilisation précoce au rythme des dépenses |
+| 75 % | Avertissement que le budget est consommé rapidement |
+| 90 % | Alerte urgente avant épuisement du budget |
+| 100 % | Budget entièrement consommé |
+
+## Livraison des notifications
+
+Les notifications sont livrées via le système de notifications Smartbills. Selon votre configuration, les alertes peuvent apparaître sous forme de :
+- Notifications dans l'application
+- Alertes par courriel
+- Notifications push (mobile)
+
+## Utilisation du SDK
+
+<CodeGroup>
+
+```typescript JavaScript
+await client.budgets.createNotification(businessId, budgetId, {
+  thresholdPercentage: 75,
+});
+
+await client.budgets.deleteNotification(businessId, budgetId, notificationId);
+```
+
+```csharp .NET
+// La gestion des notifications se fait via l'interface de paramètres du budget
+// ou directement via les points d'accès API.
+```
+
+</CodeGroup>
