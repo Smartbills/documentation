@@ -1,55 +1,202 @@
 ---
 title: "Sync Issues"
-description: "Resolve data sync problems between devices, apps, and integrations"
+description: "Resolve data synchronization problems between devices, platforms, and integrations in Smartbills"
 ---
 
-## Common Issues
+<img
+  className="block"
+  src="/images/help-center/troubleshooting/sync-issues-hero.png"
+  alt="Sync Issues"
+/>
 
-### Data Not Appearing
+## Overview
+
+Smartbills synchronizes your data in real time across web, iOS, and Android using persistent connections (SignalR). Data created or modified on one platform should appear on all others within seconds. This guide helps you diagnose and resolve synchronization problems between devices, platforms, and third-party integrations.
+
+## Mobile App Not Syncing
 
 <AccordionGroup>
-  <Accordion title="New expenses not showing">
-    - Pull to refresh (mobile) or press F5 (web)
-    - Check that you're viewing the correct business — switch using the business selector
-    - Verify the expense was uploaded to the right account (personal vs business)
+  <Accordion title="Data not appearing on mobile" icon="mobile">
+    **Symptoms:** Expenses, reports, or changes made on the web do not appear on your mobile device.
+
+    **Solutions:**
+
+    1. **Check your internet connection** -- ensure WiFi or cellular data is active and working
+    2. **Pull to refresh** -- on any list screen, pull down to force a sync
+    3. **Check the correct business** -- ensure you are viewing the correct business using the business selector at the top
+    4. **Sign out and sign back in** -- this forces a full data refresh
+       - Go to **Menu** > **Sign Out**
+       - Sign back in with your credentials
+    5. **Update the app** -- install the latest version from the App Store or Google Play
+    6. **Reinstall the app** -- as a last resort, delete and reinstall the app (your data is safe in the cloud)
   </Accordion>
 
-  <Accordion title="Changes not reflecting across devices">
-    - Changes sync in real-time when connected to the internet
-    - On mobile, ensure the app isn't in offline mode
-    - Sign out and back in to force a full refresh
+  <Accordion title="Offline changes not uploading" icon="wifi-slash">
+    **Symptoms:** Expenses created or edited while offline are not syncing after reconnecting to the internet.
+
+    **Solutions:**
+
+    1. **Check the sync queue** -- go to **Menu** > **Settings** > **Sync Status** to see pending uploads
+    2. **Ensure WiFi or cellular data is enabled** -- the app cannot sync without an active internet connection
+    3. **Wait for sync to complete** -- large queues of offline changes may take several minutes to upload
+    4. **Do not delete the app** -- uninstalling the app before offline changes have synced will result in data loss
+    5. **Force sync** -- on the sync status screen, tap **Sync Now** to manually trigger the upload
+
+    <Warning>
+      Do not uninstall or clear app data while offline changes are pending. This will permanently delete unsynced data.
+    </Warning>
   </Accordion>
 
-  <Accordion title="Integration data out of sync">
-    If data isn't syncing to QuickBooks, Xero, or other integrations:
-    - Check the integration status in **Settings** → **Integrations**
-    - Re-authorize the integration if the connection expired
-    - Verify account mappings are still valid
-    - Check for sync errors in the integration detail page
+  <Accordion title="Mobile showing stale or old data" icon="clock">
+    **Symptoms:** The mobile app displays outdated information even though changes were made recently.
+
+    **Solutions:**
+
+    1. **Pull to refresh** on the relevant screen
+    2. **Close and reopen the app** to re-establish the real-time connection
+    3. **Check your timezone settings** -- incorrect timezone can make recent entries appear out of order
+    4. **Clear app cache** (Android: device Settings > Apps > Smartbills > Storage > Clear Cache)
+    5. **Check available storage** -- low device storage can prevent the app from caching updated data
   </Accordion>
 </AccordionGroup>
 
-### Mobile App Sync
+## Web and Mobile Data Mismatch
 
-If the mobile app isn't syncing:
+<AccordionGroup>
+  <Accordion title="Data missing between web and mobile" icon="arrows-rotate">
+    **Symptoms:** Data visible on one platform is missing on the other.
 
-1. **Check connectivity** — Ensure you have a stable internet connection
-2. **Force sync** — Pull down to refresh on any list screen
-3. **Check pending uploads** — Look for a pending upload indicator
-4. **Update the app** — Install the latest version from the App Store or Google Play
-5. **Reinstall** — As a last resort, uninstall and reinstall the app
+    **Solutions:**
 
-### Real-Time Updates
+    1. **Allow time for sync** -- while sync is typically instant, brief delays can occur during high server load
+    2. **Force refresh on both platforms:**
+       - Web: Press `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac) for a hard refresh
+       - Mobile: Pull to refresh on the list screen
+    3. **Verify the same business** -- ensure both platforms are showing the same business workspace
+    4. **Check expense status** -- drafts and processing expenses may appear differently across platforms
+    5. **Sign out and back in** on the platform where data is missing
+  </Accordion>
 
-Smartbills uses real-time connections (SignalR) to push updates instantly. If real-time updates stop working:
+  <Accordion title="Real-time updates stopped working" icon="signal-slash">
+    **Symptoms:** Changes made on one device no longer appear automatically on another. You must manually refresh to see updates.
 
-- Check your internet connection
-- Disable VPNs or proxies that may block WebSocket connections
-- Refresh the page to re-establish the connection
+    **Solutions:**
+
+    Smartbills uses SignalR for real-time push updates. If real-time sync stops:
+
+    1. **Refresh the page** (web) or **close and reopen the app** (mobile) to re-establish the connection
+    2. **Check your internet connection** -- real-time sync requires a stable connection
+    3. **Disable VPN or proxy** -- some VPN configurations and corporate proxies block WebSocket connections required for real-time updates
+    4. **Check firewall settings** -- corporate firewalls may block WebSocket traffic. Contact your IT administrator to allow connections to `*.smartbills.io`
+    5. **Try a different network** -- switch between WiFi and cellular to test
+  </Accordion>
+</AccordionGroup>
+
+## Integration Sync Issues
+
+<AccordionGroup>
+  <Accordion title="Integration sync failed" icon="plug-circle-xmark">
+    **Symptoms:** Data is not syncing between Smartbills and your connected integration (QuickBooks, Xero, Slack, etc.).
+
+    **Solutions:**
+
+    1. **Check connection status:**
+       - Go to **Settings** > **Integrations**
+       - Verify the integration shows a **Connected** status
+       - If it shows **Disconnected** or **Error**, reconnect the integration
+
+    2. **Reconnect the integration:**
+       - Click **Disconnect** on the integration
+       - Click **Connect** to re-authorize
+       - Follow the OAuth flow to re-establish the connection
+
+    3. **Review error logs:**
+       - Click on the integration to view the detail page
+       - Check the **Sync History** or **Error Log** section
+       - Look for specific error messages that indicate the issue
+
+    4. **Verify account mappings:**
+       - Ensure categories, accounts, and tax codes are properly mapped
+       - Unmapped items will not sync
+
+    5. **Check the integration provider:**
+       - Verify your QuickBooks, Xero, or other service is operational
+       - Check for outages at the provider's status page
+  </Accordion>
+
+  <Accordion title="Duplicate entries in accounting software" icon="clone">
+    **Symptoms:** The same expense or report appears multiple times in your accounting software.
+
+    **Solutions:**
+
+    1. Check if the expense was manually entered in the accounting software in addition to being synced
+    2. Review sync settings to ensure automatic sync is not duplicating manual exports
+    3. Delete the duplicate entry in the accounting software (not in Smartbills)
+    4. If duplicates continue, disconnect and reconnect the integration, then resync
+  </Accordion>
+
+  <Accordion title="Sync is delayed" icon="hourglass-half">
+    **Symptoms:** Data appears in Smartbills but takes a long time to appear in the connected integration.
+
+    **Solutions:**
+
+    1. **Check sync frequency** -- some integrations sync periodically (e.g., every 15 minutes) rather than in real time
+    2. **Trigger a manual sync** -- go to **Settings** > **Integrations** > select the integration > click **Sync Now**
+    3. **Check the sync queue** -- large batches of data may take longer to process
+    4. **Verify rate limits** -- accounting APIs have rate limits. If you are syncing a large volume of data, the process may be throttled
+  </Accordion>
+</AccordionGroup>
+
+## General Troubleshooting
+
+<Steps>
+  <Step title="Check Smartbills system status">
+    Visit [status.smartbills.io](https://status.smartbills.io) to check if there are any ongoing service issues or maintenance windows affecting sync.
+  </Step>
+
+  <Step title="Verify internet connection">
+    Test your connection by loading another website. If your connection is unstable, sync issues are expected. Switch between WiFi and cellular data to test.
+  </Step>
+
+  <Step title="Update to the latest version">
+    Ensure you are using the latest version of the Smartbills web app or mobile app. Older versions may have known sync bugs that have been fixed.
+  </Step>
+
+  <Step title="Clear cache and data">
+    - **Web**: Clear browser cache and cookies for `app.smartbills.io`
+    - **Mobile (Android)**: Clear app cache in device Settings > Apps > Smartbills
+    - **Mobile (iOS)**: Delete and reinstall the app (ensure offline data is synced first)
+  </Step>
+
+  <Step title="Sign out and sign back in">
+    Signing out and back in forces a full data refresh and re-establishes all sync connections.
+  </Step>
+</Steps>
 
 ## Still Having Issues?
 
-Contact [support@smartbills.io](mailto:support@smartbills.io) and include:
-- Which data is not syncing
-- Which devices/platforms are affected
-- When the issue started
+If you have tried the solutions above and data sync problems persist, contact our support team:
+
+- **Email**: [support@smartbills.io](mailto:support@smartbills.io)
+- **Live Chat**: Available in the app (bottom right corner)
+- **Include the following in your support request:**
+  - Which data is not syncing (expenses, reports, integration data)
+  - Which platforms are affected (web, iOS, Android, integration name)
+  - When the issue started
+  - Whether you are on a corporate network with firewall or proxy
+  - Screenshots of any error messages
+
+<CardGroup cols={2}>
+  <Card title="Offline Mode" icon="wifi-slash" href="/help-center/mobile/offline-mode">
+    Understand offline data sync
+  </Card>
+  <Card title="Integrations" icon="plug" href="/help-center/integrations/quickbooks">
+    Set up and manage integrations
+  </Card>
+  <Card title="Upload Problems" icon="cloud-arrow-up" href="/help-center/troubleshooting/upload-problems">
+    Fix receipt upload issues
+  </Card>
+  <Card title="Login Problems" icon="right-to-bracket" href="/help-center/troubleshooting/login-problems">
+    Troubleshoot sign-in issues
+  </Card>
+</CardGroup>

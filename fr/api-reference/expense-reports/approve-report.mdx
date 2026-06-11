@@ -1,0 +1,278 @@
+---
+title: "Approuver un rapport de dépenses"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/approve"
+description: "Approuver un rapport de dépenses soumis avec des détails d'approbation optionnels par dépense"
+---
+
+## Aperçu
+
+Approuver un rapport de dépenses soumis. Vous pouvez approuver le montant total du rapport, ou fournir un montant approuvé différent avec des détails d'approbation par dépense pour les approbations partielles.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses à approuver
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="approvedAmount" type="number">
+  Le montant total approuvé. Si omis, le montant total du rapport est approuvé. Utilisez une valeur différente pour les approbations partielles.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notes d'approbation visibles par le soumetteur
+
+  Exemple : `"Approved. Please use corporate card for future hotel bookings."`
+</ParamField>
+
+<ParamField body="expenseApprovals" type="array">
+  Tableau de détails d'approbation par dépense pour un contrôle granulaire
+
+  <Expandable title="Objet Approbation de dépense">
+    <ParamField body="expenseId" type="integer" required>
+      L'identifiant de la transaction approuvée ou ajustée
+    </ParamField>
+
+    <ParamField body="approvedAmount" type="number">
+      Le montant approuvé pour cette transaction spécifique
+    </ParamField>
+
+    <ParamField body="notes" type="string">
+      Notes pour cette transaction spécifique
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Réponse
+
+Retourne le rapport de dépenses mis à jour avec les détails d'approbation.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du rapport de dépenses
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Titre du rapport
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut du rapport (sera `approved` ou `partially_approved`)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Montant total original du rapport
+</ResponseField>
+
+<ResponseField name="approvedAmount" type="number">
+  Montant approuvé
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Code de devise
+</ResponseField>
+
+<ResponseField name="approvedBy" type="integer">
+  Identifiant de l'utilisateur approbateur
+</ResponseField>
+
+<ResponseField name="approvedAt" type="string">
+  Horodatage d'approbation du rapport (ISO 8601)
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notes d'approbation
+</ResponseField>
+
+<ResponseField name="expenseApprovals" type="array">
+  Détails d'approbation par dépense
+
+  <Expandable title="Objet Approbation de dépense">
+    <ResponseField name="expenseId" type="integer">
+      Identifiant de la transaction
+    </ResponseField>
+
+    <ResponseField name="approvedAmount" type="number">
+      Montant approuvé pour cette transaction
+    </ResponseField>
+
+    <ResponseField name="notes" type="string">
+      Notes pour cette transaction
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+# Approbation complète
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approve \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "notes": "Approved for reimbursement"
+  }'
+
+# Approbation partielle avec détails par dépense
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approve \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "approvedAmount": 1034.56,
+    "notes": "Meal expense adjusted to policy limit",
+    "expenseApprovals": [
+      {
+        "expenseId": 12345,
+        "approvedAmount": 500.00
+      },
+      {
+        "expenseId": 12346,
+        "approvedAmount": 534.56
+      },
+      {
+        "expenseId": 12347,
+        "approvedAmount": 0,
+        "notes": "Exceeds per-meal policy limit. Please resubmit with corrected amount."
+      }
+    ]
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+// Approbation complète
+const report = await client.expenseReports.approve(1001, {
+  notes: "Approved for reimbursement"
+});
+
+// Approbation partielle
+const partialReport = await client.expenseReports.approve(1001, {
+  approvedAmount: 1034.56,
+  notes: "Meal expense adjusted to policy limit",
+  expenseApprovals: [
+    { expenseId: 12345, approvedAmount: 500.00 },
+    { expenseId: 12346, approvedAmount: 534.56 },
+    { expenseId: 12347, approvedAmount: 0, notes: "Exceeds per-meal policy limit" }
+  ]
+});
+
+console.log("Status:", partialReport.status);
+console.log("Approved amount:", partialReport.approvedAmount);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+# Approbation complète
+report = client.expense_reports.approve(1001, {
+    "notes": "Approved for reimbursement"
+})
+
+# Approbation partielle
+partial_report = client.expense_reports.approve(1001, {
+    "approved_amount": 1034.56,
+    "notes": "Meal expense adjusted to policy limit",
+    "expense_approvals": [
+        {"expense_id": 12345, "approved_amount": 500.00},
+        {"expense_id": 12346, "approved_amount": 534.56},
+        {"expense_id": 12347, "approved_amount": 0, "notes": "Exceeds per-meal policy limit"}
+    ]
+})
+
+print(f"Status: {partial_report.status}")
+print(f"Approved amount: {partial_report.approved_amount}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2025 Business Trip",
+  "status": "approved",
+  "totalAmount": 1234.56,
+  "approvedAmount": 1034.56,
+  "reportCurrency": "USD",
+  "approvedBy": 100,
+  "approvedAt": "2025-02-01T09:00:00Z",
+  "notes": "Meal expense adjusted to policy limit",
+  "expenseApprovals": [
+    {
+      "expenseId": 12345,
+      "approvedAmount": 500.00,
+      "notes": null
+    },
+    {
+      "expenseId": 12346,
+      "approvedAmount": 534.56,
+      "notes": null
+    },
+    {
+      "expenseId": 12347,
+      "approvedAmount": 0,
+      "notes": "Exceeds per-meal policy limit"
+    }
+  ],
+  "updatedAt": "2025-02-01T09:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Données de requête invalides |
+| 400 | INVALID_EXPENSE_ID | Un identifiant de dépense dans `expenseApprovals` n'appartient pas à ce rapport |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | L'utilisateur n'est pas autorisé à approuver ce rapport |
+| 404 | NOT_FOUND | Rapport de dépenses non trouvé |
+| 409 | INVALID_STATUS | Le rapport n'est pas au statut `submitted` |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Rejeter un rapport" icon="xmark" href="/api-reference/expense-reports/reject-report">
+    Rejeter un rapport soumis
+  </Card>
+  <Card title="Demander des modifications" icon="pen-to-square" href="/api-reference/expense-reports/require-changes">
+    Demander des modifications avant approbation
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer les détails du rapport
+  </Card>
+  <Card title="Chronologie du rapport" icon="clock" href="/api-reference/expense-reports/get-timeline">
+    Voir la chronologie des événements du rapport
+  </Card>
+</CardGroup>

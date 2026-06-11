@@ -1,0 +1,103 @@
+---
+title: "Diviser une Dépense"
+description: "Divisez une dépense unique entre plusieurs catégories ou d.�partements"
+---
+
+## Aperçu
+
+Parfois, un seul reçu couvre plusieurs types de dépenses. Un dîner avec un client peut inclure à la fois du divertissement client et des repas d'équipe, ou une commande de fournitures peut concerner deux départements. La division vous permet d'allouer des portions d'une dépense à différentes catégories ou d.�partements tout en gardant tout attaché à un seul reçu.
+
+## Comment Diviser une Dépense
+
+<Steps>
+  <Step title="Ouvrir la Dépense">
+    Naviguez vers **Portefeuille** dans la barre latérale et cliquez sur la dépense que vous souhaitez diviser.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/split-expense/open-expense.png" alt="Vue détail de la dépense à diviser" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquer sur le Bouton Diviser">
+    Dans la vue détail de la dépense, cliquez sur le bouton **Diviser**. Cela ouvre l'éditeur de division, qui affiche le montant total de la dépense en haut et une zone pour définir les lignes de division en dessous.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/split-expense/split-button.png" alt="Bouton Diviser dans la barre d'outils de la vue détail de la dépense" />
+    </Frame>
+  </Step>
+
+  <Step title="Ajouter les Lignes de Division">
+    Définissez comment vous souhaitez diviser la dépense :
+
+    1. Cliquez sur **Ajouter une Ligne** pour créer une nouvelle entrée de division
+    2. Entrez le **montant** pour cette portion
+    3. Sélectionnez une **catégorie** dans le menu déroulant
+    4. Attribuez optionnellement un **département**
+    5. Répétez pour chaque portion
+
+    **Exemple** : Un reçu de dîner de 100,00 $ divisé en deux lignes :
+
+    | Montant | Catégorie | Département |
+    |---------|-----------|-------------|
+    | 60,00 $ | Divertissement Client | Ventes |
+    | 40,00 $ | Repas d'Équipe | Ingénierie |
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/split-expense/add-lines.png" alt="Éditeur de division avec deux lignes montrant les montants, catégories et départements" />
+    </Frame>
+  </Step>
+
+  <Step title="Vérifier le Total">
+    L'éditeur de division affiche un total cumulatif de toutes les lignes. Ce total doit correspondre exactement au montant original de la dépense. S'il y à un écart, ajustez les montants de vos lignes jusqu'à ce que le total soit équilibré.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/split-expense/verify-total.png" alt="Total de la division correspondant au montant original avec une coche verte" />
+    </Frame>
+
+    <Warning>
+      Vous ne pouvez pas enregistrer une division si les totaux des lignes ne sont pas égaux au montant original de la dépense.
+    </Warning>
+  </Step>
+
+  <Step title="Enregistrer la Division">
+    Une fois que le total correspond, cliquez sur **Enregistrer**. La dépense affiche maintenant sa ventilation dans la vue détail et dans tous les rapports auxquels elle est ajoutée.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/split-expense/save-split.png" alt="Dépense divisée enregistrée montrant la ventilation dans la vue détail" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Votre dépense est maintenant divisée. Chaque ligne porte sa propre catégorie et son département pour des rapports financiers précis.
+</Check>
+
+## Modifier une Division
+
+Pour modifier une division existante :
+
+1. Ouvrez la dépense et cliquez sur **Modifier la Division**
+2. Ajustez les montants, catégories ou d.�partements sur n'importe quelle ligne
+3. Ajoutez ou supprimez des lignes selon les besoins
+4. Vérifiez que le total correspond toujours
+5. Cliquez sur **Enregistrer**
+
+## Supprimer une Division
+
+Pour revenir à une dépense sur une seule ligne :
+
+1. Ouvrez la dépense et cliquez sur **Modifier la Division**
+2. Supprimez toutes les lignes sauf une
+3. Définissez le montant de la ligne restante au total complet de la dépense
+4. Cliquez sur **Enregistrer**
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Catégoriser les Dépenses" icon="tags" href="/fr/guides/web-app/wallet/categorize-expense">
+    En savoir plus sur les catégories et la catégorisation automatique
+  </Card>
+  <Card title="Créer un Rapport de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/create-report">
+    Ajoutez vos dépenses divisées à un rapport
+  </Card>
+</CardGroup>

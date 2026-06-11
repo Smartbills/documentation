@@ -1,0 +1,237 @@
+---
+title: "Approve Report"
+description: "Approve a submitted expense report"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/approbations/{reportId}/approve"
+---
+
+## Overview
+
+Approve an expense report that has been submitted for review. You can approve the full amount or specify a reduced approved amount. Optionally, approve or reject individual expenses within the report.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report to approve
+</ParamField>
+
+## Request Body
+
+<ParamField body="approvedAmount" type="number">
+  Total approved amount. If not specified, the full report amount is approved.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Approval notes or comments visible to the submitter
+</ParamField>
+
+<ParamField body="expenseApprovals" type="array">
+  Per-expense approval decisions for partial approvals
+
+  <Expandable title="Expense Approval Object">
+    <ParamField body="expenseId" type="integer" required>
+      ID of the expense within the report
+    </ParamField>
+
+    <ParamField body="approved" type="boolean" required>
+      Whether this specific expense is approved
+    </ParamField>
+
+    <ParamField body="approvedAmount" type="number">
+      Approved amount for this expense (defaults to the full expense amount if approved)
+    </ParamField>
+
+    <ParamField body="notes" type="string">
+      Notes specific to this expense approval
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+<ResponseField name="reportId" type="integer">
+  ID of the approved report
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Updated report status: `approved` or `partially_approved`
+</ResponseField>
+
+<ResponseField name="approvedAmount" type="number">
+  Total approved amount
+</ResponseField>
+
+<ResponseField name="approvedBy" type="integer">
+  ID of the approver
+</ResponseField>
+
+<ResponseField name="approvedAt" type="string">
+  Timestamp of approval (ISO 8601)
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Approval notes
+</ResponseField>
+
+<ResponseField name="expenseApprovals" type="array">
+  Per-expense approval results (if provided)
+
+  <Expandable title="Expense Approval Result">
+    <ResponseField name="expenseId" type="integer">
+      Expense ID
+    </ResponseField>
+    <ResponseField name="approved" type="boolean">
+      Whether the expense was approved
+    </ResponseField>
+    <ResponseField name="approvedAmount" type="number">
+      Approved amount
+    </ResponseField>
+    <ResponseField name="notes" type="string">
+      Expense-level notes
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+# Full approval
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/approbations/789/approve \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "notes": "Approved - all expenses are within policy"
+  }'
+
+# Partial approval with per-expense decisions
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/approbations/789/approve \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "approvedAmount": 1050.00,
+    "notes": "Meal expense adjusted to per diem limit",
+    "expenseApprovals": [
+      { "expenseId": 12345, "approved": true },
+      { "expenseId": 12346, "approved": true },
+      { "expenseId": 12347, "approved": true, "approvedAmount": 75.00, "notes": "Reduced to per diem rate" }
+    ]
+  }'
+```
+
+```javascript JavaScript
+// Full approval
+const result = await client.approbations.approve(789, {
+  notes: "Approved - all expenses are within policy"
+});
+
+// Partial approval
+const result = await client.approbations.approve(789, {
+  approvedAmount: 1050.00,
+  notes: "Meal expense adjusted to per diem limit",
+  expenseApprovals: [
+    { expenseId: 12345, approved: true },
+    { expenseId: 12346, approved: true },
+    { expenseId: 12347, approved: true, approvedAmount: 75.00, notes: "Reduced to per diem rate" }
+  ]
+});
+```
+
+```python Python
+# Full approval
+result = client.approbations.approve(
+    report_id=789,
+    request={"notes": "Approved - all expenses are within policy"}
+)
+
+# Partial approval
+result = client.approbations.approve(
+    report_id=789,
+    request={
+        "approved_amount": 1050.00,
+        "notes": "Meal expense adjusted to per diem limit",
+        "expense_approvals": [
+            {"expense_id": 12345, "approved": True},
+            {"expense_id": 12346, "approved": True},
+            {"expense_id": 12347, "approved": True, "approved_amount": 75.00, "notes": "Reduced to per diem rate"}
+        ]
+    }
+)
+```
+
+```csharp C#
+var result = await client.Approbations.ApproveAsync(789, new ApproveRequest
+{
+    Notes = "Approved - all expenses are within policy"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Full Approval Response
+{
+  "reportId": 789,
+  "status": "approved",
+  "approvedAmount": 1250.00,
+  "approvedBy": 100,
+  "approvedAt": "2024-02-01T09:00:00Z",
+  "notes": "Approved - all expenses are within policy"
+}
+```
+
+```json Partial Approval Response
+{
+  "reportId": 789,
+  "status": "approved",
+  "approvedAmount": 1050.00,
+  "approvedBy": 100,
+  "approvedAt": "2024-02-01T09:00:00Z",
+  "notes": "Meal expense adjusted to per diem limit",
+  "expenseApprovals": [
+    { "expenseId": 12345, "approved": true, "approvedAmount": 450.00 },
+    { "expenseId": 12346, "approved": true, "approvedAmount": 600.00 },
+    { "expenseId": 12347, "approved": true, "approvedAmount": 75.00, "notes": "Reduced to per diem rate" }
+  ]
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | REPORT_NOT_SUBMITTED | Report has not been submitted for approval |
+| 400 | ALREADY_APPROVED | Report has already been approved |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | NOT_APPROVER | You are not an approver for this report |
+| 404 | REPORT_NOT_FOUND | Report does not exist |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Pending" icon="clock" href="/api-reference/approvals/list-pending">
+    View pending approvals
+  </Card>
+  <Card title="Reject Report" icon="xmark" href="/api-reference/approvals/reject">
+    Reject a submitted report
+  </Card>
+  <Card title="Request Changes" icon="pen" href="/api-reference/approvals/request-changes">
+    Send back for changes
+  </Card>
+  <Card title="Reimburse Report" icon="money-bill" href="/api-reference/expense-report-payments/list-payments">
+    Process reimbursement
+  </Card>
+</CardGroup>

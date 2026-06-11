@@ -1,0 +1,48 @@
+---
+title: "Lister les entreprises"
+api: "GET https://api.smartbills.io/v1/businesses"
+description: "Récupérer une liste des entreprises auxquelles l'utilisateur actuel a accès"
+---
+
+## Paramètres de requête
+
+<ParamField query="page" type="integer" default="1">
+  Numéro de page
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="20">
+  Éléments par page
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 456,
+      "name": "My Company Inc.",
+      "currency": "USD",
+      "timezone": "America/New_York",
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalCount": 1
+  }
+}
+```
+
+</ResponseExample>

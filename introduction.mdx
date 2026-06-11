@@ -16,7 +16,7 @@ description: 'Streamline your expense management with Smartbills - The all-in-on
 
 ## What is Smartbills?
 
-Smartbills is a comprehensive expense management platform that helps businesses of all sizes automate expense tracking, streamline approval workflows, and simplify reimbursement processes. Whether you're a small team or an enterprise organization, Smartbills provides the tools you need to manage expenses efficiently.
+Smartbills is an expense management platform that helps businesses of all sizes take control of their spending. From receipt capture to reimbursement, Smartbills automates the entire expense lifecycle so your team can focus on what matters.
 
 ## Key Features
 
@@ -29,39 +29,39 @@ Smartbills is a comprehensive expense management platform that helps businesses 
     Snap a photo of any receipt and let AI automatically extract merchant, amount, date, and category information with 99% accuracy
   </Card>
   <Card
-    title="Automated Workflows"
+    title="Expense Reports"
+    icon="file-invoice"
+    iconType="duotone"
+  >
+    Group expenses into reports, add notes and categories, and submit them for review in just a few clicks
+  </Card>
+  <Card
+    title="Approval Workflows"
     icon="workflow"
     iconType="duotone"
   >
-    Set up custom approval chains, spending policies, and automated notifications to streamline your expense process
+    Set up custom approval chains, spending policies, and automated notifications to keep expenses moving
   </Card>
   <Card
-    title="Multi-Currency Support"
-    icon="globe"
+    title="Vault"
+    icon="vault"
     iconType="duotone"
   >
-    Handle expenses in 150+ currencies with real-time exchange rates and automatic conversion
-  </Card>
-  <Card
-    title="Powerful Integrations"
-    icon="plug"
-    iconType="duotone"
-  >
-    Connect with QuickBooks, Xero, Slack, and more to keep your data synchronized across all your tools
+    Store and organize all your receipts and financial documents in a secure, searchable digital vault
   </Card>
   <Card
     title="Mobile & Web Apps"
     icon="mobile"
     iconType="duotone"
   >
-    Access Smartbills anywhere with native iOS and Android apps, plus a responsive web interface
+    Capture receipts on the go with native iOS and Android apps, or manage everything from the web dashboard
   </Card>
   <Card
-    title="Advanced Analytics"
-    icon="chart-line"
+    title="Powerful Integrations"
+    icon="plug"
     iconType="duotone"
   >
-    Gain insights into spending patterns, track budgets, and generate comprehensive reports
+    Connect with QuickBooks, Xero, Slack, and more to keep your accounting data synchronized
   </Card>
 </CardGroup>
 
@@ -69,56 +69,23 @@ Smartbills is a comprehensive expense management platform that helps businesses 
 
 ### For Employees
 - **Snap & Submit**: Take a photo of your receipt and submit expenses in seconds
-- **Track Status**: Monitor approval status and get instant notifications
+- **Track Status**: Monitor approval status and get notified when your report is approved
 - **Easy Reimbursement**: Get paid back faster with streamlined processes
 
 ### For Managers
 - **Quick Approvals**: Review and approve expense reports from any device
-- **Policy Enforcement**: Automatically flag out-of-policy expenses
-- **Team Insights**: See spending trends and budget utilization
+- **Policy Enforcement**: Automatically flag out-of-policy expenses before they reach finance
+- **Team Insights**: See spending trends and budget utilization across your team
 
 ### For Finance Teams
 - **Automated Accounting**: Sync expenses directly to your accounting software
-- **Audit Trail**: Complete transaction history with supporting documentation
-- **Compliance**: Ensure tax compliance with proper categorization and receipts
+- **Audit Trail**: Complete transaction history with receipts and supporting documentation
+- **Compliance**: Ensure tax compliance with proper categorization and receipt storage
 
 ### For Developers
-- **Powerful API**: Build custom integrations with our RESTful API
+- **REST API**: Build custom integrations with our RESTful API
 - **Webhooks**: Receive real-time notifications for expense events
-- **Comprehensive Docs**: Detailed documentation with code examples
-
-## Getting Started
-
-<CardGroup cols={2}>
-  <Card
-    title="Quickstart Guide"
-    icon="rocket"
-    href="/quickstart"
-  >
-    Set up your account and make your first API call in under 5 minutes
-  </Card>
-  <Card
-    title="Help Center"
-    icon="circle-question"
-    href="/help-center/overview"
-  >
-    Step-by-step guides for using Smartbills web and mobile apps
-  </Card>
-  <Card
-    title="API Reference"
-    icon="code"
-    href="/api-reference/introduction"
-  >
-    Complete API documentation with examples in multiple languages
-  </Card>
-  <Card
-    title="Developer Guide"
-    icon="book-open"
-    href="/developer/getting-started"
-  >
-    Learn how to build custom integrations and workflows
-  </Card>
-</CardGroup>
+- **SDKs**: Get started quickly with client libraries for popular languages
 
 ## Platform Availability
 
@@ -127,15 +94,59 @@ Smartbills is available across all your devices:
 - **Web App**: [app.smartbills.io](https://app.smartbills.io)
 - **iOS**: Download from the [App Store](https://apps.apple.com/app/smartbills)
 - **Android**: Download from [Google Play](https://play.google.com/store/apps/details?id=io.smartbills.app)
-- **API**: Integrate with your own systems
+- **Outlook Add-in**: Install from the [Microsoft AppSource](https://appsource.microsoft.com)
+- **API**: Integrate with your own systems via [api.smartbills.io](https://api.smartbills.io)
+
+## Getting Started
+
+<CardGroup cols={2}>
+  <Card
+    title="Quickstart"
+    icon="rocket"
+    href="/quickstart"
+  >
+    Submit your first expense in under 5 minutes
+  </Card>
+  <Card
+    title="Web App Guide"
+    icon="browser"
+    href="/guides/web-app/overview"
+  >
+    Learn your way around the Smartbills web dashboard
+  </Card>
+  <Card
+    title="Mobile App Guide"
+    icon="mobile"
+    href="/guides/mobile/overview"
+  >
+    Capture receipts and manage expenses on the go
+  </Card>
+  <Card
+    title="API Reference"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Build custom integrations with the Smartbills API
+  </Card>
+</CardGroup>
+
+## Security & Compliance
+
+Your data security is our top priority:
+
+- **Bank-Level Encryption**: All data encrypted at rest and in transit with AES-256
+- **SOC 2 Type II Certified**: Independently audited security controls
+- **GDPR Compliant**: Full compliance with European data protection regulations
+- **Regular Audits**: Continuous security testing and penetration testing
+- **Role-Based Access**: Granular permissions and access controls
 
 ## Support & Resources
 
 <AccordionGroup>
   <Accordion title="Documentation" icon="book">
-    - [Help Center](/help-center/overview) - User guides for web and mobile
+    - [Web App Guide](/guides/web-app/overview) - Learn how to use the web dashboard
+    - [Mobile App Guide](/guides/mobile/overview) - Capture receipts on the go
     - [API Reference](/api-reference/introduction) - Complete API documentation
-    - [Developer Guide](/developer/getting-started) - Integration tutorials
   </Accordion>
 
   <Accordion title="Support" icon="headset">
@@ -152,52 +163,3 @@ Smartbills is available across all your devices:
     - **LinkedIn**: [Smartbills](https://linkedin.com/company/smartbills)
   </Accordion>
 </AccordionGroup>
-
-## Security & Compliance
-
-Your data security is our top priority:
-
-- **Bank-Level Encryption**: All data encrypted at rest and in transit with AES-256
-- **SOC 2 Type II Certified**: Independently audited security controls
-- **GDPR Compliant**: Full compliance with European data protection regulations
-- **Regular Audits**: Continuous security testing and penetration testing
-- **Role-Based Access**: Granular permissions and access controls
-
-## Pricing
-
-Smartbills offers flexible pricing plans for teams of all sizes:
-
-| Plan | Price | Best For |
-|------|-------|----------|
-| **Free** | $0/month | Individuals and small teams |
-| **Professional** | $12/user/month | Growing teams |
-| **Business** | $25/user/month | Established companies |
-| **Enterprise** | Custom pricing | Large organizations |
-
-[View detailed pricing](https://smartbills.io/pricing)
-
-## Next Steps
-
-Ready to get started?
-
-1. **Create an account** at [app.smartbills.io](https://auth.smartbills.io/sign-up)
-2. **Follow the quickstart** to make your first API call
-3. **Explore the Help Center** for user guides
-4. **Join the community** to connect with other users
-
-<CardGroup cols={2}>
-  <Card
-    title="Create Account"
-    icon="user-plus"
-    href="https://auth.smartbills.io/sign-up"
-  >
-    Sign up for free in seconds
-  </Card>
-  <Card
-    title="View Demo"
-    icon="play"
-    href="https://smartbills.io/demo"
-  >
-    Watch a 2-minute product demo
-  </Card>
-</CardGroup>

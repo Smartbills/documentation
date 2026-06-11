@@ -1,0 +1,58 @@
+---
+title: "Lister les webhooks"
+description: "Obtenir tous les webhooks enregistrés"
+api: "GET /v1/webhooks"
+---
+
+## Lister les webhooks
+
+Récupérer tous les points de terminaison webhook de votre compte.
+
+## Requête
+
+```bash
+GET /v1/webhooks
+```
+
+### Paramètres de requête
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `page` | integer | Numéro de page (par défaut : 1) |
+| `pageSize` | integer | Éléments par page (par défaut : 20) |
+
+### Exemple de requête
+
+```bash
+curl https://api.smartbills.io/v1/webhooks \
+  -H "Authorization: Bearer sk_live_xxxxx"
+```
+
+## Réponse
+
+```json
+{
+  "data": [
+    {
+      "id": "wh_abc123",
+      "url": "https://your-app.com/webhooks",
+      "events": ["expense.created", "report.submitted"],
+      "description": "Production webhook",
+      "enabled": true,
+      "createdAt": "2025-01-15T10:30:00Z"
+    },
+    {
+      "id": "wh_def456",
+      "url": "https://staging.your-app.com/webhooks",
+      "events": ["*"],
+      "description": "Staging - all events",
+      "enabled": false,
+      "createdAt": "2025-01-10T08:00:00Z"
+    }
+  ],
+  "page": 1,
+  "pageSize": 20,
+  "total": 2,
+  "totalPages": 1
+}
+```

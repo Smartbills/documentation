@@ -1,0 +1,91 @@
+---
+title: "Rapports de dépenses"
+description: "Apprenez comment fonctionnent les rapports de dépenses - de la création au remboursement"
+---
+
+## Qu'est-ce qu'un rapport de dépenses?
+
+Un rapport de dépenses est un ensemble de dépenses connexes regroupées pour révision, approbation et remboursement. Les employés créent des rapports pour soumettre leurs dépenses d'affaires payées de leur poche à leur gestionnaire ou à l'équipe financière. Chaque rapport comprend un titre, une justification d'affaires et une ou plusieurs dépenses avec leurs reçus justificatifs.
+
+Les rapports de dépenses constituent le mécanisme principal par lequel les dépenses du Portefeuille Personnel passent de l'employé à l'approbateur et finalement au remboursement.
+
+## Comment ça fonctionne
+
+<Steps>
+  <Step title="Brouillon">
+    L'employé crée un nouveau rapport de dépenses depuis la page Rapports de dépenses (`/:slug/expense-reports`). Il lui donne un titre, décrit la justification d'affaires, définit une période et commence à ajouter des dépenses depuis son portefeuille.
+  </Step>
+  <Step title="Ajout des dépenses">
+    L'employé sélectionne une ou plusieurs dépenses de son Portefeuille Personnel et les joint au rapport. Chaque dépense doit déjà avoir un reçu, une catégorie et tous les champs requis remplis. Les dépenses ajoutées à un rapport passent au statut **Dans un rapport**.
+  </Step>
+  <Step title="Soumission">
+    Lorsque le rapport est complet, l'employé le soumet pour approbation. Le statut du rapport passe à **Soumis** et le(s) approbateur(s) désigné(s) reçoivent une notification. Une fois soumis, l'employé ne peut plus modifier le rapport sauf s'il le rappelle ou si l'approbateur demande des modifications.
+  </Step>
+  <Step title="En révision">
+    L'approbateur examine chaque dépense du rapport, vérifiant les reçus, les montants, les catégories et la justification d'affaires. L'approbateur peut approuver l'ensemble du rapport, le rejeter ou d.mander des modifications sur des dépenses spécifiques.
+  </Step>
+  <Step title="Approuvé ou Rejeté">
+    En cas d'approbation, le rapport passe au statut **Approuvé** et toutes les dépenses incluses sont marquées comme approuvées. En cas de rejet, l'employé est notifié avec la raison et peut apporter des corrections avant de soumettre à nouveau. Voir [Flux d'approbation](/fr/guides/concepts/approval-workflows) pour les détails sur les approbations à plusieurs niveaux.
+  </Step>
+  <Step title="Remboursé">
+    Après approbation, l'équipe financière traite le remboursement. Le statut du rapport passe à **Remboursé** et l'employé reçoit une confirmation. Le rapport et tous les reçus joints sont automatiquement archivés dans le [Coffre-fort](/fr/guides/concepts/vault).
+  </Step>
+</Steps>
+
+## Statuts des rapports
+
+| Statut | Signification |
+|--------|---------------|
+| **Brouillon** | Le rapport est en préparation. Les dépenses peuvent être ajoutées ou retirées. |
+| **Soumis** | Le rapport à été envoyé pour approbation. La modification est verrouillée. |
+| **En révision** | Un approbateur à ouvert le rapport et l'examine. |
+| **Approuvé** | Tous les approbateurs requis ont approuvé le rapport. |
+| **Rejeté** | Le rapport à été renvoyé à l'employé avec des commentaires. |
+| **Remboursé** | L'employé à été payé pour les dépenses approuvées. |
+
+## Contenu d'un rapport
+
+| Champ | Requis | Description |
+|-------|--------|-------------|
+| **Titre** | Oui | Un nom court pour le rapport (ex. : "Visites clients T1" ou "Déplacements mars") |
+| **Justification d'affaires** | Oui | Une brève explication de la raison de ces dépenses |
+| **Période** | Oui | Les dates de début et de fin couvrant la période des dépenses |
+| **Description** | Non | Contexte additionnel ou notes pour l'approbateur |
+| **Dépenses** | Oui | Une ou plusieurs dépenses avec reçus, chacune correctement catégorisée |
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Rapport** | Un ensemble de dépenses soumises ensemble pour approbation |
+| **Soumission** | L'action d'envoyer un rapport complété à la chaîne d'approbation |
+| **Rappel** | Le retrait d'un rapport soumis au statut Brouillon avant son approbation |
+| **Justification d'affaires** | La justification des dépenses contenues dans le rapport |
+| **Remboursement** | Le paiement effectué à l'employé pour les dépenses approuvées payées de sa poche |
+| **Chronologie** | L'historique chronologique de toutes les actions effectuées sur un rapport |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Employé** | Crée les rapports, ajoute les dépenses, soumet pour approbation, corrige les problèmes en cas de rejet |
+| **Gestionnaire / Approbateur** | Révise les rapports soumis, approuvé, rejette ou d.mande des modifications |
+| **Finance / Comptable** | Traite les remboursements pour les rapports approuvés, assure l'exactitude comptable |
+| **Administrateur** | Configure les chaînes d'approbation, les politiques de dépenses et les exigences des rapports |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
+    Comprendre le fonctionnement des approbations simples et à plusieurs niveaux
+  </Card>
+  <Card title="Créer un rapport" icon="file-circle-plus" href="/fr/guides/web-app/reports/create-report">
+    Guide étape par étape pour créer votre premier rapport de dépenses
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Comment soumettre un rapport pour approbation
+  </Card>
+  <Card title="Dépenses" icon="receipt" href="/fr/guides/concepts/expenses">
+    En savoir plus sur les dépenses qui composent les rapports
+  </Card>
+</CardGroup>

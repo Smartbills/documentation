@@ -1,0 +1,111 @@
+---
+title: "Aperçu du SDK .NET"
+description: "SDK .NET officiel Smartbills pour intégrer la facturation et la gestion de fichiers dans vos applications .NET"
+---
+
+## Introduction
+
+Le SDK .NET Smartbills (`Smartbills.SDK`) fournit un client C# fortement type pour l'API Smartbills. Il est conçu pour les applications .NET côté serveur et couvre la facturation, la gestion de fichiers et les opérations de facturation.
+
+<Info>
+  Le SDK .NET prend actuellement en charge **InvoiceClient**, **FileClient** et **BillingClient**. Des clients de service supplémentaires (dépenses, fournisseurs, rapports) seront ajoutes dans les prochaînes versions. Pour une couverture plus large, considérez le [SDK JavaScript](/fr/sdks/javascript/overview) ou le [SDK Python](/fr/sdks/python/overview).
+</Info>
+
+## Fonctionnalités
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Typage fort** | Définitions de types C# complètes pour toutes les requêtes et réponses |
+| **Async/Await** | Toutes les méthodes retournent `Task<T>` avec support complet de `CancellationToken` |
+| **Pagination** | Type de réponse `SBList<T>` intégré avec métadonnées de pagination |
+| **Configurable** | Surcharges d'options par requête via `SBRequestOptions` |
+| **Cycle de vie des factures** | Créer, envoyer, annuler et obtenir un résumé des factures |
+| **Opérations de fichiers** | Récupérer et mettre à jour les fichiers via le service de fichiers Smartbills |
+| **Facturation** | Sessions de paiement, gestion des clients et méthodes de paiement |
+| **Injection de dépendances** | Intégration ASP.NET Core via `Smartbills.SDK.AspNetCore` |
+
+## Démarrage Rapide
+
+### Installer le package
+
+```bash
+dotnet add package Smartbills.SDK
+```
+
+### Initialiser le client
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "VOTRE_CLE_API",
+    BusinessId = 123
+});
+```
+
+### Créer et envoyer une facture
+
+```csharp
+// Créer une facture
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new() { Description = "Services de consultation", Quantity = 10, UnitPrice = 150.00m }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30)
+});
+
+// Envoyer au client
+var sent = await client.Invoices.SendAsync(invoice.Id);
+```
+
+## Architecture
+
+Le SDK suit un modèle de client de service. Chaque domaine est accessible via une propriété client dédiée sur l'instance principale `SmartbillsClient` :
+
+```
+SmartbillsClient
+  |-- Invoices   (InvoiceClient)
+  |-- Files      (FileClient)
+  |-- Billing    (BillingClient)
+       |-- CheckoutSessions
+       |-- Customers
+       |-- PaymentMethods
+```
+
+Toutes les méthodes utilisent `long` pour les identifiants de ressources et sont entièrement asynchrones, retournant `Task<T>`. Chaque signature de méthode inclut des paramètres optionnels `SBRequestOptions` et `CancellationToken` pour la configuration par requête et l'annulation cooperative.
+
+## Services Disponibles
+
+<CardGroup cols={2}>
+  <Card title="InvoiceClient" icon="file-invoice" href="/fr/sdks/dotnet/usage#invoiceclient">
+    CRUD complet, envoi, annulation et résumé pour les factures
+  </Card>
+  <Card title="FileClient" icon="file" href="/fr/sdks/dotnet/usage#fileclient">
+    Récupération et mise à jour de fichiers via le service de fichiers Smartbills
+  </Card>
+  <Card title="BillingClient" icon="credit-card" href="/fr/sdks/dotnet/usage#billingclient">
+    Sessions de paiement, clients et méthodes de paiement
+  </Card>
+</CardGroup>
+
+## Prérequis
+
+| Prérequis | Version Minimum |
+|-----------|----------------|
+| .NET | 6.0 ou ultérieur |
+| C# | 10.0 ou ultérieur |
+| NuGet | Dernière version |
+
+## Prochaînes Étapes
+
+<Card title="Installation" icon="download" href="/fr/sdks/dotnet/installation">
+  Instructions détaillées d'installation et de configuration
+</Card>
+
+<Card title="Guide d'utilisation" icon="book" href="/fr/sdks/dotnet/usage">
+  Référence complète de l'API pour tous les clients de service
+</Card>

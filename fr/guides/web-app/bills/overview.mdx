@@ -1,0 +1,110 @@
+---
+title: "Factures Fournisseurs"
+description: "Gérez les comptes fournisseurs et les factures"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/bills/overview-hero.png" alt="Tableau de bord des factures fournisseurs Smartbills" />
+</Frame>
+
+## Introduction
+
+La section Factures est votre centre de gestion des comptes fournisseurs pour les factures de vos fournisseurs. Tandis que les dépenses suivent les achats des employés nécessitant un remboursement, les factures representent les factures des fournisseurs et des prestataires que votre entreprise doit payer. Les factures sont accessibles à `/:slug/bills` dans l'application web.
+
+<Note>
+  **Permissions requises** : Vous avez besoin de la permission **BILLS_VIEW** pour accéder à la section Factures. Contactez votre administrateur si vous ne voyez pas Factures dans la barre latérale.
+</Note>
+
+## Factures vs. Dépenses
+
+Comprendre la difference entre les factures et les dépenses est important pour une bonne gestion financiere :
+
+| | Factures | Dépenses |
+|---|---------|----------|
+| **Quoi** | Factures de fournisseurs que l'entreprise doit payer | Achats des employés à rembourser |
+| **Qui soumet** | Équipe financiere ou comptes fournisseurs | Employés individuels |
+| **Flux de paiement** | L'entreprise paie le fournisseur directement | L'entreprise remboursé l'employé |
+| **Exemples** | Loyer de bureau, abonnements logiciels, factures de fournisseurs | Repas d'affaires, frais de déplacément, fournitures de bureau |
+| **Delais** | Souvent avec des conditions de paiement (Net 30, Net 60) | Généralement rembourses après approbation |
+
+## Le Tableau de Bord des Factures
+
+Lorsque vous ouvrez Factures dans la barre latérale, vous voyez une liste de toutes les factures fournisseurs avec les détails clés en un coup d'oeil.
+
+### Filtres de Statut
+
+Filtrez les factures par leur statut actuel en utilisant les onglets en haut de la liste :
+
+- **Toutes** -- Chaque facture quel que soit le statut
+- **En attente** -- Factures en attente d'examen ou d.approbation
+- **Approuvees** -- Factures approuvées pour paiement
+- **Payees** -- Factures qui ont été payees
+- **En retard** -- Factures dont la date d'echeance est depassee et qui n'ont pas été payees
+
+<Frame>
+  <img src="/images/guides/web-app/bills/status-filters.png" alt="Onglets de filtres de statut des factures montrant Toutes, En attente, Approuvees, Payees et En retard" />
+</Frame>
+
+### Colonnes de la Liste des Factures
+
+| Colonne | Description |
+|---------|-------------|
+| **Fournisseur** | Le fournisseur ou prestataire qui à emis la facture |
+| **N de facture** | Le numéro de référence de la facture du fournisseur |
+| **Montant** | Montant total du |
+| **Date d'emission** | Date à laquelle la facture à été emise |
+| **Date d'echeance** | Date limite de paiement |
+| **Statut** | Statut actuel (En attente, Approuvee, Payee, En retard) |
+| **Département** | Le département responsable de la facture |
+
+### Filtres Supplementaires
+
+Au-dela du statut, vous pouvez affiner la liste des factures avec :
+
+- **Plage de dates** -- Filtrer par date d'emission ou d.te d'echeance
+- **Fournisseur** -- Afficher les factures d'un fournisseur spécifique
+- **Plage de montants** -- Se concentrer sur les factures dans une certaine plage de valeurs
+- **Département** -- Filtrer par le département responsable
+- **Recherche** -- Trouver des factures par numéro, nom du fournisseur ou d.scription
+
+## Vue Détaillée de la Facture
+
+Cliquez sur n'importe quelle facture pour ouvrir son panneau de détails. La vue détaillée affiche :
+
+- **Document de la facture** -- Le PDF ou l'image téléchargé de la facture fournisseur
+- **Données extraites** -- Nom du fournisseur, montants, éléments de ligne et dates extraits par OCR
+- **Conditions de paiement** -- Net 30, Net 60 ou conditions personnalisées
+- **Catégorie et département** -- Comment la facture est classifiee
+- **Statut d'approbation** -- Ou en est la facture dans le flux d'approbation
+- **Chronologie** -- Un historique de toutes les actions effectuées sur la facture
+
+<Frame>
+  <img src="/images/guides/web-app/bills/bill-detail.png" alt="Vue détaillée de la facture montrant la facture, les données extraites et la chronologie" />
+</Frame>
+
+## Gestion des Fournisseurs
+
+Les factures sont liees aux profils de fournisseurs. Lorsque vous téléchargez une facture, Smartbills tente de la faire correspondre à un fournisseur existant dans votre répertoire. Depuis la section Factures, vous pouvez :
+
+- Voir toutes les factures d'un fournisseur spécifique
+- Consulter les dépenses totales par fournisseur au fil du temps
+- Accéder au profil du fournisseur pour les coordonnées et les informations de paiement
+
+Pour en savoir plus sur la gestion des fournisseurs, consultez le [guide Fournisseurs](/fr/guides/web-app/vendors/overview).
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Télécharger une Facture" icon="cloud-arrow-up" href="/fr/guides/web-app/bills/upload-bill">
+    Téléchargez une facture fournisseur et laissez l'OCR extraire les détails
+  </Card>
+  <Card title="Approbation de Facture" icon="check-double" href="/fr/guides/web-app/bills/approval">
+    Découvrez le fonctionnement du flux d'approbation des factures
+  </Card>
+  <Card title="Fournisseurs" icon="store" href="/fr/guides/web-app/vendors/overview">
+    Gérez votre répertoire de fournisseurs
+  </Card>
+  <Card title="Coffre-fort" icon="vault" href="/fr/guides/web-app/vault/overview">
+    Accédez aux factures et documents archives
+  </Card>
+</CardGroup>

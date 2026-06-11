@@ -1,8 +1,22 @@
 ---
 title: "Recall Expense Report"
 api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/recall"
-description: "Recall a submitted expense report"
+description: "Recall a submitted expense report back to draft status"
 ---
+
+## Overview
+
+Recall a previously submitted expense report, returning it to `draft` status. This allows the submitter to make corrections or add additional transactions before resubmitting. A report can only be recalled while it is in `submitted` status and has not yet been approved or rejected.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
 
 ## Path Parameters
 
@@ -11,14 +25,52 @@ description: "Recall a submitted expense report"
 </ParamField>
 
 <ParamField path="reportId" type="integer" required>
-  The unique identifier of the expense report
+  The unique identifier of the expense report to recall
 </ParamField>
 
 ## Request Body
 
 <ParamField body="reason" type="string">
   Reason for recalling the report
+
+  Example: `"Need to add additional expenses from the last day of the trip"`
 </ParamField>
+
+## Response
+
+Returns the updated expense report with status changed back to `draft`.
+
+<ResponseField name="id" type="integer">
+  Unique expense report identifier
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Report title
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status (will be `draft`)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Total amount of the report
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="recalledAt" type="string">
+  Timestamp when the report was recalled (ISO 8601)
+</ResponseField>
+
+<ResponseField name="recallReason" type="string">
+  Reason provided for the recall
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of last update (ISO 8601)
+</ResponseField>
 
 <RequestExample>
 
@@ -27,9 +79,36 @@ curl --request POST \
   --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/recall \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
   --data '{
-    "reason": "Need to add additional expenses"
+    "reason": "Need to add additional expenses from the last day of the trip"
   }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.recall(1001, {
+  reason: "Need to add additional expenses from the last day of the trip"
+});
+
+console.log("Report recalled:", report.status);
+console.log("Recalled at:", report.recalledAt);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.recall(1001, {
+    "reason": "Need to add additional expenses from the last day of the trip"
+})
+
+print(f"Report recalled: {report.status}")
+print(f"Recalled at: {report.recalled_at}")
 ```
 
 </RequestExample>
@@ -39,13 +118,41 @@ curl --request POST \
 ```json Response
 {
   "id": 1001,
-  "title": "January 2024 Business Trip",
+  "title": "January 2025 Business Trip",
   "status": "draft",
-  "recalledAt": "2024-01-31T15:00:00Z",
-  "recallReason": "Need to add additional expenses",
-  "updatedAt": "2024-01-31T15:00:00Z"
+  "totalAmount": 1234.56,
+  "reportCurrency": "USD",
+  "recalledAt": "2025-01-31T15:00:00Z",
+  "recallReason": "Need to add additional expenses from the last day of the trip",
+  "updatedAt": "2025-01-31T15:00:00Z"
 }
 ```
 
 </ResponseExample>
 
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Only the report owner can recall their own report |
+| 404 | NOT_FOUND | Expense report not found |
+| 409 | INVALID_STATUS | Report is not in `submitted` status. Reports that have already been approved, rejected, or are still in draft cannot be recalled. |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Submit Report" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Resubmit after making corrections
+  </Card>
+  <Card title="Update Report" icon="pen" href="/api-reference/expense-reports/update-report">
+    Update the recalled report
+  </Card>
+  <Card title="Delete Report" icon="trash" href="/api-reference/expense-reports/delete-report">
+    Delete the recalled draft report
+  </Card>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve report details
+  </Card>
+</CardGroup>

@@ -1,0 +1,294 @@
+---
+title: "Créer un rapport de dépenses"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports"
+description: "Créer un nouveau rapport de dépenses pour regrouper les transactions en vue de la soumission et de l'approbation"
+---
+
+## Aperçu
+
+Créer un nouveau rapport de dépenses pour organiser et soumettre des transactions pour approbation. Vous pouvez créer un rapport vide et ajouter des transactions ultérieurement, ou inclure des identifiants de transaction lors de la création.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="title" type="string" required>
+  Titre descriptif pour le rapport de dépenses
+
+  Exemple : `"January 2025 Travel Expenses"`
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description détaillée de l'objet du rapport
+
+  Exemple : `"Business trip to NYC for client meetings"`
+</ParamField>
+
+<ParamField body="businessPurpose" type="string">
+  Justification commerciale des dépenses
+
+  Exemple : `"Client acquisition and relationship building"`
+</ParamField>
+
+<ParamField body="startDate" type="string">
+  Date de début de la période de dépenses (format ISO 8601 : AAAA-MM-JJ)
+
+  Exemple : `"2025-01-15"`
+</ParamField>
+
+<ParamField body="endDate" type="string">
+  Date de fin de la période de dépenses (format ISO 8601 : AAAA-MM-JJ)
+
+  Exemple : `"2025-01-18"`
+</ParamField>
+
+<ParamField body="transactionIds" type="array">
+  Tableau d'identifiants de transactions à inclure dans le rapport
+
+  Exemple : `[12345, 12346, 12347]`
+</ParamField>
+
+<ParamField body="reportCurrency" type="string">
+  Code de devise ISO à trois lettres pour le rapport (ex. : USD, CAD, EUR). Les transactions dans d'autres devises seront converties.
+
+  Exemple : `"USD"`
+</ParamField>
+
+<ParamField body="employéeId" type="integer">
+  Identifiant de l'employé pour lequel ce rapport est créé. Si omis, l'utilisateur authentifié est utilisé par défaut. Les gestionnaires peuvent créer des rapports au nom des employés en spécifiant ce champ.
+</ParamField>
+
+## Réponse
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du rapport de dépenses
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Titre du rapport
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description du rapport
+</ResponseField>
+
+<ResponseField name="businessPurpose" type="string">
+  Objet commercial
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut du rapport (sera `draft` à la création)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Montant total de toutes les transactions du rapport
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Code de devise (ISO 4217)
+</ResponseField>
+
+<ResponseField name="expenseCount" type="integer">
+  Nombre de transactions dans le rapport
+</ResponseField>
+
+<ResponseField name="employéeId" type="integer">
+  Identifiant de l'employé propriétaire du rapport
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+  Date de début de la période
+</ResponseField>
+
+<ResponseField name="endDate" type="string">
+  Date de fin de la période
+</ResponseField>
+
+<ResponseField name="transactions" type="array">
+  Tableau d'objets de transaction inclus dans le rapport
+
+  <Expandable title="Objet Transaction">
+    <ResponseField name="id" type="integer">
+      Identifiant de la transaction
+    </ResponseField>
+
+    <ResponseField name="amount" type="number">
+      Montant de la transaction
+    </ResponseField>
+
+    <ResponseField name="currency" type="string">
+      Code de devise de la transaction
+    </ResponseField>
+
+    <ResponseField name="merchant" type="string">
+      Nom du commerçant
+    </ResponseField>
+
+    <ResponseField name="date" type="string">
+      Date de la transaction
+    </ResponseField>
+
+    <ResponseField name="category" type="string">
+      Catégorie de dépense
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création du rapport (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "title": "January 2025 Travel Expenses",
+    "description": "Business trip to NYC for client meetings",
+    "businessPurpose": "Client acquisition",
+    "startDate": "2025-01-15",
+    "endDate": "2025-01-18",
+    "transactionIds": [12345, 12346, 12347],
+    "reportCurrency": "USD"
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.create({
+  businessId: 456,
+  title: "January 2025 Travel Expenses",
+  description: "Business trip to NYC for client meetings",
+  businessPurpose: "Client acquisition",
+  startDate: "2025-01-15",
+  endDate: "2025-01-18",
+  transactionIds: [12345, 12346, 12347],
+  reportCurrency: "USD"
+});
+
+console.log("Report created:", report.id);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.create({
+    "business_id": 456,
+    "title": "January 2025 Travel Expenses",
+    "description": "Business trip to NYC for client meetings",
+    "business_purpose": "Client acquisition",
+    "start_date": "2025-01-15",
+    "end_date": "2025-01-18",
+    "transaction_ids": [12345, 12346, 12347],
+    "report_currency": "USD"
+})
+
+print(f"Report created: {report.id}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2025 Travel Expenses",
+  "description": "Business trip to NYC for client meetings",
+  "businessPurpose": "Client acquisition",
+  "status": "draft",
+  "totalAmount": 1234.56,
+  "reportCurrency": "USD",
+  "expenseCount": 3,
+  "employéeId": 789,
+  "startDate": "2025-01-15",
+  "endDate": "2025-01-18",
+  "transactions": [
+    {
+      "id": 12345,
+      "amount": 500.00,
+      "currency": "USD",
+      "merchant": "Delta Airlines",
+      "date": "2025-01-15",
+      "category": "Travel - Airfare"
+    },
+    {
+      "id": 12346,
+      "amount": 534.56,
+      "currency": "USD",
+      "merchant": "Marriott Hotel",
+      "date": "2025-01-15",
+      "category": "Travel - Lodging"
+    },
+    {
+      "id": 12347,
+      "amount": 200.00,
+      "currency": "USD",
+      "merchant": "Various Restaurants",
+      "date": "2025-01-16",
+      "category": "Meals & Entertainment"
+    }
+  ],
+  "createdAt": "2025-01-18T10:30:00Z",
+  "updatedAt": "2025-01-18T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Données de requête invalides |
+| 400 | INVALID_DATE_RANGE | La date de fin est antérieure à la date de début |
+| 400 | TRANSACTION_NOT_FOUND | Un ou plusieurs identifiants de transaction n'existent pas |
+| 400 | TRANSACTION_ALREADY_IN_REPORT | La transaction est déjà assignée à un autre rapport |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Pas d'accès à l'entreprise spécifiée |
+| 404 | BUSINESS_NOT_FOUND | L'identifiant d'entreprise n'existe pas |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les rapports" icon="list" href="/api-reference/expense-reports/list-reports">
+    Obtenir tous les rapports de dépenses
+  </Card>
+  <Card title="Mettre à jour un rapport" icon="pen" href="/api-reference/expense-reports/update-report">
+    Modifier les détails du rapport
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Soumettre pour approbation
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer un rapport unique
+  </Card>
+</CardGroup>

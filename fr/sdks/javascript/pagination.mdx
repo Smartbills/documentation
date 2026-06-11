@@ -1,0 +1,179 @@
+---
+title: "Pagination"
+description: "Travailler avec les réponses paginées de l'API en utilisant SBListResponse dans le SDK JavaScript Smartbills."
+---
+
+# Pagination
+
+Tous les points d'accès de type liste dans l'API Smartbills retournent des résultats paginés. Le SDK fournit un wrapper `SBListResponse<T>` cohérent qui inclut à la fois les données et les métadonnées de pagination.
+
+## Structure de la réponse
+
+```typescript
+interface SBListResponse<T> {
+  data: T[];                // Tableau des éléments de la page courante
+  pagination: SBPagination; // Metadonnées de pagination
+}
+
+interface SBPagination {
+  count: number;                       // Nombre total d'éléments sur toutes les pages
+  limit: number;                       // Nombre d'éléments par page
+  currentPage: number;                 // Numéro de page actuel (base 1)
+  pageCount: number;                   // Nombre total de pages
+  filters?: Record<string, unknown>;   // Filtres appliqués
+  sorts?: Record<string, string>;      // Critères de tri appliqués
+}
+```
+
+## Utilisation de base
+
+```typescript
+const response = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+});
+
+console.log(`Éléments : ${response.data.length}`);
+console.log(`Total : ${response.pagination.count}`);
+console.log(`Page : ${response.pagination.currentPage} sur ${response.pagination.pageCount}`);
+```
+
+## Paramètres de pagination
+
+Toutes les méthodes de liste acceptent les paramètres suivants :
+
+```typescript
+interface PaginationRequest {
+  page?: number;                    // Numéro de page (base 1, défaut : 1)
+  limit?: number;                   // Éléments par page
+  sortBy?: string;                  // Champ de tri
+  sortDirection?: 'asc' | 'desc';  // Ordre de tri
+}
+```
+
+### Exemple avec tri
+
+```typescript
+const { data: expenses } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 50,
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+});
+```
+
+## Itérer sur toutes les pages
+
+### Pagination manuelle
+
+```typescript
+async function obtenirToutesDepenses() {
+  const toutesDepenses = [];
+  let pageCourante = 1;
+  let encore = true;
+
+  while (encore) {
+    const { data, pagination } = await client.expenses.listBusiness({
+      page: pageCourante,
+      limit: 100,
+    });
+
+    toutesDepenses.push(...data);
+    encore = pageCourante < pagination.pageCount;
+    pageCourante++;
+  }
+
+  return toutesDepenses;
+}
+```
+
+### Itérateur paginé générique
+
+```typescript
+async function recupererToutesPages<T>(
+  fetcher: (params: { page: number; limit: number }) => Promise<SBListResponse<T>>,
+  limit = 100
+): Promise<T[]> {
+  const tousElements: T[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const response = await fetcher({ page, limit });
+    tousElements.push(...response.data);
+    totalPages = response.pagination.pageCount;
+    page++;
+  } while (page <= totalPages);
+
+  return tousElements;
+}
+
+// Utilisation
+const toutesDepenses = await recupererToutesPages(
+  (params) => client.expenses.listBusiness(params)
+);
+
+const tousFournisseurs = await recupererToutesPages(
+  (params) => client.vendors.listBusiness(params)
+);
+```
+
+### Patron de générateur async
+
+Pour un traitement économe en mémoire des grands ensembles de données :
+
+```typescript
+async function* paginerDépenses(params?: Partial<ExpenseListRequest>) {
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const response = await client.expenses.listBusiness({
+      ...params,
+      page,
+      limit: params?.limit ?? 100,
+    });
+
+    for (const expense of response.data) {
+      yield expense;
+    }
+
+    totalPages = response.pagination.pageCount;
+    page++;
+  } while (page <= totalPages);
+}
+
+// Traiter les dépenses une par une sans tout charger en memoire
+for await (const expense of paginerDépenses({ sortBy: 'amount' })) {
+  console.log(expense.id, expense.amount);
+}
+```
+
+## Vérifier s'il y à plus de pages
+
+```typescript
+const { pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 20,
+});
+
+const aPageSuivante = pagination.currentPage < pagination.pageCount;
+const aPagePrécédente = pagination.currentPage > 1;
+
+console.log(`Page suivante : ${aPageSuivante}`);
+console.log(`Page précédente : ${aPagePrécédente}`);
+```
+
+## Pagination avec filtres
+
+Les filtres et la pagination fonctionnent ensemble. Les métadonnées de pagination reflètent l'ensemble filtre :
+
+```typescript
+const { data, pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+});
+
+// pagination.count reflete le total correspondant au filtre
+console.log(`${pagination.count} dépenses correspondantes`);
+```

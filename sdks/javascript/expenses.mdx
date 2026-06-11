@@ -1,0 +1,363 @@
+---
+title: "Expenses"
+description: "Complete reference for the ExpenseService in the Smartbills JavaScript SDK -- list, upload, update, split, export, and bulk-manage expenses."
+---
+
+# Expenses
+
+The `ExpenseService` (`client.expenses`) provides methods to list, create, update, delete, and bulk-operate on expenses. Expenses represent receipts and transactions captured within a business.
+
+## Listing expenses
+
+### List business expenses
+
+Retrieve a paginated list of expenses for the current business.
+
+```typescript
+const { data: expenses, pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+});
+
+console.log(`Page ${pagination.currentPage} of ${pagination.pageCount}`);
+console.log(`Total: ${pagination.count} expenses`);
+```
+
+### List employee expenses
+
+Retrieve expenses belonging to a specific employee.
+
+```typescript
+const { data } = await client.expenses.listEmployee(employeeId, {
+  limit: 50,
+});
+```
+
+### List my expenses
+
+Retrieve expenses for the currently authenticated user.
+
+```typescript
+const { data: myExpenses } = await client.expenses.listMy({
+  limit: 20,
+});
+```
+
+## Getting a single expense
+
+```typescript
+const expense = await client.expenses.getById(expenseId);
+
+console.log(expense.id);
+console.log(expense.amount);
+console.log(expense.vendor);
+```
+
+## Updating an expense
+
+```typescript
+const updated = await client.expenses.update(expenseId, {
+  note: 'Client dinner - Project Alpha',
+  categoryId: 42,
+});
+```
+
+### Update category only
+
+```typescript
+const updated = await client.expenses.updateCategory(expenseId, {
+  categoryId: 15,
+});
+```
+
+### Update note only
+
+```typescript
+const updated = await client.expenses.updateNote(expenseId, {
+  note: 'Updated description for this expense',
+});
+```
+
+### Associate with an expense report
+
+```typescript
+// Update report association
+const updated = await client.expenses.updateReport(expenseId, {
+  expenseReportId: 789,
+});
+
+// Or set the report directly
+const result = await client.expenses.setReport(expenseId, {
+  expenseReportId: 789,
+});
+```
+
+## Deleting expenses
+
+```typescript
+// Delete a business expense
+await client.expenses.delete(expenseId);
+
+// Delete an employee's expense
+await client.expenses.deleteEmployee(employeeId, expenseId);
+```
+
+## Uploading receipts
+
+Upload receipt images or PDFs that are automatically processed into expense records.
+
+### Upload for the business
+
+```typescript
+const formData = new FormData();
+formData.append('files', receiptFile1);
+formData.append('files', receiptFile2);
+
+const results = await client.expenses.uploadBusiness(formData);
+for (const result of results) {
+  console.log(`Created expense ${result.id} from upload`);
+}
+```
+
+### Upload for an employee
+
+```typescript
+const formData = new FormData();
+formData.append('files', receiptFile);
+
+const results = await client.expenses.uploadEmployee(employeeId, formData);
+```
+
+### Upload for the current user
+
+```typescript
+const formData = new FormData();
+formData.append('files', receiptFile);
+
+const results = await client.expenses.uploadMy(formData);
+```
+
+### Validate before uploading
+
+Check that files are valid before creating expense records:
+
+```typescript
+const formData = new FormData();
+formData.append('files', receiptFile);
+
+// Business-level validation
+const validation = await client.expenses.validateBusiness(formData);
+
+// Employee-level validation
+const empValidation = await client.expenses.validateEmployee(employeeId, formData);
+```
+
+## Presigned uploads
+
+For large files or direct-to-storage uploads, use the presigned upload flow:
+
+```typescript
+// Step 1: Get a presigned URL
+const presigned = await client.expenses.presignUpload({
+  fileName: 'receipt.pdf',
+  contentType: 'application/pdf',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Step 2: Upload directly to the presigned URL
+await fetch(presigned.url, {
+  method: 'PUT',
+  body: fileBuffer,
+  headers: {
+    'Content-Type': 'application/pdf',
+  },
+});
+
+// Step 3: Confirm the upload
+await client.expenses.confirmUpload({
+  key: presigned.key,
+  fileName: 'receipt.pdf',
+});
+```
+
+### Employee presigned uploads
+
+```typescript
+const presigned = await client.expenses.presignEmployeeUpload(employeeId, {
+  fileName: 'receipt.jpg',
+  contentType: 'image/jpeg',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Upload to presigned URL...
+
+await client.expenses.confirmEmployeeUpload(employeeId, {
+  key: presigned.key,
+  fileName: 'receipt.jpg',
+});
+```
+
+## Splitting expenses
+
+Split a single expense into multiple line items:
+
+```typescript
+const splitExpenses = await client.expenses.split(expenseId, {
+  lines: [
+    { amount: 50.00, categoryId: 10, note: 'Meals' },
+    { amount: 25.00, categoryId: 20, note: 'Transport' },
+  ],
+});
+
+console.log(`Split into ${splitExpenses.length} expenses`);
+```
+
+## Exporting expenses
+
+Export expenses as a downloadable file (CSV or Excel):
+
+```typescript
+const blob = await client.expenses.export({
+  format: 'csv',
+  startDate: '2025-01-01',
+  endDate: '2025-03-31',
+});
+
+// With filename
+const { blob: file, filename } = await client.expenses.exportWithFilename({
+  format: 'xlsx',
+});
+```
+
+## Downloading attachments
+
+```typescript
+// Download attachments for multiple expenses
+const zipBlob = await client.expenses.downloadAttachments({
+  expenseIds: [1, 2, 3],
+});
+
+// Download attachment for a single expense
+const attachment = await client.expenses.downloadSingleAttachment(expenseId);
+
+// With filename
+const { blob, filename } = await client.expenses.downloadSingleAttachmentWithFilename(expenseId);
+```
+
+## Batch operations
+
+### Batch update
+
+Update multiple expenses in a single request:
+
+```typescript
+const updated = await client.expenses.batchUpdate([
+  { id: 1, categoryId: 10 },
+  { id: 2, categoryId: 20 },
+]);
+```
+
+## Bulk operations
+
+### Bulk assign category
+
+```typescript
+const result = await client.expenses.bulkAssignCategory({
+  expenseIds: [1, 2, 3, 4],
+  categoryId: 15,
+});
+console.log(`Succeeded: ${result.succeeded}, Failed: ${result.failed}`);
+```
+
+### Bulk assign vendor
+
+```typescript
+const result = await client.expenses.bulkAssignVendor({
+  expenseIds: [1, 2, 3],
+  vendorId: 42,
+});
+```
+
+### Bulk assign expense report
+
+```typescript
+const result = await client.expenses.bulkAssignReport({
+  expenseIds: [1, 2, 3],
+  expenseReportId: 100,
+});
+```
+
+### Bulk assign payer type
+
+```typescript
+const result = await client.expenses.bulkAssignPayerType({
+  expenseIds: [1, 2, 3],
+  payerType: 'company',
+});
+```
+
+### Bulk set note
+
+```typescript
+const result = await client.expenses.bulkSetNote({
+  expenseIds: [1, 2, 3],
+  note: 'Q1 team offsite',
+});
+```
+
+### Bulk delete
+
+```typescript
+const result = await client.expenses.bulkDelete({
+  expenseIds: [10, 11, 12],
+});
+console.log(`Deleted: ${result.succeeded}, Failed: ${result.failed}`);
+```
+
+## Review management
+
+Update the review status of an expense:
+
+```typescript
+const updated = await client.expenses.updateReview(expenseId, {
+  reviewed: true,
+});
+```
+
+## Method reference
+
+| Method | Parameters | Returns | Description |
+|--------|-----------|---------|-------------|
+| `listBusiness` | `params?`, `options?` | `SBListResponse<SBTransaction>` | List business expenses |
+| `listEmployee` | `employeeId`, `params?`, `options?` | `SBListResponse<SBTransaction>` | List employee expenses |
+| `listMy` | `params?`, `options?` | `SBListResponse<SBTransaction>` | List current user's expenses |
+| `getById` | `expenseId`, `options?` | `SBTransaction` | Get a single expense |
+| `update` | `expenseId`, `data`, `options?` | `SBTransaction` | Update an expense |
+| `delete` | `expenseId`, `options?` | `void` | Delete an expense |
+| `deleteEmployee` | `employeeId`, `expenseId`, `options?` | `void` | Delete an employee's expense |
+| `updateCategory` | `expenseId`, `data`, `options?` | `SBTransaction` | Update expense category |
+| `updateNote` | `expenseId`, `data`, `options?` | `SBTransaction` | Update expense note |
+| `updateReport` | `expenseId`, `data`, `options?` | `SBTransaction` | Update report association |
+| `setReport` | `expenseId`, `data`, `options?` | `SBTransaction` | Set report association |
+| `updateReview` | `expenseId`, `data`, `options?` | `SBTransaction` | Update review status |
+| `uploadBusiness` | `formData`, `options?` | `SBTransactionUploadResponse[]` | Upload receipts for business |
+| `uploadEmployee` | `employeeId`, `formData`, `options?` | `SBTransactionUploadResponse[]` | Upload receipts for employee |
+| `uploadMy` | `formData`, `options?` | `SBTransactionUploadResponse[]` | Upload receipts for current user |
+| `validateBusiness` | `formData`, `options?` | `unknown` | Validate files before upload |
+| `validateEmployee` | `employeeId`, `formData`, `options?` | `unknown` | Validate files for employee |
+| `split` | `expenseId`, `data`, `options?` | `SBTransaction[]` | Split an expense |
+| `batchUpdate` | `data[]`, `options?` | `SBTransaction[]` | Batch update expenses |
+| `export` | `data`, `options?` | `Blob` | Export expenses to file |
+| `exportWithFilename` | `data`, `options?` | `{ blob, filename? }` | Export with filename |
+| `downloadAttachments` | `data`, `options?` | `Blob` | Download attachments (zip) |
+| `downloadSingleAttachment` | `expenseId`, `options?` | `Blob` | Download single attachment |
+| `presignUpload` | `request`, `options?` | `PresignedUploadResponse` | Get presigned upload URL |
+| `confirmUpload` | `request`, `options?` | `void` | Confirm presigned upload |
+| `bulkAssignCategory` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk assign category |
+| `bulkAssignVendor` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk assign vendor |
+| `bulkAssignReport` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk assign report |
+| `bulkAssignPayerType` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk assign payer type |
+| `bulkSetNote` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk set note |
+| `bulkDelete` | `data`, `options?` | `SBExpenseBulkActionResponse` | Bulk delete expenses |

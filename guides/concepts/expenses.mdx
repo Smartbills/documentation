@@ -1,0 +1,109 @@
+---
+title: "Expenses"
+description: "Understand the difference between employee wallet expenses and company inbox expenses in Smartbills"
+---
+
+## What is an Expense?
+
+An expense in Smartbills represents a business-related purchase or cost that needs to be tracked, categorized, and potentially reimbursed. Every expense starts with a receipt or transaction record and flows through a structured lifecycle until it is accounted for. Smartbills provides two distinct inboxes for managing expenses depending on who owns them: the **Personal Wallet** and the **Company Expenses Inbox**.
+
+## Personal Wallet vs. Company Expenses Inbox
+
+Smartbills separates expenses into two workspaces to match how organizations actually handle spending.
+
+### Personal Wallet
+
+The Personal Wallet (`/:slug/wallet`) is where individual employees manage their own out-of-pocket expenses. When an employee pays for a business meal, a taxi, or office supplies with their own money, the receipt goes into their wallet. From there, the employee categorizes the expense, attaches it to an expense report, and submits it for reimbursement.
+
+- Each employee has their own private wallet
+- Only the employee (and admins) can see wallet contents
+- Expenses here are typically submitted via expense reports for reimbursement
+- Requires `EXPENSES_VIEW` permission to access
+
+### Company Expenses Inbox
+
+The Company Expenses Inbox (`/:slug/expenses`) is a shared workspace where business expenses that belong to the organization are collected and reviewed. These might include corporate credit card charges, vendor invoices forwarded by email, or any expense that does not require employee reimbursement.
+
+- Shared across team members with the appropriate permissions
+- Managed by finance teams, managers, or accountants
+- Expenses flow in from email forwarding, integrations, and manual entry
+- Requires `BUSINESS_EXPENSES_VIEW` or `BUSINESS_EXPENSES_MANAGE` permission
+
+## How It Works
+
+<Steps>
+  <Step title="Capture">
+    An expense enters Smartbills through one of several methods: uploading a receipt image, forwarding an email, scanning with the mobile app, manual entry, or the Outlook add-in. See [Receipt Forwarding](/guides/concepts/receipt-forwarding) for details on each method.
+  </Step>
+  <Step title="Process (OCR)">
+    Smartbills uses optical character recognition (OCR) to automatically extract key data from receipt images: vendor name, date, total amount, taxes, currency, and line items. The extracted data is pre-filled into the expense form for the user to review.
+  </Step>
+  <Step title="Categorize">
+    The expense is assigned a category (such as Travel, Meals, or Office Supplies) and optionally a department. Smartbills may suggest a category based on the vendor or past behavior. See [Categories and Departments](/guides/concepts/categories-and-departments).
+  </Step>
+  <Step title="Review">
+    The employee or manager reviews the extracted data, corrects any errors, adds notes, and confirms the expense is ready. Required fields such as business purpose or project code may need to be filled in depending on company policy.
+  </Step>
+  <Step title="Report">
+    For Personal Wallet expenses, the employee adds the expense to an expense report and submits it for approval. Company Inbox expenses may be processed directly without a report depending on the organization's workflow. See [Expense Reports](/guides/concepts/expense-reports).
+  </Step>
+</Steps>
+
+## Ways to Add an Expense
+
+| Method | Description | Best For |
+|--------|-------------|----------|
+| **Upload Receipt** | Drag and drop or browse to upload a receipt image or PDF from the web dashboard | Desktop users with digital receipts |
+| **Email Forwarding** | Forward a receipt email to your unique Smartbills forwarding address | Receipts already in your inbox |
+| **Mobile Scan** | Use the Smartbills mobile app camera to photograph a paper receipt | On-the-go capture of physical receipts |
+| **Manual Entry** | Create an expense manually by filling in the amount, vendor, date, and other fields | Expenses without a receipt |
+| **Outlook Add-in** | Forward receipts directly from Outlook using the Smartbills sidebar | Microsoft 365 users |
+
+## Expense Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Draft** | The expense has been created but is not yet complete. The user can still edit all fields. |
+| **Pending** | The expense is complete and awaiting further action, such as being added to a report. |
+| **In Report** | The expense has been added to an expense report but the report has not been submitted yet. |
+| **Submitted** | The expense is part of a submitted report that is awaiting approval. |
+| **Approved** | The expense has been approved by the designated approver(s). |
+| **Rejected** | The expense has been rejected. The employee can correct and resubmit it. |
+| **Reimbursed** | The expense has been approved and the employee has been paid back. |
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Receipt** | A document (image or PDF) that serves as proof of purchase for an expense |
+| **OCR** | Optical Character Recognition -- the technology that reads text from receipt images |
+| **Vendor** | The merchant or supplier where the purchase was made |
+| **Category** | The classification of an expense by type (e.g., Travel, Meals, Software) |
+| **Department** | The business unit or cost center the expense is allocated to |
+| **Business Purpose** | A brief description of why the expense was incurred |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Employee** | Captures receipts, fills in expense details, submits for reimbursement |
+| **Manager** | Reviews and approves expenses for their team members |
+| **Accountant** | Reviews company inbox expenses, ensures proper categorization and compliance |
+| **Admin** | Configures expense policies, categories, and manages company-wide settings |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Receipt Forwarding" icon="envelope" href="/guides/concepts/receipt-forwarding">
+    Learn about all the ways to get receipts into Smartbills
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/concepts/expense-reports">
+    Group expenses into reports for approval and reimbursement
+  </Card>
+  <Card title="Categories and Departments" icon="tags" href="/guides/concepts/categories-and-departments">
+    Organize expenses by type and business unit
+  </Card>
+  <Card title="Upload an Expense" icon="upload" href="/guides/web-app/wallet/upload-expense">
+    Step-by-step guide to uploading your first expense
+  </Card>
+</CardGroup>

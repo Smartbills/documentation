@@ -1,0 +1,120 @@
+---
+title: "Mettre à jour une facture"
+api: "PUT https://api.smartbills.io/v1/invoices/{invoiceId}"
+description: "Mettre à jour une facture existante"
+---
+
+## Paramètres de chemin
+
+<ParamField path="invoiceId" type="integer" required>
+  L'identifiant unique de la facture à mettre à jour
+</ParamField>
+
+## Paramètres du corps
+
+<ParamField body="invoiceNumber" type="string">
+  Numéro de facture mis à jour
+</ParamField>
+
+<ParamField body="dueDate" type="string">
+  Date d'échéance mise à jour (ISO 8601)
+</ParamField>
+
+<ParamField body="billingPeriodStartDate" type="string">
+  Début de la période de facturation mis à jour (ISO 8601)
+</ParamField>
+
+<ParamField body="billingPeriodEndDate" type="string">
+  Fin de la période de facturation mise à jour (ISO 8601)
+</ParamField>
+
+<ParamField body="autoPaymentDate" type="string">
+  Date de paiement automatique mise à jour (ISO 8601)
+</ParamField>
+
+<ParamField body="paymentLinkUrl" type="string">
+  URL de lien de paiement mise à jour
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  <Expandable title="propriétés">
+    <ParamField body="description" type="string">Description de la ligne d'article</ParamField>
+    <ParamField body="quantity" type="number">Quantité</ParamField>
+    <ParamField body="unitPrice" type="number">Prix unitaire</ParamField>
+    <ParamField body="productId" type="integer">ID du produit associé</ParamField>
+  </Expandable>
+</ParamField>
+
+## Réponse
+
+Retourne l'objet facture mis à jour.
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/invoices/1001 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "dueDate": "2026-06-01T00:00:00Z",
+    "lineItems": [
+      {
+        "description": "Web Development Services - Extended",
+        "quantity": 15,
+        "unitPrice": 150.00
+      }
+    ]
+  }'
+```
+
+```javascript JavaScript
+const invoice = await smartbills.invoices.update(1001, {
+  dueDate: "2026-06-01T00:00:00Z",
+  lineItems: [
+    { description: "Web Development Services - Extended", quantity: 15, unitPrice: 150 }
+  ]
+});
+```
+
+```csharp C#
+var invoice = await invoiceClient.UpdateAsync(1001, new InvoiceUpdateRequest
+{
+    DueDate = DateTimeOffset.Parse("2026-06-01"),
+    LineItems = new List<InvoiceLineItemRequest>
+    {
+        new() { Description = "Web Development Services - Extended", Quantity = 15, UnitPrice = 150 }
+    }
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "invoiceNumber": "INV-2026-0001",
+  "customerId": 789,
+  "totalAmount": 2250.00,
+  "currency": "CAD",
+  "billStatus": "Draft",
+  "dueDate": "2026-06-01T00:00:00Z",
+  "isOverdue": false,
+  "isPaid": false,
+  "lineItems": [
+    {
+      "id": 2,
+      "description": "Web Development Services - Extended",
+      "quantity": 15,
+      "unitPrice": 150.00,
+      "totalAmount": 2250.00
+    }
+  ],
+  "createdAt": "2026-04-12T10:00:00Z",
+  "updatedAt": "2026-04-12T11:00:00Z"
+}
+```
+
+</ResponseExample>

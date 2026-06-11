@@ -1,0 +1,77 @@
+---
+title: "Créer un Rapport"
+description: "Démarrez un nouveau rapport de dépenses et configurez ses détails"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/reports/create-report.png" alt="Boite de dialogue de création de rapport avec les champs titre, description et plage de dates" />
+</Frame>
+
+## Introduction
+
+La création d'un rapport de dépenses est la première étape pour soumettre vos dépenses en vue d'une approbation et d'un remboursement. Un rapport regroupe des dépenses connexes sous un seul titre et une justification d'affaires, facilitant l'examen complet par votre approbateur.
+
+## Créer un nouveau rapport
+
+<Steps>
+  <Step title="Naviguer vers Mes Rapports de Dépenses">
+    Cliquez sur **Mes Rapports de Dépenses** dans la barre latérale ou naviguez vers `/:slug/expense-reports`. Cette page affiche tous vos rapports existants organises par statut.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/navigate-reports.png" alt="Barre latérale avec Mes Rapports de Dépenses mis en surbrillance" />
+    </Frame>
+  </Step>
+  <Step title="Cliquer sur Créer un Rapport">
+    Cliquez sur le bouton **Créer un Rapport** dans le coin supérieur droit de la page. Une boîte de dialogue s'ouvre ou vous pouvez saisir les détails du rapport.
+  </Step>
+  <Step title="Saisir le titre du rapport">
+    Donnez à votre rapport un titre descriptif qui identifié les dépenses qu'il contient. Utilisez une convention de nommage coherente pour que votre approbateur et l'équipe financiere puissent rapidement comprendre l'objectif.
+
+    Exemples :
+    - "Dépenses de voyage T1 2025"
+    - "Diners clients - Mars 2025"
+    - "Conference de Toronto - Avril 2025"
+  </Step>
+  <Step title="Ajouter une description et une justification d'affaires">
+    Fournissez une description optionnelle qui explique le contexte d'affaires des dépenses de ce rapport. Bien que la description soit optionnelle, inclure une justification d'affaires claire aide votre approbateur à comprendre pourquoi les dépenses ont été engagees.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/report-details.png" alt="Champs de titre et de description du rapport remplis avec des données d'exemple" />
+    </Frame>
+  </Step>
+  <Step title="Définir la plage de dates (optionnel)">
+    Définissez optionnellement une date de debut et de fin pour le rapport. La plage de dates vous aide à organiser les dépenses par periode et peut être utilisee pour filtrer les dépenses eligibles à ajouter ulterieurement.
+
+    Si vous laissez la plage de dates vide, vous pouvez ajouter des dépenses de n'importe quelle date.
+  </Step>
+  <Step title="Cliquer sur Créer">
+    Cliquez sur le bouton **Créer** pour enregistrer votre nouveau rapport. Le rapport est créé avec le statut **Brouillon** et vous etes dirige vers la page de détail du rapport ou vous pouvez commencer à ajouter des dépenses.
+  </Step>
+</Steps>
+
+## Champs du rapport
+
+| Champ | Requis | Description |
+|-------|--------|-------------|
+| **Titre** | Oui | Un nom court et descriptif pour le rapport |
+| **Description** | Non | Contexte additionnel ou justification d'affaires pour l'approbateur |
+| **Plage de dates** | Non | Dates de debut et de fin couvrant la periode des dépenses |
+
+## Conseils
+
+<Tip>
+  Utilisez une convention de nommage coherente pour vos rapports. Un format comme "Mois Année - Objectif" (p. ex. "Mars 2025 - Voyage commercial") facilite la recherche de rapports ulterieurement et aide votre approbateur à les traiter rapidement.
+</Tip>
+
+## Prochaînes Étapes
+
+Après avoir créé votre rapport, l'étape suivante est d'ajouter des dépenses depuis votre portefeuille.
+
+<CardGroup cols={2}>
+  <Card title="Ajouter des Dépenses à un Rapport" icon="plus" href="/fr/guides/web-app/reports/add-expenses">
+    Sélectionner des dépenses de votre portefeuille à inclure dans le rapport
+  </Card>
+  <Card title="Soumettre un Rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Soumettre votre rapport complété pour approbation
+  </Card>
+</CardGroup>

@@ -1,78 +1,124 @@
 ---
-title: "Lightspeed Integration"
-description: "Connect Smartbills with Lightspeed POS"
+title: "Lightspeed"
+description: "Sync transactions and inventory data between Smartbills and Lightspeed POS"
 ---
 
 ## Overview
 
-Integrate with Lightspeed Retail or Restaurant to sync sales, inventory, and customer data.
+The Lightspeed integration connects your Lightspeed POS with Smartbills, enabling multi-location transaction import, inventory sync, and employee-level reporting across Lightspeed Restaurant and Retail products.
 
-## Supported Versions
+<Info>
+  This integration supports **Lightspeed Restaurant (L-Series)** and **Lightspeed Retail (R-Series / X-Series)**.
+</Info>
 
-| Product | Status |
-|---------|--------|
-| Lightspeed Retail (X-Series) | Supported |
-| Lightspeed Retail (R-Series) | Supported |
-| Lightspeed Restaurant | Coming Soon |
+<Frame>
+  <img src="/images/integrations/lightspeed/overview.png" alt="Lightspeed integration" />
+</Frame>
 
-## Features
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Sales Sync** | Import transactions |
-| **Inventory** | Sync product catalog |
-| **Customers** | Link customer data |
-| **Multi-location** | All locations supported |
-| **Registers** | Track by register |
+| **Multi-location** | Sync transactions across all Lightspeed locations |
+| **Inventory Sync** | Import product catalog and inventory data |
+| **Employee Mapping** | Link Lightspeed employees to Smartbills users |
+| **Custom Fields** | Map Lightspeed custom fields to Smartbills metadata |
+| **Category Mapping** | Map Lightspeed product categories |
+| **Tax Configuration** | Sync tax profiles and rates |
+| **Shift Reports** | Import end-of-day shift data |
+
+## Prerequisites
+
+- Lightspeed Restaurant or Retail account
+- Smartbills Business plan or higher
+- Admin access in Lightspeed
 
 ## Setup
 
-### Connect Lightspeed
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
-  </Step>
-  <Step title="Find Lightspeed">
-    Search for Lightspeed in the marketplace
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Lightspeed**.
   </Step>
   <Step title="Select Product">
-    Choose Retail or Restaurant
+    Choose **Lightspeed Restaurant** or **Lightspeed Retail**.
+
+    <Frame>
+      <img src="/images/integrations/lightspeed/select-product.png" alt="Select Lightspeed product" />
+    </Frame>
   </Step>
-  <Step title="Authorize">
-    Sign in to Lightspeed
+  <Step title="Connect Your Account">
+    Click **Connect** and authorize Smartbills in the Lightspeed portal.
   </Step>
-  <Step title="Configure">
-    Map locations and products
+  <Step title="Select Locations">
+    Choose which Lightspeed locations to sync.
+  </Step>
+  <Step title="Map Products and Employees">
+    Configure product categories and employee mappings.
   </Step>
 </Steps>
 
 ## Configuration
 
-### Location Mapping
+### Location Settings
 
-Map Lightspeed outlets to Smartbills locations for multi-location businesses.
+| Setting | Description |
+|---------|-------------|
+| Sync all locations | Import from all Lightspeed locations |
+| Select locations | Choose specific locations |
+| Location grouping | Group transactions by location in reports |
 
-### Product Sync
+### Product Mapping
 
-| Option | Description |
-|--------|-------------|
-| Full sync | Import all products |
-| Selected categories | Sync specific categories |
-| Manual | Map individually |
+| Lightspeed Category | Smartbills Category |
+|--------------------|---------------------|
+| Food | Meals |
+| Beverages | Meals |
+| Retail Items | Merchandise |
+| Services | Professional Services |
 
-## Sync Behavior
+### Employee Mapping
 
-### Data Flow
+Map Lightspeed employee accounts to Smartbills users to attribute transactions to the correct team member. This is useful for commission tracking and individual performance reporting.
 
-- Sales imported in real-time
-- Inventory levels updated
-- Customer profiles synced
+### Shift Reports
+
+| Setting | Description |
+|---------|-------------|
+| Auto-import | Automatically import shift reports at end of day |
+| Include tips | Add tip totals to shift report data |
+| Cash variance | Track over/short amounts per shift |
+
+## Data Sync
+
+| Smartbills | Lightspeed | Direction | Frequency |
+|-----------|------------|-----------|-----------|
+| Receipts | Sales transactions | Lightspeed -> Smartbills | Real-time or scheduled |
+| Refund records | Refunds | Lightspeed -> Smartbills | Real-time or scheduled |
+| Categories | Product catalog | Lightspeed -> Smartbills | On demand |
+| Locations | Locations | Lightspeed -> Smartbills | On demand |
+| Employee records | Employees | Lightspeed -> Smartbills | On demand |
+| Shift data | Shift reports | Lightspeed -> Smartbills | Daily |
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Connection issues | Re-authorize |
-| Missing sales | Check date range |
-| Products not syncing | Refresh catalog |
+<AccordionGroup>
+  <Accordion title="Transactions not importing">
+    Verify the API connection in **Settings > Apps > Lightspeed**. Check that the selected locations are active.
+  </Accordion>
+
+  <Accordion title="Location not found">
+    New locations must be added to the sync configuration manually. Go to integration settings and select the new location.
+  </Accordion>
+
+  <Accordion title="Employee mapping issues">
+    Ensure employees have active accounts in both Lightspeed and Smartbills. Deactivated employees are excluded from sync.
+  </Accordion>
+
+  <Accordion title="Product catalog out of sync">
+    Trigger a manual product catalog refresh from the integration settings page.
+  </Accordion>
+
+  <Accordion title="Shift reports missing">
+    Verify that auto-import is enabled and that the shift was properly closed in Lightspeed. Open shifts will not generate reports.
+  </Accordion>
+</AccordionGroup>

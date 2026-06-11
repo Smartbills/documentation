@@ -1,0 +1,177 @@
+---
+title: "Notifications"
+description: "Configure push notifications for expense updates and approval requests"
+---
+
+## Overview
+
+Smartbills sends push notifications to keep you informed about expense activity that needs your attention. You can control exactly which types of notifications you receive, set up quiet hours to avoid interruptions, and manage email notification preferences separately from push notifications.
+
+<Frame>
+  <img src="/images/guides/mobile/notifications/notification-example.png" alt="Push notification showing an expense approval" />
+</Frame>
+
+## Notification Types
+
+Smartbills supports the following push notification types:
+
+| Notification | Description | Default |
+|-------------|-------------|---------|
+| **Expense Approved** | An expense in your submitted report has been approved | On |
+| **Expense Rejected** | An expense in your submitted report has been rejected, with the reviewer's reason | On |
+| **Report Status Change** | Your expense report status has changed (e.g., submitted, approved, rejected, reimbursed) | On |
+| **Approval Request** | A new expense report has been submitted for your approval | On |
+| **Comment on Report** | Someone has added a comment to one of your expense reports | On |
+| **Reminder to Submit** | A periodic reminder that you have unsubmitted expenses in your wallet | Off |
+
+## Configuring Push Notifications
+
+You can enable or disable each notification type individually.
+
+<Steps>
+  <Step title="Open Notification Settings">
+    Tap the **Menu** tab in the bottom navigation, then go to **Settings** > **Notifications**.
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/notification-settings.png" alt="Notification settings screen with toggles for each notification type" />
+    </Frame>
+  </Step>
+
+  <Step title="Toggle Notification Types">
+    Each notification type has its own toggle. Tap the toggle to enable or disable that specific notification. Changes are saved automatically.
+  </Step>
+
+  <Step title="Verify Device Permissions">
+    Smartbills needs permission from your operating system to send push notifications. If notifications are not arriving, check your device settings:
+
+    - **iOS**: Go to **Settings** > **Notifications** > **Smartbills** and ensure **Allow Notifications** is enabled
+    - **Android**: Go to **Settings** > **Apps** > **Smartbills** > **Notifications** and ensure notifications are allowed
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/device-permissions.png" alt="Device notification permissions for Smartbills" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Notification Channels
+
+### iOS
+
+On iOS, Smartbills notifications appear as:
+
+- **Lock screen alerts** -- Visible on your lock screen and in the Notification Center
+- **Banners** -- Brief alerts at the top of the screen when the phone is unlocked
+- **Badge count** -- The red badge on the Smartbills app icon shows the number of unread notifications
+- **Sounds** -- An optional notification sound (configurable in iOS notification settings)
+
+You can customize the notification style in **iOS Settings** > **Notifications** > **Smartbills** by choosing between banners, alerts, or none.
+
+### Android
+
+On Android, Smartbills uses notification channels to give you granular control:
+
+| Channel | Notifications Included |
+|---------|----------------------|
+| **Approvals** | Approval requests, report status changes |
+| **Expenses** | Expense approved, expense rejected |
+| **Comments** | Comments on your reports |
+| **Reminders** | Submission reminders |
+
+Each channel can be independently configured with its own importance level, sound, vibration pattern, and LED color through **Android Settings** > **Apps** > **Smartbills** > **Notifications**.
+
+<Tip>
+  On Android, you can set the Approvals channel to high priority so approval requests always appear as heads-up notifications, while keeping other channels at normal priority.
+</Tip>
+
+## Email Notification Preferences
+
+Email notifications are managed separately from push notifications. You can receive email digests for the same event types listed above, on a different schedule.
+
+<Steps>
+  <Step title="Open Email Preferences">
+    In the Notifications settings screen, scroll down to the **Email Notifications** section.
+  </Step>
+
+  <Step title="Configure Email Frequency">
+    Choose how often you receive email notification digests:
+
+    | Option | Description |
+    |--------|-------------|
+    | **Instant** | An individual email is sent immediately for each event |
+    | **Daily Digest** | A single daily summary email is sent each morning |
+    | **Weekly Digest** | A single weekly summary email is sent every Monday |
+    | **Off** | No email notifications are sent |
+
+  </Step>
+
+  <Step title="Select Email Event Types">
+    Toggle which event types are included in your email notifications. These toggles are independent of your push notification preferences -- you can receive push notifications for approvals but email notifications only for rejections, or any other combination.
+  </Step>
+</Steps>
+
+<Note>
+  Email notification preferences can also be managed from the web dashboard under **Settings** > **Profile** > **Notification Preferences**. Changes made on either platform sync automatically.
+</Note>
+
+## Do Not Disturb Schedule
+
+Set up quiet hours during which Smartbills will not send push notifications. Notifications received during quiet hours are silently delivered and appear in your notification history when the quiet period ends.
+
+<Steps>
+  <Step title="Enable Do Not Disturb">
+    In **Menu** > **Settings** > **Notifications**, scroll to the **Do Not Disturb** section and enable the toggle.
+  </Step>
+
+  <Step title="Set Your Schedule">
+    Choose the start and end times for your quiet period. For example, set 8:00 PM to 8:00 AM to silence notifications overnight.
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/dnd-schedule.png" alt="Do Not Disturb schedule with start and end time pickers" />
+    </Frame>
+  </Step>
+
+  <Step title="Choose Active Days">
+    Select which days of the week the Do Not Disturb schedule applies. You can enable it for every day, weekdays only, weekends only, or any custom combination.
+  </Step>
+</Steps>
+
+<Tip>
+  Do Not Disturb only affects Smartbills push notifications. It does not interact with your device's system-level Do Not Disturb mode. For full silence, configure both.
+</Tip>
+
+## Notification History
+
+To view past notifications:
+
+1. Tap the **bell icon** on the Home tab
+2. The notification history screen shows all recent notifications grouped by date
+3. Tap any notification to navigate directly to the related expense, report, or approval
+
+Unread notifications are highlighted. Notifications are retained for 30 days.
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Not receiving any notifications | Check that device permissions are enabled and that you are signed in to the app |
+| Notifications delayed | Ensure the app is not restricted by battery optimization (Android) or Background App Refresh is enabled (iOS) |
+| Badge count not clearing | Open the app and view the notification history to mark all as read |
+| Email notifications not arriving | Check your spam folder and verify your email address in your Smartbills profile |
+| Do Not Disturb not working | Verify the schedule times and active days are set correctly |
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Mobile App Overview" icon="mobile" href="/guides/mobile/overview">
+    Return to the mobile app overview
+  </Card>
+  <Card title="Offline Mode" icon="wifi-slash" href="/guides/mobile/offline-mode">
+    Learn how notifications work in offline mode
+  </Card>
+  <Card title="Manage Expenses" icon="receipt" href="/guides/mobile/manage-expenses">
+    View and manage your expenses on mobile
+  </Card>
+  <Card title="Approvals on Mobile" icon="check-circle" href="/guides/mobile/approvals">
+    Review and approve expense reports
+  </Card>
+</CardGroup>

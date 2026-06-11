@@ -1,0 +1,295 @@
+---
+title: "Créer une facture"
+description: "Créer une nouvelle facture d'un fournisseur"
+api: "POST https://api.smartbills.io/v1/bills"
+---
+
+## Aperçu
+
+Créer une nouvelle facture pour suivre une facture fournisseur. Vous pouvez inclure des éléments de ligne et joindre le document de facture original.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="businessId" type="integer" required>
+  Identifiant de l'entreprise à laquelle cette facture appartient
+</ParamField>
+
+<ParamField body="vendorId" type="integer" required>
+  Identifiant du fournisseur émettant la facture
+</ParamField>
+
+<ParamField body="billNumber" type="string">
+  Numéro de référence de facture du fournisseur
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Montant total de la facture
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Code de devise ISO 4217 (ex. : USD, CAD, EUR)
+</ParamField>
+
+<ParamField body="dueDate" type="string" required>
+  Date d'échéance du paiement (format ISO 8601 : AAAA-MM-JJ)
+</ParamField>
+
+<ParamField body="issueDate" type="string">
+  Date d'émission de la facture (AAAA-MM-JJ). Par défaut, aujourd'hui.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notes ou d.scription pour la facture
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  Tableau des éléments de ligne de la facture
+  <Expandable title="Objet Élément de ligne">
+    <ParamField body="description" type="string" required>
+      Description de l'article
+    </ParamField>
+    <ParamField body="quantity" type="number" required>
+      Quantité
+    </ParamField>
+    <ParamField body="unitPrice" type="number" required>
+      Prix unitaire
+    </ParamField>
+    <ParamField body="categoryId" type="integer">
+      Identifiant de catégorie pour cet élément de ligne
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="taxAmount" type="number">
+  Montant total des taxes
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Paires clé-valeur de métadonnées personnalisées
+</ParamField>
+
+## Réponse
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de la facture
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  Identifiant de l'entreprise
+</ResponseField>
+
+<ResponseField name="vendorId" type="integer">
+  Identifiant du fournisseur
+</ResponseField>
+
+<ResponseField name="billNumber" type="string">
+  Numéro de référence de la facture
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Montant total
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Code de devise
+</ResponseField>
+
+<ResponseField name="dueDate" type="string">
+  Date d'échéance
+</ResponseField>
+
+<ResponseField name="issueDate" type="string">
+  Date d'émission
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut initial : `draft`
+</ResponseField>
+
+<ResponseField name="lineItems" type="array">
+  Éléments de ligne avec identifiants générés
+</ResponseField>
+
+<ResponseField name="taxAmount" type="number">
+  Montant des taxes
+</ResponseField>
+
+<ResponseField name="subtotal" type="number">
+  Sous-total avant taxes
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/bills \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "businessId": 456,
+    "vendorId": 200,
+    "billNumber": "INV-2024-0042",
+    "amount": 1500.00,
+    "currency": "USD",
+    "dueDate": "2024-02-15",
+    "issueDate": "2024-01-15",
+    "notes": "Monthly office supply order",
+    "lineItems": [
+      {
+        "description": "Copy Paper - Case (10 reams)",
+        "quantity": 5,
+        "unitPrice": 45.00,
+        "categoryId": 5
+      },
+      {
+        "description": "Printer Toner Cartridges",
+        "quantity": 10,
+        "unitPrice": 89.50,
+        "categoryId": 5
+      }
+    ],
+    "taxAmount": 70.00
+  }'
+```
+
+```javascript JavaScript
+const bill = await client.bills.create({
+  businessId: 456,
+  vendorId: 200,
+  billNumber: "INV-2024-0042",
+  amount: 1500.00,
+  currency: "USD",
+  dueDate: "2024-02-15",
+  issueDate: "2024-01-15",
+  notes: "Monthly office supply order",
+  lineItems: [
+    { description: "Copy Paper - Case (10 reams)", quantity: 5, unitPrice: 45.00, categoryId: 5 },
+    { description: "Printer Toner Cartridges", quantity: 10, unitPrice: 89.50, categoryId: 5 }
+  ],
+  taxAmount: 70.00
+});
+```
+
+```python Python
+bill = client.bills.create(
+    business_id=456,
+    vendor_id=200,
+    bill_number="INV-2024-0042",
+    amount=1500.00,
+    currency="USD",
+    due_date="2024-02-15",
+    issue_date="2024-01-15",
+    notes="Monthly office supply order",
+    line_items=[
+        {"description": "Copy Paper - Case (10 reams)", "quantity": 5, "unit_price": 45.00, "category_id": 5},
+        {"description": "Printer Toner Cartridges", "quantity": 10, "unit_price": 89.50, "category_id": 5}
+    ],
+    tax_amount=70.00
+)
+```
+
+```csharp C#
+var bill = await client.Bills.CreateAsync(new BillCreateRequest
+{
+    BusinessId = 456,
+    VendorId = 200,
+    BillNumber = "INV-2024-0042",
+    Amount = 1500.00m,
+    Currency = "USD",
+    DueDate = "2024-02-15",
+    IssueDate = "2024-01-15",
+    Notes = "Monthly office supply order",
+    LineItems = new[]
+    {
+        new LineItem { Description = "Copy Paper - Case (10 reams)", Quantity = 5, UnitPrice = 45.00m, CategoryId = 5 },
+        new LineItem { Description = "Printer Toner Cartridges", Quantity = 10, UnitPrice = 89.50m, CategoryId = 5 }
+    },
+    TaxAmount = 70.00m
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 3001,
+  "businessId": 456,
+  "vendorId": 200,
+  "billNumber": "INV-2024-0042",
+  "amount": 1500.00,
+  "currency": "USD",
+  "dueDate": "2024-02-15",
+  "issueDate": "2024-01-15",
+  "status": "draft",
+  "notes": "Monthly office supply order",
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Copy Paper - Case (10 reams)",
+      "quantity": 5,
+      "unitPrice": 45.00,
+      "amount": 225.00,
+      "categoryId": 5
+    },
+    {
+      "id": 2,
+      "description": "Printer Toner Cartridges",
+      "quantity": 10,
+      "unitPrice": 89.50,
+      "amount": 895.00,
+      "categoryId": 5
+    }
+  ],
+  "taxAmount": 70.00,
+  "subtotal": 1120.00,
+  "createdAt": "2024-01-20T10:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Règles de validation
+
+- Le `vendorId` doit référencer un fournisseur existant dans l'entreprise
+- Le `amount` doit être un nombre positif
+- La `dueDate` doit être une date valide
+- La `quantity` et le `unitPrice` des éléments de ligne doivent être des nombres positifs
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Données de requête invalides |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes |
+| 404 | VENDOR_NOT_FOUND | Le fournisseur n'existe pas |
+| 404 | BUSINESS_NOT_FOUND | L'entreprise n'existe pas |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les factures" icon="list" href="/api-reference/bills/list-bills">
+    Obtenir toutes les factures
+  </Card>
+  <Card title="Obtenir une facture" icon="eye" href="/api-reference/bills/get-bill">
+    Récupérer une facture par identifiant
+  </Card>
+  <Card title="Mettre à jour une facture" icon="pen" href="/api-reference/bills/update-bill">
+    Modifier une facture
+  </Card>
+  <Card title="Supprimer une facture" icon="trash" href="/api-reference/bills/delete-bill">
+    Supprimer une facture
+  </Card>
+</CardGroup>

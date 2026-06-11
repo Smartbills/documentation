@@ -1,0 +1,66 @@
+---
+title: "Mettre à jour un webhook"
+description: "Mettre à jour un point de terminaison webhook existant"
+api: "PUT /v1/webhooks/{id}"
+---
+
+## Mettre à jour un webhook
+
+Mettre à jour la configuration d'un point de terminaison webhook enregistré.
+
+## Requête
+
+```bash
+PUT /v1/webhooks/{id}
+```
+
+### Paramètres de chemin
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `id` | string | L'identifiant du webhook |
+
+### Paramètres du corps
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `url` | string | L'URL mise à jour pour recevoir les webhooks |
+| `events` | array | Liste mise à jour des événements auxquels s'abonner |
+| `description` | string | Description mise à jour du webhook |
+| `enabled` | boolean | Activer ou désactiver le webhook |
+
+### Exemple de requête
+
+```bash
+curl -X PUT https://api.smartbills.io/v1/webhooks/wh_abc123 \
+  -H "Authorization: Bearer sk_live_xxxxx" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "events": ["expense.created", "expense.updated", "report.submitted"],
+    "enabled": true
+  }'
+```
+
+## Réponse
+
+```json
+{
+  "data": {
+    "id": "wh_abc123",
+    "url": "https://your-app.com/webhooks",
+    "events": ["expense.created", "expense.updated", "report.submitted"],
+    "description": "Production webhook",
+    "enabled": true,
+    "createdAt": "2025-01-15T10:30:00Z",
+    "updatedAt": "2025-01-20T14:00:00Z"
+  }
+}
+```
+
+## Erreurs
+
+| Code | Description |
+|------|-------------|
+| 404 | Webhook non trouvé |
+| 403 | Non autorisé à modifier ce webhook |
+| 400 | Paramètres invalides |

@@ -1,0 +1,142 @@
+---
+title: "Rôles et Permissions"
+description: "Comprendre les rôles utilisateurs et niveaux de permission dans Smartbills"
+---
+
+## Que sont les rôles et permissions?
+
+Les rôles et permissions contrôlent ce que chaque utilisateur peut voir et faire au sein de votre organisation Smartbills. Chaque utilisateur se voit attribuer un rôle, et chaque rôle accorde un ensemble spécifique de permissions. Cela garantit que les employés n'accèdent qu'aux fonctionnalités dont ils ont besoin, que les gestionnaires peuvent réviser et approuver les dépenses, et que les administrateurs ont un contrôle complet sur les paramètres de l'organisation.
+
+Les rôles sont gérés depuis **Paramètres > Équipe** (`/:slug/settings/team`).
+
+## Rôles disponibles
+
+Smartbills propose cinq rôles prédéfinis, chacun conçu pour une fonction spécifique dans le flux de gestion des dépenses.
+
+### Propriétaire
+
+Le Propriétaire est la personne qui à créé l'organisation Smartbills. Il n'y à qu'un seul Propriétaire par organisation. Le Propriétaire à un accès illimité à toutes les fonctionnalités et paramètres, y compris la gestion de la facturation et la possibilité de transférer la propriété.
+
+### Administrateur
+
+Les Administrateurs ont un accès complet à toutes les fonctionnalités sauf la facturation et le transfert de propriété. Ils peuvent gérer les membres de l'équipe, configurer les flux d'approbation, créer des catégories et départements, et accéder à toutes les dépenses et rapports de l'organisation. Les administrateurs sont généralement des responsables financiers ou des directeurs des opérations.
+
+### Gestionnaire
+
+Les Gestionnaires peuvent consulter et approuver les dépenses de leurs subordonnés directs. Ils ont accès aux pages d'Approbations et peuvent voir les données de dépenses de leur équipe. Les gestionnaires ne peuvent pas modifier les paramètres de l'organisation ni gérer les rôles des autres membres de l'équipe.
+
+### Employé
+
+Les Employés constituent le rôle le plus courant. Ils peuvent créer et gérer leurs propres dépenses, construire des rapports de dépenses et les soumettre pour approbation. Les employés ne peuvent voir que leurs propres données et ne peuvent pas accéder aux dépenses des autres utilisateurs ni aux rapports de l'organisation.
+
+### Comptable
+
+Les Comptables ont un accès en lecture à toutes les dépenses, rapports et au Coffre-fort pour les besoins d'audit et de conformité. Ils peuvent réviser et catégoriser les dépenses dans la Boîte de réception d'entreprise mais ne peuvent pas modifier les paramètres de l'organisation ni gérer les membres de l'équipe.
+
+## Groupes de permissions
+
+Les permissions dans Smartbills sont organisées en groupes. Chaque permission possède une variante `VIEW` (accès en lecture seule) et une variante `MANAGE` (accès en lecture et écriture).
+
+### Permissions sur les dépenses
+
+| Permission | Description |
+|-----------|-------------|
+| `EXPENSES_VIEW` | Consulter les dépenses dans le Portefeuille Personnel |
+| `EXPENSES_MANAGE` | Créer, modifier et supprimer les dépenses dans le Portefeuille Personnel |
+| `BUSINESS_EXPENSES_VIEW` | Consulter les dépenses dans la Boîte de réception des dépenses d'entreprise |
+| `BUSINESS_EXPENSES_MANAGE` | Créer, modifier, catégoriser et gérer les dépenses dans la Boîte de réception |
+
+### Permissions sur les factures
+
+| Permission | Description |
+|-----------|-------------|
+| `BILLS_VIEW` | Consulter les factures |
+| `BILLS_MANAGE` | Créer, modifier, approuver et gérer les factures |
+
+### Permissions sur les fournisseurs
+
+| Permission | Description |
+|-----------|-------------|
+| `VENDORS_VIEW` | Consulter le répertoire de fournisseurs et les détails des fournisseurs |
+| `VENDORS_MANAGE` | Créer, modifier, fusionner et supprimer les enregistrements de fournisseurs |
+
+### Permissions sur le Coffre-fort
+
+| Permission | Description |
+|-----------|-------------|
+| `VAULT_VIEW` | Consulter et rechercher des documents dans le Coffre-fort |
+
+### Permissions sur les paramètres
+
+| Permission | Description |
+|-----------|-------------|
+| `SETTINGS_TEAM_VIEW` | Consulter la liste de l'équipe et les rôles des utilisateurs |
+| `SETTINGS_GENERAL_MANAGE` | Gérer les paramètres de l'organisation, y compris les catégories, départements, flux d'approbation et intégrations |
+
+## Matrice Rôles-Permissions
+
+Le tableau suivant montre les permissions accordées à chaque rôle par défaut.
+
+| Permission | Propriétaire | Admin | Gestionnaire | Employé | Comptable |
+|-----------|-------------|-------|-------------|---------|-----------|
+| `EXPENSES_VIEW` | Oui | Oui | Oui | Oui | Oui |
+| `EXPENSES_MANAGE` | Oui | Oui | Non | Oui | Non |
+| `BUSINESS_EXPENSES_VIEW` | Oui | Oui | Oui | Non | Oui |
+| `BUSINESS_EXPENSES_MANAGE` | Oui | Oui | Non | Non | Oui |
+| `BILLS_VIEW` | Oui | Oui | Oui | Non | Oui |
+| `BILLS_MANAGE` | Oui | Oui | Non | Non | Non |
+| `VENDORS_VIEW` | Oui | Oui | Oui | Non | Oui |
+| `VENDORS_MANAGE` | Oui | Oui | Non | Non | Non |
+| `VAULT_VIEW` | Oui | Oui | Oui | Non | Oui |
+| `SETTINGS_TEAM_VIEW` | Oui | Oui | Oui | Non | Non |
+| `SETTINGS_GENERAL_MANAGE` | Oui | Oui | Non | Non | Non |
+
+## Comment assigner les rôles
+
+Les rôles sont assignés lors de l'invitation d'un nouveau membre de l'équipe ou en modifiant le profil d'un membre existant dans **Paramètres > Équipe**.
+
+1. Naviguez vers **Paramètres > Équipe** (`/:slug/settings/team`)
+2. Pour changer un rôle : cliquez sur le nom du membre de l'équipe et sélectionnez un nouveau rôle dans le menu déroulant
+3. Pour inviter un nouveau membre : cliquez sur **Inviter**, entrez son adresse courriel et sélectionnez son rôle
+
+<Note>
+  Seuls les utilisateurs avec la permission `SETTINGS_GENERAL_MANAGE` (Propriétaires et Administrateurs) peuvent inviter des membres de l'équipe et modifier les rôles.
+</Note>
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Rôle** | Un ensemble prédéfini de permissions attribué à un utilisateur (Propriétaire, Administrateur, Gestionnaire, Employé, Comptable) |
+| **Permission** | Une capacité spécifique qui accorde l'accès à une fonctionnalité ou une action |
+| **VIEW** | Un niveau de permission qui permet de lire les données sans effectuer de modifications |
+| **MANAGE** | Un niveau de permission qui permet de créer, modifier et supprimer des données |
+| **Équipe** | Tous les utilisateurs de votre organisation Smartbills |
+| **Invitation** | Le processus d'ajout d'un nouvel utilisateur à votre organisation par courriel |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Propriétaire** | Contrôle total. Gère la facturation, peut transférer la propriété et possède toutes les capacités d'Administrateur |
+| **Administrateur** | Gère les membres de l'équipe, configuré les paramètres et à un accès complet à toutes les données de dépenses |
+| **Gestionnaire** | Approuve les dépenses et rapports de son équipe. Consulte les données de dépenses de l'équipe |
+| **Employé** | Gère ses propres dépenses et soumet des rapports pour approbation |
+| **Comptable** | Accès en lecture à toutes les dépenses, rapports et au Coffre-fort pour les besoins d'audit |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Inviter des membres" icon="user-plus" href="/fr/guides/web-app/team/invite-members">
+    Comment ajouter de nouveaux membres à votre organisation
+  </Card>
+  <Card title="Gérer les rôles" icon="user-gear" href="/fr/guides/web-app/team/manage-roles">
+    Comment changer le rôle d'un membre de l'équipe
+  </Card>
+  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
+    Découvrez comment les rôles interagissent avec le processus d'approbation
+  </Card>
+  <Card title="Aperçu de l'équipe" icon="users" href="/fr/guides/web-app/team/overview">
+    Gérer votre équipe dans l'application web
+  </Card>
+</CardGroup>

@@ -1,0 +1,182 @@
+---
+title: "Rembourser un rapport"
+description: "Rembourser intégralement un rapport de dépenses approuvé"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/payments/reimburse"
+---
+
+## Aperçu
+
+Rembourser intégralement un rapport de dépenses approuvé. Cela marque toutes les dépenses du rapport comme remboursées et enregistre les détails du paiement. Le rapport doit être au statut `approved` avant de pouvoir être remboursé.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses à rembourser
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="reimbursedAmount" type="number">
+  Montant total à rembourser. Par défaut, le total approuvé du rapport si non spécifié.
+</ParamField>
+
+<ParamField body="reimbursementMethod" type="string">
+  Mode de paiement utilisé pour le remboursement. Options : `bank_transfer`, `check`, `cash`, `payroll`, `other`
+</ParamField>
+
+<ParamField body="reimbursementRéférence" type="string">
+  Numéro de référence externe pour le remboursement (ex. : numéro de chèque, identifiant de virement)
+</ParamField>
+
+<ParamField body="reimbursementNotes" type="string">
+  Notes sur le remboursement
+</ParamField>
+
+<ParamField body="reimbursedDate" type="string">
+  Date à laquelle le remboursement à été effectué (format ISO 8601 : AAAA-MM-JJ). Par défaut, aujourd'hui.
+</ParamField>
+
+## Réponse
+
+<ResponseField name="id" type="integer">
+  Identifiant de l'enregistrement de remboursement
+</ResponseField>
+
+<ResponseField name="reportId" type="integer">
+  Identifiant du rapport de dépenses remboursé
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut du rapport après remboursement : `reimbursed`
+</ResponseField>
+
+<ResponseField name="reimbursedAmount" type="number">
+  Montant total remboursé
+</ResponseField>
+
+<ResponseField name="reimbursementMethod" type="string">
+  Mode de paiement utilisé
+</ResponseField>
+
+<ResponseField name="reimbursementRéférence" type="string">
+  Référence de paiement externe
+</ResponseField>
+
+<ResponseField name="reimbursementNotes" type="string">
+  Notes de remboursement
+</ResponseField>
+
+<ResponseField name="reimbursedDate" type="string">
+  Date du remboursement
+</ResponseField>
+
+<ResponseField name="reimbursedAt" type="string">
+  Horodatage de l'enregistrement du remboursement (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/789/payments/reimburse \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "reimbursedAmount": 1250.00,
+    "reimbursementMethod": "bank_transfer",
+    "reimbursementRéférence": "TXN-2024-001234",
+    "reimbursementNotes": "January travel reimbursement",
+    "reimbursedDate": "2024-02-15"
+  }'
+```
+
+```javascript JavaScript
+const result = await client.expenseReportPayments.reimburse(789, {
+  reimbursedAmount: 1250.00,
+  reimbursementMethod: "bank_transfer",
+  reimbursementRéférence: "TXN-2024-001234",
+  reimbursementNotes: "January travel reimbursement",
+  reimbursedDate: "2024-02-15"
+});
+```
+
+```python Python
+result = client.expense_report_payments.reimburse(
+    report_id=789,
+    request={
+        "reimbursed_amount": 1250.00,
+        "reimbursement_method": "bank_transfer",
+        "reimbursement_référence": "TXN-2024-001234",
+        "reimbursement_notes": "January travel reimbursement",
+        "reimbursed_date": "2024-02-15"
+    }
+)
+```
+
+```csharp C#
+var result = await client.ExpenseReportPayments.ReimburseAsync(789, new ReimburseRequest
+{
+    ReimbursedAmount = 1250.00m,
+    ReimbursementMethod = "bank_transfer",
+    ReimbursementRéférence = "TXN-2024-001234",
+    ReimbursementNotes = "January travel reimbursement",
+    ReimbursedDate = "2024-02-15"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 501,
+  "reportId": 789,
+  "status": "reimbursed",
+  "reimbursedAmount": 1250.00,
+  "reimbursementMethod": "bank_transfer",
+  "reimbursementRéférence": "TXN-2024-001234",
+  "reimbursementNotes": "January travel reimbursement",
+  "reimbursedDate": "2024-02-15",
+  "reimbursedAt": "2024-02-15T09:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | REPORT_NOT_APPROVED | Le rapport doit être approuvé avant le remboursement |
+| 400 | ALREADY_REIMBURSED | Le rapport à déjà été remboursé |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes |
+| 404 | REPORT_NOT_FOUND | Le rapport n'existe pas |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Remboursement partiel" icon="divide" href="/api-reference/expense-report-payments/create-payment">
+    Rembourser des dépenses spécifiques individuellement
+  </Card>
+  <Card title="Planifier un remboursement" icon="calendar" href="/api-reference/expense-report-payments/get-payment">
+    Planifier un remboursement futur
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer les détails du rapport
+  </Card>
+  <Card title="Approuver un rapport" icon="check" href="/api-reference/expense-reports/approve-report">
+    Approuver un rapport soumis
+  </Card>
+</CardGroup>

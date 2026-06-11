@@ -1,0 +1,211 @@
+---
+title: "Create Invoice"
+api: "POST https://api.smartbills.io/v1/invoices"
+description: "Create a new invoice"
+---
+
+## Body Parameters
+
+<ParamField body="invoiceNumber" type="string">
+  Custom invoice number. If not provided, one will be auto-generated.
+</ParamField>
+
+<ParamField body="customerId" type="integer">
+  ID of the customer to bill
+</ParamField>
+
+<ParamField body="date" type="string">
+  Invoice issue date in ISO 8601 format. Defaults to current date.
+</ParamField>
+
+<ParamField body="dueDate" type="string">
+  Payment due date in ISO 8601 format. Auto-computed from `paymentTerms` if not provided.
+</ParamField>
+
+<ParamField body="paymentTerms" type="string">
+  Payment terms for the invoice. When set, `dueDate` is auto-computed from the issue date if not explicitly provided. Values: `UponReceipt`, `Net7`, `Net15`, `Net30`, `Net45`, `Net60`, `Net90`, `Custom`
+</ParamField>
+
+<ParamField body="currency" type="string">
+  ISO 4217 currency code (e.g. `CAD`, `USD`). Defaults to the business default currency.
+</ParamField>
+
+<ParamField body="note" type="string">
+  Memo or notes to include on the invoice
+</ParamField>
+
+<ParamField body="billingPeriodStartDate" type="string">
+  Start of the billing period (ISO 8601)
+</ParamField>
+
+<ParamField body="billingPeriodEndDate" type="string">
+  End of the billing period (ISO 8601)
+</ParamField>
+
+<ParamField body="autoPaymentDate" type="string">
+  Date for automatic payment collection (ISO 8601)
+</ParamField>
+
+<ParamField body="amountDue" type="object">
+  <Expandable title="properties">
+    <ParamField body="amount" type="number" required>Amount due</ParamField>
+    <ParamField body="currency" type="string" required>ISO 4217 currency code</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="balanceForward" type="object">
+  <Expandable title="properties">
+    <ParamField body="amount" type="number">Balance carried forward</ParamField>
+    <ParamField body="currency" type="string">Currency code</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="paymentLinkUrl" type="string">
+  Custom payment link URL
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  <Expandable title="properties">
+    <ParamField body="description" type="string" required>Line item description</ParamField>
+    <ParamField body="quantity" type="number" required>Quantity</ParamField>
+    <ParamField body="unitPrice" type="number" required>Price per unit in cents</ParamField>
+    <ParamField body="productId" type="integer">Associated product ID</ParamField>
+    <ParamField body="taxable" type="boolean">Whether the line item is taxable</ParamField>
+    <ParamField body="taxIds" type="array">Array of tax IDs to apply to this line item</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="fees" type="array">
+  <Expandable title="properties">
+    <ParamField body="feeId" type="integer">ID of a fee from the business fee catalog</ParamField>
+    <ParamField body="name" type="string">Fee name (required if no feeId)</ParamField>
+    <ParamField body="type" type="string">Fee type: `FIXED` or `PERCENTAGE`</ParamField>
+    <ParamField body="amount" type="number">Fixed fee amount</ParamField>
+    <ParamField body="percentage" type="number">Fee percentage (when type is `PERCENTAGE`)</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="discounts" type="array">
+  <Expandable title="properties">
+    <ParamField body="promoCodeId" type="integer">ID of a promo code to apply</ParamField>
+    <ParamField body="name" type="string">Discount name (required if no promoCodeId)</ParamField>
+    <ParamField body="type" type="string">Discount type: `FIXED` or `PERCENTAGE`</ParamField>
+    <ParamField body="amount" type="number">Fixed discount amount</ParamField>
+    <ParamField body="percentage" type="number">Discount percentage (when type is `PERCENTAGE`)</ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="reminders" type="array">
+  <Expandable title="properties">
+    <ParamField body="enabled" type="boolean" required>Whether the reminder is active</ParamField>
+    <ParamField body="timing" type="string" required>When to send: `BEFORE_DUE`, `ON_DUE`, `AFTER_DUE`</ParamField>
+    <ParamField body="daysOffset" type="integer" required>Number of days before/after due date</ParamField>
+    <ParamField body="frequency" type="string" required>Reminder frequency: `ONCE`, `WEEKLY`, `BIWEEKLY`, `MONTHLY`</ParamField>
+    <ParamField body="maxReminders" type="integer" required>Maximum number of reminder emails to send</ParamField>
+    <ParamField body="message" type="string">Custom reminder message</ParamField>
+  </Expandable>
+</ParamField>
+
+## Response
+
+Returns the created invoice object.
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/invoices \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "customerId": 789,
+    "currency": "CAD",
+    "paymentTerms": "Net30",
+    "date": "2026-04-01T00:00:00Z",
+    "lineItems": [
+      {
+        "description": "Web Development Services",
+        "quantity": 10,
+        "unitPrice": 15000,
+        "taxable": true,
+        "taxIds": [1]
+      }
+    ],
+    "fees": [
+      { "name": "Service Fee", "type": "PERCENTAGE", "percentage": 5 }
+    ],
+    "discounts": [
+      { "name": "Loyalty Discount", "type": "FIXED", "amount": 500 }
+    ]
+  }'
+```
+
+```javascript JavaScript
+const invoice = await smartbills.invoices.create({
+  customerId: 789,
+  currency: "CAD",
+  paymentTerms: "Net30",
+  date: "2026-04-01T00:00:00Z",
+  lineItems: [
+    { description: "Web Development Services", quantity: 10, unitPrice: 15000, taxable: true, taxIds: [1] }
+  ],
+  fees: [
+    { name: "Service Fee", type: "PERCENTAGE", percentage: 5 }
+  ],
+  discounts: [
+    { name: "Loyalty Discount", type: "FIXED", amount: 500 }
+  ]
+});
+```
+
+```csharp C#
+var invoice = await invoiceClient.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 789,
+    PaymentTerms = "Net30",
+    DueDate = DateTimeOffset.Parse("2026-05-01"),
+    LineItems = new List<InvoiceLineItemRequest>
+    {
+        new() { Description = "Web Development Services", Quantity = 10, UnitPrice = 15000 }
+    }
+}, new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "invoiceNumber": "MOB-000001",
+  "currency": "CAD",
+  "status": "Draft",
+  "billStatus": "Draft",
+  "isOverdue": false,
+  "isPaid": false,
+  "subTotal": { "amount": 1500.00, "currency": "CAD" },
+  "totalTaxes": { "amount": 75.00, "currency": "CAD" },
+  "totalDiscounts": { "amount": 5.00, "currency": "CAD" },
+  "totalFees": { "amount": 75.00, "currency": "CAD" },
+  "total": { "amount": 1645.00, "currency": "CAD" },
+  "amountPaid": { "amount": 0, "currency": "CAD" },
+  "amountDue": { "amount": 1645.00, "currency": "CAD" },
+  "date": "2026-04-01T00:00:00Z",
+  "dueDate": "2026-05-01T00:00:00Z",
+  "paymentTerms": "Net30",
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Web Development Services",
+      "quantity": 10,
+      "unitPrice": 15000,
+      "total": { "amount": 1500.00, "currency": "CAD" }
+    }
+  ],
+  "createdAt": "2026-04-01T10:00:00Z",
+  "updatedAt": "2026-04-01T10:00:00Z"
+}
+```
+
+</ResponseExample>

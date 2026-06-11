@@ -1,0 +1,153 @@
+---
+title: "Approbations"
+description: "Examinez et approuvez les rapports de dépenses sur votre appareil mobile"
+---
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/hero.png" alt="Écran des approbations dans l'application mobile Smartbills" />
+</Frame>
+
+## Introduction
+
+Si vous etes gestionnaire ou approbateur designe, vous pouvez examiner et agir sur les rapports de dépenses directement depuis l'application mobile Smartbills. Les notifications push vous alertent lorsque des rapports sont soumis pour votre revision, et vous pouvez approuver, rejeter ou d.mander des modifications ou que vous soyez.
+
+## Accéder aux Approbations en Attente
+
+Il existe plusieurs facons d'accéder à votre file d'approbation :
+
+- **Notification push** : Appuyez sur la notification lorsqu'un nouveau rapport est soumis pour votre revision
+- **Onglet Accueil** : Les approbations en attente apparaissent dans la section **Actions Requises** de votre tableau de bord
+- **Onglet Menu** : Appuyez sur **Approbations** pour voir tous les rapports en attente de votre revision
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/approvals-list.png" alt="Liste des demandes d'approbation en attente" />
+</Frame>
+
+La liste des approbations affiche chaque rapport avec le nom du soumetteur, le titre du rapport, le montant total et la date de soumission. Les rapports sont tries par date de soumission avec les plus recents en haut.
+
+## Examiner un Rapport
+
+Appuyez sur un rapport dans la liste des approbations pour l'ouvrir et examiner les détails.
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/review-report.png" alt="Examen d'un rapport de dépenses avec les dépenses individuelles listees" />
+</Frame>
+
+L'écran de détail du rapport affiche :
+
+- **Résumé du rapport** : Titre, description, objectif commercial et montant total
+- **Informations du soumetteur** : Nom et département de l'employé qui à soumis le rapport
+- **Liste des dépenses** : Toutes les dépenses individuelles incluses dans le rapport
+- **Ventilation par catégorie** : Montants totaux regroupes par catégorie de dépenses
+
+### Examiner les Dépenses Individuelles
+
+Appuyez sur n'importe quelle dépense dans la liste pour voir ses détails complets, incluant :
+
+- Nom du commercant, montant et date
+- Attribution de catégorie
+- Image du reçu jointe (appuyez pour voir en plein écran et zoomer)
+- Notes du soumetteur
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/expense-detail.png" alt="Détail d'une dépense individuelle avec image du reçu" />
+</Frame>
+
+<Tip>
+  Pincez pour zoomer sur les images de reçus afin de vérifiér les montants et les détails. Balayez à gauche et à droite pour naviguer entre les dépenses du rapport sans revenir à la liste.
+</Tip>
+
+## Approuver un Rapport
+
+Une fois que vous avez examine toutes les dépenses et que vous etes satisfait :
+
+1. Appuyez sur le bouton **Approuver** en bas de l'écran du rapport
+2. Ajoutez optionnellement un commentaire pour le soumetteur
+3. Appuyez sur **Confirmer l'Approbation**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/approve-report.png" alt="Confirmation d'approbation du rapport avec commentaire optionnel" />
+</Frame>
+
+Le soumetteur recoit une notification push indiquant que son rapport à été approuvé.
+
+### Approbation Rapide depuis la Notification
+
+Lorsque vous recevez une notification push pour une nouvelle demande d'approbation, vous pouvez approuver directement depuis la banniere de notification sans ouvrir l'application :
+
+1. Appuyez longuement (iOS) ou d.veloppez (Android) la notification
+2. Appuyez sur **Approuver** parmi les actions de la notification
+3. Le rapport est approuvé et le soumetteur est notifie
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/quick-approve.png" alt="Action d'approbation rapide depuis la notification push" />
+</Frame>
+
+<Note>
+  L'approbation rapide depuis la notification n'est disponible que pour les rapports en dessous d'un montant seuil configuré par votre administrateur. Les rapports au-dessus du seuil nécessitent un examen complet dans l'application.
+</Note>
+
+## Rejeter un Rapport
+
+Si un rapport ne répond pas à vos criteres d'approbation :
+
+1. Appuyez sur le bouton **Rejeter** en bas de l'écran du rapport
+2. Entrez une raison pour le rejet (requis)
+3. Appuyez sur **Confirmer le Rejet**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/reject-report.png" alt="Boite de dialogue de rejet du rapport avec champ de raison requis" />
+</Frame>
+
+Le soumetteur recoit une notification push avec votre raison de rejet et peut reviser et resoumettre le rapport.
+
+## Demander des Modifications
+
+Si un rapport est globalement acceptable mais necessite des corrections mineures :
+
+1. Appuyez sur **Demander des Modifications** dans le menu d'actions
+2. Entrez une description des modifications nécessaires
+3. Appuyez sur **Envoyer la Demande**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/request-changes.png" alt="Boite de dialogue de demande de modifications avec champ de description" />
+</Frame>
+
+Le statut du rapport passe à **Modifications Requises** et le soumetteur est notifie. Il peut effectuer les modifications demandées et resoumettre sans créer un nouveau rapport.
+
+## Historique des Approbations
+
+Pour consulter les rapports que vous avez précédemment approuvés, rejetés ou retournés pour modifications :
+
+1. Allez dans **Menu > Approbations**
+2. Appuyez sur l'onglet **Historique** en haut de l'écran
+3. Parcourez vos actions d'approbation passees avec les dates et commentaires
+
+## Configurer les Notifications d'Approbation
+
+Pour gérer les notifications d'approbation que vous recevez :
+
+1. Allez dans **Menu > Paramètres > Notifications**
+2. Sous **Approbations**, activez ou d.�sactivez les types de notifications :
+   - **Nouvelle demande d'approbation** : Lorsqu'un rapport est soumis pour votre revision
+   - **Rapport rappelé** : Lorsqu'un soumetteur rappelle un rapport que vous examiniez
+   - **Rapport resoumis** : Lorsqu'un rapport précédemment rejeté ou retourné est resoumis
+
+Consultez [Notifications](/fr/guides/mobile/notifications) pour les détails complets de configuration des notifications.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Rapports de Dépenses" icon="file-lines" href="/fr/guides/mobile/expense-reports">
+    Créez et soumettez vos propres rapports de dépenses
+  </Card>
+  <Card title="Web : Approuver un Rapport" icon="check" href="/fr/guides/web-app/approvals/approve-report">
+    Approuvez des rapports depuis le tableau de bord web
+  </Card>
+  <Card title="Web : Rejeter un Rapport" icon="xmark" href="/fr/guides/web-app/approvals/reject-report">
+    Rejetez des rapports depuis le tableau de bord web
+  </Card>
+  <Card title="Notifications" icon="bell" href="/fr/guides/mobile/notifications">
+    Configurez vos préférences de notifications push
+  </Card>
+</CardGroup>

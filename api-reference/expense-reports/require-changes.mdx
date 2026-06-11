@@ -1,8 +1,22 @@
 ---
-title: "Require Changes"
-api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/approvals/require-changes"
-description: "Request changes to an expense report"
+title: "Request Changes"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/request-changes"
+description: "Request changes to a submitted expense report before approval"
 ---
+
+## Overview
+
+Request changes to a submitted expense report instead of approving or rejecting it. The report status changes to `changes_required`, and the submitter is notified with the requested changes. The submitter can then update the report and resubmit it.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
 
 ## Path Parameters
 
@@ -16,20 +30,89 @@ description: "Request changes to an expense report"
 
 ## Request Body
 
-<ParamField body="changeRequirements" type="string" required>
-  Description of required changes
+<ParamField body="changes" type="string" required>
+  Description of the changes required. This will be visible to the submitter.
+
+  Example: `"Please update expense #12347 with the correct amount and attach the itemized receipt."`
 </ParamField>
+
+## Response
+
+Returns the updated expense report with status changed to `changes_required`.
+
+<ResponseField name="id" type="integer">
+  Unique expense report identifier
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Report title
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status (will be `changes_required`)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Total amount of the report
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="changesRequestedBy" type="integer">
+  User ID of the person who requested changes
+</ResponseField>
+
+<ResponseField name="changesRequestedAt" type="string">
+  Timestamp when changes were requested (ISO 8601)
+</ResponseField>
+
+<ResponseField name="requestedChanges" type="string">
+  The changes requested
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of last update (ISO 8601)
+</ResponseField>
 
 <RequestExample>
 
 ```bash cURL
 curl --request POST \
-  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/approvals/require-changes \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/request-changes \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
   --data '{
-    "changeRequirements": "Please update expense #12347 with the correct amount and provide a detailed receipt"
+    "changes": "Please update expense #12347 with the correct amount and attach the itemized receipt."
   }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.requestChanges(1001, {
+  changes: "Please update expense #12347 with the correct amount and attach the itemized receipt."
+});
+
+console.log("Status:", report.status);
+console.log("Changes requested at:", report.changesRequestedAt);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.request_changes(1001, {
+    "changes": "Please update expense #12347 with the correct amount and attach the itemized receipt."
+})
+
+print(f"Status: {report.status}")
+print(f"Changes requested at: {report.changes_requested_at}")
 ```
 
 </RequestExample>
@@ -39,11 +122,43 @@ curl --request POST \
 ```json Response
 {
   "id": 1001,
+  "title": "January 2025 Business Trip",
   "status": "changes_required",
-  "changeRequirements": "Please update expense #12347 with the correct amount and provide a detailed receipt",
-  "updatedAt": "2024-02-01T10:00:00Z"
+  "totalAmount": 1234.56,
+  "reportCurrency": "USD",
+  "changesRequestedBy": 100,
+  "changesRequestedAt": "2025-02-01T10:00:00Z",
+  "requestedChanges": "Please update expense #12347 with the correct amount and attach the itemized receipt.",
+  "updatedAt": "2025-02-01T10:00:00Z"
 }
 ```
 
 </ResponseExample>
 
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Missing or empty changes description |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | User is not authorized to request changes on this report |
+| 404 | NOT_FOUND | Expense report not found |
+| 409 | INVALID_STATUS | Report is not in `submitted` status |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Approve Report" icon="check" href="/api-reference/expense-reports/approve-report">
+    Approve a submitted report
+  </Card>
+  <Card title="Reject Report" icon="xmark" href="/api-reference/expense-reports/reject-report">
+    Reject a submitted report
+  </Card>
+  <Card title="Update Report" icon="pen" href="/api-reference/expense-reports/update-report">
+    Update report after changes are requested
+  </Card>
+  <Card title="Submit Report" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Resubmit after making changes
+  </Card>
+</CardGroup>

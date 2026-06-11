@@ -1,0 +1,127 @@
+---
+title: "Gérer les Roles"
+description: "Attribuez et modifiez les roles et permissions des utilisateurs"
+---
+
+## Aperçu
+
+Les roles determinent ce que chaque membre de l'équipe peut voir et faire dans Smartbills. L'attribution du bon role garantit que les employés disposent de l'acces dont ils ont besoin tout en limitant les opérations sensibles au personnel autorise. Ce guide explique comment modifier les roles et quelles permissions chaque role comprend.
+
+<Note>
+  Seuls les utilisateurs ayant le role **Administrateur** ou **Proprietaire** peuvent modifier les roles des autres membres.
+</Note>
+
+## Modifier le Role d'un Membre
+
+<Steps>
+  <Step title="Accédez à l'Équipe">
+    Cliquez sur **Équipe** dans la barre latérale gauche pour ouvrir la page de gestion d'équipe.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/navigate.png" alt="Option Équipe surlignée dans la barre latérale" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquez sur l'Employé">
+    Trouvez l'employé dans la liste et cliquez sur sa ligne pour ouvrir le panneau de détails du membre.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/select-member.png" alt="Clic sur la ligne d'un employé pour ouvrir ses détails" />
+    </Frame>
+  </Step>
+
+  <Step title="Modifiez le Role">
+    Dans le panneau de détails du membre, cliquez sur le menu déroulant **Role** et sélectionnez le nouveau role.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/change-role.png" alt="Menu déroulant de role affichant les roles disponibles" />
+    </Frame>
+  </Step>
+
+  <Step title="Enregistrez">
+    Cliquez sur **Enregistrer** pour appliquer le changement de role. Les permissions du membre sont mises à jour immediatement.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/role-saved.png" alt="Confirmation que le role à été mis à jour" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Le role du membre à été mis à jour. Ses permissions d'acces prennent effet immediatement.
+</Check>
+
+## Tableau des Permissions
+
+Le tableau ci-dessous montre ce que chaque role peut faire dans les principales sections de Smartbills.
+
+| Permission | Proprietaire | Admin | Gestionnaire | Employé | Comptable |
+|------------|:------------:|:-----:|:------------:|:-------:|:---------:|
+| Soumettre ses dépenses | Oui | Oui | Oui | Oui | Oui |
+| Créer des rapports de dépenses | Oui | Oui | Oui | Oui | Oui |
+| Voir les dépenses de l'entreprise | Oui | Oui | Oui | -- | Oui |
+| Approuver les rapports | Oui | Oui | Oui | -- | -- |
+| Gérer les fournisseurs | Oui | Oui | -- | -- | Oui |
+| Gérer les catégories | Oui | Oui | -- | -- | Oui |
+| Inviter des membres | Oui | Oui | -- | -- | -- |
+| Modifier les roles | Oui | Oui | -- | -- | -- |
+| Configurer les paramètres | Oui | Oui | -- | -- | -- |
+| Gérer la facturation | Oui | -- | -- | -- | -- |
+| Transferer la propriete | Oui | -- | -- | -- | -- |
+| Supprimer l'entreprise | Oui | -- | -- | -- | -- |
+
+## Descriptions des Roles
+
+### Proprietaire
+Le Proprietaire à un accès illimite à l'ensemble de l'organisation, y compris la gestion de la facturation, le transfert de propriete et la possibilite de supprimer l'entreprise. Il ne peut y avoir qu'un seul Proprietaire par organisation. La propriete peut être transferee à un autre Administrateur depuis la page d'équipe.
+
+### Administrateur
+Les Administrateurs ont un accès complet à toutes les fonctionnalités et paramètres sauf la facturation et le transfert de propriete. Ils peuvent inviter des membres, modifier les roles, configurer les catégories, gérer les fournisseurs et approuver les rapports de dépenses.
+
+### Gestionnaire
+Les Gestionnaires peuvent approuver les rapports de dépenses soumis par les employés de leur département ou équipe assignee. Ils ont un accès en lecture aux dépenses de l'équipe mais ne peuvent pas modifier les paramètres de l'organisation.
+
+### Employé
+Les Employés peuvent télécharger des dépenses, créer et soumettre des rapports de dépenses, et consulter leurs propres données. Ils ne peuvent pas accéder aux dépenses des autres membres ni aux paramètres de l'organisation.
+
+### Comptable
+Les Comptables peuvent consulter et gérer toutes les dépenses, fournisseurs et catégories à travers l'organisation. Ce role est conçu pour les membres de l'équipe financiere qui ont besoin d'un accès aux données sans controle administratif sur les paramètres d'équipe ou la facturation.
+
+## Delegation
+
+Smartbills prend en charge la delegation temporaire, permettant à un membre d'accorder à un autre membre la capacite d'agir en son nom. Cela est utile lorsqu'un gestionnaire est en vacances et à besoin que quelqu'un d'autre géré les approbations.
+
+Pour configurer la delegation :
+
+1. Ouvrez le panneau de détails du membre depuis la page Équipe
+2. Cliquez sur **Paramètres de delegation**
+3. Sélectionnez le delegue (la personne qui agira en son nom)
+4. Définissez la periode de delegation (dates de debut et de fin)
+5. Cliquez sur **Enregistrer**
+
+Pendant la periode de delegation, le delegue recoit les notifications d'approbation et peut approuver ou rejeter les rapports au nom du membre original.
+
+<Tip>
+  La delegation ne modifié pas le role du delegue de facon permanente. Ses permissions elevees ne durent que pendant la periode de delegation configurée.
+</Tip>
+
+## Désactiver un Membre
+
+Si un membre de l'équipe quitte l'organisation ou n'a plus besoin d'acces, vous pouvez désactiver son compte :
+
+1. Ouvrez le panneau de détails du membre
+2. Cliquez sur **Désactiver**
+3. Confirmez la desactivation
+
+Les membres désactivés ne peuvent pas se connecter ni accéder à aucune donnée. Leurs dépenses et rapports historiques sont conservés à des fins d'audit.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Inviter des Membres" icon="user-plus" href="/fr/guides/web-app/team/invite-members">
+    Ajoutez de nouveaux employés à votre organisation
+  </Card>
+  <Card title="Départements" icon="building" href="/fr/guides/web-app/settings/departments">
+    Organisez votre équipe en départements
+  </Card>
+</CardGroup>

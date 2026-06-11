@@ -1,0 +1,177 @@
+---
+title: "Notifications"
+description: "Configurez les notifications push pour les mises à jour de dépenses et les demandes d'approbation"
+---
+
+## Aperçu
+
+Smartbills envoie des notifications push pour vous tenir informe de l'activité de dépenses qui necessite votre attention. Vous pouvez controler exactement quels types de notifications vous recevez, configurer des heures de silence pour eviter les interruptions et gérer les préférences de notifications par courriel separement des notifications push.
+
+<Frame>
+  <img src="/images/guides/mobile/notifications/notification-example.png" alt="Notification push montrant une approbation de dépense" />
+</Frame>
+
+## Types de Notifications
+
+Smartbills prend en charge les types de notifications push suivants :
+
+| Notification | Description | Par Défaut |
+|-------------|-------------|------------|
+| **Dépense Approuvee** | Une dépense dans votre rapport soumis à été approuvée | Activé |
+| **Dépense Rejetée** | Une dépense dans votre rapport soumis à été rejetée, avec la raison du reviseur | Activé |
+| **Changement de Statut de Rapport** | Le statut de votre rapport de dépenses à changé (ex. : soumis, approuvé, rejete, remboursé) | Activé |
+| **Demande d'Approbation** | Un nouveau rapport de dépenses à été soumis pour votre approbation | Activé |
+| **Commentaire sur un Rapport** | Quelqu'un à ajoute un commentaire à l'un de vos rapports de dépenses | Activé |
+| **Rappel de Soumission** | Un rappel périodique que vous avez des dépenses non soumises dans votre portefeuille | Désactivé |
+
+## Configurer les Notifications Push
+
+Vous pouvez activer ou d.sactiver chaque type de notification individuellement.
+
+<Steps>
+  <Step title="Ouvrir les Paramètres de Notifications">
+    Appuyez sur l'onglet **Menu** dans la navigation du bas, puis allez dans **Paramètres** > **Notifications**.
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/notification-settings.png" alt="Écran des paramètres de notifications avec des bascules pour chaque type de notification" />
+    </Frame>
+  </Step>
+
+  <Step title="Basculer les Types de Notifications">
+    Chaque type de notification à sa propre bascule. Appuyez sur la bascule pour activer ou d.sactiver cette notification spécifique. Les modifications sont enregistrées automatiquement.
+  </Step>
+
+  <Step title="Vérifier les Permissions de l'Appareil">
+    Smartbills à besoin de la permission de votre système d'exploitation pour envoyer des notifications push. Si les notifications n'arrivent pas, vérifiéz les paramètres de votre appareil :
+
+    - **iOS** : Allez dans **Reglages** > **Notifications** > **Smartbills** et assurez-vous que **Autoriser les Notifications** est active
+    - **Android** : Allez dans **Paramètres** > **Applications** > **Smartbills** > **Notifications** et assurez-vous que les notifications sont autorisees
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/device-permissions.png" alt="Permissions de notifications de l'appareil pour Smartbills" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Canaux de Notifications
+
+### iOS
+
+Sur iOS, les notifications Smartbills apparaissent sous forme de :
+
+- **Alertes d'écran de verrouillage** -- Visibles sur votre écran de verrouillage et dans le Centre de Notifications
+- **Bannieres** -- Alertes breves en haut de l'écran lorsque le telephone est deverrouille
+- **Badge** -- Le badge rouge sur l'icône de l'application Smartbills affiche le nombre de notifications non lues
+- **Sons** -- Un son de notification optionnel (configurable dans les paramètres de notifications iOS)
+
+Vous pouvez personnalisér le style de notification dans **Reglages iOS** > **Notifications** > **Smartbills** en choisissant entre bannieres, alertes ou aucun.
+
+### Android
+
+Sur Android, Smartbills utilise des canaux de notifications pour vous donner un controle granulaire :
+
+| Canal | Notifications Incluses |
+|-------|----------------------|
+| **Approbations** | Demandes d'approbation, changements de statut de rapport |
+| **Dépenses** | Dépense approuvée, dépense rejetée |
+| **Commentaires** | Commentaires sur vos rapports |
+| **Rappels** | Rappels de soumission |
+
+Chaque canal peut être configuré indépendamment avec son propre niveau d'importance, son, modèle de vibration et couleur de LED via **Paramètres Android** > **Applications** > **Smartbills** > **Notifications**.
+
+<Tip>
+  Sur Android, vous pouvez définir le canal Approbations en priorite haute pour que les demandes d'approbation apparaissent toujours comme notifications contextuelles, tout en gardant les autres canaux en priorite normale.
+</Tip>
+
+## Préférences de Notifications par Courriel
+
+Les notifications par courriel sont gérées separement des notifications push. Vous pouvez recevoir des résumés par courriel pour les memes types d'événements listes ci-dessus, selon un calendrier different.
+
+<Steps>
+  <Step title="Ouvrir les Préférences de Courriel">
+    Dans l'écran des paramètres de notifications, faites defiler jusqu'a la section **Notifications par Courriel**.
+  </Step>
+
+  <Step title="Configurer la Frequence des Courriels">
+    Choisissez la frequence à laquelle vous recevez les résumés de notifications par courriel :
+
+    | Option | Description |
+    |--------|-------------|
+    | **Instantane** | Un courriel individuel est envoye immediatement pour chaque événement |
+    | **Résumé Quotidien** | Un seul courriel de synthese quotidien est envoye chaque matin |
+    | **Résumé Hebdomadaire** | Un seul courriel de synthese hebdomadaire est envoye chaque lundi |
+    | **Désactivé** | Aucune notification par courriel n'est envoyée |
+
+  </Step>
+
+  <Step title="Sélectionner les Types d'Événements par Courriel">
+    Basculez les types d'événements inclus dans vos notifications par courriel. Ces bascules sont independantes de vos préférences de notifications push -- vous pouvez recevoir des notifications push pour les approbations mais des notifications par courriel uniquement pour les rejets, ou toute autre combinaison.
+  </Step>
+</Steps>
+
+<Note>
+  Les préférences de notifications par courriel peuvent également être gérées depuis le tableau de bord web sous **Paramètres** > **Profil** > **Préférences de Notifications**. Les modifications effectuées sur l'une ou l'autre plateforme se synchronisent automatiquement.
+</Note>
+
+## Horaire Ne Pas Deranger
+
+Configurez des heures de silence pendant lesquelles Smartbills n'enverra pas de notifications push. Les notifications recues pendant les heures de silence sont livrees silencieusement et apparaissent dans votre historique de notifications à la fin de la periode de silence.
+
+<Steps>
+  <Step title="Activer Ne Pas Deranger">
+    Dans **Menu** > **Paramètres** > **Notifications**, faites defiler jusqu'a la section **Ne Pas Deranger** et activez la bascule.
+  </Step>
+
+  <Step title="Définir Votre Horaire">
+    Choisissez les heures de debut et de fin de votre periode de silence. Par exemple, définissez 20h00 à 8h00 pour couper les notifications pendant la nuit.
+
+    <Frame>
+      <img src="/images/guides/mobile/notifications/dnd-schedule.png" alt="Horaire Ne Pas Deranger avec sélecteurs d'heure de debut et de fin" />
+    </Frame>
+  </Step>
+
+  <Step title="Choisir les Jours Actifs">
+    Sélectionnez les jours de la semaine auxquels l'horaire Ne Pas Deranger s'applique. Vous pouvez l'activer pour tous les jours, les jours de semaine uniquement, les fins de semaine uniquement ou toute combinaison personnalisée.
+  </Step>
+</Steps>
+
+<Tip>
+  Ne Pas Deranger n'affecte que les notifications push de Smartbills. Il n'interagit pas avec le mode Ne Pas Deranger au niveau du système de votre appareil. Pour un silence complet, configurez les deux.
+</Tip>
+
+## Historique des Notifications
+
+Pour consulter les notifications passees :
+
+1. Appuyez sur l'**icône de cloche** dans l'onglet Accueil
+2. L'écran d'historique des notifications affiche toutes les notifications récentes groupees par date
+3. Appuyez sur n'importe quelle notification pour naviguer directement vers la dépense, le rapport ou l'approbation associee
+
+Les notifications non lues sont mises en evidence. Les notifications sont conservées pendant 30 jours.
+
+## Dépannage
+
+| Probleme | Solution |
+|----------|----------|
+| Aucune notification reçue | Vérifiez que les permissions de l'appareil sont activées et que vous etes connecte à l'application |
+| Notifications en retard | Assurez-vous que l'application n'est pas restreinte par l'optimisation de batterie (Android) ou que l'Actualisation en arriere-plan est activée (iOS) |
+| Le badge ne se remet pas à zero | Ouvrez l'application et consultez l'historique des notifications pour tout marquer comme lu |
+| Notifications par courriel non recues | Vérifiez votre dossier spam et confirmez votre adresse courriel dans votre profil Smartbills |
+| Ne Pas Deranger ne fonctionne pas | Vérifiez que les heures et les jours actifs de l'horaire sont correctement definis |
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Aperçu de l'Application Mobile" icon="mobile" href="/fr/guides/mobile/overview">
+    Retourner à l'aperçu de l'application mobile
+  </Card>
+  <Card title="Mode Hors Ligne" icon="wifi-slash" href="/fr/guides/mobile/offline-mode">
+    Découvrez comment les notifications fonctionnent en mode hors ligne
+  </Card>
+  <Card title="Gérer les Dépenses" icon="receipt" href="/fr/guides/mobile/manage-expenses">
+    Consultez et gérez vos dépenses sur mobile
+  </Card>
+  <Card title="Approbations sur Mobile" icon="check-circle" href="/fr/guides/mobile/approvals">
+    Examinez et approuvez les rapports de dépenses
+  </Card>
+</CardGroup>

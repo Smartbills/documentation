@@ -1,0 +1,98 @@
+---
+title: "Departments"
+description: "Set up departments for expense allocation and reporting"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/settings/departments-overview.png" alt="Departments settings page" />
+</Frame>
+
+## Overview
+
+Departments help you organize your team and allocate expenses by business unit. Each department can have its own cost center code and default approver, making it easy to route expense reports to the right manager and track spending per department.
+
+To manage departments, navigate to **Settings > Departments** in the left sidebar.
+
+<Note>
+  Only users with the **Admin** or **Owner** role can create and manage departments.
+</Note>
+
+## Create a Department
+
+<Steps>
+  <Step title="Open Department Settings">
+    Navigate to **Settings > Departments**. The page displays all existing departments.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-list.png" alt="List of existing departments" />
+    </Frame>
+  </Step>
+
+  <Step title="Click Add Department">
+    Click the **Add Department** button at the top of the page.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-add.png" alt="Add Department button" />
+    </Frame>
+  </Step>
+
+  <Step title="Enter Department Details">
+    Fill in the department form:
+
+    - **Name** (required) -- The department name (e.g., "Engineering", "Marketing", "Sales")
+    - **Cost Center** -- A code used for financial reporting and accounting integration (e.g., "CC-100")
+    - **Default Approver** -- Select the manager who will receive expense reports from members of this department for approval
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-form.png" alt="Department creation form with name, cost center, and approver fields" />
+    </Frame>
+
+    <Tip>
+      Setting a default approver streamlines the approval workflow. When an employee in this department submits an expense report, it is automatically routed to the designated approver.
+    </Tip>
+  </Step>
+
+  <Step title="Save">
+    Click **Save** to create the department. Team members can now be assigned to this department from the Team page.
+  </Step>
+</Steps>
+
+## Edit a Department
+
+Click any department in the list to open its detail panel. You can update the name, cost center code, or default approver. Click **Save** to apply changes.
+
+## Assign Members to Departments
+
+Members are assigned to departments from the **Team** page:
+
+1. Navigate to **Team** in the sidebar
+2. Click the employee you want to assign
+3. Select the department from the **Department** dropdown
+4. Click **Save**
+
+You can also assign departments when inviting new members.
+
+## Archive a Department
+
+If a department is no longer active but you need to retain its historical data:
+
+1. Click the department in the list
+2. Click **Archive**
+3. Confirm the action
+
+Archived departments are hidden from the department dropdown when assigning members but remain visible in historical reports and exports. You can restore an archived department at any time.
+
+<Note>
+  Archiving a department does not reassign its members. Update member department assignments before archiving if needed.
+</Note>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Team Management" icon="users" href="/guides/web-app/team/overview">
+    Assign team members to departments
+  </Card>
+  <Card title="Categories" icon="tags" href="/guides/web-app/settings/categories">
+    Set up expense categories
+  </Card>
+</CardGroup>

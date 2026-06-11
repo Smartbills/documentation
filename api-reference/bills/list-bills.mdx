@@ -1,0 +1,245 @@
+---
+title: "List Bills"
+description: "Retrieve a paginated list of bills"
+api: "GET https://api.smartbills.io/v1/bills"
+---
+
+## Overview
+
+Retrieve a paginated list of bills for the authenticated user. You can filter by vendor, status, due date range, and amount range to find specific bills.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number for pagination
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="20">
+  Number of items per page (max: 100)
+</ParamField>
+
+<ParamField query="businessId" type="integer">
+  Filter bills by business ID
+</ParamField>
+
+<ParamField query="vendorId" type="integer">
+  Filter by vendor ID
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filter by bill status. Options: `draft`, `pending`, `paid`, `overdue`, `cancelled`
+</ParamField>
+
+<ParamField query="dueDateFrom" type="string">
+  Filter bills due from this date (YYYY-MM-DD)
+</ParamField>
+
+<ParamField query="dueDateTo" type="string">
+  Filter bills due until this date (YYYY-MM-DD)
+</ParamField>
+
+<ParamField query="minAmount" type="number">
+  Minimum bill amount (inclusive)
+</ParamField>
+
+<ParamField query="maxAmount" type="number">
+  Maximum bill amount (inclusive)
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search across vendor name, bill number, and notes
+</ParamField>
+
+<ParamField query="sortBy" type="string" default="dueDate">
+  Field to sort by. Options: `dueDate`, `amount`, `createdAt`, `updatedAt`
+</ParamField>
+
+<ParamField query="sortOrder" type="string" default="desc">
+  Sort order. Options: `asc`, `desc`
+</ParamField>
+
+## Response
+
+<ResponseField name="data" type="array">
+  Array of bill objects
+
+  <Expandable title="Bill Object">
+    <ResponseField name="id" type="integer">
+      Unique bill identifier
+    </ResponseField>
+
+    <ResponseField name="businessId" type="integer">
+      ID of the business
+    </ResponseField>
+
+    <ResponseField name="vendorId" type="integer">
+      ID of the vendor
+    </ResponseField>
+
+    <ResponseField name="vendor" type="object">
+      Vendor summary
+      <Expandable title="Vendor Summary">
+        <ResponseField name="id" type="integer">
+          Vendor ID
+        </ResponseField>
+        <ResponseField name="name" type="string">
+          Vendor name
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="amount" type="number">
+      Total bill amount
+    </ResponseField>
+
+    <ResponseField name="currency" type="string">
+      ISO 4217 currency code
+    </ResponseField>
+
+    <ResponseField name="dueDate" type="string">
+      Payment due date (YYYY-MM-DD)
+    </ResponseField>
+
+    <ResponseField name="status" type="string">
+      Bill status: `draft`, `pending`, `paid`, `overdue`, `cancelled`
+    </ResponseField>
+
+    <ResponseField name="createdAt" type="string">
+      Timestamp when bill was created (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="updatedAt" type="string">
+      Timestamp of last update (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Pagination metadata
+
+  <Expandable title="Metadata Object">
+    <ResponseField name="page" type="integer">
+      Current page number
+    </ResponseField>
+    <ResponseField name="pageSize" type="integer">
+      Items per page
+    </ResponseField>
+    <ResponseField name="totalPages" type="integer">
+      Total number of pages
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Total number of bills matching filters
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/bills?page=1&pageSize=20&status=pending&sortBy=dueDate&sortOrder=asc' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const bills = await client.bills.list({
+  page: 1,
+  pageSize: 20,
+  status: "pending",
+  sortBy: "dueDate",
+  sortOrder: "asc"
+});
+```
+
+```python Python
+bills = client.bills.list(
+    page=1,
+    page_size=20,
+    status="pending",
+    sort_by="dueDate",
+    sort_order="asc"
+)
+```
+
+```csharp C#
+var bills = await client.Bills.ListAsync(new BillListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    Status = "pending",
+    SortBy = "dueDate",
+    SortOrder = "asc"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 3001,
+      "businessId": 456,
+      "vendorId": 200,
+      "vendor": {
+        "id": 200,
+        "name": "Acme Supplies Inc."
+      },
+      "amount": 1500.00,
+      "currency": "USD",
+      "dueDate": "2024-02-15",
+      "status": "pending",
+      "createdAt": "2024-01-20T10:00:00Z",
+      "updatedAt": "2024-01-20T10:00:00Z"
+    },
+    {
+      "id": 3002,
+      "businessId": 456,
+      "vendorId": 201,
+      "vendor": {
+        "id": 201,
+        "name": "CloudHost Pro"
+      },
+      "amount": 299.99,
+      "currency": "USD",
+      "dueDate": "2024-02-28",
+      "status": "pending",
+      "createdAt": "2024-01-25T08:00:00Z",
+      "updatedAt": "2024-01-25T08:00:00Z"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 3,
+    "count": 47
+  }
+}
+```
+
+</ResponseExample>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Bill" icon="eye" href="/api-reference/bills/get-bill">
+    Retrieve a bill by ID
+  </Card>
+  <Card title="Create Bill" icon="plus" href="/api-reference/bills/create-bill">
+    Create a new bill
+  </Card>
+  <Card title="Update Bill" icon="pen" href="/api-reference/bills/update-bill">
+    Modify a bill
+  </Card>
+  <Card title="Delete Bill" icon="trash" href="/api-reference/bills/delete-bill">
+    Remove a bill
+  </Card>
+</CardGroup>

@@ -1,0 +1,190 @@
+---
+title: "Installation"
+description: "How to install and configure the Smartbills .NET SDK"
+---
+
+## Prerequisites
+
+- .NET 6.0 or later
+- A Smartbills account with an API key
+- NuGet package manager (included with .NET SDK)
+
+## Install via NuGet
+
+<CodeGroup>
+
+```bash .NET CLI
+dotnet add package Smartbills.SDK
+```
+
+```bash Package Manager Console
+Install-Package Smartbills.SDK
+```
+
+```xml PackageReference
+<PackageReference Include="Smartbills.SDK" Version="*" />
+```
+
+</CodeGroup>
+
+### ASP.NET Core Integration
+
+For ASP.NET Core applications, install the companion package for dependency injection support:
+
+```bash
+dotnet add package Smartbills.SDK.AspNetCore
+```
+
+## Configuration
+
+### Basic Configuration
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "YOUR_API_KEY",
+    BusinessId = 123
+});
+```
+
+### Configuration Options
+
+| Option | Type | Required | Description |
+|--------|------|----------|-------------|
+| `AccessToken` | `string` | Yes | Your Smartbills API access token |
+| `BusinessId` | `long` | Yes | The ID of the business to operate on |
+
+### ASP.NET Core Dependency Injection
+
+When using the `Smartbills.SDK.AspNetCore` package, register the client in your `Program.cs` or `Startup.cs`:
+
+```csharp
+using Smartbills.SDK;
+using Smartbills.SDK.AspNetCore;
+
+builder.Services.AddSmartbills(options =>
+{
+    options.AccessToken = builder.Configuration["Smartbills:AccessToken"];
+    options.BusinessId = long.Parse(builder.Configuration["Smartbills:BusinessId"]);
+});
+```
+
+Then inject the client into your services:
+
+```csharp
+public class InvoiceService
+{
+    private readonly IInvoiceClient _invoiceClient;
+
+    public InvoiceService(IInvoiceClient invoiceClient)
+    {
+        _invoiceClient = invoiceClient;
+    }
+
+    public async Task<SBInvoice> GetInvoiceAsync(long id)
+    {
+        return await _invoiceClient.GetByIdAsync(id);
+    }
+}
+```
+
+You can also inject the top-level client:
+
+```csharp
+public class BillingService
+{
+    private readonly SmartbillsClient _client;
+
+    public BillingService(SmartbillsClient client)
+    {
+        _client = client;
+    }
+
+    public async Task<SBInvoiceSummary> GetSummaryAsync(CancellationToken ct)
+    {
+        return await _client.Invoices.GetSummaryAsync(ct: ct);
+    }
+}
+```
+
+### Environment Configuration
+
+Store your credentials securely using `appsettings.json` or environment variables:
+
+```json appsettings.json
+{
+  "Smartbills": {
+    "AccessToken": "YOUR_API_KEY",
+    "BusinessId": "123"
+  }
+}
+```
+
+For environment-specific overrides:
+
+```json appsettings.Development.json
+{
+  "Smartbills": {
+    "AccessToken": "sk_test_dev_key_here"
+  }
+}
+```
+
+<Warning>
+  Never commit API keys to source control. Use environment variables, user secrets, or a vault service for production deployments.
+</Warning>
+
+### User Secrets (Development)
+
+For local development, use the .NET user secrets manager:
+
+```bash
+dotnet user-secrets set "Smartbills:AccessToken" "sk_test_your_key"
+dotnet user-secrets set "Smartbills:BusinessId" "123"
+```
+
+## Per-Request Options
+
+Every method accepts an optional `SBRequestOptions` parameter to override default settings for individual requests:
+
+```csharp
+var options = new SBRequestOptions
+{
+    // Override settings for this specific request
+};
+
+var invoice = await client.Invoices.GetByIdAsync(42, options);
+```
+
+## Verifying Installation
+
+Create a simple console application to verify the SDK is working:
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "YOUR_API_KEY",
+    BusinessId = 123
+});
+
+try
+{
+    var summary = await client.Invoices.GetSummaryAsync();
+    Console.WriteLine("Connection successful!");
+    Console.WriteLine($"Invoice summary retrieved.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
+```
+
+## Next Steps
+
+<Card title="Usage Guide" icon="book" href="/sdks/dotnet/usage">
+  Learn how to use InvoiceClient, FileClient, and BillingClient
+</Card>

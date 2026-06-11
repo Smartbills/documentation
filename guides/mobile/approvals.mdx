@@ -1,0 +1,153 @@
+---
+title: "Approvals"
+description: "Review and approve expense reports on your mobile device"
+---
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/hero.png" alt="Approvals screen in the Smartbills mobile app" />
+</Frame>
+
+## Introduction
+
+If you are a manager or designated approver, you can review and act on expense reports directly from the Smartbills mobile app. Push notifications alert you when reports are submitted for your review, and you can approve, reject, or request changes from anywhere.
+
+## Accessing Pending Approvals
+
+There are several ways to reach your approval queue:
+
+- **Push notification**: Tap the notification when a new report is submitted for your review
+- **Home tab**: Pending approvals appear in the **Action Required** section on your dashboard
+- **Menu tab**: Tap **Approvals** to see all reports awaiting your review
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/approvals-list.png" alt="List of pending approval requests" />
+</Frame>
+
+The approvals list shows each report with the submitter's name, report title, total amount, and the date it was submitted. Reports are sorted by submission date with the most recent at the top.
+
+## Reviewing a Report
+
+Tap a report from the approvals list to open it and review the details.
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/review-report.png" alt="Reviewing an expense report with individual expenses listed" />
+</Frame>
+
+The report detail screen shows:
+
+- **Report summary**: Title, description, business purpose, and total amount
+- **Submitter information**: Name and department of the employee who submitted the report
+- **Expense list**: All individual expenses included in the report
+- **Category breakdown**: Total amounts grouped by expense category
+
+### Reviewing Individual Expenses
+
+Tap any expense in the list to see its full details, including:
+
+- Merchant name, amount, and date
+- Category assignment
+- Attached receipt image (tap to view full screen and zoom)
+- Notes from the submitter
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/expense-detail.png" alt="Individual expense detail with receipt image" />
+</Frame>
+
+<Tip>
+  Pinch to zoom on receipt images to verify amounts and details. Swipe left and right to move between expenses in the report without going back to the list.
+</Tip>
+
+## Approving a Report
+
+Once you have reviewed all expenses and are satisfied:
+
+1. Tap the **Approve** button at the bottom of the report screen
+2. Optionally add a comment for the submitter
+3. Tap **Confirm Approval**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/approve-report.png" alt="Approve report confirmation with optional comment" />
+</Frame>
+
+The submitter receives a push notification that their report has been approved.
+
+### Quick Approve from Notification
+
+When you receive a push notification for a new approval request, you can approve directly from the notification banner without opening the app:
+
+1. Long press (iOS) or expand (Android) the notification
+2. Tap **Approve** from the notification actions
+3. The report is approved and the submitter is notified
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/quick-approve.png" alt="Quick approve action from push notification" />
+</Frame>
+
+<Note>
+  Quick approve from the notification is only available for reports under a threshold amount configured by your administrator. Reports above the threshold require full review in the app.
+</Note>
+
+## Rejecting a Report
+
+If a report does not meet your approval criteria:
+
+1. Tap the **Reject** button at the bottom of the report screen
+2. Enter a reason for the rejection (required)
+3. Tap **Confirm Rejection**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/reject-report.png" alt="Reject report dialog with required reason field" />
+</Frame>
+
+The submitter receives a push notification with your rejection reason and can revise and resubmit the report.
+
+## Requesting Changes
+
+If a report is mostly acceptable but needs minor corrections:
+
+1. Tap **Request Changes** from the action menu
+2. Enter a description of what changes are needed
+3. Tap **Send Request**
+
+<Frame>
+  <img src="/images/guides/mobile/approvals/request-changes.png" alt="Request changes dialog with description field" />
+</Frame>
+
+The report status changes to **Changes Required** and the submitter is notified. They can make the requested modifications and resubmit without creating a new report.
+
+## Approval History
+
+To view reports you have previously approved, rejected, or returned for changes:
+
+1. Go to **Menu > Approvals**
+2. Tap the **History** tab at the top of the screen
+3. Browse your past approval actions with dates and comments
+
+## Configuring Approval Notifications
+
+To manage which approval notifications you receive:
+
+1. Go to **Menu > Settings > Notifications**
+2. Under **Approvals**, toggle the notification types:
+   - **New approval request**: When a report is submitted for your review
+   - **Report recalled**: When a submitter recalls a report you were reviewing
+   - **Report resubmitted**: When a previously rejected or returned report is resubmitted
+
+See [Notifications](/guides/mobile/notifications) for full notification configuration details.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Expense Reports" icon="file-lines" href="/guides/mobile/expense-reports">
+    Create and submit your own expense reports
+  </Card>
+  <Card title="Web: Approve Report" icon="check" href="/guides/web-app/approvals/approve-report">
+    Approve reports from the web dashboard
+  </Card>
+  <Card title="Web: Reject Report" icon="xmark" href="/guides/web-app/approvals/reject-report">
+    Reject reports from the web dashboard
+  </Card>
+  <Card title="Notifications" icon="bell" href="/guides/mobile/notifications">
+    Configure push notification preferences
+  </Card>
+</CardGroup>

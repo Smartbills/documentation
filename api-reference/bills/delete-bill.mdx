@@ -1,0 +1,97 @@
+---
+title: "Delete Bill"
+description: "Delete a bill"
+api: "DELETE https://api.smartbills.io/v1/bills/{billId}"
+---
+
+## Overview
+
+Delete a bill permanently. Only bills in `draft` or `cancelled` status can be deleted. Paid or pending bills must be cancelled first.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="billId" type="integer" required>
+  The unique identifier of the bill to delete
+</ParamField>
+
+## Response
+
+Returns a `200 OK` status on successful deletion.
+
+<Warning>
+  This action cannot be undone. The bill and its associated line items will be permanently deleted. Attachments linked to the bill will also be removed.
+</Warning>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/bills/3001 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+await client.bills.delete(3001);
+```
+
+```python Python
+client.bills.delete(bill_id=3001)
+```
+
+```csharp C#
+await client.Bills.DeleteAsync(3001);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "message": "Bill deleted successfully"
+}
+```
+
+</ResponseExample>
+
+## Restrictions
+
+You cannot delete a bill if:
+
+- It is in `pending` or `paid` status (cancel it first)
+- It has been exported to your accounting system
+- It is linked to a payment transaction
+
+In these cases, you will receive a `409 Conflict` error.
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | BILL_NOT_FOUND | Bill does not exist |
+| 409 | BILL_NOT_DELETABLE | Bill cannot be deleted in its current status |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Bills" icon="list" href="/api-reference/bills/list-bills">
+    Get all bills
+  </Card>
+  <Card title="Get Bill" icon="eye" href="/api-reference/bills/get-bill">
+    Retrieve a bill by ID
+  </Card>
+  <Card title="Create Bill" icon="plus" href="/api-reference/bills/create-bill">
+    Create a new bill
+  </Card>
+  <Card title="Update Bill" icon="pen" href="/api-reference/bills/update-bill">
+    Modify a bill
+  </Card>
+</CardGroup>

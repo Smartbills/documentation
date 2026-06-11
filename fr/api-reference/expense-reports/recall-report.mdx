@@ -1,0 +1,158 @@
+---
+title: "Rappeler un rapport de dépenses"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/recall"
+description: "Rappeler un rapport de dépenses soumis au statut brouillon"
+---
+
+## Aperçu
+
+Rappeler un rapport de dépenses précédemment soumis, le ramenant au statut `draft`. Cela permet au soumetteur d'apporter des corrections ou d.ajouter des transactions supplémentaires avant de resoumettre. Un rapport ne peut être rappelé que lorsqu'il est au statut `submitted` et qu'il n'a pas encore été approuvé ou rejeté.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses à rappelér
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="reason" type="string">
+  Motif du rappel du rapport
+
+  Exemple : `"Need to add additional expenses from the last day of the trip"`
+</ParamField>
+
+## Réponse
+
+Retourne le rapport de dépenses mis à jour avec le statut repassé à `draft`.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du rapport de dépenses
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Titre du rapport
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut du rapport (sera `draft`)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Montant total du rapport
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Code de devise
+</ResponseField>
+
+<ResponseField name="recalledAt" type="string">
+  Horodatage du rappel du rapport (ISO 8601)
+</ResponseField>
+
+<ResponseField name="recallReason" type="string">
+  Motif fourni pour le rappel
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/recall \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "reason": "Need to add additional expenses from the last day of the trip"
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.recall(1001, {
+  reason: "Need to add additional expenses from the last day of the trip"
+});
+
+console.log("Report recalled:", report.status);
+console.log("Recalled at:", report.recalledAt);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.recall(1001, {
+    "reason": "Need to add additional expenses from the last day of the trip"
+})
+
+print(f"Report recalled: {report.status}")
+print(f"Recalled at: {report.recalled_at}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2025 Business Trip",
+  "status": "draft",
+  "totalAmount": 1234.56,
+  "reportCurrency": "USD",
+  "recalledAt": "2025-01-31T15:00:00Z",
+  "recallReason": "Need to add additional expenses from the last day of the trip",
+  "updatedAt": "2025-01-31T15:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Seul le propriétaire du rapport peut rappelér son propre rapport |
+| 404 | NOT_FOUND | Rapport de dépenses non trouvé |
+| 409 | INVALID_STATUS | Le rapport n'est pas au statut `submitted`. Les rapports déjà approuvés, rejetés ou encore au statut brouillon ne peuvent pas être rappelés. |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Resoumettre après avoir apporté les corrections
+  </Card>
+  <Card title="Mettre à jour un rapport" icon="pen" href="/api-reference/expense-reports/update-report">
+    Mettre à jour le rapport rappelé
+  </Card>
+  <Card title="Supprimer un rapport" icon="trash" href="/api-reference/expense-reports/delete-report">
+    Supprimer le rapport brouillon rappelé
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer les détails du rapport
+  </Card>
+</CardGroup>

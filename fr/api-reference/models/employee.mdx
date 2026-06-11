@@ -1,0 +1,94 @@
+---
+title: "Modèle Employé"
+description: "Référence complète du schéma de l'objet Employé"
+---
+
+## Employé
+
+L'objet Employé représente un membre de l'équipe au sein d'une entreprise. Les employés peuvent créer des dépenses, soumettre des rapports de dépenses et faire partie des chaînes d'approbation.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de l'enregistrement employé
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID de l'entreprise à laquelle cet employé appartient
+</ResponseField>
+
+<ResponseField name="userId" type="integer">
+  ID du compte utilisateur associé
+</ResponseField>
+
+<ResponseField name="firstName" type="string">
+  Prénom de l'employé
+</ResponseField>
+
+<ResponseField name="lastName" type="string">
+  Nom de famille de l'employé
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  Adresse courriel de l'employé
+</ResponseField>
+
+<ResponseField name="role" type="string">
+  Rôle de l'employé au sein de l'organisation. Valeurs possibles : `employee`, `manager`, `finance`, `admin`
+</ResponseField>
+
+<ResponseField name="department" type="string">
+  Département auquel l'employé appartient
+</ResponseField>
+
+<ResponseField name="managerId" type="integer">
+  ID du responsable direct de l'employé. `null` pour les employés de niveau supérieur. Utilisé pour déterminer la chaîne d'approbation des rapports de dépenses.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut de l'employé. Valeurs possibles : `active`, `inactive`, `suspended`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création de l'enregistrement employé (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour de l'enregistrement employé (ISO 8601)
+</ResponseField>
+
+## Exemple
+
+```json
+{
+  "id": 500,
+  "businessId": 456,
+  "userId": 789,
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@company.com",
+  "role": "employee",
+  "department": "Marketing",
+  "managerId": 400,
+  "status": "active",
+  "createdAt": "2023-06-01T09:00:00Z",
+  "updatedAt": "2024-01-10T12:00:00Z"
+}
+```
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les employés" icon="list" href="/fr/api-reference/employees/list-employees">
+    Récupérer tous les employés
+  </Card>
+  <Card title="Créer un employé" icon="plus" href="/fr/api-reference/employees/create-employee">
+    Ajouter un nouvel employé
+  </Card>
+  <Card title="Obtenir un employé" icon="eye" href="/fr/api-reference/employees/get-employee">
+    Obtenir un employé par ID
+  </Card>
+  <Card title="Mettre à jour un employé" icon="pen" href="/fr/api-reference/employees/update-employee">
+    Modifier les détails d'un employé
+  </Card>
+</CardGroup>

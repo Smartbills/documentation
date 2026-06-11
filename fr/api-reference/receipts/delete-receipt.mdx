@@ -1,0 +1,76 @@
+---
+title: "Supprimer un reçu"
+api: "DELETE https://api.smartbills.io/v1/receipts/{id}"
+description: "Supprimer un reçu de votre compte"
+---
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification
+</ParamField>
+
+## Portées requises
+
+- `receipts.write`
+
+## Paramètres de chemin
+
+<ParamField path="id" type="integer" required>
+  L'identifiant unique du reçu à supprimer
+</ParamField>
+
+<Warning>
+  **Action destructive** : La suppression d'un reçu est permanente et ne peut pas être annulée.
+</Warning>
+
+<RequestExample>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/receipts/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const deleted = await client.receipts.delete(12345);
+```
+
+```python Python
+deleted = client.receipts.delete(12345)
+```
+
+```csharp C#
+var deleted = await client.Receipts.DeleteAsync(12345);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "receiptNumber": "RCP-2024-001",
+  "deletedAt": "2024-01-20T16:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Créer un reçu" icon="plus" href="/fr/api-reference/receipts/create-receipt">
+    Créer un nouveau reçu
+  </Card>
+  <Card title="Obtenir un reçu" icon="eye" href="/fr/api-reference/receipts/get-receipt">
+    Récupérer un reçu par ID
+  </Card>
+  <Card title="Lister les reçus" icon="list" href="/fr/api-reference/receipts/list-receipts">
+    Obtenir tous les reçus
+  </Card>
+  <Card title="Mettre à jour un reçu" icon="pen" href="/fr/api-reference/receipts/update-receipt">
+    Modifier les détails d'un reçu
+  </Card>
+</CardGroup>

@@ -1,49 +1,222 @@
 ---
 title: "Delete Your Account"
-description: "Permanently close your Smartbills account and remove all associated data"
+description: "Permanently close your Smartbills account and understand the data retention policy"
 ---
+
+<img
+  className="block"
+  src="/images/help-center/account/delete-account-hero.png"
+  alt="Delete Account"
+/>
 
 ## Overview
 
-Deleting your account is permanent and cannot be undone. All your personal data, expenses, and reports will be removed.
+Deleting your Smartbills account is a permanent action that cannot be undone. This guide explains the process, what happens to your data, and the steps to take before and after deletion.
 
 <Warning>
-Before deleting your account, make sure to export any data you need. This action is irreversible.
+  **This action is irreversible.** Once your account is deleted, all personal data, expenses, receipts, and settings are permanently removed and cannot be recovered. Make sure to export any data you need before proceeding.
 </Warning>
 
 ## Before You Delete
 
-- **Export your data** — Download expense reports and receipts you want to keep
-- **Leave businesses** — You must leave all businesses before deleting your account
-- **Cancel subscriptions** — Any active subscriptions will be cancelled
-
-## Mobile App
+Before initiating account deletion, complete the following steps to avoid losing important information:
 
 <Steps>
-  <Step title="Open Account Settings">
-    Go to **Menu** → **Account** → **Personal Information**.
+  <Step title="Export Your Data">
+    Download all expense reports, receipts, and data you want to keep.
+
+    1. Go to **Settings** > **Data Export**
+    2. Select the data types to export (expenses, reports, receipts)
+    3. Choose the export format (PDF, CSV, or Excel)
+    4. Click **Export** and download the files
+
+    <Tip>
+      Export early. After deletion, there is no way to retrieve your data.
+    </Tip>
   </Step>
-  <Step title="Scroll to Delete">
-    Scroll to the bottom and tap **Delete Account**.
+
+  <Step title="Resolve Pending Reports">
+    Ensure all expense reports are in a final state:
+
+    - **Pending submission**: Submit or discard draft reports
+    - **Under review**: Wait for approval or recall the report
+    - **Pending reimbursement**: Ensure reimbursements are processed before deletion
   </Step>
-  <Step title="Provide Feedback">
-    Optionally provide a reason for leaving to help us improve.
+
+  <Step title="Leave All Businesses">
+    You must leave or be removed from all businesses before deleting your account.
+
+    1. Go to **Settings** > **Businesses**
+    2. For each business, click **Leave Business**
+    3. Confirm the action
+
+    <Note>
+      If you are the sole owner of a business, you must transfer ownership to another administrator before you can leave. Go to **Settings** > **Users** > select a user > **Transfer Ownership**.
+    </Note>
   </Step>
-  <Step title="Confirm Deletion">
-    Type your email address to confirm and tap **Delete My Account**.
+
+  <Step title="Cancel Active Subscriptions">
+    If you have an active paid subscription:
+
+    1. Go to **Settings** > **Billing**
+    2. Click **Cancel Subscription**
+    3. Confirm cancellation
+
+    Any remaining billing cycle will not be refunded. Contact [support@smartbills.io](mailto:support@smartbills.io) if you have billing questions.
+  </Step>
+
+  <Step title="Disable Integrations">
+    Disconnect all active integrations:
+
+    1. Go to **Settings** > **Integrations**
+    2. Click **Disconnect** for each active integration (QuickBooks, Xero, Slack, etc.)
+    3. Confirm each disconnection
   </Step>
 </Steps>
 
-## What Gets Deleted
+## How to Delete Your Account
 
-| Data | Deleted |
-|------|---------|
-| Personal profile and preferences | Yes |
-| Personal expenses and receipts | Yes |
-| Business expenses you created | No — transferred to business |
+### Web Application
+
+<Steps>
+  <Step title="Open Account Settings">
+    Go to **Settings** > **Account** > **Delete Account**
+  </Step>
+
+  <Step title="Review the Warning">
+    Read the summary of what will be permanently deleted. This includes your personal profile, expenses, receipts, settings, and notification history.
+  </Step>
+
+  <Step title="Confirm Your Identity">
+    Enter your current password to verify your identity. If you have 2FA enabled, you will also need to provide a verification code.
+  </Step>
+
+  <Step title="Provide Feedback (Optional)">
+    Optionally select a reason for leaving and add comments to help us improve.
+  </Step>
+
+  <Step title="Type Confirmation">
+    Type **DELETE** in the confirmation field to proceed.
+  </Step>
+
+  <Step title="Click Delete">
+    Click **Delete My Account Permanently**. You will be signed out immediately.
+  </Step>
+</Steps>
+
+### Mobile App
+
+<Steps>
+  <Step title="Open Account Settings">
+    Go to **Menu** > **Account** > **Personal Information**
+  </Step>
+
+  <Step title="Scroll to Delete Account">
+    Scroll to the bottom and tap **Delete Account**.
+  </Step>
+
+  <Step title="Provide Feedback (Optional)">
+    Optionally provide a reason for leaving to help us improve.
+  </Step>
+
+  <Step title="Confirm Deletion">
+    Enter your password and type your email address to confirm. Tap **Delete My Account**.
+  </Step>
+</Steps>
+
+## What Happens to Your Data
+
+| Data Type | What Happens |
+|---|---|
+| Personal profile (name, email, photo) | Permanently deleted |
+| Personal expenses and receipts | Permanently deleted |
+| Personal expense reports | Permanently deleted |
+| Business expenses you created | Transferred to the business and retained |
 | Business memberships | Removed |
-| Payment methods | Yes |
+| Notification history | Permanently deleted |
+| Payment methods | Permanently deleted |
+| API keys | Revoked and deleted |
+| Integration connections | Disconnected |
+| Audit trail entries | Retained for compliance (anonymized) |
+
+## Data Retention Policy
+
+- **Deletion processing**: Account deletion may take up to **30 days** to fully process across all systems
+- **Grace period**: During the first 30 days, you can contact [support@smartbills.io](mailto:support@smartbills.io) to cancel the deletion request
+- **Compliance data**: Certain anonymized audit trail data may be retained for regulatory compliance purposes
+- **Backups**: Data in automated backups will be purged within 90 days of deletion
+- **Business data**: Expenses and reports you created within a business context are considered business records and are retained by the business even after your account is deleted
 
 <Note>
-After deletion, you can create a new account with the same email address, but none of your previous data will be available.
+  After the 30-day processing period, deletion is final. You can create a new account with the same email address, but none of your previous data will be available.
 </Note>
+
+## Alternatives to Deletion
+
+Before deleting your account, consider these alternatives:
+
+<CardGroup cols={2}>
+  <Card title="Downgrade Plan" icon="arrow-down" href="/help-center/settings/general-settings">
+    Switch to the free plan instead of deleting
+  </Card>
+  <Card title="Log Out" icon="right-to-bracket" href="/help-center/account/login">
+    Simply sign out if you need a break
+  </Card>
+  <Card title="Update Profile" icon="user-pen" href="/help-center/account/update-profile">
+    Change your settings or notification preferences
+  </Card>
+  <Card title="Contact Support" icon="envelope">
+    [Email us](mailto:support@smartbills.io) if you are experiencing issues we can help resolve
+  </Card>
+</CardGroup>
+
+## Enterprise and Business Accounts
+
+### Business Owners
+
+If you are the owner of a business account:
+
+1. Transfer business ownership to another administrator before deleting your personal account
+2. Go to **Settings** > **Users** > select the new owner > **Transfer Ownership**
+3. The new owner must accept the transfer before you can leave the business
+
+### Enterprise Users
+
+If your account is managed by your organization:
+
+- Contact your company administrator to remove your account from the organization
+- Your IT admin may need to process the deletion through the admin console
+- SSO-linked accounts may require coordination with your identity provider
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Cannot delete account -- still part of a business" icon="building">
+    You must leave all businesses before deleting your account. Go to **Settings** > **Businesses** and click **Leave Business** for each one. If you are the sole owner of a business, transfer ownership first.
+  </Accordion>
+
+  <Accordion title="Cannot delete account -- pending reports" icon="file-invoice">
+    You may have reports in a pending state. Check your expense reports and either submit, recall, or discard them before attempting deletion.
+  </Accordion>
+
+  <Accordion title="Want to cancel a deletion request" icon="arrow-rotate-left">
+    If your account deletion is still being processed (within 30 days), contact [support@smartbills.io](mailto:support@smartbills.io) immediately with:
+    - Your email address
+    - A request to cancel the deletion
+
+    After the 30-day period, cancellation is no longer possible.
+  </Accordion>
+
+  <Accordion title="Deleted account but need old data" icon="clock-rotate-left">
+    After the deletion is finalized, data cannot be recovered. If you exported data before deletion, check your downloads folder. For business-related expenses, contact your company administrator as those records are retained by the business.
+  </Accordion>
+</AccordionGroup>
+
+## Need Help?
+
+If you need assistance with account deletion or have questions about data retention:
+
+- **Email Support**: [support@smartbills.io](mailto:support@smartbills.io)
+- **Live Chat**: Available in the app (bottom right corner)
+- **Privacy Inquiries**: [privacy@smartbills.io](mailto:privacy@smartbills.io)
+- **Help Center**: Browse more [help articles](/help-center/overview)

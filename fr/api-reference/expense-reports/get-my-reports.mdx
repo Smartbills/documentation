@@ -1,0 +1,193 @@
+---
+title: "Obtenir mes rapports de dépenses"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/me"
+description: "Récupérer les rapports de dépenses de l'utilisateur actuellement authentifié"
+---
+
+## Aperçu
+
+Récupérer les rapports de dépenses appartenant à l'utilisateur actuellement authentifié. Ce point de terminaison pratique filtre les rapports pour ne retourner que ceux appartenant à l'appelant, utile pour les vues en libre-service des employés.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+## Paramètres de requête
+
+<ParamField query="status" type="string">
+  Filtrer par statut du rapport. Options : `draft`, `submitted`, `approved`, `partially_approved`, `rejected`, `changes_required`, `reimbursed`
+</ParamField>
+
+## Réponse
+
+<ResponseField name="data" type="array">
+  Tableau des objets de rapport de dépenses de l'utilisateur actuel
+
+  <Expandable title="Objet Rapport de dépenses">
+    <ResponseField name="id" type="integer">
+      Identifiant unique du rapport de dépenses
+    </ResponseField>
+
+    <ResponseField name="title" type="string">
+      Titre du rapport
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Description du rapport
+    </ResponseField>
+
+    <ResponseField name="businessPurpose" type="string">
+      Objet commercial des dépenses
+    </ResponseField>
+
+    <ResponseField name="status" type="string">
+      Statut du rapport : `draft`, `submitted`, `approved`, `partially_approved`, `rejected`, `changes_required`, `reimbursed`
+    </ResponseField>
+
+    <ResponseField name="totalAmount" type="number">
+      Montant total de toutes les transactions du rapport
+    </ResponseField>
+
+    <ResponseField name="reportCurrency" type="string">
+      Code de devise ISO à trois lettres
+    </ResponseField>
+
+    <ResponseField name="expenseCount" type="integer">
+      Nombre de transactions dans le rapport
+    </ResponseField>
+
+    <ResponseField name="startDate" type="string">
+      Date de début de la période de dépenses (AAAA-MM-JJ)
+    </ResponseField>
+
+    <ResponseField name="endDate" type="string">
+      Date de fin de la période de dépenses (AAAA-MM-JJ)
+    </ResponseField>
+
+    <ResponseField name="submittedAt" type="string">
+      Horodatage de soumission du rapport (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="createdAt" type="string">
+      Horodatage de création du rapport (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="updatedAt" type="string">
+      Horodatage de la dernière mise à jour (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/expense-reports/me?status=draft' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 456'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const myReports = await client.expenseReports.getMine({
+  status: "draft"
+});
+
+console.log(`You have ${myReports.data.length} draft reports`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+my_reports = client.expense_reports.get_my_reports({
+    "status": "draft"
+})
+
+print(f"You have {len(my_reports.data)} draft reports")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 1001,
+      "title": "February 2025 Travel Expenses",
+      "description": "Conference trip to San Francisco",
+      "businessPurpose": "Industry conference attendance",
+      "status": "draft",
+      "totalAmount": 875.00,
+      "reportCurrency": "USD",
+      "expenseCount": 4,
+      "startDate": "2025-02-10",
+      "endDate": "2025-02-13",
+      "submittedAt": null,
+      "createdAt": "2025-02-14T09:00:00Z",
+      "updatedAt": "2025-02-14T09:00:00Z"
+    },
+    {
+      "id": 998,
+      "title": "January 2025 Office Supplies",
+      "description": "Monthly office supplies",
+      "businessPurpose": "Office opérations",
+      "status": "draft",
+      "totalAmount": 142.30,
+      "reportCurrency": "USD",
+      "expenseCount": 3,
+      "startDate": "2025-01-01",
+      "endDate": "2025-01-31",
+      "submittedAt": null,
+      "createdAt": "2025-01-28T16:00:00Z",
+      "updatedAt": "2025-01-28T16:00:00Z"
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour accéder à cette entreprise |
+| 404 | BUSINESS_NOT_FOUND | L'identifiant d'entreprise n'existe pas |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les rapports" icon="list" href="/api-reference/expense-reports/list-reports">
+    Lister tous les rapports de dépenses (vue gestionnaire)
+  </Card>
+  <Card title="Créer un rapport" icon="plus" href="/api-reference/expense-reports/create-report">
+    Créer un nouveau rapport de dépenses
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Soumettre un rapport pour approbation
+  </Card>
+  <Card title="Rappeler un rapport" icon="rotate-left" href="/api-reference/expense-reports/recall-report">
+    Rappeler un rapport soumis
+  </Card>
+</CardGroup>

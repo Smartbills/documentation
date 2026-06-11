@@ -1,0 +1,112 @@
+---
+title: "Approval Workflows"
+description: "Learn how expense and report approvals work in Smartbills, including single and multi-level approval chains"
+---
+
+## What are Approval Workflows?
+
+Approval workflows define who reviews and authorizes expenses and expense reports before they can be reimbursed. Smartbills supports two types of approvals -- expense-level approvals for individual transactions and report-level approvals for entire expense reports. Workflows can be configured with a single approver or a multi-level chain depending on your organization's policies.
+
+## Two Types of Approvals
+
+### Expense-Level Approvals
+
+Expense-level approvals (`/:slug/approvals`) let approvers review and act on individual expenses one at a time. This is useful when expenses need to be approved as they arrive rather than waiting for them to be grouped into a report.
+
+- Each expense is approved or rejected independently
+- Commonly used for Company Inbox expenses that do not go through expense reports
+- Allows faster turnaround on individual transactions
+
+### Report-Level Approvals
+
+Report-level approvals (`/:slug/approbations`) apply to entire expense reports. When an employee submits a report, the approver reviews all expenses in the report together and makes a single decision.
+
+- The approver sees the full report with all expenses, receipts, and totals
+- The report is approved or rejected as a whole (individual expenses can be flagged for changes)
+- This is the standard workflow for Personal Wallet expense reimbursement
+
+## How It Works
+
+<Steps>
+  <Step title="Submission">
+    An employee submits an expense report or an individual expense is flagged for approval. The system identifies the correct approver(s) based on the configured approval chain.
+  </Step>
+  <Step title="Notification">
+    The designated approver receives an email and in-app notification that an item is awaiting their review. The notification includes a summary of the expense or report with the total amount.
+  </Step>
+  <Step title="Review">
+    The approver opens the item and examines the details: receipts, amounts, categories, vendor information, and business purpose. They can add comments or ask questions.
+  </Step>
+  <Step title="Decision">
+    The approver takes one of three actions: **Approve** the item, **Reject** it with a reason, or **Request Changes** to ask the submitter to correct specific issues.
+  </Step>
+  <Step title="Escalation (Multi-Level)">
+    If the approval chain has multiple levels, the item moves to the next approver after the first level approves. This continues until all required levels have approved. If any level rejects, the item is sent back to the submitter.
+  </Step>
+  <Step title="Resolution">
+    Once all required approvals are obtained, the expense or report moves to the Approved status and proceeds to reimbursement. If rejected, the submitter can correct the issues and resubmit.
+  </Step>
+</Steps>
+
+## Approval Chain Configurations
+
+| Configuration | Description | Example |
+|--------------|-------------|---------|
+| **Single Approver** | One person approves all submissions | A team manager approves all team expenses |
+| **Multi-Level** | Two or more approvers in sequence | Manager approves first, then Finance Director |
+| **Threshold-Based** | Different chains based on amount | Under $500: Manager only. Over $500: Manager then VP |
+| **Department-Based** | Approver assigned by department | Each department head approves their team's expenses |
+
+## Approver Actions
+
+| Action | Effect |
+|--------|--------|
+| **Approve** | The item passes this approval level and moves to the next (or to Approved status if this is the final level) |
+| **Reject** | The item is sent back to the submitter with the approver's feedback. The submitter must correct and resubmit |
+| **Request Changes** | The item is returned to the submitter for specific corrections without a full rejection. The submitter can update and resubmit without starting over |
+
+## Notifications and Escalations
+
+Smartbills keeps all participants informed throughout the approval process:
+
+- **Submission Notification**: Approvers are notified by email and in-app when a new item needs their review
+- **Decision Notification**: Submitters are notified when their expense or report is approved, rejected, or returned for changes
+- **Reminder Notifications**: If an approver has not acted within a configurable time period, a reminder is sent automatically
+- **Escalation**: After multiple reminders, the item can be escalated to the next level or an admin, depending on configuration
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Approval Chain** | The ordered sequence of approvers that a submission must pass through |
+| **Approver** | A user authorized to approve, reject, or request changes on submissions |
+| **Level** | A single step in a multi-level approval chain |
+| **Escalation** | The process of passing an approved item to the next level in the chain |
+| **Threshold** | A monetary limit that determines which approval chain is used |
+| **Delegation** | Temporarily assigning approval responsibility to another user |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Employee** | Submits expenses or reports for approval, responds to change requests |
+| **Manager** | Acts as the first-level approver for their direct reports |
+| **Finance Director** | Often serves as a second-level approver for high-value submissions |
+| **Admin** | Configures approval chains, sets thresholds, assigns approvers |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/concepts/expense-reports">
+    Understand how reports are created and submitted for approval
+  </Card>
+  <Card title="Approve a Report" icon="check" href="/guides/web-app/approvals/approve-report">
+    Step-by-step guide to approving an expense report
+  </Card>
+  <Card title="Reject a Report" icon="xmark" href="/guides/web-app/approvals/reject-report">
+    How to reject a report and provide feedback
+  </Card>
+  <Card title="Roles and Permissions" icon="users" href="/guides/concepts/roles-and-permissions">
+    Learn about roles that can approve expenses
+  </Card>
+</CardGroup>

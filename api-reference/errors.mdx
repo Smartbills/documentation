@@ -1,0 +1,383 @@
+---
+title: "Error Handling"
+description: "Learn how to handle errors in the Smartbills API, including error codes, response formats, and retry logic"
+---
+
+## Overview
+
+The Smartbills API uses conventional HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success, `4xx` indicate client errors, and `5xx` indicate server errors.
+
+## HTTP Status Codes
+
+| Code | Status | Description |
+|------|--------|-------------|
+| 200 | OK | Request succeeded |
+| 201 | Created | Resource created successfully |
+| 204 | No Content | Request succeeded with no response body (e.g., successful delete) |
+| 400 | Bad Request | Invalid request parameters or validation error |
+| 401 | Unauthorized | Invalid or missing API key / token |
+| 403 | Forbidden | Insufficient permissions for the requested resource |
+| 404 | Not Found | Resource not found |
+| 409 | Conflict | Resource conflict (e.g., duplicate entry) |
+| 422 | Unprocessable Entity | Request is well-formed but contains semantic errors |
+| 429 | Too Many Requests | Rate limit exceeded |
+| 500 | Internal Server Error | An unexpected server error occurred |
+
+## Error Response Format
+
+All errors follow a consistent JSON structure:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0",
+        "code": "INVALID_AMOUNT"
+      }
+    ],
+    "requestId": "req_1234567890abcdef",
+    "timestamp": "2025-01-15T10:30:00Z"
+  }
+}
+```
+
+### Error Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `code` | string | Machine-readable error code |
+| `message` | string | Human-readable error message |
+| `details` | array | Array of detailed error information (for validation errors) |
+| `requestId` | string | Unique request identifier for debugging |
+| `timestamp` | string | ISO 8601 timestamp of when the error occurred |
+
+## Error Codes
+
+### Authentication Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `UNAUTHORIZED` | 401 | Invalid or missing API key |
+| `API_KEY_EXPIRED` | 401 | API key has expired |
+| `API_KEY_REVOKED` | 401 | API key has been revoked |
+| `INVALID_TOKEN` | 401 | Invalid or malformed JWT token |
+
+### Permission Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `FORBIDDEN` | 403 | Insufficient permissions |
+| `INSUFFICIENT_PERMISSIONS` | 403 | Missing required scopes |
+| `BUSINESS_ACCESS_DENIED` | 403 | No access to the specified business |
+
+### Validation Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `VALIDATION_ERROR` | 400 | General validation failure |
+| `INVALID_AMOUNT` | 400 | Invalid amount value |
+| `INVALID_CURRENCY` | 400 | Invalid currency code |
+| `INVALID_DATE` | 400 | Invalid date format |
+| `MISSING_REQUIRED_FIELD` | 400 | A required field is missing |
+
+### Resource Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `NOT_FOUND` | 404 | Resource not found |
+| `ALREADY_EXISTS` | 409 | Resource already exists |
+| `CONFLICT` | 409 | Resource state conflict |
+
+### Rate Limit Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `RATE_LIMIT_EXCEEDED` | 429 | Rate limit exceeded |
+
+### Server Errors
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `INTERNAL_ERROR` | 500 | Internal server error |
+| `SERVICE_UNAVAILABLE` | 503 | Service temporarily unavailable |
+
+## Handling Errors with the SDK
+
+The Smartbills SDKs provide typed error classes for structured error handling:
+
+<CodeGroup>
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123
+});
+
+try {
+  const expense = await client.expenses.get(12345);
+} catch (error) {
+  if (error instanceof SmartbillsValidationError) {
+    // Handle validation errors - inspect field-level details
+    console.error('Validation failed:', error.message);
+    error.details.forEach(detail => {
+      console.error(`  Field "${detail.field}": ${detail.message}`);
+    });
+  } else if (error instanceof SmartbillsAuthenticationError) {
+    // Handle authentication errors - refresh token or prompt login
+    console.error('Authentication failed:', error.message);
+  } else if (error instanceof SmartbillsPermissionError) {
+    // Handle permission errors - user lacks access
+    console.error('Permission denied:', error.message);
+  } else if (error instanceof SmartbillsNotFoundError) {
+    // Handle not found errors - resource does not exist
+    console.error('Resource not found:', error.message);
+  } else if (error instanceof SmartbillsRateLimitError) {
+    // Handle rate limit errors - wait and retry
+    console.error('Rate limited. Retry after:', error.retryAfter);
+  } else if (error instanceof SmartbillsApiError) {
+    // Handle any other API error
+    console.error('API error:', error.code, error.message);
+    console.error('Request ID:', error.requestId);
+  }
+}
+```
+
+```python Python
+from smartbills import SmartbillsClient
+from smartbills.errors import (
+    SmartbillsApiError,
+    SmartbillsValidationError,
+    SmartbillsAuthenticationError,
+    SmartbillsPermissionError,
+    SmartbillsNotFoundError,
+    SmartbillsRateLimitError
+)
+
+client = SmartbillsClient(access_token="YOUR_API_KEY", business_id=123)
+
+try:
+    expense = client.expenses.get(12345)
+except SmartbillsValidationError as e:
+    # Handle validation errors - inspect field-level details
+    print(f"Validation failed: {e.message}")
+    for detail in e.details:
+        print(f"  Field '{detail['field']}': {detail['message']}")
+except SmartbillsAuthenticationError as e:
+    # Handle authentication errors
+    print(f"Authentication failed: {e.message}")
+except SmartbillsPermissionError as e:
+    # Handle permission errors
+    print(f"Permission denied: {e.message}")
+except SmartbillsNotFoundError as e:
+    # Handle not found errors
+    print(f"Resource not found: {e.message}")
+except SmartbillsRateLimitError as e:
+    # Handle rate limit errors - wait and retry
+    print(f"Rate limited. Retry after: {e.retry_after}")
+except SmartbillsApiError as e:
+    # Handle any other API error
+    print(f"API error: {e.code} - {e.message}")
+    print(f"Request ID: {e.request_id}")
+```
+
+</CodeGroup>
+
+## Validation Errors
+
+Validation errors include detailed information about which fields failed:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0",
+        "code": "INVALID_AMOUNT"
+      },
+      {
+        "field": "currency",
+        "message": "Currency code must be a valid ISO 4217 code",
+        "code": "INVALID_CURRENCY"
+      },
+      {
+        "field": "date",
+        "message": "Date must be in ISO 8601 format",
+        "code": "INVALID_DATE"
+      }
+    ]
+  }
+}
+```
+
+### Handling Validation Errors
+
+<CodeGroup>
+
+```javascript JavaScript
+try {
+  await client.expenses.create({
+    amount: -10,
+    currency: 'INVALID'
+  });
+} catch (error) {
+  if (error instanceof SmartbillsValidationError) {
+    const fieldErrors = error.details;
+
+    fieldErrors.forEach(({ field, message }) => {
+      // Display field-level errors in your UI
+      showFieldError(field, message);
+    });
+  }
+}
+```
+
+```python Python
+try:
+    client.expenses.create(amount=-10, currency="INVALID")
+except SmartbillsValidationError as e:
+    for detail in e.details:
+        # Display field-level errors in your UI
+        show_field_error(detail["field"], detail["message"])
+```
+
+</CodeGroup>
+
+## Retry Logic
+
+Implement retry logic with exponential backoff for transient errors:
+
+<CodeGroup>
+
+```javascript JavaScript
+async function retryableRequest(fn, maxRetries = 3) {
+  const retryableStatuses = [408, 429, 500, 502, 503, 504];
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      const isLastAttempt = attempt === maxRetries - 1;
+      const shouldRetry = error.status &&
+                         retryableStatuses.includes(error.status);
+
+      if (isLastAttempt || !shouldRetry) {
+        throw error;
+      }
+
+      // Exponential backoff: 1s, 2s, 4s...
+      const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
+
+      console.log(
+        `Request failed, retrying in ${delay}ms (attempt ${attempt + 1}/${maxRetries})`
+      );
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
+// Usage
+const expense = await retryableRequest(() =>
+  client.expenses.get(12345)
+);
+```
+
+```python Python
+import time
+
+def retryable_request(fn, max_retries=3):
+    retryable_statuses = [408, 429, 500, 502, 503, 504]
+
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except SmartbillsApiError as e:
+            is_last_attempt = attempt == max_retries - 1
+            should_retry = e.status in retryable_statuses
+
+            if is_last_attempt or not should_retry:
+                raise
+
+            # Exponential backoff: 1s, 2s, 4s...
+            delay = min(2 ** attempt, 10)
+
+            print(f"Request failed, retrying in {delay}s "
+                  f"(attempt {attempt + 1}/{max_retries})")
+
+            time.sleep(delay)
+
+# Usage
+expense = retryable_request(lambda: client.expenses.get(12345))
+```
+
+</CodeGroup>
+
+## Debugging with Request IDs
+
+Every error response includes a `requestId`. Include this when contacting support:
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "An internal error occurred",
+    "requestId": "req_1234567890abcdef"
+  }
+}
+```
+
+When contacting support, include:
+- The `requestId` from the error response
+- The endpoint and HTTP method you called
+- The timestamp of the error
+- A description of what you expected to happen
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Check Response Status" icon="check">
+    Never assume a request succeeded. Always check the HTTP status code or catch exceptions from the SDK.
+  </Accordion>
+
+  <Accordion title="Use Type-Specific Error Handlers" icon="code">
+    Handle different error types with appropriate actions: redirect to login for 401, show field errors for validation failures, retry for 429/5xx.
+  </Accordion>
+
+  <Accordion title="Log Errors with Context" icon="file-lines">
+    Log errors with sufficient context including the request ID, endpoint, and relevant parameters.
+  </Accordion>
+
+  <Accordion title="Display User-Friendly Messages" icon="message">
+    Do not show raw API error messages to end users. Map error codes to user-friendly messages in your application.
+  </Accordion>
+
+  <Accordion title="Implement Retry Logic" icon="rotate">
+    Implement exponential backoff for transient errors (429, 5xx). Do not retry client errors (4xx other than 429).
+  </Accordion>
+</AccordionGroup>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Handle rate limiting
+  </Card>
+  <Card title="Authentication" icon="shield" href="/api-reference/authentication">
+    Fix authentication errors
+  </Card>
+  <Card title="API Introduction" icon="book" href="/api-reference/introduction">
+    API overview
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/api-reference/webhooks">
+    Set up webhooks
+  </Card>
+</CardGroup>

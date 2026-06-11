@@ -1,0 +1,89 @@
+---
+title: "Mettre à jour un fournisseur"
+api: "PUT https://api.smartbills.io/v1/vendors/{id}"
+description: "Mettre à jour un fournisseur existant"
+---
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification
+</ParamField>
+
+## Portées requises
+
+- `vendors.write`
+
+## Paramètres de chemin
+
+<ParamField path="id" type="integer" required>
+  L'identifiant unique du fournisseur à mettre à jour
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/vendors/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "Acme Supplies Inc. - Updated",
+    "email": "new-contact@acmesupplies.com"
+  }'
+```
+
+```javascript JavaScript
+const updated = await client.vendors.update(12345, {
+  name: "Acme Supplies Inc. - Updated",
+  email: "new-contact@acmesupplies.com"
+});
+```
+
+```python Python
+updated = client.vendors.update(
+    12345,
+    name="Acme Supplies Inc. - Updated",
+    email="new-contact@acmesupplies.com"
+)
+```
+
+```csharp C#
+var updated = await client.Vendors.UpdateAsync(12345, new VendorUpdateRequest
+{
+    Name = "Acme Supplies Inc. - Updated",
+    Email = "new-contact@acmesupplies.com"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Acme Supplies Inc. - Updated",
+  "email": "new-contact@acmesupplies.com",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Créer un fournisseur" icon="plus" href="/fr/api-reference/vendors/create-vendor">
+    Créer un nouveau fournisseur
+  </Card>
+  <Card title="Obtenir un fournisseur" icon="eye" href="/fr/api-reference/vendors/get-vendor">
+    Récupérer un fournisseur par ID
+  </Card>
+  <Card title="Lister les fournisseurs" icon="list" href="/fr/api-reference/vendors/list-vendors">
+    Obtenir tous les fournisseurs
+  </Card>
+  <Card title="Supprimer un fournisseur" icon="trash" href="/fr/api-reference/vendors/delete-vendor">
+    Supprimer un fournisseur
+  </Card>
+</CardGroup>

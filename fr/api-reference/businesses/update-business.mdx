@@ -1,0 +1,39 @@
+---
+title: "Mettre à jour une entreprise"
+api: "PUT https://api.smartbills.io/v1/businesses/{id}"
+description: "Mettre à jour les informations d'une entreprise"
+---
+
+## Paramètres de chemin
+
+<ParamField path="id" type="integer" required>
+  Identifiant de l'entreprise
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="name" type="string">
+  Nom de l'entreprise mis à jour
+</ParamField>
+
+<ParamField body="currency" type="string">
+  Devise par défaut mise à jour
+</ParamField>
+
+<ParamField body="timezone" type="string">
+  Fuseau horaire mis à jour
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "My Updated Company Inc."
+  }'
+```
+
+</RequestExample>

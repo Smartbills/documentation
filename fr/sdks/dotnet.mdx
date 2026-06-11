@@ -40,4 +40,4 @@ foreach (var expense in expenses.Data)
 }
 ```
 
-Les options du client incluent `BaseUrl`, `AccessToken`, `BusinessId`, `Locale`, `Timeout`, `MaxRetries` et `RetryDelay`. Pour ASP.NET Core, utilisez `services.AddSmartbills(options => { ... })` et injectez `ISmartbillsClient` dans vos contrôleurs. Les exceptions typées (`SmartbillsAuthenticationException`, `SmartbillsValidationException`, `SmartbillsNotFoundException`, etc.) facilitent la gestion des erreurs. La vérification des webhooks utilise `WebhookSignature.Verify(payload, signature, webhookSecret)`.
+Les options du client incluent `BaseUrl`, `AccessToken`, `BusinessId`, `Locale`, `Timeout`, `MaxRetries` et `RetryDelay`. Pour ASP.NET Core, utilisez `services.AddSmartbills(options => { ... })` et injectez `ISmartbillsClient` dans vos contrôleurs. Les exceptions typées (`SmartbillsAuthenticationException`, `SmartbillsValidationException`, `SmartbillsNotFoundException`, etc.) facilitent la gestion des erreurs. La vérification des webhooks utilisé `WebhookSignature.Verify(payload, signature, webhookSecret)`.

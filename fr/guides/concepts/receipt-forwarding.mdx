@@ -1,0 +1,117 @@
+---
+title: "Transfert de reçus"
+description: "Capturez automatiquement les reçus par transfert de courriel, complément Outlook, numérisation mobile et intégration de boîte de réception"
+---
+
+## Qu'est-ce que le transfert de reçus?
+
+Le transfert de reçus est le processus d'envoi des reçus dans Smartbills sans téléverser manuellement des fichiers. Smartbills propose plusieurs méthodes automatisées et semi-automatisées pour capturer les reçus : le transfert par courriel vers une adresse unique, le panneau latéral du complément Outlook, la numérisation par caméra mobile et l'intégration directe de boîte de réception. Chaque méthode alimente le pipeline OCR, qui extrait automatiquement le fournisseur, le montant, la date et d'autres détails.
+
+## Comment ça fonctionne
+
+<Steps>
+  <Step title="Capture">
+    Un reçu entre dans Smartbills par l'un des canaux pris en charge : transfert de courriel, complément Outlook, numérisation mobile ou synchronisation de boîte de réception. Le reçu peut être une image (JPEG, PNG), un PDF ou un courriel avec pièces jointes.
+  </Step>
+  <Step title="Traitement OCR">
+    Le moteur OCR de Smartbills analyse le reçu et extrait les données clés : nom du fournisseur, date de transaction, montant total, sous-total, taxes, devise et articles individuels lorsque disponibles. La précision dépend de la qualité de l'image et du format du reçu.
+  </Step>
+  <Step title="Création de la dépense">
+    Une nouvelle dépense est créée avec les données extraites pré-remplies. La dépense apparaît dans le Portefeuille Personnel de l'utilisateur (pour le transfert individuel) ou d.ns la Boîte de réception des dépenses d'entreprise (pour les adresses de transfert partagées).
+  </Step>
+  <Step title="Révision et complétion">
+    L'utilisateur révise les données extraites, corrige les erreurs, assigne une catégorie et un département, et ajoute toute information requise telle qu'une justification d'affaires ou un code de projet.
+  </Step>
+</Steps>
+
+## Méthodes de capture des reçus
+
+### Transfert par courriel
+
+Chaque utilisateur Smartbills reçoit une adresse courriel de transfert unique (ex. : `receipts+user123@in.smartbills.io`). Lorsque vous transférez un courriel de reçu à cette adresse, Smartbills traite le courriel et crée une dépense.
+
+- **Comment trouver votre adresse** : Accédez à votre Portefeuille Personnel et cherchez l'adresse de transfert dans les paramètres ou l'en-tête
+- **Quoi transférer** : Transférez le courriel original du reçu. Smartbills traitera à la fois le corps du courriel et les pièces jointes (images, PDF)
+- **Reçus multiples** : Si un courriel contient plusieurs pièces jointes de reçus, une dépense distincte est créée pour chacune
+- **Transfert d'entreprise** : Les organisations peuvent également configurer une adresse de transfert partagée qui achemine vers la Boîte de réception des dépenses d'entreprise
+
+### Complément Outlook
+
+Le complément Smartbills pour Outlook ajoute un panneau latéral à votre client Outlook (bureau et web). Lorsque vous recevez un courriel de reçu, vous pouvez le transférer à Smartbills directement depuis le panneau latéral sans quitter Outlook.
+
+- **Transfert en un clic** : Sélectionnez un courriel et cliquez sur "Envoyer à Smartbills" dans le panneau latéral
+- **Aperçu avant envoi** : Le complément affiche un aperçu des données extraites avant de créer la dépense
+- **Fonctionne avec les pièces jointes** : Le complément gère à la fois les images de reçus intégrées et les fichiers joints
+- Consultez le [Guide du complément Outlook](/fr/guides/outlook/overview) pour l'installation et la configuration
+
+### Numérisation mobile
+
+L'application mobile Smartbills (iOS et Android) inclut un scanner de caméra optimisé pour les reçus.
+
+- **Capture en temps réel** : Pointez votre caméra vers un reçu et l'application détecte les bords, ajuste la perspective et capture une image nette
+- **Numérisation par lots** : Numérisez plusieurs reçus succèssivement sans revenir à l'écran principal
+- **Support hors ligne** : Les reçus numérisés hors ligne sont mis en file d'attente et téléversés lorsque la connectivité est rétablie
+- Consultez le [Guide de l'application mobile](/fr/guides/mobile/scan-receipt) pour les détails
+
+### Intégration de boîte de réception
+
+Pour les organisations souhaitant une capture de reçus entièrement automatisée, Smartbills peut se connecter directement à une boîte de réception Gmail ou Outlook.
+
+- **Importation automatique** : Smartbills surveille la boîte de réception connectée et importe automatiquement les courriels contenant des reçus
+- **Règles de filtrage** : Configurez des règles pour contrôler quels courriels sont importés (ex. : uniquement les courriels de certains expéditeurs ou avec des objets spécifiques)
+- **Aucun transfert nécessaire** : Une fois connecté, les reçus sont importés sans action manuelle
+- Consultez [Paramètres : Comptes de messagerie](/fr/guides/web-app/settings/email-accounts) pour les instructions de configuration
+
+## Extraction de données OCR
+
+Lorsqu'un reçu est traité, Smartbills extrait les champs suivants :
+
+| Champ | Description | Précision |
+|-------|-------------|-----------|
+| **Nom du fournisseur** | Le nom du commerçant ou de l'entreprise en en-tête du reçu | Élevée |
+| **Date** | La date de la transaction | Élevée |
+| **Montant total** | Le total final incluant les taxes | Élevée |
+| **Sous-total** | Le montant avant taxes | Moyenne-Élevée |
+| **Taxes** | Les montants de taxes ventilés par type (ex. : TPS, TVQ, TVH) | Moyenne-Élevée |
+| **Devise** | La devise de la transaction | Élevée |
+| **Articles** | Les produits ou services individuels listés sur le reçu | Moyenne |
+| **Mode de paiement** | Le type de carte de crédit ou les quatre derniers chiffres si affichés | Moyenne |
+
+<Note>
+  La précision de l'OCR dépend de la qualité du reçu. Des photos claires et bien éclairées de reçus imprimés donnent les meilleurs résultats. Les reçus manuscrits, le papier thermique décoloré et les images basse résolution peuvent nécessiter plus de corrections manuelles.
+</Note>
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Adresse de transfert** | L'adresse courriel unique assignée à chaque utilisateur pour transférer des reçus à Smartbills |
+| **OCR** | Reconnaissance optique de caractères -- la technologie qui lit le texte des images de reçus |
+| **Importation automatique** | La récupération automatique de reçus depuis une boîte de réception connectée |
+| **Numérisation par lots** | La numérisation de plusieurs reçus en une seule session avec l'application mobile |
+| **Intégration de boîte de réception** | Une connexion directe entre un compte de messagerie et Smartbills pour l'importation automatisée de reçus |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Employé** | Transfère les reçus par courriel, numérise les reçus avec l'application mobile, révise les données extraites |
+| **Administrateur** | Configure les adresses de transfert partagées, met en place les intégrations de boîte de réception. Nécessite la permission `SETTINGS_GENERAL_MANAGE` |
+| **Comptable** | Révise et corrige les données extraites par OCR sur les dépenses de la boîte de réception d'entreprise |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Numérisation mobile" icon="mobile" href="/fr/guides/mobile/scan-receipt">
+    Comment numériser des reçus avec l'application mobile Smartbills
+  </Card>
+  <Card title="Complément Outlook" icon="envelope-open-text" href="/fr/guides/outlook/overview">
+    Installer et utiliser le complément Outlook pour le transfert de reçus
+  </Card>
+  <Card title="Comptes de messagerie" icon="at" href="/fr/guides/web-app/settings/email-accounts">
+    Connecter votre boîte de réception pour l'importation automatique de reçus
+  </Card>
+  <Card title="Dépenses" icon="receipt" href="/fr/guides/concepts/expenses">
+    En savoir plus sur le cycle de vie complet des dépenses après la capture des reçus
+  </Card>
+</CardGroup>

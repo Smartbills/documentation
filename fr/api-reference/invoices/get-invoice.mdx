@@ -1,0 +1,164 @@
+---
+title: "Obtenir une facture"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/invoices/{invoiceId}"
+description: "Récupérer une facture spécifique par ID"
+---
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="invoiceId" type="integer" required>
+  L'identifiant unique de la facture
+</ParamField>
+
+## Réponse
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de la facture
+</ResponseField>
+
+<ResponseField name="invoiceNumber" type="string">
+  Numéro de facture lisible (p. ex., INV-2026-0001)
+</ResponseField>
+
+<ResponseField name="customerId" type="integer">
+  ID du client facturé
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Montant total de la facture
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Code de devise ISO 4217 (p. ex., CAD, USD)
+</ResponseField>
+
+<ResponseField name="billStatus" type="string">
+  Statut de la facture : `Draft`, `Sent`, `Paid`, `Overdue`, `Void`, `Cancelled`
+</ResponseField>
+
+<ResponseField name="dueDate" type="string">
+  Date d'échéance du paiement au format ISO 8601
+</ResponseField>
+
+<ResponseField name="isOverdue" type="boolean">
+  Indique si la facture est en retard
+</ResponseField>
+
+<ResponseField name="isPaid" type="boolean">
+  Indique si la facture a été entièrement payée
+</ResponseField>
+
+<ResponseField name="paymentLinkToken" type="string">
+  Jeton unique pour la page de paiement hébergée
+</ResponseField>
+
+<ResponseField name="paymentLinkUrl" type="string">
+  URL de la page de paiement hébergée
+</ResponseField>
+
+<ResponseField name="stripePaymentIntentId" type="string">
+  ID du PaymentIntent Stripe si le paiement a été traité via Stripe
+</ResponseField>
+
+<ResponseField name="sentAt" type="string">
+  Horodatage d'envoi de la facture au client
+</ResponseField>
+
+<ResponseField name="viewedAt" type="string">
+  Horodatage de la première consultation de la facture par le client
+</ResponseField>
+
+<ResponseField name="voidedAt" type="string">
+  Horodatage d'annulation de la facture
+</ResponseField>
+
+<ResponseField name="paidOn" type="string">
+  Horodatage du paiement de la facture
+</ResponseField>
+
+<ResponseField name="amountDue" type="object">
+  <Expandable title="propriétés">
+    <ResponseField name="amount" type="number">Montant dû</ResponseField>
+    <ResponseField name="currency" type="string">Code de devise</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="lineItems" type="array">
+  <Expandable title="propriétés">
+    <ResponseField name="id" type="integer">ID de la ligne d'article</ResponseField>
+    <ResponseField name="description" type="string">Description de l'article</ResponseField>
+    <ResponseField name="quantity" type="number">Quantité</ResponseField>
+    <ResponseField name="unitPrice" type="number">Prix unitaire</ResponseField>
+    <ResponseField name="totalAmount" type="number">Total de la ligne</ResponseField>
+    <ResponseField name="productId" type="integer">ID du produit associé</ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de dernière mise à jour
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/invoices/1001 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const invoice = await smartbills.invoices.getById(1001);
+```
+
+```csharp C#
+var invoice = await invoiceClient.GetByIdAsync(1001,
+    new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "invoiceNumber": "INV-2026-0001",
+  "customerId": 789,
+  "totalAmount": 1500.00,
+  "currency": "CAD",
+  "billStatus": "Sent",
+  "dueDate": "2026-05-01T00:00:00Z",
+  "isOverdue": false,
+  "isPaid": false,
+  "paymentLinkToken": "abc123-def456",
+  "paymentLinkUrl": "https://pay.smartbills.io/inv/abc123",
+  "sentAt": "2026-04-01T10:30:00Z",
+  "amountDue": {
+    "amount": 1500.00,
+    "currency": "CAD"
+  },
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Web Development Services",
+      "quantity": 10,
+      "unitPrice": 150.00,
+      "totalAmount": 1500.00,
+      "productId": 42
+    }
+  ],
+  "createdAt": "2026-04-01T10:00:00Z",
+  "updatedAt": "2026-04-01T10:30:00Z"
+}
+```
+
+</ResponseExample>

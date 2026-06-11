@@ -1,131 +1,120 @@
 ---
-title: "Google Drive Integration"
-description: "Automatically backup receipts to Google Drive"
+title: "Google Drive"
+description: "Automatically back up receipts and expense documents to Google Drive"
 ---
 
 ## Overview
 
-Connect Google Drive to automatically backup all your expense receipts and documents to your preferred Google Drive folder.
+The Google Drive integration automatically backs up receipt images, expense reports, and financial documents from Smartbills to your Google Drive. Organize files by date, category, or report, and access them from anywhere.
 
-## Features
+<Frame>
+  <img src="/images/integrations/google-drive/overview.png" alt="Google Drive integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Two-way Sync** | Import receipts from Drive and export from Smartbills |
-| **Folder Selection** | Choose specific folders for import and export |
-| **Custom Export Paths** | Template-based folder paths for exports |
-| **Auto-backup** | Automatic receipt archival |
-| **Folder Organization** | Organize by date/category/vendor |
-| **Shared Drives** | Support for team drives |
-| **Per-Employee Folders** | Each employee can connect their own Drive |
-| **Business Folders** | Admin-configured shared folders for the whole business |
-| **Change Detection** | Webhooks detect new files in watched folders |
+| **Auto-backup** | Automatically save receipts to Google Drive when expenses are created |
+| **Folder Organization** | Organize files by year, month, category, or report |
+| **Shared Drives** | Support for Google Workspace Shared Drives |
+| **Searchable** | Receipts are indexed and searchable in Google Drive |
+| **Report Export** | Export complete expense reports as PDFs to Drive |
+| **Selective Sync** | Choose which expense types to back up |
+
+## Prerequisites
+
+- Google account or Google Workspace account
+- Smartbills Business plan or higher
 
 ## Setup
 
-### Connect Google Drive
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Google Drive**.
   </Step>
-  <Step title="Find Google Drive">
-    Search for Google Drive in the marketplace
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in with your Google account. Authorize Smartbills to manage files in a specific folder.
+
+    <Frame>
+      <img src="/images/integrations/google-drive/authorize.png" alt="Google Drive authorization" />
+    </Frame>
   </Step>
-  <Step title="Sign In">
-    Sign in with your Google account
+  <Step title="Choose Destination">
+    Select or create the destination folder in Google Drive where receipts will be stored.
   </Step>
-  <Step title="Grant Access">
-    Allow Smartbills to access Drive
+  <Step title="Configure Folder Structure">
+    Choose how files are organized (by date, category, employee, or report).
   </Step>
-  <Step title="Select Folder">
-    Choose or create destination folder
+  <Step title="Set Sync Triggers">
+    Select when backups occur (on upload, on approval, or scheduled).
   </Step>
 </Steps>
 
 ## Configuration
 
-### Folder Configuration
-
-Add folders for import, export, or both:
-
-| Direction | Description |
-|-----------|-------------|
-| **Import** | Watch folder for new receipt files to import into Smartbills |
-| **Export** | Export Smartbills receipts to this folder |
-| **Both** | Two-way sync - import new files and export receipts |
-
-### Export Path Templates
-
-Customize where exported receipts are saved using template variables:
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `{{year}}` | Current year | 2026 |
-| `{{month}}` | Current month | 03 |
-| `{{day}}` | Current day | 15 |
-| `{{vendor}}` | Vendor name | Starbucks |
-| `{{category}}` | Expense category | Travel |
-
-Example path: `/Receipts/{{year}}/{{month}}/{{vendor}}_{{day}}.pdf`
-
 ### Folder Structure
 
-Choose how exported files are organized:
+| Structure | Example Path |
+|-----------|-------------|
+| By year/month | `Smartbills/2026/04/receipt-123.pdf` |
+| By category | `Smartbills/Travel/receipt-123.pdf` |
+| By employee | `Smartbills/John Smith/receipt-123.pdf` |
+| By report | `Smartbills/Reports/March Travel/receipt-123.pdf` |
 
-| Structure | Example |
-|-----------|---------|
-| By Year/Month | `2026/03/receipt.jpg` |
-| By Category | `Travel/receipt.jpg` |
-| By Employee | `John Smith/receipt.jpg` |
-| Flat | `receipt_12345.jpg` |
+### Sync Triggers
+
+| Trigger | Description |
+|---------|-------------|
+| On upload | Back up receipt immediately when uploaded |
+| On approval | Back up only after expense is approved |
+| Scheduled | Batch backup daily or weekly |
+
+### File Format
+
+| Format | Description |
+|--------|-------------|
+| Original | Keep original file format (JPG, PNG, PDF) |
+| PDF | Convert all receipts to PDF |
+| Both | Save original and PDF copy |
 
 ### File Naming
 
-| Template | Result |
-|----------|--------|
-| `{date}_{merchant}` | `2026-03-15_Starbucks.jpg` |
-| `{id}_{amount}` | `12345_$45.99.jpg` |
-| `{category}_{merchant}_{date}` | `Travel_United_2026-03-15.jpg` |
+| Pattern | Example |
+|---------|---------|
+| Default | `receipt-123.pdf` |
+| Date + Vendor | `2026-04-15_Staples.pdf` |
+| Category + Date | `Office_2026-04-15_123.pdf` |
+| Custom | Define your own pattern using available variables |
 
-## Sync Behavior
+## Data Sync
 
-### When Files Upload
-
-| Trigger | Timing |
-|---------|--------|
-| On expense creation | Immediately |
-| On report approval | Batch upload |
-| Scheduled | Daily at midnight |
-
-### File Types
-
-All receipt formats supported:
-
-- Images (JPEG, PNG, HEIC)
-- PDFs
-- Documents
-
-## Shared Drives
-
-### Using Team Drives
-
-1. Select Shared Drive during setup
-2. Choose team folder
-3. All team receipts sync to shared location
-
-### Permissions
-
-Smartbills needs:
-
-- View files
-- Create files
-- Edit file metadata
+| Smartbills | Google Drive | Direction | Frequency |
+|-----------|-------------|-----------|-----------|
+| Receipt images | Files | Smartbills -> Google Drive | Based on trigger setting |
+| Expense report PDFs | PDF files | Smartbills -> Google Drive | On export |
+| Attachment bundles | ZIP files | Smartbills -> Google Drive | On export |
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Files not uploading | Check Drive storage space |
-| Permission denied | Re-authorize connection |
-| Wrong folder | Update folder settings |
+<AccordionGroup>
+  <Accordion title="Files not appearing in Drive">
+    Verify the integration is connected and the destination folder still exists. Check **Settings > Apps > Google Drive** for sync status.
+  </Accordion>
+
+  <Accordion title="Permission denied errors">
+    Re-authorize the integration. If using a Shared Drive, ensure Smartbills has Contributor access or higher.
+  </Accordion>
+
+  <Accordion title="Storage quota exceeded">
+    Google Drive storage is limited by your plan. Free up space or upgrade your Google storage plan.
+  </Accordion>
+
+  <Accordion title="Duplicate files">
+    Check that only one sync trigger is active. Using both "on upload" and "scheduled" may create duplicates.
+  </Accordion>
+
+  <Accordion title="Folder structure not applied">
+    Verify the folder structure setting in the integration configuration. Changes to the folder structure apply only to new files.
+  </Accordion>
+</AccordionGroup>

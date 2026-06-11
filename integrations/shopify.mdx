@@ -1,110 +1,115 @@
 ---
-title: "Shopify Integration"
-description: "Connect Smartbills with your Shopify store"
+title: "Shopify"
+description: "Sync orders, products, and transactions between Smartbills and Shopify"
 ---
 
 ## Overview
 
-The Shopify integration enables automatic receipt generation and synchronization for your e-commerce orders.
+The Shopify integration imports orders and transactions from your Shopify store into Smartbills, enabling automatic receipt generation and expense tracking for Shopify-based businesses. Both online orders and Shopify POS transactions are supported.
 
-## Features
+<Frame>
+  <img src="/images/integrations/shopify/overview.png" alt="Shopify integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Order Sync** | Import orders as receipts |
-| **Customer Sync** | Link customers between systems |
-| **Product Mapping** | Map Shopify products |
-| **Location Sync** | Sync multi-location inventory |
-| **Tax Mapping** | Configure tax handling |
-| **Refund Handling** | Process refunds automatically |
+| **Order Sync** | Import Shopify orders as digital receipts |
+| **Product Mapping** | Map Shopify products to Smartbills categories |
+| **Multi-location** | Support for multiple Shopify locations and POS |
+| **Refund Tracking** | Automatically track refunds and adjustments |
+| **Customer Matching** | Link Shopify customers to Smartbills records |
+| **Tax Sync** | Map Shopify tax rates to Smartbills |
+| **Webhook Events** | Real-time order notifications via Shopify webhooks |
+
+## Prerequisites
+
+- Shopify store (any plan)
+- Smartbills Business plan or higher
+- Store owner or staff account with app installation permissions
 
 ## Setup
 
-### Prerequisites
-
-- Shopify store (any plan)
-- Smartbills Business plan
-- Admin access to Shopify
-
-### Connect Shopify
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
-  </Step>
-  <Step title="Find Shopify">
-    Search for Shopify in the marketplace
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Shopify**.
   </Step>
   <Step title="Enter Store URL">
-    Enter your Shopify store URL
+    Enter your Shopify store URL (e.g., `your-store.myshopify.com`).
+
+    <Frame>
+      <img src="/images/integrations/shopify/store-url.png" alt="Enter Shopify store URL" />
+    </Frame>
   </Step>
-  <Step title="Install App">
-    Click Install and authorize in Shopify
+  <Step title="Install the App">
+    You will be redirected to Shopify to install the Smartbills app. Review the permissions and click **Install**.
   </Step>
-  <Step title="Configure">
-    Map locations, products, and taxes
+  <Step title="Configure Mapping">
+    Map Shopify products and locations to Smartbills categories and settings.
+  </Step>
+  <Step title="Enable Sync">
+    Choose which data to sync and set the sync frequency.
   </Step>
 </Steps>
 
 ## Configuration
 
-### Location Mapping
-
-Map Shopify locations to Smartbills:
-
-| Shopify Location | Smartbills Location |
-|-----------------|---------------------|
-| Main Warehouse | Main Store |
-| Retail Store | Downtown Location |
-
 ### Product Mapping
 
-| Option | Description |
+| Shopify Product Type | Smartbills Category |
+|---------------------|---------------------|
+| Physical goods | Merchandise |
+| Digital products | Software & Digital |
+| Gift cards | Gift Cards |
+| Services | Professional Services |
+
+### Location Settings
+
+| Setting | Description |
+|---------|-------------|
+| Sync all locations | Import orders from all Shopify locations |
+| Select locations | Choose specific locations to sync |
+| POS transactions | Include or exclude Shopify POS transactions |
+
+### Order Filters
+
+| Filter | Description |
 |--------|-------------|
-| Auto-create | Create products automatically |
-| Match by SKU | Link by SKU code |
-| Manual | Map individually |
+| Order status | Import only paid, partially paid, or all orders |
+| Date range | Set starting date for historical order import |
+| Minimum amount | Skip orders below a threshold value |
 
-### Tax Configuration
+## Data Sync
 
-| Shopify Tax | Smartbills Tax |
-|-------------|----------------|
-| State Tax | Sales Tax |
-| VAT | VAT Standard |
-
-## Sync Behavior
-
-### Order Import
-
-When a Shopify order is placed:
-
-1. Order details imported
-2. Customer matched/created
-3. Receipt generated
-4. Inventory updated
-
-### Refunds
-
-Refund handling options:
-
-- Create credit notes
-- Void original receipt
-- Partial refund support
+| Smartbills | Shopify | Direction | Frequency |
+|-----------|---------|-----------|-----------|
+| Receipts | Orders | Shopify -> Smartbills | Real-time (webhook) |
+| Refund records | Refunds | Shopify -> Smartbills | Real-time (webhook) |
+| Categories | Products | Shopify -> Smartbills | On demand |
+| Customer records | Customers | Shopify -> Smartbills | With orders |
+| Locations | Locations | Shopify -> Smartbills | On demand |
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Orders not syncing | Check webhook status |
-| Products mismatched | Review SKU mapping |
-| Tax incorrect | Update tax configuration |
+<AccordionGroup>
+  <Accordion title="Orders not appearing">
+    Verify that webhooks are registered correctly in Shopify Admin > Settings > Notifications. Re-install the integration if webhooks are missing.
+  </Accordion>
 
-## Best Practices
+  <Accordion title="Duplicate orders">
+    Check if both webhook sync and scheduled sync are enabled. Use one sync method to prevent duplicates.
+  </Accordion>
 
-<Tip>
-**Map all locations** - Ensure all Shopify locations are mapped.
-</Tip>
+  <Accordion title="Products not mapped">
+    New Shopify products need to be mapped to Smartbills categories. Go to integration settings to map unmapped products.
+  </Accordion>
 
-<Tip>
-**Test with test order** - Create a test order to verify sync.
-</Tip>
+  <Accordion title="POS transactions missing">
+    Ensure POS sync is enabled in the integration settings. Shopify POS transactions use a separate event stream.
+  </Accordion>
+
+  <Accordion title="Refunds not tracked">
+    Refund webhooks must be registered separately. Check the webhook configuration in the integration settings and re-authorize if needed.
+  </Accordion>
+</AccordionGroup>

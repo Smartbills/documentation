@@ -1,0 +1,61 @@
+---
+title: "Send Invoice"
+api: "POST https://api.smartbills.io/v1/invoices/{invoiceId}/send"
+description: "Send an invoice to the customer via email and generate a payment link"
+---
+
+## Path Parameters
+
+<ParamField path="invoiceId" type="integer" required>
+  The unique identifier of the invoice to send
+</ParamField>
+
+## Response
+
+Returns the updated invoice object with `billStatus` set to `Sent`, a `sentAt` timestamp, and a generated `paymentLinkUrl`.
+
+<Tip>
+  Sending an invoice triggers an email notification to the customer with a link to the hosted payment page where they can pay using Stripe.
+</Tip>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/invoices/1001/send \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const invoice = await smartbills.invoices.send(1001);
+```
+
+```csharp C#
+var invoice = await invoiceClient.SendAsync(1001);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "invoiceNumber": "INV-2026-0001",
+  "customerId": 789,
+  "totalAmount": 1500.00,
+  "currency": "CAD",
+  "billStatus": "Sent",
+  "dueDate": "2026-05-01T00:00:00Z",
+  "isOverdue": false,
+  "isPaid": false,
+  "paymentLinkToken": "abc123-def456",
+  "paymentLinkUrl": "https://pay.smartbills.io/inv/abc123",
+  "sentAt": "2026-04-12T10:30:00Z",
+  "createdAt": "2026-04-12T10:00:00Z",
+  "updatedAt": "2026-04-12T10:30:00Z"
+}
+```
+
+</ResponseExample>

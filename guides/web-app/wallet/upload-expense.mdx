@@ -1,0 +1,125 @@
+---
+title: "Upload an Expense"
+description: "Upload receipts and create expenses from images, PDFs, or manual entry"
+---
+
+## Overview
+
+Uploading an expense is the most common action in the Wallet. Smartbills uses AI-powered OCR to automatically extract key details from your receipt -- including the merchant name, total amount, date, currency, and taxes -- so you spend less time on data entry.
+
+<Note>
+  **Supported file formats**: JPG, PNG, PDF, and HEIC. Maximum file size is 10 MB per receipt.
+</Note>
+
+## How to Upload an Expense
+
+<Steps>
+  <Step title="Navigate to the Wallet">
+    Click **Wallet** in the left sidebar. This opens your personal expense list.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/navigate-wallet.png" alt="Sidebar with Wallet highlighted" />
+    </Frame>
+  </Step>
+
+  <Step title="Click Add Expense">
+    Click the **Add Expense** button in the top-right corner of the Wallet page. This opens the upload dialog.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/add-expense-button.png" alt="Add Expense button in the wallet toolbar" />
+    </Frame>
+  </Step>
+
+  <Step title="Choose Your Upload Method">
+    You have three ways to add your receipt:
+
+    - **Drag and drop** -- Drag a file from your computer directly into the upload area
+    - **Browse files** -- Click the upload area to open your file browser and select a receipt
+    - **Take a photo** -- On devices with a camera, use the camera option to capture a receipt in real time
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/upload-methods.png" alt="Upload dialog showing drag-and-drop area, browse button, and camera option" />
+    </Frame>
+  </Step>
+
+  <Step title="Wait for OCR Processing">
+    Once the file is uploaded, Smartbills processes it using AI-powered OCR. Within a few seconds, the system extracts:
+
+    - **Merchant name** -- The vendor or store name
+    - **Total amount** -- The final total including taxes
+    - **Date** -- The transaction date
+    - **Currency** -- Detected from the receipt
+    - **Taxes** -- Individual tax amounts (e.g., GST, HST, PST, VAT)
+
+    A processing indicator shows while the AI analyzes the receipt.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/ocr-processing.png" alt="Receipt being processed with a loading indicator and extracted fields appearing" />
+    </Frame>
+  </Step>
+
+  <Step title="Review Extracted Data">
+    After processing, review the extracted information. The AI is highly accurate, but you should verify the details:
+
+    - Confirm the merchant name is correct
+    - Check that the amount matches your receipt
+    - Verify the date and currency
+    - Review the tax breakdown
+
+    Make corrections by clicking on any field and typing the correct value.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/review-data.png" alt="Extracted expense data with editable fields alongside the receipt image" />
+    </Frame>
+  </Step>
+
+  <Step title="Add Category, Department, and Notes">
+    Enhance your expense with additional context:
+
+    - **Category** -- Select a category from the dropdown (e.g., Travel, Meals, Office Supplies)
+    - **Department** -- Assign the expense to a department if applicable
+    - **Notes** -- Add any relevant context for your approver (e.g., client name, purpose of the meal)
+    - **Payment Method** -- Indicate how you paid (corporate card, personal card, cash)
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/add-details.png" alt="Category dropdown, department selector, and notes field" />
+    </Frame>
+
+    <Tip>
+      Smartbills can automatically suggest a category based on the merchant. This feature improves over time as you categorize more expenses.
+    </Tip>
+  </Step>
+
+  <Step title="Save the Expense">
+    Click **Save** to add the expense to your Wallet. The expense will appear in your list with a **Draft** status, ready to be added to an expense report.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/upload-expense/save-expense.png" alt="Save button and the new expense appearing in the wallet list" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Your expense has been created and saved to your Wallet. You can now edit it, categorize it further, or add it to an expense report.
+</Check>
+
+## Uploading Multiple Receipts
+
+You can upload several receipts at once by selecting multiple files in the file browser or dragging multiple files into the upload area. Each file creates a separate expense, and all of them are processed by OCR in parallel.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Edit an Expense" icon="pen-to-square" href="/guides/web-app/wallet/edit-expense">
+    Modify expense details after upload
+  </Card>
+  <Card title="Categorize Expenses" icon="tags" href="/guides/web-app/wallet/categorize-expense">
+    Organize your expenses by category and department
+  </Card>
+  <Card title="Receipt Forwarding" icon="envelope" href="/guides/web-app/wallet/receipt-forwarding">
+    Automatically capture receipts from email
+  </Card>
+  <Card title="Create an Expense Report" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Group expenses into a report for approval
+  </Card>
+</CardGroup>

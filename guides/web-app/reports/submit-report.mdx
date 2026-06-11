@@ -1,0 +1,101 @@
+---
+title: "Submit a Report"
+description: "Submit your expense report for approval"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/reports/submit-report.png" alt="Report detail page with Submit for Approval button highlighted" />
+</Frame>
+
+## Introduction
+
+Submitting an expense report sends it to your manager or designated approver for review. Once submitted, the report is locked and you cannot edit the expenses or report details unless you recall it first. This guide walks you through the submission process and what to check before submitting.
+
+## Submit Your Report
+
+<Steps>
+  <Step title="Open Your Draft Report">
+    Navigate to **My Expense Reports** in the sidebar and click on the report you want to submit. The report must be in **Draft** status and contain at least one expense.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/draft-report-ready.png" alt="Draft report with expenses listed and no warnings" />
+    </Frame>
+  </Step>
+  <Step title="Review All Expenses and Total Amount">
+    Before submitting, review the report summary:
+    - **Expenses list** -- Verify all intended expenses are included
+    - **Total amount** -- Confirm the sum is correct
+    - **Receipts** -- Check that every expense has an attached receipt
+    - **Categories** -- Ensure expenses are properly categorized
+  </Step>
+  <Step title="Ensure All Required Fields Are Complete">
+    Smartbills checks for completeness before allowing submission. If any expenses are missing required fields, you will see a **warning icon** next to them. Common issues include:
+    - Missing receipt image
+    - Blank category
+    - Missing business purpose (if required by company policy)
+    - Incomplete amount or date
+
+    Resolve all warnings before proceeding. Click on a flagged expense to open it and fill in the missing information.
+  </Step>
+  <Step title="Click Submit for Approval">
+    When everything is in order, click the **Submit for Approval** button at the top of the report page.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/submit-button.png" alt="Submit for Approval button at the top of the report page" />
+    </Frame>
+  </Step>
+  <Step title="Confirm Submission">
+    A confirmation dialog appears summarizing the report:
+    - Report title
+    - Number of expenses
+    - Total amount
+    - Approver name
+
+    Click **Confirm** to submit the report.
+  </Step>
+  <Step title="Report Moves to Submitted Status">
+    After confirmation, the report status changes to **Submitted**. Your approver receives a notification and the report appears in their approval queue. You can track the status from your expense reports list.
+  </Step>
+</Steps>
+
+## Pre-Submission Checklist
+
+| Check | Description |
+|-------|-------------|
+| All expenses included | No missing transactions for the period |
+| Receipts attached | Every expense has a receipt image or PDF |
+| Categories assigned | Each expense has a valid category |
+| Amounts correct | Totals match the receipts |
+| Business purpose provided | The report description explains the expenses |
+| No warning icons | All required fields are complete on every expense |
+
+<Warning>
+  Once submitted, you cannot edit expenses or report details. If you need to make changes after submission, you must [recall the report](/guides/web-app/reports/recall-report) first, which returns it to Draft status. You can only recall a report before it has been approved.
+</Warning>
+
+## After Submission
+
+After submitting your report:
+
+- You receive a confirmation notification
+- The report appears as **Submitted** in your reports list
+- Your approver is notified and can begin reviewing
+- You can view the report in read-only mode
+- The report timeline tracks all activity, including when it was submitted and who received it
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Recall a Report" icon="rotate-left" href="/guides/web-app/reports/recall-report">
+    Withdraw a submitted report to make changes
+  </Card>
+  <Card title="Add Expenses" icon="plus" href="/guides/web-app/reports/add-expenses">
+    Add more expenses before submitting
+  </Card>
+  <Card title="Approval Workflows" icon="check-double" href="/guides/concepts/approval-workflows">
+    Understand how the approval process works
+  </Card>
+  <Card title="Export a Report" icon="file-export" href="/guides/web-app/reports/export-report">
+    Download your report for your records
+  </Card>
+</CardGroup>

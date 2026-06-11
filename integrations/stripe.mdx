@@ -1,76 +1,122 @@
 ---
-title: "Stripe Integration"
-description: "Connect Smartbills with Stripe for payment processing"
+title: "Stripe"
+description: "Process reimbursements and reconcile corporate card transactions with Stripe"
 ---
 
 ## Overview
 
-Integrate with Stripe to process expense reimbursements and reconcile corporate card transactions.
+The Stripe integration enables expense reimbursement processing and corporate card transaction reconciliation. Pay employees directly via Stripe when expense reports are approved, and automatically match Stripe Issuing card transactions to expenses.
 
-## Features
+<Frame>
+  <img src="/images/integrations/stripe/overview.png" alt="Stripe integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Reimbursement Processing** | Pay employees via Stripe |
-| **Card Reconciliation** | Match Stripe Issuing transactions |
-| **Payment Tracking** | Track reimbursement status |
-| **Automatic Matching** | Link Stripe charges to expenses |
+| **Reimbursement Processing** | Pay employees via ACH, wire, or Instant Payouts |
+| **Card Reconciliation** | Auto-match Stripe Issuing transactions to expenses |
+| **Payment Tracking** | Track reimbursement status in real-time |
+| **Automatic Matching** | Link Stripe charges to Smartbills expenses by amount and date |
+| **Payout History** | Full reimbursement history and audit trail |
+| **Multi-currency** | Process reimbursements in multiple currencies |
+
+## Prerequisites
+
+- Stripe account (with Stripe Connect or Issuing if applicable)
+- Smartbills Business plan or higher
+- Stripe account admin access
 
 ## Setup
 
-### Connect Stripe
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Stripe**.
   </Step>
-  <Step title="Find Stripe">
-    Search for Stripe in the marketplace
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Stripe account. Authorize Smartbills to create payouts and read transactions.
+
+    <Frame>
+      <img src="/images/integrations/stripe/authorize.png" alt="Stripe authorization screen" />
+    </Frame>
   </Step>
-  <Step title="Connect Account">
-    Click Connect and sign in to Stripe
+  <Step title="Configure Payouts">
+    Set default payout method (ACH, wire, or instant) and currency preferences.
   </Step>
-  <Step title="Configure">
-    Set up payment preferences
+  <Step title="Map Card Programs">
+    If using Stripe Issuing, map card programs and cardholders to Smartbills employees.
   </Step>
 </Steps>
 
-## Reimbursement Configuration
+## Configuration
 
-### Payment Methods
+### Payout Methods
 
 | Method | Speed | Fees |
 |--------|-------|------|
-| ACH Transfer | 3-5 days | Free |
-| Instant | Same day | Fee applies |
-| Card | Immediate | Fee applies |
+| ACH Transfer | 3-5 business days | No additional fees |
+| Wire Transfer | 1-2 business days | Fee per transfer |
+| Instant Payouts | Minutes | Percentage fee applies |
 
-### Automatic Payments
+### Automatic Reimbursement
 
-Configure automatic reimbursement:
+Configure automatic reimbursement for approved reports:
 
-1. Report approved
-2. Payment initiated
-3. Employee receives funds
-4. Status updated
+1. Report is approved by manager
+2. Smartbills initiates payout via Stripe
+3. Employee receives funds in their linked bank account
+4. Reimbursement status updates automatically in Smartbills
 
-## Card Reconciliation
+### Stripe Issuing (Corporate Cards)
 
-### Stripe Issuing
+If you use Stripe Issuing for corporate cards:
 
-If using Stripe corporate cards:
+| Setting | Description |
+|---------|-------------|
+| Auto-import | Transactions import automatically to Smartbills |
+| Auto-match | Match card transactions to uploaded receipts |
+| Cardholder mapping | Link cardholders to Smartbills employees |
+| Spending limits | Enforce category-level spending controls |
 
-- Transactions import automatically
-- Match to expense receipts
-- Auto-categorization
-- Real-time sync
+### Reimbursement Rules
 
-## Best Practices
+| Rule | Description |
+|------|-------------|
+| Auto-pay threshold | Automatically process payouts below a set amount |
+| Approval required | Require finance approval for payouts above threshold |
+| Batch payouts | Group reimbursements into a single payout per employee |
+| Payout schedule | Process payouts daily, weekly, or on demand |
 
-<Tip>
-**Use ACH for cost savings** - ACH transfers have no fees.
-</Tip>
+## Data Sync
 
-<Tip>
-**Enable auto-pay** - Reduce manual processing.
-</Tip>
+| Smartbills | Stripe | Direction | Frequency |
+|-----------|--------|-----------|-----------|
+| Reimbursement requests | Payouts | Smartbills -> Stripe | On approval |
+| Payout status | Payout events | Stripe -> Smartbills | Real-time (webhook) |
+| Card transactions | Issuing transactions | Stripe -> Smartbills | Real-time (webhook) |
+| Employee bank info | Connected accounts | Stripe -> Smartbills | On demand |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Payout failed">
+    Check the error details in **Settings > Apps > Stripe > Payout History**. Common causes include insufficient Stripe balance, invalid bank account, or compliance holds.
+  </Accordion>
+
+  <Accordion title="Card transactions not importing">
+    Verify that Stripe Issuing webhooks are configured. Check the webhook endpoint status in your Stripe Dashboard.
+  </Accordion>
+
+  <Accordion title="Connection expired">
+    Stripe OAuth connections may need re-authorization. Click **Reconnect** in the integration settings.
+  </Accordion>
+
+  <Accordion title="Currency not supported">
+    Verify the payout currency is enabled in your Stripe account settings. Stripe supports payouts in the settlement currencies configured on your account.
+  </Accordion>
+
+  <Accordion title="Duplicate payouts">
+    Check the payout history for duplicate entries. Disable automatic reimbursement if you are also processing payouts manually.
+  </Accordion>
+</AccordionGroup>

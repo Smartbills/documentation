@@ -1,0 +1,218 @@
+---
+title: "Modèle Facture fournisseur"
+description: "Référence complète du schéma de l'objet Facture fournisseur"
+---
+
+## Facture fournisseur
+
+L'objet Facture fournisseur (Bill) représente une facture ou une note de fournisseur que votre entreprise doit payer. Les factures fournisseur suivent les montants dus, les dates d'échéance, les lignes d'articles et le statut de paiement.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de la facture fournisseur
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID de l'entreprise à laquelle cette facture fournisseur appartient
+</ResponseField>
+
+<ResponseField name="vendorId" type="integer">
+  ID du fournisseur qui a émis la facture
+</ResponseField>
+
+<ResponseField name="vendor" type="object">
+  Informations résumées du fournisseur
+  <Expandable title="Résumé du fournisseur">
+    <ResponseField name="id" type="integer">
+      ID du fournisseur
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Nom d'affichage du fournisseur
+    </ResponseField>
+    <ResponseField name="email" type="string">
+      Courriel de contact du fournisseur
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="billNumber" type="string">
+  Numéro de référence de la facture du fournisseur
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Montant total de la facture incluant les taxes
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Code de devise ISO 4217 (p. ex., `USD`, `CAD`, `EUR`)
+</ResponseField>
+
+<ResponseField name="dueDate" type="string">
+  Date d'échéance du paiement (`AAAA-MM-JJ`)
+</ResponseField>
+
+<ResponseField name="issueDate" type="string">
+  Date d'émission de la facture par le fournisseur (`AAAA-MM-JJ`)
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut actuel de la facture. Valeurs possibles : `draft`, `pending`, `paid`, `overdue`, `cancelled`
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notes ou description de la facture
+</ResponseField>
+
+<ResponseField name="lineItems" type="array">
+  Lignes d'articles individuelles de la facture
+  <Expandable title="Objet Ligne d'article">
+    <ResponseField name="id" type="integer">
+      ID de la ligne d'article
+    </ResponseField>
+    <ResponseField name="description" type="string">
+      Description de l'article
+    </ResponseField>
+    <ResponseField name="quantity" type="number">
+      Quantité commandée
+    </ResponseField>
+    <ResponseField name="unitPrice" type="number">
+      Prix unitaire
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Total pour cette ligne d'article (quantité x prix unitaire)
+    </ResponseField>
+    <ResponseField name="categoryId" type="integer">
+      ID de la catégorie pour cette ligne d'article
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="attachments" type="array">
+  Fichiers joints (facture originale, documents justificatifs)
+  <Expandable title="Objet Pièce jointe">
+    <ResponseField name="id" type="integer">
+      ID de la pièce jointe
+    </ResponseField>
+    <ResponseField name="filename" type="string">
+      Nom de fichier original
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      URL de téléchargement
+    </ResponseField>
+    <ResponseField name="contentType" type="string">
+      Type MIME
+    </ResponseField>
+    <ResponseField name="size" type="integer">
+      Taille du fichier en octets
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="subtotal" type="number">
+  Sous-total avant taxes
+</ResponseField>
+
+<ResponseField name="taxAmount" type="number">
+  Montant total des taxes
+</ResponseField>
+
+<ResponseField name="paidAt" type="string">
+  Horodatage du paiement de la facture (ISO 8601). `null` si impayée.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création de la facture (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour de la facture (ISO 8601)
+</ResponseField>
+
+## Cycle de vie des statuts
+
+```
+draft -> pending -> paid
+                 -> overdue -> paid
+                            -> cancelled
+      -> cancelled
+```
+
+## Exemple
+
+```json
+{
+  "id": 3001,
+  "businessId": 456,
+  "vendorId": 200,
+  "vendor": {
+    "id": 200,
+    "name": "Acme Supplies Inc.",
+    "email": "billing@acmesupplies.com"
+  },
+  "billNumber": "INV-2024-0042",
+  "amount": 1500.00,
+  "currency": "USD",
+  "dueDate": "2024-02-15",
+  "issueDate": "2024-01-15",
+  "status": "pending",
+  "notes": "Monthly office supply order",
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Copy Paper - Case (10 reams)",
+      "quantity": 5,
+      "unitPrice": 45.00,
+      "amount": 225.00,
+      "categoryId": 5
+    },
+    {
+      "id": 2,
+      "description": "Printer Toner Cartridges",
+      "quantity": 10,
+      "unitPrice": 89.50,
+      "amount": 895.00,
+      "categoryId": 5
+    },
+    {
+      "id": 3,
+      "description": "Desk Organizers",
+      "quantity": 20,
+      "unitPrice": 15.50,
+      "amount": 310.00,
+      "categoryId": 5
+    }
+  ],
+  "attachments": [
+    {
+      "id": 401,
+      "filename": "invoice-2024-0042.pdf",
+      "url": "https://cdn.smartbills.io/bills/invoice-2024-0042.pdf",
+      "contentType": "application/pdf",
+      "size": 1250000
+    }
+  ],
+  "subtotal": 1430.00,
+  "taxAmount": 70.00,
+  "paidAt": null,
+  "createdAt": "2024-01-20T10:00:00Z",
+  "updatedAt": "2024-01-20T10:00:00Z"
+}
+```
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les factures fournisseur" icon="list" href="/fr/api-reference/bills/list-bills">
+    Récupérer toutes les factures fournisseur
+  </Card>
+  <Card title="Créer une facture fournisseur" icon="plus" href="/fr/api-reference/bills/create-bill">
+    Créer une nouvelle facture fournisseur
+  </Card>
+  <Card title="Obtenir une facture fournisseur" icon="eye" href="/fr/api-reference/bills/get-bill">
+    Obtenir une facture fournisseur par ID
+  </Card>
+  <Card title="Mettre à jour une facture fournisseur" icon="pen" href="/fr/api-reference/bills/update-bill">
+    Modifier une facture fournisseur
+  </Card>
+</CardGroup>

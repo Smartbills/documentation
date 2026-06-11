@@ -1,0 +1,241 @@
+---
+title: "Update Bill"
+description: "Update an existing bill"
+api: "PUT https://api.smartbills.io/v1/bills/{billId}"
+---
+
+## Overview
+
+Update the details of an existing bill. You can modify any field including line items. Only bills in `draft` or `pending` status can be updated.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="billId" type="integer" required>
+  The unique identifier of the bill to update
+</ParamField>
+
+## Request Body
+
+All fields are optional. Only provided fields will be updated.
+
+<ParamField body="vendorId" type="integer">
+  Updated vendor ID
+</ParamField>
+
+<ParamField body="billNumber" type="string">
+  Updated bill reference number
+</ParamField>
+
+<ParamField body="amount" type="number">
+  Updated total amount
+</ParamField>
+
+<ParamField body="currency" type="string">
+  Updated currency code (ISO 4217)
+</ParamField>
+
+<ParamField body="dueDate" type="string">
+  Updated due date (YYYY-MM-DD)
+</ParamField>
+
+<ParamField body="issueDate" type="string">
+  Updated issue date (YYYY-MM-DD)
+</ParamField>
+
+<ParamField body="status" type="string">
+  Updated status. Options: `draft`, `pending`, `paid`, `cancelled`
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Updated notes
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  Replaces all existing line items with this array
+  <Expandable title="Line Item Object">
+    <ParamField body="description" type="string" required>
+      Item description
+    </ParamField>
+    <ParamField body="quantity" type="number" required>
+      Quantity
+    </ParamField>
+    <ParamField body="unitPrice" type="number" required>
+      Price per unit
+    </ParamField>
+    <ParamField body="categoryId" type="integer">
+      Category ID
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="taxAmount" type="number">
+  Updated tax amount
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Updated custom metadata
+</ParamField>
+
+## Response
+
+Returns the full updated bill object.
+
+<ResponseField name="id" type="integer">
+  Bill ID
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  Business ID
+</ResponseField>
+
+<ResponseField name="vendorId" type="integer">
+  Vendor ID
+</ResponseField>
+
+<ResponseField name="billNumber" type="string">
+  Bill reference number
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Total amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="dueDate" type="string">
+  Due date
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Bill status
+</ResponseField>
+
+<ResponseField name="lineItems" type="array">
+  Updated line items
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of update (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/bills/3001 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "amount": 1600.00,
+    "dueDate": "2024-03-01",
+    "notes": "Updated - added rush delivery surcharge",
+    "status": "pending"
+  }'
+```
+
+```javascript JavaScript
+const bill = await client.bills.update(3001, {
+  amount: 1600.00,
+  dueDate: "2024-03-01",
+  notes: "Updated - added rush delivery surcharge",
+  status: "pending"
+});
+```
+
+```python Python
+bill = client.bills.update(
+    bill_id=3001,
+    amount=1600.00,
+    due_date="2024-03-01",
+    notes="Updated - added rush delivery surcharge",
+    status="pending"
+)
+```
+
+```csharp C#
+var bill = await client.Bills.UpdateAsync(3001, new BillUpdateRequest
+{
+    Amount = 1600.00m,
+    DueDate = "2024-03-01",
+    Notes = "Updated - added rush delivery surcharge",
+    Status = "pending"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 3001,
+  "businessId": 456,
+  "vendorId": 200,
+  "billNumber": "INV-2024-0042",
+  "amount": 1600.00,
+  "currency": "USD",
+  "dueDate": "2024-03-01",
+  "issueDate": "2024-01-15",
+  "status": "pending",
+  "notes": "Updated - added rush delivery surcharge",
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Copy Paper - Case (10 reams)",
+      "quantity": 5,
+      "unitPrice": 45.00,
+      "amount": 225.00,
+      "categoryId": 5
+    },
+    {
+      "id": 2,
+      "description": "Printer Toner Cartridges",
+      "quantity": 10,
+      "unitPrice": 89.50,
+      "amount": 895.00,
+      "categoryId": 5
+    }
+  ],
+  "taxAmount": 70.00,
+  "subtotal": 1120.00,
+  "createdAt": "2024-01-20T10:00:00Z",
+  "updatedAt": "2024-01-22T14:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Invalid request data |
+| 400 | BILL_NOT_EDITABLE | Bill cannot be edited in its current status |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | BILL_NOT_FOUND | Bill does not exist |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Bill" icon="eye" href="/api-reference/bills/get-bill">
+    Retrieve a bill by ID
+  </Card>
+  <Card title="List Bills" icon="list" href="/api-reference/bills/list-bills">
+    Get all bills
+  </Card>
+  <Card title="Create Bill" icon="plus" href="/api-reference/bills/create-bill">
+    Create a new bill
+  </Card>
+  <Card title="Delete Bill" icon="trash" href="/api-reference/bills/delete-bill">
+    Remove a bill
+  </Card>
+</CardGroup>

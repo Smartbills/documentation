@@ -1,0 +1,199 @@
+---
+title: "Complément Outlook"
+description: "Capturez les reçus et gérez les dépenses directement depuis Microsoft Outlook avec le complément Smartbills"
+---
+
+## Aperçu
+
+Le complément Smartbills pour Outlook vous permet de capturer des reçus, de transférer des emails de dépenses et de télécharger des documents directement depuis votre boîte de réception Outlook -- sans basculer vers le tableau de bord Smartbills ou l'application mobile.
+
+<Frame>
+  <img src="/images/integrations/outlook/overview.png" alt="Panneau latéral du complément Smartbills pour Outlook" />
+</Frame>
+
+## Fonctionnalités principales
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Transfert d'email** | Transférez les emails de reçus vers Smartbills en un clic |
+| **Téléchargement de fichiers** | Glissez-déposez des fichiers de reçus directement depuis Outlook |
+| **Traitement OCR** | Extraction automatique des données des reçus et factures |
+| **Sélecteur d'entreprise** | Basculez entre plusieurs entreprises |
+| **Attribution de catégorie** | Attribuez des catégories de dépenses avant la création |
+| **Synchronisation en temps réel** | Les dépenses apparaissent instantanément dans votre portefeuille Smartbills |
+
+## Prérequis
+
+- Microsoft Outlook (application de bureau ou version web)
+- Un compte Smartbills avec une entreprise active
+- Permissions d'administrateur (pour le déploiement à l'échelle de l'organisation)
+
+## Installation
+
+### Installation individuelle
+
+<Steps>
+  <Step title="Ouvrir Outlook">
+    Lancez Microsoft Outlook (application de bureau ou Outlook sur le web).
+  </Step>
+  <Step title="Accéder aux compléments">
+    Cliquez sur **Obtenir des compléments** dans le ruban (ou le menu **...** dans Outlook Web).
+
+    <Frame>
+      <img src="/images/integrations/outlook/get-addins.png" alt="Bouton Obtenir des compléments dans Outlook" />
+    </Frame>
+  </Step>
+  <Step title="Rechercher Smartbills">
+    Dans le magasin de compléments, recherchez **Smartbills** et cliquez sur **Ajouter**.
+  </Step>
+  <Step title="Se connecter">
+    Cliquez sur l'icône Smartbills dans la barre d'outils Outlook pour ouvrir le panneau latéral. Connectez-vous avec vos identifiants Smartbills.
+
+    <Frame>
+      <img src="/images/integrations/outlook/sign-in.png" alt="Panneau de connexion Smartbills" />
+    </Frame>
+  </Step>
+  <Step title="Sélectionner l'entreprise">
+    Si vous appartenez à plusieurs entreprises, sélectionnez celle que vous souhaitez utiliser.
+  </Step>
+</Steps>
+
+### Déploiement à l'échelle de l'organisation
+
+Les administrateurs peuvent déployer le complément Smartbills pour toute l'organisation via le Centre d'administration Microsoft 365 :
+
+1. Allez dans **Centre d'administration Microsoft 365** > **Paramètres** > **Applications intégrées**
+2. Cliquez sur **Télécharger des applications personnalisées** ou recherchez **Smartbills** dans le magasin
+3. Attribuez à tous les utilisateurs ou à des groupes spécifiques
+4. Les utilisateurs verront automatiquement le complément dans leur Outlook
+
+## Transférer des emails comme dépenses
+
+Le cas d'utilisation principal -- transférez un email de reçu vers Smartbills sans quitter Outlook.
+
+<Steps>
+  <Step title="Ouvrir l'email">
+    Ouvrez tout email contenant un reçu ou une facture (dans le corps ou en pièce jointe).
+  </Step>
+  <Step title="Ouvrir le complément">
+    Cliquez sur l'icône **Smartbills** dans la barre d'outils Outlook pour ouvrir le panneau latéral.
+
+    <Frame>
+      <img src="/images/integrations/outlook/email-tab.png" alt="Panneau de transfert d'email" />
+    </Frame>
+  </Step>
+  <Step title="Vérifier les données extraites">
+    Smartbills détecte automatiquement les pièces jointes et extrait les données de l'email. Vérifiez le commerçant, le montant et la date.
+  </Step>
+  <Step title="Attribuer une catégorie">
+    Sélectionnez une catégorie de dépense dans le menu déroulant.
+  </Step>
+  <Step title="Créer la dépense">
+    Cliquez sur **Créer la dépense**. La dépense apparaît immédiatement dans votre portefeuille Smartbills.
+  </Step>
+</Steps>
+
+<Tip>
+  Smartbills traite à la fois le contenu du corps de l'email et les pièces jointes (PDF, JPG, PNG). Si l'email contient plusieurs reçus en pièces jointes, chacun est traité séparément.
+</Tip>
+
+## Télécharger des fichiers
+
+Téléchargez des fichiers de reçus directement via le complément sans avoir besoin de transférer un email.
+
+<Steps>
+  <Step title="Ouvrir le complément">
+    Cliquez sur l'icône Smartbills pour ouvrir le panneau latéral.
+  </Step>
+  <Step title="Basculer vers l'onglet Téléchargement">
+    Cliquez sur l'onglet **Télécharger** en haut du panneau.
+
+    <Frame>
+      <img src="/images/integrations/outlook/upload-tab.png" alt="Panneau de téléchargement de fichiers" />
+    </Frame>
+  </Step>
+  <Step title="Ajouter des fichiers">
+    Glissez-déposez des fichiers dans la zone de téléchargement, ou cliquez sur **Parcourir** pour sélectionner des fichiers depuis votre ordinateur.
+  </Step>
+  <Step title="Traiter et enregistrer">
+    L'OCR traite les fichiers téléchargés. Vérifiez les données extraites, attribuez une catégorie et cliquez sur **Créer la dépense**.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Changer d'entreprise
+
+Si vous appartenez à plusieurs organisations, basculez entre elles :
+
+1. Cliquez sur le **nom de l'entreprise** en haut du panneau du complément
+2. Sélectionnez l'entreprise souhaitée dans le menu déroulant
+3. Toutes les nouvelles dépenses seront créées sous l'entreprise sélectionnée
+
+### Paramètres
+
+Accédez aux paramètres du complément en cliquant sur l'**icône d'engrenage** dans le panneau :
+
+| Paramètre | Description |
+|-----------|-------------|
+| **Catégorie par défaut** | Pré-sélectionnez une catégorie pour les nouvelles dépenses |
+| **Règles de transfert auto** | Traitez automatiquement les emails de certains expéditeurs |
+| **Notifications** | Activez ou désactivez les notifications de traitement |
+| **Langue** | Basculez entre l'anglais et le français |
+
+## Formats de fichiers supportés
+
+| Format | Taille max | Notes |
+|--------|------------|-------|
+| JPG / JPEG | 10 Mo | Photos de reçus |
+| PNG | 10 Mo | Captures d'écran, reçus numérisés |
+| PDF | 25 Mo | Factures, relevés |
+| HEIC | 10 Mo | Photos iPhone |
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Le complément n'apparaît pas dans Outlook">
+    - Vérifiez que le complément est installé : **Fichier** > **Gérer les compléments**
+    - Redémarrez Outlook
+    - Pour les déploiements d'organisation, vérifiez auprès de votre administrateur IT
+    - Assurez-vous d'utiliser une version compatible d'Outlook
+  </Accordion>
+
+  <Accordion title="Impossible de se connecter">
+    - Vérifiez vos identifiants Smartbills sur [app.smartbills.io](https://app.smartbills.io)
+    - Videz le cache du complément : fermez et rouvrez le panneau
+    - Vérifiez que votre organisation autorise les compléments tiers
+  </Accordion>
+
+  <Accordion title="L'OCR n'extrait pas correctement les données">
+    - Assurez-vous que l'image du reçu est claire et bien éclairée
+    - Essayez de télécharger une image en plus haute résolution
+    - Les factures PDF produisent généralement de meilleurs résultats que les photos
+    - Vous pouvez toujours modifier manuellement les données extraites
+  </Accordion>
+
+  <Accordion title="Les dépenses n'apparaissent pas dans le tableau de bord">
+    - Vérifiez votre connexion internet
+    - Vérifiez que vous avez sélectionné la bonne entreprise
+    - Actualisez votre tableau de bord Smartbills
+    - Vérifiez l'indicateur de synchronisation en temps réel dans le panneau du complément
+  </Accordion>
+</AccordionGroup>
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Transfert de reçus" icon="envelope" href="/fr/guides/web-app/wallet/receipt-forwarding">
+    Configurez le transfert d'email pour la capture automatique des reçus
+  </Card>
+  <Card title="Scanner des reçus sur mobile" icon="camera" href="/fr/guides/mobile/scan-receipt">
+    Capturez les reçus avec l'appareil photo de votre téléphone
+  </Card>
+  <Card title="Intégration Slack" icon="slack" href="/fr/integrations/slack">
+    Recevez des notifications de dépenses dans Slack
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft" href="/fr/integrations/microsoft-teams">
+    Intégrez avec Microsoft Teams
+  </Card>
+</CardGroup>

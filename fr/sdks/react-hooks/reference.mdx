@@ -1,0 +1,228 @@
+---
+title: "Référence des Hooks"
+description: "Référence complète de tous les hooks React Smartbills, organisés par domaine"
+---
+
+Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requête retournent les objets résultat standard de React Query. Les hooks de mutation retournent des résultats `useMutation` avec une fonction `mutate` / `mutateAsync`.
+
+## Dépenses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenses(params?)` | Requête (infinie) | Lister les dépenses de l'entreprise avec pagination |
+| `useMyExpenses(params?)` | Requête (infinie) | Lister les dépenses de l'utilisateur courant |
+| `useEmployéeExpenses(employéeId, params?)` | Requête (infinie) | Lister les dépenses d'un employé spécifique |
+| `useUpdateExpense()` | Mutation | Mettre à jour une dépense : `{ expenseId, data }` |
+| `useDeleteExpense()` | Mutation | Supprimer une dépense par ID |
+| `useUploadExpenses()` | Mutation | Télécharger des fichiers de dépenses (FormData) |
+| `useUploadMyExpenses()` | Mutation | Télécharger des fichiers de dépenses personnelles |
+| `usePresignedUpload()` | Mutation | Upload présigné S3 avec confirmation automatique |
+| `usePresignedEmployéeUpload(employéeId)` | Mutation | Upload présigné pour un employé spécifique |
+| `useUpdateExpenseCategory()` | Mutation | Mettre à jour la catégorie : `{ expenseId, categoryId }` |
+| `useUpdateExpenseNote()` | Mutation | Mettre à jour la note : `{ expenseId, note }` |
+| `useUpdateExpenseReview()` | Mutation | Marquer comme revise : `{ expenseId, isReviewed }` |
+| `useAssignExpenseToReport()` | Mutation | Assigner à un rapport : `{ expenseId, expenseReportId }` |
+| `useSplitExpense()` | Mutation | Diviser une dépense : `{ expenseId, request }` |
+| `useExportExpenses()` | Mutation | Exporter les dépenses en fichier (Blob) |
+| `useExportExpensesWithFilename()` | Mutation | Exporter avec métadonnées du nom de fichier |
+| `useDownloadExpenseAttachments()` | Mutation | Télécharger les pieces jointes en archive |
+| `useDownloadExpenseAttachmentsWithFilename()` | Mutation | Télécharger les pieces jointes avec nom de fichier |
+| `useDownloadSingleExpenseAttachment()` | Mutation | Télécharger une seule piece jointe |
+
+### Opérations en Lot sur les Dépenses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBulkAssignCategory()` | Mutation | Assigner une catégorie à plusieurs dépenses |
+| `useBulkAssignPayerType()` | Mutation | Assigner un type de payeur à plusieurs dépenses |
+| `useBulkAssignExpenseReport()` | Mutation | Assigner un rapport à plusieurs dépenses |
+| `useBulkAssignVendor()` | Mutation | Assigner un fournisseur à plusieurs dépenses |
+| `useBulkDeleteExpenses()` | Mutation | Supprimer plusieurs dépenses |
+| `useBulkSetNote()` | Mutation | Définir la note sur plusieurs dépenses |
+
+---
+
+## Rapports de Dépenses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenseReports(params?)` | Requête (infinie) | Lister les rapports de dépenses avec pagination |
+| `useExpenseReport(reportId)` | Requête | Obtenir un seul rapport de dépenses |
+| `useExpenseReportSummary()` | Requête | Obtenir les statistiques des rapports |
+| `useExpenseReportTimeline(reportId)` | Requête | Obtenir la chronologie du rapport |
+| `useExpenseReportAuditLog(reportId)` | Requête | Obtenir le journal d'audit du rapport |
+| `useCreateExpenseReport()` | Mutation | Créer un nouveau rapport de dépenses |
+| `useUpdateExpenseReport()` | Mutation | Mettre à jour : `{ reportId, data }` |
+| `useDeleteExpenseReport()` | Mutation | Supprimer un rapport par ID |
+| `useSubmitExpenseReport()` | Mutation | Soumettre un rapport pour approbation |
+| `useRecallExpenseReport()` | Mutation | Rappeler un rapport soumis |
+| `useApproveExpenseReport()` | Mutation | Approuver : `{ reportId, comment? }` |
+| `useRejectExpenseReport()` | Mutation | Rejeter : `{ reportId, comment?, reason? }` |
+| `useReimburseExpenseReport()` | Mutation | Rembourser : `{ reportId, data? }` |
+| `useAddExpenseReportComment()` | Mutation | Ajouter un commentaire : `{ reportId, data }` |
+| `useBulkDeleteExpenseReports()` | Mutation | Supprimer plusieurs rapports |
+| `useExportExpenseReports()` | Mutation | Exporter les rapports en fichier |
+
+---
+
+## Approbations
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `usePendingApprobations(params?)` | Requête (infinie) | Lister les approbations en attente |
+| `useApprovedApprobations(params?)` | Requête (infinie) | Lister les rapports approuvés |
+| `useRejectedApprobations(params?)` | Requête (infinie) | Lister les rapports rejetés |
+| `useReimbursedApprobations(params?)` | Requête (infinie) | Lister les rapports rembourses |
+| `useRequiresChangesApprobations(params?)` | Requête (infinie) | Lister les rapports nécessitant des changements |
+| `usePendingReimbursementApprobations(params?)` | Requête (infinie) | Lister les rapports en attente de remboursement |
+| `useApprobationSummary()` | Requête | Obtenir le résumé des approbations |
+| `useApproveApprobation()` | Mutation | Approuver : `{ reportId, data? }` |
+| `useRejectApprobation()` | Mutation | Rejeter : `{ reportId, data? }` |
+| `useRequestApprobationChanges()` | Mutation | Demander des changements : `{ reportId, data? }` |
+| `useReimburseApprobation()` | Mutation | Rembourser : `{ reportId, data? }` |
+| `useRevertApprobationToReview()` | Mutation | Revenir à l'état de révision |
+| `useCancelApprobationRequiredChanges()` | Mutation | Annuler les changements requis |
+| `useMarkApprobationReimbursed()` | Mutation | Marquer comme remboursé |
+| `usePlanApprobationReimbursement()` | Mutation | Planifier le remboursement : `{ reportId, data }` |
+| `useExportApprobationCsv()` | Mutation | Exporter en CSV : `{ reportId, locale? }` |
+| `useDownloadApprobationAttachmentsPdf()` | Mutation | Télécharger les pieces jointes en PDF |
+| `useDownloadApprobationAttachmentsZip()` | Mutation | Télécharger les pieces jointes en ZIP |
+
+---
+
+## Factures Fournisseurs
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBills(params?)` | Requête (infinie) | Lister les factures avec pagination |
+| `useBill(billId)` | Requête | Obtenir une seule facture |
+| `useBillStatusSummary()` | Requête | Obtenir le résumé des statuts des factures |
+| `useBillHistory(billId)` | Requête | Obtenir l'historique d'approbation |
+| `useCreateBill()` | Mutation | Créer une nouvelle facture |
+| `useUpdateBill()` | Mutation | Mettre à jour : `{ billId, data }` |
+| `useDeleteBill()` | Mutation | Supprimer une facture |
+| `useSubmitBillForApproval()` | Mutation | Soumettre pour approbation |
+| `useApproveBill()` | Mutation | Approuver : `{ billId, data? }` |
+| `useScheduleBillPayment()` | Mutation | Planifier le paiement : `{ billId, data }` |
+| `useMarkBillPaid()` | Mutation | Marquer comme payee |
+| `useCancelBill()` | Mutation | Annuler une facture |
+| `useRescheduleBillPayment()` | Mutation | Replanifier le paiement |
+| `useBulkApproveBills()` | Mutation | Approuver plusieurs factures |
+| `useBulkMarkBillsPaid()` | Mutation | Marquer plusieurs factures comme payees |
+| `useBulkScheduleBillsPayment()` | Mutation | Planifier le paiement pour plusieurs factures |
+| `useBulkDeleteBills()` | Mutation | Supprimer plusieurs factures |
+
+---
+
+## Factures Clients
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useInvoices(params?)` | Requête | Lister les factures |
+| `useInvoice(id)` | Requête | Obtenir une seule facture |
+| `useInvoiceSummary()` | Requête | Obtenir les statistiques des factures |
+| `useCreateInvoice()` | Mutation | Créer une nouvelle facture |
+| `useUpdateInvoice()` | Mutation | Mettre à jour : `{ id, data }` |
+| `useDeleteInvoice()` | Mutation | Supprimer une facture |
+| `useSendInvoice()` | Mutation | Envoyer (avec mise à jour optimiste) |
+| `useVoidInvoice()` | Mutation | Annuler (avec mise à jour optimiste) |
+| `useMarkInvoicePaid()` | Mutation | Marquer comme payee (avec mise à jour optimiste) |
+| `useDuplicateInvoice()` | Mutation | Dupliquer une facture |
+
+---
+
+## Fournisseurs
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendors(params?)` | Requête (infinie) | Lister les fournisseurs |
+| `useBusinessVendors(params?)` | Requête (infinie) | Lister les fournisseurs de l'entreprise |
+| `useVendor(id)` | Requête | Obtenir un seul fournisseur |
+| `useCreateVendor()` | Mutation | Créer un fournisseur |
+| `useCreateBusinessVendor()` | Mutation | Créer un fournisseur d'entreprise |
+| `useUpdateVendor()` | Mutation | Mettre à jour : `{ id, data }` |
+| `useDeleteVendor()` | Mutation | Supprimer un fournisseur |
+| `useMergeVendors()` | Mutation | Fusionner des fournisseurs en double |
+| `useBulkDeleteVendors()` | Mutation | Supprimer plusieurs fournisseurs |
+| `useUploadVendorLogo()` | Mutation | Télécharger un logo : `{ id, file }` |
+| `useUploadBusinessVendorLogo()` | Mutation | Télécharger un logo de fournisseur d'entreprise |
+
+---
+
+## Connexions Fournisseurs
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendorConnections(...)` | Requête | Gérer les données de connexion des fournisseurs |
+
+---
+
+## Employés
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useEmployées(params?)` | Requête | Lister les employés |
+
+---
+
+## Catégories
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useCatégories(params?)` | Requête | Lister les catégories de dépenses |
+
+---
+
+## Départements
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useDepartments(params?)` | Requête | Lister les départements |
+
+---
+
+## Entreprises
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBusinesses(...)` | Requête | Lister les entreprises |
+| `useBusinessUsers(...)` | Requête | Lister les utilisateurs de l'entreprise |
+
+---
+
+## Autres Domaines
+
+Le SDK inclut également des hooks pour les domaines suivants. Chacun suit le meme patron de requête/mutation.
+
+| Domaine | Fichier de Hook | Hooks Principaux |
+|---------|----------------|------------------|
+| **Pieces jointes** | `useAttachments` | Gérer les pieces jointes |
+| **Expéditeurs autorises** | `useAuthorizedSenders` | Gérer les expéditeurs de transfert d'email |
+| **Facturation** | `useBilling` | Gestion des abonnements et de la facturation |
+| **Paiement** | `useCheckout` | Gestion des sessions de paiement |
+| **Connexion** | `useConnect` | Flux de connexion OAuth |
+| **Comptes connectés** | `useConnectedAccounts` | Gérer les comptes bancaires connectés |
+| **Clients** | `useCustomers` | Gestion des clients |
+| **Comptes email** | `useEmailAccounts` | Configuration des comptes email |
+| **Transfert d'email** | `useEmailForwarding` | Règles de transfert d'email |
+| **Tâches de dépenses** | `useExpenseJobs` | Statut des tâches en arriere-plan |
+| **Dépenses de rapport** | `useExpenseReportExpenses` | Gérer les éléments d'un rapport |
+| **Paiements de rapport** | `useExpenseReportPayments` | Suivi des paiements de rapport |
+| **Intégrations** | `useIntégrations`, `useAppInstallations` | Intégration et marketplace |
+| **Invitations** | `useInvitations` | Invitations d'équipe |
+| **Paiements de factures** | `useInvoicePayments` | Suivi des paiements de factures |
+| **Emplacements** | `useLocations` | Gestion des emplacements |
+| **Fidelite** | `useLoyalty` | Gestion du programme de fidelite |
+| **Adhesions** | `useMemberships` | Adhesions à l'organisation |
+| **Notifications** | `useNotifications` | Préférences de notification |
+| **Méthodes de paiement** | `usePaymentMethods` | Gestion des méthodes de paiement |
+| **Versements** | `usePayouts` | Gestion des versements |
+| **Produits** | `useProducts` | Gestion du catalogue de produits |
+| **Codes promo** | `usePromoCodes` | Gestion des codes promotionnels |
+| **Reçus** | `useReceipts` | Gestion des reçus numériques |
+| **Rapports** | `useReporting` | Analytique et rapports |
+| **Tableaux** | `useTables` | Configuration des tableaux de données |
+| **Taxes** | `useTaxes` | Gestion des taux de taxe |
+| **Transactions** | `useTransactions` | Gestion des transactions |
+| **Utilisateurs** | `useUsers` | Gestion des comptes utilisateurs |
+| **Flux de travail** | `useWorkflows` | Configuration des flux d'approbation |

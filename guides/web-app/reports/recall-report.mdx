@@ -1,0 +1,87 @@
+---
+title: "Recall a Report"
+description: "Withdraw a submitted expense report for modifications"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/reports/recall-report.png" alt="Submitted report detail page with Recall button highlighted" />
+</Frame>
+
+## Introduction
+
+If you submitted an expense report and need to make changes -- for example, to add a missing expense, correct an amount, or update the business purpose -- you can recall the report. Recalling a report withdraws it from the approval queue and returns it to **Draft** status so you can edit it freely before resubmitting.
+
+## When to Recall
+
+Common reasons to recall a report:
+
+- You forgot to include an expense
+- An expense has an incorrect amount or category
+- You need to add or update the business purpose
+- You accidentally submitted before the report was ready
+- You need to remove an expense that does not belong
+
+## Recall a Submitted Report
+
+<Steps>
+  <Step title="Open the Submitted Report">
+    Navigate to **My Expense Reports** in the sidebar and click on the report you want to recall. The report must be in **Submitted** status.
+  </Step>
+  <Step title="Click Recall">
+    Click the **Recall** button at the top of the report detail page. This button is only visible on reports with **Submitted** status.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/recall-button.png" alt="Recall button on a submitted report" />
+    </Frame>
+  </Step>
+  <Step title="Confirm the Recall">
+    A confirmation dialog appears asking you to confirm. Click **Confirm** to proceed. The report is withdrawn from the approval queue.
+  </Step>
+  <Step title="Report Returns to Draft Status">
+    The report status changes back to **Draft**. You can now:
+    - Add or remove expenses
+    - Edit expense details
+    - Update the report title, description, or date range
+    - Fix any issues that prompted the recall
+  </Step>
+  <Step title="Re-submit When Ready">
+    After making your changes, follow the [Submit a Report](/guides/web-app/reports/submit-report) guide to submit the report again.
+  </Step>
+</Steps>
+
+## Important Limitations
+
+<Warning>
+  You can only recall a report while it is in **Submitted** status. Once an approver has moved it to **Under Review**, **Approved**, or **Rejected**, the recall option is no longer available.
+</Warning>
+
+If your report has already been approved and you need to make changes, contact your manager or administrator directly. They may be able to reopen the report or create a new one.
+
+If your report was rejected, it automatically returns to you for corrections and does not need to be recalled. You can edit it directly and resubmit.
+
+## Recall Status Timeline
+
+| Action | Status Before | Status After |
+|--------|--------------|--------------|
+| Submit | Draft | Submitted |
+| Recall | Submitted | Draft |
+| Re-submit | Draft | Submitted |
+
+The report's timeline tracks every recall and resubmission, so your approver can see the full history of changes.
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Submit a Report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Re-submit your report after making changes
+  </Card>
+  <Card title="Add Expenses" icon="plus" href="/guides/web-app/reports/add-expenses">
+    Add missing expenses to your recalled report
+  </Card>
+  <Card title="Expense Reports Overview" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Understand the full report lifecycle
+  </Card>
+  <Card title="Approval Workflows" icon="check-double" href="/guides/concepts/approval-workflows">
+    Learn how the approval process works
+  </Card>
+</CardGroup>

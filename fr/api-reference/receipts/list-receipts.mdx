@@ -1,0 +1,128 @@
+---
+title: "Lister les reçus"
+api: "GET https://api.smartbills.io/v1/receipts"
+description: "Récupérer une liste paginée de reçus"
+---
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification
+</ParamField>
+
+## Portées requises
+
+- `receipts.read`
+
+## Paramètres de requête
+
+<ParamField query="page" type="integer" default="1">
+  Numéro de page
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="100">
+  Éléments par page (max : 100)
+</ParamField>
+
+<ParamField query="merchantId" type="integer">
+  Filtrer par identifiant de marchand
+</ParamField>
+
+<ParamField query="locationId" type="integer">
+  Filtrer par identifiant d'emplacement
+</ParamField>
+
+<ParamField query="customerId" type="integer">
+  Filtrer par identifiant de client
+</ParamField>
+
+<ParamField query="startDate" type="string">
+  Filtrer les reçus à partir de cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="endDate" type="string">
+  Filtrer les reçus jusqu'à cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filtrer par statut : `completed`, `pending`, `cancelled`
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/receipts?page=1&pageSize=20&status=completed' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const response = await client.receipts.list({
+  page: 1,
+  pageSize: 20,
+  status: 'completed'
+});
+```
+
+```python Python
+response = client.receipts.list(
+    page=1,
+    page_size=20,
+    status='completed'
+)
+```
+
+```csharp C#
+var response = await client.Receipts.ListAsync(new ReceiptListRequest
+{
+    Page = 1,
+    PageSize = 20,
+    Status = "completed"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 12345,
+      "receiptNumber": "RCP-2024-001",
+      "receiptDate": "2024-01-15T14:30:00Z",
+      "total": {
+        "amount": 108.50,
+        "currency": "USD"
+      },
+      "status": "completed"
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 15,
+    "count": 287
+  }
+}
+```
+
+</ResponseExample>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Créer un reçu" icon="plus" href="/fr/api-reference/receipts/create-receipt">
+    Créer un nouveau reçu
+  </Card>
+  <Card title="Obtenir un reçu" icon="eye" href="/fr/api-reference/receipts/get-receipt">
+    Récupérer un reçu par ID
+  </Card>
+  <Card title="Mettre à jour un reçu" icon="pen" href="/fr/api-reference/receipts/update-receipt">
+    Modifier les détails d'un reçu
+  </Card>
+  <Card title="Supprimer un reçu" icon="trash" href="/fr/api-reference/receipts/delete-receipt">
+    Supprimer un reçu
+  </Card>
+</CardGroup>

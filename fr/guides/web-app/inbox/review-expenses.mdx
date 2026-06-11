@@ -1,0 +1,108 @@
+---
+title: "Examiner les Dépenses"
+description: "Examinez et validez les dépenses entrantes de l'entreprise"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/inbox/review-expenses.png" alt="Vue détaillée d'une dépense affichant l'image du reçu et les champs de données extraits" />
+</Frame>
+
+## Introduction
+
+L'examen des dépenses est une étape essentielle du processus financier. Lorsque les employés telechargent des reçus ou transmettent des dépenses, ces éléments apparaissent dans la Boîte de Réception des Dépenses pour que les gestionnaires et les comptables les vérifiént. Ce guide vous accompagne dans le processus d'examen de chaque dépense pour garantir l'exactitude, la bonne categorisation et la conformité aux politiques.
+
+## Processus d'examen
+
+<Steps>
+  <Step title="Naviguer vers les Dépenses">
+    Cliquez sur **Dépenses** dans la barre latérale pour ouvrir la Boîte de Réception des Dépenses. Vous pouvez aussi naviguer directement vers `/:slug/expenses`. La boîte de réception affiche toutes les dépenses de l'entreprise avec leur statut actuel.
+  </Step>
+  <Step title="Filtrer par statut">
+    Utilisez le filtre de statut en haut de la boîte de réception pour vous concentrer sur les dépenses qui nécessitent votre attention. Filtres courants pour les examinateurs :
+    - **En attente** -- Dépenses en attente d'un premier examen
+    - **Information manquante** -- Dépenses incompletes nécessitant des précisions de l'employé
+    - **Signalée** -- Dépenses signalées pour des violations de politique ou des montants inhabituels
+
+    <Frame>
+      <img src="/images/guides/web-app/inbox/status-filter.png" alt="Menu déroulant du filtre de statut affichant les options En attente, Information manquante et Signalée" />
+    </Frame>
+  </Step>
+  <Step title="Ouvrir la vue détaillée">
+    Cliquez sur n'importe quelle ligne de dépense pour ouvrir le panneau de detail. La vue détaillée affiche l'image du reçu d'un côté et les données de la dépense de l'autre, vous permettant de les comparer côté à cote.
+  </Step>
+  <Step title="Vérifier les données du reçu">
+    Comparez l'image du reçu avec les champs de données extraits :
+    - **Nom du marchand** -- Correspond-il au fournisseur sur le reçu ?
+    - **Date** -- La date de transaction est-elle correcte ?
+    - **Montant** -- Le total correspond-il, incluant les taxes ?
+    - **Devise** -- La bonne devise est-elle sélectionnée ?
+    - **Articles** -- Le cas echeant, les articles individuels correspondent-ils ?
+
+    Si un champ est incorrect, cliquez dessus pour le modifier directement.
+
+    <Frame>
+      <img src="/images/guides/web-app/inbox/verify-receipt.png" alt="Vue côté à côté de l'image du reçu et des champs de données extraits" />
+    </Frame>
+  </Step>
+  <Step title="Vérifier la catégorie et le département">
+    Vérifiez que la dépense à été assignee à la bonne catégorie et au bon département :
+    - **Catégorie** -- La dépense est-elle correctement classee (p. ex. Repas, Voyage, Fournitures de bureau) ?
+    - **Département** -- Est-elle allouee à la bonne unite d'affaires ou centre de couts ?
+
+    Smartbills peut suggérer automatiquement une catégorie basee sur le marchand. Vous pouvez remplacer la suggestion en sélectionnant une autre catégorie dans le menu déroulant.
+  </Step>
+  <Step title="Agir">
+    Après avoir examine la dépense, choisissez l'une des actions suivantes :
+
+    - **Approuver** -- Marquer la dépense comme vérifiée et correctement categorisee. Elle passe au statut Approuvee.
+    - **Signaler** -- Signaler la dépense pour une violation de politique, un montant inhabituel ou une justification manquante. Ajoutez une note expliquant la raison.
+    - **Retourner pour revision** -- Renvoyer la dépense à l'employé avec un commentaire decrivant ce qui doit être corrige (p. ex. reçu manquant, montant incorrect, justification requise).
+
+    <Frame>
+      <img src="/images/guides/web-app/inbox/action-buttons.png" alt="Boutons Approuver, Signaler et Retourner pour revision en bas de la vue détaillée" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Points de vérification
+
+Lors de l'examen d'une dépense, vérifiéz les éléments suivants :
+
+| Vérification | Ce qu'il faut vérifiér |
+|--------------|----------------------|
+| **Reçu joint** | La dépense à une image de reçu ou un PDF lisible |
+| **Exactitude du montant** | Le total correspond au reçu, incluant les taxes |
+| **Catégorie correcte** | La catégorie reflete la nature de l'achat |
+| **Département assigne** | La dépense est allouee au bon centre de couts |
+| **Justification d'affaires** | L'employé à fourni une justification (si requis par la politique) |
+| **Vérification de doublon** | La dépense n'a pas été soumise deux fois |
+| **Conformité à la politique** | Le montant respecte les limites de dépenses pour la catégorie |
+
+## Raccourcis clavier
+
+Accelerez votre processus d'examen avec les raccourcis clavier :
+
+| Raccourci | Action |
+|-----------|--------|
+| **A** | Approuver la dépense actuelle |
+| **F** | Signaler la dépense actuelle |
+| **R** | Retourner pour revision |
+| **N** | Passer à la dépense suivante |
+| **P** | Revenir à la dépense précédente |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les Dépenses" icon="list-check" href="/fr/guides/web-app/inbox/manage-expenses">
+    Effectuer des actions en lot sur plusieurs dépenses
+  </Card>
+  <Card title="Paramètres de la Boîte de Réception" icon="gear" href="/fr/guides/web-app/inbox/settings">
+    Configurer les règles d'approbation automatique et la détection de doublons
+  </Card>
+  <Card title="Catégories et Départements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
+    Comprendre le fonctionnement de la categorisation
+  </Card>
+  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
+    Decouvrir les approbations simples et à plusieurs niveaux
+  </Card>
+</CardGroup>

@@ -1,0 +1,217 @@
+---
+title: "Téléchargement de Fichiers"
+description: "Télécharger des reçus, factures et documents en utilisant FormData ou des URLs présignées dans le SDK JavaScript Smartbills."
+---
+
+# Téléchargement de Fichiers
+
+Le SDK Smartbills supporte deux méthodes de téléchargement : les téléchargements directs via FormData et les téléchargements par URL présignée pour les fichiers volumineux. Les deux méthodes sont disponibles pour les dépenses, les factures et les logos de fournisseurs.
+
+## Téléchargements FormData
+
+L'approche la plus simple -- construisez un objet `FormData` et passez-le à la méthode de téléchargement. Le SDK gère automatiquement l'encodage multipart et les en-têtes content-type.
+
+### Télécharger des reçus de dépenses
+
+```typescript
+// Environnement navigateur
+const fileInput = document.querySelector('input[type="file"]');
+const formData = new FormData();
+for (const file of fileInput.files) {
+  formData.append('files', file);
+}
+
+const results = await client.expenses.uploadBusiness(formData);
+for (const result of results) {
+  console.log(`Dépense créée : ${result.id}`);
+}
+```
+
+### Téléchargement en Node.js
+
+```typescript
+import { readFileSync } from 'fs';
+
+const formData = new FormData();
+const fileBlob = new Blob([readFileSync('/chemin/vers/reçu.pdf')], {
+  type: 'application/pdf',
+});
+formData.append('files', fileBlob, 'reçu.pdf');
+
+const results = await client.expenses.uploadBusiness(formData);
+```
+
+### Portees de téléchargement
+
+```typescript
+// Pour l'entreprise (administrateur)
+const businessResults = await client.expenses.uploadBusiness(formData);
+
+// Pour un employé spécifique
+const employéeResults = await client.expenses.uploadEmployée(employéeId, formData);
+
+// Pour l'utilisateur courant
+const myResults = await client.expenses.uploadMy(formData);
+```
+
+### Télécharger des documents de facture
+
+```typescript
+const formData = new FormData();
+formData.append('files', pdfFacture);
+
+const results = await client.bills.upload(formData);
+```
+
+## Validation avant téléchargement
+
+Validez les fichiers sans créer d'enregistrements :
+
+```typescript
+const formData = new FormData();
+formData.append('files', fichierRecu);
+
+try {
+  await client.expenses.validateBusiness(formData);
+  console.log('Fichier valide, téléchargement en cours');
+  const results = await client.expenses.uploadBusiness(formData);
+} catch (error) {
+  console.error('Validation échouée :', error);
+}
+```
+
+## Téléchargements par URL présignée
+
+Pour les fichiers volumineux ou les téléchargements directs vers le stockage cloud.
+
+### Fonctionnement
+
+1. **Presigner** -- demander une URL présignée à l'API
+2. **Télécharger** -- télécharger le fichier directement vers l'URL présignée
+3. **Confirmer** -- notifier l'API que le téléchargement est terminé
+
+### Exemple étape par étape
+
+```typescript
+// Étape 1 : Demander une URL presignee
+const presigned = await client.expenses.presignUpload({
+  fileName: 'gros-reçu.pdf',
+  contentType: 'application/pdf',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Étape 2 : Télécharger vers l'URL presignee
+const uploadResponse = await fetch(presigned.url, {
+  method: 'PUT',
+  body: fileBuffer,
+  headers: { 'Content-Type': 'application/pdf' },
+});
+
+if (!uploadResponse.ok) {
+  throw new Error(`Téléchargement échoué : ${uploadResponse.statusText}`);
+}
+
+// Étape 3 : Confirmer le téléchargement
+await client.expenses.confirmUpload({
+  key: presigned.key,
+  fileName: 'gros-reçu.pdf',
+});
+```
+
+### Téléchargements présignés par employé
+
+```typescript
+const presigned = await client.expenses.presignEmployéeUpload(employéeId, {
+  fileName: 'reçu.jpg',
+  contentType: 'image/jpeg',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Télécharger vers l'URL presignee...
+
+await client.expenses.confirmEmployéeUpload(employéeId, {
+  key: presigned.key,
+  fileName: 'reçu.jpg',
+});
+```
+
+## Logos de fournisseurs
+
+```typescript
+// Fournisseur au niveau utilisateur
+const updated = await client.vendors.uploadLogo(vendorId, fichierLogo);
+
+// Fournisseur au niveau entreprise
+const updated = await client.vendors.uploadBusinessLogo(vendorId, fichierLogo);
+```
+
+## Téléchargement de fichiers
+
+### Pieces jointes de dépenses
+
+```typescript
+// Piece jointe unique
+const blob = await client.expenses.downloadSingleAttachment(expenseId);
+
+// Pieces jointes multiples (zip)
+const zipBlob = await client.expenses.downloadAttachments({
+  expenseIds: [1, 2, 3],
+});
+
+// Avec metadonnées du nom de fichier
+const { blob: file, filename } = await client.expenses.downloadSingleAttachmentWithFilename(expenseId);
+```
+
+### Pieces jointes de factures
+
+```typescript
+const zipBlob = await client.bills.downloadAttachments({ billIds: [1, 2, 3] });
+```
+
+## Export de données
+
+```typescript
+// Exporter les dépenses
+const expenseBlob = await client.expenses.export({ format: 'csv', startDate: '2025-01-01' });
+
+// Avec le nom de fichier
+const { blob, filename } = await client.expenses.exportWithFilename({ format: 'xlsx' });
+
+// Exporter les rapports
+const reportBlob = await client.expenseReports.export({ format: 'xlsx' });
+
+// Exporter les factures
+const billBlob = await client.bills.export({ format: 'csv' });
+```
+
+### Sauvegarder sur disque en Node.js
+
+```typescript
+import { writeFileSync } from 'fs';
+
+const { blob, filename } = await client.expenses.exportWithFilename({ format: 'xlsx' });
+const buffer = Buffer.from(await blob.arrayBuffer());
+writeFileSync(filename ?? 'dépenses.xlsx', buffer);
+```
+
+### Déclencher le téléchargement dans le navigateur
+
+```typescript
+const blob = await client.expenses.export({ format: 'csv' });
+
+const url = URL.createObjectURL(blob);
+const à = document.createÉlément('a');
+a.href = url;
+a.download = 'dépenses.csv';
+a.click();
+URL.revokeObjectURL(url);
+```
+
+## Types de fichiers supportés
+
+| Contexte | Formats acceptes |
+|----------|-----------------|
+| Reçus de dépenses | JPEG, PNG, PDF, HEIC |
+| Documents de facture | PDF, JPEG, PNG |
+| Logos de fournisseurs | JPEG, PNG, SVG |
+| Import CSV | CSV (UTF-8) |

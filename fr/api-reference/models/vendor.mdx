@@ -1,0 +1,117 @@
+---
+title: "Modèle Fournisseur"
+description: "Référence complète du schéma de l'objet Fournisseur"
+---
+
+## Fournisseur
+
+L'objet Fournisseur représente un fournisseur externe ou un prestataire de services avec lequel votre entreprise effectue des transactions. Les fournisseurs peuvent être liés à des dépenses et des factures pour le suivi et les rapports.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du fournisseur
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID de l'entreprise à laquelle ce fournisseur appartient
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom d'affichage du fournisseur
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Adresse postale du fournisseur
+  <Expandable title="Objet Adresse">
+    <ResponseField name="street" type="string">
+      Adresse de rue
+    </ResponseField>
+    <ResponseField name="city" type="string">
+      Ville
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      État ou province
+    </ResponseField>
+    <ResponseField name="postalCode" type="string">
+      Code postal
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Code pays ISO 3166 à deux lettres
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="taxId" type="string">
+  Numéro d'identification fiscale du fournisseur (EIN, numéro de TVA, etc.)
+</ResponseField>
+
+<ResponseField name="email" type="string">
+  Adresse courriel de contact principale
+</ResponseField>
+
+<ResponseField name="phone" type="string">
+  Numéro de téléphone de contact
+</ResponseField>
+
+<ResponseField name="website" type="string">
+  URL du site web du fournisseur
+</ResponseField>
+
+<ResponseField name="defaultCategoryId" type="integer">
+  ID de la catégorie de dépense par défaut automatiquement appliquée aux dépenses de ce fournisseur
+</ResponseField>
+
+<ResponseField name="logo" type="string">
+  URL de l'image du logo du fournisseur
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création du fournisseur (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour du fournisseur (ISO 8601)
+</ResponseField>
+
+## Exemple
+
+```json
+{
+  "id": 200,
+  "businessId": 456,
+  "name": "Acme Supplies Inc.",
+  "address": {
+    "street": "123 Commerce St",
+    "city": "Austin",
+    "state": "TX",
+    "postalCode": "73301",
+    "country": "US"
+  },
+  "taxId": "12-3456789",
+  "email": "billing@acmesupplies.com",
+  "phone": "+1-555-123-4567",
+  "website": "https://acmesupplies.com",
+  "defaultCategoryId": 5,
+  "logo": "https://cdn.smartbills.io/vendors/acme-logo.png",
+  "createdAt": "2024-01-10T08:00:00Z",
+  "updatedAt": "2024-01-10T08:00:00Z"
+}
+```
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les fournisseurs" icon="list" href="/fr/api-reference/vendors/list-vendors">
+    Récupérer tous les fournisseurs
+  </Card>
+  <Card title="Créer un fournisseur" icon="plus" href="/fr/api-reference/vendors/create-vendor">
+    Créer un nouveau fournisseur
+  </Card>
+  <Card title="Obtenir un fournisseur" icon="eye" href="/fr/api-reference/vendors/get-vendor">
+    Obtenir un fournisseur par ID
+  </Card>
+  <Card title="Mettre à jour un fournisseur" icon="pen" href="/fr/api-reference/vendors/update-vendor">
+    Modifier les détails d'un fournisseur
+  </Card>
+</CardGroup>

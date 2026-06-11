@@ -1,0 +1,349 @@
+---
+title: "Frequently Asked Questions"
+description: "Common questions and answers about Smartbills - expenses, reports, teams, integrations, and billing"
+---
+
+<img
+  className="block"
+  src="/images/help-center/faqs-hero.png"
+  alt="Frequently Asked Questions"
+/>
+
+## Overview
+
+Find answers to the most frequently asked questions about Smartbills. If you cannot find what you are looking for, contact our support team or browse the full [Help Center](/help-center/overview).
+
+## General
+
+<AccordionGroup>
+  <Accordion title="What is Smartbills?">
+    Smartbills is an expense management platform that helps individuals and businesses track, organize, and report on expenses. Upload receipts, let AI-powered OCR extract the details, categorize spending, create expense reports, and submit them for approval -- all from web, iOS, or Android.
+  </Accordion>
+
+  <Accordion title="How much does Smartbills cost?">
+    Smartbills offers several plans:
+
+    - **Free**: For individuals tracking personal expenses. Includes basic receipt scanning and expense tracking.
+    - **Pro**: For professionals and small teams. Includes advanced OCR, unlimited uploads, expense reports, and priority support.
+    - **Business**: For growing organizations. Includes team management, approval workflows, integrations, and dedicated support.
+    - **Enterprise**: For large organizations with custom requirements. Includes SSO, advanced security, custom integrations, and a dedicated account manager.
+
+    Visit [smartbills.io/pricing](https://smartbills.io/pricing) for current pricing details and to compare plans.
+  </Accordion>
+
+  <Accordion title="Is my data secure?">
+    Yes. Smartbills takes data security seriously:
+
+    - **Encryption in transit**: All data is encrypted using TLS 1.2+ during transmission
+    - **Encryption at rest**: Data is encrypted at rest using AES-256 encryption
+    - **Cloud infrastructure**: Hosted on enterprise-grade cloud infrastructure with SOC 2 compliance
+    - **Access controls**: Role-based access controls ensure users only see data they are authorized to view
+    - **Two-factor authentication**: Optional 2FA for all accounts, with authenticator app and SMS support
+    - **Regular audits**: Security practices are regularly audited and updated
+    - **Data residency**: Data is stored in compliance with applicable regulations
+
+    For more details, review our [Security Policy](https://smartbills.io/security) and [Privacy Policy](https://smartbills.io/privacy).
+  </Accordion>
+
+  <Accordion title="What platforms is Smartbills available on?">
+    Smartbills is available on:
+
+    - **Web application**: [app.smartbills.io](https://app.smartbills.io) -- works on any modern browser (Chrome, Firefox, Safari, Edge)
+    - **iOS app**: Requires iOS 14.0 or later. [Download from the App Store](https://apps.apple.com/app/smartbills)
+    - **Android app**: Requires Android 8.0 or later. [Download from Google Play](https://play.google.com/store/apps/details?id=io.smartbills.app)
+    - **Outlook Add-in**: Forward email receipts directly to Smartbills. [Learn more](/help-center/integrations/outlook)
+    - **API**: Build custom integrations with the [Smartbills API](/api-reference/introduction)
+
+    All platforms sync data in real time, so you can start on one device and continue on another.
+  </Accordion>
+</AccordionGroup>
+
+## Expenses
+
+<AccordionGroup>
+  <Accordion title="How do I add an expense?">
+    There are several ways to add an expense:
+
+    1. **Upload a receipt** -- Drag and drop an image or PDF on web, or use the camera scanner on mobile. [Upload guide](/help-center/expenses/upload-expense)
+    2. **Manual entry** -- Create an expense manually by entering the merchant, amount, date, and category
+    3. **Email forwarding** -- Forward receipt emails to your unique Smartbills email address
+    4. **Outlook Add-in** -- Use the Smartbills button in Outlook to send receipts directly
+
+    On all platforms, navigate to **Expenses** and click or tap the **+** button to get started.
+  </Accordion>
+
+  <Accordion title="What file formats are supported for receipts?">
+    Smartbills supports the following formats:
+
+    - **Images**: JPG, JPEG, PNG, HEIC, WEBP (max 10 MB)
+    - **Documents**: PDF (max 25 MB, up to 50 pages)
+
+    Unsupported formats include Word documents, Excel files, GIF images, and SVG files. Convert these to PDF before uploading.
+  </Accordion>
+
+  <Accordion title="Can I split an expense across categories?">
+    Yes. Use the split feature to divide a single expense across multiple categories, projects, or cost centers:
+
+    1. Open the expense
+    2. Click or tap **Split Expense**
+    3. Add split lines with the amount and category for each
+    4. Ensure the split amounts total the original expense amount
+    5. Save the split
+
+    [Learn more about splitting expenses](/help-center/expenses/split-expense)
+  </Accordion>
+
+  <Accordion title="How does OCR receipt scanning work?">
+    When you upload a receipt image or PDF, Smartbills uses AI-powered Optical Character Recognition (OCR) to automatically extract key information:
+
+    - **Merchant name** -- the business or vendor
+    - **Total amount** -- the total charge
+    - **Date** -- the transaction date
+    - **Currency** -- detected from symbols or merchant location
+    - **Tax amount** -- sales tax or VAT if present
+    - **Line items** -- individual items on the receipt (when available)
+
+    OCR processing typically takes 5 to 30 seconds depending on document complexity. You can always manually edit any extracted field if the OCR result is inaccurate.
+  </Accordion>
+
+  <Accordion title="What happens if OCR extracts incorrect data?">
+    OCR accuracy depends on image quality, receipt formatting, and text clarity. If extracted data is incorrect:
+
+    1. Open the expense
+    2. Tap or click on the incorrect field (merchant, amount, date, etc.)
+    3. Manually enter the correct value
+    4. Save the expense
+
+    To improve OCR accuracy in the future, ensure receipts are well-lit, flat, in focus, and captured at a high resolution. See our [upload tips](/help-center/troubleshooting/upload-problems) for best practices.
+  </Accordion>
+</AccordionGroup>
+
+## Expense Reports
+
+<AccordionGroup>
+  <Accordion title="How do I create an expense report?">
+    To create an expense report:
+
+    1. Navigate to **Expense Reports** in the sidebar (web) or bottom navigation (mobile)
+    2. Click or tap **New Report**
+    3. Enter a report name and description
+    4. Add expenses to the report from your expense list
+    5. Review the report total and details
+    6. Submit the report for approval
+
+    [Step-by-step report creation guide](/help-center/expense-reports/create-report)
+  </Accordion>
+
+  <Accordion title="How long does approval take?">
+    Approval timelines depend on your organization's workflow:
+
+    - **Single-level approval**: Your direct manager reviews and approves -- typically within 1-3 business days
+    - **Multi-level approval**: The report passes through multiple approvers in sequence. Each level adds processing time
+    - **Auto-approval**: Some organizations configure automatic approval for reports below a certain threshold
+
+    You can track the status of your submitted report in **Expense Reports** > select the report > view the **Approval Timeline**.
+
+    <Tip>
+      Enable push notifications to receive real-time updates when your report status changes.
+    </Tip>
+  </Accordion>
+
+  <Accordion title="Can I recall a submitted report?">
+    Yes, you can recall a report that has been submitted but not yet fully approved:
+
+    1. Go to **Expense Reports**
+    2. Select the submitted report
+    3. Click or tap **Recall Report**
+    4. Confirm the recall
+
+    After recalling, the report returns to draft status and you can make changes before resubmitting.
+
+    <Note>
+      If a report has already been approved by one or more approvers in a multi-level workflow, recalling it will reset all approvals. The report will need to go through the full approval chain again.
+    </Note>
+  </Accordion>
+
+  <Accordion title="How do I get reimbursed?">
+    The reimbursement process depends on your organization's configuration:
+
+    1. **Submit your expense report** and wait for approval
+    2. **Report approved** -- once all required approvers have approved the report, it moves to the reimbursement queue
+    3. **Finance processes payment** -- your finance team or administrator processes the reimbursement through their preferred method (direct deposit, check, payroll, or integrated payment provider)
+    4. **Reimbursement completed** -- you will receive a notification when the reimbursement is marked as complete
+
+    Reimbursement timelines vary by organization. Contact your finance department or administrator for specific timelines.
+  </Accordion>
+</AccordionGroup>
+
+## Team and Permissions
+
+<AccordionGroup>
+  <Accordion title="How do I invite team members?">
+    Administrators can invite team members:
+
+    1. Go to **Settings** > **Users**
+    2. Click **Invite User**
+    3. Enter the team member's email address
+    4. Select their role (Employee, Manager, Approver, Administrator)
+    5. Assign them to a department (optional)
+    6. Click **Send Invitation**
+
+    The team member will receive an email invitation with a link to join your business. If they already have a Smartbills account, they can accept the invitation directly. New users will be guided through account creation.
+
+    [Learn more about managing users](/help-center/settings/manage-users)
+  </Accordion>
+
+  <Accordion title="What are the different user roles?">
+    Smartbills provides role-based access control:
+
+    | Role | Permissions |
+    |---|---|
+    | **Employee** | Create and manage personal expenses, submit expense reports |
+    | **Manager** | All Employee permissions + view and manage team expenses |
+    | **Approver** | All Manager permissions + approve or reject expense reports |
+    | **Administrator** | Full access to all settings, users, integrations, and data |
+    | **Owner** | All Administrator permissions + billing management and account deletion |
+
+    [Learn more about roles and permissions](/help-center/settings/user-roles)
+  </Accordion>
+
+  <Accordion title="Can I delegate approval authority?">
+    Yes. Administrators can set up delegation for approvers who are unavailable (vacation, leave, etc.):
+
+    1. Go to **Settings** > **Approval Workflows**
+    2. Select the approver who needs a delegate
+    3. Click **Add Delegate**
+    4. Choose the delegate user and set the delegation period (start and end dates)
+    5. Save the delegation
+
+    During the delegation period, the delegate will receive and process approval requests on behalf of the original approver. Both the original approver and the delegate can see the delegation status.
+
+    [Learn more about approval workflows](/help-center/settings/approval-workflow)
+  </Accordion>
+</AccordionGroup>
+
+## Integrations
+
+<AccordionGroup>
+  <Accordion title="What accounting software does Smartbills integrate with?">
+    Smartbills integrates with popular accounting platforms:
+
+    - **QuickBooks Online** -- Sync expenses, categories, and tax codes. [Setup guide](/help-center/integrations/quickbooks)
+    - **Xero** -- Sync expenses, contacts, and chart of accounts. [Setup guide](/help-center/integrations/xero)
+    - **Sage** -- Export expenses and reports to Sage
+    - **FreshBooks** -- Connect for expense synchronization
+
+    Additional integrations include:
+    - **Slack** -- Receive notifications and approve reports from Slack. [Setup guide](/help-center/integrations/slack)
+    - **Zapier** -- Connect Smartbills to 1000+ apps. [Setup guide](/help-center/integrations/zapier)
+    - **Banking** -- Link bank accounts for automatic transaction import. [Setup guide](/help-center/integrations/banking)
+
+    Enterprise customers can request custom integrations. Contact [sales@smartbills.io](mailto:sales@smartbills.io) for details.
+  </Accordion>
+
+  <Accordion title="How do I set up the Outlook add-in?">
+    The Smartbills Outlook add-in lets you forward receipt emails directly to Smartbills:
+
+    1. Open Outlook (desktop or web)
+    2. Go to **Get Add-ins** (Home tab > Get Add-ins, or Settings > Manage Add-ins)
+    3. Search for "Smartbills"
+    4. Click **Add** to install the add-in
+    5. Sign in with your Smartbills credentials
+    6. To forward a receipt, open the email and click the Smartbills icon in the toolbar
+
+    The add-in extracts attachments and relevant information from the email, creating an expense in your Smartbills account automatically.
+  </Accordion>
+
+  <Accordion title="Does Smartbills work with Slack?">
+    Yes. The Smartbills Slack integration provides:
+
+    - **Notifications** -- receive alerts when reports are submitted, approved, or rejected
+    - **Quick approvals** -- approve or reject expense reports directly from Slack
+    - **Expense summaries** -- get daily or weekly expense summaries in a Slack channel
+
+    To set up: go to **Settings** > **Integrations** > **Slack** > **Connect** and authorize Smartbills in your Slack workspace.
+
+    [Full Slack integration guide](/help-center/integrations/slack)
+  </Accordion>
+</AccordionGroup>
+
+## Billing
+
+<AccordionGroup>
+  <Accordion title="How do I change my plan?">
+    To upgrade or downgrade your Smartbills plan:
+
+    1. Go to **Settings** > **Billing** > **Plan**
+    2. Review available plans and features
+    3. Click **Change Plan** on your desired plan
+    4. Confirm the change
+
+    **Upgrades** take effect immediately. You will be charged a prorated amount for the remainder of the current billing cycle.
+
+    **Downgrades** take effect at the end of your current billing cycle. You retain access to higher-tier features until then.
+  </Accordion>
+
+  <Accordion title="What payment methods are accepted?">
+    Smartbills accepts the following payment methods:
+
+    - **Credit cards**: Visa, Mastercard, American Express
+    - **Debit cards**: Visa Debit, Mastercard Debit
+    - **Bank transfer / ACH**: Available for annual Business and Enterprise plans
+
+    All payments are processed securely through Stripe. Smartbills does not store your full card details.
+
+    To update your payment method, go to **Settings** > **Billing** > **Payment Method**.
+  </Accordion>
+
+  <Accordion title="How do I cancel my subscription?">
+    To cancel your Smartbills subscription:
+
+    1. Go to **Settings** > **Billing** > **Plan**
+    2. Click **Cancel Subscription**
+    3. Select a reason for cancellation (optional)
+    4. Confirm the cancellation
+
+    **What happens after cancellation:**
+    - Your plan remains active until the end of the current billing period
+    - After expiration, your account reverts to the free plan
+    - Your data is retained, but access to premium features is removed
+    - You can resubscribe at any time to regain access
+
+    <Note>
+      If you want to permanently delete your account and data, see [Delete Your Account](/help-center/account/delete-account). Cancelling a subscription does not delete your account.
+    </Note>
+  </Accordion>
+</AccordionGroup>
+
+## Still Have Questions?
+
+If you could not find the answer to your question, we are here to help:
+
+<CardGroup cols={3}>
+  <Card title="Email Support" icon="envelope">
+    [support@smartbills.io](mailto:support@smartbills.io)
+
+    Response times:
+    - Free: 48 hours
+    - Pro: 24 hours
+    - Enterprise: 4 hours
+  </Card>
+
+  <Card title="Live Chat" icon="comment">
+    Available in the app (bottom right corner)
+
+    Hours:
+    - Pro: Business hours
+    - Enterprise: 24/7
+  </Card>
+
+  <Card title="Community Forum" icon="users">
+    Ask questions, share tips, and connect with other Smartbills users.
+
+    [community.smartbills.io](https://community.smartbills.io)
+  </Card>
+</CardGroup>
+
+<Tip>
+  Use the search bar at the top of any help page to quickly find articles related to your question.
+</Tip>

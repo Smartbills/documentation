@@ -1,0 +1,134 @@
+---
+title: "Request Changes"
+description: "Request changes on a submitted expense report before approval"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/approbations/{reportId}/request-changes"
+---
+
+## Overview
+
+Send an expense report back to the employee with a request for changes. Unlike a rejection, this indicates that the report can be approved once specific modifications are made. The report status changes to `changes_requested` and the employee receives a notification with your feedback.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="changes" type="string" required>
+  Description of the changes needed. Be specific about which expenses need modification and what changes are required.
+</ParamField>
+
+## Response
+
+<ResponseField name="reportId" type="integer">
+  ID of the expense report
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Updated report status: `changes_requested`
+</ResponseField>
+
+<ResponseField name="requestedBy" type="integer">
+  ID of the user who requested changes
+</ResponseField>
+
+<ResponseField name="requestedAt" type="string">
+  Timestamp of the change request (ISO 8601)
+</ResponseField>
+
+<ResponseField name="changes" type="string">
+  Requested changes description
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/approbations/789/request-changes \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "changes": "Please recategorize the Uber expense from Travel to Ground Transportation, and add a business purpose note to the dinner expense."
+  }'
+```
+
+```javascript JavaScript
+const result = await client.approbations.requestChanges(789, {
+  changes: "Please recategorize the Uber expense from Travel to Ground Transportation, and add a business purpose note to the dinner expense."
+});
+```
+
+```python Python
+result = client.approbations.request_changes(
+    report_id=789,
+    request={
+        "changes": "Please recategorize the Uber expense from Travel to Ground Transportation, and add a business purpose note to the dinner expense."
+    }
+)
+```
+
+```csharp C#
+var result = await client.Approbations.RequestChangesAsync(789, new RequestChangesRequest
+{
+    Changes = "Please recategorize the Uber expense from Travel to Ground Transportation, and add a business purpose note to the dinner expense."
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "reportId": 789,
+  "status": "changes_requested",
+  "requestedBy": 100,
+  "requestedAt": "2024-02-01T11:30:00Z",
+  "changes": "Please recategorize the Uber expense from Travel to Ground Transportation, and add a business purpose note to the dinner expense."
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | REPORT_NOT_SUBMITTED | Report has not been submitted for approval |
+| 400 | CHANGES_REQUIRED | Changes description is required |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | NOT_APPROVER | You are not an approver for this report |
+| 404 | REPORT_NOT_FOUND | Report does not exist |
+
+<Tip>
+  Use "Request Changes" instead of "Reject" when the report is close to acceptable but needs minor corrections. This keeps the report in a reviewable state and avoids requiring the employee to start over.
+</Tip>
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Pending" icon="clock" href="/api-reference/approvals/list-pending">
+    View pending approvals
+  </Card>
+  <Card title="Approve Report" icon="check" href="/api-reference/approvals/approve">
+    Approve a submitted report
+  </Card>
+  <Card title="Reject Report" icon="xmark" href="/api-reference/approvals/reject">
+    Reject a submitted report
+  </Card>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    View full report details
+  </Card>
+</CardGroup>

@@ -13,6 +13,7 @@
     "test:coverage:watch": "mint test:coverage:watch"
   },
   "dependencies": {
-    "mint": "^4.2.313"
+    "mint": "^4.2.313",
+    "mintlify": "^4.2.517"
   }
 }

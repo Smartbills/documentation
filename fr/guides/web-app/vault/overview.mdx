@@ -1,0 +1,124 @@
+---
+title: "Coffre-fort"
+description: "Accédez au coffre-fort securise pour les documents financiers"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/vault/overview-hero.png" alt="Coffre-fort securise de documents Smartbills" />
+</Frame>
+
+## Introduction
+
+Le Coffre-fort est un espace de stockage numérique securise ou Smartbills archive automatiquement des copies de tous les reçus, rapports de dépenses, factures fournisseurs et autres documents financiers. Il sert de répertoire central de votre organisation pour la conservation des documents et la conformité. Le Coffre-fort est accessible à `/:slug/vault` dans l'application web.
+
+<Note>
+  **Permissions requises** : Vous avez besoin de la permission **VAULT_VIEW** pour accéder au Coffre-fort. Le niveau d'acces depend de votre role -- les employés ne voient que leurs propres documents, tandis que les gestionnaires et les administrateurs peuvent accéder aux documents de toute l'organisation.
+</Note>
+
+## Ce Qui Est Stocke
+
+Le Coffre-fort collecte et organise automatiquement les documents provenant de l'ensemble de Smartbills :
+
+- **Reçus** -- Images et PDF téléchargés avec les dépenses
+- **Rapports de dépenses** -- Rapports finalises dans leur etat approuve
+- **Factures fournisseurs** -- Factures téléchargées via la section Factures
+- **Documents justificatifs** -- Tout fichier supplémentaire joint aux dépenses ou rapports
+- **Documents téléchargés manuellement** -- Fichiers que vous ajoutez directement au Coffre-fort
+
+<Frame>
+  <img src="/images/guides/web-app/vault/document-types.png" alt="Types de documents stockes dans le Coffre-fort, incluant reçus, rapports et factures" />
+</Frame>
+
+## Naviguer dans le Coffre-fort
+
+### Organisation
+
+Les documents du Coffre-fort sont organises par :
+
+- **Date** -- Tries chronologiquement avec les documents les plus recents en premier
+- **Type** -- Regroupes par type de document (reçus, rapports, factures, autres)
+- **Source** -- D'ou provient le document (dépense, facture, téléchargement manuel)
+- **Employé** -- Le membre de l'équipe associe au document (pour les gestionnaires et administrateurs)
+
+### Filtrage
+
+Utilisez la barre de filtres en haut pour affiner la liste des documents :
+
+| Filtre | Description |
+|--------|-------------|
+| **Plage de dates** | Afficher les documents d'une periode spécifique |
+| **Type de document** | Filtrer par reçus, rapports, factures ou autres |
+| **Employé** | Afficher les documents d'un membre d'équipe spécifique |
+| **Etiquettes** | Filtrer par les etiquettes appliquees aux documents |
+| **Statut** | Filtrer par statut du document (p. ex., lies aux rapports approuvés uniquement) |
+
+### Recherche
+
+La barre de recherche permet de trouver des documents par :
+
+- Nom de fichier
+- Etiquettes et descriptions
+- Nom de la dépense ou du rapport associe
+- Nom du fournisseur
+- Date
+
+<Frame>
+  <img src="/images/guides/web-app/vault/search-filter.png" alt="Options de recherche et de filtrage du Coffre-fort" />
+</Frame>
+
+## Aperçu des Documents
+
+Cliquez sur n'importe quel document pour ouvrir un panneau d'aperçu sans quitter le Coffre-fort. L'aperçu affiche :
+
+- Une vue en taille reelle du document (image ou PDF)
+- Les metadonnées incluant la date de téléchargement, la source, la taille du fichier et les enregistrements associes
+- Les etiquettes et descriptions
+- Un lien vers la dépense, le rapport ou la facture associe
+
+<Frame>
+  <img src="/images/guides/web-app/vault/document-preview.png" alt="Panneau d'aperçu du document affichant le fichier et ses metadonnées" />
+</Frame>
+
+## Controle d'Acces
+
+Le Coffre-fort applique un controle d'acces base sur les roles pour proteger les documents financiers sensibles :
+
+| Role | Niveau d'Acces |
+|------|---------------|
+| **Employé** | Ses propres documents uniquement (reçus et rapports qu'il à soumis) |
+| **Gestionnaire** | Documents des subordonnes directs et les siens |
+| **Finance / Admin** | Tous les documents de l'organisation |
+| **Auditeur** | Acces en lecture seule à tous les documents (si configure) |
+
+<Warning>
+  **Données sensibles** : Le Coffre-fort peut contenir des informations financieres confidentielles. Les accès sont enregistres et les administrateurs peuvent examiner qui à consulte ou téléchargé des documents.
+</Warning>
+
+## Conservation
+
+Les documents du Coffre-fort sont conservés conformement à la politique de conservation de votre organisation, configurée dans **Paramètres > Coffre-fort > Conservation**. Les configurations courantes incluent :
+
+- **Duree** -- Combien de temps les documents sont conservés (p. ex., 7 ans pour la conformité fiscale)
+- **Auto-archivage** -- Les documents plus anciens sont déplacés vers une archive à long terme
+- **Politique de suppression** -- Si les documents sont automatiquement supprimes un jour
+
+<Tip>
+  **Conformité** : De nombreuses juridictions exigent que les entreprises conservent les documents financiers pendant une periode minimale. Configurez votre politique de conservation pour repondre aux exigences locales.
+</Tip>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les Documents" icon="folder-open" href="/fr/guides/web-app/vault/manage-documents">
+    Télécharger, rechercher, télécharger et exporter des documents
+  </Card>
+  <Card title="Factures" icon="file-invoice-dollar" href="/fr/guides/web-app/bills/overview">
+    Gérer les factures fournisseurs
+  </Card>
+  <Card title="Rapports de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
+    Créer et gérer les rapports de dépenses
+  </Card>
+  <Card title="Paramètres" icon="gear" href="/fr/guides/web-app/settings/general">
+    Configurer les politiques de conservation du coffre-fort
+  </Card>
+</CardGroup>

@@ -1,0 +1,189 @@
+---
+title: "Lister les éléments du rapport"
+description: "Lister toutes les dépenses d'un rapport de dépenses"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/expenses"
+---
+
+## Aperçu
+
+Récupérer toutes les dépenses ajoutées à un rapport de dépenses spécifique. La réponse inclut le montant alloué, le taux de changé et l'attribution de catégorie de chaque dépense dans le contexte du rapport.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses
+</ParamField>
+
+## Réponse
+
+<ResponseField name="data" type="array">
+  Tableau d'objets d'éléments de rapport de dépenses
+
+  <Expandable title="Objet Élément de rapport de dépenses">
+    <ResponseField name="id" type="integer">
+      Identifiant unique de l'entrée d'élément du rapport
+    </ResponseField>
+
+    <ResponseField name="expenseId" type="integer">
+      Identifiant de la dépense liée
+    </ResponseField>
+
+    <ResponseField name="reportId" type="integer">
+      Identifiant du rapport de dépenses parent
+    </ResponseField>
+
+    <ResponseField name="allocatedAmount" type="number">
+      Montant alloué à ce rapport (peut différer du montant original de la dépense pour les dépenses fractionnées)
+    </ResponseField>
+
+    <ResponseField name="exchangeRate" type="number">
+      Taux de changé appliqué lorsque la devise de la dépense diffère de la devise du rapport
+    </ResponseField>
+
+    <ResponseField name="categoryId" type="integer">
+      Identifiant de catégorie assigné à cette dépense dans le rapport
+    </ResponseField>
+
+    <ResponseField name="notes" type="string">
+      Notes spécifiques à cette dépense dans le rapport
+    </ResponseField>
+
+    <ResponseField name="expense" type="object">
+      L'objet de dépense complet
+      <Expandable title="Objet Dépense">
+        <ResponseField name="id" type="integer">
+          Identifiant de la dépense
+        </ResponseField>
+        <ResponseField name="merchant" type="string">
+          Nom du commerçant
+        </ResponseField>
+        <ResponseField name="amount" type="number">
+          Montant original de la dépense
+        </ResponseField>
+        <ResponseField name="currency" type="string">
+          Code de devise ISO 4217
+        </ResponseField>
+        <ResponseField name="date" type="string">
+          Date de la transaction (AAAA-MM-JJ)
+        </ResponseField>
+        <ResponseField name="status" type="string">
+          Statut de la dépense
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="createdAt" type="string">
+      Horodatage de l'ajout de l'élément au rapport (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="updatedAt" type="string">
+      Horodatage de la dernière mise à jour (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/789/expenses \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const items = await client.expenseReportExpenses.list(789);
+```
+
+```python Python
+items = client.expense_report_expenses.list(report_id=789)
+```
+
+```csharp C#
+var items = await client.ExpenseReportExpenses.ListAsync(789);
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 1,
+      "expenseId": 12345,
+      "reportId": 789,
+      "allocatedAmount": 450.00,
+      "exchangeRate": 1.0,
+      "categoryId": 3,
+      "notes": null,
+      "expense": {
+        "id": 12345,
+        "merchant": "Delta Airlines",
+        "amount": 450.00,
+        "currency": "USD",
+        "date": "2024-01-15",
+        "status": "submitted"
+      },
+      "createdAt": "2024-01-18T10:30:00Z",
+      "updatedAt": "2024-01-18T10:30:00Z"
+    },
+    {
+      "id": 2,
+      "expenseId": 12346,
+      "reportId": 789,
+      "allocatedAmount": 600.00,
+      "exchangeRate": 1.0,
+      "categoryId": 4,
+      "notes": "Two-night stay for client meetings",
+      "expense": {
+        "id": 12346,
+        "merchant": "Marriott Hotel",
+        "amount": 600.00,
+        "currency": "USD",
+        "date": "2024-01-16",
+        "status": "submitted"
+      },
+      "createdAt": "2024-01-18T10:31:00Z",
+      "updatedAt": "2024-01-18T10:31:00Z"
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour cette entreprise |
+| 404 | REPORT_NOT_FOUND | Le rapport de dépenses n'existe pas |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Ajouter un élément" icon="plus" href="/api-reference/expense-report-items/add-item">
+    Ajouter une dépense à un rapport
+  </Card>
+  <Card title="Supprimer un élément" icon="trash" href="/api-reference/expense-report-items/remove-item">
+    Supprimer une dépense d'un rapport
+  </Card>
+  <Card title="Modifier un élément" icon="pen" href="/api-reference/expense-report-items/update-item-status">
+    Modifier une dépense dans un rapport
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer le rapport parent
+  </Card>
+</CardGroup>

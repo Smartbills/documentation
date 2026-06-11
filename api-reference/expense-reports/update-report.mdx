@@ -1,8 +1,22 @@
 ---
 title: "Update Expense Report"
 api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}"
-description: "Update an expense report"
+description: "Update an existing expense report's details, date range, or transactions"
 ---
+
+## Overview
+
+Update an existing expense report. You can modify the title, description, business purpose, date range, transaction list, and currency. Only reports in `draft` or `changes_required` status can be updated.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
 
 ## Path Parameters
 
@@ -11,7 +25,7 @@ description: "Update an expense report"
 </ParamField>
 
 <ParamField path="reportId" type="integer" required>
-  The unique identifier of the expense report
+  The unique identifier of the expense report to update
 </ParamField>
 
 ## Request Body
@@ -21,12 +35,106 @@ description: "Update an expense report"
 </ParamField>
 
 <ParamField body="description" type="string">
-  Updated description
+  Updated report description
 </ParamField>
 
-<ParamField body="expenseIds" type="array">
-  Updated array of expense IDs
+<ParamField body="businessPurpose" type="string">
+  Updated business purpose
 </ParamField>
+
+<ParamField body="startDate" type="string">
+  Updated start date of the expense period (ISO 8601 format: YYYY-MM-DD)
+</ParamField>
+
+<ParamField body="endDate" type="string">
+  Updated end date of the expense period (ISO 8601 format: YYYY-MM-DD)
+</ParamField>
+
+<ParamField body="transactionIds" type="array">
+  Updated array of transaction IDs. This replaces the existing list of transactions.
+</ParamField>
+
+<ParamField body="reportCurrency" type="string">
+  Updated three-letter ISO currency code for the report
+</ParamField>
+
+## Response
+
+Returns the updated expense report object.
+
+<ResponseField name="id" type="integer">
+  Unique expense report identifier
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Report title
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Report description
+</ResponseField>
+
+<ResponseField name="businessPurpose" type="string">
+  Business purpose
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Total amount of all transactions in the report
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="expenseCount" type="integer">
+  Number of transactions in the report
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+  Period start date
+</ResponseField>
+
+<ResponseField name="endDate" type="string">
+  Period end date
+</ResponseField>
+
+<ResponseField name="transactions" type="array">
+  Array of transaction objects included in the report
+
+  <Expandable title="Transaction Object">
+    <ResponseField name="id" type="integer">
+      Transaction ID
+    </ResponseField>
+
+    <ResponseField name="amount" type="number">
+      Transaction amount
+    </ResponseField>
+
+    <ResponseField name="currency" type="string">
+      Transaction currency code
+    </ResponseField>
+
+    <ResponseField name="merchant" type="string">
+      Merchant name
+    </ResponseField>
+
+    <ResponseField name="date" type="string">
+      Transaction date
+    </ResponseField>
+
+    <ResponseField name="category" type="string">
+      Expense category
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of the update (ISO 8601)
+</ResponseField>
 
 <RequestExample>
 
@@ -35,11 +143,132 @@ curl --request PUT \
   --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001 \
   --header 'Authorization: Bearer YOUR_API_KEY' \
   --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
   --data '{
-    "title": "January 2024 Business Trip - Updated",
-    "expenseIds": [12345, 12346, 12347, 12348]
+    "title": "January 2025 Business Trip - Updated",
+    "description": "Updated with additional meals expenses",
+    "transactionIds": [12345, 12346, 12347, 12348],
+    "endDate": "2025-01-19"
   }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.update(1001, {
+  title: "January 2025 Business Trip - Updated",
+  description: "Updated with additional meals expenses",
+  transactionIds: [12345, 12346, 12347, 12348],
+  endDate: "2025-01-19"
+});
+
+console.log("Report updated:", report.title);
+console.log("New total:", report.totalAmount);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.update(1001, {
+    "title": "January 2025 Business Trip - Updated",
+    "description": "Updated with additional meals expenses",
+    "transaction_ids": [12345, 12346, 12347, 12348],
+    "end_date": "2025-01-19"
+})
+
+print(f"Report updated: {report.title}")
+print(f"New total: {report.total_amount}")
 ```
 
 </RequestExample>
 
+<ResponseExample>
+
+```json Response
+{
+  "id": 1001,
+  "title": "January 2025 Business Trip - Updated",
+  "description": "Updated with additional meals expenses",
+  "businessPurpose": "Client acquisition",
+  "status": "draft",
+  "totalAmount": 1384.56,
+  "reportCurrency": "USD",
+  "expenseCount": 4,
+  "employeeId": 789,
+  "startDate": "2025-01-15",
+  "endDate": "2025-01-19",
+  "transactions": [
+    {
+      "id": 12345,
+      "amount": 500.00,
+      "currency": "USD",
+      "merchant": "Delta Airlines",
+      "date": "2025-01-15",
+      "category": "Travel - Airfare"
+    },
+    {
+      "id": 12346,
+      "amount": 534.56,
+      "currency": "USD",
+      "merchant": "Marriott Hotel",
+      "date": "2025-01-15",
+      "category": "Travel - Lodging"
+    },
+    {
+      "id": 12347,
+      "amount": 200.00,
+      "currency": "USD",
+      "merchant": "Various Restaurants",
+      "date": "2025-01-16",
+      "category": "Meals & Entertainment"
+    },
+    {
+      "id": 12348,
+      "amount": 150.00,
+      "currency": "USD",
+      "merchant": "Uber",
+      "date": "2025-01-17",
+      "category": "Travel - Ground Transport"
+    }
+  ],
+  "createdAt": "2025-01-18T10:30:00Z",
+  "updatedAt": "2025-01-20T08:15:00Z"
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Invalid request data |
+| 400 | INVALID_DATE_RANGE | End date is before start date |
+| 400 | TRANSACTION_NOT_FOUND | One or more transaction IDs do not exist |
+| 400 | TRANSACTION_ALREADY_IN_REPORT | Transaction is already assigned to another report |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions to update this report |
+| 404 | NOT_FOUND | Expense report not found |
+| 409 | INVALID_STATUS | Report is not in an editable status (must be `draft` or `changes_required`) |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve a single report
+  </Card>
+  <Card title="Submit Report" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Submit for approval
+  </Card>
+  <Card title="Delete Report" icon="trash" href="/api-reference/expense-reports/delete-report">
+    Delete a draft report
+  </Card>
+  <Card title="Create Report" icon="plus" href="/api-reference/expense-reports/create-report">
+    Create a new report
+  </Card>
+</CardGroup>

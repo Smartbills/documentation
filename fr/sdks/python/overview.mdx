@@ -1,0 +1,74 @@
+---
+title: "Aperçu du SDK Python"
+description: "SDK Python officiel pour l'API Smartbills -- client asynchrone et type-safe pour la gestion des dépenses avec des modèles Pydantic."
+---
+
+# SDK Python
+
+Le package `smartbills` fournit un client Python asynchrone pour l'API REST Smartbills. Construit sur `httpx` pour les requêtes HTTP async et `pydantic` pour la validation de données, il offre une couche d'intégration entièrement typée et prête pour la production.
+
+## Fonctionnalités
+
+- Entièrement asynchrone avec support `async/await`
+- Modèles Pydantic v2 pour tous les types de requêtes et réponses
+- Tentatives automatiques avec back-off exponentiel sur les erreurs transitoires
+- Hiérarchie d'erreurs structurée correspondant aux codes de statut HTTP
+- Support multi-tenant via le contexte `business_id`
+- Gestionnaire de contexte asynchrone pour une gestion propre des ressources
+
+## Démarrage rapide
+
+```python
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token="VOTRE_CLE_API",
+    business_id=123,
+    locale="fr-CA",
+)
+
+async with SmartbillsClient(options) as client:
+    # Lister les dépenses récentes
+    result = await client.expenses.list_business()
+    for expense in result.data:
+        print(f"{expense.id}: {expense.amount}")
+
+    # Créer un rapport de dépenses
+    from smartbills.models.expense_reports import ExpenseReportCreateRequest
+    report = await client.expense_reports.create(
+        ExpenseReportCreateRequest(name="Dépenses T1")
+    )
+    print(f"Rapport créé : {report.id}")
+```
+
+## Services disponibles
+
+| Service | Propriété | Description |
+|---------|-----------|-------------|
+| Dépenses | `client.expenses` | Lister, télécharger, mettre à jour, scinder, exporter et gérer en masse |
+| Rapports de dépenses | `client.expense_reports` | Créer, soumettre, approuver, rejeter et rembourser |
+| Dépenses de rapport | `client.expense_report_expenses` | Ajouter, supprimer et modifier les dépenses dans un rapport |
+| Paiements de rapport | `client.expense_report_payments` | Opérations de remboursement |
+| Approbations | `client.approbations` | Gérer les flux d'approbation |
+| Factures | `client.bills` | Gestion du cycle de vie des comptes fournisseurs |
+| Fournisseurs | `client.vendors` | CRUD au niveau utilisateur |
+| Fournisseurs d'entreprise | `client.business_vendors` | CRUD dans le contexte d'une entreprise |
+| Employés | `client.employées` | Gestion des employés |
+| Entreprises | `client.businesses` | Gestion des entités commerciales |
+| Catégories | `client.categories` | Gestion des catégories de dépenses |
+| Reçus | `client.receipts` | Traitement des reçus |
+
+Toutes les méthodes sont **asynchrones** et doivent être appelées avec `await`.
+
+## Prérequis
+
+- **Python** 3.10 ou plus récent
+- **httpx** 0.27+
+- **pydantic** 2.0+
+
+## Prochaînes étapes
+
+- [Installation](/fr/sdks/python/installation) -- installer le package et configurer votre environnement
+- [Dépenses](/fr/sdks/python/expenses) -- référence complète du service de dépenses
+- [Rapports de dépenses](/fr/sdks/python/expense-reports) -- gestion du cycle de vie des rapports
+- [Gestion des erreurs](/fr/sdks/python/error-handling) -- comprendre les classes d'erreurs

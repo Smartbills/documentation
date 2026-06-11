@@ -1,0 +1,233 @@
+---
+title: "List Categories"
+description: "Retrieve a paginated list of expense categories"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/categories"
+---
+
+## Overview
+
+Retrieve a list of expense categories configured for a business. Categories help organize expenses into logical groups such as Travel, Meals, or Office Supplies. You can search by name and filter by enabled status.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="page" type="integer" default="1">
+  Page number for pagination (starts at 1)
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="20">
+  Number of items per page (max: 100)
+</ParamField>
+
+<ParamField query="search" type="string">
+  Search categories by name (partial match)
+</ParamField>
+
+<ParamField query="enabled" type="boolean">
+  Filter by enabled status. `true` returns only active categories, `false` returns only disabled categories. Omit to return all.
+</ParamField>
+
+## Response
+
+<ResponseField name="data" type="array">
+  Array of category objects
+
+  <Expandable title="Category Object">
+    <ResponseField name="id" type="integer">
+      Unique category identifier
+    </ResponseField>
+
+    <ResponseField name="name" type="string">
+      Category name
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Category description
+    </ResponseField>
+
+    <ResponseField name="glAccountCode" type="string">
+      General ledger account code for accounting integration
+    </ResponseField>
+
+    <ResponseField name="color" type="string">
+      Hex color code used for display (e.g., `#4A90D9`)
+    </ResponseField>
+
+    <ResponseField name="enabled" type="boolean">
+      Whether the category is active and available for use
+    </ResponseField>
+
+    <ResponseField name="displayOrder" type="integer">
+      Sort order for display in dropdowns and lists
+    </ResponseField>
+
+    <ResponseField name="createdAt" type="string">
+      Timestamp when the category was created (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="updatedAt" type="string">
+      Timestamp of last update (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="pagination" type="object">
+  Pagination metadata
+
+  <Expandable title="Pagination Object">
+    <ResponseField name="page" type="integer">
+      Current page number
+    </ResponseField>
+
+    <ResponseField name="pageSize" type="integer">
+      Number of items per page
+    </ResponseField>
+
+    <ResponseField name="totalPages" type="integer">
+      Total number of pages
+    </ResponseField>
+
+    <ResponseField name="totalCount" type="integer">
+      Total number of categories matching the filters
+    </ResponseField>
+
+    <ResponseField name="hasNext" type="boolean">
+      Whether there is a next page
+    </ResponseField>
+
+    <ResponseField name="hasPrevious" type="boolean">
+      Whether there is a previous page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/categories?page=1&pageSize=20&enabled=true' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 456'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const categories = await client.categories.list({
+  search: "Travel",
+  enabled: true,
+  page: 1,
+  pageSize: 20
+});
+
+console.log(`Found ${categories.pagination.totalCount} categories`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+categories = await client.categories.list()
+
+for category in categories.data:
+    print(f"{category.name} - {category.gl_account_code}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Travel",
+      "description": "Business travel expenses including flights, hotels, and ground transportation",
+      "glAccountCode": "6200",
+      "color": "#4A90D9",
+      "enabled": true,
+      "displayOrder": 1,
+      "createdAt": "2024-01-10T09:00:00Z",
+      "updatedAt": "2024-01-10T09:00:00Z"
+    },
+    {
+      "id": 2,
+      "name": "Meals & Entertainment",
+      "description": "Business meals, client entertainment, and team events",
+      "glAccountCode": "6300",
+      "color": "#7ED321",
+      "enabled": true,
+      "displayOrder": 2,
+      "createdAt": "2024-01-10T09:00:00Z",
+      "updatedAt": "2024-01-10T09:00:00Z"
+    },
+    {
+      "id": 3,
+      "name": "Office Supplies",
+      "description": "General office supplies and stationery",
+      "glAccountCode": "6400",
+      "color": "#F5A623",
+      "enabled": true,
+      "displayOrder": 3,
+      "createdAt": "2024-01-10T09:00:00Z",
+      "updatedAt": "2024-02-05T14:20:00Z"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 1,
+    "totalCount": 3,
+    "hasNext": false,
+    "hasPrevious": false
+  }
+}
+```
+
+</ResponseExample>
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Invalid query parameter value |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions to access this business |
+| 404 | BUSINESS_NOT_FOUND | Business ID does not exist |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Category" icon="eye" href="/api-reference/categories/get-category">
+    Retrieve a single category by ID
+  </Card>
+  <Card title="Create Category" icon="plus" href="/api-reference/categories/create-category">
+    Create a new expense category
+  </Card>
+  <Card title="Update Category" icon="pen" href="/api-reference/categories/update-category">
+    Modify an existing category
+  </Card>
+  <Card title="List Departments" icon="building" href="/api-reference/departments/list-departments">
+    View all departments
+  </Card>
+</CardGroup>

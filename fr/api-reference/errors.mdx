@@ -1,0 +1,341 @@
+---
+title: "Gestion des Erreurs"
+description: "Apprenez à gérer les erreurs de l'API Smartbills, y compris les codes d'erreur, les formats de réponse et la logique de réessai"
+---
+
+## Aperçu
+
+L'API Smartbills utilisé les codes de réponse HTTP conventionnels pour indiquer le succès ou l'échec d'une requête API. Les codes dans la plage `2xx` indiquent le succès, `4xx` indiquent les erreurs du client, et `5xx` indiquent les erreurs du serveur.
+
+## Codes de statut HTTP
+
+| Code | Statut | Description |
+|------|--------|-------------|
+| 200 | OK | La requête à réussi |
+| 201 | Created | La ressource à été créée avec succès |
+| 204 | No Content | La requête à réussi sans corps de réponse (ex. : suppression réussie) |
+| 400 | Bad Request | Paramètres de requête invalides ou erreur de validation |
+| 401 | Unauthorized | Clé API / jeton invalide ou manquant |
+| 403 | Forbidden | Permissions insuffisantes pour la ressource demandée |
+| 404 | Not Found | Ressource introuvable |
+| 409 | Conflict | Conflit de ressource (ex. : doublon) |
+| 422 | Unprocessable Entity | La requête est bien formee mais contient des erreurs semantiques |
+| 429 | Too Many Requests | Limite de débit dépassée |
+| 500 | Internal Server Error | Une erreur serveur inattendue est survenue |
+
+## Format de réponse d'erreur
+
+Toutes les erreurs suivent une structure JSON cohérente :
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Les données de la requête sont invalides",
+    "détails": [
+      {
+        "field": "amount",
+        "message": "Le montant doit être supérieur à 0",
+        "code": "INVALID_AMOUNT"
+      }
+    ],
+    "requestId": "req_1234567890abcdef",
+    "timestamp": "2025-01-15T10:30:00Z"
+  }
+}
+```
+
+### Champs d'erreur
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| `code` | string | Code d'erreur lisible par machine |
+| `message` | string | Message d'erreur lisible par l'humain |
+| `détails` | array | Tableau d'informations détaillées sur l'erreur (pour les erreurs de validation) |
+| `requestId` | string | Identifiant unique de la requête pour le débogage |
+| `timestamp` | string | Horodatage ISO 8601 du moment où l'erreur s'est produite |
+
+## Codes d'erreur
+
+### Erreurs d'authentification
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `UNAUTHORIZED` | 401 | Clé API invalide ou manquante |
+| `API_KEY_EXPIRED` | 401 | La clé API à expiré |
+| `API_KEY_REVOKED` | 401 | La clé API à été révoquée |
+| `INVALID_TOKEN` | 401 | Jeton JWT invalide ou mal forme |
+
+### Erreurs de permission
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `FORBIDDEN` | 403 | Permissions insuffisantes |
+| `INSUFFICIENT_PERMISSIONS` | 403 | Portees requises manquantes |
+| `BUSINESS_ACCESS_DENIED` | 403 | Aucun accès à l'entreprise spécifiée |
+
+### Erreurs de validation
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `VALIDATION_ERROR` | 400 | Échec de validation général |
+| `INVALID_AMOUNT` | 400 | Valeur de montant invalide |
+| `INVALID_CURRENCY` | 400 | Code de devise invalide |
+| `INVALID_DATE` | 400 | Format de date invalide |
+| `MISSING_REQUIRED_FIELD` | 400 | Un champ requis est manquant |
+
+### Erreurs de ressource
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `NOT_FOUND` | 404 | Ressource introuvable |
+| `ALREADY_EXISTS` | 409 | La ressource existe déjà |
+| `CONFLICT` | 409 | Conflit d'état de la ressource |
+
+### Erreurs de limite de débit
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `RATE_LIMIT_EXCEEDED` | 429 | Limite de débit dépassée |
+
+### Erreurs serveur
+
+| Code | Statut HTTP | Description |
+|------|-------------|-------------|
+| `INTERNAL_ERROR` | 500 | Erreur interne du serveur |
+| `SERVICE_UNAVAILABLE` | 503 | Service temporairement indisponible |
+
+## Gérer les erreurs avec le SDK
+
+Les SDK Smartbills fournissent des classes d'erreur typées pour une gestion structurée des erreurs :
+
+<CodeGroup>
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+try {
+  const expense = await client.expenses.get(12345);
+} catch (error) {
+  if (error instanceof SmartbillsValidationError) {
+    // Gérer les erreurs de validation - inspecter les détails par champ
+    console.error('Echec de validation :', error.message);
+    error.détails.forEach(détail => {
+      console.error(`  Champ "${detail.field}" : ${detail.message}`);
+    });
+  } else if (error instanceof SmartbillsAuthenticationError) {
+    // Gérer les erreurs d'authentification - rafraichir le jeton ou d.mander la connexion
+    console.error('Echec d\'authentification :', error.message);
+  } else if (error instanceof SmartbillsPermissionError) {
+    // Gérer les erreurs de permission - l'utilisateur n'a pas l'acces
+    console.error('Permission refusee :', error.message);
+  } else if (error instanceof SmartbillsNotFoundError) {
+    // Gérer les erreurs de ressource introuvable
+    console.error('Ressource introuvable :', error.message);
+  } else if (error instanceof SmartbillsRateLimitError) {
+    // Gérer les erreurs de limite de débit - attendre et réessayer
+    console.error('Limite de débit atteinte. Réessayer après :', error.retryAfter);
+  } else if (error instanceof SmartbillsApiError) {
+    // Gérer toute autre erreur API
+    console.error('Erreur API :', error.code, error.message);
+    console.error('ID de requête :', error.requestId);
+  }
+}
+```
+
+```python Python
+from smartbills import SmartbillsClient
+from smartbills.errors import (
+    SmartbillsApiError,
+    SmartbillsValidationError,
+    SmartbillsAuthenticationError,
+    SmartbillsPermissionError,
+    SmartbillsNotFoundError,
+    SmartbillsRateLimitError
+)
+
+client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
+
+try:
+    expense = client.expenses.get(12345)
+except SmartbillsValidationError as e:
+    # Gérer les erreurs de validation
+    print(f"Echec de validation : {e.message}")
+    for détail in e.détails:
+        print(f"  Champ '{detail['field']}' : {detail['message']}")
+except SmartbillsAuthenticationError as e:
+    print(f"Echec d'authentification : {e.message}")
+except SmartbillsPermissionError as e:
+    print(f"Permission refusee : {e.message}")
+except SmartbillsNotFoundError as e:
+    print(f"Ressource introuvable : {e.message}")
+except SmartbillsRateLimitError as e:
+    print(f"Limite de débit atteinte. Réessayer après : {e.retry_after}")
+except SmartbillsApiError as e:
+    print(f"Erreur API : {e.code} - {e.message}")
+    print(f"ID de requête : {e.request_id}")
+```
+
+</CodeGroup>
+
+## Erreurs de validation
+
+Les erreurs de validation incluent des informations détaillées sur les champs en échec :
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Les données de la requête sont invalides",
+    "détails": [
+      {
+        "field": "amount",
+        "message": "Le montant doit être supérieur à 0",
+        "code": "INVALID_AMOUNT"
+      },
+      {
+        "field": "currency",
+        "message": "Le code de devise doit être un code ISO 4217 valide",
+        "code": "INVALID_CURRENCY"
+      }
+    ]
+  }
+}
+```
+
+## Logique de réessai
+
+Implementez une logique de réessai avec un backoff exponentiel pour les erreurs transitoires :
+
+<CodeGroup>
+
+```javascript JavaScript
+async function retryableRequest(fn, maxRetries = 3) {
+  const retryableStatuses = [408, 429, 500, 502, 503, 504];
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      const isLastAttempt = attempt === maxRetries - 1;
+      const shouldRetry = error.status &&
+                         retryableStatuses.includes(error.status);
+
+      if (isLastAttempt || !shouldRetry) {
+        throw error;
+      }
+
+      // Backoff exponentiel : 1s, 2s, 4s...
+      const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
+
+      console.log(
+        `Requête échouée, nouvelle tentative dans ${delay}ms ` +
+        `(tentative ${attempt + 1}/${maxRetries})`
+      );
+
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+}
+
+// Utilisation
+const expense = await retryableRequest(() =>
+  client.expenses.get(12345)
+);
+```
+
+```python Python
+import time
+
+def retryable_request(fn, max_retries=3):
+    retryable_statuses = [408, 429, 500, 502, 503, 504]
+
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except SmartbillsApiError as e:
+            is_last_attempt = attempt == max_retries - 1
+            should_retry = e.status in retryable_statuses
+
+            if is_last_attempt or not should_retry:
+                raise
+
+            # Backoff exponentiel : 1s, 2s, 4s...
+            delay = min(2 ** attempt, 10)
+
+            print(f"Requête échouée, nouvelle tentative dans {delay}s "
+                  f"(tentative {attempt + 1}/{max_retries})")
+
+            time.sleep(delay)
+
+# Utilisation
+expense = retryable_request(lambda: client.expenses.get(12345))
+```
+
+</CodeGroup>
+
+## Débogage avec les ID de requête
+
+Chaque réponse d'erreur inclut un `requestId`. Incluez-le lorsque vous contactez le support :
+
+```json
+{
+  "error": {
+    "code": "INTERNAL_ERROR",
+    "message": "Une erreur interne est survenue",
+    "requestId": "req_1234567890abcdef"
+  }
+}
+```
+
+Lorsque vous contactez le support, incluez :
+- Le `requestId` de la réponse d'erreur
+- Le point d'accès et la méthode HTTP que vous avez appeles
+- L'horodatage de l'erreur
+- Une description de ce que vous attendiez
+
+## Bonnes pratiques
+
+<AccordionGroup>
+  <Accordion title="Toujours vérifier le statut de la réponse" icon="check">
+    Ne supposez jamais qu'une requête à réussi. Vérifiez toujours le code de statut HTTP ou interceptez les exceptions du SDK.
+  </Accordion>
+
+  <Accordion title="Utiliser des gestionnaires d'erreurs par type" icon="code">
+    Gérez les differents types d'erreurs avec les actions appropriees : rediriger vers la connexion pour 401, afficher les erreurs de champ pour les échecs de validation, réessayer pour 429/5xx.
+  </Accordion>
+
+  <Accordion title="Journaliser les erreurs avec contexte" icon="file-lines">
+    Journalisez les erreurs avec suffisamment de contexte, y compris l'ID de requête, le point d'accès et les paramètres pertinents.
+  </Accordion>
+
+  <Accordion title="Afficher des messages conviviaux" icon="message">
+    N'affichez pas les messages d'erreur bruts de l'API aux utilisateurs finaux. Mappez les codes d'erreur à des messages conviviaux dans votre application.
+  </Accordion>
+
+  <Accordion title="Implementer une logique de réessai" icon="rotate">
+    Implementez un backoff exponentiel pour les erreurs transitoires (429, 5xx). Ne retentez pas les erreurs du client (4xx autre que 429).
+  </Accordion>
+</AccordionGroup>
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Limites de débit" icon="gauge" href="/fr/api-reference/rate-limits">
+    Gérer la limitation de débit
+  </Card>
+  <Card title="Authentification" icon="shield" href="/fr/api-reference/authentication">
+    Corriger les erreurs d'authentification
+  </Card>
+  <Card title="Introduction à l'API" icon="book" href="/fr/api-reference/introduction">
+    Aperçu de l'API
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/fr/api-reference/webhooks">
+    Configurer les webhooks
+  </Card>
+</CardGroup>

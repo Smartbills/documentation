@@ -1,0 +1,106 @@
+---
+title: "Inviter des Membres"
+description: "Ajoutez de nouveaux employés et membres d'équipe à votre organisation"
+---
+
+## Aperçu
+
+L'agrandissement de votre équipe sur Smartbills commence par l'envoi d'invitations. Les membres invites recoivent un courriel contenant un lien pour créer leur compte ou se connecter avec un compte existant. Une fois qu'ils acceptent, ils sont automatiquement ajoutes à votre organisation avec le role que vous avez spécifié.
+
+<Note>
+  Seuls les utilisateurs ayant le role **Administrateur** ou **Proprietaire** peuvent inviter de nouveaux membres.
+</Note>
+
+## Envoyer une Invitation
+
+<Steps>
+  <Step title="Accédez à l'Équipe">
+    Cliquez sur **Équipe** dans la barre latérale gauche pour ouvrir la page de gestion d'équipe.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/navigate.png" alt="Option Équipe surlignée dans la barre latérale" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquez sur Inviter">
+    Cliquez sur le bouton **Inviter des membres** dans le coin supérieur droit de la page d'équipe.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/invite-button.png" alt="Bouton Inviter des membres sur la page d'équipe" />
+    </Frame>
+  </Step>
+
+  <Step title="Entrez les Adresses Courriel">
+    Saisissez une ou plusieurs adresses courriel dans le formulaire d'invitation. Vous pouvez ajouter plusieurs adresses séparées par des virgules ou coller une liste de courriels.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/invite-emails.png" alt="Champ de saisie des courriels avec plusieurs adresses" />
+    </Frame>
+
+    <Tip>
+      Utilisez des adresses courriel professionnelles pour que les nouveaux membres soient facilement identifiables dans la liste d'équipe.
+    </Tip>
+  </Step>
+
+  <Step title="Sélectionnez un Role">
+    Choisissez le role à attribuer aux membres invites :
+
+    - **Proprietaire** -- Controle total (un seul par organisation)
+    - **Administrateur** -- Acces complet aux fonctionnalités et paramètres
+    - **Gestionnaire** -- Peut approuver les rapports de dépenses
+    - **Employé** -- Peut soumettre des dépenses et des rapports
+    - **Comptable** -- Peut gérer les dépenses, fournisseurs et catégories
+
+    <Frame>
+      <img src="/images/guides/web-app/team/invite-role.png" alt="Menu déroulant de sélection de role dans le formulaire d'invitation" />
+    </Frame>
+  </Step>
+
+  <Step title="Attribuez un Département (Optionnel)">
+    Attribuez optionnellement les membres invites à un département. Cela détermine leur centre de couts et peut affecter quel gestionnaire recoit leurs rapports de dépenses pour approbation.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/invite-department.png" alt="Sélecteur de département dans le formulaire d'invitation" />
+    </Frame>
+  </Step>
+
+  <Step title="Envoyez l'Invitation">
+    Cliquez sur **Envoyer l'invitation** pour envoyer les invitations par courriel. Chaque invite recoit un courriel avec un lien pour rejoindre votre organisation.
+
+    <Frame>
+      <img src="/images/guides/web-app/team/invite-sent.png" alt="Message de confirmation d'envoi de l'invitation" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Les invitations ont été envoyées. Les invites apparaîtront dans la liste d'équipe avec un statut **Invite** jusqu'a ce qu'ils acceptent.
+</Check>
+
+## Ce Qui Se Passe Quand un Invité Accepte
+
+Lorsqu'un destinataire clique sur le lien d'invitation dans son courriel :
+
+1. S'il à deja un compte Smartbills, il se connecte et est ajoute à votre organisation
+2. S'il est nouveau sur Smartbills, il créé un compte puis est ajoute automatiquement
+3. Son statut passe de **Invite** à **Actif** dans votre liste d'équipe
+4. Il accede aux fonctionnalités en fonction du role que vous lui avez attribue
+
+<Note>
+  Les liens d'invitation expirent après **7 jours**. Si une invitation expiré, vous pouvez la renvoyer depuis la page d'équipe en cliquant sur l'icône de renvoi à côté du nom du membre.
+</Note>
+
+## Invitations en Masse
+
+Pour les grandes organisations, vous pouvez inviter plusieurs membres à la fois en saisissant une liste d'adresses courriel séparées par des virgules. Tous les invites d'un meme lot recoivent le meme role et la meme affectation de département. Si vous devez attribuer des roles differents, envoyez des invitations séparées pour chaque groupe de roles.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les Roles" icon="user-gear" href="/fr/guides/web-app/team/manage-roles">
+    Modifiez les roles et comprenez les niveaux de permissions
+  </Card>
+  <Card title="Aperçu de l'Équipe" icon="users" href="/fr/guides/web-app/team/overview">
+    Consultez et gérez votre équipe complete
+  </Card>
+</CardGroup>

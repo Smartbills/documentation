@@ -1,0 +1,176 @@
+---
+title: "Créer un département"
+description: "Créer un nouveau département"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/departments"
+---
+
+## Aperçu
+
+Créer un nouveau département pour une entreprise. Les départements vous permettent d'organiser les employés et de suivre les dépenses par unité organisationnelle. Chaque département peut avoir un centre de coûts et un approbateur par défaut pour les rapports de dépenses.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="name" type="string" required>
+  Nom du département. Doit être unique au sein de l'entreprise.
+</ParamField>
+
+<ParamField body="code" type="string">
+  Code court du département pour référence interne (p. ex., `ENG`, `MKT`, `SLS`)
+</ParamField>
+
+<ParamField body="costCenter" type="string">
+  Identifiant du centre de coûts pour l'intégration comptable
+</ParamField>
+
+<ParamField body="defaultApproverId" type="integer">
+  ID de l'utilisateur qui devrait être l'approbateur par défaut des rapports de dépenses de ce département
+</ParamField>
+
+## Réponse
+
+Retourne l'objet département nouvellement créé.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du département
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom du département
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Code du département
+</ResponseField>
+
+<ResponseField name="costCenter" type="string">
+  Identifiant du centre de coûts
+</ResponseField>
+
+<ResponseField name="defaultApproverId" type="integer">
+  ID de l'approbateur par défaut
+</ResponseField>
+
+<ResponseField name="enabled" type="boolean">
+  Indique si le département est actif (par défaut : `true`)
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création du département (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/departments \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "name": "Engineering",
+    "code": "ENG",
+    "costCenter": "CC-100",
+    "defaultApproverId": 501
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const department = await client.departments.create({
+  name: "Engineering",
+  code: "ENG",
+  costCenter: "CC-100",
+  defaultApproverId: 501
+});
+
+console.log(`Created department: ${department.id}`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+from smartbills.types import DepartmentCreateRequest
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+department = await client.departments.create(
+    DepartmentCreateRequest(
+        name="Engineering",
+        code="ENG",
+        cost_center="CC-100",
+        default_approver_id=501
+    )
+)
+
+print(f"Created department: {department.id}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 10,
+  "name": "Engineering",
+  "code": "ENG",
+  "costCenter": "CC-100",
+  "defaultApproverId": 501,
+  "enabled": true,
+  "createdAt": "2025-01-20T10:30:00Z",
+  "updatedAt": "2025-01-20T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_ERROR | Champs requis manquants ou valeurs invalides |
+| 400 | DUPLICATE_NAME | Un département avec ce nom existe déjà |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour gérer les départements |
+| 404 | BUSINESS_NOT_FOUND | L'identifiant de l'entreprise n'existe pas |
+| 404 | APPROVER_NOT_FOUND | L'identifiant de l'approbateur par défaut spécifié n'existe pas |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les départements" icon="list" href="/fr/api-reference/departments/list-departments">
+    Obtenir tous les départements
+  </Card>
+  <Card title="Obtenir un département" icon="eye" href="/fr/api-reference/departments/get-department">
+    Récupérer un département par ID
+  </Card>
+  <Card title="Mettre à jour un département" icon="pen" href="/fr/api-reference/departments/update-department">
+    Modifier un département existant
+  </Card>
+  <Card title="Lister les catégories" icon="tag" href="/fr/api-reference/categories/list-categories">
+    Voir toutes les catégories de dépenses
+  </Card>
+</CardGroup>

@@ -1,0 +1,158 @@
+---
+title: "Installation"
+description: "Install and configure the Smartbills Python SDK in your project."
+---
+
+# Installation
+
+## Install from PyPI
+
+```bash
+pip install smartbills
+```
+
+Or with your preferred dependency manager:
+
+```bash
+# poetry
+poetry add smartbills
+
+# pipenv
+pipenv install smartbills
+
+# uv
+uv add smartbills
+```
+
+## System requirements
+
+| Requirement | Minimum version |
+|-------------|----------------|
+| Python | 3.10+ |
+| httpx | 0.27+ |
+| pydantic | 2.0+ |
+
+Dependencies `httpx` and `pydantic` are installed automatically.
+
+## Basic setup
+
+```python
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token="YOUR_API_KEY",
+    business_id=123,
+    locale="en-CA",
+)
+
+async with SmartbillsClient(options) as client:
+    result = await client.expenses.list_business()
+    print(f"Found {len(result.data)} expenses")
+```
+
+## Configuration options
+
+The `SmartbillsClientOptions` dataclass accepts the following parameters:
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `access_token` | `str \| None` | `None` | OAuth2 bearer token for API authentication |
+| `business_id` | `int \| None` | `None` | Business ID to scope requests to a specific tenant |
+| `locale` | `str` | `"en-CA"` | Locale code for localized responses |
+| `base_url` | `str` | `"https://api.smartbills.io"` | API base URL |
+| `timeout` | `float` | `30.0` | Request timeout in seconds |
+| `max_retries` | `int` | `3` | Maximum automatic retries on transient failures |
+| `retry_delay` | `float` | `1.0` | Base delay between retries in seconds |
+
+## Context manager pattern
+
+The client uses an async context manager to ensure clean shutdown of the underlying HTTP connection pool:
+
+```python
+async with SmartbillsClient(options) as client:
+    # Use the client
+    expenses = await client.expenses.list_business()
+```
+
+If you prefer manual lifecycle management:
+
+```python
+client = SmartbillsClient(options)
+try:
+    expenses = await client.expenses.list_business()
+finally:
+    await client.close()
+```
+
+## Updating credentials at runtime
+
+```python
+# Update the access token
+client.set_access_token("NEW_TOKEN")
+
+# Switch business context
+client.set_business_id(456)
+
+# Change locale
+client.set_locale("fr-CA")
+```
+
+### Reading current values
+
+```python
+print(client.access_token)  # current token or None
+print(client.business_id)   # current business ID or None
+print(client.locale)        # current locale
+```
+
+## Per-request overrides
+
+Every service method accepts an optional `RequestOptions` parameter:
+
+```python
+from smartbills.http_client import RequestOptions
+
+# Override business context for a single request
+result = await client.expenses.list_business(
+    options=RequestOptions(business_id=789, locale="fr-CA")
+)
+```
+
+### RequestOptions
+
+```python
+@dataclass
+class RequestOptions:
+    business_id: int | None = None
+    locale: str | None = None
+    access_token: str | None = None
+    extra_headers: dict[str, str] = field(default_factory=dict)
+```
+
+## Environment variables
+
+We recommend storing credentials in environment variables:
+
+```bash
+# .env
+SMARTBILLS_API_KEY=your_api_key_here
+SMARTBILLS_BUSINESS_ID=123
+```
+
+```python
+import os
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token=os.environ["SMARTBILLS_API_KEY"],
+    business_id=int(os.environ["SMARTBILLS_BUSINESS_ID"]),
+)
+
+async with SmartbillsClient(options) as client:
+    ...
+```
+
+## Next steps
+
+- [Expenses](/sdks/python/expenses) -- full expense service reference
+- [Error Handling](/sdks/python/error-handling) -- understand the error classes

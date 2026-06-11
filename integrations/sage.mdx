@@ -1,153 +1,137 @@
 ---
-title: "Sage Integration"
-description: "Connect Smartbills with Sage accounting software"
+title: "Sage"
+description: "Export expenses and sync financial data between Smartbills and Sage"
 ---
 
 ## Overview
 
-Integrate Smartbills with Sage Accounting to automatically sync expenses, expense reports, and reimbursements. Sage's purchase invoice API enables full double-entry bookkeeping.
+The Sage integration exports approved expenses from Smartbills into Sage accounting products. It supports dimension mapping, tax group synchronization, and batch posting for efficient financial processing.
 
-## Features
+<Info>
+  This integration supports **Sage Business Cloud Accounting** and **Sage Intacct**. Contact support for Sage 50 connectivity.
+</Info>
+
+<Frame>
+  <img src="/images/integrations/sage/overview.png" alt="Sage integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Purchase Invoices** | Export expenses as purchase invoices |
-| **Journal Entries** | Sync expense reports as journals |
-| **Payments** | Track reimbursement payments |
-| **Contact Sync** | Sync vendors as Sage contacts |
-| **Tax Rate Mapping** | Map to Sage tax rate IDs |
-| **Ledger Accounts** | Map to Sage chart of accounts |
-| **Receipt Attachments** | Attach receipt images |
-| **Bidirectional Sync** | Import and export data both ways |
+| **Expense Export** | Batch export approved expenses to Sage |
+| **Dimension Mapping** | Map departments and projects to Sage dimensions |
+| **Tax Group Sync** | Synchronize tax groups and rates |
+| **Batch Posting** | Post multiple expenses in a single batch |
+| **Ledger Account Mapping** | Map categories to Sage nominal codes |
+| **Vendor Sync** | Sync vendor records between systems |
+| **Audit Trail** | Full sync history with transaction references |
+
+## Prerequisites
+
+- Sage Business Cloud Accounting or Sage Intacct account
+- Smartbills Business plan or higher
+- Admin access in both systems
 
 ## Setup
 
-### Prerequisites
-
-- Sage Accounting account
-- Smartbills Business plan or higher
-- Admin access to both systems
-
-### Connect Sage
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in your Smartbills dashboard
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Sage**.
   </Step>
-  <Step title="Find Sage">
-    Search for Sage in the marketplace
+  <Step title="Select Sage Product">
+    Choose your Sage product (Business Cloud Accounting or Intacct).
+
+    <Frame>
+      <img src="/images/integrations/sage/select-product.png" alt="Sage product selection" />
+    </Frame>
   </Step>
-  <Step title="Click Connect">
-    Click the **Connect** button to start the OAuth flow
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Sage account. Authorize Smartbills to access your data.
   </Step>
-  <Step title="Authorize">
-    Sign in to Sage and authorize Smartbills access
+  <Step title="Map Ledger Accounts">
+    Map Smartbills categories to Sage nominal codes or GL accounts.
   </Step>
-  <Step title="Select Business">
-    Choose the Sage business to connect
+  <Step title="Configure Dimensions">
+    Map departments and projects to Sage dimensions.
   </Step>
-  <Step title="Configure">
-    Set up ledger account and tax rate mappings
+  <Step title="Set Sync Preferences">
+    Configure batch posting frequency and default settings.
   </Step>
 </Steps>
 
 ## Configuration
 
-### Sync Settings
-
-| Setting | Description | Default |
-|---------|-------------|---------|
-| Sync Expenses | Export as purchase invoices | Enabled |
-| Sync Expense Reports | Export as journal entries | Enabled |
-| Sync Reimbursements | Track payments | Enabled |
-| Auto-create Vendors | Create contacts when not found | Enabled |
-| Push on Approval | Auto-export when approved | Enabled |
-| Attach Receipts | Include receipt images | Enabled |
-
-### Tax Rate Mapping
-
-Sage uses tax rate IDs for compound tax support:
-
-| Smartbills Tax | Sage Tax Rate |
-|---------------|---------------|
-| GST (5%) | CA_GST |
-| HST (13%) | CA_HST_ON |
-| QST (9.975%) | CA_QST |
-| PST (7%) | CA_PST_BC |
-| VAT (20%) | GB_STANDARD |
-| Zero-rated | ZERO_RATED |
-
 ### Ledger Account Mapping
 
-| Smartbills Category | Sage Ledger Account |
-|--------------------|---------------------|
-| Travel | Travel & Subsistence |
-| Meals | Entertainment |
-| Office Supplies | Office Stationery |
-| Software | Computer Software |
+| Smartbills Category | Sage Nominal Code | Description |
+|---------------------|-------------------|-------------|
+| Travel | 7400 | Travel and Subsistence |
+| Office Supplies | 7500 | Office Costs |
+| Software | 7600 | Computer Costs |
+| Meals | 7700 | Entertainment |
 
-## Sync Behavior
+### Dimension Mapping
 
-### What Gets Synced
+| Smartbills Field | Sage Dimension |
+|-----------------|----------------|
+| Department | Dimension 1 (Department) |
+| Project | Dimension 2 (Project) |
+| Location | Dimension 3 (Location) |
 
-| Smartbills Entity | Sage Entity |
-|-------------------|-------------|
-| Business Expense | Purchase Invoice |
-| Expense Report | Journal Entry |
-| Reimbursement | Payment |
-| Vendor | Contact |
-| Receipt | Attachment |
+### Batch Posting
 
-### Double-Entry Bookkeeping
+| Setting | Options |
+|---------|---------|
+| Frequency | Daily, weekly, or on demand |
+| Grouping | By employee, by department, or individual entries |
+| Status | Post as draft or finalized |
 
-Expense reports are synced as proper journal entries:
+### Double-Entry Accounting
+
+Expense reports are synced as journal entries:
 
 | Debit | Credit |
 |-------|--------|
-| Expense Account (per line) | Accounts Payable |
-| Tax Account (if applicable) | - |
+| Expense account (per line item) | Accounts payable |
+| Tax account (if applicable) | -- |
 
 Reimbursements create payment records:
 
 | Debit | Credit |
 |-------|--------|
-| Accounts Payable | Bank Account |
+| Accounts payable | Bank account |
 
-### Sync Timing
+## Data Sync
 
-| Trigger | Description |
-|---------|-------------|
-| On Approval | Automatically when approved |
-| On Reimbursement | When payment is processed |
-| Manual | Trigger from integration settings |
-| Initial Sync | Full sync on first connection |
-
-## API Reference
-
-Sage API v3.1 endpoints used:
-
-| Endpoint | Purpose |
-|----------|---------|
-| `POST /purchase_invoices` | Create expense |
-| `POST /journals` | Create journal entry |
-| `POST /contact_payments` | Record payment |
-| `GET /ledger_accounts` | Fetch chart of accounts |
-| `GET /tax_rates` | Fetch tax rates |
-| `GET /contacts` | Fetch/create vendors |
+| Smartbills | Sage | Direction | Frequency |
+|-----------|------|-----------|-----------|
+| Approved expenses | Purchase invoices | Smartbills -> Sage | Batch (scheduled or manual) |
+| Categories | Nominal codes | Sage -> Smartbills | On demand |
+| Tax rates | Tax groups | Sage -> Smartbills | On demand |
+| Vendors | Suppliers / Contacts | Both ways | On demand |
+| Departments | Dimensions | Sage -> Smartbills | On demand |
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Connection expired | Re-authorize via Settings > Apps |
-| Tax rate not found | Update tax mapping |
-| Ledger account missing | Sync chart of accounts |
-| Duplicate invoices | Check sync direction settings |
+<AccordionGroup>
+  <Accordion title="Batch posting failed">
+    Check the error log in **Settings > Apps > Sage > Sync History** for specific transaction errors. Common causes include unmapped accounts or inactive nominal codes.
+  </Accordion>
 
-<Warning>
-Sage API rate limits apply. Initial syncs with large datasets may take time.
-</Warning>
+  <Accordion title="Nominal code not found">
+    Ensure the target nominal code is active in Sage. Re-sync the chart of accounts from the integration settings.
+  </Accordion>
 
-<Tip>
-**Import chart of accounts first** - Sync your Sage ledger accounts before setting up category mappings.
-</Tip>
+  <Accordion title="Dimension mismatch">
+    Verify that the mapped dimensions exist and are active in your Sage account. Inactive dimensions will cause posting failures.
+  </Accordion>
+
+  <Accordion title="Tax calculation differences">
+    Sage may round taxes differently. Verify tax group configuration in both systems to minimize discrepancies.
+  </Accordion>
+
+  <Accordion title="Connection expired">
+    Sage OAuth tokens expire periodically. Go to **Settings > Apps > Sage** and click **Reconnect** to re-authorize.
+  </Accordion>
+</AccordionGroup>

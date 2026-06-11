@@ -1,0 +1,211 @@
+---
+title: "Modifier un élément du rapport"
+description: "Modifier les détails d'une dépense dans un rapport de dépenses"
+api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/expenses/{expenseId}"
+---
+
+## Aperçu
+
+Mettre à jour le montant alloué, le taux de change, la catégorie ou les notes d'une dépense dans un rapport de dépenses. Cela modifié les propriétés au niveau du rapport de la dépense sans modifier l'enregistrement original de la dépense.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses
+</ParamField>
+
+<ParamField path="expenseId" type="integer" required>
+  L'identifiant unique de la dépense à modifier
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="allocatedAmount" type="number">
+  Montant mis à jour à allouer de cette dépense au rapport
+</ParamField>
+
+<ParamField body="exchangeRate" type="number">
+  Taux de changé mis à jour à appliquer
+</ParamField>
+
+<ParamField body="categoryId" type="integer">
+  Identifiant de catégorie mis à jour pour cette dépense dans le rapport
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notes spécifiques à cette dépense dans le rapport
+</ParamField>
+
+## Réponse
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de l'entrée d'élément du rapport
+</ResponseField>
+
+<ResponseField name="expenseId" type="integer">
+  Identifiant de la dépense liée
+</ResponseField>
+
+<ResponseField name="reportId" type="integer">
+  Identifiant du rapport de dépenses parent
+</ResponseField>
+
+<ResponseField name="allocatedAmount" type="number">
+  Montant alloué mis à jour
+</ResponseField>
+
+<ResponseField name="exchangeRate" type="number">
+  Taux de changé mis à jour
+</ResponseField>
+
+<ResponseField name="categoryId" type="integer">
+  Identifiant de catégorie mis à jour
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Notes mises à jour
+</ResponseField>
+
+<ResponseField name="expense" type="object">
+  L'objet de dépense complet
+  <Expandable title="Objet Dépense">
+    <ResponseField name="id" type="integer">
+      Identifiant de la dépense
+    </ResponseField>
+    <ResponseField name="merchant" type="string">
+      Nom du commerçant
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Montant original de la dépense
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Code de devise ISO 4217
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      Date de la transaction
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de l'ajout de l'élément (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/789/expenses/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "allocatedAmount": 400.00,
+    "categoryId": 5,
+    "notes": "Adjusted allocation for Q1 budget"
+  }'
+```
+
+```javascript JavaScript
+const item = await client.expenseReportExpenses.edit(789, 12345, {
+  allocatedAmount: 400.00,
+  categoryId: 5,
+  notes: "Adjusted allocation for Q1 budget"
+});
+```
+
+```python Python
+item = client.expense_report_expenses.edit(
+    report_id=789,
+    expense_id=12345,
+    request={
+        "allocated_amount": 400.00,
+        "category_id": 5,
+        "notes": "Adjusted allocation for Q1 budget"
+    }
+)
+```
+
+```csharp C#
+var item = await client.ExpenseReportExpenses.EditAsync(789, 12345, new EditExpenseRequest
+{
+    AllocatedAmount = 400.00m,
+    CategoryId = 5,
+    Notes = "Adjusted allocation for Q1 budget"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1,
+  "expenseId": 12345,
+  "reportId": 789,
+  "allocatedAmount": 400.00,
+  "exchangeRate": 1.0,
+  "categoryId": 5,
+  "notes": "Adjusted allocation for Q1 budget",
+  "expense": {
+    "id": 12345,
+    "merchant": "Delta Airlines",
+    "amount": 450.00,
+    "currency": "USD",
+    "date": "2024-01-15"
+  },
+  "createdAt": "2024-01-18T10:30:00Z",
+  "updatedAt": "2024-01-19T14:15:00Z"
+}
+```
+
+</ResponseExample>
+
+## Règles de validation
+
+- Le rapport doit être au statut `draft`
+- Le `allocatedAmount` ne peut pas dépasser le montant original de la dépense
+- Le `categoryId` doit référencer une catégorie valide dans l'entreprise
+- Le `exchangeRate` doit être un nombre positif
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | REPORT_NOT_DRAFT | Le rapport n'est pas au statut brouillon |
+| 400 | AMOUNT_EXCEEDS_EXPENSE | Le montant alloué dépasse le total de la dépense |
+| 400 | INVALID_CATEGORY | La catégorie n'existe pas |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 404 | EXPENSE_NOT_IN_REPORT | La dépense ne fait pas partie de ce rapport |
+| 404 | REPORT_NOT_FOUND | Le rapport n'existe pas |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les éléments" icon="list" href="/api-reference/expense-report-items/list-items">
+    Lister tous les éléments d'un rapport
+  </Card>
+  <Card title="Ajouter un élément" icon="plus" href="/api-reference/expense-report-items/add-item">
+    Ajouter une dépense à un rapport
+  </Card>
+  <Card title="Supprimer un élément" icon="trash" href="/api-reference/expense-report-items/remove-item">
+    Supprimer une dépense d'un rapport
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer le rapport parent
+  </Card>
+</CardGroup>

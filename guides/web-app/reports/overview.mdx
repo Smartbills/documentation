@@ -1,0 +1,84 @@
+---
+title: "Expense Reports"
+description: "Create and manage expense reports for reimbursement"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/reports/overview.png" alt="Expense Reports list view showing reports in various statuses" />
+</Frame>
+
+## Introduction
+
+Expense reports let employees group related expenses together for approval and reimbursement. Instead of submitting each expense individually, you bundle them into a report with a title, business purpose, and date range, then submit the entire report for your manager or finance team to review.
+
+Access your expense reports by clicking **My Expense Reports** in the sidebar or navigating to `/:slug/expense-reports`.
+
+## Report Lifecycle
+
+Every expense report follows a structured lifecycle from creation to reimbursement:
+
+<Steps>
+  <Step title="Draft">
+    You create a new report and begin adding expenses from your wallet. The report remains editable. You can add or remove expenses, update the title, and modify the business purpose at any time.
+  </Step>
+  <Step title="Submitted">
+    When the report is ready, you submit it for approval. The report is locked for editing and your approver receives a notification. If you need to make changes after submission, you must recall the report first.
+  </Step>
+  <Step title="Under Review">
+    Your manager or designated approver opens the report and reviews each expense, checking receipts, amounts, and categorization.
+  </Step>
+  <Step title="Approved or Rejected">
+    The approver either approves the report, moving all expenses to Approved status, or rejects it with feedback. If rejected, the report returns to you for corrections before resubmission.
+  </Step>
+  <Step title="Reimbursed">
+    After approval, the finance team processes the reimbursement. The report status changes to Reimbursed and all attached receipts are archived in the [Vault](/guides/concepts/vault).
+  </Step>
+</Steps>
+
+## Report Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Draft** | The report is being prepared. Expenses can be added or removed. |
+| **Submitted** | The report has been sent for approval. Editing is locked. |
+| **Under Review** | An approver has opened the report and is reviewing it. |
+| **Approved** | All required approvers have approved the report. |
+| **Rejected** | The report has been sent back with feedback for corrections. |
+| **Reimbursed** | The employee has been reimbursed for the approved expenses. |
+
+## Reports List View
+
+The reports list shows all of your expense reports with key details:
+
+| Column | Description |
+|--------|-------------|
+| **Title** | The name you gave the report |
+| **Status** | The current lifecycle stage |
+| **Total** | The sum of all expenses in the report |
+| **Expenses** | The number of expenses included |
+| **Date Range** | The period the report covers |
+| **Created** | When the report was created |
+| **Submitted** | When the report was submitted (if applicable) |
+
+Use the status tabs above the list to filter reports by their current stage: All, Draft, Submitted, Approved, Rejected, or Reimbursed.
+
+<Frame>
+  <img src="/images/guides/web-app/reports/list-view.png" alt="Reports list with status filter tabs and report details columns" />
+</Frame>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Create a Report" icon="file-circle-plus" href="/guides/web-app/reports/create-report">
+    Start a new expense report and configure its details
+  </Card>
+  <Card title="Add Expenses" icon="plus" href="/guides/web-app/reports/add-expenses">
+    Select expenses from your wallet to include in a report
+  </Card>
+  <Card title="Submit a Report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Submit your report for manager approval
+  </Card>
+  <Card title="Export a Report" icon="file-export" href="/guides/web-app/reports/export-report">
+    Download reports as CSV, PDF, or Excel
+  </Card>
+</CardGroup>

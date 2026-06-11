@@ -1,0 +1,158 @@
+---
+title: "Exporter les dépenses"
+api: "POST https://api.smartbills.io/v1/expenses/export"
+description: "Exporter les dépenses vers différents formats (CSV, Excel, PDF)"
+---
+
+## Corps de la requête
+
+<ParamField body="expenseIds" type="array">
+  Tableau d'identifiants de dépenses à exporter (laisser vide pour tout exporter)
+</ParamField>
+
+<ParamField body="format" type="string" required>
+  Format d'exportation : `csv`, `excel`, `pdf`
+</ParamField>
+
+<ParamField body="filters" type="object">
+  Critères de filtrage pour les dépenses
+  
+  <Expandable title="Filtres">
+    <ParamField body="startDate" type="string">
+      Filtrer à partir de cette date
+    </ParamField>
+
+    <ParamField body="endDate" type="string">
+      Filtrer jusqu'à cette date
+    </ParamField>
+
+    <ParamField body="status" type="string">
+      Filtrer par statut
+    </ParamField>
+
+    <ParamField body="category" type="string">
+      Filtrer par catégorie
+    </ParamField>
+
+    <ParamField body="minAmount" type="number">
+      Montant minimum
+    </ParamField>
+
+    <ParamField body="maxAmount" type="number">
+      Montant maximum
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="includeAttachments" type="boolean" default="false">
+  Inclure les pièces jointes des reçus dans l'exportation (PDF uniquement)
+</ParamField>
+
+<ParamField body="columns" type="array">
+  Colonnes à inclure dans l'exportation (par défaut : toutes)
+  
+  Colonnes disponibles : `date`, `merchant`, `amount`, `currency`, `category`, `status`, `description`, `tags`
+</ParamField>
+
+## Réponse
+
+Retourne le fichier exporté dans le format demandé.
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/expenses/export \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "format": "excel",
+    "filters": {
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-31",
+      "status": "approved"
+    },
+    "columns": ["date", "merchant", "amount", "category", "status"]
+  }' \
+  --output expenses.xlsx
+```
+
+```javascript JavaScript
+const response = await fetch(
+  'https://api.smartbills.io/v1/expenses/export',
+  {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      format: 'excel',
+      filters: {
+        startDate: '2024-01-01',
+        endDate: '2024-01-31',
+        status: 'approved'
+      },
+      columns: ['date', 'merchant', 'amount', 'category', 'status']
+    })
+  }
+);
+
+const blob = await response.blob();
+const url = window.URL.createObjectURL(blob);
+const à = document.createÉlément('a');
+a.href = url;
+a.download = 'expenses.xlsx';
+a.click();
+```
+
+```python Python
+import requests
+
+url = 'https://api.smartbills.io/v1/expenses/export'
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+data = {
+    'format': 'excel',
+    'filters': {
+        'startDate': '2024-01-01',
+        'endDate': '2024-01-31',
+        'status': 'approved'
+    },
+    'columns': ['date', 'merchant', 'amount', 'category', 'status']
+}
+
+response = requests.post(url, headers=headers, json=data)
+with open('expenses.xlsx', 'wb') as f:
+    f.write(response.content)
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```text Response Headers (Excel)
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.xlsx"
+Content-Length: 45678
+```
+
+```text Response Headers (CSV)
+Content-Type: text/csv
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.csv"
+Content-Length: 12345
+```
+
+```text Response Headers (PDF)
+Content-Type: application/pdf
+Content-Disposition: attachment; filename="expenses_2024-01-01_to_2024-01-31.pdf"
+Content-Length: 234567
+```
+
+</ResponseExample>
+
+<Tip>
+  Les exportations PDF avec `includeAttachments: true` incluront toutes les images de reçus dans le document.
+</Tip>

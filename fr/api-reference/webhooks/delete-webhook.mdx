@@ -1,0 +1,39 @@
+---
+title: "Supprimer un webhook"
+description: "Supprimer un point de terminaison webhook"
+api: "DELETE /v1/webhooks/{id}"
+---
+
+## Supprimer un webhook
+
+Supprimer un point de terminaison webhook enregistré.
+
+## Requête
+
+```bash
+DELETE /v1/webhooks/{id}
+```
+
+### Paramètres de chemin
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `id` | string | L'identifiant du webhook |
+
+### Exemple de requête
+
+```bash
+curl -X DELETE https://api.smartbills.io/v1/webhooks/wh_abc123 \
+  -H "Authorization: Bearer sk_live_xxxxx"
+```
+
+## Réponse
+
+Retourne `204 No Content` en cas de succès.
+
+## Erreurs
+
+| Code | Description |
+|------|-------------|
+| 404 | Webhook non trouvé |
+| 403 | Non autorisé à supprimer ce webhook |

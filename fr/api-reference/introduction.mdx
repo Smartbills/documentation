@@ -7,6 +7,6 @@ L'API Smartbills est une API RESTful qui vous permet de gérer par programme les
 
 Toutes les requêtes doivent être envoyées à l'URL de base `https://api.smartbills.io/v1`. L'authentification s'effectue via une clé API ou un jeton OAuth 2.0 dans l'en-tête `Authorization: Bearer {token}`. Les requêtes POST et PUT envoient du JSON dans le corps avec `Content-Type: application/json`.
 
-Les réponses sont au format JSON. Les réponses de succès incluent un objet `data` ; les listes incluent `data`, `page`, `pageSize`, `total` et `totalPages`. Les erreurs suivent une structure `error` avec `code`, `message` et `details`. Les codes HTTP standards s'appliquent : 200 (succès), 201 (créé), 400 (requête invalide), 401 (non autorisé), 404 (introuvable), 429 (limite de requêtes).
+Les réponses sont au format JSON. Les réponses de succès incluent un objet `data` ; les listes incluent `data`, `page`, `pageSize`, `total` et `totalPages`. Les erreurs suivent une structure `error` avec `code`, `message` et `détails`. Les codes HTTP standards s'appliquent : 200 (succès), 201 (créé), 400 (requête invalide), 401 (non autorisé), 404 (introuvable), 429 (limite de requêtes).
 
 Consultez la section [Clés API](/fr/developer/api-keys) pour obtenir vos identifiants, [Authentification](/fr/developer/authentication) pour les détails OAuth, et [Limites de requêtes](/fr/developer/rate-limits) pour les quotas. Des SDK officiels sont disponibles pour JavaScript, React, React Native et .NET.

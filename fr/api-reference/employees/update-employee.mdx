@@ -1,0 +1,168 @@
+---
+title: "Mettre à jour un employé"
+api: "PUT https://api.smartbills.io/v1/employees/{id}"
+description: "Mettre à jour les informations d'un employé existant"
+---
+
+## Aperçu
+
+Mettre à jour les détails d'un employé existant. Tous les champs dans le corps de la requête remplaceront les valeurs existantes.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Portées requises
+
+- `employees.write`
+
+## Paramètres de chemin
+
+<ParamField path="id" type="integer" required>
+  L'identifiant unique de l'employé à mettre à jour
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/employees/12345 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "department": "Sales",
+    "position": "Senior Sales Associate",
+    "isActive": true
+  }'
+```
+
+```javascript JavaScript
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: 'YOUR_API_KEY' });
+
+const updatedEmployee = await client.employees.update(12345, {
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe@example.com",
+  department: "Sales",
+  position: "Senior Sales Associate",
+  isActive: true
+});
+
+console.log('Updated employee:', updatedEmployee);
+```
+
+```python Python
+from smartbills import Smartbills
+
+client = Smartbills(api_key='YOUR_API_KEY')
+
+updated_employee = client.employees.update(
+    12345,
+    first_name="John",
+    last_name="Doe",
+    email="john.doe@example.com",
+    department="Sales",
+    position="Senior Sales Associate",
+    is_active=True
+)
+
+print('Updated employee:', updated_employee)
+```
+
+```csharp C#
+using Smartbills.NET;
+
+var client = new SBClient("YOUR_API_KEY");
+
+var updatedEmployee = await client.Employees.UpdateAsync(12345, new EmployeeUpdateRequest
+{
+    FirstName = "John",
+    LastName = "Doe",
+    Email = "john.doe@example.com",
+    Department = "Sales",
+    Position = "Senior Sales Associate",
+    IsActive = true
+});
+
+Console.WriteLine($"Updated employee: {updatedEmployee.Id}");
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "department": "Sales",
+  "position": "Senior Sales Associate",
+  "isActive": true,
+  "totalSales": 125420.50,
+  "totalTransactions": 342,
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-20T16:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | INVALID_PARAMETER | Valeur de paramètre invalide |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes |
+| 404 | NOT_FOUND | Employé non trouvé |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+<Warning>
+  **Remplacement complet** : L'opération de mise à jour remplace tous les champs. Incluez tous les champs requis dans votre requête.
+</Warning>
+
+## Bonnes pratiques
+
+<AccordionGroup>
+  <Accordion title="Récupérer avant de mettre à jour" icon="arrows-rotate">
+    Récupérez toujours les données actuelles de l'employé avant de les mettre à jour.
+    
+    ```javascript
+    const current = await client.employees.get(12345);
+    const updated = await client.employees.update(12345, {
+      ...current,
+      position: "Senior Sales Associate"
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Utiliser isActive pour le cycle de vie" icon="toggle-on">
+    Utilisez `isActive` pour gérer le statut de l'employé au lieu de supprimer les enregistrements.
+  </Accordion>
+</AccordionGroup>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Créer un employé" icon="plus" href="/fr/api-reference/employees/create-employee">
+    Créer un nouvel employé
+  </Card>
+  <Card title="Obtenir un employé" icon="eye" href="/fr/api-reference/employees/get-employee">
+    Récupérer un employé par ID
+  </Card>
+  <Card title="Lister les employés" icon="list" href="/fr/api-reference/employees/list-employees">
+    Obtenir tous les employés
+  </Card>
+  <Card title="Supprimer un employé" icon="trash" href="/fr/api-reference/employees/delete-employee">
+    Supprimer un employé
+  </Card>
+</CardGroup>

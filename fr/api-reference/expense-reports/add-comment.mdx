@@ -1,0 +1,148 @@
+---
+title: "Ajouter un commentaire"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/comments"
+description: "Ajouter un commentaire à un rapport de dépenses pour la discussion entre soumetteurs et approbateurs"
+---
+
+## Aperçu
+
+Ajouter un commentaire à un rapport de dépenses. Les commentaires fournissent un canal de communication entre le soumetteur du rapport et les approbateurs pour discuter des dépenses, clarifier des détails ou fournir un contexte supplémentaire. Les commentaires peuvent être ajoutés aux rapports quel que soit leur statut.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses
+</ParamField>
+
+## Corps de la requête
+
+<ParamField body="comment" type="string" required>
+  Le texte du commentaire à ajouter au rapport
+
+  Exemple : `"The hotel expense includes conference registration fees. See attached itemized receipt."`
+</ParamField>
+
+## Réponse
+
+Retourne l'objet de commentaire nouvellement créé.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du commentaire
+</ResponseField>
+
+<ResponseField name="reportId" type="integer">
+  Identifiant du rapport de dépenses auquel ce commentaire appartient
+</ResponseField>
+
+<ResponseField name="userId" type="integer">
+  Identifiant de l'utilisateur qui à posté le commentaire
+</ResponseField>
+
+<ResponseField name="userName" type="string">
+  Nom de l'utilisateur qui à posté le commentaire
+</ResponseField>
+
+<ResponseField name="comment" type="string">
+  Texte du commentaire
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de publication du commentaire (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/comments \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "comment": "The hotel expense includes conference registration fees. See attached itemized receipt."
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const comment = await client.expenseReports.addComment(1001, {
+  comment: "The hotel expense includes conference registration fees. See attached itemized receipt."
+});
+
+console.log("Comment added:", comment.id);
+console.log("Posted at:", comment.createdAt);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+comment = client.expense_reports.add_comment(1001, {
+    "comment": "The hotel expense includes conference registration fees. See attached itemized receipt."
+})
+
+print(f"Comment added: {comment.id}")
+print(f"Posted at: {comment.created_at}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 42,
+  "reportId": 1001,
+  "userId": 789,
+  "userName": "Jane Smith",
+  "comment": "The hotel expense includes conference registration fees. See attached itemized receipt.",
+  "createdAt": "2025-01-31T10:05:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Texte de commentaire manquant ou vide |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour commenter ce rapport |
+| 404 | NOT_FOUND | Rapport de dépenses non trouvé |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer les détails du rapport avec tous les commentaires
+  </Card>
+  <Card title="Chronologie du rapport" icon="clock" href="/api-reference/expense-reports/get-timeline">
+    Voir la chronologie complète des événements du rapport
+  </Card>
+  <Card title="Demander des modifications" icon="pen-to-square" href="/api-reference/expense-reports/require-changes">
+    Demander des modifications au rapport
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/api-reference/expense-reports/submit-report">
+    Soumettre le rapport pour approbation
+  </Card>
+</CardGroup>

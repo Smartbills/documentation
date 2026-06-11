@@ -1,0 +1,339 @@
+---
+title: "Expense Reports"
+description: "Complete reference for expense report management in the Smartbills JavaScript SDK -- create, submit, approve, reject, reimburse, and export reports."
+---
+
+# Expense Reports
+
+The expense reports API spans three services:
+
+- **`client.expenseReports`** -- core report lifecycle (create, submit, approve, reject, reimburse)
+- **`client.expenseReportExpenses`** -- manage expenses within a report (add, remove, edit)
+- **`client.expenseReportPayments`** -- reimbursement and payment operations
+
+## ExpenseReportService
+
+### Listing reports
+
+```typescript
+// List all reports for the business
+const { data: reports, pagination } = await client.expenseReports.list({
+  page: 1,
+  limit: 20,
+});
+
+// List reports for a specific employee
+const { data: empReports } = await client.expenseReports.listForEmployee(employeeId, {
+  limit: 10,
+});
+
+// List current user's reports
+const myReports = await client.expenseReports.getMine({ status: 'draft' });
+
+// List reports pending your approval
+const pendingApprovals = await client.expenseReports.getPendingApprovals();
+```
+
+### Getting a single report
+
+```typescript
+const report = await client.expenseReports.getById(reportId);
+console.log(report.name, report.status, report.totalAmount);
+
+// Get a report for a specific employee (with sorting)
+const empReport = await client.expenseReports.getByIdForEmployee(
+  employeeId,
+  reportId,
+  { sortBy: 'amount', sortOrder: 'desc' }
+);
+```
+
+### Creating a report
+
+```typescript
+const report = await client.expenseReports.create({
+  name: 'Q1 Travel Expenses',
+  description: 'Business travel January-March',
+});
+```
+
+### Updating a report
+
+```typescript
+const updated = await client.expenseReports.update(reportId, {
+  name: 'Q1 Travel Expenses (Updated)',
+  description: 'Revised description',
+});
+```
+
+### Deleting a report
+
+```typescript
+await client.expenseReports.delete(reportId);
+```
+
+## Report lifecycle
+
+Expense reports follow a workflow: **Draft** -> **Submitted** -> **Approved** -> **Reimbursed**. At each stage, different actions are available.
+
+### Submit for approval
+
+```typescript
+const submitted = await client.expenseReports.submit(reportId);
+console.log(submitted.status); // 'submitted'
+```
+
+### Approve
+
+```typescript
+const approved = await client.expenseReports.approve(reportId, {
+  comment: 'Looks good, approved.',
+});
+```
+
+### Reject
+
+```typescript
+const rejected = await client.expenseReports.reject(reportId, {
+  reason: 'Missing receipts for hotel stay.',
+});
+```
+
+### Request changes
+
+```typescript
+const returned = await client.expenseReports.requestChanges(reportId, {
+  comment: 'Please attach the conference registration receipt.',
+});
+```
+
+### Recall a submitted report
+
+The submitter can recall a report before it is approved:
+
+```typescript
+const recalled = await client.expenseReports.recall(reportId, {
+  reason: 'Need to add more expenses.',
+});
+```
+
+### Reimburse
+
+```typescript
+const reimbursed = await client.expenseReports.reimburse(reportId, {
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Plan reimbursement
+
+Schedule a future reimbursement:
+
+```typescript
+const planned = await client.expenseReports.planReimbursement(reportId, {
+  scheduledDate: '2025-04-15',
+  paymentMethod: 'bank_transfer',
+});
+```
+
+## Comments and audit trail
+
+### Add a comment
+
+```typescript
+const comment = await client.expenseReports.addComment(reportId, {
+  content: 'Please review the hotel charges on line 3.',
+});
+```
+
+### Get timeline
+
+The timeline shows all events (submissions, approvals, comments) in chronological order:
+
+```typescript
+const timeline = await client.expenseReports.getTimeline(reportId);
+for (const entry of timeline) {
+  console.log(`${entry.type}: ${entry.description} at ${entry.createdAt}`);
+}
+```
+
+### Get audit log
+
+The audit log records every state change with the acting user:
+
+```typescript
+const auditLog = await client.expenseReports.getAuditLog(reportId);
+for (const entry of auditLog) {
+  console.log(`${entry.action} by ${entry.userId} at ${entry.timestamp}`);
+}
+```
+
+## Ledger account assignment
+
+```typescript
+// Assign a ledger account to the report
+await client.expenseReports.assignLedgerAccount(reportId, {
+  ledgerAccountId: 500,
+});
+
+// Assign a ledger account to a specific expense within the report
+await client.expenseReports.assignExpenseLedgerAccount(reportId, expenseId, {
+  ledgerAccountId: 501,
+});
+```
+
+## Summary and export
+
+```typescript
+// Get summary statistics
+const summary = await client.expenseReports.getSummary();
+console.log(summary);
+
+// Export reports to file
+const blob = await client.expenseReports.export({
+  format: 'xlsx',
+  startDate: '2025-01-01',
+  endDate: '2025-03-31',
+});
+```
+
+## Bulk operations
+
+```typescript
+// Bulk delete reports
+const deleteResult = await client.expenseReports.bulkDelete({
+  reportIds: [1, 2, 3],
+});
+
+// Bulk submit reports
+const submitResult = await client.expenseReports.bulkSubmit({
+  reportIds: [4, 5, 6],
+});
+
+// Bulk recall reports
+const recallResult = await client.expenseReports.bulkRecall({
+  reportIds: [7, 8],
+});
+```
+
+---
+
+## ExpenseReportExpenseService
+
+Manage individual expenses within a report using `client.expenseReportExpenses`.
+
+### Add an expense to a report
+
+```typescript
+await client.expenseReportExpenses.add(reportId, {
+  expenseId: 456,
+});
+```
+
+### Add multiple expenses (batch)
+
+```typescript
+await client.expenseReportExpenses.addBatch(reportId, {
+  expenseIds: [456, 457, 458],
+});
+```
+
+### Edit an expense within a report
+
+```typescript
+await client.expenseReportExpenses.edit(reportId, expenseId, {
+  categoryId: 15,
+  notes: 'Updated category',
+});
+```
+
+### Remove an expense from a report
+
+```typescript
+await client.expenseReportExpenses.remove(reportId, expenseId);
+```
+
+### Replace an expense
+
+Replace one expense with another inside a report:
+
+```typescript
+await client.expenseReportExpenses.replace(reportId, oldExpenseId, {
+  newExpenseId: 999,
+  categoryId: 15,
+  notes: 'Replaced with corrected receipt',
+});
+```
+
+### Bulk assign category within a report
+
+```typescript
+const result = await client.expenseReportExpenses.bulkAssignCategory(reportId, {
+  expenseIds: [1, 2, 3],
+  categoryId: 20,
+});
+```
+
+### Bulk remove expenses from a report
+
+```typescript
+const result = await client.expenseReportExpenses.bulkRemove(reportId, {
+  expenseIds: [10, 11, 12],
+});
+```
+
+### Employee-scoped operations
+
+All operations are also available scoped to a specific employee:
+
+```typescript
+// Add expense for an employee
+await client.expenseReportExpenses.addForEmployee(employeeId, reportId, {
+  expenseId: 456,
+});
+
+// Add batch for an employee
+await client.expenseReportExpenses.addBatchForEmployee(employeeId, reportId, {
+  expenseIds: [456, 457],
+});
+
+// Remove expense for an employee
+await client.expenseReportExpenses.removeForEmployee(employeeId, reportId, expenseId);
+
+// Edit expense for an employee
+await client.expenseReportExpenses.editForEmployee(employeeId, reportId, expenseId, {
+  categoryId: 15,
+});
+```
+
+---
+
+## ExpenseReportPaymentService
+
+Manage reimbursement payments using `client.expenseReportPayments`.
+
+### Reimburse a report
+
+```typescript
+await client.expenseReportPayments.reimburse(reportId, {
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Partially reimburse
+
+```typescript
+await client.expenseReportPayments.partialReimburse(reportId, {
+  amount: 150.00,
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Plan reimbursement
+
+```typescript
+await client.expenseReportPayments.planReimbursement(reportId, {
+  scheduledDate: '2025-05-01',
+  paymentMethod: 'check',
+});
+```

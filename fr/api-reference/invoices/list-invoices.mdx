@@ -1,0 +1,164 @@
+---
+title: "Lister les factures"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/invoices"
+description: "Récupérer une liste paginée de factures pour une entreprise"
+---
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+## Paramètres de requête
+
+<ParamField query="page" type="integer" default="1">
+  Numéro de page pour la pagination
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="25">
+  Nombre d'éléments par page (max 100)
+</ParamField>
+
+<ParamField query="status" type="string">
+  Filtrer par statut de facture : `Draft`, `Sent`, `Paid`, `Overdue`, `Void`, `Cancelled`
+</ParamField>
+
+<ParamField query="invoiceNumber" type="string">
+  Filtrer par numéro de facture
+</ParamField>
+
+<ParamField query="customerId" type="integer">
+  Filtrer par identifiant de client
+</ParamField>
+
+<ParamField query="customerName" type="string">
+  Filtrer par nom de client (correspondance partielle)
+</ParamField>
+
+<ParamField query="searchTerm" type="string">
+  Rechercher dans la description et les notes de la facture
+</ParamField>
+
+<ParamField query="fromIssueDate" type="string">
+  Filtrer les factures émises à partir de cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="toIssueDate" type="string">
+  Filtrer les factures émises jusqu'à cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="fromDueDate" type="string">
+  Filtrer les factures échéant à partir de cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="toDueDate" type="string">
+  Filtrer les factures échéant jusqu'à cette date (ISO 8601)
+</ParamField>
+
+<ParamField query="minAmount" type="number">
+  Filtrer par montant total minimum
+</ParamField>
+
+<ParamField query="maxAmount" type="number">
+  Filtrer par montant total maximum
+</ParamField>
+
+<ParamField query="isOverdue" type="boolean">
+  Filtrer uniquement les factures en retard
+</ParamField>
+
+<ParamField query="isPaid" type="boolean">
+  Filtrer uniquement les factures payées
+</ParamField>
+
+<ParamField query="isRecurring" type="boolean">
+  Filtrer uniquement les factures récurrentes
+</ParamField>
+
+<ParamField query="sortBy" type="string">
+  Trier les résultats par champ. Valeurs supportées : `invoiceNumber`, `customerName`, `dueDate`, `total`, `status`, `createdAt`
+</ParamField>
+
+<ParamField query="sortDirection" type="string" default="desc">
+  Direction du tri : `asc` ou `desc`
+</ParamField>
+
+## Réponse
+
+Retourne une liste paginée d'objets facture.
+
+<ResponseField name="data" type="array">
+  Tableau d'objets facture
+</ResponseField>
+
+<ResponseField name="total" type="integer">
+  Nombre total de factures correspondant aux filtres
+</ResponseField>
+
+<ResponseField name="page" type="integer">
+  Numéro de page actuel
+</ResponseField>
+
+<ResponseField name="pageSize" type="integer">
+  Nombre d'éléments par page
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/invoices?page=1&pageSize=25&status=Sent' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const response = await smartbills.invoices.list({
+  page: 1,
+  pageSize: 25,
+  status: "Sent"
+});
+```
+
+```csharp C#
+var invoices = await invoiceClient.ListAsync(new InvoiceListRequest
+{
+    Page = 1,
+    PageSize = 25,
+    Status = "Sent"
+}, new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "id": 1001,
+      "invoiceNumber": "MOB-000001",
+      "currency": "CAD",
+      "billStatus": "Sent",
+      "isOverdue": false,
+      "isPaid": false,
+      "subTotal": { "amount": 1500.00, "currency": "CAD" },
+      "total": { "amount": 1500.00, "currency": "CAD" },
+      "amountDue": { "amount": 1500.00, "currency": "CAD" },
+      "date": "2026-04-01T00:00:00Z",
+      "dueDate": "2026-05-01T00:00:00Z",
+      "paymentTerms": "Net30",
+      "sentAt": "2026-04-01T10:30:00Z",
+      "createdAt": "2026-04-01T10:00:00Z",
+      "updatedAt": "2026-04-01T10:30:00Z"
+    }
+  ],
+  "total": 42,
+  "page": 1,
+  "pageSize": 25
+}
+```
+
+</ResponseExample>

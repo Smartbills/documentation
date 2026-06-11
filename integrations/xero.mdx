@@ -1,54 +1,55 @@
 ---
-title: "Xero Integration"
-description: "Connect Smartbills with Xero accounting software"
+title: "Xero"
+description: "Export expenses and sync contacts between Smartbills and Xero"
 ---
 
 ## Overview
 
-Integrate Smartbills with Xero to automatically export approved expenses and keep your accounting in sync.
+The Xero integration enables you to export approved expenses from Smartbills into Xero as bills or spend money transactions. Contacts, tracking categories, and tax rates are synchronized to ensure accurate financial reporting.
 
-## Features
+<Frame>
+  <img src="/images/integrations/xero/overview.png" alt="Xero integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Expense Export** | Export expenses to Xero as bills (ACCPAY invoices) |
-| **Expense Reports** | Sync reports as manual journal entries |
-| **Reimbursements** | Track reimbursement payments |
-| **Account Mapping** | Map categories to Xero accounts |
-| **Contact Sync** | Sync vendors as Xero contacts |
-| **Tax Rate Mapping** | Map GST, HST, PST, QST, VAT tax codes |
-| **Tracking Categories** | Use Xero tracking for departments |
-| **Receipt Attachments** | Attach receipt images to invoices |
-| **Bidirectional Sync** | Import and export data both ways |
+| **Expense Export** | Send approved expenses to Xero as bills or bank transactions |
+| **Contact Sync** | Two-way contact synchronization with vendor records |
+| **Tracking Categories** | Map Smartbills departments to Xero tracking categories |
+| **Tax Rate Mapping** | Map tax rates between both systems |
+| **Multi-currency** | Full support for multi-currency transactions |
+| **Receipt Attachments** | Attach receipt files to Xero transactions |
+| **Bank Reconciliation** | Reconcile exported expenses with bank feeds |
+
+## Prerequisites
+
+- Xero account (Starter, Standard, or Premium)
+- Smartbills Business plan or higher
+- Admin or Adviser role in Xero
 
 ## Setup
 
-### Prerequisites
-
-- Xero account with Standard or Premium plan
-- Smartbills Business plan or higher
-- Admin access to both systems
-
-### Connect Xero
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Xero**.
   </Step>
-  <Step title="Find Xero">
-    Search for Xero in the marketplace
-  </Step>
-  <Step title="Click Connect">
-    Click the **Connect** button
-  </Step>
-  <Step title="Authorize">
-    Sign in to Xero and authorize access
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Xero account. Authorize Smartbills to access your organization.
+
+    <Frame>
+      <img src="/images/integrations/xero/authorize.png" alt="Xero authorization screen" />
+    </Frame>
   </Step>
   <Step title="Select Organization">
-    Choose the Xero organization to connect
+    If you have access to multiple Xero organizations, select the one to connect.
   </Step>
-  <Step title="Configure">
-    Set up account mapping
+  <Step title="Map Accounts">
+    Map your Smartbills categories to Xero chart of accounts. Smartbills will suggest mappings based on account names and codes.
+  </Step>
+  <Step title="Configure Sync">
+    Set sync frequency, export format, and default settings.
   </Step>
 </Steps>
 
@@ -56,85 +57,66 @@ Integrate Smartbills with Xero to automatically export approved expenses and kee
 
 ### Account Mapping
 
-Map expense categories to Xero accounts:
-
-| Smartbills | Xero Account |
-|------------|--------------|
-| Travel | 493 - Travel |
-| Meals | 497 - Entertainment |
-| Office | 473 - Office Expenses |
-
-### Tax Mapping
-
-| Smartbills | Xero Tax Rate |
-|------------|---------------|
-| Standard | GST on Expenses |
-| Zero-rated | No GST |
-| Exempt | BAS Excluded |
+| Smartbills Category | Xero Account | Code |
+|---------------------|-------------|------|
+| Travel | Travel Expenses | 6200 |
+| Meals | Entertainment | 6400 |
+| Office Supplies | Office Expenses | 6100 |
+| Software | Computer & Internet | 6500 |
 
 ### Tracking Categories
 
-Use Xero tracking for cost centers:
+Map Smartbills departments to Xero tracking categories for reporting:
 
-| Smartbills Department | Xero Tracking |
-|-----------------------|---------------|
-| Engineering | Engineering |
-| Sales | Sales & Marketing |
+| Smartbills Department | Xero Tracking Category |
+|----------------------|------------------------|
+| Engineering | Department: Engineering |
+| Marketing | Department: Marketing |
+| Sales | Department: Sales |
 
-## Sync Behavior
+<Info>
+  Xero limits tracking to two active categories. Plan your department and project mapping accordingly.
+</Info>
 
-### What Gets Synced
+### Export Options
 
-| Smartbills Entity | Xero Entity |
-|-------------------|-------------|
-| Business Expense | Invoice (ACCPAY) |
-| Expense Report | Manual Journal |
-| Reimbursement | Payment |
-| Vendor | Contact |
-| Receipt | Attachment |
+| Option | Description |
+|--------|-------------|
+| **Bills** | Create Xero bills payable to the employee |
+| **Spend Money** | Create bank transactions in a designated account |
+| **Draft vs. Approved** | Choose whether entries are created as drafts or approved |
 
-### Double-Entry Bookkeeping
+## Data Sync
 
-Expense reports create proper manual journal entries:
-
-| Debit | Credit |
-|-------|--------|
-| Expense Account (per line) | Accounts Payable |
-| Tax Account (if applicable) | - |
-
-### Sync Timing
-
-| Trigger | Description |
-|---------|-------------|
-| On Approval | Automatically when approved |
-| On Reimbursement | When payment is processed |
-| Manual | Trigger from integration settings |
-| Initial Sync | Full sync on first connection |
-
-### Webhook Events
-
-| Event | Action |
-|-------|--------|
-| `InvoiceCreated` | Import new expense from Xero |
-| `InvoiceUpdated` | Update synced expense |
-| `ContactCreated` | Import new vendor |
+| Smartbills | Xero | Direction | Frequency |
+|-----------|------|-----------|-----------|
+| Approved expenses | Bills / Spend Money | Smartbills -> Xero | Real-time or scheduled |
+| Vendors | Contacts | Both ways | On demand |
+| Categories | Chart of accounts | Xero -> Smartbills | On demand |
+| Tax rates | Tax rates | Xero -> Smartbills | On demand |
+| Departments | Tracking categories | Xero -> Smartbills | On demand |
+| Receipt files | Attachments | Smartbills -> Xero | With expense export |
 
 ## Troubleshooting
 
-### Common Issues
+<AccordionGroup>
+  <Accordion title="OAuth token expired">
+    Xero tokens expire after 60 days if not refreshed. Go to **Settings > Apps > Xero** and click **Reconnect**.
+  </Accordion>
 
-| Issue | Solution |
-|-------|----------|
-| Connection lost | Reconnect Xero |
-| Wrong organization | Check selected org |
-| Missing account | Update mapping |
+  <Accordion title="Account not found">
+    Ensure all Smartbills categories are mapped to active Xero accounts. Archived accounts cannot receive transactions.
+  </Accordion>
 
-## Best Practices
+  <Accordion title="Currency mismatch">
+    The expense currency must match an enabled currency in your Xero organization. Add the currency in Xero Settings if needed.
+  </Accordion>
 
-<Tip>
-**Import accounts first** - Sync Xero chart of accounts before mapping.
-</Tip>
+  <Accordion title="Tracking categories not appearing">
+    Re-sync tracking categories from the integration settings page. Xero limits tracking to two active categories.
+  </Accordion>
 
-<Tip>
-**Use tracking** - Leverage tracking categories for detailed reporting.
-</Tip>
+  <Accordion title="Duplicate transactions">
+    Check that only one sync method is active (real-time or scheduled). Using both may cause duplicate entries.
+  </Accordion>
+</AccordionGroup>

@@ -1,100 +1,125 @@
 ---
-title: "Microsoft Teams Integration"
-description: "Manage expenses within Microsoft Teams"
+title: "Microsoft Teams"
+description: "Receive expense notifications and manage approvals within Microsoft Teams"
 ---
 
 ## Overview
 
-Bring expense management into Microsoft Teams with notifications, approvals, and expense submission directly from your Teams workspace.
+The Microsoft Teams integration brings Smartbills notifications and approval workflows into your Teams environment. Receive real-time alerts, approve expense reports, and access Smartbills via a Teams tab -- all without switching applications.
 
-## Features
+<Frame>
+  <img src="/images/integrations/teams/overview.png" alt="Microsoft Teams integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Tab App** | Full expense dashboard in Teams |
-| **Bot** | Conversational expense submission |
-| **Notifications** | Approval alerts in channels |
-| **Adaptive Cards** | Rich approval cards |
-| **SSO** | Single sign-on support |
+| **Notifications** | Real-time expense and report notifications in Teams channels |
+| **Approval Actions** | Approve or reject expense reports from adaptive cards |
+| **Tab Integration** | Embed the Smartbills dashboard as a Teams tab |
+| **Bot Commands** | Query expenses and reports via the Smartbills bot |
+| **Personal App** | Access Smartbills from the Teams sidebar |
+| **Actionable Cards** | Interactive cards with approve, reject, and view actions |
+
+## Prerequisites
+
+- Microsoft Teams (any plan)
+- Smartbills Business plan or higher
+- Teams admin permissions (for organization-wide deployment)
 
 ## Setup
 
-### Install Teams App
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Microsoft Teams**.
   </Step>
-  <Step title="Find Teams">
-    Search for Microsoft Teams in the marketplace
-  </Step>
-  <Step title="Add to Teams">
-    Click **Add to Microsoft Teams**
+  <Step title="Install the App">
+    Click **Connect** and you will be redirected to install the Smartbills app in Teams. Alternatively, search for Smartbills in the Teams App Store.
+
+    <Frame>
+      <img src="/images/integrations/teams/install.png" alt="Install Smartbills in Teams" />
+    </Frame>
   </Step>
   <Step title="Authorize">
-    Grant permissions in Teams
+    Sign in with your Microsoft account and authorize Smartbills to send notifications and read user profiles.
   </Step>
-  <Step title="Configure">
-    Add to channels and configure
+  <Step title="Configure Notifications">
+    Set up which channels receive expense notifications and which users receive personal alerts.
+  </Step>
+  <Step title="Add as Tab (Optional)">
+    Add Smartbills as a tab in your preferred Teams channel for quick dashboard access.
   </Step>
 </Steps>
 
-## Using the Tab App
+## Configuration
 
-### Add to Channel
+### Notification Settings
 
-1. Go to desired channel
-2. Click + to add tab
-3. Search for Smartbills
-4. Add and configure
+| Notification Type | Delivery |
+|------------------|----------|
+| New expense report submitted | Channel or personal |
+| Approval required | Personal (approver) |
+| Report approved/rejected | Personal (submitter) |
+| Changes requested | Personal (submitter) |
+| Weekly summary | Channel |
 
-### Features
+### Tab Setup
 
-- Full dashboard view
-- Create and submit expenses
-- Review and approve reports
-- View analytics
+Add the Smartbills dashboard as a tab in any Teams channel:
 
-## Bot Commands
+1. Click the **+** button at the top of a Teams channel
+2. Search for **Smartbills**
+3. Select the view to display (dashboard, expenses, or reports)
+4. Click **Save**
+
+### Bot Commands
 
 | Command | Description |
 |---------|-------------|
-| `@Smartbills expense` | Submit expense |
-| `@Smartbills status` | Check report status |
-| `@Smartbills approvals` | View pending |
+| `@Smartbills expenses` | View your recent expenses |
+| `@Smartbills reports` | View your expense reports |
+| `@Smartbills pending` | View pending approvals |
+| `@Smartbills submit` | Submit your current expense report |
+| `@Smartbills help` | List available commands |
 
-## Approval Cards
+### Approval Workflow
 
-Approvers receive rich adaptive cards:
+When an expense report requires approval, the approver receives an adaptive card in Teams:
 
-```
-┌────────────────────────────────────────┐
-│ 📋 Expense Report - January Travel     │
-│                                        │
-│ Submitted by: John Smith               │
-│ Total: $1,245.00                       │
-│ Expenses: 8 items                      │
-│                                        │
-│ [✓ Approve] [✕ Reject] [View Details]  │
-└────────────────────────────────────────┘
-```
+1. The card shows the report summary (submitter, total amount, number of items)
+2. The approver can click **Approve**, **Reject**, or **View Details**
+3. Rejections prompt for an optional reason
+4. The submitter receives a notification of the decision
 
-## Notifications
+## Data Sync
 
-### Configure Notifications
+| Smartbills | Microsoft Teams | Direction | Frequency |
+|-----------|----------------|-----------|-----------|
+| Status notifications | Channel / personal messages | Smartbills -> Teams | Real-time |
+| Approval actions | Adaptive card buttons | Teams -> Smartbills | User-initiated |
+| Bot queries | Bot responses | Teams -> Smartbills | User-initiated |
 
-| Event | Delivery |
-|-------|----------|
-| Report submitted | Channel post |
-| Approval needed | Direct mention |
-| Report status change | DM |
+## Troubleshooting
 
-## Best Practices
+<AccordionGroup>
+  <Accordion title="App not appearing in Teams">
+    For organization-wide deployment, the Teams admin must approve the Smartbills app in the Teams Admin Center under **Manage apps**.
+  </Accordion>
 
-<Tip>
-**Use dedicated channel** - Create #expenses channel for team visibility.
-</Tip>
+  <Accordion title="Notifications not received">
+    Verify the notification channel is configured in the Smartbills integration settings. Check that the bot has permission to post in the channel.
+  </Accordion>
 
-<Tip>
-**Pin the tab** - Make expense dashboard easily accessible.
-</Tip>
+  <Accordion title="Approval buttons not working">
+    Ensure your Smartbills account is linked. Click on the notification and sign in if prompted. Adaptive cards require an active session.
+  </Accordion>
+
+  <Accordion title="Tab not loading">
+    Check that third-party cookies are enabled in your browser or Teams client. The tab requires authentication with Smartbills.
+  </Accordion>
+
+  <Accordion title="Bot not responding">
+    Verify the Smartbills app is installed in your Teams workspace. Try removing and re-adding the bot. Check that the bot is not blocked in Teams admin policies.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,175 @@
+---
+title: "Bill Approval"
+description: "Understand the bill approval workflow for approvers and submitters"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/bills/approval-hero.png" alt="Bill approval workflow in Smartbills" />
+</Frame>
+
+## Overview
+
+Bills in Smartbills follow an approval workflow similar to expense reports. Before a vendor invoice can be paid, it may need to be reviewed and approved by one or more authorized users. This guide explains the workflow from both the approver and submitter perspectives.
+
+<Note>
+  **Approval configuration**: Bill approval workflows are configured by administrators in **Settings > Approval Workflows**. The number of approval levels, thresholds, and designated approvers vary by organization.
+</Note>
+
+## How Bill Approval Works
+
+The bill approval lifecycle follows these stages:
+
+```
+Upload Bill --> Pending Review --> Approved --> Paid
+                    |
+                    +--> Rejected (with reason)
+```
+
+1. A user uploads a bill and saves it
+2. The bill enters the approval queue with a **Pending** status
+3. The designated approver reviews the bill
+4. The approver either approves or rejects the bill
+5. If approved, the bill moves to **Approved** status and can be paid
+6. If rejected, the submitter is notified with a reason
+
+## For Approvers
+
+### Reviewing a Bill
+
+<Steps>
+  <Step title="Open the Bill">
+    Navigate to **Approvals** or **Bills** in the sidebar. Bills pending your approval appear with a **Pending** badge. Click on a bill to open its detail view.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/approver-open-bill.png" alt="Opening a pending bill for review" />
+    </Frame>
+  </Step>
+
+  <Step title="Verify Vendor and Amount">
+    Check that the vendor is correct and recognized in your vendor directory. Verify the invoice amount matches the original document and that any taxes are calculated properly.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/verify-vendor-amount.png" alt="Verifying vendor name and invoice amount" />
+    </Frame>
+  </Step>
+
+  <Step title="Check Supporting Documents">
+    Review the attached invoice document. Confirm that:
+
+    - The invoice is legible and complete
+    - Line items match the stated total
+    - Payment terms and due date are correct
+    - The invoice has not already been paid (check for duplicate entries)
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/check-documents.png" alt="Reviewing the attached invoice document" />
+    </Frame>
+  </Step>
+
+  <Step title="Approve or Reject">
+    After reviewing, take one of the following actions:
+
+    **To approve:**
+    1. Click **Approve**
+    2. Add an optional note
+    3. Click **Confirm Approval**
+
+    **To reject:**
+    1. Click **Reject**
+    2. Enter a rejection reason (required)
+    3. Click **Confirm Rejection**
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/approve-reject-bill.png" alt="Approve and Reject buttons on the bill detail view" />
+    </Frame>
+  </Step>
+</Steps>
+
+### Approval Thresholds
+
+Your organization may have amount-based thresholds that determine which bills require approval:
+
+| Threshold | Behavior |
+|-----------|----------|
+| Below minimum | Bill is auto-approved, no manual review needed |
+| Standard range | Requires one level of approval |
+| Above maximum | Requires multiple levels of approval |
+
+<Tip>
+  **Check your thresholds.** Ask your administrator what approval thresholds apply to your role so you know which bills will route to you.
+</Tip>
+
+## For Submitters
+
+### Uploading and Submitting
+
+<Steps>
+  <Step title="Upload the Bill">
+    Follow the steps in the [Upload a Bill](/guides/web-app/bills/upload-bill) guide to upload the vendor invoice and fill in the details.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/submitter-upload.png" alt="Uploading a bill as a submitter" />
+    </Frame>
+  </Step>
+
+  <Step title="Submit for Approval">
+    When you save the bill, it is automatically submitted for approval if your organization requires it. The bill moves to **Pending** status.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/submit-for-approval.png" alt="Bill submitted and entering the approval queue" />
+    </Frame>
+  </Step>
+
+  <Step title="Track the Status">
+    Monitor the bill's progress in the bills list. The status column shows where it is in the approval process:
+
+    - **Pending** -- Awaiting approver review
+    - **Approved** -- Approved and ready for payment
+    - **Rejected** -- Rejected by the approver (check the reason in the bill timeline)
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/track-status.png" alt="Tracking bill status in the bills list" />
+    </Frame>
+  </Step>
+</Steps>
+
+### Handling a Rejected Bill
+
+If your bill is rejected:
+
+1. Open the rejected bill to read the approver's reason
+2. Correct the issues identified -- this may involve uploading a new document, fixing the amount, or updating vendor details
+3. Save the changes to resubmit the bill for approval
+4. The bill returns to the approval queue
+
+## Approval Audit Trail
+
+Every action on a bill is recorded in the timeline at the bottom of the bill detail view:
+
+- Who uploaded the bill and when
+- Who approved or rejected it, with timestamps
+- Any notes or comments added during the process
+- Status changes and edits
+
+This audit trail provides a complete history for compliance and accounting purposes.
+
+<Frame>
+  <img src="/images/guides/web-app/bills/audit-trail.png" alt="Bill approval audit trail showing all actions and timestamps" />
+</Frame>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Upload a Bill" icon="cloud-arrow-up" href="/guides/web-app/bills/upload-bill">
+    Learn how to upload and process vendor invoices
+  </Card>
+  <Card title="Bills Overview" icon="file-invoice-dollar" href="/guides/web-app/bills/overview">
+    Return to the bills dashboard guide
+  </Card>
+  <Card title="Approvals Overview" icon="check-double" href="/guides/web-app/approvals/overview">
+    Learn about the broader approval system
+  </Card>
+  <Card title="Vault" icon="vault" href="/guides/web-app/vault/overview">
+    Access archived invoices and documents
+  </Card>
+</CardGroup>

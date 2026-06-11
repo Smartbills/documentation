@@ -1,0 +1,75 @@
+---
+title: "Créer un Fournisseur"
+description: "Ajoutez un nouveau fournisseur à votre organisation"
+---
+
+## Aperçu
+
+Bien que Smartbills détecte automatiquement les fournisseurs à partir des reçus téléchargés, vous pouvez créer des fiches fournisseur manuellement. Cela est utile lorsque vous souhaitez préconfigurer la catégorie par défaut, le numéro de taxe ou d.autres détails d'un fournisseur avant que des dépenses ne soient enregistrées.
+
+<Note>
+  La création de fournisseurs nécessite la permission **VENDORS_MANAGE**, disponible pour les rôles Administrateur et Comptable.
+</Note>
+
+## Créer un Nouveau Fournisseur
+
+<Steps>
+  <Step title="Accédez aux Fournisseurs">
+    Cliquez sur **Fournisseurs** dans la barre latérale gauche pour ouvrir le répertoire des fournisseurs.
+
+    <Frame>
+      <img src="/images/guides/web-app/vendors/navigate.png" alt="Option Fournisseurs surlignée dans la barre latérale" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquez sur Créer">
+    Cliquez sur le bouton **Créer un fournisseur** dans le coin supérieur droit de la liste des fournisseurs.
+
+    <Frame>
+      <img src="/images/guides/web-app/vendors/create-button.png" alt="Bouton Créer un fournisseur dans le répertoire" />
+    </Frame>
+  </Step>
+
+  <Step title="Entrez les Détails du Fournisseur">
+    Remplissez le formulaire de création de fournisseur :
+
+    - **Nom** (obligatoire) -- Le nom d'affichage du fournisseur (ex. : "Staples", "Air Canada")
+    - **Adresse** -- L'adresse commerciale du fournisseur
+    - **Numéro de taxe** -- Le numéro d'identification fiscale du fournisseur pour la conformité et le reporting
+    - **Catégorie par défaut** -- Sélectionnez une catégorie qui sera automatiquement appliquée à toutes les dépenses de ce fournisseur
+    - **Site web** -- L'URL du site web du fournisseur
+    - **Téléphone** -- Numéro de téléphone de contact
+    - **Notes** -- Notes internes telles que numéro de compte, conditions de paiement ou d.�tails de contrat
+
+    <Frame>
+      <img src="/images/guides/web-app/vendors/create-form.png" alt="Formulaire de création de fournisseur avec les champs nom, adresse, numéro de taxe et catégorie" />
+    </Frame>
+
+    <Tip>
+      Définir une catégorie par défaut fait gagner du temps à votre équipe. Chaque dépense associée à ce fournisseur héritera automatiquement de la catégorie sélectionnée, réduisant la saisie manuelle.
+    </Tip>
+  </Step>
+
+  <Step title="Enregistrez le Fournisseur">
+    Cliquez sur **Enregistrer** pour créer la fiche fournisseur. Le nouveau fournisseur apparaîtra dans votre répertoire et sera disponible pour la correspondance avec les dépenses futures.
+
+    <Frame>
+      <img src="/images/guides/web-app/vendors/create-success.png" alt="Fournisseur nouvellement créé affiché dans le répertoire" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Votre fournisseur à été créé. Les dépenses futures de ce fournisseur seront automatiquement associées et catégorisées en fonction des détails que vous avez fournis.
+</Check>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les Fournisseurs" icon="address-book" href="/fr/guides/web-app/vendors/manage-vendors">
+    Modifiez, fusionnez et organisez vos fiches fournisseur
+  </Card>
+  <Card title="Aperçu des Fournisseurs" icon="store" href="/fr/guides/web-app/vendors/overview">
+    Découvrez le répertoire des fournisseurs et la détection automatique
+  </Card>
+</CardGroup>

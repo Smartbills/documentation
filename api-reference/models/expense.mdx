@@ -1,0 +1,184 @@
+---
+title: "Expense Model"
+description: "Complete schema reference for the Expense object"
+---
+
+## Expense
+
+The Expense object represents a single business expense or transaction. Expenses can be standalone or grouped into expense reports for approval and reimbursement.
+
+## Properties
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the expense
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID of the business this expense belongs to
+</ResponseField>
+
+<ResponseField name="userId" type="integer">
+  ID of the user who created the expense
+</ResponseField>
+
+<ResponseField name="merchant" type="string">
+  Name of the merchant or vendor where the expense was incurred
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Total expense amount
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Three-letter ISO 4217 currency code (e.g., `USD`, `CAD`, `EUR`)
+</ResponseField>
+
+<ResponseField name="date" type="string">
+  Transaction date in ISO 8601 format (`YYYY-MM-DD`)
+</ResponseField>
+
+<ResponseField name="category" type="object">
+  Expense category assignment
+  <Expandable title="Category Object">
+    <ResponseField name="id" type="integer">
+      Category ID
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Category name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current expense status. Possible values: `pending`, `submitted`, `approved`, `rejected`, `reimbursed`
+</ResponseField>
+
+<ResponseField name="paymentMethod" type="string">
+  How the expense was paid. Possible values: `cash`, `credit_card`, `debit_card`, `bank_transfer`, `personal_card`
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Additional notes or description for the expense
+</ResponseField>
+
+<ResponseField name="tags" type="array">
+  Array of tag strings for categorization and filtering
+</ResponseField>
+
+<ResponseField name="reportId" type="integer">
+  ID of the expense report this expense is assigned to. `null` if unassigned.
+</ResponseField>
+
+<ResponseField name="attachments" type="array">
+  Array of receipt or document attachments
+  <Expandable title="Attachment Object">
+    <ResponseField name="id" type="integer">
+      Attachment ID
+    </ResponseField>
+    <ResponseField name="filename" type="string">
+      Original filename
+    </ResponseField>
+    <ResponseField name="url" type="string">
+      URL to download the attachment
+    </ResponseField>
+    <ResponseField name="thumbnailUrl" type="string">
+      URL for the attachment thumbnail
+    </ResponseField>
+    <ResponseField name="contentType" type="string">
+      MIME type of the file
+    </ResponseField>
+    <ResponseField name="size" type="integer">
+      File size in bytes
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="tax" type="object">
+  Tax information for the expense
+  <Expandable title="Tax Object">
+    <ResponseField name="amount" type="number">
+      Tax amount
+    </ResponseField>
+    <ResponseField name="rate" type="number">
+      Tax rate as a percentage
+    </ResponseField>
+    <ResponseField name="name" type="string">
+      Tax name (e.g., "GST", "VAT", "Sales Tax")
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="vendorId" type="integer">
+  ID of the linked vendor record, if any
+</ResponseField>
+
+<ResponseField name="department" type="string">
+  Department the expense is attributed to
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Timestamp when the expense was created (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp when the expense was last updated (ISO 8601)
+</ResponseField>
+
+## Example
+
+```json
+{
+  "id": 12345,
+  "businessId": 456,
+  "userId": 789,
+  "merchant": "Office Depot",
+  "amount": 49.99,
+  "currency": "USD",
+  "date": "2024-01-15",
+  "category": {
+    "id": 5,
+    "name": "Office Supplies"
+  },
+  "status": "pending",
+  "paymentMethod": "credit_card",
+  "notes": "Printer paper and pens for Q1",
+  "tags": ["office", "supplies", "Q1-2024"],
+  "reportId": null,
+  "attachments": [
+    {
+      "id": 1,
+      "filename": "receipt_office_depot.jpg",
+      "url": "https://cdn.smartbills.io/receipts/abc123.jpg",
+      "thumbnailUrl": "https://cdn.smartbills.io/receipts/abc123_thumb.jpg",
+      "contentType": "image/jpeg",
+      "size": 245000
+    }
+  ],
+  "tax": {
+    "amount": 4.50,
+    "rate": 9.0,
+    "name": "Sales Tax"
+  },
+  "vendorId": 200,
+  "department": "Marketing",
+  "createdAt": "2024-01-15T14:30:00Z",
+  "updatedAt": "2024-01-15T14:30:00Z"
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Expenses" icon="list" href="/api-reference/expenses/list-expenses">
+    Retrieve all expenses
+  </Card>
+  <Card title="Get Expense" icon="eye" href="/api-reference/expenses/get-expense">
+    Get a single expense
+  </Card>
+  <Card title="Upload Expense" icon="cloud-arrow-up" href="/api-reference/expenses/upload-expense">
+    Upload a receipt
+  </Card>
+  <Card title="Update Expense" icon="pen" href="/api-reference/expenses/update-expense">
+    Modify an expense
+  </Card>
+</CardGroup>

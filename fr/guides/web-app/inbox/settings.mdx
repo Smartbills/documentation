@@ -1,0 +1,115 @@
+---
+title: "Paramètres de la Boîte de Réception"
+description: "Configurez les paramètres et règles de la boîte de réception des dépenses"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/inbox/settings.png" alt="Page des paramètres de la boîte de réception affichant les options de configuration" />
+</Frame>
+
+## Introduction
+
+La page des Paramètres de la Boîte de Réception permet aux administrateurs de configurer le comportement de la Boîte de Réception des Dépenses. Vous pouvez définir des catégories par défaut, créer des règles d'approbation automatique, activer la détection de doublons et gérer les préférences de notification. Accédez aux paramètres en naviguant vers `/:slug/expenses/settings` ou en cliquant sur l'**icône d'engrenage** dans le coin supérieur droit de la boîte de réception.
+
+<Note>
+  Les paramètres de la boîte de réception nécessitent la permission `SETTINGS_GENERAL_MANAGE`. Par défaut, seuls les Proprietaires et les Administrateurs peuvent modifier ces paramètres.
+</Note>
+
+## Catégorie par défaut
+
+Définissez une catégorie par défaut qui est automatiquement assignee aux nouvelles dépenses lorsqu'aucune catégorie ne peut être determinee à partir du reçu :
+
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Catégorie par défaut**, sélectionnez une catégorie dans le menu déroulant
+3. Cliquez sur **Enregistrer**
+
+Lorsque Smartbills ne peut pas détectér automatiquement une catégorie à partir du marchand ou du contenu du reçu, la catégorie par défaut est appliquee. Les examinateurs peuvent toujours modifier la catégorie lors du processus d'examen.
+
+<Frame>
+  <img src="/images/guides/web-app/inbox/settings-default-category.png" alt="Sélecteur de catégorie par défaut" />
+</Frame>
+
+## Règles d'approbation automatique
+
+Les règles d'approbation automatique permettent à certaines dépenses d'etre automatiquement approuvées sans examen manuel. Ceci est utile pour les dépenses routinières à faible risque qui ne nécessitent pas de vérification humaine.
+
+### Créer une regle
+
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Règles d'approbation automatique**, cliquez sur **Ajouter une regle**
+3. Définissez les conditions de la règle :
+   - **Seuil de montant** -- Approuver automatiquement les dépenses sous un montant spécifique (p. ex. moins de 25 $)
+   - **Catégorie** -- Appliquer la règle uniquement à des catégories spécifiques (p. ex. Fournitures de bureau)
+   - **Employé** -- Limiter la règle à des employés ou équipes spécifiques
+4. Cliquez sur **Enregistrer la regle**
+
+### Exemples de règles
+
+| Règle | Condition | Résultat |
+|-------|-----------|----------|
+| Petits achats | Montant inférieur à 25 $ | Approbation automatique |
+| Diners d'équipe | Catégorie "Repas" et montant inférieur à 50 $ | Approbation automatique |
+| Personnel senior | Role de l'employé est Gestionnaire et montant inférieur à 200 $ | Approbation automatique |
+
+<Warning>
+  Les dépenses auto-approuvées contournent entièrement la file d'examen. Utilisez les règles d'approbation automatique avec precaution et définissez des seuils raisonnables. Vous pouvez toujours examiner les dépenses auto-approuvées retroactivement depuis le filtre Approuvees.
+</Warning>
+
+## Détection de doublons
+
+Smartbills peut détectér les doublons potentiels de dépenses en fonction de criteres de correspondance. Lorsqu'un doublon est détecté, la dépense est signalée pour un examen manuel au lieu d'etre traitee automatiquement.
+
+### Configurer la détection
+
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Détection de doublons**, activez la fonctionnalité
+3. Sélectionnez les criteres de correspondance :
+   - **Meme montant et date** -- Signaler les dépenses avec des montants identiques le meme jour
+   - **Meme marchand et montant** -- Signaler les dépenses du meme fournisseur avec le meme total
+   - **Meme image de reçu** -- Utiliser la comparaison d'images pour détectér les reçus re-téléchargés
+4. Cliquez sur **Enregistrer**
+
+Lorsqu'un doublon potentiel est détecté, la dépense apparaît dans la boîte de réception avec un badge d'avertissement **Doublon**. Cliquez sur la dépense pour la comparer avec l'original suspecte et décidér de la conserver ou de la supprimer.
+
+<Frame>
+  <img src="/images/guides/web-app/inbox/settings-duplicate-detection.png" alt="Paramètres de détection de doublons avec les options de criteres de correspondance" />
+</Frame>
+
+## Préférences de notification
+
+Controlez quels événements de la boîte de réception declenchent des notifications par courriel ou d.ns l'application pour votre équipe :
+
+| Événement | Description | Par défaut |
+|-----------|-------------|------------|
+| **Nouvelle dépense reçue** | Un employé téléchargé ou transmet une nouvelle dépense | Activé |
+| **Dépense signalée** | Une dépense est signalée lors de l'examen | Activé |
+| **Dépense retournée** | Une dépense est renvoyée à l'employé pour revision | Activé |
+| **Approbation automatique** | Une dépense est automatiquement approuvée par une règle | Desactivée |
+| **Doublon détecté** | Un doublon potentiel de dépense est identifié | Activé |
+
+Pour modifier les préférences de notification :
+
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Notifications**, activez ou d.�sactivez chaque événement
+3. Cliquez sur **Enregistrer**
+
+<Tip>
+  Si votre équipe recoit un volume élevé de dépenses, envisagez de désactiver les notifications "Nouvelle dépense reçue" et de vous fier à des examens périodiques de la boîte de réception.
+</Tip>
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Boite de Réception des Dépenses" icon="inbox" href="/fr/guides/web-app/inbox/overview">
+    Aperçu de la boîte de réception des dépenses de l'entreprise
+  </Card>
+  <Card title="Examiner les Dépenses" icon="magnifying-glass" href="/fr/guides/web-app/inbox/review-expenses">
+    Guide étape par étape pour examiner les dépenses entrantes
+  </Card>
+  <Card title="Catégories et Départements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
+    Configurer les catégories utilisees pour l'assignation par défaut et l'approbation automatique
+  </Card>
+  <Card title="Roles et Permissions" icon="user-gear" href="/fr/guides/concepts/roles-and-permissions">
+    Comprendre qui peut accéder et configurer les paramètres de la boîte de réception
+  </Card>
+</CardGroup>

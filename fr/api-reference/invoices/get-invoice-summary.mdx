@@ -1,0 +1,76 @@
+---
+title: "Obtenir le résumé des factures"
+api: "GET https://api.smartbills.io/v1/invoices/summary"
+description: "Récupérer les métriques et statistiques agrégées des factures"
+---
+
+## Réponse
+
+<ResponseField name="totalRevenue" type="number">
+  Revenu total de toutes les factures payées
+</ResponseField>
+
+<ResponseField name="outstanding" type="number">
+  Montant total des factures impayées
+</ResponseField>
+
+<ResponseField name="overdueCount" type="integer">
+  Nombre de factures en retard
+</ResponseField>
+
+<ResponseField name="paidThisMonth" type="number">
+  Montant total payé au cours du mois en cours
+</ResponseField>
+
+<ResponseField name="totalCount" type="integer">
+  Nombre total de factures
+</ResponseField>
+
+<ResponseField name="draftCount" type="integer">
+  Nombre de factures en brouillon
+</ResponseField>
+
+<ResponseField name="sentCount" type="integer">
+  Nombre de factures envoyées (en attente de paiement)
+</ResponseField>
+
+<ResponseField name="paidCount" type="integer">
+  Nombre de factures payées
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/invoices/summary \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const summary = await smartbills.invoices.getSummary();
+```
+
+```csharp C#
+var summary = await invoiceClient.GetSummaryAsync(
+    new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "totalRevenue": 125000.00,
+  "outstanding": 34500.00,
+  "overdueCount": 3,
+  "paidThisMonth": 18750.00,
+  "totalCount": 142,
+  "draftCount": 5,
+  "sentCount": 12,
+  "paidCount": 118
+}
+```
+
+</ResponseExample>

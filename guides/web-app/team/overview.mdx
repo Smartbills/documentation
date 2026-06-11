@@ -1,0 +1,69 @@
+---
+title: "Team Management"
+description: "Manage your organization's team members and their access"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/team/overview.png" alt="Team management page showing employee list" />
+</Frame>
+
+## Overview
+
+The Team page is where you manage everyone in your Smartbills organization. From here you can invite new members, assign roles, view employee statuses, and control who has access to what. A well-organized team structure ensures that expenses are routed to the right approvers and that sensitive financial data is only visible to authorized personnel.
+
+<Note>
+  Access to the Team page requires the **SETTINGS_TEAM_VIEW** permission. Only users with Admin or Owner roles can invite members and change roles.
+</Note>
+
+## Navigating the Team Page
+
+Click **Team** in the left sidebar to open the team management page. The page displays a list of all members in your organization.
+
+### Employee List
+
+Each row in the employee list shows:
+
+- **Name** -- The member's full name
+- **Email** -- Their registered email address
+- **Role** -- Their assigned role (Owner, Admin, Manager, Employee, or Accountant)
+- **Department** -- The department they belong to, if assigned
+- **Status** -- Active, Invited (pending acceptance), or Deactivated
+
+<Frame>
+  <img src="/images/guides/web-app/team/employee-list.png" alt="Employee list with columns for name, email, role, department, and status" />
+</Frame>
+
+### Search and Filter
+
+Use the search bar to find members by name or email. You can also filter the list by role, department, or status to quickly locate specific groups of employees.
+
+## Roles
+
+Smartbills uses role-based access control. Each member is assigned one of the following roles:
+
+| Role | Description |
+|------|-------------|
+| **Owner** | Full control of the organization. Can manage billing, delete the business, and transfer ownership. Only one Owner per organization. |
+| **Admin** | Full access to all features and settings except billing and ownership transfer. Can invite members and manage roles. |
+| **Manager** | Can approve expense reports for their assigned team or department. Has read access to team expenses. |
+| **Employee** | Can submit expenses and expense reports. Limited to their own data. |
+| **Accountant** | Can view and manage all expenses, vendors, and categories. Cannot manage team settings or billing. |
+
+## Member Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Active** | The member has accepted their invitation and can use Smartbills |
+| **Invited** | An invitation has been sent but not yet accepted |
+| **Deactivated** | The member's access has been revoked. Their historical data is preserved. |
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Invite Team Members" icon="user-plus" href="/guides/web-app/team/invite-members">
+    Add new employees to your organization
+  </Card>
+  <Card title="Manage Roles" icon="user-gear" href="/guides/web-app/team/manage-roles">
+    Change roles and understand permissions
+  </Card>
+</CardGroup>

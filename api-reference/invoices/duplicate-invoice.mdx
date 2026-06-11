@@ -1,0 +1,66 @@
+---
+title: "Duplicate Invoice"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/invoices/{invoiceId}/duplicate"
+description: "Create a copy of an existing invoice with a new invoice number"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="invoiceId" type="integer" required>
+  The unique identifier of the invoice to duplicate
+</ParamField>
+
+## Response
+
+Returns the newly created invoice as a `Draft` with a fresh invoice number. All line items, fees, and discounts are copied from the original.
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/invoices/1001/duplicate \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const invoice = await smartbills.invoices.duplicate(1001);
+```
+
+```csharp C#
+var invoice = await invoiceClient.DuplicateAsync(1001,
+    new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1050,
+  "invoiceNumber": "INV-2026-0042",
+  "billStatus": "Draft",
+  "isPaid": false,
+  "isOverdue": false,
+  "total": { "amount": 1500.00, "currency": "CAD" },
+  "amountDue": { "amount": 1500.00, "currency": "CAD" },
+  "lineItems": [
+    {
+      "id": 201,
+      "description": "Web Development Services",
+      "quantity": 10,
+      "unitPrice": 15000,
+      "total": { "amount": 1500.00, "currency": "CAD" }
+    }
+  ],
+  "createdAt": "2026-05-05T14:30:00Z",
+  "updatedAt": "2026-05-05T14:30:00Z"
+}
+```
+
+</ResponseExample>

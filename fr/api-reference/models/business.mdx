@@ -1,0 +1,112 @@
+---
+title: "Modèle Entreprise"
+description: "Référence complète du schéma de l'objet Entreprise"
+---
+
+## Entreprise
+
+L'objet Entreprise représente une organisation ou un compte d'entreprise sur Smartbills. Une entreprise est l'entité de niveau supérieur qui possède les employés, les dépenses, les fournisseurs et les rapports de dépenses.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de l'entreprise
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom d'affichage de l'entreprise
+</ResponseField>
+
+<ResponseField name="legalName" type="string">
+  Raison sociale officielle de l'entité commerciale
+</ResponseField>
+
+<ResponseField name="slug" type="string">
+  Identifiant compatible URL pour l'entreprise (unique, minuscules, avec tirets)
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Devise par défaut de l'entreprise (code ISO 4217, p. ex., `USD`, `CAD`, `EUR`)
+</ResponseField>
+
+<ResponseField name="timezone" type="string">
+  Fuseau horaire de l'entreprise au format IANA (p. ex., `America/New_York`, `Europe/London`)
+</ResponseField>
+
+<ResponseField name="address" type="object">
+  Adresse postale de l'entreprise
+  <Expandable title="Objet Adresse">
+    <ResponseField name="street" type="string">
+      Adresse de rue
+    </ResponseField>
+    <ResponseField name="city" type="string">
+      Ville
+    </ResponseField>
+    <ResponseField name="state" type="string">
+      État ou province
+    </ResponseField>
+    <ResponseField name="postalCode" type="string">
+      Code postal
+    </ResponseField>
+    <ResponseField name="country" type="string">
+      Code pays ISO 3166 à deux lettres
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="logo" type="string">
+  URL de l'image du logo de l'entreprise
+</ResponseField>
+
+<ResponseField name="plan" type="string">
+  Plan d'abonnement actuel. Valeurs possibles : `free`, `starter`, `professional`, `enterprise`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création de l'entreprise (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour de l'entreprise (ISO 8601)
+</ResponseField>
+
+## Exemple
+
+```json
+{
+  "id": 456,
+  "name": "Acme Corp",
+  "legalName": "Acme Corporation Inc.",
+  "slug": "acme-corp",
+  "currency": "USD",
+  "timezone": "America/New_York",
+  "address": {
+    "street": "100 Main Street, Suite 400",
+    "city": "New York",
+    "state": "NY",
+    "postalCode": "10001",
+    "country": "US"
+  },
+  "logo": "https://cdn.smartbills.io/businesses/acme-logo.png",
+  "plan": "professional",
+  "createdAt": "2023-01-15T10:00:00Z",
+  "updatedAt": "2024-01-10T08:00:00Z"
+}
+```
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les entreprises" icon="list" href="/fr/api-reference/businesses/list-businesses">
+    Récupérer toutes les entreprises
+  </Card>
+  <Card title="Créer une entreprise" icon="plus" href="/fr/api-reference/businesses/create-business">
+    Créer une nouvelle entreprise
+  </Card>
+  <Card title="Obtenir une entreprise" icon="eye" href="/fr/api-reference/businesses/get-business">
+    Obtenir une entreprise par ID
+  </Card>
+  <Card title="Mettre à jour une entreprise" icon="pen" href="/fr/api-reference/businesses/update-business">
+    Modifier les détails d'une entreprise
+  </Card>
+</CardGroup>

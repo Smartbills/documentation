@@ -1,0 +1,205 @@
+---
+title: "Lister les approbations en attente"
+description: "Récupérer une liste de rapports de dépenses en attente de votre approbation"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/approbations/pending"
+---
+
+## Aperçu
+
+Récupérer tous les rapports de dépenses en attente de votre approbation. Ce point de terminaison retourné les rapports soumis par les employés qui font partie de votre chaîne d'approbation. Les résultats sont triés par date de soumission, les plus récents en premier.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+## Paramètres de requête
+
+<ParamField query="page" type="integer" default="1">
+  Numéro de page pour la pagination
+</ParamField>
+
+<ParamField query="pageSize" type="integer" default="20">
+  Nombre d'éléments par page (max : 100)
+</ParamField>
+
+<ParamField query="employéeId" type="integer">
+  Filtrer par identifiant de l'employé soumetteur
+</ParamField>
+
+<ParamField query="minAmount" type="number">
+  Filtrer par montant minimum du rapport
+</ParamField>
+
+<ParamField query="maxAmount" type="number">
+  Filtrer par montant maximum du rapport
+</ParamField>
+
+<ParamField query="sortBy" type="string" default="submittedAt">
+  Champ de tri. Options : `submittedAt`, `totalAmount`, `employéeName`
+</ParamField>
+
+<ParamField query="sortOrder" type="string" default="desc">
+  Ordre de tri. Options : `asc`, `desc`
+</ParamField>
+
+## Réponse
+
+<ResponseField name="data" type="array">
+  Tableau d'objets d'approbation en attente
+
+  <Expandable title="Objet Approbation en attente">
+    <ResponseField name="reportId" type="integer">
+      Identifiant du rapport de dépenses
+    </ResponseField>
+
+    <ResponseField name="reportName" type="string">
+      Nom du rapport de dépenses
+    </ResponseField>
+
+    <ResponseField name="employéeId" type="integer">
+      Identifiant de l'employé qui à soumis le rapport
+    </ResponseField>
+
+    <ResponseField name="employéeName" type="string">
+      Nom complet de l'employé soumetteur
+    </ResponseField>
+
+    <ResponseField name="totalAmount" type="number">
+      Montant total du rapport
+    </ResponseField>
+
+    <ResponseField name="currency" type="string">
+      Code de devise ISO 4217
+    </ResponseField>
+
+    <ResponseField name="expenseCount" type="integer">
+      Nombre de dépenses dans le rapport
+    </ResponseField>
+
+    <ResponseField name="submittedAt" type="string">
+      Horodatage de soumission du rapport (ISO 8601)
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Description du rapport
+    </ResponseField>
+
+    <ResponseField name="approvalLevel" type="integer">
+      Niveau d'approbation actuel dans la chaîne (1 = premier approbateur, 2 = deuxième, etc.)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="metadata" type="object">
+  Métadonnées de pagination
+
+  <Expandable title="Objet Métadonnées">
+    <ResponseField name="page" type="integer">
+      Numéro de page actuel
+    </ResponseField>
+    <ResponseField name="pageSize" type="integer">
+      Éléments par page
+    </ResponseField>
+    <ResponseField name="totalPages" type="integer">
+      Nombre total de pages
+    </ResponseField>
+    <ResponseField name="count" type="integer">
+      Nombre total d'approbations en attente
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/approbations/pending?page=1&pageSize=20' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const pending = await client.approbations.listPending({
+  page: 1,
+  pageSize: 20
+});
+```
+
+```python Python
+pending = client.approbations.list_pending(page=1, page_size=20)
+```
+
+```csharp C#
+var pending = await client.Approbations.ListPendingAsync(new PendingApprovalsRequest
+{
+    Page = 1,
+    PageSize = 20
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "data": [
+    {
+      "reportId": 789,
+      "reportName": "January 2024 Travel Expenses",
+      "employéeId": 500,
+      "employéeName": "Jane Smith",
+      "totalAmount": 1250.00,
+      "currency": "USD",
+      "expenseCount": 3,
+      "submittedAt": "2024-01-20T09:00:00Z",
+      "description": "Business trip to NYC for client meetings",
+      "approvalLevel": 1
+    },
+    {
+      "reportId": 790,
+      "reportName": "Office Supplies - January",
+      "employéeId": 501,
+      "employéeName": "John Doe",
+      "totalAmount": 325.50,
+      "currency": "USD",
+      "expenseCount": 5,
+      "submittedAt": "2024-01-19T15:30:00Z",
+      "description": "Monthly office supply purchases",
+      "approvalLevel": 1
+    }
+  ],
+  "metadata": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 1,
+    "count": 2
+  }
+}
+```
+
+</ResponseExample>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Approuver un rapport" icon="check" href="/api-reference/approvals/approve">
+    Approuver un rapport en attente
+  </Card>
+  <Card title="Rejeter un rapport" icon="xmark" href="/api-reference/approvals/reject">
+    Rejeter un rapport en attente
+  </Card>
+  <Card title="Demander des modifications" icon="pen" href="/api-reference/approvals/request-changes">
+    Renvoyer un rapport pour modifications
+  </Card>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Voir les détails complets du rapport
+  </Card>
+</CardGroup>

@@ -1,0 +1,231 @@
+---
+title: "Error Handling"
+description: "Complete guide to error classes and handling patterns in the Smartbills Python SDK."
+---
+
+# Error Handling
+
+The Smartbills Python SDK raises structured exceptions for every API failure. Each exception class maps to a specific HTTP status code and includes contextual information for debugging.
+
+## Error hierarchy
+
+All SDK errors inherit from `SmartbillsApiError`:
+
+```
+SmartbillsApiError (base, any HTTP error)
+  +-- SmartbillsValidationError    (400)
+  +-- SmartbillsAuthenticationError (401)
+  +-- SmartbillsQuotaError          (402/403)
+  +-- SmartbillsPermissionError     (403)
+  +-- SmartbillsNotFoundError       (404)
+  +-- SmartbillsConflictError       (409)
+  +-- SmartbillsRateLimitError      (429)
+```
+
+## SmartbillsApiError (base)
+
+Every error includes these attributes:
+
+```python
+class SmartbillsApiError(Exception):
+    message: str           # Human-readable error message
+    status_code: int | None  # HTTP status code
+    body: Any              # Raw response body
+    headers: dict[str, str]  # Response headers
+```
+
+## Error types
+
+### SmartbillsValidationError (400)
+
+Raised when the request body fails server-side validation. Includes a list of field-level errors.
+
+```python
+from smartbills.errors import SmartbillsValidationError
+
+try:
+    await client.expenses.update(expense_id=123, request=invalid_data)
+except SmartbillsValidationError as e:
+    print(f"Validation failed: {e}")
+    for field_error in e.errors:
+        print(f"  {field_error.get('field')}: {field_error.get('message')}")
+```
+
+### SmartbillsAuthenticationError (401)
+
+Raised when the access token is missing, expired, or invalid.
+
+```python
+from smartbills.errors import SmartbillsAuthenticationError
+
+try:
+    await client.expenses.list_business()
+except SmartbillsAuthenticationError:
+    # Refresh the token
+    new_token = await refresh_access_token()
+    client.set_access_token(new_token)
+```
+
+### SmartbillsPermissionError (403)
+
+Raised when the authenticated user lacks permission for the requested action.
+
+```python
+from smartbills.errors import SmartbillsPermissionError
+
+try:
+    await client.expense_reports.approve(report_id=123)
+except SmartbillsPermissionError:
+    print("You do not have permission to approve this report")
+```
+
+### SmartbillsNotFoundError (404)
+
+Raised when the requested resource does not exist.
+
+```python
+from smartbills.errors import SmartbillsNotFoundError
+
+try:
+    expense = await client.expenses.get_by_id(expense_id=99999)
+except SmartbillsNotFoundError:
+    print("Expense not found")
+```
+
+### SmartbillsConflictError (409)
+
+Raised when the request conflicts with the current state of the resource.
+
+```python
+from smartbills.errors import SmartbillsConflictError
+
+try:
+    await client.expense_reports.submit(report_id=123)
+except SmartbillsConflictError:
+    print("Report is already submitted or in an incompatible state")
+```
+
+### SmartbillsRateLimitError (429)
+
+Raised when the API rate limit is exceeded. Includes a `retry_after` hint.
+
+```python
+from smartbills.errors import SmartbillsRateLimitError
+
+try:
+    await client.expenses.list_business()
+except SmartbillsRateLimitError as e:
+    print(f"Rate limited. Retry after {e.retry_after} seconds")
+```
+
+### SmartbillsQuotaError (402/403)
+
+Raised when the business has exceeded its plan quota.
+
+```python
+from smartbills.errors import SmartbillsQuotaError
+
+try:
+    await client.expenses.upload(files=file_data)
+except SmartbillsQuotaError:
+    print("Upload quota exceeded. Please upgrade your plan.")
+```
+
+## Comprehensive error handler
+
+```python
+from smartbills.errors import (
+    SmartbillsApiError,
+    SmartbillsAuthenticationError,
+    SmartbillsConflictError,
+    SmartbillsNotFoundError,
+    SmartbillsPermissionError,
+    SmartbillsQuotaError,
+    SmartbillsRateLimitError,
+    SmartbillsValidationError,
+)
+
+async def safe_api_call(coro):
+    try:
+        return await coro
+    except SmartbillsValidationError as e:
+        print(f"Validation error: {e.errors}")
+    except SmartbillsAuthenticationError:
+        print("Authentication failed -- token may be expired")
+    except SmartbillsPermissionError:
+        print("Permission denied")
+    except SmartbillsNotFoundError:
+        print("Resource not found")
+    except SmartbillsConflictError:
+        print("State conflict -- resource may have changed")
+    except SmartbillsRateLimitError as e:
+        print(f"Rate limited -- retry after {e.retry_after}s")
+    except SmartbillsQuotaError:
+        print("Plan quota exceeded")
+    except SmartbillsApiError as e:
+        print(f"API error ({e.status_code}): {e}")
+    return None
+```
+
+## Retry pattern
+
+The SDK has built-in retry for transient errors (429, 5xx, network errors). For additional control, implement your own retry logic:
+
+```python
+import asyncio
+from smartbills.errors import SmartbillsApiError, SmartbillsRateLimitError
+
+async def with_retry(coro_fn, max_retries=3):
+    for attempt in range(max_retries + 1):
+        try:
+            return await coro_fn()
+        except SmartbillsRateLimitError as e:
+            if attempt == max_retries:
+                raise
+            wait = e.retry_after or (2 ** attempt)
+            await asyncio.sleep(wait)
+        except SmartbillsApiError as e:
+            if attempt == max_retries or (e.status_code and e.status_code < 500):
+                raise
+            await asyncio.sleep(2 ** attempt)
+
+# Usage
+expenses = await with_retry(
+    lambda: client.expenses.list_business()
+)
+```
+
+## Automatic retry behavior
+
+The SDK automatically retries the following scenarios:
+
+| Scenario | Behavior |
+|----------|----------|
+| **429 Too Many Requests** | Waits for `Retry-After` header, then retries |
+| **5xx Server Errors** | Retries with exponential back-off (delay * 2^attempt) |
+| **Connection errors** | Retries with exponential back-off |
+| **Read/Write timeouts** | Retries with exponential back-off |
+
+Non-retryable errors (400, 401, 403, 404, 409) are raised immediately without retry.
+
+The maximum number of retries and base delay are configured via `SmartbillsClientOptions`:
+
+```python
+options = SmartbillsClientOptions(
+    max_retries=3,     # default
+    retry_delay=1.0,   # seconds, default
+)
+```
+
+## Inspecting raw responses
+
+All errors include the raw response body and headers for debugging:
+
+```python
+try:
+    await client.expenses.get_by_id(expense_id=99999)
+except SmartbillsApiError as e:
+    print(f"Status: {e.status_code}")
+    print(f"Body: {e.body}")
+    print(f"Headers: {e.headers}")
+```

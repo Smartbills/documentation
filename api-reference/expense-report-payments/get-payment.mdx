@@ -1,0 +1,150 @@
+---
+title: "Plan Reimbursement"
+description: "Schedule a planned reimbursement date for an expense report"
+api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/payments/plan-reimbursement"
+---
+
+## Overview
+
+Schedule a planned reimbursement date for an approved expense report. This sets an expected payment date and notifies the employee when to expect reimbursement, without processing the actual payment.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  The unique identifier of the expense report
+</ParamField>
+
+## Request Body
+
+<ParamField body="plannedDate" type="string" required>
+  Planned reimbursement date (ISO 8601 format: YYYY-MM-DD). Must be a future date.
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notes about the planned reimbursement (e.g., payment cycle details)
+</ParamField>
+
+## Response
+
+<ResponseField name="id" type="integer">
+  Planned reimbursement record ID
+</ResponseField>
+
+<ResponseField name="reportId" type="integer">
+  ID of the expense report
+</ResponseField>
+
+<ResponseField name="plannedDate" type="string">
+  Scheduled reimbursement date
+</ResponseField>
+
+<ResponseField name="notes" type="string">
+  Planning notes
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status: `reimbursement_planned`
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Timestamp when the plan was created (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/789/payments/plan-reimbursement \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "plannedDate": "2024-02-28",
+    "notes": "Scheduled for end-of-month payroll cycle"
+  }'
+```
+
+```javascript JavaScript
+const plan = await client.expenseReportPayments.planReimbursement(789, {
+  plannedDate: "2024-02-28",
+  notes: "Scheduled for end-of-month payroll cycle"
+});
+```
+
+```python Python
+plan = client.expense_report_payments.plan_reimbursement(
+    report_id=789,
+    request={
+        "planned_date": "2024-02-28",
+        "notes": "Scheduled for end-of-month payroll cycle"
+    }
+)
+```
+
+```csharp C#
+var plan = await client.ExpenseReportPayments.PlanReimbursementAsync(789, new PlanReimbursementRequest
+{
+    PlannedDate = "2024-02-28",
+    Notes = "Scheduled for end-of-month payroll cycle"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 503,
+  "reportId": 789,
+  "plannedDate": "2024-02-28",
+  "notes": "Scheduled for end-of-month payroll cycle",
+  "status": "reimbursement_planned",
+  "createdAt": "2024-02-01T11:00:00Z"
+}
+```
+
+</ResponseExample>
+
+## Validation Rules
+
+- The report must be in `approved` status
+- `plannedDate` must be a future date
+- Only one active planned reimbursement can exist per report
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | REPORT_NOT_APPROVED | Report must be approved before planning reimbursement |
+| 400 | INVALID_DATE | Planned date must be in the future |
+| 400 | PLAN_ALREADY_EXISTS | A reimbursement plan already exists for this report |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions |
+| 404 | REPORT_NOT_FOUND | Report does not exist |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Reimburse Report" icon="money-bill" href="/api-reference/expense-report-payments/list-payments">
+    Process the full reimbursement
+  </Card>
+  <Card title="Partial Reimbursement" icon="divide" href="/api-reference/expense-report-payments/create-payment">
+    Reimburse specific expenses
+  </Card>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve report details
+  </Card>
+  <Card title="List Reports" icon="list" href="/api-reference/expense-reports/list-reports">
+    View all expense reports
+  </Card>
+</CardGroup>

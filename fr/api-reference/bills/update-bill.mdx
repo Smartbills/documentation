@@ -1,0 +1,241 @@
+---
+title: "Mettre à jour une facture"
+description: "Mettre à jour une facture existante"
+api: "PUT https://api.smartbills.io/v1/bills/{billId}"
+---
+
+## Aperçu
+
+Mettre à jour les détails d'une facture existante. Vous pouvez modifier n'importe quel champ, y compris les éléments de ligne. Seules les factures au statut `draft` ou `pending` peuvent être mises à jour.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="billId" type="integer" required>
+  L'identifiant unique de la facture à mettre à jour
+</ParamField>
+
+## Corps de la requête
+
+Tous les champs sont optionnels. Seuls les champs fournis seront mis à jour.
+
+<ParamField body="vendorId" type="integer">
+  Identifiant du fournisseur mis à jour
+</ParamField>
+
+<ParamField body="billNumber" type="string">
+  Numéro de référence de la facture mis à jour
+</ParamField>
+
+<ParamField body="amount" type="number">
+  Montant total mis à jour
+</ParamField>
+
+<ParamField body="currency" type="string">
+  Code de devise mis à jour (ISO 4217)
+</ParamField>
+
+<ParamField body="dueDate" type="string">
+  Date d'échéance mise à jour (AAAA-MM-JJ)
+</ParamField>
+
+<ParamField body="issueDate" type="string">
+  Date d'émission mise à jour (AAAA-MM-JJ)
+</ParamField>
+
+<ParamField body="status" type="string">
+  Statut mis à jour. Options : `draft`, `pending`, `paid`, `cancelled`
+</ParamField>
+
+<ParamField body="notes" type="string">
+  Notes mises à jour
+</ParamField>
+
+<ParamField body="lineItems" type="array">
+  Remplace tous les éléments de ligne existants par ce tableau
+  <Expandable title="Objet Élément de ligne">
+    <ParamField body="description" type="string" required>
+      Description de l'article
+    </ParamField>
+    <ParamField body="quantity" type="number" required>
+      Quantité
+    </ParamField>
+    <ParamField body="unitPrice" type="number" required>
+      Prix unitaire
+    </ParamField>
+    <ParamField body="categoryId" type="integer">
+      Identifiant de catégorie
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="taxAmount" type="number">
+  Montant des taxes mis à jour
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Métadonnées personnalisées mises à jour
+</ParamField>
+
+## Réponse
+
+Retourne l'objet de facture complet mis à jour.
+
+<ResponseField name="id" type="integer">
+  Identifiant de la facture
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  Identifiant de l'entreprise
+</ResponseField>
+
+<ResponseField name="vendorId" type="integer">
+  Identifiant du fournisseur
+</ResponseField>
+
+<ResponseField name="billNumber" type="string">
+  Numéro de référence de la facture
+</ResponseField>
+
+<ResponseField name="amount" type="number">
+  Montant total
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Code de devise
+</ResponseField>
+
+<ResponseField name="dueDate" type="string">
+  Date d'échéance
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut de la facture
+</ResponseField>
+
+<ResponseField name="lineItems" type="array">
+  Éléments de ligne mis à jour
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/bills/3001 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "amount": 1600.00,
+    "dueDate": "2024-03-01",
+    "notes": "Updated - added rush delivery surcharge",
+    "status": "pending"
+  }'
+```
+
+```javascript JavaScript
+const bill = await client.bills.update(3001, {
+  amount: 1600.00,
+  dueDate: "2024-03-01",
+  notes: "Updated - added rush delivery surcharge",
+  status: "pending"
+});
+```
+
+```python Python
+bill = client.bills.update(
+    bill_id=3001,
+    amount=1600.00,
+    due_date="2024-03-01",
+    notes="Updated - added rush delivery surcharge",
+    status="pending"
+)
+```
+
+```csharp C#
+var bill = await client.Bills.UpdateAsync(3001, new BillUpdateRequest
+{
+    Amount = 1600.00m,
+    DueDate = "2024-03-01",
+    Notes = "Updated - added rush delivery surcharge",
+    Status = "pending"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 3001,
+  "businessId": 456,
+  "vendorId": 200,
+  "billNumber": "INV-2024-0042",
+  "amount": 1600.00,
+  "currency": "USD",
+  "dueDate": "2024-03-01",
+  "issueDate": "2024-01-15",
+  "status": "pending",
+  "notes": "Updated - added rush delivery surcharge",
+  "lineItems": [
+    {
+      "id": 1,
+      "description": "Copy Paper - Case (10 reams)",
+      "quantity": 5,
+      "unitPrice": 45.00,
+      "amount": 225.00,
+      "categoryId": 5
+    },
+    {
+      "id": 2,
+      "description": "Printer Toner Cartridges",
+      "quantity": 10,
+      "unitPrice": 89.50,
+      "amount": 895.00,
+      "categoryId": 5
+    }
+  ],
+  "taxAmount": 70.00,
+  "subtotal": 1120.00,
+  "createdAt": "2024-01-20T10:00:00Z",
+  "updatedAt": "2024-01-22T14:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_FAILED | Données de requête invalides |
+| 400 | BILL_NOT_EDITABLE | La facture ne peut pas être modifiée dans son statut actuel |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes |
+| 404 | BILL_NOT_FOUND | La facture n'existe pas |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Obtenir une facture" icon="eye" href="/api-reference/bills/get-bill">
+    Récupérer une facture par identifiant
+  </Card>
+  <Card title="Lister les factures" icon="list" href="/api-reference/bills/list-bills">
+    Obtenir toutes les factures
+  </Card>
+  <Card title="Créer une facture" icon="plus" href="/api-reference/bills/create-bill">
+    Créer une nouvelle facture
+  </Card>
+  <Card title="Supprimer une facture" icon="trash" href="/api-reference/bills/delete-bill">
+    Supprimer une facture
+  </Card>
+</CardGroup>

@@ -1,0 +1,91 @@
+---
+title: "Attachment Model"
+description: "Complete schema reference for the Attachment object"
+---
+
+## Attachment
+
+The Attachment object represents a file uploaded to Smartbills, such as a receipt image, invoice PDF, or supporting document. Attachments are linked to expenses, bills, and other entities.
+
+## Properties
+
+<ResponseField name="id" type="integer">
+  Unique identifier for the attachment
+</ResponseField>
+
+<ResponseField name="filename" type="string">
+  Original filename as uploaded (e.g., `receipt_jan15.pdf`)
+</ResponseField>
+
+<ResponseField name="url" type="string">
+  Full URL to download the attachment. URLs are signed and expire after 1 hour.
+</ResponseField>
+
+<ResponseField name="thumbnailUrl" type="string">
+  URL for a thumbnail preview of the attachment. Available for image files (JPG, PNG, HEIC). `null` for non-image files such as PDFs.
+</ResponseField>
+
+<ResponseField name="contentType" type="string">
+  MIME type of the file (e.g., `image/jpeg`, `application/pdf`, `image/png`)
+</ResponseField>
+
+<ResponseField name="size" type="integer">
+  File size in bytes
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Timestamp when the attachment was uploaded (ISO 8601)
+</ResponseField>
+
+## Supported File Types
+
+| Type | MIME Type | Max Size |
+|------|-----------|----------|
+| JPEG | `image/jpeg` | 10 MB |
+| PNG | `image/png` | 10 MB |
+| HEIC | `image/heic` | 10 MB |
+| PDF | `application/pdf` | 25 MB |
+| TIFF | `image/tiff` | 15 MB |
+
+## Example
+
+```json
+{
+  "id": 401,
+  "filename": "receipt_office_depot.jpg",
+  "url": "https://cdn.smartbills.io/receipts/abc123.jpg",
+  "thumbnailUrl": "https://cdn.smartbills.io/receipts/abc123_thumb.jpg",
+  "contentType": "image/jpeg",
+  "size": 245000,
+  "createdAt": "2024-01-15T14:30:00Z"
+}
+```
+
+```json PDF Attachment
+{
+  "id": 402,
+  "filename": "invoice-2024-0042.pdf",
+  "url": "https://cdn.smartbills.io/bills/invoice-2024-0042.pdf",
+  "thumbnailUrl": null,
+  "contentType": "application/pdf",
+  "size": 1250000,
+  "createdAt": "2024-01-20T10:00:00Z"
+}
+```
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Upload Expense" icon="cloud-arrow-up" href="/api-reference/expenses/upload-expense">
+    Upload a receipt to create an expense
+  </Card>
+  <Card title="Download Attachment" icon="download" href="/api-reference/expenses/download-attachment">
+    Download a single attachment
+  </Card>
+  <Card title="Download All" icon="file-zipper" href="/api-reference/expenses/download-attachments">
+    Download all attachments as ZIP
+  </Card>
+  <Card title="Get Expense" icon="eye" href="/api-reference/expenses/get-expense">
+    View expense with attachments
+  </Card>
+</CardGroup>

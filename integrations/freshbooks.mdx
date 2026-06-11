@@ -1,133 +1,128 @@
 ---
-title: "FreshBooks Integration"
-description: "Connect Smartbills with FreshBooks accounting software"
+title: "FreshBooks"
+description: "Sync expenses, clients, and projects between Smartbills and FreshBooks"
 ---
 
 ## Overview
 
-Integrate Smartbills with FreshBooks to automatically sync expenses, expense reports, and reimbursements with your FreshBooks account.
+The FreshBooks integration connects Smartbills with your FreshBooks account to sync expenses, clients, and project data. Approved expenses are exported to FreshBooks as expense entries, with support for client billing and project tracking.
 
-## Features
+<Frame>
+  <img src="/images/integrations/freshbooks/overview.png" alt="FreshBooks integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Expense Sync** | Export expenses as FreshBooks expenses |
-| **Expense Reports** | Sync reports as journal entries |
-| **Reimbursements** | Track reimbursement payments |
-| **Vendor Sync** | Sync vendors as FreshBooks clients |
-| **Tax Mapping** | Map GST, HST, PST, QST tax codes |
-| **Receipt Attachments** | Attach receipt images to expenses |
-| **Bidirectional Sync** | Import and export data both ways |
+| **Expense Export** | Sync approved expenses to FreshBooks expense entries |
+| **Client Mapping** | Link Smartbills vendors to FreshBooks clients |
+| **Project Tracking** | Associate expenses with FreshBooks projects |
+| **Category Sync** | Map expense categories between systems |
+| **Receipt Attachments** | Attach receipt images to FreshBooks expenses |
+| **Billable Expenses** | Mark expenses as billable to clients |
+| **Tax Mapping** | Sync tax rates and codes |
+| **Invoice Matching** | Match expenses to FreshBooks invoices |
 
-## Setup
-
-### Prerequisites
+## Prerequisites
 
 - FreshBooks account (Plus plan or higher)
 - Smartbills Business plan or higher
-- Admin access to both systems
+- Admin access in both systems
 
-### Connect FreshBooks
+## Setup
 
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in your Smartbills dashboard
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **FreshBooks**.
   </Step>
-  <Step title="Find FreshBooks">
-    Search for FreshBooks in the marketplace
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your FreshBooks account. Authorize Smartbills to access your data.
+
+    <Frame>
+      <img src="/images/integrations/freshbooks/authorize.png" alt="FreshBooks authorization screen" />
+    </Frame>
   </Step>
-  <Step title="Click Connect">
-    Click the **Connect** button to start the OAuth flow
+  <Step title="Select Business">
+    Choose the FreshBooks business to connect if you have multiple.
   </Step>
-  <Step title="Authorize">
-    Sign in to FreshBooks and authorize Smartbills access
+  <Step title="Map Categories">
+    Map Smartbills categories to FreshBooks expense categories.
   </Step>
-  <Step title="Configure Sync">
-    Configure which data to sync and set up account mappings
+  <Step title="Configure Settings">
+    Set sync preferences, default project assignment, and billable defaults.
   </Step>
 </Steps>
 
 ## Configuration
 
-### Sync Settings
+### Category Mapping
 
-Control what data is synchronized:
+| Smartbills Category | FreshBooks Category |
+|---------------------|---------------------|
+| Travel | Travel |
+| Meals | Meals and Entertainment |
+| Office Supplies | Office Expenses |
+| Software | Online Services |
 
-| Setting | Description | Default |
-|---------|-------------|---------|
-| Sync Expenses | Export business expenses | Enabled |
-| Sync Expense Reports | Export reports as journal entries | Enabled |
-| Sync Reimbursements | Track reimbursement payments | Enabled |
-| Auto-create Vendors | Create vendors when not found | Enabled |
-| Push on Approval | Auto-export when approved | Enabled |
-| Attach Receipts | Include receipt images | Enabled |
+### Client Mapping
+
+| Mode | Behavior |
+|------|----------|
+| **Auto-match** | Match clients by name automatically |
+| **Manual** | Map clients individually |
+| **Create new** | Create missing clients in FreshBooks |
+
+### Billable Settings
+
+| Setting | Options |
+|---------|---------|
+| Default billable status | Mark all expenses as billable or non-billable |
+| Client assignment | Require client assignment for billable expenses |
+| Markup percentage | Apply markup when billing expenses to clients |
 
 ### Tax Mapping
 
-FreshBooks supports two tax fields per expense line:
+FreshBooks supports two tax fields per line item:
 
 | Smartbills Tax | FreshBooks Tax 1 | FreshBooks Tax 2 |
-|---------------|-------------------|-------------------|
-| GST (5%) | GST | - |
-| HST (13%) | HST | - |
+|----------------|------------------|------------------|
+| GST (5%) | GST | -- |
+| HST (13%) | HST | -- |
 | QST (9.975%) | GST | QST |
 | PST + GST | GST | PST |
 
-### Account Mapping
+## Data Sync
 
-Map Smartbills categories to FreshBooks expense categories:
-
-| Smartbills Category | FreshBooks Category |
-|--------------------|---------------------|
-| Travel | Travel Expenses |
-| Meals | Meals & Entertainment |
-| Office Supplies | Office Expenses |
-| Software | Computer & Internet |
-
-## Sync Behavior
-
-### What Gets Synced
-
-| Smartbills Entity | FreshBooks Entity |
-|-------------------|-------------------|
-| Business Expense | Expense |
-| Expense Report | Journal Entry |
-| Reimbursement | Payment |
-| Vendor | Client |
-| Receipt | Attachment |
-
-### Sync Timing
-
-| Trigger | Description |
-|---------|-------------|
-| On Approval | Automatically when expense/report is approved |
-| On Reimbursement | When reimbursement is processed |
-| Manual | Trigger sync from the integration settings |
-| Initial Sync | Full sync when first connected |
-
-## Webhook Events
-
-Smartbills listens for the following FreshBooks events:
-
-| Event | Action |
-|-------|--------|
-| `expense.create` | Import new expense |
-| `expense.update` | Update synced expense |
-| `client.create` | Import new vendor |
+| Smartbills | FreshBooks | Direction | Frequency |
+|-----------|------------|-----------|-----------|
+| Approved expenses | Expense entries | Smartbills -> FreshBooks | Real-time or scheduled |
+| Vendors | Clients | FreshBooks -> Smartbills | On demand |
+| Projects | Projects | FreshBooks -> Smartbills | On demand |
+| Categories | Expense categories | FreshBooks -> Smartbills | On demand |
+| Tax rates | Tax rates | FreshBooks -> Smartbills | On demand |
+| Receipt images | Attachments | Smartbills -> FreshBooks | With expense export |
 
 ## Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Connection lost | Reconnect via Settings > Apps |
-| Tax mismatch | Verify tax mapping configuration |
-| Duplicate expenses | Check sync direction settings |
-| Missing vendor | Enable auto-create vendors |
+<AccordionGroup>
+  <Accordion title="Connection issues">
+    FreshBooks OAuth tokens may expire. Reconnect from **Settings > Apps > FreshBooks**.
+  </Accordion>
 
-<Warning>
-FreshBooks has API rate limits. Large initial syncs may take several minutes to complete.
-</Warning>
+  <Accordion title="Client not found">
+    Enable auto-match or manually map the client in the integration settings.
+  </Accordion>
 
-<Tip>
-**Set up tax mapping first** - Configure your tax codes before enabling expense sync to avoid mismatched tax entries.
-</Tip>
+  <Accordion title="Project not syncing">
+    Ensure the project is active in FreshBooks. Archived projects are not available for mapping.
+  </Accordion>
+
+  <Accordion title="Duplicate expenses">
+    Check that only one sync method is active. Disable scheduled sync if using real-time, or vice versa.
+  </Accordion>
+
+  <Accordion title="Tax amounts incorrect">
+    Verify tax code mappings. FreshBooks applies taxes at the line-item level, so ensure each tax field is mapped correctly.
+  </Accordion>
+</AccordionGroup>

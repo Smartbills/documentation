@@ -1,0 +1,201 @@
+---
+title: "Vendors"
+description: "Complete reference for the VendorService in the Smartbills JavaScript SDK -- CRUD, batch operations, merge, and CSV import."
+---
+
+# Vendors
+
+The `VendorService` (`client.vendors`) manages supplier records used for expense categorization and bill management. Operations are available at both the user level (across all businesses) and the business level.
+
+## User-level operations
+
+User-level vendor operations work across all businesses associated with the authenticated user.
+
+### List vendors
+
+```typescript
+const { data: vendors, pagination } = await client.vendors.list({
+  page: 1,
+  limit: 50,
+});
+```
+
+### Get a vendor
+
+```typescript
+const vendor = await client.vendors.getById(vendorId);
+console.log(vendor.name, vendor.email);
+```
+
+### Create a vendor
+
+```typescript
+const vendor = await client.vendors.create({
+  name: 'Acme Supplies',
+  email: 'billing@acme.com',
+});
+```
+
+### Update a vendor
+
+```typescript
+const updated = await client.vendors.update(vendorId, {
+  name: 'Acme Supplies Inc.',
+  phone: '555-0123',
+});
+```
+
+### Delete a vendor
+
+```typescript
+const deleted = await client.vendors.delete(vendorId);
+```
+
+### Upload vendor logo
+
+```typescript
+const updated = await client.vendors.uploadLogo(vendorId, logoFile);
+```
+
+## Business-level operations
+
+Business-level operations scope vendors to the current business context.
+
+### List business vendors
+
+```typescript
+const { data: vendors } = await client.vendors.listBusiness({
+  limit: 100,
+});
+```
+
+### Get a business vendor
+
+```typescript
+const vendor = await client.vendors.getBusinessVendor(vendorId);
+```
+
+### Create a business vendor
+
+```typescript
+const vendor = await client.vendors.createBusiness({
+  name: 'Office Depot',
+  category: 'Office Supplies',
+});
+```
+
+### Update a business vendor
+
+```typescript
+const updated = await client.vendors.updateBusiness(vendorId, {
+  name: 'Office Depot (Main)',
+});
+```
+
+### Delete a business vendor
+
+```typescript
+const deleted = await client.vendors.deleteBusiness(vendorId);
+```
+
+### Refresh vendor data
+
+Re-sync vendor data from connected sources:
+
+```typescript
+await client.vendors.refreshBusiness(vendorId);
+```
+
+### Upload business vendor logo
+
+```typescript
+const updated = await client.vendors.uploadBusinessLogo(vendorId, logoFile);
+```
+
+## Batch operations
+
+### Batch create
+
+Create multiple vendors in a single request:
+
+```typescript
+const vendors = await client.vendors.batchCreate([
+  { name: 'Vendor A' },
+  { name: 'Vendor B' },
+  { name: 'Vendor C' },
+]);
+console.log(`Created ${vendors.length} vendors`);
+```
+
+### Batch update
+
+```typescript
+const updated = await client.vendors.batchUpdate([
+  { id: 1, name: 'Vendor A (Updated)' },
+  { id: 2, category: 'Consulting' },
+]);
+```
+
+## Bulk delete
+
+Delete multiple vendors at once:
+
+```typescript
+const result = await client.vendors.bulkDelete({
+  vendorIds: [10, 11, 12],
+});
+console.log(`Deleted: ${result.succeeded}, Failed: ${result.failed}`);
+```
+
+## Merge vendors
+
+Combine duplicate vendor records into one. All expenses, bills, and history from the source vendors are moved to the target vendor.
+
+```typescript
+const merged = await client.vendors.merge({
+  targetVendorId: 1,
+  sourceVendorIds: [2, 3, 4],
+});
+console.log(`Merged into vendor: ${merged.name}`);
+```
+
+## CSV import
+
+Import vendors from a CSV file:
+
+```typescript
+const result = await client.vendors.importCsv(csvFile);
+console.log(`Imported: ${result.created}, Errors: ${result.errors?.length}`);
+```
+
+### Download import template
+
+Get the expected CSV format:
+
+```typescript
+const templateBlob = await client.vendors.downloadImportTemplate();
+```
+
+## Method reference
+
+| Method | Parameters | Returns |
+|--------|-----------|---------|
+| `list` | `params?`, `options?` | `SBListResponse<SBVendor>` |
+| `getById` | `id`, `options?` | `SBVendor` |
+| `create` | `data`, `options?` | `SBVendor` |
+| `update` | `id`, `data`, `options?` | `SBVendor` |
+| `delete` | `id`, `options?` | `SBVendor` |
+| `listBusiness` | `params?`, `options?` | `SBListResponse<SBVendor>` |
+| `getBusinessVendor` | `vendorId`, `options?` | `SBVendor` |
+| `createBusiness` | `data`, `options?` | `SBVendor` |
+| `updateBusiness` | `vendorId`, `data`, `options?` | `SBVendor` |
+| `deleteBusiness` | `vendorId`, `options?` | `SBVendor` |
+| `refreshBusiness` | `vendorId`, `options?` | `void` |
+| `batchCreate` | `data[]`, `options?` | `SBVendor[]` |
+| `batchUpdate` | `data[]`, `options?` | `SBVendor[]` |
+| `bulkDelete` | `data`, `options?` | `SBVendorBulkActionResponse` |
+| `merge` | `data`, `options?` | `SBVendor` |
+| `importCsv` | `file`, `options?` | `SBVendorImportResult` |
+| `downloadImportTemplate` | `options?` | `Blob` |
+| `uploadLogo` | `vendorId`, `file`, `options?` | `SBVendor` |
+| `uploadBusinessLogo` | `vendorId`, `file`, `options?` | `SBVendor` |

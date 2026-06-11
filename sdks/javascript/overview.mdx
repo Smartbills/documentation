@@ -1,0 +1,77 @@
+---
+title: "JavaScript SDK Overview"
+description: "Official JavaScript/TypeScript SDK for the Smartbills API -- build expense management, bill processing, and vendor workflows into your applications."
+---
+
+# JavaScript / TypeScript SDK
+
+The `@smartbills/sdk` package provides a fully typed TypeScript client for the Smartbills REST API. It handles authentication, pagination, file uploads, error mapping, and automatic retries so you can focus on building your integration.
+
+## Features
+
+- Full TypeScript type definitions for every request and response
+- Automatic retry with exponential back-off on transient failures
+- Structured error hierarchy with type guard helpers
+- Multi-tenant support via `businessId` context
+- Locale-aware responses (`en-CA`, `fr-CA`)
+- ESM and CommonJS dual-module builds
+- FormData-based file uploads and presigned S3 upload flow
+
+## Quick start
+
+```typescript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123,
+  locale: 'en-CA',
+});
+
+// List recent expenses
+const { data: expenses, pagination } = await client.expenses.listBusiness({
+  limit: 25,
+  page: 1,
+});
+console.log(`Found ${pagination.count} expenses`);
+
+// Create an expense report
+const report = await client.expenseReports.create({
+  name: 'Q1 Travel Expenses',
+});
+
+// Upload a receipt
+const formData = new FormData();
+formData.append('files', receiptFile);
+const uploaded = await client.expenses.uploadBusiness(formData);
+```
+
+## Available services
+
+The `SmartbillsClient` exposes the following service objects. Each service groups related API operations.
+
+| Service | Property | Description |
+|---------|----------|-------------|
+| Expenses | `client.expenses` | List, upload, update, split, export, and bulk-manage expenses |
+| Expense Reports | `client.expenseReports` | Create, submit, approve, reject, and reimburse expense reports |
+| Report Expenses | `client.expenseReportExpenses` | Add, remove, and edit expenses within a report |
+| Report Payments | `client.expenseReportPayments` | Reimburse and plan reimbursements for reports |
+| Approbations | `client.approbations` | Manage approval workflows |
+| Bills | `client.bills` | Full accounts-payable lifecycle (draft, approval, payment, cancellation) |
+| Vendors | `client.vendors` | CRUD, batch operations, merge, CSV import |
+| Employees | `client.employees` | Employee management within a business |
+| Businesses | `client.businesses` | Business entity management |
+| Categories | `client.categories` | Expense category management |
+| Receipts | `client.receipts` | Receipt processing and management |
+
+## Requirements
+
+- **Node.js** 18 or later
+- **TypeScript** 5.0 or later (optional but recommended)
+
+## Next steps
+
+- [Installation](/sdks/javascript/installation) -- install the package and configure your environment
+- [Authentication](/sdks/javascript/authentication) -- set up credentials and multi-tenant context
+- [Expenses](/sdks/javascript/expenses) -- full expense service reference
+- [Error Handling](/sdks/javascript/error-handling) -- understand the error hierarchy and write resilient code

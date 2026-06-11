@@ -1,0 +1,87 @@
+---
+title: "Rappeler un Rapport"
+description: "Retirez un rapport de dépenses soumis pour modifications"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/reports/recall-report.png" alt="Page de détail du rapport soumis avec le bouton Rappeler mis en surbrillance" />
+</Frame>
+
+## Introduction
+
+Si vous avez soumis un rapport de dépenses et devez apporter des modifications -- par exemple, ajouter une dépense manquante, corriger un montant ou mettre à jour la justification d'affaires -- vous pouvez rappelér le rapport. Rappeler un rapport le retire de la file d'approbation et le ramene au statut **Brouillon** pour que vous puissiez le modifier librement avant de le soumettre à nouveau.
+
+## Quand rappelér
+
+Raisons courantes de rappelér un rapport :
+
+- Vous avez oublie d'inclure une dépense
+- Une dépense à un montant ou une catégorie incorrect
+- Vous devez ajouter ou mettre à jour la justification d'affaires
+- Vous avez accidentellement soumis avant que le rapport soit pret
+- Vous devez retirer une dépense qui n'a pas sa place
+
+## Rappeler un rapport soumis
+
+<Steps>
+  <Step title="Ouvrir le rapport soumis">
+    Naviguez vers **Mes Rapports de Dépenses** dans la barre latérale et cliquez sur le rapport que vous souhaitez rappelér. Le rapport doit être au statut **Soumis**.
+  </Step>
+  <Step title="Cliquer sur Rappeler">
+    Cliquez sur le bouton **Rappeler** en haut de la page de détail du rapport. Ce bouton est visible uniquement sur les rapports au statut **Soumis**.
+
+    <Frame>
+      <img src="/images/guides/web-app/reports/recall-button.png" alt="Bouton Rappeler sur un rapport soumis" />
+    </Frame>
+  </Step>
+  <Step title="Confirmer le rappel">
+    Une boîte de dialogue de confirmation apparaît vous demandant de confirmer. Cliquez sur **Confirmer** pour continuer. Le rapport est retire de la file d'approbation.
+  </Step>
+  <Step title="Le rapport revient au statut Brouillon">
+    Le statut du rapport redevient **Brouillon**. Vous pouvez maintenant :
+    - Ajouter ou retirer des dépenses
+    - Modifier les détails des dépenses
+    - Mettre à jour le titre, la description ou la plage de dates du rapport
+    - Corriger tout probleme ayant motive le rappel
+  </Step>
+  <Step title="Soumettre à nouveau quand pret">
+    Après avoir effectue vos modifications, suivez le guide [Soumettre un Rapport](/fr/guides/web-app/reports/submit-report) pour soumettre le rapport à nouveau.
+  </Step>
+</Steps>
+
+## Limitations importantes
+
+<Warning>
+  Vous pouvez uniquement rappelér un rapport tant qu'il est au statut **Soumis**. Une fois qu'un approbateur l'a fait passer à **En revision**, **Approuve** ou **Rejete**, l'option de rappel n'est plus disponible.
+</Warning>
+
+Si votre rapport à deja été approuvé et que vous devez apporter des modifications, contactez directement votre gestionnaire ou administrateur. Ils pourront peut-être rouvrir le rapport ou en créer un nouveau.
+
+Si votre rapport à été rejete, il vous est automatiquement retourné pour corrections et n'a pas besoin d'etre rappelé. Vous pouvez le modifier directement et le soumettre à nouveau.
+
+## Chronologie des statuts de rappel
+
+| Action | Statut avant | Statut après |
+|--------|-------------|-------------|
+| Soumettre | Brouillon | Soumis |
+| Rappeler | Soumis | Brouillon |
+| Soumettre à nouveau | Brouillon | Soumis |
+
+La chronologie du rapport enregistre chaque rappel et resoumission, permettant à votre approbateur de voir l'historique complet des modifications.
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Soumettre un Rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Soumettre à nouveau votre rapport après modifications
+  </Card>
+  <Card title="Ajouter des Dépenses" icon="plus" href="/fr/guides/web-app/reports/add-expenses">
+    Ajouter les dépenses manquantes à votre rapport rappelé
+  </Card>
+  <Card title="Aperçu des Rapports de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
+    Comprendre le cycle de vie complet des rapports
+  </Card>
+  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
+    Comprendre le fonctionnement du processus d'approbation
+  </Card>
+</CardGroup>

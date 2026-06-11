@@ -1,0 +1,50 @@
+---
+title: "Obtenir un webhook"
+description: "Récupérer un point de terminaison webhook par ID"
+api: "GET /v1/webhooks/{id}"
+---
+
+## Obtenir un webhook
+
+Récupérer les détails d'un point de terminaison webhook enregistré.
+
+## Requête
+
+```bash
+GET /v1/webhooks/{id}
+```
+
+### Paramètres de chemin
+
+| Paramètre | Type | Description |
+|-----------|------|-------------|
+| `id` | string | L'identifiant du webhook |
+
+### Exemple de requête
+
+```bash
+curl https://api.smartbills.io/v1/webhooks/wh_abc123 \
+  -H "Authorization: Bearer sk_live_xxxxx"
+```
+
+## Réponse
+
+```json
+{
+  "data": {
+    "id": "wh_abc123",
+    "url": "https://your-app.com/webhooks",
+    "events": ["expense.created", "report.submitted"],
+    "description": "Production webhook",
+    "enabled": true,
+    "createdAt": "2025-01-15T10:30:00Z"
+  }
+}
+```
+
+## Erreurs
+
+| Code | Description |
+|------|-------------|
+| 404 | Webhook non trouvé |
+| 403 | Non autorisé à accéder à ce webhook |

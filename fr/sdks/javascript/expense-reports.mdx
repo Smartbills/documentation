@@ -1,0 +1,289 @@
+---
+title: "Rapports de Dépenses"
+description: "Référence complète de la gestion des rapports de dépenses dans le SDK JavaScript Smartbills -- créer, soumettre, approuver, rejeter, rembourser et exporter."
+---
+
+# Rapports de Dépenses
+
+L'API des rapports de dépenses couvre trois services :
+
+- **`client.expenseReports`** -- cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
+- **`client.expenseReportExpenses`** -- gérer les dépenses au sein d'un rapport
+- **`client.expenseReportPayments`** -- opérations de remboursement et de paiement
+
+## ExpenseReportService
+
+### Lister les rapports
+
+```typescript
+// Lister tous les rapports de l'entreprise
+const { data: reports, pagination } = await client.expenseReports.list({
+  page: 1,
+  limit: 20,
+});
+
+// Rapports d'un employé
+const { data: empReports } = await client.expenseReports.listForEmployée(employéeId, {
+  limit: 10,
+});
+
+// Mes rapports
+const myReports = await client.expenseReports.getMine({ status: 'draft' });
+
+// Rapports en attente d'approbation
+const pendingApprovals = await client.expenseReports.getPendingApprovals();
+```
+
+### Obtenir un rapport
+
+```typescript
+const report = await client.expenseReports.getById(reportId);
+console.log(report.name, report.status, report.totalAmount);
+```
+
+### Créer un rapport
+
+```typescript
+const report = await client.expenseReports.create({
+  name: 'Dépenses de voyage T1',
+  description: 'Voyages d\'affaires janvier-mars',
+});
+```
+
+### Mettre à jour un rapport
+
+```typescript
+const updated = await client.expenseReports.update(reportId, {
+  name: 'Dépenses de voyage T1 (Modifie)',
+});
+```
+
+### Supprimer un rapport
+
+```typescript
+await client.expenseReports.delete(reportId);
+```
+
+## Cycle de vie du rapport
+
+Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuve** -> **Rembourse**.
+
+### Soumettre pour approbation
+
+```typescript
+const submitted = await client.expenseReports.submit(reportId);
+```
+
+### Approuver
+
+```typescript
+const approved = await client.expenseReports.approve(reportId, {
+  comment: 'Tout est en ordre, approuvé.',
+});
+```
+
+### Rejeter
+
+```typescript
+const rejected = await client.expenseReports.reject(reportId, {
+  reason: 'Reçus manquants pour l\'hotel.',
+});
+```
+
+### Demander des modifications
+
+```typescript
+const returned = await client.expenseReports.requestChanges(reportId, {
+  comment: 'Veuillez joindre le reçu d\'inscription à la conference.',
+});
+```
+
+### Rappeler un rapport soumis
+
+```typescript
+const recalled = await client.expenseReports.recall(reportId, {
+  reason: 'Je dois ajouter d\'autres dépenses.',
+});
+```
+
+### Rembourser
+
+```typescript
+const reimbursed = await client.expenseReports.reimburse(reportId, {
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Planifier le remboursement
+
+```typescript
+const planned = await client.expenseReports.planReimbursement(reportId, {
+  scheduledDate: '2025-04-15',
+  paymentMethod: 'bank_transfer',
+});
+```
+
+## Commentaires et piste d'audit
+
+### Ajouter un commentaire
+
+```typescript
+const comment = await client.expenseReports.addComment(reportId, {
+  content: 'Veuillez vérifiér les frais d\'hotel à la ligne 3.',
+});
+```
+
+### Obtenir la chronologie
+
+```typescript
+const timeline = await client.expenseReports.getTimeline(reportId);
+for (const entry of timeline) {
+  console.log(`${entry.type}: ${entry.description} à ${entry.createdAt}`);
+}
+```
+
+### Obtenir le journal d'audit
+
+```typescript
+const auditLog = await client.expenseReports.getAuditLog(reportId);
+for (const entry of auditLog) {
+  console.log(`${entry.action} par ${entry.userId} à ${entry.timestamp}`);
+}
+```
+
+## Affectation de compte comptable
+
+```typescript
+await client.expenseReports.assignLedgerAccount(reportId, {
+  ledgerAccountId: 500,
+});
+
+await client.expenseReports.assignExpenseLedgerAccount(reportId, expenseId, {
+  ledgerAccountId: 501,
+});
+```
+
+## Résumé et export
+
+```typescript
+const summary = await client.expenseReports.getSummary();
+
+const blob = await client.expenseReports.export({
+  format: 'xlsx',
+  startDate: '2025-01-01',
+  endDate: '2025-03-31',
+});
+```
+
+## Opérations en masse
+
+```typescript
+// Suppression en masse
+const deleteResult = await client.expenseReports.bulkDelete({
+  reportIds: [1, 2, 3],
+});
+
+// Soumission en masse
+const submitResult = await client.expenseReports.bulkSubmit({
+  reportIds: [4, 5, 6],
+});
+
+// Rappel en masse
+const recallResult = await client.expenseReports.bulkRecall({
+  reportIds: [7, 8],
+});
+```
+
+---
+
+## ExpenseReportExpenseService
+
+Gérez les dépenses individuelles au sein d'un rapport avec `client.expenseReportExpenses`.
+
+### Ajouter une dépense
+
+```typescript
+await client.expenseReportExpenses.add(reportId, { expenseId: 456 });
+```
+
+### Ajouter plusieurs dépenses
+
+```typescript
+await client.expenseReportExpenses.addBatch(reportId, {
+  expenseIds: [456, 457, 458],
+});
+```
+
+### Modifier une dépense dans un rapport
+
+```typescript
+await client.expenseReportExpenses.edit(reportId, expenseId, {
+  categoryId: 15,
+  notes: 'Catégorie mise à jour',
+});
+```
+
+### Retirer une dépense
+
+```typescript
+await client.expenseReportExpenses.remove(reportId, expenseId);
+```
+
+### Remplacer une dépense
+
+```typescript
+await client.expenseReportExpenses.replace(reportId, ancienExpenseId, {
+  newExpenseId: 999,
+  categoryId: 15,
+});
+```
+
+### Assigner une catégorie en masse dans un rapport
+
+```typescript
+const result = await client.expenseReportExpenses.bulkAssignCategory(reportId, {
+  expenseIds: [1, 2, 3],
+  categoryId: 20,
+});
+```
+
+### Retirer des dépenses en masse
+
+```typescript
+const result = await client.expenseReportExpenses.bulkRemove(reportId, {
+  expenseIds: [10, 11, 12],
+});
+```
+
+### Opérations par employé
+
+```typescript
+await client.expenseReportExpenses.addForEmployée(employéeId, reportId, {
+  expenseId: 456,
+});
+
+await client.expenseReportExpenses.removeForEmployée(employéeId, reportId, expenseId);
+```
+
+---
+
+## ExpenseReportPaymentService
+
+Gérez les paiements de remboursement avec `client.expenseReportPayments`.
+
+```typescript
+// Rembourser un rapport
+await client.expenseReportPayments.reimburse(reportId);
+
+// Remboursement partiel
+await client.expenseReportPayments.partialReimburse(reportId, {
+  amount: 150.00,
+  paymentMethod: 'bank_transfer',
+});
+
+// Planifier le remboursement
+await client.expenseReportPayments.planReimbursement(reportId, {
+  scheduledDate: '2025-05-01',
+  paymentMethod: 'cheque',
+});
+```

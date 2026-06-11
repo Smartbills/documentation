@@ -1,0 +1,78 @@
+---
+title: "Vendors"
+description: "View and manage your vendor directory"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/vendors/overview.png" alt="Vendor directory list view" />
+</Frame>
+
+## Overview
+
+The Vendors page gives you a centralized directory of every merchant, supplier, and service provider your organization transacts with. Smartbills automatically detects vendors when receipts are processed through OCR, and you can also create vendor records manually. A well-maintained vendor directory ensures consistent expense categorization, accurate spending reports, and faster receipt processing.
+
+<Note>
+  Access to the Vendors page requires the **VENDORS_VIEW** permission. Contact your administrator if you cannot see the Vendors section in the sidebar.
+</Note>
+
+## Navigating the Vendor Directory
+
+To open the vendor directory, click **Vendors** in the left sidebar. The page displays a searchable list of all vendors associated with your business.
+
+### Search and Filter
+
+Use the search bar at the top of the list to find vendors by name. Results update as you type, making it easy to locate a specific vendor even in a large directory.
+
+<Frame>
+  <img src="/images/guides/web-app/vendors/search.png" alt="Vendor search bar with filtered results" />
+</Frame>
+
+### Vendor List
+
+Each row in the vendor list displays:
+
+- **Vendor Name** -- The display name of the vendor
+- **Default Category** -- The category automatically assigned to expenses from this vendor
+- **Expense Count** -- The total number of expenses linked to this vendor
+- **Total Spent** -- The cumulative amount spent with the vendor
+
+Click any vendor row to open its detail panel.
+
+## Vendor Detail Panel
+
+Selecting a vendor opens a detail view with the following information:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The display name of the vendor |
+| **Address** | The vendor's business address |
+| **Tax ID** | The vendor's tax identification number (e.g., EIN, GST/HST number) |
+| **Default Category** | The category applied automatically to expenses from this vendor |
+| **Website** | The vendor's website URL |
+| **Phone** | Contact phone number |
+| **Notes** | Internal notes such as account number or payment terms |
+
+<Frame>
+  <img src="/images/guides/web-app/vendors/detail.png" alt="Vendor detail panel showing name, address, tax ID, and expense history" />
+</Frame>
+
+### Expense History
+
+The bottom of the vendor detail panel shows a chronological list of all expenses linked to this vendor. Each entry includes the date, amount, category, and the employee who submitted the expense. Use this history to analyze spending patterns with a specific vendor over time.
+
+## Auto-Detected Vendors
+
+When a receipt is uploaded and processed by OCR, Smartbills extracts the merchant name and checks it against your existing vendor directory. If a match is found, the expense is linked to the existing vendor and the vendor's default category is applied. If no match is found, a new vendor record is created automatically with the extracted name.
+
+Auto-detected vendors may have incomplete details (e.g., missing address or tax ID). An administrator or accountant can enrich these records at any time from the vendor detail panel.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Create a Vendor" icon="circle-plus" href="/guides/web-app/vendors/create-vendor">
+    Manually add a new vendor to your directory
+  </Card>
+  <Card title="Manage Vendors" icon="address-book" href="/guides/web-app/vendors/manage-vendors">
+    Edit, merge, and organize your vendor records
+  </Card>
+</CardGroup>

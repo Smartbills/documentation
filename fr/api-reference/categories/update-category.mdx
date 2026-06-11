@@ -1,0 +1,203 @@
+---
+title: "Mettre à jour une catégorie"
+description: "Mettre à jour une catégorie de dépenses existante"
+api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/categories/{categoryId}"
+---
+
+## Aperçu
+
+Mettre à jour une catégorie de dépenses existante. Tous les champs sont optionnels -- seuls les champs inclus dans le corps de la requête seront modifiés.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="categoryId" type="integer" required>
+  L'identifiant unique de la catégorie à mettre à jour
+</ParamField>
+
+## Corps de la requête
+
+Tous les champs sont optionnels. Incluez uniquement les champs que vous souhaitez modifier.
+
+<ParamField body="name" type="string">
+  Nom de la catégorie. Doit être unique au sein de l'entreprise.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Description des dépenses appartenant à cette catégorie
+</ParamField>
+
+<ParamField body="glAccountCode" type="string">
+  Code de compte du grand livre pour l'intégration comptable
+</ParamField>
+
+<ParamField body="color" type="string">
+  Code couleur hexadécimal pour l'affichage dans l'interface (p. ex., `#4A90D9`)
+</ParamField>
+
+<ParamField body="enabled" type="boolean">
+  Indique si la catégorie est active et disponible à l'utilisation. Définir sur `false` masque la catégorie de la sélection mais n'affecte pas les dépenses existantes.
+</ParamField>
+
+<ParamField body="displayOrder" type="integer">
+  Position de tri pour l'affichage dans les listes déroulantes et les listes
+</ParamField>
+
+## Réponse
+
+Retourne l'objet catégorie mis à jour.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de la catégorie
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom de la catégorie
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description de la catégorie
+</ResponseField>
+
+<ResponseField name="glAccountCode" type="string">
+  Code de compte du grand livre
+</ResponseField>
+
+<ResponseField name="color" type="string">
+  Code couleur hexadécimal
+</ResponseField>
+
+<ResponseField name="enabled" type="boolean">
+  Indique si la catégorie est active
+</ResponseField>
+
+<ResponseField name="displayOrder" type="integer">
+  Ordre de tri pour l'affichage
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création de la catégorie (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/categories/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "name": "Business Travel",
+    "glAccountCode": "6210",
+    "color": "#2E86C1"
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const updated = await client.categories.update(1, {
+  name: "Business Travel",
+  glAccountCode: "6210",
+  color: "#2E86C1"
+});
+
+console.log(`Updated category: ${updated.name}`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+updated = await client.categories.update(
+    category_id=1,
+    name="Business Travel",
+    gl_account_code="6210",
+    color="#2E86C1"
+)
+
+print(f"Updated category: {updated.name}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1,
+  "name": "Business Travel",
+  "description": "Business travel expenses including flights, hotels, and ground transportation",
+  "glAccountCode": "6210",
+  "color": "#2E86C1",
+  "enabled": true,
+  "displayOrder": 1,
+  "createdAt": "2024-01-10T09:00:00Z",
+  "updatedAt": "2025-01-20T15:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Désactiver une catégorie
+
+Pour désactiver une catégorie sans la supprimer, définissez `enabled` sur `false`. Les catégories désactivées sont masquées des listes déroulantes de sélection de catégorie, mais les dépenses existantes assignées à la catégorie restent inchangées.
+
+```bash
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/categories/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{ "enabled": false }'
+```
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_ERROR | Valeurs de champs invalides |
+| 400 | DUPLICATE_NAME | Une catégorie avec ce nom existe déjà |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour gérer les catégories |
+| 404 | CATEGORY_NOT_FOUND | L'identifiant de la catégorie n'existe pas |
+| 404 | BUSINESS_NOT_FOUND | L'identifiant de l'entreprise n'existe pas |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les catégories" icon="list" href="/fr/api-reference/categories/list-categories">
+    Obtenir toutes les catégories
+  </Card>
+  <Card title="Obtenir une catégorie" icon="eye" href="/fr/api-reference/categories/get-category">
+    Récupérer une catégorie par ID
+  </Card>
+  <Card title="Créer une catégorie" icon="plus" href="/fr/api-reference/categories/create-category">
+    Créer une nouvelle catégorie de dépenses
+  </Card>
+  <Card title="Lister les départements" icon="building" href="/fr/api-reference/departments/list-departments">
+    Voir tous les départements
+  </Card>
+</CardGroup>

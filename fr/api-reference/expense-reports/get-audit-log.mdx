@@ -1,0 +1,199 @@
+---
+title: "Journal d'audit"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/audit-log"
+description: "Récupérer le journal d'audit complet d'un rapport de dépenses avec suivi des modifications au niveau des champs"
+---
+
+## Aperçu
+
+Récupérer le journal d'audit complet d'un rapport de dépenses, montrant chaque modification apportée au rapport avec un détail au niveau des champs. Cela fournit une piste d'audit complète de toutes les modifications à des fins de conformité et de révision.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="reportId" type="integer" required>
+  L'identifiant unique du rapport de dépenses
+</ParamField>
+
+## Réponse
+
+<ResponseField name="auditLog" type="array">
+  Tableau d'entrées du journal d'audit par ordre chronologique
+
+  <Expandable title="Entrée du journal d'audit">
+    <ResponseField name="id" type="integer">
+      Identifiant unique de l'entrée du journal d'audit
+    </ResponseField>
+
+    <ResponseField name="action" type="string">
+      Action effectuée : `CREATED`, `UPDATED`, `SUBMITTED`, `APPROVED`, `REJECTED`, `CHANGES_REQUESTED`, `RECALLED`, `COMMENT_ADDED`, `DELETED`
+    </ResponseField>
+
+    <ResponseField name="userId" type="integer">
+      Identifiant de l'utilisateur qui à effectué l'action
+    </ResponseField>
+
+    <ResponseField name="userName" type="string">
+      Nom de l'utilisateur qui à effectué l'action
+    </ResponseField>
+
+    <ResponseField name="changes" type="object">
+      Objet décrivant les champs modifiés. Pour les mises à jour, chaque champ modifié contient les valeurs `before` et `after`.
+    </ResponseField>
+
+    <ResponseField name="ipAddress" type="string">
+      Adresse IP de l'utilisateur lors de l'exécution de l'action
+    </ResponseField>
+
+    <ResponseField name="timestamp" type="string">
+      Horodatage de l'action (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/audit-log \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 456'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const auditLog = await client.expenseReports.getAuditLog(1001);
+
+auditLog.auditLog.forEach(entry => {
+  console.log(`${entry.timestamp}: ${entry.action} by ${entry.userName}`);
+  if (entry.changes) {
+    console.log("  Changes:", JSON.stringify(entry.changes));
+  }
+});
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+audit_log = client.expense_reports.get_audit_log(1001)
+
+for entry in audit_log.audit_log:
+    print(f"{entry.timestamp}: {entry.action} by {entry.user_name}")
+    if entry.changes:
+        print(f"  Changes: {entry.changes}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "auditLog": [
+    {
+      "id": 1,
+      "action": "CREATED",
+      "userId": 789,
+      "userName": "Jane Smith",
+      "changes": {
+        "title": "January 2025 Business Trip",
+        "reportCurrency": "USD",
+        "startDate": "2025-01-15",
+        "endDate": "2025-01-18"
+      },
+      "ipAddress": "192.168.1.100",
+      "timestamp": "2025-01-15T09:00:00Z"
+    },
+    {
+      "id": 2,
+      "action": "UPDATED",
+      "userId": 789,
+      "userName": "Jane Smith",
+      "changes": {
+        "transactionIds": {
+          "before": [12345, 12346],
+          "after": [12345, 12346, 12347]
+        }
+      },
+      "ipAddress": "192.168.1.100",
+      "timestamp": "2025-01-31T12:00:00Z"
+    },
+    {
+      "id": 3,
+      "action": "SUBMITTED",
+      "userId": 789,
+      "userName": "Jane Smith",
+      "changes": {
+        "status": {
+          "before": "draft",
+          "after": "submitted"
+        }
+      },
+      "ipAddress": "192.168.1.100",
+      "timestamp": "2025-01-31T14:30:00Z"
+    },
+    {
+      "id": 4,
+      "action": "APPROVED",
+      "userId": 100,
+      "userName": "John Manager",
+      "changes": {
+        "status": {
+          "before": "submitted",
+          "after": "approved"
+        },
+        "approvedAmount": 1234.56,
+        "notes": "Approved for reimbursement"
+      },
+      "ipAddress": "10.0.0.50",
+      "timestamp": "2025-02-01T09:00:00Z"
+    }
+  ]
+}
+```
+
+</ResponseExample>
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour voir le journal d'audit de ce rapport |
+| 404 | NOT_FOUND | Rapport de dépenses non trouvé |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Obtenir un rapport" icon="file" href="/api-reference/expense-reports/get-report">
+    Récupérer les détails du rapport
+  </Card>
+  <Card title="Chronologie du rapport" icon="clock" href="/api-reference/expense-reports/get-timeline">
+    Voir la chronologie simplifiée des événements
+  </Card>
+  <Card title="Lister les rapports" icon="list" href="/api-reference/expense-reports/list-reports">
+    Obtenir tous les rapports de dépenses
+  </Card>
+  <Card title="Ajouter un commentaire" icon="comment" href="/api-reference/expense-reports/add-comment">
+    Ajouter un commentaire au rapport
+  </Card>
+</CardGroup>

@@ -1,62 +1,253 @@
 ---
 title: "Upload Problems"
-description: "Fix issues when uploading receipts and documents to Smartbills"
+description: "Fix issues when uploading receipts, invoices, and documents to Smartbills on web and mobile"
 ---
 
-## Common Issues
+<img
+  className="block"
+  src="/images/help-center/troubleshooting/upload-problems-hero.png"
+  alt="Upload Problems"
+/>
 
-### Upload Failing
+## Overview
+
+Smartbills makes it easy to upload receipts and documents for expense tracking. If you are experiencing upload failures, processing delays, or OCR inaccuracies, this guide provides solutions for the most common issues.
+
+## File Requirements
+
+Before troubleshooting, verify your file meets the requirements:
+
+| Requirement | Details |
+|---|---|
+| **Supported image formats** | JPG, JPEG, PNG, HEIC, WEBP |
+| **Supported document formats** | PDF |
+| **Maximum file size (images)** | 10 MB |
+| **Maximum file size (PDFs)** | 25 MB |
+| **Maximum pages (PDFs)** | 50 pages |
+| **Minimum resolution** | 300 DPI recommended for best OCR results |
+
+<Note>
+  Unsupported formats include Word documents (.docx), Excel files (.xlsx), GIF images, and SVG files. Convert these to PDF before uploading.
+</Note>
+
+## Common Upload Issues
 
 <AccordionGroup>
-  <Accordion title="File too large">
-    The maximum file size is 10 MB per file. If your file exceeds this:
-    - Reduce the image resolution before uploading
-    - Compress PDFs using an online tool
-    - Take a new photo with lower camera resolution settings
+  <Accordion title="File too large" icon="weight-hanging">
+    **Error:** "File exceeds the maximum size limit"
+
+    **Solutions:**
+
+    **For images (max 10 MB):**
+    - Reduce image resolution before uploading
+    - Use the mobile app camera to capture a new, optimized photo
+    - Compress the image using a free tool (e.g., TinyPNG, ImageOptim)
+    - Convert HEIC to JPG which typically produces smaller files
+
+    **For PDFs (max 25 MB):**
+    - Compress the PDF using a free tool (e.g., SmallPDF, Adobe Acrobat)
+    - If the PDF contains scanned images, reduce the scan resolution
+    - Split multi-page PDFs into smaller files
+
+    <Tip>
+      The Smartbills mobile app automatically optimizes photos taken with the built-in scanner, keeping them within size limits while maintaining OCR quality.
+    </Tip>
   </Accordion>
 
-  <Accordion title="Unsupported format">
-    Supported formats:
-    - **Images**: JPEG, PNG, HEIC, WEBP
-    - **Documents**: PDF
-    
-    Unsupported: Word documents, Excel files, GIFs, SVGs
+  <Accordion title="Format not supported" icon="file-circle-xmark">
+    **Error:** "Unsupported file format"
+
+    **Solutions:**
+    - Verify the file extension matches a supported format: JPG, JPEG, PNG, HEIC, WEBP, or PDF
+    - If you have a Word or Excel document, export it as PDF first
+    - If you have a screenshot in an unsupported format, save it as PNG or JPG
+    - Rename files if the extension is incorrect (e.g., a JPG file saved with a `.tmp` extension)
+    - Some email-forwarded attachments may lose their extension -- re-save the file with the correct extension
   </Accordion>
 
-  <Accordion title="Network timeout">
-    - Check your internet connection
-    - Try switching between Wi-Fi and cellular data
-    - On mobile, enable offline mode — the upload will queue and complete when connected
+  <Accordion title="Upload stuck or frozen" icon="spinner">
+    **Symptoms:** The progress bar stops moving, or the upload appears to hang indefinitely.
+
+    **Solutions:**
+
+    1. **Check your internet connection** -- test by loading another website or switching between WiFi and cellular data
+    2. **Wait a moment** -- large files may take longer on slower connections
+    3. **Refresh the page** (web) or **pull to refresh** (mobile) and retry
+    4. **Close and reopen the app** on mobile
+    5. **Try uploading a single file** -- if you are batch uploading, upload one at a time to isolate the issue
+    6. **Disable VPN or proxy** -- some network configurations interfere with file uploads
+    7. **Try a different browser** or use the mobile app instead
   </Accordion>
 
-  <Accordion title="Upload stuck at processing">
-    If an expense stays in "Processing" for more than 5 minutes:
-    - Refresh the page (web) or pull to refresh (mobile)
-    - Check the processing queue in the upload progress screen
-    - The file may have been uploaded but OCR is still running
+  <Accordion title="Duplicate detection" icon="clone">
+    **Message:** "This receipt appears to already exist"
+
+    Smartbills automatically detects duplicate receipts to prevent the same expense from being recorded twice.
+
+    **If this is a false positive:**
+    1. Click **Upload Anyway** to override the duplicate check
+    2. The expense will be flagged for review but will be uploaded
+
+    **If it is genuinely a duplicate:**
+    Find the existing expense in your expense list. Use the search bar or filter by date and amount.
+
+    <Note>
+      Duplicate detection compares file hashes and OCR-extracted data (merchant name, amount, date). Very similar but distinct receipts may occasionally trigger a false positive.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Upload succeeds but processing fails" icon="gear">
+    **Symptoms:** The file uploads successfully but remains stuck in a "Processing" state for more than 5 minutes.
+
+    **Solutions:**
+
+    1. **Wait** -- processing time varies depending on document complexity and server load. Most receipts process within 30 seconds, but complex PDFs may take longer
+    2. **Refresh the page** or pull to refresh on mobile
+    3. **Check the processing queue** -- go to your expense list and look for the processing indicator
+    4. **Verify the file is not corrupted** -- try opening the file on your device. If it won't open, the file may be damaged
+    5. **Re-upload the file** -- delete the stuck expense and upload the original file again
   </Accordion>
 </AccordionGroup>
 
-### OCR Not Working Correctly
+## OCR and Data Extraction Issues
 
-If the extracted data is inaccurate:
+<AccordionGroup>
+  <Accordion title="OCR not extracting data correctly" icon="magnifying-glass">
+    **Symptoms:** The merchant name, amount, date, or other fields are incorrect or missing after OCR processing.
 
-- **Blurry image** — Retake the photo with better focus
-- **Poor lighting** — Ensure even lighting without shadows
-- **Folded receipt** — Flatten the receipt before scanning
-- **Faded text** — Thermal receipts fade over time; try increasing contrast
-- **Non-English receipt** — OCR supports multiple languages but accuracy varies
+    **Common causes and solutions:**
 
-You can always manually edit the extracted fields after processing.
+    | Cause | Solution |
+    |---|---|
+    | Blurry or out-of-focus image | Retake the photo with the camera focused on the receipt |
+    | Poor lighting or shadows | Ensure even, bright lighting without shadows across the receipt |
+    | Folded or crumpled receipt | Flatten the receipt on a smooth surface before scanning |
+    | Faded thermal receipt | Increase contrast in your phone's photo editor before uploading |
+    | Handwritten receipt | OCR works best with printed text. Manual entry may be required |
+    | Non-standard receipt format | Some receipts use unusual layouts. Edit extracted fields manually |
+    | Low resolution image | Use at least 300 DPI or the mobile app's built-in scanner |
 
-### Browser-Specific Issues
+    <Tip>
+      You can always manually edit any field extracted by OCR. Tap or click on the expense to update the merchant, amount, date, category, or other details.
+    </Tip>
+  </Accordion>
 
-| Browser | Known Issues |
-|---------|-------------|
-| Safari | May block drag-and-drop uploads in some configurations |
-| Firefox | Ensure pop-up blocker isn't interfering |
-| Chrome | Clear cache if uploads fail repeatedly |
+  <Accordion title="OCR extracting wrong currency" icon="dollar-sign">
+    If OCR detects the wrong currency:
+
+    1. Open the expense
+    2. Click or tap the **Currency** field
+    3. Select the correct currency from the dropdown
+    4. Save the expense
+
+    OCR uses visual cues (currency symbols, merchant location) to determine the currency. Receipts with ambiguous symbols (e.g., "$" could be USD, CAD, or AUD) may need manual correction.
+  </Accordion>
+
+  <Accordion title="Multi-page PDF not fully processed" icon="file-lines">
+    If only some pages of a multi-page PDF are processed:
+
+    1. Ensure the PDF does not exceed 50 pages
+    2. Verify the PDF is not password-protected or encrypted
+    3. Check that the PDF is not a scanned image with very low resolution
+    4. Try splitting the PDF into smaller documents and uploading individually
+  </Accordion>
+</AccordionGroup>
+
+## Platform-Specific Issues
+
+<Tabs>
+  <Tab title="Web Browser">
+    **Drag-and-drop not working:**
+    - Safari may block drag-and-drop in some configurations. Use the **Browse** button instead
+    - Ensure your browser window is focused (click on it first)
+    - Disable browser extensions that may interfere with drag events
+
+    **File picker not opening:**
+    - Clear browser cache and cookies
+    - Disable pop-up blockers for `app.smartbills.io`
+    - Try a different browser
+
+    **Slow uploads on web:**
+    - Check your internet upload speed (test at speedtest.net)
+    - Close other tabs and applications consuming bandwidth
+    - Try a wired connection instead of WiFi
+  </Tab>
+
+  <Tab title="iOS">
+    **Camera not available in app:**
+    - Go to device Settings > Smartbills > enable Camera permission
+    - Restart the app after changing permissions
+
+    **Photos from library not uploading:**
+    - Go to device Settings > Smartbills > Photos > set to "All Photos" access
+    - Restart the app
+
+    **HEIC images not processing:**
+    - HEIC is supported. If issues persist, go to device Settings > Camera > Formats > choose "Most Compatible" to capture in JPG instead
+  </Tab>
+
+  <Tab title="Android">
+    **Camera permission denied:**
+    - Go to device Settings > Apps > Smartbills > Permissions > enable Camera
+    - Restart the app
+
+    **Storage permission issues:**
+    - Go to device Settings > Apps > Smartbills > Permissions > enable Storage (or Files and Media)
+    - On Android 13+, grant "Photos and videos" access
+
+    **Uploads failing on cellular:**
+    - Check mobile data is enabled for Smartbills
+    - Some carriers restrict uploads on cellular. Try WiFi
+  </Tab>
+</Tabs>
+
+## Tips for Best Upload Results
+
+<Steps>
+  <Step title="Use good lighting">
+    Natural or bright artificial light without shadows produces the best results for receipt scanning.
+  </Step>
+
+  <Step title="Place receipt on a flat surface">
+    A smooth, dark-colored surface provides the best contrast for the scanner.
+  </Step>
+
+  <Step title="Capture the full receipt">
+    Ensure all edges of the receipt are visible in the frame, including the merchant name and total amount.
+  </Step>
+
+  <Step title="Hold your phone steady">
+    Use both hands and hold your phone parallel to the receipt to avoid blur and distortion.
+  </Step>
+
+  <Step title="Use the in-app scanner">
+    The Smartbills mobile scanner automatically adjusts perspective, contrast, and resolution for optimal OCR results.
+  </Step>
+</Steps>
 
 ## Still Having Issues?
 
-Contact [support@smartbills.io](mailto:support@smartbills.io) with the file you're trying to upload (if not sensitive) and the error message.
+If you have tried the solutions above and still cannot upload successfully, contact our support team:
+
+- **Email**: [support@smartbills.io](mailto:support@smartbills.io)
+- **Live Chat**: Available in the app (bottom right corner)
+- **Include the following in your support request:**
+  - The file you are trying to upload (if not sensitive)
+  - A screenshot of the error message
+  - Your device, browser, or app version
+  - Your internet connection type (WiFi, cellular, corporate network)
+
+<CardGroup cols={2}>
+  <Card title="Upload an Expense" icon="cloud-arrow-up" href="/help-center/expenses/upload-expense">
+    Step-by-step upload guide
+  </Card>
+  <Card title="Scan Receipts (Mobile)" icon="camera" href="/help-center/expenses/scan-receipt-mobile">
+    Tips for mobile receipt scanning
+  </Card>
+  <Card title="Edit an Expense" icon="pen-to-square" href="/help-center/expenses/edit-expense">
+    Manually correct OCR results
+  </Card>
+  <Card title="Sync Issues" icon="arrows-rotate" href="/help-center/troubleshooting/sync-issues">
+    Troubleshoot data sync problems
+  </Card>
+</CardGroup>

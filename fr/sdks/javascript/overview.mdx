@@ -1,0 +1,77 @@
+---
+title: "Aperçu du SDK JavaScript"
+description: "SDK JavaScript/TypeScript officiel pour l'API Smartbills -- intégrez la gestion des dépenses, le traitement des factures et les flux fournisseurs dans vos applications."
+---
+
+# SDK JavaScript / TypeScript
+
+Le package `@smartbills/sdk` fournit un client TypeScript entièrement type pour l'API REST Smartbills. Il gère l'authentification, la pagination, le téléchargement de fichiers, le mappage des erreurs et les tentatives automatiques afin que vous puissiez vous concentrer sur le développement de votre intégration.
+
+## Fonctionnalités
+
+- Définitions de types TypeScript complètes pour chaque requête et réponse
+- Tentatives automatiques avec back-off exponentiel sur les erreurs transitoires
+- Hiérarchie d'erreurs structurée avec des fonctions de type guard
+- Support multi-tenant via le contexte `businessId`
+- Réponses localisées (`en-CA`, `fr-CA`)
+- Builds double format ESM et CommonJS
+- Téléchargement de fichiers via FormData et flux de téléchargement présigné S3
+
+## Démarrage rapide
+
+```typescript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123,
+  locale: 'fr-CA',
+});
+
+// Lister les dépenses récentes
+const { data: expenses, pagination } = await client.expenses.listBusiness({
+  limit: 25,
+  page: 1,
+});
+console.log(`${pagination.count} dépenses trouvées`);
+
+// Créer un rapport de dépenses
+const report = await client.expenseReports.create({
+  name: 'Dépenses de voyage T1',
+});
+
+// Télécharger un reçu
+const formData = new FormData();
+formData.append('files', fichierRecu);
+const uploaded = await client.expenses.uploadBusiness(formData);
+```
+
+## Services disponibles
+
+Le `SmartbillsClient` expose les objets de service suivants. Chaque service regroupe les opérations API associées.
+
+| Service | Propriété | Description |
+|---------|-----------|-------------|
+| Dépenses | `client.expenses` | Lister, télécharger, mettre à jour, scinder, exporter et gérer les dépenses en masse |
+| Rapports de dépenses | `client.expenseReports` | Créer, soumettre, approuver, rejeter et rembourser les rapports |
+| Dépenses de rapport | `client.expenseReportExpenses` | Ajouter, supprimer et modifier les dépenses dans un rapport |
+| Paiements de rapport | `client.expenseReportPayments` | Opérations de remboursement |
+| Approbations | `client.approbations` | Gérer les flux d'approbation |
+| Factures | `client.bills` | Cycle de vie complet des comptes fournisseurs |
+| Fournisseurs | `client.vendors` | CRUD, opérations par lot, fusion, import CSV |
+| Employés | `client.employees` | Gestion des employés |
+| Entreprises | `client.businesses` | Gestion des entités commerciales |
+| Catégories | `client.categories` | Gestion des catégories de dépenses |
+| Reçus | `client.receipts` | Traitement et gestion des reçus |
+
+## Prérequis
+
+- **Node.js** 18 ou plus récent
+- **TypeScript** 5.0 ou plus récent (optionnel mais recommandé)
+
+## Prochaines étapes
+
+- [Installation](/fr/sdks/javascript/installation) -- installer le package et configurer votre environnement
+- [Authentification](/fr/sdks/javascript/authentication) -- configurer les identifiants et le contexte multi-tenant
+- [Dépenses](/fr/sdks/javascript/expenses) -- référence complète du service de dépenses
+- [Gestion des erreurs](/fr/sdks/javascript/error-handling) -- comprendre la hiérarchie des erreurs

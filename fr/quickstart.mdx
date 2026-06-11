@@ -1,16 +1,119 @@
 ---
-title: "Guide de Démarrage Rapide"
-description: "Commencez avec l'API Smartbills en quelques minutes"
+title: 'Démarrage Rapide'
+description: 'Soumettez votre première dépense en 5 minutes'
 ---
 
-Ce guide vous aidera à effectuer votre premier appel API vers Smartbills en quelques minutes. À la fin de ce guide, vous aurez créé un compte Smartbills, généré votre clé API, effectué votre premier appel et téléversé votre première dépense.
+## Bienvenue!
 
-Pour commencer, vous aurez besoin d'un compte Smartbills. Inscrivez-vous gratuitement sur [app.smartbills.io](https://auth.smartbills.io/sign-up). Une fois connecté, accédez à **Paramètres** → **Développeur** → **Clés API** pour générer une clé. Stockez-la dans une variable d'environnement — elle ne sera affichée qu'une seule fois.
+Ce guide vous accompagne pour soumettre votre première dépense sur Smartbills. En quelques minutes, vous aurez créé votre compte, téléversé un reçu et soumis un rapport de dépenses pour approbation.
 
-Utilisez votre clé API dans l'en-tête `Authorization: Bearer VOTRE_CLÉ_API` pour chaque requête. Vous pouvez tester en appelant l'endpoint `/v1/user` pour récupérer vos informations. Pour téléverser une dépense, utilisez `POST /v1/expenses/upload` avec un fichier reçu et l'identifiant de votre entreprise.
+<Note>
+  **Tout ce dont vous avez besoin, c'est un reçu** -- une photo, un PDF ou une image numérisée. Smartbills s'occupe du reste.
+</Note>
+
+## Étape 1 : Créez Votre Compte
+
+Rendez-vous sur [app.smartbills.io](https://auth.smartbills.io/sign-up) et inscrivez-vous avec votre courriel professionnel. Vous pouvez également vous connecter avec Google ou Microsoft SSO si votre entreprise l'a activé.
+
+<Frame>
+  <img src="/images/guides/web-app/quickstart/step-1.png" alt="Page d'inscription Smartbills" />
+</Frame>
+
+<Check>
+  Une fois votre courriel vérifié, vous arriverez sur le tableau de bord Smartbills.
+</Check>
+
+## Étape 2 : Configurez Votre Entreprise
+
+Si vous êtes la première personne de votre entreprise sur Smartbills, vous serez invité à créer un profil d'entreprise :
+
+1. Entrez le **nom de votre entreprise**
+2. Choisissez votre **devise par défaut** (ex. USD, CAD, EUR)
+3. Définissez votre **fuseau horaire**
+
+<Frame>
+  <img src="/images/guides/web-app/quickstart/step-2.png" alt="Formulaire de configuration de l'entreprise avec les champs nom, devise et fuseau horaire" />
+</Frame>
 
 <Tip>
-Utilisez les clés de test (`sk_test_`) pour le développement et les clés de production (`sk_live_`) uniquement en production.
+  Si votre entreprise utilise déjà Smartbills, demandez à votre administrateur de vous envoyer un lien d'invitation. Vous serez ajouté automatiquement à l'entreprise existante.
 </Tip>
 
-Consultez la documentation d'[Authentification](/fr/authentication) pour en savoir plus sur la sécurité et les bonnes pratiques. Explorez la [Référence API](/api-reference/introduction) pour découvrir tous les endpoints disponibles.
+## Étape 3 : Téléversez Votre Premier Reçu
+
+Naviguez vers **Portefeuille** dans la barre latérale et cliquez sur **Téléverser**. Vous pouvez :
+
+- **Glisser-déposer** une image de reçu ou un PDF dans la zone de téléchargement
+- **Utiliser votre caméra** sur mobile pour prendre une photo directement
+- **Transférer un courriel** de reçu à votre boîte de réception Smartbills personnelle
+
+Smartbills extraira automatiquement le nom du commerçant, la date, le montant total, la devise et les taxes grâce à la numérisation de reçus par IA.
+
+<Frame>
+  <img src="/images/guides/web-app/quickstart/step-3.png" alt="Zone de téléchargement de reçus avec glisser-déposer et détails du reçu extraits" />
+</Frame>
+
+<Check>
+  Votre reçu devrait apparaître dans le Portefeuille avec les détails extraits. Vérifiez-les et apportez des corrections si nécessaire.
+</Check>
+
+## Étape 4 : Créez un Rapport de Dépenses
+
+Regroupez maintenant votre dépense dans un rapport :
+
+1. Allez dans **Rapports de Dépenses** dans la barre latérale
+2. Cliquez sur **Nouveau Rapport**
+3. Donnez un titre au rapport (ex. "Déjeuner client - Avril 2026")
+4. Ajoutez la dépense que vous venez de téléverser
+5. Choisissez une **catégorie** et ajoutez des notes pour votre approbateur
+
+<Frame>
+  <img src="/images/guides/web-app/quickstart/step-4.png" alt="Formulaire de nouveau rapport de dépenses avec titre, liste des dépenses et sélecteur de catégorie" />
+</Frame>
+
+## Étape 5 : Soumettez pour Approbation
+
+Vérifiez le résumé du rapport pour vous assurer que tout est correct, puis cliquez sur **Soumettre**.
+
+Votre rapport sera acheminé vers l'approbateur approprié selon le flux d'approbation de votre entreprise. Vous pouvez suivre son statut à tout moment depuis la page **Rapports de Dépenses**.
+
+<Frame>
+  <img src="/images/guides/web-app/quickstart/step-5.png" alt="Résumé du rapport de dépenses avec le bouton Soumettre mis en évidence" />
+</Frame>
+
+<Check>
+  Votre premier rapport de dépenses est soumis! Vous recevrez une notification lorsque votre gestionnaire l'approuvera.
+</Check>
+
+## Et Ensuite?
+
+<CardGroup cols={2}>
+  <Card
+    title="Gérez Vos Dépenses"
+    icon="wallet"
+    href="/guides/web-app/wallet/overview"
+  >
+    Apprenez à organiser, rechercher et gérer tous vos reçus et dépenses dans le Portefeuille
+  </Card>
+  <Card
+    title="Rapports de Dépenses"
+    icon="file-invoice"
+    href="/guides/concepts/expense-reports"
+  >
+    Comprenez les statuts de rapports, les flux d'approbation et le suivi des remboursements
+  </Card>
+  <Card
+    title="Invitez Votre Équipe"
+    icon="user-plus"
+    href="/guides/web-app/team/invite-members"
+  >
+    Ajoutez des membres à votre équipe et définissez des rôles pour que chacun puisse soumettre et approuver des dépenses
+  </Card>
+  <Card
+    title="Pour les Développeurs : Référence API"
+    icon="code"
+    href="/api-reference/introduction"
+  >
+    Automatisez les flux de dépenses et créez des intégrations personnalisées avec l'API Smartbills
+  </Card>
+</CardGroup>

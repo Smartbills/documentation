@@ -1,0 +1,175 @@
+---
+title: "Approbation de Facture"
+description: "Comprendre le flux d'approbation des factures pour les approbateurs et les soumetteurs"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/bills/approval-hero.png" alt="Flux d'approbation des factures dans Smartbills" />
+</Frame>
+
+## Aperçu
+
+Les factures dans Smartbills suivent un flux d'approbation similaire à celui des rapports de dépenses. Avant qu'une facture fournisseur puisse être payee, elle peut devoir être examinee et approuvée par un ou plusieurs utilisateurs autorises. Ce guide explique le flux de travail du point de vue de l'approbateur et du soumetteur.
+
+<Note>
+  **Configuration des approbations** : Les flux d'approbation des factures sont configures par les administrateurs dans **Paramètres > Flux d'approbation**. Le nombre de niveaux d'approbation, les seuils et les approbateurs designes varient selon l'organisation.
+</Note>
+
+## Fonctionnement de l'Approbation des Factures
+
+Le cycle de vie de l'approbation des factures suit ces étapes :
+
+```
+Télécharger la facture --> En attente de revision --> Approuvee --> Payee
+                                |
+                                +--> Rejetée (avec raison)
+```
+
+1. Un utilisateur téléchargé une facture et l'enregistre
+2. La facture entre dans la file d'approbation avec un statut **En attente**
+3. L'approbateur designe examine la facture
+4. L'approbateur approuvé ou rejette la facture
+5. Si approuvée, la facture passe au statut **Approuvee** et peut être payee
+6. Si rejetée, le soumetteur est notifie avec une raison
+
+## Pour les Approbateurs
+
+### Examiner une Facture
+
+<Steps>
+  <Step title="Ouvrir la Facture">
+    Accédez à **Approbations** ou **Factures** dans la barre latérale. Les factures en attente de votre approbation apparaissent avec un badge **En attente**. Cliquez sur une facture pour ouvrir sa vue détaillée.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/approver-open-bill.png" alt="Ouverture d'une facture en attente pour examen" />
+    </Frame>
+  </Step>
+
+  <Step title="Vérifier le Fournisseur et le Montant">
+    Vérifiez que le fournisseur est correct et reconnu dans votre répertoire de fournisseurs. Confirmez que le montant de la facture correspond au document original et que les taxes sont correctement calculees.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/verify-vendor-amount.png" alt="Vérification du nom du fournisseur et du montant de la facture" />
+    </Frame>
+  </Step>
+
+  <Step title="Vérifier les Documents Justificatifs">
+    Examinez le document de facture joint. Confirmez que :
+
+    - La facture est lisible et complete
+    - Les éléments de ligne correspondent au total indique
+    - Les conditions de paiement et la date d'echeance sont correctes
+    - La facture n'a pas deja été payee (vérifiéz les doublons)
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/check-documents.png" alt="Examen du document de facture joint" />
+    </Frame>
+  </Step>
+
+  <Step title="Approuver ou Rejeter">
+    Après examen, effectuez l'une des actions suivantes :
+
+    **Pour approuver :**
+    1. Cliquez sur **Approuver**
+    2. Ajoutez une note facultative
+    3. Cliquez sur **Confirmer l'Approbation**
+
+    **Pour rejeter :**
+    1. Cliquez sur **Rejeter**
+    2. Saisissez une raison de rejet (obligatoire)
+    3. Cliquez sur **Confirmer le Rejet**
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/approve-reject-bill.png" alt="Boutons Approuver et Rejeter dans la vue détaillée de la facture" />
+    </Frame>
+  </Step>
+</Steps>
+
+### Seuils d'Approbation
+
+Votre organisation peut avoir des seuils bases sur les montants qui determinent quelles factures nécessitent une approbation :
+
+| Seuil | Comportement |
+|-------|-------------|
+| En dessous du minimum | La facture est auto-approuvée, aucune revision manuelle nécessaire |
+| Plage standard | Necessite un niveau d'approbation |
+| Au-dessus du maximum | Necessite plusieurs niveaux d'approbation |
+
+<Tip>
+  **Vérifiez vos seuils.** Demandez à votre administrateur quels seuils d'approbation s'appliquent à votre role afin de savoir quelles factures vous seront acheminees.
+</Tip>
+
+## Pour les Soumetteurs
+
+### Téléchargement et Soumission
+
+<Steps>
+  <Step title="Télécharger la Facture">
+    Suivez les étapes du guide [Télécharger une Facture](/fr/guides/web-app/bills/upload-bill) pour télécharger la facture fournisseur et remplir les détails.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/submitter-upload.png" alt="Téléchargement d'une facture en tant que soumetteur" />
+    </Frame>
+  </Step>
+
+  <Step title="Soumettre pour Approbation">
+    Lorsque vous enregistrez la facture, elle est automatiquement soumise pour approbation si votre organisation l'exige. La facture passe au statut **En attente**.
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/submit-for-approval.png" alt="Facture soumise et entrant dans la file d'approbation" />
+    </Frame>
+  </Step>
+
+  <Step title="Suivre le Statut">
+    Surveillez la progression de la facture dans la liste des factures. La colonne de statut indique ou elle en est dans le processus d'approbation :
+
+    - **En attente** -- En attente de l'examen de l'approbateur
+    - **Approuvee** -- Approuvee et prête pour le paiement
+    - **Rejetée** -- Rejetée par l'approbateur (consultez la raison dans la chronologie de la facture)
+
+    <Frame>
+      <img src="/images/guides/web-app/bills/track-status.png" alt="Suivi du statut de la facture dans la liste des factures" />
+    </Frame>
+  </Step>
+</Steps>
+
+### Gérer une Facture Rejetée
+
+Si votre facture est rejetée :
+
+1. Ouvrez la facture rejetée pour lire la raison de l'approbateur
+2. Corrigez les problemes identifies -- cela peut impliquer le téléchargement d'un nouveau document, la correction du montant ou la mise à jour des informations du fournisseur
+3. Enregistrez les modifications pour soumettre à nouveau la facture pour approbation
+4. La facture retourné dans la file d'approbation
+
+## Piste d'Audit des Approbations
+
+Chaque action sur une facture est enregistrée dans la chronologie en bas de la vue détaillée de la facture :
+
+- Qui à téléchargé la facture et quand
+- Qui l'a approuvée ou rejetée, avec les horodatages
+- Les notes ou commentaires ajoutes pendant le processus
+- Les changements de statut et les modifications
+
+Cette piste d'audit fournit un historique complet à des fins de conformité et de comptabilité.
+
+<Frame>
+  <img src="/images/guides/web-app/bills/audit-trail.png" alt="Piste d'audit d'approbation de facture montrant toutes les actions et horodatages" />
+</Frame>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Télécharger une Facture" icon="cloud-arrow-up" href="/fr/guides/web-app/bills/upload-bill">
+    Découvrez comment télécharger et traiter les factures fournisseurs
+  </Card>
+  <Card title="Aperçu des Factures" icon="file-invoice-dollar" href="/fr/guides/web-app/bills/overview">
+    Retourner au guide du tableau de bord des factures
+  </Card>
+  <Card title="Aperçu des Approbations" icon="check-double" href="/fr/guides/web-app/approvals/overview">
+    Decouvrir le système d'approbation global
+  </Card>
+  <Card title="Coffre-fort" icon="vault" href="/fr/guides/web-app/vault/overview">
+    Accéder aux factures et documents archives
+  </Card>
+</CardGroup>

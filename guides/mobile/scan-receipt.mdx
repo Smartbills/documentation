@@ -1,0 +1,185 @@
+---
+title: "Scan a Receipt"
+description: "Capture receipts using your phone camera with AI-powered data extraction"
+---
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/hero.png" alt="Scanning a receipt with the Smartbills mobile app" />
+</Frame>
+
+## Introduction
+
+The Smartbills mobile app uses your phone's camera and AI-powered OCR to capture paper receipts and automatically extract key data. This guide covers the complete scanning workflow from opening the camera to saving the expense.
+
+## Step 1: Open the Camera
+
+There are several ways to start scanning a receipt:
+
+- **Home tab**: Tap the camera icon or the **Scan Receipt** quick-action button
+- **Expenses tab**: Tap the **+** button at the bottom of the screen, then select **Scan Receipt**
+- **Widget**: Use the Smartbills home screen widget (iOS) to launch the scanner directly
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/open-camera.png" alt="Opening the receipt scanner from the home tab" />
+</Frame>
+
+<Note>
+  The first time you use the scanner, the app will ask for camera permission. Tap **Allow** to grant access. Without camera permission, you can still upload receipt images from your photo library.
+</Note>
+
+## Step 2: Position the Receipt
+
+Hold your phone over the receipt. The scanner will display a viewfinder with guidelines to help you frame the document.
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/position-receipt.png" alt="Receipt positioned within the camera viewfinder" />
+</Frame>
+
+### Tips for Better Scans
+
+- **Flat surface**: Place the receipt on a flat, contrasting surface (e.g., a dark table for a white receipt)
+- **Good lighting**: Use natural light or a well-lit area. Avoid harsh shadows across the receipt
+- **Avoid glare**: Tilt your phone slightly if there is glare from overhead lighting
+- **Full receipt**: Make sure the entire receipt is visible, including the header with the merchant name and the footer with the total
+- **Steady hand**: Hold the phone steady for a moment to allow auto-focus to sharpen the image
+
+## Step 3: Capture the Receipt
+
+The scanner supports two capture modes:
+
+### Auto-Capture
+
+By default, the scanner detects when a receipt is properly framed and captures it automatically. You will see a green border appear around the receipt when it is detected, and the image is taken after a brief pause.
+
+### Manual Capture
+
+If auto-capture does not trigger, or if you prefer manual control, tap the **shutter button** at the bottom of the screen to capture the image.
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/capture-receipt.png" alt="Receipt captured with auto-detect border visible" />
+</Frame>
+
+### Scanning Multiple Pages
+
+If your receipt has multiple pages (e.g., a long restaurant bill or a multi-page invoice):
+
+1. After capturing the first page, tap **Add Page**
+2. Position and capture the next page
+3. Repeat for all pages
+4. Tap **Done** when all pages are captured
+
+All pages are combined into a single expense.
+
+## Step 4: Review Extracted Data
+
+After capture, Smartbills AI processes the receipt image and extracts key fields. This typically takes two to three seconds. The review screen displays the extracted information for you to verify.
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/review-data.png" alt="Review screen showing extracted receipt data" />
+</Frame>
+
+The AI extracts the following fields:
+
+| Field | Description |
+|-------|-------------|
+| **Merchant** | Business or vendor name from the receipt header |
+| **Date** | Transaction date |
+| **Total Amount** | Final amount including taxes |
+| **Subtotal** | Amount before taxes |
+| **Taxes** | Tax amounts (GST, HST, QST, PST, VAT, and others) |
+| **Currency** | Detected currency based on symbols and locale |
+| **Payment Method** | Card type or payment method if printed on the receipt |
+
+<Tip>
+  A confidence indicator is shown next to each extracted field. Fields with lower confidence are highlighted in yellow so you can review them closely. Tap any field to edit it if the extracted value is incorrect.
+</Tip>
+
+## Step 5: Assign a Category
+
+Tap the **Category** field to select an expense category. Smartbills may suggest a category based on the merchant name and your past categorization habits.
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/assign-category.png" alt="Category selection dropdown" />
+</Frame>
+
+1. Tap **Category** to open the category picker
+2. Browse or search for the appropriate category
+3. Tap the category to select it
+
+## Step 6: Add Notes (Optional)
+
+Tap the **Notes** field to add a description or business purpose for the expense. This is helpful for approvers reviewing your expense reports.
+
+## Step 7: Save the Expense
+
+Once you have reviewed the extracted data and made any corrections:
+
+1. Tap **Save** to save the expense to your personal wallet
+2. The expense appears in your Expenses tab with the receipt image attached
+
+<Frame>
+  <img src="/images/guides/mobile/scan-receipt/save-expense.png" alt="Expense saved successfully with receipt attached" />
+</Frame>
+
+## Supported Languages for OCR
+
+The Smartbills OCR engine supports receipts in the following languages:
+
+- English
+- French
+- Spanish
+- German
+- Italian
+- Portuguese
+- Dutch
+- Japanese
+- Chinese (Simplified and Traditional)
+- Korean
+
+<Note>
+  For best OCR accuracy, ensure the receipt text is legible and not faded. Thermal paper receipts may degrade over time, so scan them promptly after purchase.
+</Note>
+
+## Alternative: Upload from Photo Library
+
+If you have already taken a photo of a receipt or received one as an image file:
+
+1. Tap the **+** button on the Expenses tab
+2. Select **Upload from Library**
+3. Choose the receipt image from your photo library
+4. The same AI extraction and review process applies
+
+You can also forward receipt images to Smartbills via the iOS Share Sheet or Android Share menu from any app. See [Receipt Forwarding](/guides/mobile/receipt-forwarding) for details.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The scanner does not detect my receipt">
+    Make sure the receipt is on a contrasting background and well lit. Try manual capture by tapping the shutter button. If the receipt is very small (e.g., a convenience store slip), hold your phone closer to fill more of the viewfinder.
+  </Accordion>
+
+  <Accordion title="Extracted data is incorrect">
+    Tap any field on the review screen to edit it manually. OCR accuracy depends on receipt quality. Faded thermal paper, crumpled receipts, or low-contrast text may produce lower accuracy. For best results, scan receipts as soon as possible while the text is still clear.
+  </Accordion>
+
+  <Accordion title="Camera permission was denied">
+    Go to your device settings: **Settings > Smartbills > Camera** (iOS) or **Settings > Apps > Smartbills > Permissions > Camera** (Android). Toggle camera access on, then return to the app.
+  </Accordion>
+</AccordionGroup>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Manage Expenses" icon="receipt" href="/guides/mobile/manage-expenses">
+    View, edit, and organize scanned expenses
+  </Card>
+  <Card title="Expense Reports" icon="file-lines" href="/guides/mobile/expense-reports">
+    Add scanned expenses to a report and submit
+  </Card>
+  <Card title="Receipt Forwarding" icon="envelope" href="/guides/mobile/receipt-forwarding">
+    Forward digital receipts via email or share sheet
+  </Card>
+  <Card title="Offline Mode" icon="wifi-slash" href="/guides/mobile/offline-mode">
+    Scan receipts without an internet connection
+  </Card>
+</CardGroup>

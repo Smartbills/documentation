@@ -1,0 +1,131 @@
+---
+title: "Créer un fournisseur"
+api: "POST https://api.smartbills.io/v1/vendors"
+description: "Créer un nouveau fournisseur"
+---
+
+## Aperçu
+
+Créer un nouveau fournisseur pour suivre les fournisseurs de votre entreprise.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer pour l'authentification
+</ParamField>
+
+## Portées requises
+
+- `vendors.write`
+
+## Corps de la requête
+
+<ParamField body="name" type="string" required>
+  Nom du fournisseur
+</ParamField>
+
+<ParamField body="website" type="string" required>
+  URL du site web du fournisseur
+</ParamField>
+
+<ParamField body="logo" type="string">
+  URL du logo du fournisseur
+</ParamField>
+
+<ParamField body="address" type="object">
+  Adresse du fournisseur
+</ParamField>
+
+<ParamField body="email" type="string">
+  Courriel de contact
+</ParamField>
+
+<ParamField body="phoneNumber" type="string">
+  Numéro de téléphone de contact
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Métadonnées personnalisées
+</ParamField>
+
+<RequestExample>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/vendors \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "Acme Supplies Inc.",
+    "website": "https://acmesupplies.com",
+    "logo": "https://acmesupplies.com/logo.png",
+    "email": "contact@acmesupplies.com",
+    "phoneNumber": "+1-555-123-4567"
+  }'
+```
+
+```javascript JavaScript
+const vendor = await client.vendors.create({
+  name: "Acme Supplies Inc.",
+  website: "https://acmesupplies.com",
+  logo: "https://acmesupplies.com/logo.png",
+  email: "contact@acmesupplies.com",
+  phoneNumber: "+1-555-123-4567"
+});
+```
+
+```python Python
+vendor = client.vendors.create(
+    name="Acme Supplies Inc.",
+    website="https://acmesupplies.com",
+    logo="https://acmesupplies.com/logo.png",
+    email="contact@acmesupplies.com",
+    phone_number="+1-555-123-4567"
+)
+```
+
+```csharp C#
+var vendor = await client.Vendors.CreateAsync(new VendorCreateRequest
+{
+    Name = "Acme Supplies Inc.",
+    Website = "https://acmesupplies.com",
+    Logo = "https://acmesupplies.com/logo.png",
+    Email = "contact@acmesupplies.com",
+    PhoneNumber = "+1-555-123-4567"
+});
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 12345,
+  "name": "Acme Supplies Inc.",
+  "website": "https://acmesupplies.com",
+  "logo": "https://acmesupplies.com/logo.png",
+  "email": "contact@acmesupplies.com",
+  "phoneNumber": "+1-555-123-4567",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+</ResponseExample>
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Obtenir un fournisseur" icon="eye" href="/fr/api-reference/vendors/get-vendor">
+    Récupérer un fournisseur par ID
+  </Card>
+  <Card title="Lister les fournisseurs" icon="list" href="/fr/api-reference/vendors/list-vendors">
+    Obtenir tous les fournisseurs
+  </Card>
+  <Card title="Mettre à jour un fournisseur" icon="pen" href="/fr/api-reference/vendors/update-vendor">
+    Modifier les détails d'un fournisseur
+  </Card>
+  <Card title="Supprimer un fournisseur" icon="trash" href="/fr/api-reference/vendors/delete-vendor">
+    Supprimer un fournisseur
+  </Card>
+</CardGroup>

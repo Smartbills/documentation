@@ -1,0 +1,276 @@
+---
+title: "Limites de Débit"
+description: "Comprendre les politiques de limitation de débit de l'API Smartbills, les en-têtes et les bonnes pratiques"
+---
+
+## Aperçu
+
+Pour garantir une utilisation equitable et maintenir des performances optimales, l'API Smartbills implemente une limitation de débit. Cela aide à controler le trafic des requêtes entrantes et offre une expérience API fluide et previsible pour tous les utilisateurs.
+
+<Note>
+  **Utilisation equitable** : Les limites de débit garantissent qu'aucun utilisateur ne peut monopoliser les ressources de l'API, maintenant un service de qualite pour tous.
+</Note>
+
+## Limites de débit par plan
+
+| Plan | Requêtes par minute | Capacite de pointe | Limite quotidienne |
+|------|---------------------|--------------------|--------------------|
+| **Gratuit** | 60 | 60 | 5 000 |
+| **Professionnel** | 300 | 300 | 50 000 |
+| **Affaires** | 1 000 | 1 000 | 200 000 |
+| **Entreprise** | Personnalisé | Personnalisé | Personnalisé |
+
+<Tip>
+  **Besoin de limites plus elevees ?** Les clients Entreprise peuvent demander des limites de débit personnalisées. Contactez [sales@smartbills.io](mailto:sales@smartbills.io) pour plus de détails.
+</Tip>
+
+## En-têtes de limite de débit
+
+Chaque réponse API inclut des informations sur la limite de débit dans les en-têtes :
+
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1704067200
+```
+
+<ResponseField name="X-RateLimit-Limit" type="integer">
+  Nombre maximum de requêtes autorisées par minute pour votre plan
+</ResponseField>
+
+<ResponseField name="X-RateLimit-Remaining" type="integer">
+  Nombre de requêtes restantes dans la fenêtre actuelle
+</ResponseField>
+
+<ResponseField name="X-RateLimit-Reset" type="integer">
+  Horodatage Unix (en secondes) du moment où la fenêtre de limite de débit se réinitialise
+</ResponseField>
+
+## Réponse de limite de débit dépassée
+
+Lorsque vous depassez la limite de débit, vous recevez une réponse `429 Too Many Requests` :
+
+```http
+HTTP/1.1 429 Too Many Requests
+Content-Type: application/json
+Retry-After: 60
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1704067200
+```
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Limite de débit depassee. Veuillez réessayer plus tard.",
+    "retryAfter": 60
+  }
+}
+```
+
+L'en-tête `Retry-After` indique combien de secondes attendre avant de réessayer.
+
+## Gérer les limites de débit
+
+### Vérifier les en-têtes de limite de débit
+
+Surveillez toujours les en-têtes de limite de débit dans votre application :
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'x-tenant-id: 123' \
+  --verbose 2>&1 | grep -i "x-ratelimit"
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+// Lors de requêtes fetch brutes, vérifiér les en-tetes :
+const response = await fetch('https://api.smartbills.io/v1/expenses', {
+  headers: {
+    'Authorization': 'Bearer VOTRE_CLE_API',
+    'x-tenant-id': '123'
+  }
+});
+
+const limit = response.headers.get('X-RateLimit-Limit');
+const remaining = response.headers.get('X-RateLimit-Remaining');
+const reset = response.headers.get('X-RateLimit-Reset');
+
+console.log(`Limite de débit : ${remaining}/${limit}`);
+console.log(`Reinitialisation à : ${new Date(reset * 1000)}`);
+
+if (remaining < limit * 0.1) {
+  console.warn('Approche de la limite de débit !');
+}
+```
+
+```python Python
+from smartbills import SmartbillsClient
+import requests
+from datetime import datetime
+
+response = requests.get(
+    'https://api.smartbills.io/v1/expenses',
+    headers={
+        'Authorization': 'Bearer VOTRE_CLE_API',
+        'x-tenant-id': '123'
+    }
+)
+
+limit = int(response.headers.get('X-RateLimit-Limit', 0))
+remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
+reset = int(response.headers.get('X-RateLimit-Reset', 0))
+
+print(f"Limite de débit : {remaining}/{limit}")
+print(f"Reinitialisation à : {datetime.fromtimestamp(reset)}")
+
+if remaining < limit * 0.1:
+    print("Attention : Approche de la limite de débit !")
+```
+
+</CodeGroup>
+
+### Implementer un backoff exponentiel
+
+Lorsque vous recevez une erreur 429, implementez un backoff exponentiel :
+
+<CodeGroup>
+
+```javascript JavaScript
+async function makeRequestWithRetry(client, fn, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (error.status === 429) {
+        const retryAfter = error.retryAfter || Math.pow(2, attempt);
+        const waitTime = retryAfter * 1000;
+
+        console.log(`Limite de débit atteinte. Attente de ${retryAfter}s avant le réessai...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw new Error('Nombre maximum de tentatives depasse');
+}
+
+// Utilisation
+const expense = await makeRequestWithRetry(client, () =>
+  client.expenses.get(12345)
+);
+```
+
+```python Python
+import time
+from smartbills.errors import SmartbillsRateLimitError
+
+def make_request_with_retry(fn, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            return fn()
+        except SmartbillsRateLimitError as e:
+            retry_after = e.retry_after or (2 ** attempt)
+
+            print(f"Limite de débit atteinte. Attente de {retry_after}s avant le réessai...")
+            time.sleep(retry_after)
+            continue
+
+    raise Exception("Nombre maximum de tentatives depasse")
+
+# Utilisation
+expense = make_request_with_retry(lambda: client.expenses.get(12345))
+```
+
+</CodeGroup>
+
+## Bonnes pratiques
+
+<AccordionGroup>
+  <Accordion title="Utiliser la mise en cache" icon="database">
+    Mettez en cache les réponses API pour réduire les requêtes redondantes. Utilisez une invalidation de cache basee sur le temps pour les données qui ne changent pas frequemment.
+  </Accordion>
+
+  <Accordion title="Utiliser la pagination efficacement" icon="list">
+    Utilisez la taille de page maximale (100) pour le traitement en lot afin de minimiser le nombre d'appels API. Consultez [Pagination](/fr/api-reference/pagination) pour plus de détails.
+  </Accordion>
+
+  <Accordion title="Regrouper les requêtes" icon="layer-group">
+    Combinez plusieurs opérations en requêtes uniques lorsque des points d'accès en lot sont disponibles (ex. : mise à jour en lot des dépenses).
+  </Accordion>
+
+  <Accordion title="Utiliser les webhooks au lieu du polling" icon="webhook">
+    Utilisez les webhooks pour recevoir des notifications en temps réel au lieu d'interroger l'API pour les changements. Consultez [Webhooks](/fr/api-reference/webhooks) pour les instructions de configuration.
+  </Accordion>
+
+  <Accordion title="Implementer une file d'attente de requêtes" icon="list-ol">
+    Mettez les requêtes en file d'attente et traitez-les à un débit controle pour eviter les rafales qui depassent votre limite de débit.
+  </Accordion>
+
+  <Accordion title="Surveiller l'utilisation" icon="chart-line">
+    Suivez vos habitudes d'utilisation de l'API et configurez des alertes lorsque vous approchez des limites de débit.
+  </Accordion>
+</AccordionGroup>
+
+## Demander des limites plus elevees
+
+Les clients Entreprise peuvent demander des limites de débit personnalisées :
+
+- Courriel : [sales@smartbills.io](mailto:sales@smartbills.io)
+- Incluez votre cas d'utilisation, le volume de requêtes prévu et les détails de votre plan actuel
+- Délai d'approbation typique : 2-3 jours ouvrables
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Atteindre regulierement les limites de débit" icon="gauge-high">
+    1. Optimisez votre code pour réduire les requêtes inutiles
+    2. Implementez la mise en cache pour les données frequemment accedees
+    3. Utilisez les webhooks pour remplacer les modèles de polling
+    4. Regroupez les opérations quand c'est possible
+    5. Envisagez de mettre à niveau votre plan
+  </Accordion>
+
+  <Accordion title="En-têtes de limite de débit manquants" icon="question">
+    Assurez-vous d'utiliser la dernière version de l'API (v1) et vériﬁez que votre client HTTP ne supprime pas les en-têtes de réponse.
+  </Accordion>
+
+  <Accordion title="Erreurs 429 inattendues" icon="triangle-exclamation">
+    Vérifiez s'il y à plusieurs instances de votre application en cours d'exécution, des clés API partagées entre les services, ou des scripts automatises utilisant la meme clé. Utilisez des clés API séparées pour chaque environnement et service.
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **Important** : Les limites de débit sont par clé API. Utiliser la meme clé dans plusieurs services partagera la limite de débit.
+</Warning>
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Webhooks" icon="webhook" href="/fr/api-reference/webhooks">
+    Utiliser les webhooks au lieu du polling
+  </Card>
+  <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
+    Gérer les erreurs de limite de débit
+  </Card>
+  <Card title="Pagination" icon="list" href="/fr/api-reference/pagination">
+    Paginer efficacement les résultats
+  </Card>
+  <Card title="Clés API" icon="key" href="/fr/api-reference/api-keys">
+    Gérer vos clés API
+  </Card>
+</CardGroup>

@@ -1,0 +1,171 @@
+---
+title: "Manage Expenses on Mobile"
+description: "View, edit, and organize expenses from your mobile device"
+---
+
+## Overview
+
+The Expenses tab in the Smartbills mobile app gives you full control over your personal expenses. You can browse your expense history, filter by various criteria, edit details, attach additional photos, and remove expenses you no longer need -- all from your phone.
+
+<Frame>
+  <img src="/images/guides/mobile/manage-expenses/expenses-list.png" alt="Expenses tab showing a list of expenses with status indicators" />
+</Frame>
+
+## Viewing Your Expenses
+
+Tap the **Expenses** tab in the bottom navigation to see all of your personal expenses. Each expense in the list displays the merchant name, amount, date, and current status. Expenses are sorted by date with the most recent at the top.
+
+### Filtering Expenses
+
+Use the filter controls at the top of the Expenses tab to narrow down the list.
+
+<Steps>
+  <Step title="Open Filters">
+    Tap the **Filter** icon at the top right of the Expenses tab. The filter panel slides up from the bottom of the screen.
+
+    <Frame>
+      <img src="/images/guides/mobile/manage-expenses/filter-panel.png" alt="Filter panel with date range, category, and status options" />
+    </Frame>
+  </Step>
+
+  <Step title="Set Your Criteria">
+    Choose from the following filter options:
+
+    | Filter | Description |
+    |--------|-------------|
+    | **Date Range** | Select a start and end date, or choose a preset range (This Week, This Month, Last 30 Days, This Quarter) |
+    | **Category** | Filter by one or more expense categories (e.g., Travel, Meals, Office Supplies) |
+    | **Status** | Show only expenses with a specific status (Draft, Pending, In Report, Submitted, Approved, Rejected) |
+
+  </Step>
+
+  <Step title="Apply Filters">
+    Tap **Apply** to update the expense list. Active filters are shown as chips below the search bar. Tap any chip to remove that filter, or tap **Clear All** to reset.
+  </Step>
+</Steps>
+
+### Searching Expenses
+
+Tap the **Search** bar at the top of the Expenses tab and type a merchant name, amount, or keyword. Results update as you type. Search looks across merchant names, notes, categories, and amounts.
+
+## Viewing Expense Details
+
+Tap any expense in the list to open the detail view. The detail screen shows:
+
+- The receipt image (tap to view full screen, pinch to zoom)
+- All extracted and edited fields: merchant, amount, date, currency, category, department, payment method, and notes
+- Tax line items (GST, HST, PST, VAT, etc.)
+- The expense status and any associated report
+- A timestamp showing when the expense was created and last modified
+
+<Frame>
+  <img src="/images/guides/mobile/manage-expenses/expense-detail.png" alt="Expense detail view showing receipt image and editable fields" />
+</Frame>
+
+## Editing an Expense
+
+You can edit any expense that is in **Draft** or **Pending** status, or that belongs to a draft (unsubmitted) report.
+
+<Steps>
+  <Step title="Open the Expense">
+    Tap the expense in the list to open the detail view.
+  </Step>
+
+  <Step title="Tap Edit">
+    Tap the **Edit** button at the top right of the detail screen. The fields become editable.
+
+    <Frame>
+      <img src="/images/guides/mobile/manage-expenses/edit-expense.png" alt="Expense in edit mode with editable fields highlighted" />
+    </Frame>
+  </Step>
+
+  <Step title="Modify the Fields">
+    Tap any field to change its value:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Merchant** | The name of the vendor or store |
+    | **Amount** | The total expense amount |
+    | **Date** | The date of the transaction |
+    | **Currency** | The currency used for the purchase |
+    | **Category** | The expense category |
+    | **Department** | The department this expense is charged to |
+    | **Payment Method** | How the expense was paid (corporate card, personal card, cash) |
+    | **Notes** | Additional context or business purpose |
+    | **Tax Amounts** | Individual tax line items |
+
+  </Step>
+
+  <Step title="Save Changes">
+    Tap **Save** to apply your changes. The expense list updates immediately.
+  </Step>
+</Steps>
+
+<Note>
+  **Locked expenses**: Expenses that belong to a submitted report cannot be edited until the report is recalled. See [Recall a Report](/guides/web-app/reports/recall-report) for instructions.
+</Note>
+
+## Deleting an Expense
+
+You can delete expenses that are in **Draft** or **Pending** status and are not part of a submitted report.
+
+### Swipe to Delete
+
+On the Expenses list, swipe left on the expense you want to remove. A red **Delete** button appears. Tap it to confirm the deletion.
+
+### Delete from Detail View
+
+Open the expense detail view, tap the **More** menu (three dots) at the top right, and select **Delete**. Confirm the deletion in the dialog that appears.
+
+<Warning>
+  Deleting an expense is permanent. The receipt image and all associated data are removed and cannot be recovered.
+</Warning>
+
+## Attaching Additional Photos
+
+If you need to add supplementary images to an expense -- such as an itemized breakdown, a second page of a receipt, or a photo of the item purchased -- you can attach additional photos.
+
+<Steps>
+  <Step title="Open the Expense">
+    Tap the expense to open the detail view.
+  </Step>
+
+  <Step title="Tap Add Photo">
+    Scroll down to the **Attachments** section and tap **Add Photo**. You can choose to take a new photo with your camera or select an existing image from your photo library.
+
+    <Frame>
+      <img src="/images/guides/mobile/manage-expenses/add-photo.png" alt="Attachments section with Add Photo button" />
+    </Frame>
+  </Step>
+
+  <Step title="Review and Save">
+    Preview the attached image. Tap **Save** to add it to the expense. Additional attachments appear in a horizontal carousel below the primary receipt image.
+  </Step>
+</Steps>
+
+## Sharing Expense Details
+
+To share an expense with a colleague or for your own records:
+
+1. Open the expense detail view
+2. Tap the **Share** icon at the top right
+3. Choose your preferred sharing method (email, messaging app, or save to files)
+
+The shared output includes the receipt image, expense amount, merchant name, date, category, and any notes.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Scan a Receipt" icon="camera" href="/guides/mobile/scan-receipt">
+    Capture new receipts with your phone camera
+  </Card>
+  <Card title="Expense Reports on Mobile" icon="file-invoice" href="/guides/mobile/expense-reports">
+    Create and submit expense reports from your phone
+  </Card>
+  <Card title="Receipt Forwarding" icon="envelope" href="/guides/mobile/receipt-forwarding">
+    Forward receipts from other apps
+  </Card>
+  <Card title="Offline Mode" icon="wifi-slash" href="/guides/mobile/offline-mode">
+    Manage expenses without internet
+  </Card>
+</CardGroup>

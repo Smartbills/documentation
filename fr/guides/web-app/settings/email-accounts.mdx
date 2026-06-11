@@ -1,0 +1,109 @@
+---
+title: "Comptes Email"
+description: "Connectez des comptes email pour l'importation automatique des reçus"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/settings/email-accounts-overview.png" alt="Page des paramètres de comptes email" />
+</Frame>
+
+## Aperçu
+
+Smartbills peut se connecter à vos comptes email et scanner automatiquement les courriels contenant des reçus. Lorsqu'un courriel de reçu est détecté, le système extrait les données du reçu et créé une entree de dépense dans votre boîte de réception. Cela elimine le besoin de transferer ou télécharger manuellement les reçus.
+
+Pour gérer les comptes email, naviguez vers **Paramètres > Comptes Email** dans la barre latérale gauche.
+
+<Note>
+  Seuls les utilisateurs ayant le role **Administrateur** ou **Proprietaire** peuvent connecter et gérer les comptes email.
+</Note>
+
+## Fournisseurs de Messagerie Pris en Charge
+
+Smartbills prend en charge les fournisseurs de messagerie suivants :
+
+| Fournisseur | Méthode de connexion |
+|-------------|----------------------|
+| **Gmail** | OAuth 2.0 (connexion avec compte Google) |
+| **Outlook / Office 365** | OAuth 2.0 (connexion avec compte Microsoft) |
+
+## Connecter un Compte Email
+
+<Steps>
+  <Step title="Ouvrez les Paramètres de Comptes Email">
+    Naviguez vers **Paramètres > Comptes Email**. La page affiche les comptes actuellement connectes.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/email-accounts-list.png" alt="Liste des comptes email affichant les comptes connectes" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquez sur Connecter un Compte">
+    Cliquez sur le bouton **Connecter un compte** et sélectionnez votre fournisseur de messagerie (Gmail ou Outlook).
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/email-accounts-connect.png" alt="Bouton Connecter un compte avec sélection du fournisseur" />
+    </Frame>
+  </Step>
+
+  <Step title="Autorisez l'Acces">
+    Une nouvelle fenêtre s'ouvre pour le flux de connexion OAuth de votre fournisseur de messagerie. Connectez-vous avec le compte email que vous souhaitez associer et accordez à Smartbills l'acces en lecture à votre boîte de réception.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/email-accounts-oauth.png" alt="Écran d'autorisation OAuth du fournisseur de messagerie" />
+    </Frame>
+
+    <Note>
+      Smartbills ne demande qu'un accès en lecture pour scanner les courriels de reçus. Il n'envoie, ne supprime et ne modifié aucun courriel dans votre compte.
+    </Note>
+  </Step>
+
+  <Step title="Confirmez la Connexion">
+    Une fois l'autorisation terminee, vous etes redirige vers Smartbills. Le compte email connecte apparaît dans la liste avec un statut **Actif**.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/email-accounts-connected.png" alt="Compte email connecte avec succès affichant le statut Actif" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Check>
+  Votre compte email est connecte. Smartbills commencera à scanner automatiquement les courriels de reçus.
+</Check>
+
+## Fonctionnement du Scan Automatique
+
+Une fois connecte, Smartbills vérifié périodiquement le compte email connecte à la recherche de messages contenant des reçus ou des factures. Le système :
+
+1. Scanne les courriels entrants à la recherche de contenu de type reçu (confirmations de commande, factures, reçus de paiement)
+2. Extrait les données du reçu incluant le nom du fournisseur, le montant, la date et les informations fiscales
+3. Créé une entree de dépense dans la boîte de réception de votre entreprise
+4. Joint le courriel original ou le PDF comme document justificatif
+
+Smartbills utilise l'IA pour distinguer les courriels de reçus de la correspondance reguliere, de sorte que seuls les courriels pertinents sont traites.
+
+## Gérer les Comptes Connectes
+
+### Déconnectér un Compte
+
+Pour arreter le scan d'un compte email :
+
+1. Cliquez sur le compte dans la liste des comptes connectes
+2. Cliquez sur **Déconnectér**
+3. Confirmez l'action
+
+La déconnexion supprime l'acces de Smartbills au compte email. Les dépenses deja importees depuis ce compte sont conservées.
+
+### Reconnecter un Compte
+
+Si l'autorisation de votre fournisseur de messagerie expiré ou est révoquée, le statut du compte passe à **Déconnecté**. Cliquez sur **Reconnecter** à côté du compte et complétez à nouveau le flux OAuth.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Paramètres Généraux" icon="gear" href="/fr/guides/web-app/settings/general">
+    Configurez les informations de votre entreprise
+  </Card>
+  <Card title="Facturation" icon="credit-card" href="/fr/guides/web-app/settings/billing">
+    Gérez votre abonnement
+  </Card>
+</CardGroup>

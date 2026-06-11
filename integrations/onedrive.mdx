@@ -1,114 +1,120 @@
 ---
-title: "OneDrive Integration"
-description: "Backup receipts to Microsoft OneDrive"
+title: "OneDrive"
+description: "Archive receipts and expense documents to Microsoft OneDrive and SharePoint"
 ---
 
 ## Overview
 
-Connect OneDrive to automatically archive expense receipts and documents to your Microsoft cloud storage.
+The OneDrive integration automatically archives receipt images and expense documents from Smartbills to your Microsoft OneDrive or SharePoint document library. Files are organized in configurable folder structures with support for retention policies.
 
-## Features
+<Frame>
+  <img src="/images/integrations/onedrive/overview.png" alt="OneDrive integration" />
+</Frame>
+
+## Key Features
 
 | Feature | Description |
 |---------|-------------|
-| **Two-way Sync** | Import receipts from OneDrive and export from Smartbills |
-| **Folder Selection** | Choose specific folders for import and export |
-| **Custom Export Paths** | Template-based folder paths for exports |
-| **Auto-sync** | Automatic receipt backup |
-| **SharePoint** | Support for SharePoint sites |
-| **Organization** | Structured folder hierarchy |
-| **Per-Employee Folders** | Each employee can connect their own OneDrive |
-| **Business Folders** | Admin-configured shared folders for the whole business |
-| **Delta Sync** | Microsoft Graph delta API for efficient change detection |
+| **Auto-archival** | Automatically save receipts to OneDrive when expenses are created or approved |
+| **SharePoint Sync** | Support for SharePoint Online document libraries |
+| **Folder Structure** | Configurable folder organization by date, category, or employee |
+| **Retention Policies** | Leverage Microsoft 365 retention and compliance policies |
+| **Report Export** | Export expense report bundles to OneDrive |
+| **Selective Backup** | Choose which expense types to archive |
+
+## Prerequisites
+
+- Microsoft 365 account (personal or business)
+- Smartbills Business plan or higher
+- OneDrive storage available
 
 ## Setup
 
-### Connect OneDrive
-
 <Steps>
-  <Step title="Navigate to Apps">
-    Go to **Settings > Apps** in Smartbills
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **OneDrive**.
   </Step>
-  <Step title="Find OneDrive">
-    Search for OneDrive in the marketplace
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in with your Microsoft account. Authorize Smartbills to manage files.
+
+    <Frame>
+      <img src="/images/integrations/onedrive/authorize.png" alt="OneDrive authorization" />
+    </Frame>
   </Step>
-  <Step title="Sign In">
-    Sign in with Microsoft account
+  <Step title="Choose Destination">
+    Select OneDrive (personal) or a SharePoint document library as the destination.
   </Step>
-  <Step title="Grant Access">
-    Authorize Smartbills access
+  <Step title="Configure Folder Structure">
+    Set up folder naming conventions and hierarchy.
   </Step>
-  <Step title="Select Folder">
-    Choose destination folder
+  <Step title="Set Sync Preferences">
+    Configure when files are archived and in what format.
   </Step>
 </Steps>
 
 ## Configuration
 
-### Folder Configuration
+### Storage Destination
 
-Add folders for import, export, or both:
-
-| Direction | Description |
-|-----------|-------------|
-| **Import** | Watch folder for new receipt files to import into Smartbills |
-| **Export** | Export Smartbills receipts to this folder |
-| **Both** | Two-way sync - import new files and export receipts |
-
-### Export Path Templates
-
-Customize where exported receipts are saved:
-
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `{{year}}` | Current year | 2026 |
-| `{{month}}` | Current month | 03 |
-| `{{day}}` | Current day | 15 |
-| `{{vendor}}` | Vendor name | Starbucks |
-| `{{category}}` | Expense category | Travel |
-
-### Folder Options
-
-| Type | Description |
-|------|-------------|
-| Personal OneDrive | Your personal storage |
-| OneDrive for Business | Company storage |
-| SharePoint | Team site document library |
+| Destination | Best For |
+|-------------|---------|
+| OneDrive Personal | Individual users, small teams |
+| OneDrive for Business | Organizations using Microsoft 365 |
+| SharePoint Library | Shared access, compliance requirements |
 
 ### Folder Structure
 
-```
-Smartbills Receipts/
-├── 2026/
-│   ├── Q1/
-│   │   ├── January/
-│   │   ├── February/
-│   │   └── March/
-│   └── Q2/
-```
+| Structure | Example Path |
+|-----------|-------------|
+| By year/month | `Smartbills/2026/04/receipt-123.pdf` |
+| By category | `Smartbills/Office Supplies/receipt-123.pdf` |
+| By employee | `Smartbills/Jane Doe/receipt-123.pdf` |
+| By report | `Smartbills/Reports/Q1 Expenses/receipt-123.pdf` |
 
-## Sync Settings
+### Sync Triggers
 
-### Timing
+| Trigger | Description |
+|---------|-------------|
+| On upload | Archive immediately when receipt is uploaded |
+| On approval | Archive only after expense is approved |
+| Scheduled | Batch archive daily or weekly |
 
-| Option | Behavior |
-|--------|----------|
-| Real-time | Upload immediately via webhooks |
-| Delta Sync | Efficient change detection via Microsoft Graph |
-| Manual | Trigger from integration settings |
+### File Format
 
-### Include
+| Format | Description |
+|--------|-------------|
+| Original | Keep original file format (JPG, PNG, PDF) |
+| PDF | Convert all receipts to PDF |
+| Both | Save original and PDF copy |
 
-- Receipt images
-- Expense PDFs
-- Report exports
+## Data Sync
 
-## Best Practices
+| Smartbills | OneDrive | Direction | Frequency |
+|-----------|----------|-----------|-----------|
+| Receipt images | Files | Smartbills -> OneDrive | Based on trigger setting |
+| Expense report PDFs | PDF files | Smartbills -> OneDrive | On export |
+| Document bundles | ZIP files | Smartbills -> OneDrive | On export |
 
-<Tip>
-**Use business OneDrive** - Keep company expenses in company storage.
-</Tip>
+## Troubleshooting
 
-<Tip>
-**Set retention policy** - Configure OneDrive retention for compliance.
-</Tip>
+<AccordionGroup>
+  <Accordion title="Files not appearing in OneDrive">
+    Check the integration status in **Settings > Apps > OneDrive**. Verify the destination folder exists and has not been renamed or moved.
+  </Accordion>
+
+  <Accordion title="Authentication expired">
+    Microsoft tokens expire periodically. Go to integration settings and click **Reconnect**.
+  </Accordion>
+
+  <Accordion title="SharePoint access denied">
+    Ensure the connected account has Contribute permissions or higher on the target SharePoint library.
+  </Accordion>
+
+  <Accordion title="Storage quota full">
+    Check your OneDrive or SharePoint storage quota. Free up space or contact your Microsoft 365 admin.
+  </Accordion>
+
+  <Accordion title="Retention policy conflicts">
+    If files are being deleted or moved unexpectedly, check your Microsoft 365 retention policies. Smartbills does not override existing retention rules.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,202 @@
+---
+title: "Manage Documents"
+description: "Upload, organize, search, and export documents in the Vault"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/vault/manage-hero.png" alt="Managing documents in the Smartbills Vault" />
+</Frame>
+
+## Overview
+
+The Vault stores your financial documents automatically, but you can also upload files manually, organize them with tags, search for specific records, and export documents when needed. This guide covers the key document management tasks.
+
+## Viewing Documents
+
+<Steps>
+  <Step title="Navigate to the Vault">
+    Click **Vault** in the left sidebar to open the document vault.
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/navigate-to-vault.png" alt="Clicking Vault in the sidebar" />
+    </Frame>
+  </Step>
+
+  <Step title="Browse by Category or Date">
+    Use the filter tabs and date picker at the top to narrow the document list:
+
+    - Click a **document type** tab (All, Receipts, Reports, Invoices, Other) to filter by category
+    - Use the **date range** picker to focus on a specific period
+    - Sort by date, name, or file size using the column headers
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/browse-documents.png" alt="Browsing documents by category and date" />
+    </Frame>
+  </Step>
+
+  <Step title="Click to Preview or Download">
+    Click on any document to open the preview panel. From the preview, you can:
+
+    - View the document at full size
+    - Click **Download** to save a copy to your computer
+    - Click the link to the related expense, report, or bill
+    - View metadata such as upload date, file size, and tags
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/preview-download.png" alt="Document preview with download button and metadata" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Uploading Documents
+
+You can upload files directly to the Vault for documents that are not automatically captured through expenses or bills.
+
+<Steps>
+  <Step title="Click Upload">
+    In the Vault, click the **Upload** button in the top-right corner.
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/upload-button.png" alt="Upload button in the Vault" />
+    </Frame>
+  </Step>
+
+  <Step title="Select Files">
+    Drag and drop files onto the upload area, or click **Browse** to select files from your computer. You can upload multiple files at once.
+
+    **Supported formats:**
+    - PDF documents
+    - Images (JPEG, PNG)
+    - Spreadsheets (XLSX, CSV)
+    - Other common document formats
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/select-files.png" alt="Drag and drop or browse to select files for upload" />
+    </Frame>
+  </Step>
+
+  <Step title="Add Tags and Description">
+    For each uploaded file, you can add:
+
+    - **Tags** -- Keywords for easier searching (e.g., "contract", "Q1-2024", "vendor-acme")
+    - **Description** -- A brief note about the document's contents or purpose
+    - **Category** -- Classify the document type (receipt, invoice, contract, other)
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/add-tags-description.png" alt="Adding tags and description to uploaded documents" />
+    </Frame>
+  </Step>
+
+  <Step title="Save">
+    Click **Save** to complete the upload. The documents appear in the Vault immediately and are available for searching and downloading.
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/upload-complete.png" alt="Upload complete with documents added to the Vault" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Searching for Documents
+
+The Vault search bar helps you find specific documents quickly.
+
+### Basic Search
+
+Type a keyword into the search bar at the top of the Vault. Search matches against:
+
+- File name
+- Tags
+- Description
+- Associated vendor, employee, or report name
+
+<Frame>
+  <img src="/images/guides/web-app/vault/search-bar.png" alt="Using the search bar to find documents" />
+</Frame>
+
+### Advanced Filtering
+
+Combine search with filters for more precise results:
+
+1. Enter a search term
+2. Apply a **date range** to narrow the time period
+3. Select a **document type** to focus on a category
+4. Filter by **employee** to see a specific person's documents
+5. Use **tags** to match labeled documents
+
+<Tip>
+  **Search tip**: Use specific terms for better results. Searching for "acme invoice march" is more effective than searching for "document".
+</Tip>
+
+## Exporting Documents
+
+You can download individual documents or export multiple files at once.
+
+### Download a Single Document
+
+1. Click on the document to open the preview
+2. Click the **Download** button
+3. The file is saved to your computer's default download location
+
+### Bulk Export as ZIP
+
+<Steps>
+  <Step title="Select Documents">
+    Use the checkboxes next to each document to select the files you want to export. You can also use **Select All** to select every document in the current filtered view.
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/select-for-export.png" alt="Selecting multiple documents for bulk export" />
+    </Frame>
+  </Step>
+
+  <Step title="Click Download">
+    With documents selected, click the **Download** button in the toolbar. If multiple files are selected, they are packaged into a ZIP archive.
+
+    <Frame>
+      <img src="/images/guides/web-app/vault/download-zip.png" alt="Downloading selected documents as a ZIP archive" />
+    </Frame>
+  </Step>
+</Steps>
+
+<Note>
+  **Large exports**: If you select a large number of documents, the ZIP file may take a moment to prepare. A progress indicator shows the export status.
+</Note>
+
+## Editing Document Metadata
+
+You can update the tags and description on any document in the Vault:
+
+1. Click on the document to open the preview
+2. Click **Edit** next to the tags or description field
+3. Make your changes
+4. Click **Save**
+
+This does not modify the original file -- only the metadata associated with it.
+
+## Deleting Documents
+
+Manually uploaded documents can be removed from the Vault:
+
+1. Open the document preview
+2. Click **Delete**
+3. Confirm the deletion
+
+<Warning>
+  **Auto-archived documents** (those linked to expenses, reports, or bills) cannot be deleted from the Vault while the associated record exists. This ensures document integrity for compliance purposes.
+</Warning>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Vault Overview" icon="vault" href="/guides/web-app/vault/overview">
+    Learn about the Vault's purpose and access controls
+  </Card>
+  <Card title="Bills" icon="file-invoice-dollar" href="/guides/web-app/bills/overview">
+    Manage vendor invoices
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Create and submit expense reports
+  </Card>
+  <Card title="Settings" icon="gear" href="/guides/web-app/settings/general">
+    Configure vault and retention settings
+  </Card>
+</CardGroup>

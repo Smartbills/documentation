@@ -1,0 +1,195 @@
+---
+title: "Mettre à jour un département"
+description: "Mettre à jour un département existant"
+api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/departments/{departmentId}"
+---
+
+## Aperçu
+
+Mettre à jour un département existant. Tous les champs sont optionnels -- seuls les champs inclus dans le corps de la requête seront modifiés.
+
+## Authentification
+
+<ParamField header="Authorization" type="string" required>
+  Jeton Bearer. Format : `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Identifiant d'entreprise pour le contexte multi-locataire
+</ParamField>
+
+## Paramètres de chemin
+
+<ParamField path="businessId" type="integer" required>
+  L'identifiant unique de l'entreprise
+</ParamField>
+
+<ParamField path="departmentId" type="integer" required>
+  L'identifiant unique du département à mettre à jour
+</ParamField>
+
+## Corps de la requête
+
+Tous les champs sont optionnels. Incluez uniquement les champs que vous souhaitez modifier.
+
+<ParamField body="name" type="string">
+  Nom du département. Doit être unique au sein de l'entreprise.
+</ParamField>
+
+<ParamField body="code" type="string">
+  Code court du département pour référence interne
+</ParamField>
+
+<ParamField body="costCenter" type="string">
+  Identifiant du centre de coûts pour l'intégration comptable
+</ParamField>
+
+<ParamField body="defaultApproverId" type="integer">
+  ID de l'utilisateur qui devrait être l'approbateur par défaut des rapports de dépenses de ce département
+</ParamField>
+
+<ParamField body="enabled" type="boolean">
+  Indique si le département est actif. Définir sur `false` masque le département de la sélection mais n'affecte pas les associations existantes.
+</ParamField>
+
+## Réponse
+
+Retourne l'objet département mis à jour.
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du département
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom du département
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Code du département
+</ResponseField>
+
+<ResponseField name="costCenter" type="string">
+  Identifiant du centre de coûts
+</ResponseField>
+
+<ResponseField name="defaultApproverId" type="integer">
+  ID de l'approbateur par défaut
+</ResponseField>
+
+<ResponseField name="enabled" type="boolean">
+  Indique si le département est actif
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création du département (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/departments/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "name": "Software Engineering",
+    "costCenter": "CC-110",
+    "defaultApproverId": 510
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const updated = await client.departments.update(1, {
+  name: "Software Engineering",
+  costCenter: "CC-110",
+  defaultApproverId: 510
+});
+
+console.log(`Updated department: ${updated.name}`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+updated = await client.departments.update(
+    department_id=1,
+    name="Software Engineering",
+    cost_center="CC-110",
+    default_approver_id=510
+)
+
+print(f"Updated department: {updated.name}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1,
+  "name": "Software Engineering",
+  "code": "ENG",
+  "costCenter": "CC-110",
+  "defaultApproverId": 510,
+  "enabled": true,
+  "createdAt": "2024-01-10T09:00:00Z",
+  "updatedAt": "2025-01-20T15:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Désactiver un département
+
+Pour désactiver un département sans le supprimer, définissez `enabled` sur `false`. Les départements désactivés sont masqués des listes déroulantes de sélection, mais les affectations d'employés et les associations de dépenses existantes restent inchangées.
+
+```bash
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/departments/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{ "enabled": false }'
+```
+
+## Réponses d'erreur
+
+| Code de statut | Code d'erreur | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_ERROR | Valeurs de champs invalides |
+| 400 | DUPLICATE_NAME | Un département avec ce nom existe déjà |
+| 401 | UNAUTHORIZED | Clé API manquante ou invalide |
+| 403 | FORBIDDEN | Permissions insuffisantes pour gérer les départements |
+| 404 | DEPARTMENT_NOT_FOUND | L'identifiant du département n'existe pas |
+| 404 | BUSINESS_NOT_FOUND | L'identifiant de l'entreprise n'existe pas |
+| 404 | APPROVER_NOT_FOUND | L'identifiant de l'approbateur par défaut spécifié n'existe pas |
+| 429 | RATE_LIMIT_EXCEEDED | Trop de requêtes |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les départements" icon="list" href="/fr/api-reference/departments/list-departments">
+    Obtenir tous les départements
+  </Card>
+  <Card title="Obtenir un département" icon="eye" href="/fr/api-reference/departments/get-department">
+    Récupérer un département par ID
+  </Card>
+  <Card title="Créer un département" icon="plus" href="/fr/api-reference/departments/create-department">
+    Créer un nouveau département
+  </Card>
+  <Card title="Lister les catégories" icon="tag" href="/fr/api-reference/categories/list-categories">
+    Voir toutes les catégories de dépenses
+  </Card>
+</CardGroup>

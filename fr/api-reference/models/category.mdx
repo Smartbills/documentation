@@ -1,0 +1,100 @@
+---
+title: "Modèle Catégorie"
+description: "Référence complète du schéma de l'objet Catégorie"
+---
+
+## Catégorie
+
+L'objet Catégorie représente une catégorie de dépenses utilisée pour classer et organiser les dépenses. Les catégories peuvent être associées à des codes de compte du grand livre pour l'intégration comptable.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique de la catégorie
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID de l'entreprise à laquelle cette catégorie appartient
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Nom d'affichage de la catégorie (p. ex., "Voyages - Billets d'avion", "Fournitures de bureau")
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description détaillée des dépenses appartenant à cette catégorie
+</ResponseField>
+
+<ResponseField name="glAccountCode" type="string">
+  Code de compte du grand livre pour l'intégration au système comptable (p. ex., "6200", "5100-01")
+</ResponseField>
+
+<ResponseField name="color" type="string">
+  Code couleur hexadécimal pour l'affichage visuel dans l'interface (p. ex., `#4A90D9`)
+</ResponseField>
+
+<ResponseField name="enabled" type="boolean">
+  Indique si la catégorie est active et disponible à la sélection. Les catégories désactivées sont masquées de la création de nouvelles dépenses mais préservées sur les dépenses existantes.
+</ResponseField>
+
+<ResponseField name="displayOrder" type="integer">
+  Position de tri pour l'affichage dans les listes de catégories. Les numéros les plus bas apparaissent en premier.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création de la catégorie (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour de la catégorie (ISO 8601)
+</ResponseField>
+
+## Exemple
+
+```json
+{
+  "id": 5,
+  "businessId": 456,
+  "name": "Office Supplies",
+  "description": "Paper, pens, printer supplies, and other consumable office materials",
+  "glAccountCode": "6200",
+  "color": "#4A90D9",
+  "enabled": true,
+  "displayOrder": 3,
+  "createdAt": "2023-01-15T10:00:00Z",
+  "updatedAt": "2023-01-15T10:00:00Z"
+}
+```
+
+## Catégories par défaut
+
+Lorsqu'une nouvelle entreprise est créée, les catégories par défaut suivantes sont provisionnées :
+
+| Nom | Code GL |
+|------|---------|
+| Travel - Airfare | 6100 |
+| Travel - Lodging | 6110 |
+| Travel - Ground Transportation | 6120 |
+| Meals & Entertainment | 6200 |
+| Office Supplies | 6300 |
+| Software & Subscriptions | 6400 |
+| Professional Services | 6500 |
+| Telecommunications | 6600 |
+| Miscellaneous | 6900 |
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les dépenses" icon="list" href="/fr/api-reference/expenses/list-expenses">
+    Filtrer les dépenses par catégorie
+  </Card>
+  <Card title="Téléverser une dépense" icon="cloud-arrow-up" href="/fr/api-reference/expenses/upload-expense">
+    Catégorisation automatique au téléversement
+  </Card>
+  <Card title="Mettre à jour une dépense" icon="pen" href="/fr/api-reference/expenses/update-expense">
+    Changer la catégorie d'une dépense
+  </Card>
+  <Card title="Obtenir une dépense" icon="eye" href="/fr/api-reference/expenses/get-expense">
+    Voir une dépense avec sa catégorie
+  </Card>
+</CardGroup>

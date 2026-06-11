@@ -1,0 +1,77 @@
+---
+title: "Portefeuille Personnel"
+description: "Gérez vos dépenses professionnelles personnelles dans le portefeuille"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/wallet/overview/hero.png" alt="Page du portefeuille personnel affichant une liste de dépenses" />
+</Frame>
+
+## Introduction
+
+Le **Portefeuille** est votre espace personnel pour gérer vos dépenses professionnelles. Situé dans la barre latérale sous votre section personnelle, c'est le premier endroit où vous allez pour télécharger des reçus, examiner les données extraites et préparer les dépenses pour vos rapports.
+
+Chaque dépense que vous créez -- qu'elle soit téléchargée manuellement, numérisée à partir d'une photo ou reçue par transfert de courriel -- apparaît ici.
+
+## Disposition de la Page du Portefeuille
+
+Lorsque vous ouvrez le Portefeuille, vous verrez :
+
+- **Liste des Dépenses** -- Un tableau de toutes vos dépenses avec des colonnes pour la date, le commerçant, le montant, la catégorie et le statut
+- **Filtres et Recherche** -- Affinez les résultats par plage de dates, catégorie, statut ou mot-clé
+- **Contrôles de Tri** -- Ordonnez les dépenses par date, montant ou nom du commerçant
+- **Bouton Ajouter une Dépense** -- L'action principale pour télécharger un nouveau reçu ou créer une dépense manuellement
+
+<Frame>
+  <img src="/images/guides/web-app/wallet/overview/wallet-layout.png" alt="Disposition de la page du portefeuille avec filtres, liste de dépenses et bouton Ajouter une Dépense" />
+</Frame>
+
+## Statuts des Dépenses
+
+Chaque dépense dans votre portefeuille à un statut qui indique ou elle se trouve dans le flux de travail :
+
+| Statut | Description |
+|--------|-------------|
+| **Brouillon** | La dépense à été créée mais n'a pas encore été ajoutée à un rapport |
+| **Dans un Rapport** | La dépense fait partie d'un brouillon de rapport de dépenses |
+| **Soumise** | La dépense est incluse dans un rapport soumis en attente d'approbation |
+| **Approuvée** | La dépense à été approuvée dans le cadre d'un rapport |
+| **Rejetée** | L'approbateur à rejeté le rapport contenant cette dépense |
+| **Modifications Demandées** | L'approbateur à demandé des modifications avant de resoumettre |
+
+## Vue Détail de la Dépense
+
+Cliquez sur n'importe quelle dépense dans la liste pour ouvrir sa vue détail. À partir de là, vous pouvez :
+
+- Voir l'image ou le PDF du reçu original
+- Modifier les champs comme le commerçant, le montant, la date, la devise et les notes
+- Attribuer ou changer la catégorie et le département
+- Diviser la dépense entre plusieurs catégories
+- Voir à quel rapport la dépense appartient (le cas échéant)
+
+<Frame>
+  <img src="/images/guides/web-app/wallet/overview/expense-detail.png" alt="Vue détail de la dépense montrant l'image du reçu et les champs modifiables" />
+</Frame>
+
+## Ce Que Vous Pouvez Faire
+
+<CardGroup cols={2}>
+  <Card title="Télécharger une Dépense" icon="cloud-arrow-up" href="/fr/guides/web-app/wallet/upload-expense">
+    Téléchargez des reçus par glisser-déposer, navigateur de fichiers ou caméra
+  </Card>
+  <Card title="Modifier une Dépense" icon="pen-to-square" href="/fr/guides/web-app/wallet/edit-expense">
+    Modifiez les détails comme le montant, le commerçant et la date
+  </Card>
+  <Card title="Catégoriser les Dépenses" icon="tags" href="/fr/guides/web-app/wallet/categorize-expense">
+    Attribuez des catégories et départements pour organiser les dépenses
+  </Card>
+  <Card title="Diviser une Dépense" icon="scissors" href="/fr/guides/web-app/wallet/split-expense">
+    Divisez une dépense unique entre plusieurs catégories
+  </Card>
+  <Card title="Transfert de Reçus" icon="envelope" href="/fr/guides/web-app/wallet/receipt-forwarding">
+    Capturez automatiquement les reçus en transférant des courriels
+  </Card>
+  <Card title="Créer un Rapport de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/create-report">
+    Regroupez vos dépenses dans un rapport et soumettez-le pour approbation
+  </Card>
+</CardGroup>

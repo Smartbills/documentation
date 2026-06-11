@@ -1,0 +1,174 @@
+---
+title: "Authentication"
+description: "Configure authentication, business context, and locale for the Smartbills JavaScript SDK."
+---
+
+# Authentication
+
+The Smartbills SDK uses OAuth2 bearer tokens for authentication. Every request includes the token in the `Authorization` header, a business ID in the `x-tenant-id` header, and a locale in the `Accept-Language` header.
+
+## Client initialization
+
+Pass credentials when constructing the client:
+
+```typescript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123,
+  locale: 'en-CA',
+  baseUrl: 'https://api.smartbills.io', // default
+  timeout: 30000,                       // ms, default
+  maxRetries: 2,                        // default
+  retryDelay: 1000,                     // ms, default
+});
+```
+
+### Configuration options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `accessToken` | `string` | -- | OAuth2 bearer token for API authentication |
+| `businessId` | `number` | -- | Business ID to scope requests to a specific tenant |
+| `locale` | `string` | -- | Locale code for localized responses (`en-CA`, `fr-CA`) |
+| `baseUrl` | `string` | `https://api.smartbills.io` | API base URL |
+| `timeout` | `number` | `30000` | Request timeout in milliseconds |
+| `maxRetries` | `number` | `2` | Maximum automatic retries on transient failures |
+| `retryDelay` | `number` | `1000` | Base delay between retries in milliseconds |
+
+## Updating credentials at runtime
+
+You can update the token, business ID, or locale after initialization. This is useful when handling user sessions or switching between business contexts.
+
+```typescript
+// Update the access token (e.g., after token refresh)
+client.setAccessToken('NEW_TOKEN');
+
+// Switch business context
+client.setBusinessId(456);
+
+// Change locale
+client.setLocale('fr-CA');
+```
+
+### Reading current values
+
+```typescript
+console.log(client.accessToken);  // current token or undefined
+console.log(client.businessId);   // current business ID or undefined
+console.log(client.locale);       // current locale or undefined
+```
+
+## Per-request overrides
+
+Every service method accepts an optional `RequestOptions` parameter that overrides the client defaults for that single request:
+
+```typescript
+// Use a different business context for one request
+const expenses = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 789, locale: 'fr-CA' }
+);
+```
+
+### RequestOptions
+
+```typescript
+type RequestOptions = {
+  businessId?: number;  // Override the default business ID
+  locale?: string;      // Override the default locale
+  signal?: AbortSignal; // Cancel the request
+};
+```
+
+## Request cancellation
+
+Pass an `AbortSignal` to cancel long-running requests:
+
+```typescript
+const controller = new AbortController();
+
+// Cancel after 5 seconds
+setTimeout(() => controller.abort(), 5000);
+
+try {
+  const data = await client.expenses.listBusiness(
+    { limit: 100 },
+    { signal: controller.signal }
+  );
+} catch (error) {
+  if (error.name === 'CanceledError') {
+    console.log('Request was cancelled');
+  }
+}
+```
+
+## Credential provider pattern
+
+For advanced scenarios such as automatic token refresh, implement the `CredentialProvider` interface:
+
+```typescript
+import { CredentialProvider, AccessToken } from '@smartbills/sdk';
+
+// Simple in-memory token
+const credentials = new AccessToken('initial-token');
+console.log(credentials.getAccessToken()); // 'initial-token'
+
+// Update later
+credentials.setToken('refreshed-token');
+```
+
+### Custom credential provider
+
+```typescript
+import type { CredentialProvider } from '@smartbills/sdk';
+
+class MyAuthProvider implements CredentialProvider {
+  private token?: string;
+
+  getAccessToken(): string | undefined {
+    return this.token;
+  }
+
+  async onTokenExpired(): Promise<string | undefined> {
+    // Fetch a new token from your auth server
+    const response = await fetch('/auth/refresh', { method: 'POST' });
+    const { accessToken } = await response.json();
+    this.token = accessToken;
+    return this.token;
+  }
+}
+```
+
+## Multi-tenant usage
+
+In multi-tenant applications, you typically create a single client instance and switch the business context per request:
+
+```typescript
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+});
+
+// Fetch expenses for business 100
+const biz100Expenses = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 100 }
+);
+
+// Fetch expenses for business 200
+const biz200Expenses = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 200 }
+);
+```
+
+## Retry behavior
+
+The SDK automatically retries requests on transient errors:
+
+- **429 Too Many Requests** -- retries after the `Retry-After` header value
+- **5xx Server Errors** -- retries with exponential back-off
+- **Network errors** (connection reset, timeout) -- retries with exponential back-off
+
+Retries stop after `maxRetries` attempts. Non-retryable errors (400, 401, 403, 404) are thrown immediately.

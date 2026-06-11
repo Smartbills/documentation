@@ -4,6 +4,20 @@ api: "POST https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/
 description: "Submit an expense report for approval"
 ---
 
+## Overview
+
+Submit a draft expense report for approval. The report status changes from `draft` to `submitted`, and designated approvers are notified. The report must have at least one transaction before it can be submitted.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
+
 ## Path Parameters
 
 <ParamField path="businessId" type="integer" required>
@@ -11,33 +25,74 @@ description: "Submit an expense report for approval"
 </ParamField>
 
 <ParamField path="reportId" type="integer" required>
-  The unique identifier of the expense report
+  The unique identifier of the expense report to submit
 </ParamField>
 
 ## Response
 
 Returns the updated expense report with status changed to `submitted`.
 
+<ResponseField name="id" type="integer">
+  Unique expense report identifier
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Report title
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Report status (will be `submitted`)
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Total amount of all transactions in the report
+</ResponseField>
+
+<ResponseField name="reportCurrency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="expenseCount" type="integer">
+  Number of transactions in the report
+</ResponseField>
+
+<ResponseField name="submittedAt" type="string">
+  Timestamp when the report was submitted (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of last update (ISO 8601)
+</ResponseField>
+
 <RequestExample>
 
 ```bash cURL
 curl --request POST \
   --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/submit \
-  --header 'Authorization: Bearer YOUR_API_KEY'
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 456'
 ```
 
-```javascript JavaScript
-const response = await fetch(
-  'https://api.smartbills.io/v1/businesses/456/expense-reports/1001/submit',
-  {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer YOUR_API_KEY'
-    }
-  }
-);
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
 
-const report = await response.json();
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const report = await client.expenseReports.submit(1001);
+
+console.log("Report submitted:", report.status);
+console.log("Submitted at:", report.submittedAt);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+report = client.expense_reports.submit(1001)
+
+print(f"Report submitted: {report.status}")
+print(f"Submitted at: {report.submitted_at}")
 ```
 
 </RequestExample>
@@ -47,14 +102,43 @@ const report = await response.json();
 ```json Response
 {
   "id": 1001,
-  "title": "January 2024 Business Trip",
+  "title": "January 2025 Business Trip",
   "status": "submitted",
   "totalAmount": 1234.56,
-  "currency": "USD",
-  "submittedAt": "2024-01-31T14:30:00Z",
-  "updatedAt": "2024-01-31T14:30:00Z"
+  "reportCurrency": "USD",
+  "expenseCount": 3,
+  "submittedAt": "2025-01-31T14:30:00Z",
+  "updatedAt": "2025-01-31T14:30:00Z"
 }
 ```
 
 </ResponseExample>
 
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | EMPTY_REPORT | Report has no transactions and cannot be submitted |
+| 400 | MISSING_RECEIPTS | One or more transactions are missing required receipts |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions to submit this report |
+| 404 | NOT_FOUND | Expense report not found |
+| 409 | INVALID_STATUS | Report is not in `draft` or `changes_required` status |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve a single report
+  </Card>
+  <Card title="Recall Report" icon="rotate-left" href="/api-reference/expense-reports/recall-report">
+    Recall a submitted report
+  </Card>
+  <Card title="Approve Report" icon="check" href="/api-reference/expense-reports/approve-report">
+    Approve a submitted report
+  </Card>
+  <Card title="Reject Report" icon="xmark" href="/api-reference/expense-reports/reject-report">
+    Reject a submitted report
+  </Card>
+</CardGroup>

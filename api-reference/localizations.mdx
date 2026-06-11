@@ -1,0 +1,330 @@
+---
+title: "Localizations"
+description: "Learn how to use the Smartbills API with multiple languages and locales for localized responses"
+---
+
+## Overview
+
+The Smartbills API supports multiple languages and locales, allowing you to receive localized responses for your users. Use the `Accept-Language` header to specify the desired locale for each request.
+
+## Supported Locales
+
+| Language | Locale Code | Description |
+|----------|-------------|-------------|
+| English (Canada) | `en-CA` | Default locale |
+| French (Canada) | `fr-CA` | Canadian French |
+| English (US) | `en-US` | US English |
+
+<Note>
+  **Default locale**: If no `Accept-Language` header is provided, the API defaults to `en-CA`.
+</Note>
+
+## Setting the Locale
+
+Include the `Accept-Language` header in your API requests to receive localized responses:
+
+```http
+GET /v1/expenses HTTP/1.1
+Host: api.smartbills.io
+Authorization: Bearer YOUR_API_KEY
+x-tenant-id: 123
+Accept-Language: fr-CA
+```
+
+### Code Examples
+
+<CodeGroup>
+
+```bash cURL
+# English response
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 123' \
+  --header 'Accept-Language: en-CA'
+
+# French response
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 123' \
+  --header 'Accept-Language: fr-CA'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+// Set locale at client initialization
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123
+});
+
+// Or set locale per request using raw fetch:
+const response = await fetch('https://api.smartbills.io/v1/expenses', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'x-tenant-id': '123',
+    'Accept-Language': 'fr-CA'
+  }
+});
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+# Set locale at client initialization
+client = SmartbillsClient(access_token="YOUR_API_KEY", business_id=123)
+
+# Or set locale per request using raw requests:
+import requests
+
+response = requests.get(
+    'https://api.smartbills.io/v1/expenses',
+    headers={
+        'Authorization': 'Bearer YOUR_API_KEY',
+        'x-tenant-id': '123',
+        'Accept-Language': 'fr-CA'
+    }
+)
+```
+
+</CodeGroup>
+
+## Localized Response Fields
+
+When you specify a locale, the following elements are localized in API responses:
+
+### Error Messages
+
+Error messages are returned in the requested language:
+
+<CodeGroup>
+
+```json English (en-CA)
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The amount field is required"
+  }
+}
+```
+
+```json French (fr-CA)
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Le champ montant est requis"
+  }
+}
+```
+
+</CodeGroup>
+
+### Category Names
+
+Expense categories are automatically localized:
+
+<CodeGroup>
+
+```json English (en-CA)
+{
+  "categories": [
+    { "id": 1, "name": "Office Supplies" },
+    { "id": 2, "name": "Travel" },
+    { "id": 3, "name": "Meals & Entertainment" }
+  ]
+}
+```
+
+```json French (fr-CA)
+{
+  "categories": [
+    { "id": 1, "name": "Fournitures de bureau" },
+    { "id": 2, "name": "Voyage" },
+    { "id": 3, "name": "Repas et divertissements" }
+  ]
+}
+```
+
+</CodeGroup>
+
+### Status Labels
+
+Status labels are localized based on the `Accept-Language` header:
+
+<CodeGroup>
+
+```json English (en-CA)
+{
+  "status": "pending",
+  "statusLabel": "Pending Review"
+}
+```
+
+```json French (fr-CA)
+{
+  "status": "pending",
+  "statusLabel": "En attente de revision"
+}
+```
+
+</CodeGroup>
+
+### Validation Messages
+
+Field-level validation messages are returned in the requested language:
+
+<CodeGroup>
+
+```json English (en-CA)
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0"
+      },
+      {
+        "field": "date",
+        "message": "Date must be in ISO 8601 format"
+      }
+    ]
+  }
+}
+```
+
+```json French (fr-CA)
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Les donnees de la requete sont invalides",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Le montant doit etre superieur a 0"
+      },
+      {
+        "field": "date",
+        "message": "La date doit etre au format ISO 8601"
+      }
+    ]
+  }
+}
+```
+
+</CodeGroup>
+
+## Fields That Are NOT Localized
+
+The following fields are always returned as-is regardless of locale:
+
+- **Identifiers**: `id`, `code`, `status` (machine-readable values)
+- **Amounts**: `amount`, `totalAmount` (numeric values)
+- **Dates**: `date`, `createdAt`, `updatedAt` (ISO 8601 format)
+- **Currencies**: `currency` (ISO 4217 codes)
+- **User-entered data**: `merchant`, `notes`, `description` (stored as entered)
+- **Error codes**: `code` field in error responses (machine-readable)
+
+## Fallback Behavior
+
+If a translation is not available for a specific locale, the API falls back to English (`en-CA`):
+
+```http
+Accept-Language: de-DE
+```
+
+Since `de-DE` is not currently supported, responses will fall back to English.
+
+## Currency and Number Formatting
+
+The API returns raw numeric values. Locale-specific formatting should be handled client-side:
+
+```json
+{
+  "amount": 1234.56,
+  "currency": "CAD"
+}
+```
+
+Use your client-side locale formatting libraries:
+
+<CodeGroup>
+
+```javascript JavaScript
+const formatter = new Intl.NumberFormat('fr-CA', {
+  style: 'currency',
+  currency: 'CAD'
+});
+
+console.log(formatter.format(1234.56));
+// Output: "1 234,56 $"
+
+const enFormatter = new Intl.NumberFormat('en-CA', {
+  style: 'currency',
+  currency: 'CAD'
+});
+
+console.log(enFormatter.format(1234.56));
+// Output: "$1,234.56"
+```
+
+```python Python
+import locale
+
+# French Canadian formatting
+locale.setlocale(locale.LC_ALL, 'fr_CA.UTF-8')
+print(locale.currency(1234.56, grouping=True))
+# Output: "1 234,56 $"
+```
+
+</CodeGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Specify Accept-Language" icon="language">
+    Always include the `Accept-Language` header to ensure consistent localization. Do not rely on default behavior.
+  </Accordion>
+
+  <Accordion title="Store User Preferences" icon="user-gear">
+    Store the user's language preference in your application and include it in all API requests automatically.
+  </Accordion>
+
+  <Accordion title="Handle Missing Translations" icon="triangle-exclamation">
+    Be aware that unsupported locales fall back to English. Design your UI to handle this gracefully.
+  </Accordion>
+
+  <Accordion title="Format Numbers and Dates Client-Side" icon="calendar">
+    The API returns raw values for amounts and dates. Use locale-aware formatting libraries on the client side for display.
+  </Accordion>
+</AccordionGroup>
+
+## Requesting New Languages
+
+If you need support for additional languages, contact us at [developers@smartbills.io](mailto:developers@smartbills.io) with:
+
+- The language and locale you need
+- Your use case
+- Expected volume of requests
+
+We regularly add new languages based on customer demand.
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="API Introduction" icon="book" href="/api-reference/introduction">
+    API overview and headers
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/api-reference/errors">
+    Localized error messages
+  </Card>
+  <Card title="Authentication" icon="shield" href="/api-reference/authentication">
+    Authentication and headers
+  </Card>
+  <Card title="Environments" icon="server" href="/api-reference/environments">
+    Sandbox and production
+  </Card>
+</CardGroup>

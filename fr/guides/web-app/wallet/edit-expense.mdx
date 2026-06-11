@@ -1,0 +1,85 @@
+---
+title: "Modifier une Dépense"
+description: "Modifiez les détails d'une dépense incluant le montant, le commerçant, la date et les notes"
+---
+
+## Aperçu
+
+Après avoir téléchargé un reçu, vous pourriez avoir besoin de corriger les données extraites ou d.ajouter des informations manquantes. La vue détail de la dépense vous permet de modifier tous les champs associés à une dépense.
+
+<Note>
+  **Dépenses verrouillées** : Les dépenses qui font partie d'un rapport de dépenses soumis ne peuvent pas être modifiées tant que le rapport n'est pas rappelé. Consultez [Rappeler un Rapport](/fr/guides/web-app/reports/recall-report) pour les instructions.
+</Note>
+
+## Comment Modifier une Dépense
+
+<Steps>
+  <Step title="Ouvrir la Dépense">
+    Naviguez vers **Portefeuille** dans la barre latérale et cliquez sur la dépense que vous souhaitez modifier. La vue détail de la dépense s'ouvre, montrant l'image du reçu d'un côté et les champs modifiables de l'autre.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/edit-expense/open-expense.png" alt="Vue détail de la dépense avec l'image du reçu et les champs du formulaire" />
+    </Frame>
+  </Step>
+
+  <Step title="Modifier les Champs">
+    Cliquez sur n'importe quel champ pour le modifier. Les champs suivants sont disponibles :
+
+    | Champ | Description |
+    |-------|-------------|
+    | **Commerçant** | Le nom du fournisseur ou du magasin |
+    | **Montant** | Le montant total de la dépense |
+    | **Date** | La date de la transaction |
+    | **Devise** | La devise utilisée pour l'achat |
+    | **Catégorie** | La catégorie de la dépense (ex. : Voyage, Repas) |
+    | **Département** | Le département auquel cette dépense est imputée |
+    | **Mode de Paiement** | Comment la dépense à été payée (carte d'entreprise, carte personnelle, espèces) |
+    | **Notes** | Contexte ou d.scription supplémentaire |
+    | **Montants de Taxes** | Lignes de taxes individuelles (TPS, TVQ, TVH, TVA, etc.) |
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/edit-expense/edit-fields.png" alt="Modification du nom du commerçant et du montant sur une dépense" />
+    </Frame>
+  </Step>
+
+  <Step title="Enregistrer Vos Modifications">
+    Cliquez sur **Enregistrer** pour appliquer vos modifications. La liste des dépenses se met à jour immédiatement pour refléter les nouvelles valeurs.
+
+    <Frame>
+      <img src="/images/guides/web-app/wallet/edit-expense/save-changes.png" alt="Bouton Enregistrer en surbrillance après la modification des champs de dépense" />
+    </Frame>
+  </Step>
+</Steps>
+
+## Remplacer la Pièce Jointe du Reçu
+
+Si vous avez téléchargé le mauvais fichier ou d.vez joindre une image plus claire, vous pouvez remplacer le reçu :
+
+1. Ouvrez la vue détail de la dépense
+2. Cliquez sur le bouton **Remplacer** sur l'image du reçu
+3. Téléchargez un nouveau fichier (JPG, PNG, PDF ou HEIC -- max 10 Mo)
+4. Smartbills relance l'OCR sur le nouveau fichier et met à jour les champs extraits
+
+<Tip>
+  Vérifiez les données ré-extraites après avoir remplacé un reçu. Le nouveau fichier peut produire des résultats OCR différents.
+</Tip>
+
+## Restrictions de Modification
+
+Gardez ces règles à l'esprit :
+
+- **Dépenses en brouillon** peuvent être modifiées librement à tout moment
+- **Dépenses dans un brouillon de rapport** peuvent encore être modifiées depuis le Portefeuille
+- **Dépenses dans un rapport soumis** sont verrouillées. Vous devez rappelér le rapport avant de faire des modifications
+- **Dépenses approuvées** ne peuvent pas être modifiées. Contactez votre administrateur si une correction est nécessaire
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Catégoriser les Dépenses" icon="tags" href="/fr/guides/web-app/wallet/categorize-expense">
+    Attribuez des catégories et des départements
+  </Card>
+  <Card title="Diviser une Dépense" icon="scissors" href="/fr/guides/web-app/wallet/split-expense">
+    Divisez une dépense entre plusieurs catégories
+  </Card>
+</CardGroup>

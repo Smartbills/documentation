@@ -1,0 +1,179 @@
+---
+title: "Modèle Rapport de dépenses"
+description: "Référence complète du schéma de l'objet Rapport de dépenses"
+---
+
+## Rapport de dépenses
+
+L'objet Rapport de dépenses représente un ensemble de dépenses regroupées pour soumission, approbation et remboursement. Les rapports suivent un cycle de vie allant du brouillon à la soumission, l'approbation et enfin le remboursement.
+
+## Propriétés
+
+<ResponseField name="id" type="integer">
+  Identifiant unique du rapport de dépenses
+</ResponseField>
+
+<ResponseField name="businessId" type="integer">
+  ID de l'entreprise à laquelle ce rapport appartient
+</ResponseField>
+
+<ResponseField name="employeeId" type="integer">
+  ID de l'employé qui a créé le rapport
+</ResponseField>
+
+<ResponseField name="reportNumber" type="string">
+  Numéro de référence du rapport généré automatiquement (p. ex., `ER-2024-0042`)
+</ResponseField>
+
+<ResponseField name="title" type="string">
+  Titre descriptif du rapport
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description détaillée de l'objet du rapport
+</ResponseField>
+
+<ResponseField name="businessPurpose" type="string">
+  Justification professionnelle des dépenses
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Statut actuel du rapport. Valeurs possibles : `draft`, `submitted`, `approved`, `partially_approved`, `rejected`, `changes_requested`, `reimbursement_planned`, `partially_reimbursed`, `reimbursed`
+</ResponseField>
+
+<ResponseField name="totalAmount" type="number">
+  Somme de tous les montants de dépenses dans le rapport
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Devise principale du rapport (ISO 4217)
+</ResponseField>
+
+<ResponseField name="approvedAmount" type="number">
+  Montant total approuvé. Peut différer de `totalAmount` en cas d'approbation partielle. `null` si pas encore approuvé.
+</ResponseField>
+
+<ResponseField name="expenses" type="array">
+  Tableau des dépenses incluses dans le rapport
+  <Expandable title="Résumé de la dépense">
+    <ResponseField name="id" type="integer">
+      ID de la dépense
+    </ResponseField>
+    <ResponseField name="merchant" type="string">
+      Nom du marchand
+    </ResponseField>
+    <ResponseField name="amount" type="number">
+      Montant de la dépense
+    </ResponseField>
+    <ResponseField name="currency" type="string">
+      Code de devise
+    </ResponseField>
+    <ResponseField name="date" type="string">
+      Date de la transaction
+    </ResponseField>
+    <ResponseField name="category" type="string">
+      Nom de la catégorie
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="submittedAt" type="string">
+  Horodatage de soumission du rapport pour approbation (ISO 8601). `null` si non soumis.
+</ResponseField>
+
+<ResponseField name="approvedAt" type="string">
+  Horodatage d'approbation du rapport (ISO 8601). `null` si non approuvé.
+</ResponseField>
+
+<ResponseField name="rejectedAt" type="string">
+  Horodatage de rejet du rapport (ISO 8601). `null` si non rejeté.
+</ResponseField>
+
+<ResponseField name="reimbursedAt" type="string">
+  Horodatage du remboursement complet du rapport (ISO 8601). `null` si non remboursé.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Horodatage de création du rapport (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Horodatage de la dernière mise à jour du rapport (ISO 8601)
+</ResponseField>
+
+## Cycle de vie des statuts
+
+```
+draft -> submitted -> approved -> reimbursement_planned -> reimbursed
+                   -> partially_approved -> reimbursed
+                   -> rejected
+                   -> changes_requested -> submitted (resoumission)
+         approved -> partially_reimbursed -> reimbursed
+```
+
+## Exemple
+
+```json
+{
+  "id": 789,
+  "businessId": 456,
+  "employeeId": 500,
+  "reportNumber": "ER-2024-0042",
+  "title": "January 2024 Travel Expenses",
+  "description": "Business trip to NYC for client meetings",
+  "businessPurpose": "Q1 client relationship building and contract renewal",
+  "status": "submitted",
+  "totalAmount": 1250.00,
+  "currency": "USD",
+  "approvedAmount": null,
+  "expenses": [
+    {
+      "id": 12345,
+      "merchant": "Delta Airlines",
+      "amount": 450.00,
+      "currency": "USD",
+      "date": "2024-01-15",
+      "category": "Travel - Airfare"
+    },
+    {
+      "id": 12346,
+      "merchant": "Marriott Hotel",
+      "amount": 600.00,
+      "currency": "USD",
+      "date": "2024-01-16",
+      "category": "Travel - Lodging"
+    },
+    {
+      "id": 12347,
+      "merchant": "Various Restaurants",
+      "amount": 200.00,
+      "currency": "USD",
+      "date": "2024-01-17",
+      "category": "Meals & Entertainment"
+    }
+  ],
+  "submittedAt": "2024-01-20T09:00:00Z",
+  "approvedAt": null,
+  "rejectedAt": null,
+  "reimbursedAt": null,
+  "createdAt": "2024-01-18T10:30:00Z",
+  "updatedAt": "2024-01-20T09:00:00Z"
+}
+```
+
+## Points de terminaison associés
+
+<CardGroup cols={2}>
+  <Card title="Lister les rapports" icon="list" href="/fr/api-reference/expense-reports/list-reports">
+    Récupérer tous les rapports de dépenses
+  </Card>
+  <Card title="Créer un rapport" icon="plus" href="/fr/api-reference/expense-reports/create-report">
+    Créer un nouveau rapport
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/fr/api-reference/expense-reports/submit-report">
+    Soumettre pour approbation
+  </Card>
+  <Card title="Approuver un rapport" icon="check" href="/fr/api-reference/approvals/approve">
+    Approuver un rapport
+  </Card>
+</CardGroup>

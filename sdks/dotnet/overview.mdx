@@ -1,0 +1,111 @@
+---
+title: ".NET SDK Overview"
+description: "Official Smartbills .NET SDK for integrating invoicing, billing, and file management into your .NET applications"
+---
+
+## Introduction
+
+The Smartbills .NET SDK (`Smartbills.SDK`) provides a strongly-typed C# client for the Smartbills API. It is designed for server-side .NET applications and covers invoicing, file management, and billing operations.
+
+<Info>
+  The .NET SDK currently supports **InvoiceClient**, **FileClient**, and **BillingClient**. Additional service clients (expenses, vendors, reports) will be added in future releases. For broader coverage today, consider the [JavaScript SDK](/sdks/javascript/overview) or [Python SDK](/sdks/python/overview).
+</Info>
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Strongly Typed** | Full C# type definitions for all requests and responses |
+| **Async/Await** | All methods return `Task<T>` with full `CancellationToken` support |
+| **Pagination** | Built-in `SBList<T>` response type with pagination metadata |
+| **Configurable** | Per-request option overrides via `SBRequestOptions` |
+| **Invoice Lifecycle** | Create, send, void, and summarize invoices |
+| **File Operations** | Retrieve and update files via the Smartbills file service |
+| **Billing** | Checkout sessions, customer management, and payment methods |
+| **Dependency Injection** | First-class ASP.NET Core integration via `Smartbills.SDK.AspNetCore` |
+
+## Quick Start
+
+### Install the package
+
+```bash
+dotnet add package Smartbills.SDK
+```
+
+### Initialize the client
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "YOUR_API_KEY",
+    BusinessId = 123
+});
+```
+
+### Create and send an invoice
+
+```csharp
+// Create an invoice
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new() { Description = "Consulting services", Quantity = 10, UnitPrice = 150.00m }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30)
+});
+
+// Send it to the customer
+var sent = await client.Invoices.SendAsync(invoice.Id);
+```
+
+## Architecture
+
+The SDK follows a service-client pattern. Each domain area is accessed through a dedicated client property on the main `SmartbillsClient` instance:
+
+```
+SmartbillsClient
+  |-- Invoices   (InvoiceClient)
+  |-- Files      (FileClient)
+  |-- Billing    (BillingClient)
+       |-- CheckoutSessions
+       |-- Customers
+       |-- PaymentMethods
+```
+
+All methods use `long` for resource IDs and are fully asynchronous, returning `Task<T>`. Every method signature includes optional `SBRequestOptions` and `CancellationToken` parameters for per-request configuration and cooperative cancellation.
+
+## Available Services
+
+<CardGroup cols={2}>
+  <Card title="InvoiceClient" icon="file-invoice" href="/sdks/dotnet/usage#invoiceclient">
+    Full CRUD, send, void, and summary for invoices
+  </Card>
+  <Card title="FileClient" icon="file" href="/sdks/dotnet/usage#fileclient">
+    Retrieve and update files via the Smartbills file service
+  </Card>
+  <Card title="BillingClient" icon="credit-card" href="/sdks/dotnet/usage#billingclient">
+    Checkout sessions, customers, and payment methods
+  </Card>
+</CardGroup>
+
+## Requirements
+
+| Requirement | Minimum Version |
+|-------------|----------------|
+| .NET | 6.0 or later |
+| C# | 10.0 or later |
+| NuGet | Latest |
+
+## Next Steps
+
+<Card title="Installation" icon="download" href="/sdks/dotnet/installation">
+  Detailed installation and configuration instructions
+</Card>
+
+<Card title="Usage Guide" icon="book" href="/sdks/dotnet/usage">
+  Complete API reference for all service clients
+</Card>

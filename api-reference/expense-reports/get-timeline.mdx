@@ -1,8 +1,22 @@
 ---
 title: "Get Report Timeline"
 api: "GET https://api.smartbills.io/v1/businesses/{businessId}/expense-reports/{reportId}/timeline"
-description: "Retrieve the timeline of events for an expense report"
+description: "Retrieve the chronological timeline of events for an expense report"
 ---
+
+## Overview
+
+Retrieve the timeline of events for an expense report, showing all status changes, comments, and actions in chronological order. This provides a clear overview of the report's lifecycle from creation through approval.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
 
 ## Path Parameters
 
@@ -14,12 +28,72 @@ description: "Retrieve the timeline of events for an expense report"
   The unique identifier of the expense report
 </ParamField>
 
+## Response
+
+<ResponseField name="events" type="array">
+  Array of timeline event objects in chronological order
+
+  <Expandable title="Timeline Event Object">
+    <ResponseField name="id" type="integer">
+      Unique event identifier
+    </ResponseField>
+
+    <ResponseField name="type" type="string">
+      Event type: `created`, `updated`, `submitted`, `approved`, `partially_approved`, `rejected`, `changes_required`, `recalled`, `comment_added`, `expense_added`, `expense_removed`
+    </ResponseField>
+
+    <ResponseField name="userId" type="integer">
+      ID of the user who triggered the event
+    </ResponseField>
+
+    <ResponseField name="userName" type="string">
+      Name of the user who triggered the event
+    </ResponseField>
+
+    <ResponseField name="description" type="string">
+      Human-readable description of the event
+    </ResponseField>
+
+    <ResponseField name="metadata" type="object">
+      Additional event-specific data (e.g., rejection reason, approval notes, comment text)
+    </ResponseField>
+
+    <ResponseField name="timestamp" type="string">
+      Timestamp when the event occurred (ISO 8601)
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
 <RequestExample>
 
 ```bash cURL
 curl --request GET \
   --url https://api.smartbills.io/v1/businesses/456/expense-reports/1001/timeline \
-  --header 'Authorization: Bearer YOUR_API_KEY'
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'x-tenant-id: 456'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const timeline = await client.expenseReports.getTimeline(1001);
+
+timeline.events.forEach(event => {
+  console.log(`${event.timestamp}: ${event.type} by ${event.userName}`);
+});
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+timeline = client.expense_reports.get_timeline(1001)
+
+for event in timeline.events:
+    print(f"{event.timestamp}: {event.type} by {event.user_name}")
 ```
 
 </RequestExample>
@@ -30,19 +104,56 @@ curl --request GET \
 {
   "events": [
     {
+      "id": 1,
       "type": "created",
       "userId": 789,
-      "timestamp": "2024-01-31T10:00:00Z"
+      "userName": "Jane Smith",
+      "description": "Report created",
+      "metadata": {},
+      "timestamp": "2025-01-15T09:00:00Z"
     },
     {
+      "id": 2,
+      "type": "expense_added",
+      "userId": 789,
+      "userName": "Jane Smith",
+      "description": "3 expenses added to report",
+      "metadata": {
+        "expenseIds": [12345, 12346, 12347]
+      },
+      "timestamp": "2025-01-15T09:05:00Z"
+    },
+    {
+      "id": 3,
+      "type": "comment_added",
+      "userId": 789,
+      "userName": "Jane Smith",
+      "description": "Comment added",
+      "metadata": {
+        "comment": "All receipts attached. Hotel included conference registration."
+      },
+      "timestamp": "2025-01-31T10:05:00Z"
+    },
+    {
+      "id": 4,
       "type": "submitted",
       "userId": 789,
-      "timestamp": "2024-01-31T14:30:00Z"
+      "userName": "Jane Smith",
+      "description": "Report submitted for approval",
+      "metadata": {},
+      "timestamp": "2025-01-31T14:30:00Z"
     },
     {
+      "id": 5,
       "type": "approved",
       "userId": 100,
-      "timestamp": "2024-02-01T09:00:00Z"
+      "userName": "John Manager",
+      "description": "Report approved",
+      "metadata": {
+        "approvedAmount": 1234.56,
+        "notes": "Approved for reimbursement"
+      },
+      "timestamp": "2025-02-01T09:00:00Z"
     }
   ]
 }
@@ -50,3 +161,28 @@ curl --request GET \
 
 </ResponseExample>
 
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions to view this report's timeline |
+| 404 | NOT_FOUND | Expense report not found |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="Get Report" icon="file" href="/api-reference/expense-reports/get-report">
+    Retrieve report details
+  </Card>
+  <Card title="Get Audit Log" icon="clipboard-list" href="/api-reference/expense-reports/get-audit-log">
+    View the detailed audit log with field-level changes
+  </Card>
+  <Card title="Add Comment" icon="comment" href="/api-reference/expense-reports/add-comment">
+    Add a comment to the report
+  </Card>
+  <Card title="List Reports" icon="list" href="/api-reference/expense-reports/list-reports">
+    Get all expense reports
+  </Card>
+</CardGroup>

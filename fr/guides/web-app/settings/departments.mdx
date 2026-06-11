@@ -1,0 +1,98 @@
+---
+title: "Départements"
+description: "Configurez les départements pour l'allocation et le reporting des dépenses"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/settings/departments-overview.png" alt="Page des paramètres de départements" />
+</Frame>
+
+## Aperçu
+
+Les départements vous aident à organiser votre équipe et à allouer les dépenses par unite d'affaires. Chaque département peut avoir son propre code de centre de couts et son approbateur par défaut, facilitant l'acheminement des rapports de dépenses vers le bon gestionnaire et le suivi des dépenses par département.
+
+Pour gérer les départements, naviguez vers **Paramètres > Départements** dans la barre latérale gauche.
+
+<Note>
+  Seuls les utilisateurs ayant le role **Administrateur** ou **Proprietaire** peuvent créer et gérer les départements.
+</Note>
+
+## Créer un Département
+
+<Steps>
+  <Step title="Ouvrez les Paramètres de Départements">
+    Naviguez vers **Paramètres > Départements**. La page affiche tous les départements existants.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-list.png" alt="Liste des départements existants" />
+    </Frame>
+  </Step>
+
+  <Step title="Cliquez sur Ajouter un Département">
+    Cliquez sur le bouton **Ajouter un département** en haut de la page.
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-add.png" alt="Bouton Ajouter un département" />
+    </Frame>
+  </Step>
+
+  <Step title="Entrez les Détails du Département">
+    Remplissez le formulaire de département :
+
+    - **Nom** (obligatoire) -- Le nom du département (ex. : "Ingenierie", "Marketing", "Ventes")
+    - **Centre de couts** -- Un code utilise pour le reporting financier et l'intégration comptable (ex. : "CC-100")
+    - **Approbateur par défaut** -- Sélectionnez le gestionnaire qui recevra les rapports de dépenses des membres de ce département pour approbation
+
+    <Frame>
+      <img src="/images/guides/web-app/settings/departments-form.png" alt="Formulaire de création de département avec les champs nom, centre de couts et approbateur" />
+    </Frame>
+
+    <Tip>
+      Définir un approbateur par défaut simplifie le flux d'approbation. Lorsqu'un employé de ce département soumet un rapport de dépenses, celui-ci est automatiquement achemine vers l'approbateur designe.
+    </Tip>
+  </Step>
+
+  <Step title="Enregistrez">
+    Cliquez sur **Enregistrer** pour créer le département. Les membres de l'équipe peuvent maintenant être assignes à ce département depuis la page Équipe.
+  </Step>
+</Steps>
+
+## Modifier un Département
+
+Cliquez sur n'importe quel département dans la liste pour ouvrir son panneau de détails. Vous pouvez mettre à jour le nom, le code de centre de couts ou l'approbateur par défaut. Cliquez sur **Enregistrer** pour appliquer les modifications.
+
+## Assigner des Membres aux Départements
+
+Les membres sont assignes aux départements depuis la page **Équipe** :
+
+1. Naviguez vers **Équipe** dans la barre latérale
+2. Cliquez sur l'employé que vous souhaitez assigner
+3. Sélectionnez le département dans le menu déroulant **Département**
+4. Cliquez sur **Enregistrer**
+
+Vous pouvez également assigner des départements lors de l'invitation de nouveaux membres.
+
+## Archiver un Département
+
+Si un département n'est plus actif mais que vous devez conserver ses données historiques :
+
+1. Cliquez sur le département dans la liste
+2. Cliquez sur **Archiver**
+3. Confirmez l'action
+
+Les départements archives sont masques du menu déroulant lors de l'assignation des membres mais restent visibles dans les rapports historiques et les exportations. Vous pouvez restaurer un département archive à tout moment.
+
+<Note>
+  L'archivage d'un département ne reassigne pas ses membres. Mettez à jour les assignations de département des membres avant l'archivage si nécessaire.
+</Note>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Gestion d'Équipe" icon="users" href="/fr/guides/web-app/team/overview">
+    Assignez les membres de l'équipe aux départements
+  </Card>
+  <Card title="Catégories" icon="tags" href="/fr/guides/web-app/settings/categories">
+    Configurez les catégories de dépenses
+  </Card>
+</CardGroup>

@@ -1,0 +1,91 @@
+---
+title: "Expense Reports"
+description: "Learn how expense reports work - from creation to reimbursement"
+---
+
+## What is an Expense Report?
+
+An expense report is a collection of related expenses bundled together for review, approval, and reimbursement. Employees create reports to submit their out-of-pocket business expenses to their manager or finance team. Each report includes a title, a business purpose, and one or more expenses with their supporting receipts.
+
+Expense reports are the primary mechanism through which Personal Wallet expenses move from the employee to the approver and ultimately to reimbursement.
+
+## How It Works
+
+<Steps>
+  <Step title="Draft">
+    The employee creates a new expense report from the Expense Reports page (`/:slug/expense-reports`). They give it a title, describe the business purpose, set a date range, and begin adding expenses from their wallet.
+  </Step>
+  <Step title="Add Expenses">
+    The employee selects one or more expenses from their Personal Wallet and attaches them to the report. Each expense should already have a receipt, category, and any required fields filled in. Expenses added to a report change their status to **In Report**.
+  </Step>
+  <Step title="Submit">
+    When the report is complete, the employee submits it for approval. The report status changes to **Submitted** and the designated approver(s) receive a notification. Once submitted, the employee can no longer edit the report unless they recall it or the approver requests changes.
+  </Step>
+  <Step title="Under Review">
+    The approver reviews each expense in the report, checking receipts, amounts, categories, and business justification. The approver can approve the entire report, reject it, or request changes on specific expenses.
+  </Step>
+  <Step title="Approved or Rejected">
+    If approved, the report moves to the **Approved** status and all included expenses are marked as approved. If rejected, the employee is notified with the reason and can make corrections before resubmitting. See [Approval Workflows](/guides/concepts/approval-workflows) for details on multi-level approvals.
+  </Step>
+  <Step title="Reimbursed">
+    After approval, the finance team processes the reimbursement. The report status changes to **Reimbursed** and the employee receives confirmation. The report and all attached receipts are automatically archived in the [Vault](/guides/concepts/vault).
+  </Step>
+</Steps>
+
+## Report Statuses
+
+| Status | Meaning |
+|--------|---------|
+| **Draft** | The report is being prepared. Expenses can be added or removed. |
+| **Submitted** | The report has been sent for approval. Editing is locked. |
+| **Under Review** | An approver has opened the report and is reviewing it. |
+| **Approved** | All required approvers have approved the report. |
+| **Rejected** | The report has been sent back to the employee with feedback. |
+| **Reimbursed** | The employee has been paid for the approved expenses. |
+
+## What Goes in a Report
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| **Title** | Yes | A short name for the report (e.g., "Q1 Client Visits" or "March Travel") |
+| **Business Purpose** | Yes | A brief explanation of why these expenses were incurred |
+| **Date Range** | Yes | The start and end dates covering the period of the expenses |
+| **Description** | No | Additional context or notes for the approver |
+| **Expenses** | Yes | One or more expenses with receipts, each properly categorized |
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Report** | A collection of expenses submitted together for approval |
+| **Submission** | The act of sending a completed report to the approval chain |
+| **Recall** | Withdrawing a submitted report back to Draft status before it is approved |
+| **Business Purpose** | The justification for the expenses in the report |
+| **Reimbursement** | The payment made to the employee for approved out-of-pocket expenses |
+| **Timeline** | The chronological history of all actions taken on a report |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Employee** | Creates reports, adds expenses, submits for approval, corrects issues if rejected |
+| **Manager / Approver** | Reviews submitted reports, approves, rejects, or requests changes |
+| **Finance / Accountant** | Processes reimbursements for approved reports, ensures accounting accuracy |
+| **Admin** | Configures approval chains, spending policies, and report requirements |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Approval Workflows" icon="check-double" href="/guides/concepts/approval-workflows">
+    Understand how single and multi-level approvals work
+  </Card>
+  <Card title="Create a Report" icon="file-circle-plus" href="/guides/web-app/reports/create-report">
+    Step-by-step guide to creating your first expense report
+  </Card>
+  <Card title="Submit a Report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    How to submit a report for approval
+  </Card>
+  <Card title="Expenses" icon="receipt" href="/guides/concepts/expenses">
+    Learn about the expenses that go into reports
+  </Card>
+</CardGroup>

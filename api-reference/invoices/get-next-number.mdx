@@ -1,0 +1,62 @@
+---
+title: "Get Next Invoice Number"
+api: "GET https://api.smartbills.io/v1/businesses/{businessId}/invoices/next-number"
+description: "Preview the next auto-generated invoice number, optionally for a specific customer"
+---
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+## Query Parameters
+
+<ParamField query="customerId" type="integer">
+  When provided, returns the next invoice number using the customer's prefix. If the customer has no prefix, one is auto-generated from the customer name (e.g. "Mobbin Pte Ltd" produces prefix `MOB`).
+</ParamField>
+
+## Response
+
+<ResponseField name="invoiceNumber" type="string">
+  The full next invoice number (e.g. `MOB-000042`)
+</ResponseField>
+
+<ResponseField name="prefix" type="string">
+  The prefix portion of the invoice number
+</ResponseField>
+
+<ResponseField name="sequenceNumber" type="integer">
+  The numeric sequence portion
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/businesses/456/invoices/next-number?customerId=789' \
+  --header 'Authorization: Bearer YOUR_API_KEY'
+```
+
+```javascript JavaScript
+const nextNumber = await smartbills.invoices.getNextInvoiceNumber(789);
+```
+
+```csharp C#
+var nextNumber = await invoiceClient.GetNextInvoiceNumberAsync(789,
+    new SBRequestOptions { BusinessId = 456 });
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "invoiceNumber": "MOB-000001",
+  "prefix": "MOB",
+  "sequenceNumber": 1
+}
+```
+
+</ResponseExample>

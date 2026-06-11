@@ -1,0 +1,110 @@
+---
+title: "Bills"
+description: "Manage accounts payable and vendor bills"
+---
+
+<Frame>
+  <img src="/images/guides/web-app/bills/overview-hero.png" alt="Smartbills vendor bills dashboard" />
+</Frame>
+
+## Introduction
+
+The Bills section is your accounts payable hub for managing vendor invoices. While expenses track employee purchases that need reimbursement, bills represent invoices from vendors and suppliers that your company needs to pay. Bills are accessed at `/:slug/bills` in the web app.
+
+<Note>
+  **Permissions required**: You need the **BILLS_VIEW** permission to access the Bills section. Contact your administrator if you do not see Bills in the sidebar.
+</Note>
+
+## Bills vs. Expenses
+
+Understanding the difference between bills and expenses is important for proper financial management:
+
+| | Bills | Expenses |
+|---|-------|----------|
+| **What** | Vendor invoices the company owes | Employee purchases to be reimbursed |
+| **Who submits** | Finance team or accounts payable | Individual employees |
+| **Payment flow** | Company pays vendor directly | Company reimburses employee |
+| **Examples** | Office rent, software subscriptions, supplier invoices | Business meals, travel costs, office supplies |
+| **Timing** | Often have payment terms (Net 30, Net 60) | Typically reimbursed after approval |
+
+## The Bills Dashboard
+
+When you open Bills from the sidebar, you see a list of all vendor bills with key details at a glance.
+
+### Status Filters
+
+Filter bills by their current status using the tabs at the top of the list:
+
+- **All** -- Every bill regardless of status
+- **Pending** -- Bills awaiting review or approval
+- **Approved** -- Bills that have been approved for payment
+- **Paid** -- Bills that have been paid
+- **Overdue** -- Bills past their due date that have not been paid
+
+<Frame>
+  <img src="/images/guides/web-app/bills/status-filters.png" alt="Bill status filter tabs showing All, Pending, Approved, Paid, and Overdue" />
+</Frame>
+
+### Bill List Columns
+
+| Column | Description |
+|--------|-------------|
+| **Vendor** | The supplier or vendor who issued the invoice |
+| **Invoice #** | The vendor's invoice reference number |
+| **Amount** | Total amount due |
+| **Issue Date** | When the invoice was issued |
+| **Due Date** | Payment deadline |
+| **Status** | Current status (Pending, Approved, Paid, Overdue) |
+| **Department** | The department responsible for the bill |
+
+### Additional Filters
+
+Beyond status, you can refine the bill list with:
+
+- **Date range** -- Filter by issue date or due date
+- **Vendor** -- Show bills from a specific vendor
+- **Amount range** -- Focus on bills within a certain value
+- **Department** -- Filter by the responsible department
+- **Search** -- Find bills by invoice number, vendor name, or description
+
+## Bill Detail View
+
+Click on any bill to open its detail panel. The detail view shows:
+
+- **Invoice document** -- The uploaded PDF or image of the vendor invoice
+- **Extracted data** -- Vendor name, amounts, line items, and dates pulled by OCR
+- **Payment terms** -- Net 30, Net 60, or custom terms
+- **Category and department** -- How the bill is classified
+- **Approval status** -- Where the bill is in the approval workflow
+- **Timeline** -- A history of all actions taken on the bill
+
+<Frame>
+  <img src="/images/guides/web-app/bills/bill-detail.png" alt="Bill detail view showing invoice, extracted data, and timeline" />
+</Frame>
+
+## Vendor Management
+
+Bills are linked to vendor profiles. When you upload a bill, Smartbills attempts to match it to an existing vendor in your directory. From the Bills section, you can:
+
+- View all bills for a specific vendor
+- See total spending per vendor over time
+- Navigate to the vendor profile for contact details and payment information
+
+For more on managing vendors, see the [Vendors guide](/guides/web-app/vendors/overview).
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Upload a Bill" icon="cloud-arrow-up" href="/guides/web-app/bills/upload-bill">
+    Upload a vendor invoice and let OCR extract the details
+  </Card>
+  <Card title="Bill Approval" icon="check-double" href="/guides/web-app/bills/approval">
+    Learn how the bill approval workflow operates
+  </Card>
+  <Card title="Vendors" icon="store" href="/guides/web-app/vendors/overview">
+    Manage your vendor directory
+  </Card>
+  <Card title="Vault" icon="vault" href="/guides/web-app/vault/overview">
+    Access archived bills and documents
+  </Card>
+</CardGroup>

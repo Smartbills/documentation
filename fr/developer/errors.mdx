@@ -7,4 +7,4 @@ L'API Smartbills utilise les codes de statut HTTP standards : 2xx pour le succè
 
 Les codes courants incluent `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `VALIDATION_FAILED` (400/422) et `RATE_LIMIT_EXCEEDED` (429). Chaque erreur inclut un `requestId` pour le débogage auprès du support.
 
-Enveloppez toujours vos appels API dans des blocs try-catch. Utilisez les gardes de type des SDK officiels (`isValidationError`, `isRateLimitError`, etc.) pour traiter chaque type d'erreur de manière appropriée. Consultez l'API Reference pour la liste complète des codes d'erreur.
+Enveloppez toujours vos appels API dans des blocs try-catch. Utilisez les gardes de type des SDK officiels (`isValidationError`, `isRateLimitError`, etc.) pour traiter chaque type d'erreur de manière appropriée. Consultez l'API Référence pour la liste complète des codes d'erreur.

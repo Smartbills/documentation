@@ -1,0 +1,195 @@
+---
+title: "Update Department"
+description: "Update an existing department"
+api: "PUT https://api.smartbills.io/v1/businesses/{businessId}/departments/{departmentId}"
+---
+
+## Overview
+
+Update an existing department. All fields are optional -- only the fields you include in the request body will be modified.
+
+## Authentication
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token. Format: `Bearer YOUR_API_KEY`
+</ParamField>
+
+<ParamField header="x-tenant-id" type="string" required>
+  Business ID for multi-tenant context
+</ParamField>
+
+## Path Parameters
+
+<ParamField path="businessId" type="integer" required>
+  The unique identifier of the business
+</ParamField>
+
+<ParamField path="departmentId" type="integer" required>
+  The unique identifier of the department to update
+</ParamField>
+
+## Request Body
+
+All fields are optional. Only include the fields you want to change.
+
+<ParamField body="name" type="string">
+  Department name. Must be unique within the business.
+</ParamField>
+
+<ParamField body="code" type="string">
+  Short department code for internal reference
+</ParamField>
+
+<ParamField body="costCenter" type="string">
+  Cost center identifier for accounting integration
+</ParamField>
+
+<ParamField body="defaultApproverId" type="integer">
+  ID of the user who should be the default approver for expense reports from this department
+</ParamField>
+
+<ParamField body="enabled" type="boolean">
+  Whether the department is active. Setting to `false` hides the department from selection but does not affect existing associations.
+</ParamField>
+
+## Response
+
+Returns the updated department object.
+
+<ResponseField name="id" type="integer">
+  Unique department identifier
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Department name
+</ResponseField>
+
+<ResponseField name="code" type="string">
+  Department code
+</ResponseField>
+
+<ResponseField name="costCenter" type="string">
+  Cost center identifier
+</ResponseField>
+
+<ResponseField name="defaultApproverId" type="integer">
+  ID of the default approver
+</ResponseField>
+
+<ResponseField name="enabled" type="boolean">
+  Whether the department is active
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  Timestamp when the department was created (ISO 8601)
+</ResponseField>
+
+<ResponseField name="updatedAt" type="string">
+  Timestamp of last update (ISO 8601)
+</ResponseField>
+
+<RequestExample>
+
+```bash cURL
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/departments/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{
+    "name": "Software Engineering",
+    "costCenter": "CC-110",
+    "defaultApproverId": 510
+  }'
+```
+
+```javascript JavaScript SDK
+import { SBClient } from "@smartbills/sdk";
+
+const client = new SBClient({ apiKey: "YOUR_API_KEY" });
+
+const updated = await client.departments.update(1, {
+  name: "Software Engineering",
+  costCenter: "CC-110",
+  defaultApproverId: 510
+});
+
+console.log(`Updated department: ${updated.name}`);
+```
+
+```python Python SDK
+from smartbills import Smartbills
+
+client = Smartbills(api_key="YOUR_API_KEY")
+
+updated = await client.departments.update(
+    department_id=1,
+    name="Software Engineering",
+    cost_center="CC-110",
+    default_approver_id=510
+)
+
+print(f"Updated department: {updated.name}")
+```
+
+</RequestExample>
+
+<ResponseExample>
+
+```json Response
+{
+  "id": 1,
+  "name": "Software Engineering",
+  "code": "ENG",
+  "costCenter": "CC-110",
+  "defaultApproverId": 510,
+  "enabled": true,
+  "createdAt": "2024-01-10T09:00:00Z",
+  "updatedAt": "2025-01-20T15:45:00Z"
+}
+```
+
+</ResponseExample>
+
+## Disabling a Department
+
+To disable a department without deleting it, set `enabled` to `false`. Disabled departments are hidden from selection dropdowns but existing employee assignments and expense associations remain unchanged.
+
+```bash
+curl --request PUT \
+  --url https://api.smartbills.io/v1/businesses/456/departments/1 \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 456' \
+  --data '{ "enabled": false }'
+```
+
+## Error Responses
+
+| Status Code | Error Code | Description |
+|------------|------------|-------------|
+| 400 | VALIDATION_ERROR | Invalid field values |
+| 400 | DUPLICATE_NAME | A department with this name already exists |
+| 401 | UNAUTHORIZED | Missing or invalid API key |
+| 403 | FORBIDDEN | Insufficient permissions to manage departments |
+| 404 | DEPARTMENT_NOT_FOUND | Department ID does not exist |
+| 404 | BUSINESS_NOT_FOUND | Business ID does not exist |
+| 404 | APPROVER_NOT_FOUND | The specified default approver ID does not exist |
+| 429 | RATE_LIMIT_EXCEEDED | Too many requests |
+
+## Related Endpoints
+
+<CardGroup cols={2}>
+  <Card title="List Departments" icon="list" href="/api-reference/departments/list-departments">
+    Get all departments
+  </Card>
+  <Card title="Get Department" icon="eye" href="/api-reference/departments/get-department">
+    Retrieve a single department by ID
+  </Card>
+  <Card title="Create Department" icon="plus" href="/api-reference/departments/create-department">
+    Create a new department
+  </Card>
+  <Card title="List Categories" icon="tag" href="/api-reference/categories/list-categories">
+    View all expense categories
+  </Card>
+</CardGroup>
