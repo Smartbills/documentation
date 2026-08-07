@@ -3,7 +3,7 @@ title: "Authentication"
 description: "Configure authentication, business context, and locale for the Smartbills JavaScript SDK."
 ---
 
-# Authentication
+## Authentication
 
 The Smartbills SDK uses OAuth2 bearer tokens for authentication. Every request includes the token in the `Authorization` header, a business ID in the `x-tenant-id` header, and a locale in the `Accept-Language` header.
 
@@ -29,9 +29,9 @@ const client = new SmartbillsClient({
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `accessToken` | `string` | -- | OAuth2 bearer token for API authentication |
-| `businessId` | `number` | -- | Business ID to scope requests to a specific tenant |
-| `locale` | `string` | -- | Locale code for localized responses (`en-CA`, `fr-CA`) |
+| `accessToken` | `string` |: | OAuth2 bearer token for API authentication |
+| `businessId` | `number` |: | Business ID to scope requests to a specific tenant |
+| `locale` | `string` |: | Locale code for localized responses (`en-CA`, `fr-CA`) |
 | `baseUrl` | `string` | `https://api.smartbills.io` | API base URL |
 | `timeout` | `number` | `30000` | Request timeout in milliseconds |
 | `maxRetries` | `number` | `2` | Maximum automatic retries on transient failures |
@@ -167,8 +167,8 @@ const biz200Expenses = await client.expenses.listBusiness(
 
 The SDK automatically retries requests on transient errors:
 
-- **429 Too Many Requests** -- retries after the `Retry-After` header value
-- **5xx Server Errors** -- retries with exponential back-off
-- **Network errors** (connection reset, timeout) -- retries with exponential back-off
+- **429 Too Many Requests**: retries after the `Retry-After` header value
+- **5xx Server Errors**: retries with exponential back-off
+- **Network errors** (connection reset, timeout), retries with exponential back-off
 
 Retries stop after `maxRetries` attempts. Non-retryable errors (400, 401, 403, 404) are thrown immediately.

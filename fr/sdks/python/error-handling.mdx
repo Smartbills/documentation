@@ -3,7 +3,7 @@ title: "Gestion des Erreurs"
 description: "Guide complet des classes d'erreurs et des patrons de gestion dans le SDK Python Smartbills."
 ---
 
-# Gestion des Erreurs
+## Gestion des Erreurs
 
 Le SDK Python Smartbills lève des exceptions structurées pour chaque échec API. Chaque classe d'exception correspond à un code de statut HTTP spécifique et inclut des informations contextuelles pour le débogage.
 
@@ -169,7 +169,7 @@ async def appel_api_securise(coro):
 
 ## Patron de tentatives
 
-Le SDK à des tentatives intégrées pour les erreurs transitoires (429, 5xx, erreurs réseau). Pour un controle supplémentaire, implementez votre propre logique de tentatives :
+Le SDK à des tentatives intégrées pour les erreurs transitoires (429, 5xx, erreurs réseau). Pour un contrôle supplémentaire, implementez votre propre logique de tentatives :
 
 ```python
 import asyncio

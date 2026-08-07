@@ -1,0 +1,75 @@
+---
+title: "Reclamar menos que el importe de un gasto"
+description: "Reclame una parte de un gasto y entienda el importe que aprueba el aprobador"
+---
+
+## Resumen
+
+El importe que reclama no tiene que coincidir con el del recibo. Una cena a la que se sumó el invitado de un compañero, una factura de hotel que cubre una noche personal, un taxi compartido: en todos los casos el total del recibo es correcto, pero la parte reembolsable es menor.
+
+Smartbills distingue ambas cifras. Cada gasto de un informe lleva un **importe reclamado** junto al total del gasto.
+
+## Reclamar una parte
+
+<Steps>
+  <Step title="Abrir el informe">
+    Vaya al borrador que contiene el gasto.
+  </Step>
+  <Step title="Editar el importe reclamado">
+    Indique en la línea la parte que reclama.
+  </Step>
+  <Step title="Explicar por qué">
+    Añada una nota en la línea. Un importe inferior al recibo sin explicación casi siempre provoca una petición de cambios, lo que le costará más tiempo que escribir la nota.
+  </Step>
+  <Step title="Enviar">
+    El informe suma los importes reclamados, no los totales de los recibos.
+  </Step>
+</Steps>
+
+<Note>
+  El importe reclamado no puede superar el total del gasto. Intentarlo se rechaza. Para reclamar más de lo que muestra un recibo, el recibo está mal y hay que corregir el gasto.
+</Note>
+
+## Qué puede hacer el aprobador
+
+El aprobador trabaja con otra cifra, el **importe aprobado**, y puede aprobar menos de lo reclamado. La vista de aprobación reparte un informe en cuatro categorías:
+
+| Categoría | Significado |
+|-----------|-------------|
+| **Aprobado** | Validado para reembolso |
+| **Rechazado** | Denegado |
+| **Cambios pendientes** | Devuelto para corregir |
+| **Pendiente** | Sin decidir |
+
+Se espera que un aprobador que reduce un importe deje una nota explicándolo, que aparece junto al gasto cuando el informe vuelve a usted.
+
+<Note>
+  Poner un importe aprobado a cero está bloqueado: la interfaz avisa de que eso equivaldría a denegar el gasto e invita a usar el botón de denegar. Una denegación se registra como una decisión motivada, mientras que una aprobación a cero parecería una aprobación y no pagaría nada.
+</Note>
+
+El aprobador también puede sustituir directamente el total del informe y editar importes cuando la situación lo requiere.
+
+## El caso del kilometraje
+
+El kilometraje se comporta algo distinto, porque su valor depende de la distancia acumulada del año.
+
+El importe reclamado se **congela al enviar el informe**. El total calculado sigue reflejando el tramo de tarifa vigente ahora. Si un desplazamiento posterior le hizo cruzar un umbral anual, ambas cifras se separan.
+
+Cuando difieren, Smartbills muestra las dos y lo explica. Se reembolsa el importe reclamado.
+
+Esto protege a las dos partes: el aprobador valida una cifra que no cambiará después y usted no queda penalizado retroactivamente por distancia recorrida tras el envío.
+
+## Leer los totales
+
+Un informe muestra la suma de los importes reclamados, la de los aprobados una vez tomadas las decisiones, y el total del reembolso. Solo coinciden si todo se aprobó íntegramente, así que una diferencia entre reclamado y aprobado es la forma más rápida de detectar una reducción o una denegación.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Cambios solicitados" icon="rotate-left" href="/es/guides/web-app/reports/requested-changes">
+    Corregir un informe devuelto
+  </Card>
+  <Card title="Kilometraje en un informe" icon="car" href="/es/guides/web-app/mileage/add-to-expense-report">
+    Por qué difieren las cifras
+  </Card>
+</CardGroup>

@@ -1,0 +1,91 @@
+---
+title: "Log a Trip"
+description: "Record a business drive and let Smartbills calculate the distance and reimbursement"
+---
+
+## Overview
+
+Logging a trip records where you drove, in which vehicle, and on what date. Smartbills routes the addresses, calculates the distance, and shows what the trip is worth at your business's mileage rate.
+
+Start from **Mileage Trips** in the sidebar, then **New trip**.
+
+The screen is split in two. The map on the left previews your route as you type. The form on the right holds the trip details.
+
+## Fill in the trip
+
+<Steps>
+  <Step title="Name the trip">
+    **Trip name** is required. Use something an approver will understand without asking, such as "Client visit downtown". This is the label that appears on the expense and on the expense report.
+  </Step>
+  <Step title="Choose a vehicle">
+    **Vehicle** is required. The vehicle sets whether the trip is measured in kilometres or miles, so pick it before you check the distance. If the car is not in the list, use **Add a new vehicle** to create it without leaving the form.
+  </Step>
+  <Step title="Set the travel date">
+    Defaults to now. Change it if you are logging a drive from an earlier day.
+  </Step>
+  <Step title="Enter the route">
+    Type the start address, then the destination. **Pick each address from the suggestions** rather than typing it freehand. Smartbills needs the resolved place in order to route it, and an address that was typed but never selected will block saving.
+
+    To add stops along the way, see [Multi-stop and round trips](/guides/web-app/mileage/multi-stop-and-round-trips).
+  </Step>
+  <Step title="Toggle round trip if you drove back">
+    Turning on **Round trip** includes the return leg in the distance. The field notes "Includes the return trip" so you do not double it by hand.
+  </Step>
+  <Step title="Check the distance">
+    The **Distance** field fills in from the calculated route. Leave it alone unless the real distance differed, for example because of a detour.
+  </Step>
+  <Step title="Add notes if useful">
+    Optional context for whoever approves the claim.
+  </Step>
+  <Step title="Save">
+    **Save trip** creates the trip and opens its detail page. Its status is **Logged** until you convert it into an expense.
+  </Step>
+</Steps>
+
+## Overriding the distance
+
+The distance box is editable. Type a different number and it becomes a manual override, which is what gets claimed instead of the routed distance.
+
+Two behaviours are worth knowing:
+
+- A **Reset to calculated** link appears once you have overridden the value. Use it to go back to the routed distance.
+- Typing a value that matches the calculated distance clears the override rather than storing it. Smartbills treats "same as the route" as no override at all, so later route changes keep flowing through.
+
+<Note>
+  The map preview is an estimate produced in your browser. When you save, the server recalculates the route and that result is what your claim is based on. Small differences between the preview and the saved trip are normal.
+</Note>
+
+## Validation
+
+Saving fails with an inline message when something is incomplete:
+
+| Message | What to do |
+|---------|-----------|
+| Add a name for this trip. | Fill in **Trip name**. |
+| Choose a vehicle. | Select or add a vehicle. |
+| Pick a starting address from the suggestions. | Re-enter the origin and click a suggestion. |
+| Pick a destination from the suggestions. | Re-enter the destination and click a suggestion. |
+| An added stop isn't recognized, pick it from the suggestions. | One of your intermediate stops was typed but not selected. Clear it or pick it properly. |
+
+## Edit a trip
+
+Open the trip and choose **Edit**. The edit screen is the same form.
+
+<Warning>
+  A trip cannot be edited once it sits on a submitted expense report. You will see "This trip is on a submitted expense report. Recall or reopen the report first to edit it." Recall the report, make your change, and submit again.
+</Warning>
+
+## Clone a trip
+
+For a drive you repeat, open the trip menu in the list and choose **Clone**. Cloning copies the route and vehicle into a fresh logged trip dated today, which saves re-entering a regular commute between sites.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Multi-stop and round trips" icon="map-pin" href="/guides/web-app/mileage/multi-stop-and-round-trips">
+    Add and reorder stops along the route
+  </Card>
+  <Card title="Convert to an expense" icon="receipt" href="/guides/web-app/mileage/convert-to-expense">
+    Turn the logged trip into something you can claim
+  </Card>
+</CardGroup>

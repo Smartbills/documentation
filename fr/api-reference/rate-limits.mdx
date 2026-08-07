@@ -5,7 +5,7 @@ description: "Comprendre les politiques de limitation de débit de l'API Smartbi
 
 ## Aperçu
 
-Pour garantir une utilisation equitable et maintenir des performances optimales, l'API Smartbills implemente une limitation de débit. Cela aide à controler le trafic des requêtes entrantes et offre une expérience API fluide et previsible pour tous les utilisateurs.
+Pour garantir une utilisation equitable et maintenir des performances optimales, l'API Smartbills implemente une limitation de débit. Cela aide à contrôler le trafic des requêtes entrantes et offre une expérience API fluide et previsible pour tous les utilisateurs.
 
 <Note>
   **Utilisation equitable** : Les limites de débit garantissent qu'aucun utilisateur ne peut monopoliser les ressources de l'API, maintenant un service de qualite pour tous.
@@ -218,7 +218,7 @@ expense = make_request_with_retry(lambda: client.expenses.get(12345))
   </Accordion>
 
   <Accordion title="Implementer une file d'attente de requêtes" icon="list-ol">
-    Mettez les requêtes en file d'attente et traitez-les à un débit controle pour eviter les rafales qui depassent votre limite de débit.
+    Mettez les requêtes en file d'attente et traitez-les à un débit contrôle pour eviter les rafales qui depassent votre limite de débit.
   </Accordion>
 
   <Accordion title="Surveiller l'utilisation" icon="chart-line">
@@ -250,12 +250,12 @@ Les clients Entreprise peuvent demander des limites de débit personnalisées :
   </Accordion>
 
   <Accordion title="Erreurs 429 inattendues" icon="triangle-exclamation">
-    Vérifiez s'il y à plusieurs instances de votre application en cours d'exécution, des clés API partagées entre les services, ou des scripts automatises utilisant la meme clé. Utilisez des clés API séparées pour chaque environnement et service.
+    Vérifiez s'il y à plusieurs instances de votre application en cours d'exécution, des clés API partagées entre les services, ou des scripts automatises utilisant la même clé. Utilisez des clés API séparées pour chaque environnement et service.
   </Accordion>
 </AccordionGroup>
 
 <Warning>
-  **Important** : Les limites de débit sont par clé API. Utiliser la meme clé dans plusieurs services partagera la limite de débit.
+  **Important** : Les limites de débit sont par clé API. Utiliser la même clé dans plusieurs services partagera la limite de débit.
 </Warning>
 
 ## Ressources connexes

@@ -1,0 +1,72 @@
+---
+title: "Dépenses d'entreprise et dépenses personnelles"
+description: "Indiquez qui a payé une dépense, et comprenez ce que cela change"
+---
+
+## Aperçu
+
+Chaque dépense dans Smartbills indique qui a réellement payé : vous, ou l'entreprise. Ce seul indicateur détermine si la dépense doit être remboursée, quelles informations vous sont demandées, et où elle apparaît.
+
+Le contrôle est l'interrupteur **Payé par l'entreprise**, décrit dans l'interface comme « Activez si cette dépense a été payée par l'entreprise ».
+
+## Ce que cela change
+
+| | Dépense personnelle | Dépense d'entreprise |
+|---|---------------------|----------------------|
+| Qui a payé | Vous, de votre poche | L'entreprise, directement |
+| Résultat | Vous êtes remboursé | Rien ne vous est dû |
+| Catégorie | Obligatoire pour la soumission | Pas demandée |
+| Rapport de dépenses | Obligatoire, c'est ainsi que vous êtes remboursé | Pas nécessaire |
+| Prise en charge | Vous, via un rapport de dépenses | La comptabilité |
+
+<Note>
+  Lorsque vous marquez une dépense comme payée par l'entreprise, Smartbills précise que la catégorie et le rapport ne sont pas requis, car ils seront gérés par le processus comptable de l'entreprise.
+
+  Cela ne veut pas dire que la catégorie est facultative en général : la responsabilité de l'imputation passe simplement de vous à l'équipe financière.
+</Note>
+
+## Sur une seule dépense
+
+Au téléversement, indiquez qui a payé dans la fenêtre. Sur une dépense existante, ouvrez-la et utilisez l'interrupteur **Payé par l'entreprise**.
+
+## Sur plusieurs dépenses
+
+Sélectionnez des dépenses dans la liste et utilisez l'action groupée pour modifier qui a payé sur toute la sélection. C'est le moyen le plus rapide de corriger un lot de dépenses de carte d'entreprise importées comme personnelles.
+
+## Valeurs par défaut selon le contexte
+
+La fenêtre de téléversement présélectionne selon la page d'où vous partez :
+
+- Depuis **Dépenses** : personnelle par défaut
+- Depuis **Dépenses d'entreprise** : payée par l'entreprise par défaut
+
+<Warning>
+  La valeur par défaut suit la page, pas le reçu. Si vous téléversez habituellement depuis Dépenses d'entreprise, vos dépenses personnelles saisies là seront marquées comme payées par l'entreprise et ne figureront jamais sur un rapport de remboursement. Vérifiez l'interrupteur quand le reçu est le vôtre.
+</Warning>
+
+## Corriger une erreur
+
+Modifier l'indicateur est sans risque tant que la dépense vous appartient encore.
+
+Une fois la dépense sur un rapport soumis, elle est verrouillée avec le reste du rapport. Rappelez le rapport, changez l'indicateur, puis soumettez de nouveau. Voir [Rappeler un rapport](/fr/guides/web-app/reports/recall-report).
+
+<Warning>
+  Une dépense personnelle marquée comme payée par l'entreprise est l'erreur la plus coûteuse des deux. Rien ne sera signalé comme manquant, aucun rapport ne sera bloqué, et elle ne sera tout simplement jamais remboursée. Si vous attendez un remboursement pour une dépense introuvable sur un rapport, vérifiez d'abord ce point.
+</Warning>
+
+## Où chaque type apparaît
+
+Les deux types figurent dans votre liste de dépenses. Les dépenses payées par l'entreprise alimentent aussi **Dépenses d'entreprise**, où la comptabilité les vérifie et les impute.
+
+Ce que vous pouvez voir dépend de votre rôle. Les Membres ne voient que leurs propres dépenses. L'Équipe financière, les Administrateurs financiers et les Administrateurs voient les Dépenses d'entreprise. Voir [Rôles et autorisations](/fr/guides/concepts/roles-and-permissions).
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Ajouter une dépense" icon="upload" href="/fr/guides/web-app/expenses/upload-expense">
+    Indiquer qui a payé au téléversement
+  </Card>
+  <Card title="Dépenses d'entreprise" icon="credit-card" href="/fr/guides/web-app/business-expenses/overview">
+    Où elles sont vérifiées
+  </Card>
+</CardGroup>

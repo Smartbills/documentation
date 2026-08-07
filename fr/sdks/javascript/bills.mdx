@@ -1,15 +1,15 @@
 ---
 title: "Factures"
-description: "Référence complète du BillService dans le SDK JavaScript Smartbills -- gérez le cycle de vie complet des comptes fournisseurs."
+description: "Référence complète du BillService dans le SDK JavaScript Smartbills, gérez le cycle de vie complet des comptes fournisseurs."
 ---
 
-# Factures
+## Factures
 
 Le `BillService` (`client.bills`) gère les comptes fournisseurs. Les factures représentent les sommes dues aux fournisseurs et supportent un cycle de vie complet, de la création du brouillon jusqu'au paiement.
 
 ## Cycle de vie des factures
 
-**Brouillon** -> **En attente d'approbation** -> **Approuvee** -> **Planifiee** -> **Payee**
+**Brouillon** -> **En attente d'approbation** -> **Approuvée** -> **Planifiee** -> **Payee**
 
 A tout moment, une facture peut être **Annulee** ou **Revertie en brouillon**.
 
@@ -45,7 +45,7 @@ const bill = await client.bills.create({
   dueDate: '2025-04-30',
   lineItems: [
     { description: 'Services de consultation', amount: 5000.00 },
-    { description: 'Frais de déplacément', amount: 1200.00 },
+    { description: 'Frais de déplacement', amount: 1200.00 },
   ],
 });
 ```

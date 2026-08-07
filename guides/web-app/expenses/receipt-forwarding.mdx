@@ -1,0 +1,97 @@
+---
+title: "Receipt Forwarding"
+description: "Set up email forwarding to automatically capture receipts"
+---
+
+## Overview
+
+Receipt forwarding lets you send email receipts directly to Smartbills, where they are automatically processed and added to your Expenses list. This is useful for digital receipts from online purchases, airline bookings, subscription services, and any vendor that sends receipts by email.
+
+## How It Works
+
+Each Smartbills user gets a unique forwarding email address. When you forward a receipt to this address, Smartbills:
+
+1. Receives the email
+2. Extracts any attached images or PDFs (or parses the email body for receipt data)
+3. Runs OCR to extract merchant, amount, date, currency, and taxes
+4. Creates a new expense in your Expenses list with a **Draft** status
+
+The entire process takes just a few seconds.
+
+## Setting Up Receipt Forwarding
+
+<Steps>
+  <Step title="Find Your Forwarding Address">
+    There are two places to find your unique forwarding email:
+
+    **Option A: From Expenses**
+    1. Navigate to **Expenses** in the sidebar
+    2. Click the **Forwarding** button in the toolbar
+    3. Your forwarding address is displayed (e.g., `receipts+abc123@ingest.smartbills.io`)
+
+    **Option B: From Settings**
+    1. Go to **Settings > Receipt Forwarding**
+    2. Your forwarding address is shown on this page
+
+  </Step>
+
+  <Step title="Copy the Address">
+    Click the **Copy** button next to the forwarding address to copy it to your clipboard.
+
+  </Step>
+
+  <Step title="Forward a Receipt">
+    Open an email receipt in your email client and forward it to your Smartbills forwarding address. You can forward from any email client, Gmail, Outlook, Apple Mail, or others.
+
+  </Step>
+
+  <Step title="Check Your Expenses">
+    Within a few seconds, the receipt appears as a new expense in your Expenses list. Open it to review the extracted data and make any corrections.
+
+  </Step>
+</Steps>
+
+<Check>
+  Your forwarded receipt has been processed and added to your Expenses list as a new expense.
+</Check>
+
+## Tips for Best Results
+
+<Tip>
+  **Add the forwarding address to your contacts.** Save your Smartbills forwarding address as a contact in your email client. This makes forwarding faster and prevents the address from being flagged as spam.
+</Tip>
+
+- **Forward the original email**: Forwarding preserves the original attachments and formatting, which gives the OCR engine the best data to work with
+- **One receipt per email**: For best results, forward emails that contain a single receipt. If an email has multiple attachments, each one creates a separate expense
+- **Check your spam folder**: If a forwarded receipt does not appear in your Expenses list, make sure the confirmation email from Smartbills is not in your spam folder
+
+## Auto-Forwarding Rules
+
+For a fully hands-free experience, set up an auto-forwarding rule in your email client to send all receipts to Smartbills automatically:
+
+1. In your email client, create a filter or rule
+2. Match emails from common receipt senders (e.g., invoices from vendors, booking confirmations)
+3. Set the action to forward matching emails to your Smartbills forwarding address
+
+This way, receipts arrive in your Expenses list without any manual forwarding.
+
+## Outlook Add-In
+
+If your organization uses Microsoft Outlook, the Smartbills Outlook add-in provides a one-click button to forward receipts without leaving your inbox. See the [Outlook Add-in Guide](/integrations/outlook) for setup instructions.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Upload an Expense" icon="cloud-arrow-up" href="/guides/web-app/expenses/upload-expense">
+    Upload receipts manually via the web dashboard
+  </Card>
+  <Card title="Edit an Expense" icon="pen-to-square" href="/guides/web-app/expenses/edit-expense">
+    Review and correct forwarded expenses
+  </Card>
+  <Card title="Outlook Add-in" icon="envelope-open-text" href="/integrations/outlook">
+    Install the Smartbills add-in for Outlook
+  </Card>
+  <Card title="Create an Expense Report" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Group your expenses into a report
+  </Card>
+</CardGroup>

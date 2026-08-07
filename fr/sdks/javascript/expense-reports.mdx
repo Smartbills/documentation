@@ -1,15 +1,15 @@
 ---
 title: "Rapports de Dépenses"
-description: "Référence complète de la gestion des rapports de dépenses dans le SDK JavaScript Smartbills -- créer, soumettre, approuver, rejeter, rembourser et exporter."
+description: "Référence complète de la gestion des rapports de dépenses dans le SDK JavaScript Smartbills, créer, soumettre, approuver, rejeter, rembourser et exporter."
 ---
 
-# Rapports de Dépenses
+## Rapports de Dépenses
 
 L'API des rapports de dépenses couvre trois services :
 
-- **`client.expenseReports`** -- cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
-- **`client.expenseReportExpenses`** -- gérer les dépenses au sein d'un rapport
-- **`client.expenseReportPayments`** -- opérations de remboursement et de paiement
+- **`client.expenseReports`**: cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
+- **`client.expenseReportExpenses`**: gérer les dépenses au sein d'un rapport
+- **`client.expenseReportPayments`**: opérations de remboursement et de paiement
 
 ## ExpenseReportService
 
@@ -66,7 +66,7 @@ await client.expenseReports.delete(reportId);
 
 ## Cycle de vie du rapport
 
-Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuve** -> **Rembourse**.
+Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuvé** -> **Remboursé**.
 
 ### Soumettre pour approbation
 

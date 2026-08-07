@@ -1,15 +1,15 @@
 ---
 title: "Rapports de Dépenses"
-description: "Référence complète de la gestion des rapports de dépenses dans le SDK Python Smartbills -- créer, soumettre, approuver, rejeter, rembourser et exporter."
+description: "Référence complète de la gestion des rapports de dépenses dans le SDK Python Smartbills, créer, soumettre, approuver, rejeter, rembourser et exporter."
 ---
 
-# Rapports de Dépenses
+## Rapports de Dépenses
 
 L'API des rapports de dépenses en Python couvre trois services :
 
-- **`client.expense_reports`** -- cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
-- **`client.expense_report_expenses`** -- gérer les dépenses au sein d'un rapport
-- **`client.expense_report_payments`** -- opérations de remboursement et de paiement
+- **`client.expense_reports`**: cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
+- **`client.expense_report_expenses`**: gérer les dépenses au sein d'un rapport
+- **`client.expense_report_payments`**: opérations de remboursement et de paiement
 
 Toutes les méthodes sont asynchrones et doivent être appelées avec `await`.
 
@@ -80,7 +80,7 @@ await client.expense_reports.delete(report_id=123)
 
 ## Cycle de vie du rapport
 
-Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuve** -> **Rembourse**.
+Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuvé** -> **Remboursé**.
 
 ### Soumettre pour approbation
 

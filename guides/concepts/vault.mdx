@@ -7,7 +7,7 @@ description: "Securely store and manage financial documents in the Smartbills va
 
 The Vault is Smartbills' secure document storage system for receipts, expense reports, invoices, and other financial records. It acts as a digital filing cabinet where all expense-related documents are organized, searchable, and available for audit. The Vault ensures your organization maintains a complete paper trail for every transaction, with documents archived automatically as expenses move through their lifecycle.
 
-The Vault is accessible from `/:slug/vault`.
+The Vault is accessible from `/{slug}/vault`.
 
 ## How It Works
 
@@ -16,7 +16,7 @@ The Vault is accessible from `/:slug/vault`.
     When an expense is created, its receipt image or PDF is stored in the Vault. As the expense moves through the lifecycle (categorized, added to a report, approved, reimbursed), the Vault record is updated with the latest metadata.
   </Step>
   <Step title="Report Archiving">
-    When an expense report is approved and reimbursed, the complete report -- including all attached expenses, receipts, comments, and approval history -- is archived as a single document package in the Vault.
+    When an expense report is approved and reimbursed, the complete report, including all attached expenses, receipts, comments, and approval history, is archived as a single document package in the Vault.
   </Step>
   <Step title="Manual Upload">
     Users can also upload documents directly to the Vault that are not tied to a specific expense. This is useful for contracts, vendor agreements, or other supporting financial documents.
@@ -37,7 +37,7 @@ The Vault is accessible from `/:slug/vault`.
 
 ## Access Control
 
-Access to the Vault is governed by the `VAULT_VIEW` permission. This ensures that only authorized users can browse and retrieve stored documents.
+Access to the Vault is governed by the that access permission. This ensures that only authorized users can browse and retrieve stored documents.
 
 | Role | Access Level |
 |------|-------------|

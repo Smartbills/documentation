@@ -1,142 +1,94 @@
 ---
-title: "Rôles et Permissions"
-description: "Comprendre les rôles utilisateurs et niveaux de permission dans Smartbills"
+title: "Rôles et autorisations"
+description: "Ce que chaque rôle peut faire, et pourquoi votre collègue voit des choses que vous ne voyez pas"
 ---
 
-## Que sont les rôles et permissions?
+## Aperçu
 
-Les rôles et permissions contrôlent ce que chaque utilisateur peut voir et faire au sein de votre organisation Smartbills. Chaque utilisateur se voit attribuer un rôle, et chaque rôle accorde un ensemble spécifique de permissions. Cela garantit que les employés n'accèdent qu'aux fonctionnalités dont ils ont besoin, que les gestionnaires peuvent réviser et approuver les dépenses, et que les administrateurs ont un contrôle complet sur les paramètres de l'organisation.
+Chaque personne d'une entreprise a un seul rôle. Ce rôle détermine ce qui apparaît dans la barre latérale et ce que vous êtes autorisé à faire.
 
-Les rôles sont gérés depuis **Paramètres > Équipe** (`/:slug/settings/team`).
+Les rôles se définissent dans **Paramètres > Espace de travail > Équipe**, et seuls les Administrateurs peuvent les modifier.
 
-## Rôles disponibles
+## Les cinq rôles
 
-Smartbills propose cinq rôles prédéfinis, chacun conçu pour une fonction spécifique dans le flux de gestion des dépenses.
-
-### Propriétaire
-
-Le Propriétaire est la personne qui à créé l'organisation Smartbills. Il n'y à qu'un seul Propriétaire par organisation. Le Propriétaire à un accès illimité à toutes les fonctionnalités et paramètres, y compris la gestion de la facturation et la possibilité de transférer la propriété.
-
-### Administrateur
-
-Les Administrateurs ont un accès complet à toutes les fonctionnalités sauf la facturation et le transfert de propriété. Ils peuvent gérer les membres de l'équipe, configurer les flux d'approbation, créer des catégories et départements, et accéder à toutes les dépenses et rapports de l'organisation. Les administrateurs sont généralement des responsables financiers ou des directeurs des opérations.
-
-### Gestionnaire
-
-Les Gestionnaires peuvent consulter et approuver les dépenses de leurs subordonnés directs. Ils ont accès aux pages d'Approbations et peuvent voir les données de dépenses de leur équipe. Les gestionnaires ne peuvent pas modifier les paramètres de l'organisation ni gérer les rôles des autres membres de l'équipe.
-
-### Employé
-
-Les Employés constituent le rôle le plus courant. Ils peuvent créer et gérer leurs propres dépenses, construire des rapports de dépenses et les soumettre pour approbation. Les employés ne peuvent voir que leurs propres données et ne peuvent pas accéder aux dépenses des autres utilisateurs ni aux rapports de l'organisation.
-
-### Comptable
-
-Les Comptables ont un accès en lecture à toutes les dépenses, rapports et au Coffre-fort pour les besoins d'audit et de conformité. Ils peuvent réviser et catégoriser les dépenses dans la Boîte de réception d'entreprise mais ne peuvent pas modifier les paramètres de l'organisation ni gérer les membres de l'équipe.
-
-## Groupes de permissions
-
-Les permissions dans Smartbills sont organisées en groupes. Chaque permission possède une variante `VIEW` (accès en lecture seule) et une variante `MANAGE` (accès en lecture et écriture).
-
-### Permissions sur les dépenses
-
-| Permission | Description |
-|-----------|-------------|
-| `EXPENSES_VIEW` | Consulter les dépenses dans le Portefeuille Personnel |
-| `EXPENSES_MANAGE` | Créer, modifier et supprimer les dépenses dans le Portefeuille Personnel |
-| `BUSINESS_EXPENSES_VIEW` | Consulter les dépenses dans la Boîte de réception des dépenses d'entreprise |
-| `BUSINESS_EXPENSES_MANAGE` | Créer, modifier, catégoriser et gérer les dépenses dans la Boîte de réception |
-
-### Permissions sur les factures
-
-| Permission | Description |
-|-----------|-------------|
-| `BILLS_VIEW` | Consulter les factures |
-| `BILLS_MANAGE` | Créer, modifier, approuver et gérer les factures |
-
-### Permissions sur les fournisseurs
-
-| Permission | Description |
-|-----------|-------------|
-| `VENDORS_VIEW` | Consulter le répertoire de fournisseurs et les détails des fournisseurs |
-| `VENDORS_MANAGE` | Créer, modifier, fusionner et supprimer les enregistrements de fournisseurs |
-
-### Permissions sur le Coffre-fort
-
-| Permission | Description |
-|-----------|-------------|
-| `VAULT_VIEW` | Consulter et rechercher des documents dans le Coffre-fort |
-
-### Permissions sur les paramètres
-
-| Permission | Description |
-|-----------|-------------|
-| `SETTINGS_TEAM_VIEW` | Consulter la liste de l'équipe et les rôles des utilisateurs |
-| `SETTINGS_GENERAL_MANAGE` | Gérer les paramètres de l'organisation, y compris les catégories, départements, flux d'approbation et intégrations |
-
-## Matrice Rôles-Permissions
-
-Le tableau suivant montre les permissions accordées à chaque rôle par défaut.
-
-| Permission | Propriétaire | Admin | Gestionnaire | Employé | Comptable |
-|-----------|-------------|-------|-------------|---------|-----------|
-| `EXPENSES_VIEW` | Oui | Oui | Oui | Oui | Oui |
-| `EXPENSES_MANAGE` | Oui | Oui | Non | Oui | Non |
-| `BUSINESS_EXPENSES_VIEW` | Oui | Oui | Oui | Non | Oui |
-| `BUSINESS_EXPENSES_MANAGE` | Oui | Oui | Non | Non | Oui |
-| `BILLS_VIEW` | Oui | Oui | Oui | Non | Oui |
-| `BILLS_MANAGE` | Oui | Oui | Non | Non | Non |
-| `VENDORS_VIEW` | Oui | Oui | Oui | Non | Oui |
-| `VENDORS_MANAGE` | Oui | Oui | Non | Non | Non |
-| `VAULT_VIEW` | Oui | Oui | Oui | Non | Oui |
-| `SETTINGS_TEAM_VIEW` | Oui | Oui | Oui | Non | Non |
-| `SETTINGS_GENERAL_MANAGE` | Oui | Oui | Non | Non | Non |
-
-## Comment assigner les rôles
-
-Les rôles sont assignés lors de l'invitation d'un nouveau membre de l'équipe ou en modifiant le profil d'un membre existant dans **Paramètres > Équipe**.
-
-1. Naviguez vers **Paramètres > Équipe** (`/:slug/settings/team`)
-2. Pour changer un rôle : cliquez sur le nom du membre de l'équipe et sélectionnez un nouveau rôle dans le menu déroulant
-3. Pour inviter un nouveau membre : cliquez sur **Inviter**, entrez son adresse courriel et sélectionnez son rôle
+| Rôle | À qui il s'adresse | Ce qu'il permet |
+|------|--------------------|-----------------|
+| **Membre** | Toute personne qui réclame des dépenses | Ses propres dépenses, rapports et trajets. Rien de ce qui appartient à autrui. |
+| **Équipe financière** | Commis comptables et teneurs de livres | Tout ce que fait un Membre, plus la vérification des dépenses d'entreprise et le téléversement de factures. Ne peut ni approuver ni payer. |
+| **Gestionnaire** | Responsables d'équipe | Tout ce que fait un Membre, plus l'approbation et le rejet des rapports de son équipe. Ne peut pas les payer. |
+| **Administrateur financier** | Contrôleurs et responsables financiers | Approuve, rejette et rembourse les rapports. Accès complet aux factures, fournisseurs, coffre-fort et à la plupart des paramètres. Ne peut ni inviter des personnes ni modifier la facturation. |
+| **Administrateur** | Propriétaires et responsables des opérations | Tout, y compris inviter des personnes, changer les rôles, la facturation et les paramètres de l'entreprise. |
 
 <Note>
-  Seuls les utilisateurs avec la permission `SETTINGS_GENERAL_MANAGE` (Propriétaires et Administrateurs) peuvent inviter des membres de l'équipe et modifier les rôles.
+  Il n'existe pas de rôle Propriétaire. Tout ce dont un propriétaire aurait besoin, y compris la facturation et la capacité de modifier les accès, relève du rôle **Administrateur**.
 </Note>
 
-## Terminologie clé
+## Approuver et payer sont volontairement séparés
 
-| Terme | Définition |
-|-------|-----------|
-| **Rôle** | Un ensemble prédéfini de permissions attribué à un utilisateur (Propriétaire, Administrateur, Gestionnaire, Employé, Comptable) |
-| **Permission** | Une capacité spécifique qui accorde l'accès à une fonctionnalité ou une action |
-| **VIEW** | Un niveau de permission qui permet de lire les données sans effectuer de modifications |
-| **MANAGE** | Un niveau de permission qui permet de créer, modifier et supprimer des données |
-| **Équipe** | Tous les utilisateurs de votre organisation Smartbills |
-| **Invitation** | Le processus d'ajout d'un nouvel utilisateur à votre organisation par courriel |
+Un Gestionnaire peut approuver un rapport de dépenses mais ne peut pas le rembourser. La libération des fonds est réservée aux Administrateurs financiers et aux Administrateurs.
 
-## Rôles impliqués
+C'est délibéré. Cela garantit qu'une même personne ne peut pas à la fois autoriser une demande et la payer, ce qui est le contrôle que recherchent la plupart des auditeurs. C'est aussi la raison pour laquelle un Gestionnaire qui a approuvé un rapport le voit encore ensuite : il attend la finance, pas lui.
 
-| Rôle | Responsabilité |
-|------|---------------|
-| **Propriétaire** | Contrôle total. Gère la facturation, peut transférer la propriété et possède toutes les capacités d'Administrateur |
-| **Administrateur** | Gère les membres de l'équipe, configuré les paramètres et à un accès complet à toutes les données de dépenses |
-| **Gestionnaire** | Approuve les dépenses et rapports de son équipe. Consulte les données de dépenses de l'équipe |
-| **Employé** | Gère ses propres dépenses et soumet des rapports pour approbation |
-| **Comptable** | Accès en lecture à toutes les dépenses, rapports et au Coffre-fort pour les besoins d'audit |
+## Pourquoi votre barre latérale diffère de celle d'un collègue
 
-## Guides connexes
+La section entreprise n'apparaît que si votre rôle vous donne accès à quelque chose qu'elle contient. Un Membre n'y a accès à rien, et ne voit donc que Tableau de bord, Trajets kilométriques, Dépenses et Rapports de dépenses.
+
+Il en va de même dans les Paramètres. Un Administrateur financier voit Catégories, Départements et Employés. Un Membre ne voit que Véhicules et Délégation, car ces deux-là sont personnels plutôt que propres à l'entreprise.
+
+C'est aussi pourquoi la barre latérale peut changer quand vous passez d'une entreprise à l'autre. Votre rôle est propre à chaque entreprise. Voir [Changer d'entreprise](/fr/guides/web-app/switching-businesses).
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Je ne vois pas Factures, Fournisseurs ou Coffre-fort">
+    Ces sections demandent le rôle Administrateur financier ou Administrateur. Les Gestionnaires et les Membres ne les ont pas. Demandez à un Administrateur si vous avez besoin d'y accéder.
+  </Accordion>
+
+  <Accordion title="J'ai approuvé un rapport mais je ne peux pas le marquer remboursé">
+    Vous êtes Gestionnaire. L'approbation et le paiement sont séparés : le rapport attend maintenant un Administrateur financier ou un Administrateur.
+  </Accordion>
+
+  <Accordion title="Je ne peux pas inviter un nouveau membre">
+    Seuls les Administrateurs peuvent inviter des personnes ou modifier des rôles. Les Administrateurs financiers ne le peuvent pas, même s'ils modifient la plupart des autres paramètres.
+  </Accordion>
+
+  <Accordion title="Je suis Administrateur financier et je ne peux pas soumettre mon propre rapport">
+    C'est une limitation connue. Les Administrateurs financiers peuvent approuver et rembourser les rapports des autres, mais ne peuvent ni soumettre ni supprimer les leurs.
+
+    Si vos contrôleurs doivent aussi réclamer leurs propres dépenses, contactez le support Smartbills. N'y remédiez pas en les passant Administrateur, ce qui leur accorderait bien plus que nécessaire.
+  </Accordion>
+
+  <Accordion title="Quelqu'un doit me remplacer pendant mon absence">
+    Utilisez la délégation plutôt que de changer son rôle. Elle lui permet d'agir pour vous temporairement, conserve la trace de qui a fait quoi, et s'annule facilement. Voir [Délégation](/fr/guides/web-app/settings/delegation).
+  </Accordion>
+</AccordionGroup>
+
+## Modifier le rôle d'une personne
+
+<Steps>
+  <Step title="Ouvrir les paramètres de l'équipe">
+    Allez dans **Paramètres > Espace de travail > Équipe**.
+  </Step>
+  <Step title="Choisir la personne et le nouveau rôle">
+    Le changement prend effet immédiatement.
+  </Step>
+</Steps>
+
+Pour ajouter quelqu'un, utilisez **Inviter** et choisissez son rôle au passage. Seuls les Administrateurs peuvent le faire.
+
+## Voir aussi
 
 <CardGroup cols={2}>
   <Card title="Inviter des membres" icon="user-plus" href="/fr/guides/web-app/team/invite-members">
-    Comment ajouter de nouveaux membres à votre organisation
+    Ajouter des personnes à votre entreprise
   </Card>
-  <Card title="Gérer les rôles" icon="user-gear" href="/fr/guides/web-app/team/manage-roles">
-    Comment changer le rôle d'un membre de l'équipe
+  <Card title="Délégation" icon="user-shield" href="/fr/guides/web-app/settings/delegation">
+    Autoriser quelqu'un à agir pour vous
   </Card>
-  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
-    Découvrez comment les rôles interagissent avec le processus d'approbation
+  <Card title="Journal d'audit" icon="scroll" href="/fr/guides/web-app/settings/audit-log">
+    Vérifier qui a approuvé ou payé
   </Card>
-  <Card title="Aperçu de l'équipe" icon="users" href="/fr/guides/web-app/team/overview">
-    Gérer votre équipe dans l'application web
+  <Card title="Changer d'entreprise" icon="repeat" href="/fr/guides/web-app/switching-businesses">
+    Pourquoi vos accès varient
   </Card>
 </CardGroup>

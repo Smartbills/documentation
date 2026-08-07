@@ -3,16 +3,12 @@ title: "Rejeter un Rapport"
 description: "Comment rejeter un rapport de dépenses et fournir des commentaires au soumetteur"
 ---
 
-<Frame>
-  <img src="/images/guides/web-app/approvals/reject-hero.png" alt="Rejet d'un rapport de dépenses dans Smartbills" />
-</Frame>
-
 ## Aperçu
 
 Parfois, un rapport de dépenses ne peut pas être approuvé en raison de documentation manquante, de violations de politique ou d.informations incorrectes. Dans ces cas, vous pouvez rejeter le rapport et fournir une raison pour que le soumetteur comprenne ce qui n'a pas fonctionne.
 
 <Warning>
-  **Le rejet est definitif pour ce rapport.** Lorsque vous rejetez un rapport, le soumetteur doit créer un nouveau rapport ou apporter des corrections et le soumettre à nouveau. Si vous souhaitez que le soumetteur revise et soumette à nouveau le meme rapport, envisagez d'utiliser [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) à la place.
+  **Le rejet est definitif pour ce rapport.** Lorsque vous rejetez un rapport, le soumetteur doit créer un nouveau rapport ou apporter des corrections et le soumettre à nouveau. Si vous souhaitez que le soumetteur revise et soumette à nouveau le même rapport, envisagez d'utiliser [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) à la place.
 </Warning>
 
 ## Étapes
@@ -21,13 +17,10 @@ Parfois, un rapport de dépenses ne peut pas être approuvé en raison de docume
   <Step title="Ouvrir le Rapport en Attente">
     Accédez à **Approbations** dans la barre latérale gauche et cliquez sur le rapport de dépenses que vous devez examiner. Seuls les rapports avec un statut **En attente** peuvent être rejetés.
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/open-pending-report.png" alt="Ouverture d'un rapport en attente depuis la file d'approbation" />
-    </Frame>
   </Step>
 
   <Step title="Examiner le Rapport">
-    Examinez le résumé du rapport et parcourez les dépenses individuelles. Recherchez des problemes tels que :
+    Examinez le résumé du rapport et parcourez les dépenses individuelles. Recherchez des problèmes tels que :
 
     - Reçus manquants ou illisibles
     - Montants ne correspondant pas au reçu
@@ -35,17 +28,11 @@ Parfois, un rapport de dépenses ne peut pas être approuvé en raison de docume
     - Catégories incorrectes ou entrees en double
     - Dépenses en dehors de la plage de dates autorisee
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/review-for-rejection.png" alt="Examen d'un rapport et identification des problemes" />
-    </Frame>
   </Step>
 
   <Step title="Cliquer sur Rejeter">
     Cliquez sur le bouton **Rejeter** dans le coin supérieur droit de la vue détaillée du rapport.
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/reject-button.png" alt="Bouton Rejeter dans la vue détaillée du rapport" />
-    </Frame>
   </Step>
 
   <Step title="Saisir la Raison du Rejet">
@@ -56,25 +43,16 @@ Parfois, un rapport de dépenses ne peut pas être approuvé en raison de docume
     - "La dépense d'hotel depasse la limite de politique de 200 $/nuit. Veuillez fournir la documentation de pre-approbation du gestionnaire."
     - "Trois entrees de taxi en double détectées pour le 15 mars."
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/rejection-reason.png" alt="Saisie d'une raison de rejet dans la boîte de dialogue" />
-    </Frame>
   </Step>
 
   <Step title="Confirmer le Rejet">
-    Cliquez sur **Confirmer le Rejet** pour finaliser. Le statut du rapport passe à **Rejete**.
+    Cliquez sur **Confirmer le Rejet** pour finaliser. Le statut du rapport passe à **Rejeté**.
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/confirm-rejection.png" alt="Clic sur Confirmer le Rejet pour finaliser" />
-    </Frame>
   </Step>
 
   <Step title="Le Soumetteur est Notifie">
-    L'employé recoit une notification indiquant que son rapport à été rejete, accompagnee de la raison que vous avez fournie. La notification apparaît dans l'application et est envoyée par courriel.
+    L'employé recoit une notification indiquant que son rapport à été rejeté, accompagnee de la raison que vous avez fournie. La notification apparaît dans l'application et est envoyée par courriel.
 
-    <Frame>
-      <img src="/images/guides/web-app/approvals/rejection-notification.png" alt="Notification de rejet reçue par le soumetteur" />
-    </Frame>
   </Step>
 </Steps>
 
@@ -82,10 +60,10 @@ Parfois, un rapport de dépenses ne peut pas être approuvé en raison de docume
 
 Lorsqu'un rapport est rejeté :
 
-- Le rapport passe au statut **Rejete** et est retire de la file d'approbation
+- Le rapport passe au statut **Rejeté** et est retire de la file d'approbation
 - Le soumetteur voit la raison du rejet dans la chronologie de son rapport
 - Les dépenses du rapport rejeté redeviennent disponibles et peuvent être ajoutees à un nouveau rapport
-- Le soumetteur doit créer un nouveau rapport ou corriger les problemes et soumettre à nouveau
+- Le soumetteur doit créer un nouveau rapport ou corriger les problèmes et soumettre à nouveau
 
 <Note>
   **Piste d'audit** : Tous les rejets sont enregistres avec le nom de l'approbateur, l'horodatage et la raison du rejet. Ces informations sont disponibles dans le journal d'audit du rapport.
@@ -95,7 +73,7 @@ Lorsqu'un rapport est rejeté :
 
 | Scenario | Action Recommandee |
 |----------|-------------------|
-| Problemes mineurs pouvant être corriges sur place | [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) |
+| Problèmes mineurs pouvant être corriges sur place | [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) |
 | Reçus manquants pour quelques dépenses | [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) |
 | Violations de politique serieuses | Rejeter |
 | Rapport frauduleux ou en double | Rejeter |
@@ -103,7 +81,7 @@ Lorsqu'un rapport est rejeté :
 | Structure du rapport fondamentalement incorrecte | Rejeter |
 
 <Tip>
-  **Privilegiez Demander des Modifications lorsque possible.** Cela créé une experience plus fluide pour le soumetteur car il peut reviser le meme rapport sans recommencer.
+  **Privilegiez Demander des Modifications lorsque possible.** Cela créé une experience plus fluide pour le soumetteur car il peut reviser le même rapport sans recommencer.
 </Tip>
 
 ## Prochaînes Étapes

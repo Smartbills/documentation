@@ -1,0 +1,67 @@
+---
+title: "Multi-Stop and Round Trips"
+description: "Add intermediate stops to a route, reorder them, and include the return leg"
+---
+
+## Overview
+
+Most business driving is not a single hop. Smartbills models a trip as an ordered list of points: the first is your origin, the last is your destination, and anything in between is a stop. A route supports up to **12 points in total**.
+
+## Add a stop
+
+In the **Route** section of the trip form, use **Add stop**. The new row is appended after the current last point, which means it becomes the destination and the previous destination becomes an intermediate stop. This matches how Google Maps behaves. Drag the rows if that is not the order you drove.
+
+Each stop must be picked from the address suggestions. A row that contains typed text but no resolved place blocks saving, and the row is marked so you can find it.
+
+## Reorder stops
+
+Drag any row by its handle. Reordering happens live: as the dragged row crosses another, the list and the map markers swap immediately rather than waiting for you to drop. The distance recalculates once you release.
+
+## Remove a stop
+
+Each row has a remove control. You can delete rows down to the two required points. The origin and destination themselves cannot be removed, only replaced.
+
+## Reading the map
+
+Markers match the row icons exactly, so you can tell at a glance which pin is which:
+
+| Point | Row icon | Map pin |
+|-------|----------|---------|
+| Origin | Filled circle | Filled circle |
+| Stop | White square with a number | White square with the same number |
+| Destination | Filled square | Filled square |
+
+Hovering a row emphasises its pin on the map and brings it to the front, which helps when several stops sit close together.
+
+## Round trips
+
+Turn on the **Round trip** toggle when you drove back to where you started. The calculated distance then covers the outbound route plus the return.
+
+<Note>
+  Do not add the origin again as a final stop to represent the return. Use the toggle instead. Adding the origin twice produces a route that looks correct but is harder for an approver to read, and it interacts badly with reordering.
+</Note>
+
+Round trip works with stops. A route of A to B to C with round trip on is measured as A to B to C and back.
+
+## Blank rows
+
+Rows you added but never filled in are dropped when you save. You do not need to tidy them up first. The origin and destination are always kept because validation guarantees they are resolved.
+
+## Saved trips
+
+Smartbills can store frequently driven routes as reusable templates, applying the stops, default name, and vehicle in one click.
+
+<Warning>
+  Saved trips are not currently exposed in the interface. The underlying feature exists but the entry point is hidden, so the option will not appear in the trip form or in settings. Use **Clone** on an existing trip as the practical alternative for repeated routes.
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Log a trip" icon="route" href="/guides/web-app/mileage/log-a-trip">
+    The full trip form, field by field
+  </Card>
+  <Card title="Convert to an expense" icon="receipt" href="/guides/web-app/mileage/convert-to-expense">
+    Make the trip claimable
+  </Card>
+</CardGroup>

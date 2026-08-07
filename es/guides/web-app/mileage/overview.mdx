@@ -1,0 +1,69 @@
+---
+title: "Kilometraje"
+description: "Registre los desplazamientos en coche, calcule el reembolso según las tarifas de la CRA o el IRS, y reclámelo en un informe de gastos"
+---
+
+## Introducción
+
+El kilometraje permite a los empleados registrar los desplazamientos profesionales en coche y solicitar su reembolso. Usted introduce la ruta, Smartbills calcula la distancia, aplica la tarifa de reembolso que rige en su empresa y genera un gasto que puede añadir a un informe.
+
+El kilometraje aparece como **Mileage Trips** en la barra lateral.
+
+<Note>
+  El kilometraje pertenece a una empresa, así que no aparece en su cuenta personal. Cualquiera puede registrar y consultar sus propios desplazamientos.
+</Note>
+
+## Cómo un desplazamiento se convierte en dinero
+
+Un desplazamiento pasa por dos etapas. Entender la diferencia explica casi todo el comportamiento de la interfaz.
+
+<Steps>
+  <Step title="Registrado">
+    Usted introduce la ruta, el vehículo y la fecha. El desplazamiento muestra una distancia calculada y un reembolso estimado, pero todavía no existe ningún gasto. Su estado es **Logged**.
+  </Step>
+  <Step title="Convertido">
+    Convertirlo crea un gasto de kilometraje real en su lista de gastos. A partir de ahí, el desplazamiento adopta el estado del informe al que pertenezca, empezando por **Unreported**.
+  </Step>
+  <Step title="Declarado">
+    Añade el gasto a un informe y lo envía como cualquier otro. Después sigue el recorrido normal de aprobación y reembolso.
+  </Step>
+</Steps>
+
+## Qué determina el importe
+
+Tres factores deciden cuánto vale un desplazamiento.
+
+| Factor | De dónde sale |
+|--------|---------------|
+| **Distancia** | Se calcula a partir de la ruta introducida. Puede sustituirla manualmente. |
+| **Unidad** | La determina el país de matriculación del vehículo. Un vehículo matriculado en Estados Unidos se mide en millas, el resto en kilómetros. |
+| **Tarifa** | Se resuelve a partir de las tarifas de su empresa. Las tarifas propias tienen prioridad, y las publicadas por la CRA y el IRS se aplican cuando ninguna propia encaja. |
+
+Las tarifas suelen ser por tramos. En un programa por tramos como el de la CRA, la primera parte de su distancia anual se reembolsa a una tarifa más alta y todo lo que supera un umbral anual a una más baja. Smartbills lleva la cuenta de su distancia acumulada del año y aplica el tramo correcto automáticamente. Consulte [Tarifas de kilometraje](/es/guides/web-app/mileage/mileage-rates).
+
+## En esta sección
+
+<CardGroup cols={2}>
+  <Card title="Gestionar vehículos" icon="car" href="/es/guides/web-app/mileage/vehicles">
+    Añada los vehículos que conduce
+  </Card>
+  <Card title="Registrar un desplazamiento" icon="route" href="/es/guides/web-app/mileage/log-a-trip">
+    Introduzca una ruta y deje que Smartbills calcule la distancia
+  </Card>
+  <Card title="Paradas múltiples e ida y vuelta" icon="map-pin" href="/es/guides/web-app/mileage/multi-stop-and-round-trips">
+    Añada paradas, reordénelas e incluya el regreso
+  </Card>
+  <Card title="Convertir en gasto" icon="receipt" href="/es/guides/web-app/mileage/convert-to-expense">
+    Convierta los desplazamientos en gastos reclamables
+  </Card>
+  <Card title="Añadir a un informe" icon="file-invoice" href="/es/guides/web-app/mileage/add-to-expense-report">
+    Reclame el kilometraje con sus demás gastos
+  </Card>
+  <Card title="Tarifas de kilometraje" icon="calculator" href="/es/guides/web-app/mileage/mileage-rates">
+    Configure las tarifas de reembolso
+  </Card>
+</CardGroup>
+
+## En el móvil
+
+La aplicación móvil puede grabar un desplazamiento mientras conduce, tomando la ruta de la ubicación del dispositivo en lugar de direcciones escritas. Consulte [Aplicación móvil](/guides/mobile/overview).

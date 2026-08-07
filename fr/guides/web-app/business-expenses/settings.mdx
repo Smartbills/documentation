@@ -1,0 +1,103 @@
+---
+title: "ParamÃ¨très de la BoÃ®te de RÃ©ception"
+description: "Configurez les paramÃ¨très et rÃ¨gles de la boÃ®te de rÃ©ception des dÃ©penses"
+---
+
+## Introduction
+
+La page des ParamÃ¨très de la BoÃ®te de RÃ©ception permet aux administrateurs de configurer le comportement de la BoÃ®te de RÃ©ception des DÃ©penses. Vous pouvez dÃ©finir des catÃ©gories par dÃ©faut, crÃ©er des rÃ¨gles d'approbation automatique, activer la dÃ©tection de doublons et gÃ©rer les prÃ©fÃ©rences de notification. AccÃ©dez aux paramÃ¨très en naviguant vers `/{slug}/expenses/settings` ou en cliquant sur l'**icÃ´ne d'engrenage** dans le coin supÃ©rieur droit de la boÃ®te de rÃ©ception.
+
+<Note>
+  Les paramÃ¨très de la boÃ®te de rÃ©ception nÃ©cessitent la permission `SETTINGS_GENERAL_MANAGE`. Par dÃ©faut, seuls les Proprietaires et les Administrateurs peuvent modifier ces paramÃ¨très.
+</Note>
+
+## CatÃ©gorie par dÃ©faut
+
+DÃ©finissez une catÃ©gorie par dÃ©faut qui est automatiquement assignee aux nouvelles dÃ©penses lorsqu'aucune catÃ©gorie ne peut Ãªtre determinee Ã  partir du reÃ§u :
+
+1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
+2. Sous **CatÃ©gorie par dÃ©faut**, sÃ©lectionnez une catÃ©gorie dans le menu dÃ©roulant
+3. Cliquez sur **Enregistrer**
+
+Lorsque Smartbills ne peut pas dÃ©tectÃ©r automatiquement une catÃ©gorie Ã  partir du marchand ou du contenu du reÃ§u, la catÃ©gorie par dÃ©faut est appliquee. Les examinateurs peuvent toujours modifier la catÃ©gorie lors du processus d'examen.
+
+## RÃ¨gles d'approbation automatique
+
+Les rÃ¨gles d'approbation automatique permettent Ã  certaines dÃ©penses d'être automatiquement approuvÃ©es sans examen manuel. Ceci est utile pour les dÃ©penses routiniÃ¨res Ã  faible risque qui ne nÃ©cessitent pas de vÃ©rification humaine.
+
+### CrÃ©er une règle
+
+1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
+2. Sous **RÃ¨gles d'approbation automatique**, cliquez sur **Ajouter une règle**
+3. DÃ©finissez les conditions de la rÃ¨gle :
+   - **Seuil de montant**: Approuver automatiquement les dÃ©penses sous un montant spÃ©cifique (p. ex. moins de 25 $)
+   - **CatÃ©gorie**: Appliquer la rÃ¨gle uniquement Ã  des catÃ©gories spÃ©cifiques (p. ex. Fournitures de bureau)
+   - **EmployÃ©**: Limiter la rÃ¨gle Ã  des employÃ©s ou Ã©quipes spÃ©cifiques
+4. Cliquez sur **Enregistrer la règle**
+
+### Exemples de rÃ¨gles
+
+| RÃ¨gle | Condition | RÃ©sultat |
+|-------|-----------|----------|
+| Petits achats | Montant infÃ©rieur Ã  25 $ | Approbation automatique |
+| Diners d'Ã©quipe | CatÃ©gorie "Repas" et montant infÃ©rieur Ã  50 $ | Approbation automatique |
+| Personnel senior | Role de l'employÃ© est Gestionnaire et montant infÃ©rieur Ã  200 $ | Approbation automatique |
+
+<Warning>
+  Les dÃ©penses auto-approuvÃ©es contournent entiÃ¨rement la file d'examen. Utilisez les rÃ¨gles d'approbation automatique avec precaution et dÃ©finissez des seuils raisonnables. Vous pouvez toujours examiner les dÃ©penses auto-approuvÃ©es retroactivement depuis le filtre Approuvees.
+</Warning>
+
+## DÃ©tection de doublons
+
+Smartbills peut dÃ©tectÃ©r les doublons potentiels de dÃ©penses en fonction de criteres de correspondance. Lorsqu'un doublon est dÃ©tectÃ©, la dÃ©pense est signalÃ©e pour un examen manuel au lieu d'être traitee automatiquement.
+
+### Configurer la dÃ©tection
+
+1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
+2. Sous **DÃ©tection de doublons**, activez la fonctionnalitÃ©
+3. SÃ©lectionnez les criteres de correspondance :
+   - **Même montant et date**: Signaler les dÃ©penses avec des montants identiques le même jour
+   - **Même marchand et montant**: Signaler les dÃ©penses du même fournisseur avec le même total
+   - **Même image de reÃ§u**: Utiliser la comparaison d'images pour dÃ©tectÃ©r les reÃ§us re-tÃ©lÃ©chargÃ©s
+4. Cliquez sur **Enregistrer**
+
+Lorsqu'un doublon potentiel est dÃ©tectÃ©, la dÃ©pense apparaÃ®t dans la boÃ®te de rÃ©ception avec un badge d'avertissement **Doublon**. Cliquez sur la dÃ©pense pour la comparer avec l'original suspecte et dÃ©cidÃ©r de la conserver ou de la supprimer.
+
+## PrÃ©fÃ©rences de notification
+
+Controlez quels Ã©vÃ©nements de la boÃ®te de rÃ©ception declenchent des notifications par courriel ou d.ns l'application pour votre Ã©quipe :
+
+| Ã‰vÃ©nement | Description | Par dÃ©faut |
+|-----------|-------------|------------|
+| **Nouvelle dÃ©pense reÃ§ue** | Un employÃ© tÃ©lÃ©chargÃ© ou transmet une nouvelle dÃ©pense | ActivÃ© |
+| **DÃ©pense signalÃ©e** | Une dÃ©pense est signalÃ©e lors de l'examen | ActivÃ© |
+| **DÃ©pense retournÃ©e** | Une dÃ©pense est renvoyÃ©e Ã  l'employÃ© pour revision | ActivÃ© |
+| **Approbation automatique** | Une dÃ©pense est automatiquement approuvÃ©e par une rÃ¨gle | DesactivÃ©e |
+| **Doublon dÃ©tectÃ©** | Un doublon potentiel de dÃ©pense est identifiÃ© | ActivÃ© |
+
+Pour modifier les prÃ©fÃ©rences de notification :
+
+1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
+2. Sous **Notifications**, activez ou d.©sactivez chaque Ã©vÃ©nement
+3. Cliquez sur **Enregistrer**
+
+<Tip>
+  Si votre Ã©quipe recoit un volume Ã©levÃ© de dÃ©penses, envisagez de dÃ©sactiver les notifications "Nouvelle dÃ©pense reÃ§ue" et de vous fier Ã  des examens pÃ©riodiques de la boÃ®te de rÃ©ception.
+</Tip>
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Boite de RÃ©ception des DÃ©penses" icon="inbox" href="/fr/guides/web-app/business-expenses/overview">
+    AperÃ§u de la boÃ®te de rÃ©ception des dÃ©penses de l'entreprise
+  </Card>
+  <Card title="Examiner les DÃ©penses" icon="magnifying-glass" href="/fr/guides/web-app/business-expenses/review-expenses">
+    Guide Ã©tape par Ã©tape pour examiner les dÃ©penses entrantes
+  </Card>
+  <Card title="CatÃ©gories et DÃ©partements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
+    Configurer les catÃ©gories utilisees pour l'assignation par dÃ©faut et l'approbation automatique
+  </Card>
+  <Card title="Roles et Permissions" icon="user-gear" href="/fr/guides/concepts/roles-and-permissions">
+    Comprendre qui peut accÃ©der et configurer les paramÃ¨très de la boÃ®te de rÃ©ception
+  </Card>
+</CardGroup>

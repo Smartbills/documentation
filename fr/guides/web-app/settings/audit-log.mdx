@@ -1,0 +1,61 @@
+---
+title: "Journal d'audit"
+description: "Retrouvez qui a approuvé, modifié ou remboursé quelque chose, et quand"
+---
+
+## Aperçu
+
+Le journal d'audit répond aux questions posées après coup. Qui a approuvé ce rapport. Qui a modifié le montant. Qui l'a remboursé, et à quelle date.
+
+Allez dans **Paramètres > Sécurité > Journal d'audit**. Les Administrateurs et les Administrateurs financiers y ont accès.
+
+## Retrouver l'historique d'un seul rapport
+
+Si vous enquêtez sur une seule demande, ne commencez pas ici. Ouvrez le rapport de dépenses lui-même et consultez son **Historique**. Il présente dans l'ordre tout ce qui lui est arrivé, sans que vous ayez à filtrer quoi que ce soit.
+
+Utilisez le journal d'audit lorsque vous devez balayer plusieurs rapports à la fois, par exemple lors d'une revue de fin de période.
+
+## Ce que vous pouvez y retrouver
+
+Le journal couvre toute la vie d'un rapport de dépenses : sa création, sa soumission, son approbation, son rejet, son renvoi pour modifications, son rappel et son remboursement. Il consigne aussi chaque dépense ajoutée à un rapport, retirée, modifiée ou remplacée, ainsi que les commentaires laissés au passage.
+
+Chaque entrée indique son auteur et sa date.
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Qui a approuvé ce rapport de dépenses ?">
+    Retrouvez le rapport et cherchez son entrée d'approbation. Elle nomme l'approbateur et la date. Si le rapport a d'abord été renvoyé pour modifications, vous verrez aussi cette entrée antérieure, ce qui vous indique s'il a été approuvé du premier coup.
+  </Accordion>
+
+  <Accordion title="Quelque chose a-t-il été modifié après l'approbation ?">
+    Cherchez des modifications ou des remplacements de dépenses datés après l'approbation. Ce sont les entrées à examiner lors d'un audit, puisqu'il s'agit de changements apportés à un rapport déjà validé.
+  </Accordion>
+
+  <Accordion title="Qui a réellement effectué le paiement ?">
+    Les entrées de remboursement sont consignées séparément des approbations, et il s'agit généralement de personnes différentes. Les gestionnaires peuvent approuver mais pas rembourser : la personne qui a libéré les fonds est donc toujours un Administrateur financier ou un Administrateur.
+  </Accordion>
+
+  <Accordion title="Quelqu'un a approuvé à la place de mon gestionnaire. Est-ce consigné ?">
+    Oui. Lorsqu'un délégué agit pour quelqu'un d'autre, le journal nomme les deux personnes. Une approbation faite par un délégué n'est jamais indiscernable de celle du gestionnaire lui-même. Voir [Délégation](/fr/guides/web-app/settings/delegation).
+  </Accordion>
+
+  <Accordion title="Une dépense a disparu d'un rapport. Où est-elle passée ?">
+    Les retraits sont consignés. Vous verrez qui l'a retirée du rapport et quand. La dépense elle-même n'est pas supprimée : elle se trouve toujours dans la liste de son propriétaire.
+  </Accordion>
+</AccordionGroup>
+
+## Les factures
+
+Les factures ne figurent pas dans le journal d'audit. Chacune conserve son propre historique, accessible depuis la facture, indiquant chaque changement d'état et son auteur. Voir [Cycle de vie du paiement](/fr/guides/web-app/bills/payment-lifecycle).
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Délégation" icon="user-shield" href="/fr/guides/web-app/settings/delegation">
+    Comment sont consignées les actions déléguées
+  </Card>
+  <Card title="Rôles et autorisations" icon="shield-halved" href="/fr/guides/concepts/roles-and-permissions">
+    Qui peut approuver et rembourser
+  </Card>
+</CardGroup>

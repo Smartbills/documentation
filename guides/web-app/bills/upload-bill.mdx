@@ -3,10 +3,6 @@ title: "Upload a Bill"
 description: "Upload vendor bills and invoices for processing with AI-powered data extraction"
 ---
 
-<Frame>
-  <img src="/images/guides/web-app/bills/upload-hero.png" alt="Uploading a vendor bill in Smartbills" />
-</Frame>
-
 ## Overview
 
 Smartbills makes it easy to upload vendor invoices and extract key information automatically using OCR. This guide walks you through uploading a bill, reviewing the extracted data, and saving it for approval.
@@ -21,17 +17,11 @@ Smartbills makes it easy to upload vendor invoices and extract key information a
   <Step title="Navigate to Bills">
     Click **Bills** in the left sidebar to open the bills dashboard.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/navigate-to-bills.png" alt="Clicking Bills in the sidebar" />
-    </Frame>
   </Step>
 
   <Step title="Click Upload Bill">
     Click the **Upload Bill** button in the top-right corner of the bills dashboard.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/upload-bill-button.png" alt="Upload Bill button on the bills dashboard" />
-    </Frame>
   </Step>
 
   <Step title="Add the Invoice File">
@@ -42,26 +32,20 @@ Smartbills makes it easy to upload vendor invoices and extract key information a
 
     Supported file types include PDF and image formats (JPEG, PNG). You can upload a single file per bill.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/drag-drop-upload.png" alt="Drag and drop or browse to upload a vendor invoice" />
-    </Frame>
   </Step>
 
   <Step title="OCR Extracts the Data">
     Once the file is uploaded, Smartbills processes the document using OCR to automatically extract:
 
-    - **Vendor name** -- The company or supplier that issued the invoice
-    - **Invoice number** -- The vendor's reference number
-    - **Total amount** -- The amount due, including taxes
-    - **Due date** -- The payment deadline
-    - **Line items** -- Individual products or services listed on the invoice
-    - **Tax amounts** -- Taxes broken out by type
+    - **Vendor name**: The company or supplier that issued the invoice
+    - **Invoice number**: The vendor's reference number
+    - **Total amount**: The amount due, including taxes
+    - **Due date**: The payment deadline
+    - **Line items**: Individual products or services listed on the invoice
+    - **Tax amounts**: Taxes broken out by type
 
     A progress indicator shows the extraction status. Processing typically takes a few seconds.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/ocr-extraction.png" alt="OCR processing the invoice and extracting vendor name, amount, due date, and line items" />
-    </Frame>
   </Step>
 
   <Step title="Review and Correct Extracted Data">
@@ -71,9 +55,6 @@ Smartbills makes it easy to upload vendor invoices and extract key information a
     - Fields with low confidence are highlighted in yellow for your review
     - Empty fields indicate data that could not be detected and must be entered manually
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/review-extracted-data.png" alt="Reviewing and correcting OCR-extracted bill data" />
-    </Frame>
   </Step>
 
   <Step title="Assign the Vendor">
@@ -83,41 +64,29 @@ Smartbills makes it easy to upload vendor invoices and extract key information a
     - **Manual selection**: If no match is found or the match is wrong, click the vendor field and search for the correct vendor.
     - **New vendor**: If the vendor does not exist in your directory, you can create a new vendor profile directly from this screen.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/assign-vendor.png" alt="Assigning a vendor to the bill, with auto-match and manual selection options" />
-    </Frame>
   </Step>
 
   <Step title="Set Payment Terms and Due Date">
     Configure the payment schedule:
 
-    - **Payment terms** -- Select from standard options (Net 15, Net 30, Net 60, Due on Receipt) or enter custom terms
-    - **Due date** -- The due date may be auto-calculated from the invoice date and payment terms, or you can set it manually
-    - **Currency** -- Verify the currency matches the invoice
+    - **Payment terms**: Select from standard options (Net 15, Net 30, Net 60, Due on Receipt) or enter custom terms
+    - **Due date**: The due date may be auto-calculated from the invoice date and payment terms, or you can set it manually
+    - **Currency**: Verify the currency matches the invoice
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/payment-terms.png" alt="Setting payment terms and due date for the bill" />
-    </Frame>
   </Step>
 
   <Step title="Add Category and Department">
     Classify the bill for accounting and reporting:
 
-    - **Category** -- Select the expense category (e.g., Office Supplies, Software, Professional Services)
-    - **Department** -- Assign the bill to the responsible department or cost center
-    - **Tags** (optional) -- Add tags for additional organization
+    - **Category**: Select the expense category (e.g., Office Supplies, Software, Professional Services)
+    - **Department**: Assign the bill to the responsible department or cost center
+    - **Tags** (optional), Add tags for additional organization
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/category-department.png" alt="Assigning category and department to the bill" />
-    </Frame>
   </Step>
 
   <Step title="Save the Bill">
     Click **Save** to create the bill. It will appear in your bills list with a **Pending** status and, if approval workflows are enabled, will enter the approval queue.
 
-    <Frame>
-      <img src="/images/guides/web-app/bills/save-bill.png" alt="Clicking Save to create the bill" />
-    </Frame>
   </Step>
 </Steps>
 
@@ -135,10 +104,10 @@ Once saved, the bill enters your organization's workflow:
   **Upload clear documents.** OCR accuracy depends on document quality. Scan invoices at 300 DPI or higher and avoid photos taken at an angle.
 </Tip>
 
-- **Use PDF when possible** -- PDFs with selectable text produce the most accurate extractions
-- **Avoid handwritten invoices** -- OCR works best with printed or typed text
-- **Check line items** -- Line item extraction is the most complex part; always verify quantities and unit prices
-- **Crop the document** -- Remove unnecessary margins or blank space before uploading
+- **Use PDF when possible**: PDFs with selectable text produce the most accurate extractions
+- **Avoid handwritten invoices**: OCR works best with printed or typed text
+- **Check line items**: Line item extraction is the most complex part; always verify quantities and unit prices
+- **Crop the document**: Remove unnecessary margins or blank space before uploading
 
 ## What's Next?
 

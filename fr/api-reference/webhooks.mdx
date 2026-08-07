@@ -15,7 +15,7 @@ Les webhooks vous permettent de recevoir des notifications HTTP lorsque des év�
 
 <Steps>
   <Step title="Un événement se produit">
-    Une action se produit dans Smartbills (ex. : dépense créée, rapport approuve)
+    Une action se produit dans Smartbills (ex. : dépense créée, rapport approuvé)
   </Step>
   
   <Step title="Webhook declenche">
@@ -102,7 +102,7 @@ print(f"Secret du webhook : {webhook.secret}")
 ```
 
 <Warning>
-  **Sauvegardez le secret** : Le secret du webhook n'est affiché qu'une seule fois. Stockez-le en sécurité -- vous en avez besoin pour vérifier les signatures des webhooks.
+  **Sauvegardez le secret** : Le secret du webhook n'est affiché qu'une seule fois. Stockez-le en sécurité, vous en avez besoin pour vérifier les signatures des webhooks.
 </Warning>
 
 ## Événements disponibles
@@ -272,7 +272,7 @@ Smartbills retente automatiquement les livraisons de webhooks échouées :
 - Certificat SSL invalide
 
 <Warning>
-  **Retournez 200 OK** : Retournez toujours un code de statut 200 lorsque vous recevez le webhook avec succès, meme si le traitement échoué. Gérez les erreurs de traitement en interne pour eviter les réessais inutiles.
+  **Retournez 200 OK** : Retournez toujours un code de statut 200 lorsque vous recevez le webhook avec succès, même si le traitement échoué. Gérez les erreurs de traitement en interne pour eviter les réessais inutiles.
 </Warning>
 
 ## Gérer les webhooks
@@ -397,7 +397,7 @@ client.webhooks.test("wh_1234567890")
 
 ## Tester les webhooks localement
 
-Utilisez des outils comme [ngrok]( URLPH0 ) pour tester les webhooks pendant le développement local :
+Utilisez des outils comme [ngrok](https://ngrok.com) pour tester les webhooks pendant le développement local :
 
 ```bash
 # Démarrer votre serveur local

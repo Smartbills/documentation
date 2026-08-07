@@ -1,0 +1,76 @@
+---
+title: "Traitement et échecs de téléversement"
+description: "Suivez les reçus en cours de lecture et relancez ceux qui échouent"
+---
+
+## Aperçu
+
+La lecture d'un reçu a lieu après le téléversement, pas pendant. Entre les deux, la dépense se trouve dans l'onglet **Traitement**, où vous pouvez suivre son avancement et agir sur ce qui se passe mal.
+
+C'est là que se trouvent les reçus qui semblent avoir disparu après le téléversement.
+
+## L'onglet Traitement
+
+Ouvrez **Dépenses** ou **Dépenses d'entreprise** et sélectionnez **Traitement**. Chaque ligne correspond à un téléversement, avec le fichier, sa date d'envoi et son état.
+
+| État | Signification |
+|------|---------------|
+| **En attente** | Téléversé, en attente de lecture |
+| **En cours** | En cours de lecture |
+| **Terminé** | Lu avec succès. La dépense est passée dans votre liste principale |
+| **Échec** | Illisible. Le téléversement est conservé pour que vous puissiez le relancer |
+
+Les lignes terminées quittent l'onglet une fois la dépense créée. Les lignes en échec y restent jusqu'à ce que vous les traitiez : rien n'est perdu silencieusement.
+
+## Relancer un téléversement en échec
+
+Choisissez **Relancer** sur la ligne concernée. Le fichier d'origine est retraité : vous n'avez pas à le retrouver ni à le téléverser de nouveau.
+
+La relance est le bon premier réflexe pour un incident passager. Si un fichier échoue de façon répétée, c'est en général le document lui-même qui pose problème.
+
+<AccordionGroup>
+  <Accordion title="Le document n'a pas pu être lu" icon="file-circle-exclamation">
+    Photos floues, reflets marqués, bords coupés ou résolution trop faible font échouer l'extraction. Reprenez le reçu à plat, sous un éclairage uniforme, avec le nom du commerçant et le total visibles.
+  </Accordion>
+
+  <Accordion title="Le fichier n'est pas un reçu" icon="file-circle-question">
+    Relevés, contrats et correspondance générale n'ont pas de structure de reçu à extraire. Créez plutôt la dépense manuellement et joignez-y le document.
+  </Accordion>
+
+  <Accordion title="Un PDF protégé par mot de passe" icon="lock">
+    Les PDF chiffrés ne peuvent pas être ouverts pour lecture. Retirez le mot de passe et téléversez de nouveau.
+  </Accordion>
+</AccordionGroup>
+
+## Supprimer un téléversement
+
+Les téléversements en échec que vous ne comptez pas corriger peuvent être supprimés depuis la ligne. Cela retire la tâche et son fichier, sans effet sur les dépenses déjà créées.
+
+## Récupérer les fichiers d'origine
+
+**Téléchargement groupé** récupère les fichiers sources d'une sélection dans une seule archive. Utile lorsque vous avez besoin des documents originaux pour un audit plutôt que des données extraites.
+
+## Sur mobile
+
+L'en-tête de l'onglet Dépenses affiche une pastille indiquant le nombre de téléversements en cours. En la touchant, vous ouvrez la même vue : un reçu capturé sur votre téléphone peut donc être suivi depuis là.
+
+## Quand rien n'apparaît du tout
+
+Si un téléversement n'atteint jamais l'onglet Traitement, c'est qu'il n'a pas démarré. Les causes habituelles :
+
+- Le fichier dépassait 5 Mo ou son format n'était pas pris en charge. Les refus sont signalés dans la fenêtre de téléversement, avant traitement.
+- Votre quota mensuel de reçus est épuisé. Vérifiez dans **Paramètres > Espace de travail > Utilisation**.
+- L'entreprise a un paiement d'abonnement en souffrance, ce qui bloque les téléversements.
+
+Voir [Ajouter une dépense](/fr/guides/web-app/expenses/upload-expense) pour la liste complète des contraintes de fichier.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Ajouter une dépense" icon="upload" href="/fr/guides/web-app/expenses/upload-expense">
+    Contraintes de fichier et méthodes de téléversement
+  </Card>
+  <Card title="Modifier une dépense" icon="pen-to-square" href="/fr/guides/web-app/expenses/edit-expense">
+    Corriger des données mal lues
+  </Card>
+</CardGroup>

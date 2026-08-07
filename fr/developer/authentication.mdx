@@ -3,7 +3,7 @@ title: "Authentification"
 description: "Méthodes d'authentification de l'API Smartbills"
 ---
 
-L'API Smartbills utilise des jetons Bearer pour l'authentification. Incluez votre jeton dans l'en-tête `Authorization` de chaque requête sous la forme `Bearer VOTRE_CLÉ_API`. Pour les applications serveur-à-serveur, utilisez le flux Client Credentials OAuth2.
+L'API Smartbills utilisé des jetons Bearer pour l'authentification. Incluez votre jeton dans l'en-tête `Authorization` de chaque requête sous la forme `Bearer VOTRE_CLÉ_API`. Pour les applications serveur-à-serveur, utilisez le flux Client Credentials OAuth2.
 
 Pour les applications avec connexion utilisateur, utilisez le flux Authorization Code. L'endpoint d'autorisation se trouve à `https://api.smartbills.io/connect/authorize`. Pour agir au nom de comptes connectés, utilisez l'en-tête spécial `on-behalf-of` avec un identifiant de compte Smartbills valide.
 

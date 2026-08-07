@@ -1,0 +1,77 @@
+---
+title: "Changer d'entreprise"
+description: "Travaillez sur plusieurs entreprises depuis un seul compte Smartbills"
+---
+
+## Aperçu
+
+Un même compte Smartbills peut appartenir à plusieurs entreprises. Un comptable qui sert plusieurs clients, un fondateur qui dirige deux sociétés, ou un employé qui intervient sur plusieurs entités d'un groupe utilisent tous le même compte et passent de l'une à l'autre.
+
+Votre rôle, vos autorisations et vos données sont propres à chaque entreprise. Être Administrateur dans l'une ne vous donne aucun droit dans une autre.
+
+## Le sélecteur d'entreprise
+
+Le sélecteur se trouve **en haut de la barre latérale** et affiche le logo et le nom de l'entreprise en cours. En l'ouvrant, vous voyez toutes les entreprises auxquelles vous appartenez, sous l'intitulé **Équipes**, ainsi qu'une option pour en ajouter une.
+
+## Le changement conserve votre position
+
+Changer d'entreprise conserve la page où vous étiez. Si vous consultez les Factures dans une entreprise et que vous basculez vers une autre, vous arrivez sur les Factures de celle-ci, plutôt que d'être renvoyé au tableau de bord.
+
+Cela fonctionne parce que chaque adresse d'entreprise est préfixée par son identifiant :
+
+```
+/acme/bills      →  bascule vers Globex  →  /globex/bills
+/acme/expenses   →  bascule vers Globex  →  /globex/expenses
+```
+
+Lorsque la page en cours n'est pas rattachée à une entreprise, le changement vous amène au tableau de bord de la nouvelle.
+
+## Ce qui change
+
+| Ce qui change | Ce qui reste identique |
+|---------------|------------------------|
+| Le contenu de la barre latérale, selon votre rôle | Votre compte et votre profil |
+| Les dépenses, rapports, factures, fournisseurs et le coffre-fort | Votre langue et votre thème |
+| Les catégories, départements et circuits d'approbation | Vos préférences de notification |
+| Les pages de paramètres accessibles | |
+
+<Note>
+  La barre latérale peut différer nettement d'une entreprise à l'autre. La section entreprise n'apparaît que si votre rôle vous y donne accès. Si vous êtes Administrateur dans l'une et simple Membre dans l'autre, la seconde affichera beaucoup moins d'entrées. C'est normal, ce n'est pas une erreur de chargement. Voir [Rôles et autorisations](/fr/guides/concepts/roles-and-permissions).
+</Note>
+
+## Contexte personnel et contexte entreprise
+
+Smartbills sépare votre compte personnel des entreprises auxquelles vous appartenez.
+
+- Les pages **personnelles** n'ont pas de préfixe : `/receipts`, `/expense-reports`, `/settings`
+- Les pages **d'entreprise** portent l'identifiant : `/{slug}/expenses`, `/{slug}/bills`
+
+Certaines fonctionnalités n'existent que dans un contexte d'entreprise, faute de quoi elles n'auraient rien à quoi se rattacher. C'est le cas du kilométrage, qui n'apparaît pas dans votre compte personnel.
+
+## Ajouter une entreprise
+
+Choisissez **Ajouter une équipe** en bas du sélecteur. Le parcours de création démarre, où vous saisissez les informations et l'adresse de l'entreprise. Une fois créée, elle apparaît dans le sélecteur avec les autres.
+
+Un Administrateur d'une entreprise existante peut aussi vous y ajouter. Acceptez l'invitation reçue par courriel et l'entreprise apparaît automatiquement dans votre sélecteur. Voir [Inviter des membres](/fr/guides/web-app/team/invite-members).
+
+## Sur les autres plateformes
+
+| Plateforme | Comment changer |
+|------------|-----------------|
+| **Application mobile** | Depuis l'onglet **Menu** |
+| **Complément Outlook** | Le sélecteur en haut du volet, indépendant de votre session web |
+
+<Warning>
+  Le complément Outlook conserve sa propre sélection d'entreprise. Si des reçus téléversés depuis Outlook arrivent dans la mauvaise entreprise, vérifiez le sélecteur du volet plutôt que l'application web.
+</Warning>
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Naviguer dans le tableau de bord" icon="compass" href="/fr/guides/web-app/navigation">
+    Le rôle de chaque zone de l'interface
+  </Card>
+  <Card title="Rôles et autorisations" icon="shield-halved" href="/fr/guides/concepts/roles-and-permissions">
+    Pourquoi la barre latérale diffère
+  </Card>
+</CardGroup>

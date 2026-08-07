@@ -1,0 +1,59 @@
+---
+title: "Manage Vehicles"
+description: "Add, edit, and remove the vehicles you claim mileage for"
+---
+
+## Overview
+
+Every mileage trip must be attached to a vehicle. Vehicles are personal: the ones you add belong to you, not to the whole business, so each employee maintains their own list.
+
+Vehicles live at **Settings > Personal > Vehicles**. Everyone can manage their own.
+
+<Note>
+  The vehicle you choose sets the distance unit for the trip. A vehicle whose registration country is the United States measures trips in **miles**. Every other registration country measures in **kilometres**. Choose the vehicle before checking the distance.
+</Note>
+
+## Add a vehicle
+
+<Steps>
+  <Step title="Open vehicle settings">
+    Go to **Settings**, then **Vehicles** under the **Personal** group.
+  </Step>
+  <Step title="Add a vehicle">
+    Enter a name you will recognise in the trip form, then the make, model, and registration details. The registration country matters because it sets the distance unit.
+  </Step>
+  <Step title="Save">
+    The vehicle becomes selectable in the trip form immediately.
+  </Step>
+</Steps>
+
+### Adding a vehicle while logging a trip
+
+You do not have to visit settings first. The vehicle picker in the trip form has an **Add a new vehicle** option that opens the same form in a dialog. When you save, the new vehicle is selected on the trip you were already filling in.
+
+## Edit a vehicle
+
+Open the vehicle from settings and change any field. Editing a vehicle does not recalculate trips you have already logged. If you correct a registration country after logging trips, existing trips keep the unit they were saved with.
+
+## Delete a vehicle
+
+Deleting removes the vehicle from your picker. Trips that already reference it keep working: the trip form injects the saved vehicle as an option so the selection still resolves and the trip does not silently lose its vehicle.
+
+<Warning>
+  Because a deleted vehicle still appears on historical trips, deleting is not a way to hide past mileage. Remove the trips themselves if that is what you need, and note that trips already on an expense report cannot be deleted until they are removed from it.
+</Warning>
+
+## Changing the vehicle on an existing trip
+
+Open the trip and use **Change vehicle** in the summary panel. This is useful when you logged a trip against the wrong car, and it recalculates the reimbursement if the new vehicle changes the distance unit.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Log a trip" icon="route" href="/guides/web-app/mileage/log-a-trip">
+    Record a route with your vehicle
+  </Card>
+  <Card title="Mileage rates" icon="calculator" href="/guides/web-app/mileage/mileage-rates">
+    See which rate applies to your trips
+  </Card>
+</CardGroup>

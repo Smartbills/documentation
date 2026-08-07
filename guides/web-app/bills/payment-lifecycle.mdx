@@ -1,0 +1,113 @@
+---
+title: "Bill Payment Lifecycle"
+description: "The states a bill moves through, and the actions available at each one"
+---
+
+## Overview
+
+A bill moves through a defined set of states from draft to paid. Each state permits only certain actions, which is what keeps an unapproved invoice from being scheduled for payment.
+
+## States
+
+| State | Meaning |
+|-------|---------|
+| **Draft** | Created or uploaded, not yet submitted |
+| **Pending Approval** | Submitted, waiting on an approver |
+| **Approved** | Approved, not yet queued for payment |
+| **Ready for Payment** | Cleared to be paid |
+| **Scheduled** | Payment is scheduled for a future date |
+| **Processing** | Payment is in flight |
+| **Paid** | Payment completed through Smartbills |
+| **Marked Paid** | Recorded as paid outside Smartbills |
+| **Payment Failed** | Payment was attempted and failed |
+| **Denied** | Rejected by an approver |
+| **Cancelled** | Withdrawn |
+
+Bills past their due date and unpaid are also surfaced as **Overdue**, which is derived from the due date rather than being a state of its own.
+
+<Note>
+  **Paid** and **Marked Paid** are deliberately distinct. Paid means Smartbills executed the payment and holds the record. Marked Paid means you told Smartbills it was settled elsewhere, by cheque or a direct bank transfer. Both close the bill, but only one carries a payment trail.
+</Note>
+
+## The list
+
+Bills are organized into tabs matching where work sits:
+
+| Tab | Contains |
+|-----|----------|
+| **All** | Every bill |
+| **Drafts** | Not yet submitted |
+| **For approval** | Waiting on an approver |
+| **For payment** | Approved and awaiting payment |
+| **Processing** | Payments in flight |
+| **History** | Completed and closed |
+
+## Actions
+
+<AccordionGroup>
+  <Accordion title="Submit for approval" icon="paper-plane">
+    Moves a draft into the approval queue.
+  </Accordion>
+
+  <Accordion title="Approve" icon="check">
+    Clears the bill for payment. Finance Admins and Administrators only.
+  </Accordion>
+
+  <Accordion title="Schedule payment" icon="calendar">
+    Sets a future payment date. A scheduled payment can be rescheduled or unscheduled before it executes.
+  </Accordion>
+
+  <Accordion title="Mark as paid" icon="money-check">
+    Records settlement outside Smartbills. You can attach a reference such as a cheque number or transaction ID.
+  </Accordion>
+
+  <Accordion title="Retry payment" icon="rotate-right">
+    Reattempts a failed payment without recreating the bill.
+  </Accordion>
+
+  <Accordion title="Revert to draft" icon="rotate-left">
+    Returns a bill to draft so it can be corrected and resubmitted.
+  </Accordion>
+
+  <Accordion title="Cancel" icon="ban">
+    Withdraws the bill. Use for duplicates and invoices that should not have been entered.
+  </Accordion>
+</AccordionGroup>
+
+### Which actions are available
+
+Rather than guessing, each bill exposes the transitions currently permitted from its state. The interface only offers those, so an action you expect but cannot find means the bill is not in a state that allows it. Reverting to draft is usually the way back.
+
+## Bulk actions
+
+Select bills in the list to act on many at once: approve, mark paid, schedule payment, unschedule, cancel payment, retry payment, delete, send a reminder, or update the vendor or taxes across the selection.
+
+Bulk actions report per-bill results, so a selection containing bills in the wrong state completes for the eligible ones rather than failing outright.
+
+## History
+
+Every bill keeps a history of its state changes and who made them. Open a bill and review its history when you need to establish who approved something and when.
+
+## Converting between bills and expenses
+
+A document that arrived in the wrong place does not need re-entering.
+
+- **Bill to expense**: converts a bill into a company expense, singly or in bulk. Bills that are not eligible are skipped and counted.
+- **Expense to bill**: converts an expense into a bill, for an invoice that was uploaded as a receipt.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Bills overview" icon="receipt" href="/guides/web-app/bills/overview">
+    The bills workspace
+  </Card>
+  <Card title="Upload a bill" icon="upload" href="/guides/web-app/bills/upload-bill">
+    Get invoices into Smartbills
+  </Card>
+  <Card title="AP inboxes" icon="inbox" href="/guides/web-app/bills/ap-inboxes">
+    Let vendors send invoices directly
+  </Card>
+  <Card title="Bill approval" icon="check" href="/guides/web-app/bills/approval">
+    Route bills for sign-off
+  </Card>
+</CardGroup>

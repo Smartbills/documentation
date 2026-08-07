@@ -3,13 +3,9 @@ title: "Approbations"
 description: "Gérez les approbations de dépenses et de rapports en tant que gestionnaire ou approbateur"
 ---
 
-<Frame>
-  <img src="/images/guides/web-app/approvals/overview-hero.png" alt="Tableau de bord des approbations Smartbills affichant les éléments en attente" />
-</Frame>
-
 ## Introduction
 
-La section Approbations est l'endroit où les gestionnaires et les approbateurs designes examinent, approuvent, rejettent ou d.mandent des modifications sur les rapports de dépenses soumis. Smartbills prend en charge deux niveaux d'approbation pour offrir aux organisations la flexibilite dont elles ont besoin.
+La section Approbations est l'endroit où les gestionnaires et les approbateurs designes examinent, approuvent, rejettent ou d.mandent des modifications sur les rapports de dépenses soumis. Smartbills prend en charge deux niveaux d'approbation pour offrir aux organisations la flexibilité dont elles ont besoin.
 
 <Note>
   **Qui voit les Approbations ?** Seuls les utilisateurs disposant de permissions d'approbation voient la section Approbations dans la barre latérale. Si vous ne la voyez pas, contactez votre administrateur pour vérifiér votre role.
@@ -17,11 +13,11 @@ La section Approbations est l'endroit où les gestionnaires et les approbateurs 
 
 ## Deux Types d'Approbations
 
-Smartbills offre deux flux d'approbation distincts qui peuvent être utilises indépendamment ou ensemble :
+Smartbills offre deux flux d'approbation distincts qui peuvent être utilisés indépendamment ou ensemble :
 
 ### Approbations au Niveau des Dépenses
 
-Accessibles à `/:slug/approvals`, les approbations au niveau des dépenses permettent aux approbateurs d'examiner les dépenses individuelles avant qu'elles ne soient regroupees dans un rapport. Cela est utile pour les organisations qui souhaitent un controle granulaire sur chaque transaction.
+Accessibles à `/:slug/approvals`, les approbations au niveau des dépenses permettent aux approbateurs d'examiner les dépenses individuelles avant qu'elles ne soient regroupees dans un rapport. Cela est utile pour les organisations qui souhaitent un contrôle granulaire sur chaque transaction.
 
 - Les approbateurs voient une file d'attente de dépenses individuelles en attente de revision
 - Chaque dépense peut être approuvée ou signalée indépendamment
@@ -35,21 +31,17 @@ Accessibles à `/:slug/approbations`, les approbations au niveau des rapports op
 - Le rapport complet est examine, incluant toutes les dépenses jointes
 - L'approbateur peut approuver, rejeter ou d.mander des modifications sur l'ensemble du rapport
 
-<Frame>
-  <img src="/images/guides/web-app/approvals/approval-types.png" alt="Diagramme montrant les flux d'approbation au niveau des dépenses et des rapports" />
-</Frame>
-
 ## La File d'Approbation
 
 Lorsque vous ouvrez Approbations dans la barre latérale, vous voyez une liste d'éléments en attente de votre action. Un badge sur l'icône de la barre latérale indique le nombre d'éléments en attente.
 
 ### Fonctionnalités de la File
 
-- **Filtres de statut** -- Filtrez par En attente, Approuve, Rejeté ou Modifications demandées
-- **Plage de dates** -- Restreignez les résultats à une periode spécifique
-- **Filtre par soumetteur** -- Affichez les éléments d'un membre d'équipe particulier
-- **Plage de montants** -- Concentrez-vous sur les éléments au-dessus ou en dessous d'un certain seuil
-- **Recherche** -- Trouvez des éléments par nom, description ou numéro de référence
+- **Filtres de statut**: Filtrez par En attente, Approuvé, Rejeté ou Modifications demandées
+- **Plage de dates**: Restreignez les résultats à une période spécifique
+- **Filtre par soumetteur**: Affichez les éléments d'un membre d'équipe particulier
+- **Plage de montants**: Concentrez-vous sur les éléments au-dessus ou en dessous d'un certain seuil
+- **Recherche**: Trouvez des éléments par nom, description ou numéro de référence
 
 ### Colonnes de la File
 
@@ -59,12 +51,8 @@ Lorsque vous ouvrez Approbations dans la barre latérale, vous voyez une liste d
 | **Titre** | Nom du rapport ou d.scription de la dépense |
 | **Montant** | Montant total du rapport ou de la dépense |
 | **Date** | Date de soumission |
-| **Statut** | Statut actuel (En attente, Approuve, Rejete, Modifications demandées) |
+| **Statut** | Statut actuel (En attente, Approuvé, Rejeté, Modifications demandées) |
 | **Dépenses** | Nombre de dépenses incluses (niveau rapport uniquement) |
-
-<Frame>
-  <img src="/images/guides/web-app/approvals/approval-queue.png" alt="File d'approbation avec filtres et éléments en attente" />
-</Frame>
 
 ## Actions d'Approbation
 
@@ -94,7 +82,7 @@ Smartbills tient les approbateurs et les soumetteurs informes tout au long du pr
 
 Pour les organisations qui nécessitent plus d'un niveau de validation, Smartbills prend en charge les chaînes d'approbation séquentielles. Lorsqu'elles sont activées :
 
-1. Le premier approbateur examine et approuve
+1. Le premier approbateur examine et approuvé
 2. L'élément avance vers le prochain approbateur dans la chaîne
 3. Le processus se repete jusqu'a ce que toutes les approbations requises soient collectees
 4. Le soumetteur n'est notifie qu'après l'approbation finale ou si un approbateur rejette

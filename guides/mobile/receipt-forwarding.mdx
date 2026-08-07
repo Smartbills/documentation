@@ -5,11 +5,11 @@ description: "Set up receipt forwarding and share receipts to Smartbills from ot
 
 ## Overview
 
-Receipt forwarding lets you send receipts to Smartbills from any app on your phone -- your email client, photo gallery, messaging apps, or file manager. Every Smartbills account includes a unique forwarding email address. You can also use the native share sheet on iOS and Android to send images and PDFs directly to Smartbills without leaving the app you are in.
+Receipt forwarding lets you send receipts to Smartbills from any app on your phone, your email client, photo gallery, messaging apps, or file manager. Every Smartbills account includes a unique forwarding email address. You can also use the native share sheet on iOS and Android to send images and PDFs directly to Smartbills without leaving the app you are in.
 
 ## Finding Your Forwarding Email Address
 
-Each Smartbills user has a unique forwarding email address. Any receipt sent to this address is automatically processed by OCR and added to your Personal Wallet as a new expense.
+Each Smartbills user has a unique forwarding email address. Any receipt sent to this address is automatically processed by OCR and added to your Expenses as a new expense.
 
 <Steps>
   <Step title="Open Settings">
@@ -19,17 +19,11 @@ Each Smartbills user has a unique forwarding email address. Any receipt sent to 
   <Step title="Go to Receipt Forwarding">
     Tap **Receipt Forwarding** in the settings list.
 
-    <Frame>
-      <img src="/images/guides/mobile/receipt-forwarding/settings.png" alt="Settings screen with Receipt Forwarding option highlighted" />
-    </Frame>
   </Step>
 
   <Step title="Copy Your Address">
     Your unique forwarding email address is displayed at the top of the screen (e.g., `yourname-abc123@receipts.smartbills.io`). Tap the **Copy** button to copy it to your clipboard.
 
-    <Frame>
-      <img src="/images/guides/mobile/receipt-forwarding/copy-address.png" alt="Forwarding email address with Copy button" />
-    </Frame>
   </Step>
 </Steps>
 
@@ -46,7 +40,7 @@ Once you have your forwarding address, you can forward receipt emails directly f
 3. Enter your Smartbills forwarding email address as the recipient
 4. Tap **Send**
 
-Smartbills processes both email attachments (images and PDFs) and receipt images embedded in the email body. Within a few minutes, the new expense appears in your Personal Wallet with the extracted data pre-filled.
+Smartbills processes both email attachments (images and PDFs) and receipt images embedded in the email body. Within a few minutes, the new expense appears in your Expenses with the extracted data pre-filled.
 
 <Note>
   Only emails sent from the address associated with your Smartbills account are accepted. Forwarding from a different email address is rejected for security purposes.
@@ -66,9 +60,6 @@ The Smartbills mobile app registers as a share target on both iOS and Android. T
   <Step title="Select Smartbills">
     Scroll through the app icons in the share sheet and tap **Smartbills**. If you do not see Smartbills, tap **More** and enable it in your share extensions list.
 
-    <Frame>
-      <img src="/images/guides/mobile/receipt-forwarding/ios-share-sheet.png" alt="iOS share sheet with Smartbills app icon visible" />
-    </Frame>
   </Step>
 
   <Step title="Confirm and Send">
@@ -86,9 +77,6 @@ The Smartbills mobile app registers as a share target on both iOS and Android. T
   <Step title="Select Smartbills">
     Find and tap **Smartbills** in the Android share menu. If it does not appear, look under **More** or **See all** in the share target list.
 
-    <Frame>
-      <img src="/images/guides/mobile/receipt-forwarding/android-share-menu.png" alt="Android share menu with Smartbills option" />
-    </Frame>
   </Step>
 
   <Step title="Confirm and Send">
@@ -113,7 +101,7 @@ The maximum file size for a single attachment is **10 MB**. Emails with multiple
 
 Forwarded receipts follow the same workflow as any other expense in Smartbills:
 
-1. The receipt is processed by OCR and a new expense is created in your Personal Wallet
+1. The receipt is processed by OCR and a new expense is created in your Expenses
 2. Review and correct the extracted data (merchant, amount, date, taxes)
 3. Assign a category and department
 4. Add the expense to a report for submission
@@ -140,8 +128,5 @@ You can identify forwarded receipts by the **Forwarded** label on the expense de
   </Card>
   <Card title="Receipt Forwarding (Concept)" icon="envelope" href="/guides/concepts/receipt-forwarding">
     Learn about all receipt forwarding methods across platforms
-  </Card>
-  <Card title="Offline Mode" icon="wifi-slash" href="/guides/mobile/offline-mode">
-    What happens when you share receipts while offline
   </Card>
 </CardGroup>

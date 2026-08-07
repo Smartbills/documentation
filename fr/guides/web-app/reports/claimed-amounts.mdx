@@ -1,0 +1,75 @@
+---
+title: "Réclamer moins que le montant d'une dépense"
+description: "Réclamez une partie d'une dépense, et comprenez le montant approuvé"
+---
+
+## Aperçu
+
+Le montant que vous réclamez n'a pas à être égal à celui du reçu. Un dîner où l'invité d'un collègue s'est joint, une note d'hôtel couvrant une nuit personnelle, un taxi partagé : dans chaque cas le total du reçu est exact, mais la part remboursable est plus faible.
+
+Smartbills distingue les deux chiffres. Chaque dépense d'un rapport porte un **montant réclamé** à côté du total de la dépense.
+
+## Réclamer une partie
+
+<Steps>
+  <Step title="Ouvrir le rapport">
+    Allez au brouillon de rapport contenant la dépense.
+  </Step>
+  <Step title="Modifier le montant réclamé">
+    Indiquez sur la ligne la part que vous réclamez.
+  </Step>
+  <Step title="Expliquer pourquoi">
+    Ajoutez une note sur la ligne. Un montant inférieur au reçu sans explication provoque presque toujours une demande de modification, ce qui vous coûtera plus de temps que d'écrire la note.
+  </Step>
+  <Step title="Soumettre">
+    Le rapport totalise les montants réclamés, pas les totaux des reçus.
+  </Step>
+</Steps>
+
+<Note>
+  Le montant réclamé ne peut pas dépasser le total de la dépense. Toute tentative est refusée. Pour réclamer plus que ce qu'indique un reçu, c'est le reçu qui est erroné et la dépense elle-même qu'il faut corriger.
+</Note>
+
+## Ce que peut faire l'approbateur
+
+L'approbateur travaille avec un chiffre distinct, le **montant approuvé**, et peut approuver moins que ce que vous avez réclamé. La vue d'approbation répartit un rapport en quatre catégories :
+
+| Catégorie | Signification |
+|-----------|---------------|
+| **Approuvé** | Validé pour remboursement |
+| **Refusé** | Rejeté |
+| **Modifications en attente** | Renvoyé pour correction |
+| **En attente** | Pas encore décidé |
+
+Un approbateur qui réduit un montant est censé laisser une note l'expliquant, qui apparaît à côté de la dépense lorsque le rapport vous revient.
+
+<Note>
+  Fixer un montant approuvé à zéro est bloqué : l'interface indique que cela reviendrait à refuser la dépense et invite à utiliser le bouton de refus. Un refus est consigné comme une décision motivée, alors qu'une approbation à zéro ressemblerait à une approbation tout en ne payant rien.
+</Note>
+
+L'approbateur peut aussi remplacer directement le total du rapport, et modifier les montants lorsque la situation l'exige.
+
+## Le cas du kilométrage
+
+Le kilométrage se comporte un peu différemment, car sa valeur dépend de votre distance cumulée sur l'année.
+
+Le montant réclamé est **figé à la soumission du rapport**. Le total calculé, lui, continue de refléter le palier de taux applicable à l'instant présent. Si un trajet ultérieur vous a fait franchir un seuil annuel, les deux chiffres divergent.
+
+Lorsqu'ils diffèrent, Smartbills affiche les deux et l'explique. C'est le montant réclamé qui est remboursé.
+
+Cela protège les deux parties : l'approbateur valide un chiffre qui ne bougera pas après coup, et vous n'êtes pas pénalisé rétroactivement pour une distance parcourue après la soumission. Voir [Ajouter du kilométrage à un rapport](/fr/guides/web-app/mileage/add-to-expense-report).
+
+## Lire les totaux
+
+Un rapport affiche la somme des montants réclamés, celle des montants approuvés une fois les décisions prises, et le total du remboursement. Ces chiffres ne coïncident que si tout a été approuvé intégralement : un écart entre réclamé et approuvé est donc le moyen le plus rapide de repérer une réduction ou un refus.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Envoyer votre demande
+  </Card>
+  <Card title="Modifications demandées" icon="rotate-left" href="/fr/guides/web-app/reports/requested-changes">
+    Corriger un rapport renvoyé
+  </Card>
+</CardGroup>

@@ -3,13 +3,13 @@ title: "Téléchargement de Fichiers"
 description: "Télécharger des reçus, factures et documents en utilisant FormData ou des URLs présignées dans le SDK JavaScript Smartbills."
 ---
 
-# Téléchargement de Fichiers
+## Téléchargement de Fichiers
 
 Le SDK Smartbills supporte deux méthodes de téléchargement : les téléchargements directs via FormData et les téléchargements par URL présignée pour les fichiers volumineux. Les deux méthodes sont disponibles pour les dépenses, les factures et les logos de fournisseurs.
 
 ## Téléchargements FormData
 
-L'approche la plus simple -- construisez un objet `FormData` et passez-le à la méthode de téléchargement. Le SDK gère automatiquement l'encodage multipart et les en-têtes content-type.
+L'approche la plus simple, construisez un objet `FormData` et passez-le à la méthode de téléchargement. Le SDK gère automatiquement l'encodage multipart et les en-têtes content-type.
 
 ### Télécharger des reçus de dépenses
 
@@ -86,9 +86,9 @@ Pour les fichiers volumineux ou les téléchargements directs vers le stockage c
 
 ### Fonctionnement
 
-1. **Presigner** -- demander une URL présignée à l'API
-2. **Télécharger** -- télécharger le fichier directement vers l'URL présignée
-3. **Confirmer** -- notifier l'API que le téléchargement est terminé
+1. **Presigner**: demander une URL présignée à l'API
+2. **Télécharger**: télécharger le fichier directement vers l'URL présignée
+3. **Confirmer**: notifier l'API que le téléchargement est terminé
 
 ### Exemple étape par étape
 

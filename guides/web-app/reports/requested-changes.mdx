@@ -1,0 +1,72 @@
+---
+title: "Fixing Requested Changes"
+description: "Respond when an approver sends your expense report back"
+---
+
+## Overview
+
+An approver who cannot approve a report as submitted, but does not want to reject it outright, requests changes. The report returns to you in the **Requires Changes** state with an explanation of what needs fixing.
+
+This is the normal path for a missing receipt or a wrong category. Rejection is reserved for claims that should not have been made.
+
+## Finding reports waiting on you
+
+The **Expense Reports** item in the sidebar carries a badge counting reports that need changes. The badge is the fastest way to notice one came back, since it is visible from anywhere in the app.
+
+## Make the fix
+
+<Steps>
+  <Step title="Read the request">
+    Open the report. The approver's explanation appears in the comments and in the timeline, and individual expenses may carry their own notes.
+  </Step>
+  <Step title="Edit what was asked for">
+    The report is editable again. Add a missing receipt, correct a category, adjust a claimed amount, or add the context the approver asked for.
+  </Step>
+  <Step title="Reply if it helps">
+    Add a comment explaining what you changed. This saves the approver rediscovering it and speeds up the second pass.
+  </Step>
+  <Step title="Resubmit">
+    Submit the report again. It re-enters the approval queue.
+  </Step>
+</Steps>
+
+## Common requests and how to clear them
+
+Smartbills flags several issues before submission, and these are what approvers most often send back:
+
+| Flag | Fix |
+|------|-----|
+| Missing receipt | Attach a document to the expense |
+| Missing category | Set a category on the expense |
+| Missing merchant | Set the vendor |
+| Missing notes | Add the business context, such as who attended or what it was for |
+
+Clearing these before you submit avoids the round trip entirely. The report shows them as issues on the report itself.
+
+## Replacing an expense
+
+Sometimes the expense itself is wrong, not just its details, for example the wrong receipt was attached. Rather than removing and re-adding, an expense on a report can be **replaced** with a different one, which preserves the line's position and history.
+
+## If the approver changes their mind
+
+An approver can cancel a change request, returning the report to review without you doing anything. They can also reset the review state of an individual expense, or revert a whole report back to review after it was decided.
+
+If a report you were fixing suddenly moves out of Requires Changes, this is why. Check the timeline for what happened.
+
+## Every change is recorded
+
+Reports keep a timeline and an audit log covering submissions, approvals, rejections, change requests, recalls, reimbursements, comments, and every expense added, removed, edited, or replaced. Neither you nor the approver needs to reconstruct what happened from memory.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Claiming less than an expense" icon="calculator" href="/guides/web-app/reports/claimed-amounts">
+    Claimed versus approved amounts
+  </Card>
+  <Card title="Recall a report" icon="rotate-left" href="/guides/web-app/reports/recall-report">
+    Pull back a report before it is decided
+  </Card>
+  <Card title="Request changes" icon="comment" href="/guides/web-app/approvals/request-changes">
+    The approver's side
+  </Card>
+</CardGroup>

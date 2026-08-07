@@ -1,0 +1,88 @@
+---
+title: "Roles y permisos"
+description: "Qué puede hacer cada rol en Smartbills, y por qué su compañero ve opciones que usted no ve"
+---
+
+## Resumen
+
+Cada persona de una empresa tiene un único rol, y ese rol determina qué aparece en la barra lateral y qué puede hacer.
+
+Los roles se asignan en **Ajustes > Espacio de trabajo > Equipo** (Settings > Workspace > Team), y solo los Administradores pueden cambiarlos.
+
+## Los cinco roles
+
+| Rol | Para quién | Qué permite |
+|-----|------------|-------------|
+| **Miembro** (Member) | Cualquiera que declare gastos | Sus propios gastos, informes y desplazamientos. Nada que pertenezca a otra persona. |
+| **Equipo financiero** (Finance Team) | Auxiliares contables | Todo lo de un Miembro, más revisar gastos de empresa y subir facturas de proveedores. No puede aprobar ni pagar. |
+| **Responsable** (Manager) | Jefes de equipo | Todo lo de un Miembro, más aprobar y rechazar los informes de su equipo. No puede pagarlos. |
+| **Administrador financiero** (Finance Admin) | Controllers y responsables financieros | Aprueba, rechaza y reembolsa informes. Acceso completo a facturas, proveedores, bóveda y casi todos los ajustes. No puede invitar personas ni cambiar la facturación. |
+| **Administrador** (Administrator) | Propietarios y responsables de operaciones | Todo, incluido invitar personas, cambiar roles, la facturación y los ajustes de la empresa. |
+
+<Note>
+  No existe un rol de Propietario. Todo lo que necesitaría un propietario, incluida la facturación y la capacidad de cambiar los accesos, corresponde al rol **Administrador**.
+</Note>
+
+## Aprobar y pagar están separados a propósito
+
+Un Responsable puede aprobar un informe de gastos pero no puede reembolsarlo. Liberar el dinero está reservado a Administradores financieros y Administradores.
+
+Es intencionado. Garantiza que una misma persona no pueda autorizar un gasto y pagarlo, que es el control que buscan la mayoría de los auditores. También explica por qué un Responsable que ya ha aprobado un informe lo sigue viendo: está esperando a finanzas, no a él.
+
+## Por qué su barra lateral es distinta a la de un compañero
+
+La sección de empresa solo aparece si su rol le da acceso a algo dentro de ella. Un Miembro no tiene acceso a nada de eso, así que solo ve Panel, Kilometraje, Gastos e Informes de gastos.
+
+Lo mismo ocurre en los Ajustes. Un Administrador financiero ve Categorías, Departamentos y Empleados. Un Miembro solo ve Vehículos y Delegación, porque esos dos son personales y no de la empresa.
+
+Por eso también la barra lateral puede cambiar al pasar de una empresa a otra: su rol es propio de cada empresa.
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="No veo Facturas, Proveedores ni Bóveda">
+    Esas secciones requieren el rol Administrador financiero o Administrador. Los Responsables y los Miembros no las tienen. Pida acceso a un Administrador.
+  </Accordion>
+
+  <Accordion title="He aprobado un informe pero no puedo marcarlo como reembolsado">
+    Usted es Responsable. La aprobación y el pago están separados: el informe espera ahora a un Administrador financiero o a un Administrador.
+  </Accordion>
+
+  <Accordion title="No puedo invitar a un nuevo miembro">
+    Solo los Administradores pueden invitar personas o cambiar roles. Los Administradores financieros no pueden, aunque sí modifiquen casi todos los demás ajustes.
+  </Accordion>
+
+  <Accordion title="Soy Administrador financiero y no puedo enviar mi propio informe">
+    Es una limitación conocida. Los Administradores financieros pueden aprobar y reembolsar los informes de los demás, pero no pueden enviar ni eliminar los suyos.
+
+    Si sus controllers también deben declarar gastos propios, contacte con el soporte de Smartbills. No lo resuelva convirtiéndolos en Administradores, ya que eso les daría mucho más de lo necesario.
+  </Accordion>
+
+  <Accordion title="Alguien tiene que sustituirme mientras estoy fuera">
+    Use la delegación en lugar de cambiar su rol. Le permite actuar por usted temporalmente, deja constancia de quién hizo qué, y se deshace fácilmente.
+  </Accordion>
+</AccordionGroup>
+
+## Cambiar el rol de una persona
+
+<Steps>
+  <Step title="Abrir los ajustes del equipo">
+    Vaya a **Ajustes > Espacio de trabajo > Equipo** (Settings > Workspace > Team).
+  </Step>
+  <Step title="Elegir la persona y el nuevo rol">
+    El cambio surte efecto de inmediato.
+  </Step>
+</Steps>
+
+Para añadir a alguien, use **Invitar** (Invite) y elija su rol al mismo tiempo. Solo los Administradores pueden hacerlo.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Añadir un gasto" icon="upload" href="/es/guides/web-app/expenses/upload-expense">
+    Subir un recibo o crearlo a mano
+  </Card>
+  <Card title="Introducción" icon="compass" href="/es/guides/web-app/overview">
+    Cómo encaja todo
+  </Card>
+</CardGroup>

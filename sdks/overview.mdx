@@ -9,19 +9,19 @@ Smartbills provides official SDKs for JavaScript, TypeScript, React, React Nativ
 
 <CardGroup cols={2}>
   <Card title="JavaScript SDK" icon="js" href="/sdks/javascript/overview">
-    Core SDK for Node.js and browser applications -- `@smartbills/sdk`
+    Core SDK for Node.js and browser applications, `@smartbills/sdk`
   </Card>
   <Card title="React Hooks" icon="react" href="/sdks/react-hooks/overview">
-    React Query hooks for data fetching -- `@smartbills/react-hooks`
+    React Query hooks for data fetching, `@smartbills/react-hooks`
   </Card>
   <Card title="React Native SDK" icon="mobile" href="/sdks/react-native/overview">
-    Native receipt display and mobile components -- `@smartbills/react-native`
+    Native receipt display and mobile components, `@smartbills/react-native`
   </Card>
   <Card title=".NET SDK" icon="microsoft" href="/sdks/dotnet/overview">
-    C# SDK for .NET applications -- `Smartbills.SDK`
+    C# SDK for .NET applications, `Smartbills.SDK`
   </Card>
   <Card title="Python SDK" icon="python" href="/sdks/python/overview">
-    Python SDK for server-side applications -- `smartbills`
+    Python SDK for server-side applications, `smartbills`
   </Card>
 </CardGroup>
 
@@ -148,29 +148,29 @@ All SDKs use OAuth 2.0 bearer tokens:
 
 ### Common Features
 
-- **Type Safety** -- Full TypeScript / C# / Python type definitions
-- **Error Handling** -- Typed error classes with guards (`isNotFoundError`, `isValidationError`, etc.)
-- **Pagination** -- Built-in support for paginated list endpoints
-- **Retry Logic** -- Automatic retry for transient failures with configurable backoff
-- **Rate Limiting** -- Automatic rate limit handling
+- **Type Safety**: Full TypeScript / C# / Python type definitions
+- **Error Handling**: Typed error classes with guards (`isNotFoundError`, `isValidationError`, etc.)
+- **Pagination**: Built-in support for paginated list endpoints
+- **Retry Logic**: Automatic retry for transient failures with configurable backoff
+- **Rate Limiting**: Automatic rate limit handling
 
 ### Feature Matrix
 
 | Feature | JS SDK | React Hooks | React Native | .NET | Python |
 |---------|--------|-------------|--------------|------|--------|
-| Expense CRUD | Yes | Yes | Yes | -- | Yes |
-| Invoice CRUD | Yes | Yes | Yes | Yes | -- |
-| Bill Management | Yes | Yes | Yes | -- | Yes |
-| Vendor Management | Yes | Yes | Yes | -- | Yes |
-| Expense Reports | Yes | Yes | Yes | -- | Yes |
-| Bulk Operations | Yes | Yes | Yes | -- | Yes |
-| Presigned Upload | Yes | Yes | Yes | -- | -- |
-| Receipt Display | -- | -- | Yes | -- | -- |
-| Barcode / QR Code | -- | -- | Yes | -- | -- |
-| Infinite Scroll | -- | Yes | Yes | -- | -- |
-| Optimistic Updates | -- | Yes | Yes | -- | -- |
-| File Management | Yes | Yes | Yes | Yes | -- |
-| Billing / Checkout | -- | -- | -- | Yes | -- |
+| Expense CRUD | Yes | Yes | Yes |: | Yes |
+| Invoice CRUD | Yes | Yes | Yes | Yes |: |
+| Bill Management | Yes | Yes | Yes |: | Yes |
+| Vendor Management | Yes | Yes | Yes |: | Yes |
+| Expense Reports | Yes | Yes | Yes |: | Yes |
+| Bulk Operations | Yes | Yes | Yes |: | Yes |
+| Presigned Upload | Yes | Yes | Yes |: |: |
+| Receipt Display |: |: | Yes |: |: |
+| Barcode / QR Code |: |: | Yes |: |: |
+| Infinite Scroll |: | Yes | Yes |: |: |
+| Optimistic Updates |: | Yes | Yes |: |: |
+| File Management | Yes | Yes | Yes | Yes |: |
+| Billing / Checkout |: |: |: | Yes |: |
 
 <Info>
   The .NET SDK currently focuses on invoicing, file management, and billing. Additional service clients (expenses, vendors, reports) are planned for future releases.

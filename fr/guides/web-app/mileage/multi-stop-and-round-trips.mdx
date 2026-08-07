@@ -1,0 +1,67 @@
+---
+title: "Arrêts multiples et aller-retour"
+description: "Ajoutez des arrêts intermédiaires à un itinéraire, réorganisez-les et incluez le trajet de retour"
+---
+
+## Aperçu
+
+La plupart des déplacements professionnels ne sont pas un simple aller simple. Smartbills modélise un trajet comme une liste ordonnée de points : le premier est votre point de départ, le dernier votre destination, et tout ce qui se trouve entre les deux est un arrêt. Un itinéraire accepte jusqu'à **12 points au total**.
+
+## Ajouter un arrêt
+
+Dans la section **Itinéraire**, utilisez **Ajouter un arrêt**. La nouvelle ligne s'ajoute après le dernier point : elle devient la destination, et l'ancienne destination devient un arrêt intermédiaire. C'est le comportement de Google Maps. Faites glisser les lignes si ce n'est pas l'ordre dans lequel vous avez conduit.
+
+Chaque arrêt doit être sélectionné parmi les suggestions d'adresses. Une ligne contenant du texte saisi sans lieu résolu empêche l'enregistrement, et elle est signalée pour que vous la retrouviez.
+
+## Réorganiser les arrêts
+
+Faites glisser une ligne par sa poignée. La réorganisation est immédiate : dès que la ligne déplacée croise une autre, la liste et les repères de la carte s'échangent, sans attendre que vous relâchiez. La distance est recalculée une fois la ligne déposée.
+
+## Supprimer un arrêt
+
+Chaque ligne dispose d'un bouton de suppression. Vous pouvez descendre jusqu'aux deux points obligatoires. Le départ et la destination ne peuvent pas être supprimés, seulement remplacés.
+
+## Lire la carte
+
+Les repères correspondent exactement aux icônes des lignes, ce qui permet d'identifier chaque point d'un coup d'œil :
+
+| Point | Icône de la ligne | Repère sur la carte |
+|-------|-------------------|---------------------|
+| Départ | Cercle plein | Cercle plein |
+| Arrêt | Carré blanc numéroté | Carré blanc avec le même numéro |
+| Destination | Carré plein | Carré plein |
+
+Survoler une ligne met son repère en évidence et le fait passer au premier plan, ce qui aide lorsque plusieurs arrêts sont proches les uns des autres.
+
+## Aller-retour
+
+Activez l'option **Aller-retour** lorsque vous êtes revenu à votre point de départ. La distance calculée couvre alors le trajet aller et le retour.
+
+<Note>
+  N'ajoutez pas le point de départ une seconde fois comme arrêt final pour représenter le retour. Utilisez l'option. Ajouter deux fois le départ produit un itinéraire qui semble correct mais qui est plus difficile à lire pour un approbateur, et qui se comporte mal lors des réorganisations.
+</Note>
+
+L'aller-retour fonctionne avec les arrêts. Un itinéraire A vers B vers C avec l'option activée est mesuré comme A vers B vers C, puis retour.
+
+## Lignes vides
+
+Les lignes ajoutées mais jamais remplies sont ignorées à l'enregistrement. Vous n'avez pas besoin de faire le ménage avant. Le départ et la destination sont toujours conservés, la validation garantissant qu'ils sont résolus.
+
+## Trajets enregistrés
+
+Smartbills peut mémoriser les itinéraires fréquents comme modèles réutilisables, appliquant les arrêts, le nom par défaut et le véhicule en un clic.
+
+<Warning>
+  Les trajets enregistrés ne sont pas accessibles dans l'interface pour le moment. La fonctionnalité existe mais son point d'entrée est masqué : l'option n'apparaîtra ni dans le formulaire ni dans les paramètres. Utilisez **Dupliquer** sur un trajet existant comme solution pratique pour les itinéraires récurrents.
+</Warning>
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Enregistrer un trajet" icon="route" href="/fr/guides/web-app/mileage/log-a-trip">
+    Le formulaire de trajet, champ par champ
+  </Card>
+  <Card title="Convertir en dépense" icon="receipt" href="/fr/guides/web-app/mileage/convert-to-expense">
+    Rendre le trajet réclamable
+  </Card>
+</CardGroup>

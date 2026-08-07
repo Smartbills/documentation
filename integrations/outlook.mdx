@@ -1,199 +1,130 @@
 ---
 title: "Outlook Add-in"
-description: "Capture receipts and manage expenses directly from Microsoft Outlook with the Smartbills add-in"
+description: "Upload receipts and invoices to Smartbills directly from Outlook"
 ---
 
 ## Overview
 
-The Smartbills Outlook Add-in lets you capture receipts, forward expense emails, and upload documents directly from your Outlook inbox -- without switching to the Smartbills dashboard or mobile app.
+The Smartbills add-in adds a pane to Outlook that uploads attachments, or whole emails, straight into Smartbills. It is aimed at the receipts and invoices that arrive by email and would otherwise need forwarding or downloading first.
 
-<Frame>
-  <img src="/images/integrations/outlook/overview.png" alt="Smartbills Outlook Add-in sidebar" />
-</Frame>
+## Requirements
 
-## Key Features
+- Outlook desktop or Outlook on the web, supporting **Mailbox API 1.15 or later**
+- A Smartbills account belonging to at least one business
+- A connected Microsoft account, required to read email content
 
-| Feature | Description |
+<Warning>
+  Connecting your Microsoft account is not optional for email uploads. Until it is connected the pane shows "Microsoft account connection required to upload emails". Uploading files from your computer works without it, but uploading attachments or the email itself does not. Connect it from **Settings** in the pane.
+</Warning>
+
+## Install
+
+The add-in is deployed by your organization rather than installed individually. An administrator uploads it through the Microsoft 365 admin centre under **Settings > Integrated apps** and assigns it to users or groups. It then appears in Outlook automatically.
+
+Once it appears, open the pane and sign in with your Smartbills account. If you belong to more than one business, choose which one to upload into.
+
+<Note>
+  The pane keeps its own business selection, independent of the web app. If uploads are landing in the wrong business, check the selector at the top of the pane.
+</Note>
+
+## The two tabs
+
+| Tab | Purpose |
+|-----|---------|
+| **Current email** | Upload attachments from the email you have open, or the email itself |
+| **Upload files** | Upload files from your computer |
+
+## Upload from an email
+
+<Steps>
+  <Step title="Open the email and the pane">
+    Select the email containing the receipt or invoice, then open the Smartbills pane.
+  </Step>
+  <Step title="Choose what to upload">
+    Attachments are listed with a selection count. Inline images are included, so a receipt embedded in the message body can be picked as well as an attached file.
+
+    To capture the whole message rather than a single file, turn on **Include entire email as .eml**. This preserves the sender, subject, and body along with the attachments.
+  </Step>
+  <Step title="Set the details">
+    Before uploading you can set a **note**, a **category**, an **expense report**, and a **vendor**, and mark it as a **company expense** if the business paid.
+
+    Expense reports and vendors can be created here without leaving Outlook.
+  </Step>
+  <Step title="Upload">
+    Select **Upload**. The files are sent and queued for reading, and the expenses appear in Smartbills shortly afterwards.
+  </Step>
+</Steps>
+
+### Several emails at once
+
+Selecting multiple emails in Outlook uploads all of them together, each as a `.eml` file. The pane confirms with "All selected emails will be uploaded as .eml files".
+
+### Already uploaded
+
+If an email was uploaded before, the pane says so and offers **View in Smartbills** or **Upload again anyway**, so you can check rather than creating a duplicate.
+
+## Upload files from your computer
+
+Switch to **Upload files** and drag files into the pane or browse for them. The same note, category, expense report, vendor, and company expense options apply.
+
+## File requirements
+
+| | |
+|---|---|
+| **Formats** | PNG, JPG, WebP, HEIC, PDF, EML, MSG |
+| **Maximum size** | 50 MB per file |
+| **File names** | Up to 255 characters |
+
+<Note>
+  The add-in accepts HEIC and WebP and allows files up to 50 MB. The web app is stricter, at 5 MB and no HEIC. If a file is rejected in the browser, uploading it through Outlook may work.
+</Note>
+
+## Settings
+
+The pane has two settings:
+
+| Setting | What it does |
 |---------|-------------|
-| **Email Forwarding** | Forward receipt emails to Smartbills with one click |
-| **File Upload** | Drag and drop receipt files directly from Outlook |
-| **OCR Processing** | Automatic data extraction from receipts and invoices |
-| **Business Selector** | Switch between multiple businesses |
-| **Category Assignment** | Assign expense categories before creating |
-| **Real-time Sync** | Expenses appear instantly in your Smartbills wallet |
-
-## Prerequisites
-
-- Microsoft Outlook (desktop or web version)
-- A Smartbills account with an active business
-- Admin permissions (for organization-wide deployment)
-
-## Installation
-
-### Individual Installation
-
-<Steps>
-  <Step title="Open Outlook">
-    Launch Microsoft Outlook (desktop app or Outlook on the web).
-  </Step>
-  <Step title="Access Add-ins">
-    Click **Get Add-ins** from the ribbon (or **...** menu in Outlook Web).
-
-    <Frame>
-      <img src="/images/integrations/outlook/get-addins.png" alt="Get Add-ins button in Outlook" />
-    </Frame>
-  </Step>
-  <Step title="Search for Smartbills">
-    In the Add-ins store, search for **Smartbills** and click **Add**.
-  </Step>
-  <Step title="Sign In">
-    Click the Smartbills icon in the Outlook toolbar to open the sidebar. Sign in with your Smartbills credentials.
-
-    <Frame>
-      <img src="/images/integrations/outlook/sign-in.png" alt="Smartbills sign-in panel" />
-    </Frame>
-  </Step>
-  <Step title="Select Business">
-    If you belong to multiple businesses, select the one you want to use.
-  </Step>
-</Steps>
-
-### Organization-wide Deployment
-
-Admins can deploy the Smartbills add-in for the entire organization via the Microsoft 365 Admin Center:
-
-1. Go to **Microsoft 365 Admin Center** > **Settings** > **Integrated Apps**
-2. Click **Upload custom apps** or search the store for **Smartbills**
-3. Assign to all users or specific groups
-4. Users will see the add-in automatically in their Outlook
-
-## Forward Emails as Expenses
-
-The primary use case -- forward a receipt email to Smartbills without leaving Outlook.
-
-<Steps>
-  <Step title="Open the Email">
-    Open any email that contains a receipt or invoice (either in the body or as an attachment).
-  </Step>
-  <Step title="Open the Add-in">
-    Click the **Smartbills** icon in the Outlook toolbar to open the sidebar panel.
-
-    <Frame>
-      <img src="/images/integrations/outlook/email-tab.png" alt="Email forwarding panel" />
-    </Frame>
-  </Step>
-  <Step title="Review Extracted Data">
-    Smartbills automatically detects attachments and extracts data from the email. Review the merchant, amount, and date.
-  </Step>
-  <Step title="Assign Category">
-    Select an expense category from the dropdown.
-  </Step>
-  <Step title="Create Expense">
-    Click **Create Expense**. The expense appears immediately in your Smartbills wallet.
-  </Step>
-</Steps>
-
-<Tip>
-  Smartbills processes both email body content and attachments (PDF, JPG, PNG). If the email contains multiple receipts as attachments, each one is processed separately.
-</Tip>
-
-## Upload Files
-
-Upload receipt files directly through the add-in without needing to forward an email.
-
-<Steps>
-  <Step title="Open the Add-in">
-    Click the Smartbills icon to open the sidebar.
-  </Step>
-  <Step title="Switch to Upload Tab">
-    Click the **Upload** tab at the top of the panel.
-
-    <Frame>
-      <img src="/images/integrations/outlook/upload-tab.png" alt="File upload panel" />
-    </Frame>
-  </Step>
-  <Step title="Add Files">
-    Drag and drop files into the upload area, or click **Browse** to select files from your computer.
-  </Step>
-  <Step title="Process and Save">
-    OCR processes the uploaded files. Review the extracted data, assign a category, and click **Create Expense**.
-  </Step>
-</Steps>
-
-## Configuration
-
-### Switch Business
-
-If you belong to multiple organizations, switch between them:
-
-1. Click the **business name** at the top of the add-in panel
-2. Select the desired business from the dropdown
-3. All new expenses will be created under the selected business
-
-### Settings
-
-Access add-in settings by clicking the **gear icon** in the panel:
-
-| Setting | Description |
-|---------|-------------|
-| **Default Category** | Pre-select a category for new expenses |
-| **Auto-forward Rules** | Automatically process emails from specific senders |
-| **Notifications** | Enable or disable processing notifications |
-| **Language** | Switch between English and French |
-
-## Supported File Formats
-
-| Format | Max Size | Notes |
-|--------|----------|-------|
-| JPG / JPEG | 10 MB | Receipt photos |
-| PNG | 10 MB | Screenshots, scanned receipts |
-| PDF | 25 MB | Invoices, statements |
-| HEIC | 10 MB | iPhone photos |
+| **Language** | English or French |
+| **Microsoft Account** | Connect or disconnect the account Smartbills uses to read email content |
 
 ## Troubleshooting
 
 <AccordionGroup>
-  <Accordion title="Add-in not appearing in Outlook">
-    - Verify the add-in is installed: **File** > **Manage Add-ins**
-    - Restart Outlook
-    - For organization deployments, check with your IT admin
-    - Ensure you're using a supported version of Outlook
+  <Accordion title="The add-in does not appear">
+    It is deployed centrally, so check with your IT administrator that it has been assigned to you. Confirm your Outlook build supports Mailbox API 1.15, then restart Outlook.
   </Accordion>
 
-  <Accordion title="Unable to sign in">
-    - Verify your Smartbills credentials at [app.smartbills.io](https://app.smartbills.io)
-    - Clear the add-in cache: close and reopen the panel
-    - Check that your organization allows third-party add-ins
+  <Accordion title="Attachments cannot be uploaded">
+    This is almost always the Microsoft account connection. Open **Settings** in the pane and connect it. Uploading files from your computer will keep working meanwhile.
   </Accordion>
 
-  <Accordion title="OCR not extracting data correctly">
-    - Ensure the receipt image is clear and well-lit
-    - Try uploading a higher-resolution image
-    - PDF invoices generally produce better results than photos
-    - You can always edit the extracted data manually
+  <Accordion title="Uploads land in the wrong business">
+    The pane holds its own business selection. Change it at the top of the pane.
   </Accordion>
 
-  <Accordion title="Expenses not appearing in dashboard">
-    - Check your internet connection
-    - Verify you selected the correct business
-    - Refresh your Smartbills dashboard
-    - Check the real-time sync indicator in the add-in panel
+  <Accordion title="A file is rejected">
+    Check it against the limits above. The pane names the file and the reason, either an unsupported format, a size above 50 MB, or a file name over 255 characters.
+  </Accordion>
+
+  <Accordion title="Session expired">
+    Sign in again from the pane. Your Smartbills session is separate from your Outlook session and expires independently.
   </Accordion>
 </AccordionGroup>
 
 ## Related
 
 <CardGroup cols={2}>
-  <Card title="Receipt Forwarding" icon="envelope" href="/guides/web-app/wallet/receipt-forwarding">
-    Set up email forwarding for automatic receipt capture
+  <Card title="Add an expense" icon="upload" href="/guides/web-app/expenses/upload-expense">
+    Upload methods in the web app
   </Card>
-  <Card title="Scan Receipts on Mobile" icon="camera" href="/guides/mobile/scan-receipt">
-    Capture receipts with your phone camera
+  <Card title="Email forwarding" icon="envelope" href="/guides/web-app/expenses/receipt-forwarding">
+    Forward receipts without the add-in
   </Card>
-  <Card title="Slack Integration" icon="slack" href="/integrations/slack">
-    Get expense notifications in Slack
+  <Card title="AP inboxes" icon="inbox" href="/guides/web-app/bills/ap-inboxes">
+    Let vendors email invoices directly
   </Card>
-  <Card title="Microsoft Teams" icon="microsoft" href="/integrations/microsoft-teams">
-    Integrate with Microsoft Teams
+  <Card title="Mobile app" icon="mobile" href="/guides/mobile/overview">
+    Capture receipts on your phone
   </Card>
 </CardGroup>

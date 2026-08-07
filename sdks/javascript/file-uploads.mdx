@@ -3,13 +3,13 @@ title: "File Uploads"
 description: "Upload receipts, invoices, and documents using FormData or presigned URLs in the Smartbills JavaScript SDK."
 ---
 
-# File Uploads
+## File Uploads
 
 The Smartbills SDK supports two upload patterns: direct FormData uploads and presigned URL uploads for large files. Both patterns are available for expenses, bills, and vendor logos.
 
 ## FormData uploads
 
-The simplest approach -- construct a `FormData` object and pass it to the upload method. The SDK handles multipart encoding and content-type headers automatically.
+The simplest approach, construct a `FormData` object and pass it to the upload method. The SDK handles multipart encoding and content-type headers automatically.
 
 ### Upload expense receipts
 
@@ -96,9 +96,9 @@ For large files or when you want to upload directly to cloud storage (bypassing 
 
 ### How it works
 
-1. **Presign** -- request a presigned upload URL from the API
-2. **Upload** -- upload the file directly to the presigned URL
-3. **Confirm** -- notify the API that the upload is complete
+1. **Presign**: request a presigned upload URL from the API
+2. **Upload**: upload the file directly to the presigned URL
+3. **Confirm**: notify the API that the upload is complete
 
 ### Step-by-step example
 

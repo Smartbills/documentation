@@ -1,0 +1,78 @@
+---
+title: "Buzones de cuentas por pagar"
+description: "Dé a sus proveedores una dirección de correo que convierta sus facturas en facturas de Smartbills"
+---
+
+## Resumen
+
+Un buzón de cuentas por pagar es una dirección de correo dedicada que convierte todo lo que se le envía en una factura en borrador. Dé la dirección a un proveedor y sus facturas llegan a Smartbills sin que nadie las reenvíe.
+
+Los Administradores financieros y los Administradores pueden configurarlos.
+
+## Por qué tener varios
+
+Puede tener varios buzones y dirigir cada uno a una persona o a un departamento. Eso da una separación natural, por ejemplo una dirección por filial, por centro de coste o por responsable de cuentas por pagar, de modo que las facturas llegan ya imputadas en lugar de necesitar clasificación.
+
+## Crear un buzón
+
+<Steps>
+  <Step title="Añadir un buzón">
+    Elija **Add AP Inbox** y póngale un nombre que reconozca en la lista, por ejemplo «Buzón principal» u «Oficina de Madrid».
+  </Step>
+  <Step title="Asignarlo">
+    Asócielo opcionalmente a una persona y a un departamento. Las facturas que lleguen se imputan en consecuencia.
+  </Step>
+  <Step title="Configurar el reenvío si hace falta">
+    Active el reenvío e indique una dirección de destino para que el correo entrante se retransmita además de procesarse. Puede elegir si el reenvío ocurre al recibirlo.
+  </Step>
+  <Step title="Verificar">
+    Un buzón nuevo muestra **Needs Verification** hasta confirmar su dirección. Pasa a **Active** una vez verificado y empieza a aceptar correo.
+  </Step>
+</Steps>
+
+## La lista de buzones
+
+| Columna | Contenido |
+|---------|-----------|
+| **Name** | Su etiqueta |
+| **Email** | La dirección que dar a los proveedores |
+| **Status** | Active, o Needs Verification |
+| **Team Member** | A quién se imputan las facturas |
+| **Department** | Qué departamento se imputa |
+| **Forwarding** | Dónde se retransmite el correo, o Not forwarded |
+| **Created** | Cuándo se configuró |
+
+## Qué llega
+
+El correo enviado a un buzón se lee igual que una factura subida, y produce una factura en **borrador** con el proveedor, el importe, el número y el vencimiento ya rellenados. Los borradores nunca se pagan solos: entran en su proceso habitual de aprobación y pago. Consulte [Ciclo de vida del pago](/es/guides/web-app/bills/payment-lifecycle).
+
+<Note>
+  Se procesan tanto el cuerpo del mensaje como sus adjuntos, así que un proveedor que pone la factura en el propio correo funciona igual que uno que adjunta un PDF.
+</Note>
+
+## Los buzones y las otras direcciones de reenvío
+
+Smartbills tiene tres direcciones de reenvío y no son intercambiables.
+
+| Dirección | Qué crea | Enviar ahí |
+|-----------|----------|------------|
+| **Accounts Payable** | Facturas de proveedor | Facturas que la empresa debe pagar |
+| **Business expenses** | Gastos de empresa | Recibos de lo que pagó la empresa directamente |
+| **Reimbursements** | Gastos personales | Recibos que un empleado debe cobrar |
+
+<Warning>
+  Enviar una factura de proveedor a la dirección de gastos de empresa crea un gasto y no una factura, así que nunca aparecerá en sus cuentas por pagar ni se pagará. Si un proveedor reclama una factura que sabe que recibió, compruebe si llegó como gasto.
+
+  Un documento mal clasificado no hay que reintroducirlo. Conviértalo.
+</Warning>
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Ciclo de vida del pago" icon="arrow-right-arrow-left" href="/es/guides/web-app/bills/payment-lifecycle">
+    Qué ocurre con una factura en borrador
+  </Card>
+  <Card title="Conexiones con portales" icon="plug" href="/es/guides/web-app/vendors/portal-connections">
+    Recuperar facturas automáticamente
+  </Card>
+</CardGroup>

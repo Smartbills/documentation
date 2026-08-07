@@ -3,31 +3,23 @@ title: "Vault"
 description: "Access the secure document vault for financial records"
 ---
 
-<Frame>
-  <img src="/images/guides/web-app/vault/overview-hero.png" alt="Smartbills secure document vault" />
-</Frame>
-
 ## Introduction
 
-The Vault is a secure digital storage area where Smartbills automatically archives copies of all receipts, expense reports, vendor invoices, and other financial documents. It serves as your organization's central repository for document retention and compliance. The Vault is accessed at `/:slug/vault` in the web app.
+The Vault is a secure digital storage area where Smartbills automatically archives copies of all receipts, expense reports, vendor invoices, and other financial documents. It serves as your organization's central repository for document retention and compliance. The Vault is accessed at `/{slug}/vault` in the web app.
 
 <Note>
-  **Permissions required**: You need the **VAULT_VIEW** permission to access the Vault. The level of access depends on your role -- employees may see only their own documents, while managers and administrators can access documents across the organization.
+  **Permissions required**: You need the **VAULT_VIEW** permission to access the Vault. The level of access depends on your role, employees may see only their own documents, while managers and administrators can access documents across the organization.
 </Note>
 
 ## What Gets Stored
 
 The Vault automatically collects and organizes documents from across Smartbills:
 
-- **Receipts** -- Images and PDFs uploaded with expenses
-- **Expense reports** -- Finalized reports in their approved state
-- **Vendor invoices** -- Bills uploaded through the Bills section
-- **Supporting documents** -- Any additional files attached to expenses or reports
-- **Manually uploaded documents** -- Files you add directly to the Vault
-
-<Frame>
-  <img src="/images/guides/web-app/vault/document-types.png" alt="Document types stored in the Vault including receipts, reports, and invoices" />
-</Frame>
+- **Receipts**: Images and PDFs uploaded with expenses
+- **Expense reports**: Finalized reports in their approved state
+- **Vendor invoices**: Bills uploaded through the Bills section
+- **Supporting documents**: Any additional files attached to expenses or reports
+- **Manually uploaded documents**: Files you add directly to the Vault
 
 ## Navigating the Vault
 
@@ -35,10 +27,10 @@ The Vault automatically collects and organizes documents from across Smartbills:
 
 Documents in the Vault are organized by:
 
-- **Date** -- Sorted chronologically with the most recent documents first
-- **Type** -- Grouped by document type (receipts, reports, invoices, other)
-- **Source** -- Where the document originated (expense, bill, manual upload)
-- **Employee** -- The team member associated with the document (for managers and admins)
+- **Date**: Sorted chronologically with the most recent documents first
+- **Type**: Grouped by document type (receipts, reports, invoices, other)
+- **Source**: Where the document originated (expense, bill, manual upload)
+- **Employee**: The team member associated with the document (for managers and admins)
 
 ### Filtering
 
@@ -62,10 +54,6 @@ The search bar supports finding documents by:
 - Vendor name
 - Date
 
-<Frame>
-  <img src="/images/guides/web-app/vault/search-filter.png" alt="Vault search and filter options" />
-</Frame>
-
 ## Document Preview
 
 Click on any document to open a preview panel without leaving the Vault. The preview shows:
@@ -74,10 +62,6 @@ Click on any document to open a preview panel without leaving the Vault. The pre
 - Metadata including upload date, source, file size, and associated records
 - Tags and descriptions
 - A link to the related expense, report, or bill
-
-<Frame>
-  <img src="/images/guides/web-app/vault/document-preview.png" alt="Document preview panel showing the file and its metadata" />
-</Frame>
 
 ## Access Control
 
@@ -98,9 +82,9 @@ The Vault enforces role-based access to protect sensitive financial documents:
 
 Documents in the Vault are retained according to your organization's retention policy, configured in **Settings > Vault > Retention**. Common configurations include:
 
-- **Duration** -- How long documents are kept (e.g., 7 years for tax compliance)
-- **Auto-archive** -- Older documents are moved to a long-term archive
-- **Deletion policy** -- Whether documents are ever automatically deleted
+- **Duration**: How long documents are kept (e.g., 7 years for tax compliance)
+- **Auto-archive**: Older documents are moved to a long-term archive
+- **Deletion policy**: Whether documents are ever automatically deleted
 
 <Tip>
   **Compliance**: Many jurisdictions require businesses to retain financial records for a minimum period. Configure your retention policy to meet your local requirements.

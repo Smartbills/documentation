@@ -1,199 +1,124 @@
 ---
 title: "Complément Outlook"
-description: "Capturez les reçus et gérez les dépenses directement depuis Microsoft Outlook avec le complément Smartbills"
+description: "Téléversez reçus et factures vers Smartbills directement depuis Outlook"
 ---
 
 ## Aperçu
 
-Le complément Smartbills pour Outlook vous permet de capturer des reçus, de transférer des emails de dépenses et de télécharger des documents directement depuis votre boîte de réception Outlook -- sans basculer vers le tableau de bord Smartbills ou l'application mobile.
-
-<Frame>
-  <img src="/images/integrations/outlook/overview.png" alt="Panneau latéral du complément Smartbills pour Outlook" />
-</Frame>
-
-## Fonctionnalités principales
-
-| Fonctionnalité | Description |
-|----------------|-------------|
-| **Transfert d'email** | Transférez les emails de reçus vers Smartbills en un clic |
-| **Téléchargement de fichiers** | Glissez-déposez des fichiers de reçus directement depuis Outlook |
-| **Traitement OCR** | Extraction automatique des données des reçus et factures |
-| **Sélecteur d'entreprise** | Basculez entre plusieurs entreprises |
-| **Attribution de catégorie** | Attribuez des catégories de dépenses avant la création |
-| **Synchronisation en temps réel** | Les dépenses apparaissent instantanément dans votre portefeuille Smartbills |
+Le complément Smartbills ajoute un volet à Outlook qui téléverse des pièces jointes, ou des courriels entiers, directement vers Smartbills. Il s'adresse aux reçus et factures qui arrivent par courriel et qu'il faudrait sinon transférer ou télécharger d'abord.
 
 ## Prérequis
 
-- Microsoft Outlook (application de bureau ou version web)
-- Un compte Smartbills avec une entreprise active
-- Permissions d'administrateur (pour le déploiement à l'échelle de l'organisation)
+- Outlook pour ordinateur ou Outlook sur le web, prenant en charge **l'API Mailbox 1.15 ou ultérieure**
+- Un compte Smartbills appartenant à au moins une entreprise
+- Un compte Microsoft connecté, nécessaire pour lire le contenu des courriels
+
+<Warning>
+  La connexion de votre compte Microsoft n'est pas facultative pour téléverser des courriels. Tant qu'elle n'est pas faite, le volet indique qu'une connexion au compte Microsoft est requise. Le téléversement de fichiers depuis votre ordinateur fonctionne sans, mais pas celui des pièces jointes ni du courriel lui-même. Connectez-le depuis **Paramètres** dans le volet.
+</Warning>
 
 ## Installation
 
-### Installation individuelle
+Le complément est déployé par votre organisation plutôt qu'installé individuellement. Un administrateur le téléverse depuis le centre d'administration Microsoft 365, sous **Paramètres > Applications intégrées**, et l'attribue à des utilisateurs ou à des groupes. Il apparaît ensuite automatiquement dans Outlook.
+
+Une fois visible, ouvrez le volet et connectez-vous avec votre compte Smartbills. Si vous appartenez à plusieurs entreprises, choisissez celle vers laquelle téléverser.
+
+<Note>
+  Le volet conserve sa propre sélection d'entreprise, indépendante de l'application web. Si les téléversements arrivent dans la mauvaise entreprise, vérifiez le sélecteur en haut du volet.
+</Note>
+
+## Les deux onglets
+
+| Onglet | Rôle |
+|--------|------|
+| **Courriel en cours** | Téléverser les pièces jointes du courriel ouvert, ou le courriel lui-même |
+| **Téléverser des fichiers** | Téléverser des fichiers depuis votre ordinateur |
+
+## Téléverser depuis un courriel
 
 <Steps>
-  <Step title="Ouvrir Outlook">
-    Lancez Microsoft Outlook (application de bureau ou Outlook sur le web).
+  <Step title="Ouvrir le courriel et le volet">
+    Sélectionnez le courriel contenant le reçu ou la facture, puis ouvrez le volet Smartbills.
   </Step>
-  <Step title="Accéder aux compléments">
-    Cliquez sur **Obtenir des compléments** dans le ruban (ou le menu **...** dans Outlook Web).
+  <Step title="Choisir ce qu'il faut téléverser">
+    Les pièces jointes sont listées avec un compteur de sélection. Les images intégrées sont incluses : un reçu inséré dans le corps du message peut donc être choisi au même titre qu'un fichier joint.
 
-    <Frame>
-      <img src="/images/integrations/outlook/get-addins.png" alt="Bouton Obtenir des compléments dans Outlook" />
-    </Frame>
+    Pour capturer tout le message plutôt qu'un seul fichier, activez **Inclure le courriel entier en .eml**. Cela conserve l'expéditeur, l'objet et le corps en plus des pièces jointes.
   </Step>
-  <Step title="Rechercher Smartbills">
-    Dans le magasin de compléments, recherchez **Smartbills** et cliquez sur **Ajouter**.
-  </Step>
-  <Step title="Se connecter">
-    Cliquez sur l'icône Smartbills dans la barre d'outils Outlook pour ouvrir le panneau latéral. Connectez-vous avec vos identifiants Smartbills.
+  <Step title="Renseigner les informations">
+    Avant de téléverser, vous pouvez définir une **note**, une **catégorie**, un **rapport de dépenses** et un **fournisseur**, et marquer la dépense comme **payée par l'entreprise**.
 
-    <Frame>
-      <img src="/images/integrations/outlook/sign-in.png" alt="Panneau de connexion Smartbills" />
-    </Frame>
+    Les rapports et les fournisseurs peuvent être créés ici sans quitter Outlook.
   </Step>
-  <Step title="Sélectionner l'entreprise">
-    Si vous appartenez à plusieurs entreprises, sélectionnez celle que vous souhaitez utiliser.
+  <Step title="Téléverser">
+    Sélectionnez **Téléverser**. Les fichiers sont envoyés et mis en file pour lecture, et les dépenses apparaissent peu après dans Smartbills.
   </Step>
 </Steps>
 
-### Déploiement à l'échelle de l'organisation
+### Plusieurs courriels à la fois
 
-Les administrateurs peuvent déployer le complément Smartbills pour toute l'organisation via le Centre d'administration Microsoft 365 :
+Sélectionner plusieurs courriels dans Outlook les téléverse tous ensemble, chacun sous forme de fichier `.eml`. Le volet le confirme.
 
-1. Allez dans **Centre d'administration Microsoft 365** > **Paramètres** > **Applications intégrées**
-2. Cliquez sur **Télécharger des applications personnalisées** ou recherchez **Smartbills** dans le magasin
-3. Attribuez à tous les utilisateurs ou à des groupes spécifiques
-4. Les utilisateurs verront automatiquement le complément dans leur Outlook
+### Déjà téléversé
 
-## Transférer des emails comme dépenses
+Si un courriel a déjà été téléversé, le volet le signale et propose **Voir dans Smartbills** ou **Téléverser quand même**, pour que vous puissiez vérifier plutôt que créer un doublon.
 
-Le cas d'utilisation principal -- transférez un email de reçu vers Smartbills sans quitter Outlook.
+## Téléverser des fichiers depuis votre ordinateur
 
-<Steps>
-  <Step title="Ouvrir l'email">
-    Ouvrez tout email contenant un reçu ou une facture (dans le corps ou en pièce jointe).
-  </Step>
-  <Step title="Ouvrir le complément">
-    Cliquez sur l'icône **Smartbills** dans la barre d'outils Outlook pour ouvrir le panneau latéral.
+Passez à **Téléverser des fichiers** et déposez vos fichiers dans le volet ou parcourez votre ordinateur. Les mêmes options de note, catégorie, rapport, fournisseur et dépense d'entreprise s'appliquent.
 
-    <Frame>
-      <img src="/images/integrations/outlook/email-tab.png" alt="Panneau de transfert d'email" />
-    </Frame>
-  </Step>
-  <Step title="Vérifier les données extraites">
-    Smartbills détecte automatiquement les pièces jointes et extrait les données de l'email. Vérifiez le commerçant, le montant et la date.
-  </Step>
-  <Step title="Attribuer une catégorie">
-    Sélectionnez une catégorie de dépense dans le menu déroulant.
-  </Step>
-  <Step title="Créer la dépense">
-    Cliquez sur **Créer la dépense**. La dépense apparaît immédiatement dans votre portefeuille Smartbills.
-  </Step>
-</Steps>
+## Contraintes de fichier
 
-<Tip>
-  Smartbills traite à la fois le contenu du corps de l'email et les pièces jointes (PDF, JPG, PNG). Si l'email contient plusieurs reçus en pièces jointes, chacun est traité séparément.
-</Tip>
+| | |
+|---|---|
+| **Formats** | PNG, JPG, WebP, HEIC, PDF, EML, MSG |
+| **Taille maximale** | 50 Mo par fichier |
+| **Noms de fichier** | Jusqu'à 255 caractères |
 
-## Télécharger des fichiers
+<Note>
+  Le complément accepte le HEIC et le WebP et autorise des fichiers jusqu'à 50 Mo. L'application web est plus stricte : 5 Mo et pas de HEIC. Si un fichier est refusé dans le navigateur, le téléverser via Outlook peut fonctionner.
+</Note>
 
-Téléchargez des fichiers de reçus directement via le complément sans avoir besoin de transférer un email.
+## Paramètres
 
-<Steps>
-  <Step title="Ouvrir le complément">
-    Cliquez sur l'icône Smartbills pour ouvrir le panneau latéral.
-  </Step>
-  <Step title="Basculer vers l'onglet Téléchargement">
-    Cliquez sur l'onglet **Télécharger** en haut du panneau.
+Le volet propose deux réglages :
 
-    <Frame>
-      <img src="/images/integrations/outlook/upload-tab.png" alt="Panneau de téléchargement de fichiers" />
-    </Frame>
-  </Step>
-  <Step title="Ajouter des fichiers">
-    Glissez-déposez des fichiers dans la zone de téléchargement, ou cliquez sur **Parcourir** pour sélectionner des fichiers depuis votre ordinateur.
-  </Step>
-  <Step title="Traiter et enregistrer">
-    L'OCR traite les fichiers téléchargés. Vérifiez les données extraites, attribuez une catégorie et cliquez sur **Créer la dépense**.
-  </Step>
-</Steps>
-
-## Configuration
-
-### Changer d'entreprise
-
-Si vous appartenez à plusieurs organisations, basculez entre elles :
-
-1. Cliquez sur le **nom de l'entreprise** en haut du panneau du complément
-2. Sélectionnez l'entreprise souhaitée dans le menu déroulant
-3. Toutes les nouvelles dépenses seront créées sous l'entreprise sélectionnée
-
-### Paramètres
-
-Accédez aux paramètres du complément en cliquant sur l'**icône d'engrenage** dans le panneau :
-
-| Paramètre | Description |
-|-----------|-------------|
-| **Catégorie par défaut** | Pré-sélectionnez une catégorie pour les nouvelles dépenses |
-| **Règles de transfert auto** | Traitez automatiquement les emails de certains expéditeurs |
-| **Notifications** | Activez ou désactivez les notifications de traitement |
-| **Langue** | Basculez entre l'anglais et le français |
-
-## Formats de fichiers supportés
-
-| Format | Taille max | Notes |
-|--------|------------|-------|
-| JPG / JPEG | 10 Mo | Photos de reçus |
-| PNG | 10 Mo | Captures d'écran, reçus numérisés |
-| PDF | 25 Mo | Factures, relevés |
-| HEIC | 10 Mo | Photos iPhone |
+| Réglage | Rôle |
+|---------|------|
+| **Langue** | Français ou anglais |
+| **Compte Microsoft** | Connecter ou déconnecter le compte que Smartbills utilise pour lire les courriels |
 
 ## Dépannage
 
 <AccordionGroup>
-  <Accordion title="Le complément n'apparaît pas dans Outlook">
-    - Vérifiez que le complément est installé : **Fichier** > **Gérer les compléments**
-    - Redémarrez Outlook
-    - Pour les déploiements d'organisation, vérifiez auprès de votre administrateur IT
-    - Assurez-vous d'utiliser une version compatible d'Outlook
+  <Accordion title="Le complément n'apparaît pas">
+    Il est déployé de façon centralisée : vérifiez auprès de votre administrateur informatique qu'il vous a bien été attribué. Confirmez que votre version d'Outlook prend en charge l'API Mailbox 1.15, puis redémarrez Outlook.
   </Accordion>
 
-  <Accordion title="Impossible de se connecter">
-    - Vérifiez vos identifiants Smartbills sur [app.smartbills.io](https://app.smartbills.io)
-    - Videz le cache du complément : fermez et rouvrez le panneau
-    - Vérifiez que votre organisation autorise les compléments tiers
+  <Accordion title="Impossible de téléverser les pièces jointes">
+    C'est presque toujours la connexion au compte Microsoft. Ouvrez **Paramètres** dans le volet et connectez-le. Le téléversement de fichiers depuis votre ordinateur continue de fonctionner entre-temps.
   </Accordion>
 
-  <Accordion title="L'OCR n'extrait pas correctement les données">
-    - Assurez-vous que l'image du reçu est claire et bien éclairée
-    - Essayez de télécharger une image en plus haute résolution
-    - Les factures PDF produisent généralement de meilleurs résultats que les photos
-    - Vous pouvez toujours modifier manuellement les données extraites
+  <Accordion title="Les téléversements arrivent dans la mauvaise entreprise">
+    Le volet a sa propre sélection d'entreprise. Changez-la en haut du volet.
   </Accordion>
 
-  <Accordion title="Les dépenses n'apparaissent pas dans le tableau de bord">
-    - Vérifiez votre connexion internet
-    - Vérifiez que vous avez sélectionné la bonne entreprise
-    - Actualisez votre tableau de bord Smartbills
-    - Vérifiez l'indicateur de synchronisation en temps réel dans le panneau du complément
+  <Accordion title="Un fichier est refusé">
+    Comparez-le aux limites ci-dessus. Le volet nomme le fichier et la raison : format non pris en charge, taille supérieure à 50 Mo, ou nom de plus de 255 caractères.
+  </Accordion>
+
+  <Accordion title="Session expirée">
+    Reconnectez-vous depuis le volet. Votre session Smartbills est distincte de votre session Outlook et expire indépendamment.
   </Accordion>
 </AccordionGroup>
 
-## Ressources connexes
+## Voir aussi
 
 <CardGroup cols={2}>
-  <Card title="Transfert de reçus" icon="envelope" href="/fr/guides/web-app/wallet/receipt-forwarding">
-    Configurez le transfert d'email pour la capture automatique des reçus
+  <Card title="Ajouter une dépense" icon="upload" href="/fr/guides/web-app/expenses/upload-expense">
+    Les méthodes de téléversement dans l'application web
   </Card>
-  <Card title="Scanner des reçus sur mobile" icon="camera" href="/fr/guides/mobile/scan-receipt">
-    Capturez les reçus avec l'appareil photo de votre téléphone
-  </Card>
-  <Card title="Intégration Slack" icon="slack" href="/fr/integrations/slack">
-    Recevez des notifications de dépenses dans Slack
-  </Card>
-  <Card title="Microsoft Teams" icon="microsoft" href="/fr/integrations/microsoft-teams">
-    Intégrez avec Microsoft Teams
+  <Card title="Boîtes de réception comptables" icon="inbox" href="/fr/guides/web-app/bills/ap-inboxes">
+    Recevoir les factures directement des fournisseurs
   </Card>
 </CardGroup>

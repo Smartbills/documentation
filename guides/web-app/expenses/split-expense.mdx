@@ -1,0 +1,87 @@
+---
+title: "Split an Expense"
+description: "Split a single expense across multiple categories or departments"
+---
+
+## Overview
+
+Sometimes a single receipt covers multiple expense types. A dinner with a client might include both client entertainment and team meals, or a supply order may span two departments. Splitting lets you allocate portions of an expense to different categories or departments while keeping everything attached to one receipt.
+
+## How to Split an Expense
+
+<Steps>
+  <Step title="Open the Expense">
+    Navigate to **Expenses** in the sidebar and click on the expense you want to split.
+
+  </Step>
+
+  <Step title="Click the Split Button">
+    In the expense detail view, click the **Split** button. This opens the split editor, which shows the full expense amount at the top and an area to define individual split lines below.
+
+  </Step>
+
+  <Step title="Add Split Lines">
+    Define how you want to divide the expense:
+
+    1. Click **Add Line** to create a new split entry
+    2. Enter the **amount** for this portion
+    3. Select a **category** from the dropdown
+    4. Optionally assign a **department**
+    5. Repeat for each portion
+
+    **Example**: A $100.00 dinner receipt split into two lines:
+
+    | Amount | Category | Department |
+    |--------|----------|------------|
+    | $60.00 | Client Entertainment | Sales |
+    | $40.00 | Team Meals | Engineering |
+
+  </Step>
+
+  <Step title="Verify the Total">
+    The split editor shows a running total of all lines. This total must match the original expense amount exactly. If there is a discrepancy, adjust your line amounts until the total balances.
+
+    <Warning>
+      You cannot save a split if the line totals do not equal the original expense amount.
+    </Warning>
+  </Step>
+
+  <Step title="Save the Split">
+    Once the total matches, click **Save**. The expense now displays its split breakdown in the detail view and in any reports it is added to.
+
+  </Step>
+</Steps>
+
+<Check>
+  Your expense is now split. Each line carries its own category and department for accurate financial reporting.
+</Check>
+
+## Editing a Split
+
+To modify an existing split:
+
+1. Open the expense and click **Edit Split**
+2. Adjust amounts, categories, or departments on any line
+3. Add or remove lines as needed
+4. Verify the total still matches
+5. Click **Save**
+
+## Removing a Split
+
+To revert a split back to a single-line expense:
+
+1. Open the expense and click **Edit Split**
+2. Remove all lines except one
+3. Set the remaining line amount to the full expense total
+4. Click **Save**
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Categorize Expenses" icon="tags" href="/guides/web-app/expenses/categorize-expense">
+    Learn about categories and auto-categorization
+  </Card>
+  <Card title="Create an Expense Report" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Add your split expenses to a report
+  </Card>
+</CardGroup>

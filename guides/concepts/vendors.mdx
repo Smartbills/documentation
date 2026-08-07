@@ -7,7 +7,7 @@ description: "Manage your vendor and supplier relationships in Smartbills"
 
 A vendor in Smartbills represents a merchant, supplier, or business from which your organization makes purchases. Vendors are automatically detected when receipts are processed through OCR, or they can be created manually. Maintaining a clean vendor directory helps ensure consistent categorization, accurate reporting, and reliable vendor-level spending analysis.
 
-Vendors are managed from the Vendors page (`/:slug/vendors`).
+Vendors are managed from the Vendors page.
 
 ## How It Works
 
@@ -56,7 +56,7 @@ When a new expense arrives, Smartbills uses vendor matching to link it to the co
 - **Minor spelling differences**: Fuzzy matching handles OCR artifacts and slight misspellings
 - **Manual override**: If the automatic match is incorrect, the user can reassign the vendor
 
-When a vendor is matched, its default category is applied to the expense. This saves time and ensures consistency -- if all purchases from a given office supply store should be categorized as "Office Supplies," setting the default category on the vendor record handles this automatically.
+When a vendor is matched, its default category is applied to the expense. This saves time and ensures consistency, if all purchases from a given office supply store should be categorized as "Office Supplies," setting the default category on the vendor record handles this automatically.
 
 ## Key Terminology
 
@@ -73,9 +73,9 @@ When a vendor is matched, its default category is applied to the expense. This s
 
 | Role | Responsibility |
 |------|---------------|
-| **Admin** | Full vendor management: create, edit, merge, and delete vendor records. Requires `VENDORS_MANAGE` permission |
+| **Admin** | Full vendor management: create, edit, merge, and delete vendor records. Requires that access permission |
 | **Accountant** | Reviews vendor records for accuracy, sets default categories and tax information |
-| **Employee** | Views vendor information on their expenses. Can suggest corrections. Requires `VENDORS_VIEW` permission |
+| **Employee** | Views vendor information on their expenses. Can suggest corrections. Requires that access permission |
 | **Manager** | Reviews vendor assignments on expenses during the approval process |
 
 ## Related Guides

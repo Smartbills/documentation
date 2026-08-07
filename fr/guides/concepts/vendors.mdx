@@ -7,13 +7,13 @@ description: "Gérez vos relations fournisseurs dans Smartbills"
 
 Un fournisseur dans Smartbills représente un commerçant, un fournisseur ou une entreprise auprès de laquelle votre organisation effectue des achats. Les fournisseurs sont automatiquement détectés lorsque les reçus sont traités par OCR, ou ils peuvent être créés manuellement. Maintenir un répertoire de fournisseurs propre permet d'assurer une catégorisation cohérente, des rapports précis et une analyse fiable des dépenses par fournisseur.
 
-Les fournisseurs sont gérés depuis la page Fournisseurs (`/:slug/vendors`).
+Les fournisseurs sont gérés depuis la page Fournisseurs (`/{slug}/vendors`).
 
 ## Comment ça fonctionne
 
 <Steps>
   <Step title="Détection">
-    Lorsqu'une nouvelle dépense est créée à partir d'un reçu, Smartbills utilise l'OCR pour extraire le nom du fournisseur. Le système vérifie le nom extrait par rapport à votre répertoire de fournisseurs existant pour trouver une correspondance.
+    Lorsqu'une nouvelle dépense est créée à partir d'un reçu, Smartbills utilisé l'OCR pour extraire le nom du fournisseur. Le système vérifie le nom extrait par rapport à votre répertoire de fournisseurs existant pour trouver une correspondance.
   </Step>
   <Step title="Correspondance">
     Si le nom du fournisseur correspond à une entrée existante (en tenant compte des variations d'orthographe mineures et des abréviations), la dépense est automatiquement liée à ce fournisseur. La catégorie par défaut du fournisseur et les autres paramètres enregistrés sont appliqués à la dépense.
@@ -49,14 +49,14 @@ Les fournisseurs sont gérés depuis la page Fournisseurs (`/:slug/vendors`).
 
 ## Correspondance des fournisseurs pour les dépenses entrantes
 
-Lorsqu'une nouvelle dépense arrive, Smartbills utilise la correspondance de fournisseurs pour la lier au bon enregistrement. Le processus de correspondance gère les variations courantes :
+Lorsqu'une nouvelle dépense arrive, Smartbills utilisé la correspondance de fournisseurs pour la lier au bon enregistrement. Le processus de correspondance gère les variations courantes :
 
 - **Abréviations** : "Tim Hortons" correspond à "Tim Horton's" et "Tim Hortons #1234"
 - **Suffixes de localisation** : "Staples - Magasin 456" correspond à l'enregistrement principal "Staples"
 - **Différences d'orthographe mineures** : La correspondance approximative gère les artefacts OCR et les légères fautes d'orthographe
 - **Remplacement manuel** : Si la correspondance automatique est incorrecte, l'utilisateur peut réassigner le fournisseur
 
-Lorsqu'un fournisseur est trouvé, sa catégorie par défaut est appliquée à la dépense. Cela fait gagner du temps et assure la cohérence -- si tous les achats d'un magasin de fournitures de bureau donné doivent être catégorisés comme "Fournitures de bureau", définir la catégorie par défaut sur la fiche fournisseur gère cela automatiquement.
+Lorsqu'un fournisseur est trouvé, sa catégorie par défaut est appliquée à la dépense. Cela fait gagner du temps et assure la cohérence, si tous les achats d'un magasin de fournitures de bureau donné doivent être catégorisés comme "Fournitures de bureau", définir la catégorie par défaut sur la fiche fournisseur gère cela automatiquement.
 
 ## Terminologie clé
 

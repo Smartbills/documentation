@@ -1,0 +1,72 @@
+---
+title: "Business and Personal Expenses"
+description: "Mark who paid for an expense, and understand what changes as a result"
+---
+
+## Overview
+
+Every expense in Smartbills records who actually paid: you, or the business. This single flag determines whether the expense needs reimbursing, what information is required of you, and where it appears.
+
+The control is the **Paid by business** toggle, described in the interface as "Toggle if this expense was paid by the business".
+
+## What changes
+
+| | Personal expense | Business expense |
+|---|------------------|------------------|
+| Who paid | You, out of pocket | The business, directly |
+| Outcome | You are reimbursed | Nothing is owed to you |
+| Category | Required for submission | Not required of you |
+| Expense report | Required, this is how you get paid back | Not required |
+| Handled by | You, through an expense report | Accounting |
+
+<Note>
+  When you mark an expense as paid by the business, Smartbills tells you: "Category and expense report are not required for business expenses. These will be managed through the business's accounting process." Opening such an expense later shows "This is a business expense. Category and report are managed by accounting."
+
+  This is not the category being optional in general. It means responsibility for coding it has moved from you to the finance team.
+</Note>
+
+## Setting it on one expense
+
+During upload, choose who paid in the upload dialog. On an existing expense, open it and use the **Paid by business** toggle.
+
+## Setting it on many at once
+
+Select expenses in the list and use the bulk action to change who paid across the whole selection. This is the fastest way to correct a batch of corporate card charges that were imported as personal.
+
+## Defaults by context
+
+The upload dialog preselects based on where you started from:
+
+- Started from **Expenses**: defaults to personal
+- Started from **Business Expenses**: defaults to paid by business
+
+<Warning>
+  The default follows the page, not the receipt. If you habitually upload from Business Expenses, personal expenses started there will be marked as business-paid and will never make it onto a reimbursement report. Check the toggle when the receipt is your own.
+</Warning>
+
+## Getting it wrong, and fixing it
+
+Changing the flag is safe while the expense is still yours to edit.
+
+Once the expense is on a submitted expense report, it is locked with the rest of the report. Recall the report, change the flag, and submit again. See [Recall a report](/guides/web-app/reports/recall-report).
+
+<Warning>
+  A personal expense marked as business-paid is the more costly mistake of the two. It will not be flagged as missing anything, it will not block any report, and it will quietly never be reimbursed. If you are owed money for an expense you cannot find on a report, check whether it was marked as paid by the business.
+</Warning>
+
+## Where each type appears
+
+Both types live in your Expenses list. Business-paid expenses also flow into **Business Expenses**, where finance reviews and codes them.
+
+Which of the two you can see depends on your role. Members see only their own expenses. Finance Team, Finance Admin, and Administrator can see Business Expenses. See [Roles & permissions](/guides/concepts/roles-and-permissions).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Add an expense" icon="upload" href="/guides/web-app/expenses/upload-expense">
+    Set who paid at upload time
+  </Card>
+  <Card title="Business Expenses" icon="credit-card" href="/guides/web-app/business-expenses/overview">
+    Where business-paid expenses are reviewed
+  </Card>
+</CardGroup>

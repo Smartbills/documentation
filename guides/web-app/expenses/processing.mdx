@@ -1,0 +1,76 @@
+---
+title: "Processing and Failed Uploads"
+description: "Track receipts that are still being read, and retry the ones that fail"
+---
+
+## Overview
+
+Reading a receipt happens after the upload finishes, not during it. Between the two, the expense sits in the **Processing** tab, where you can watch its progress and act on anything that goes wrong.
+
+This is where receipts go when they seem to have vanished after uploading.
+
+## The Processing tab
+
+Open **Expenses** or **Business Expenses** and select **Processing**. Each row is one upload, showing the file, when it was submitted, and its current state.
+
+| State | Meaning |
+|-------|---------|
+| **Queued** | Uploaded, waiting to be read |
+| **Processing** | Being read now |
+| **Completed** | Read successfully. The expense has moved into your main list |
+| **Failed** | Could not be read. The upload is kept so you can retry it |
+
+Completed rows leave the tab once the expense is created. Failed rows stay until you deal with them, so nothing is lost silently.
+
+## Retry a failed upload
+
+Select **Retry** on the failed row. The original file is reprocessed, so you do not need to find and upload it again.
+
+Retry is the right first move for a transient failure. If a file fails repeatedly, the document itself is usually the problem.
+
+<AccordionGroup>
+  <Accordion title="The document could not be read" icon="file-circle-exclamation">
+    Blurred photos, heavy glare, cropped edges, and very low resolution all defeat extraction. Rephotograph the receipt flat, in even light, with the merchant name and total both visible.
+  </Accordion>
+
+  <Accordion title="The file is not a receipt" icon="file-circle-question">
+    Statements, contracts, and general correspondence have no receipt structure to extract. Create the expense manually and attach the document to it instead.
+  </Accordion>
+
+  <Accordion title="A password-protected PDF" icon="lock">
+    Encrypted PDFs cannot be opened for reading. Remove the password and upload again.
+  </Accordion>
+</AccordionGroup>
+
+## Delete an upload
+
+Failed uploads you do not intend to fix can be deleted from the row. This removes the queued job and its file. It has no effect on expenses that were already created.
+
+## Download the originals
+
+**Batch download** retrieves the source files for a selection of uploads as one archive. This is useful when you need the original documents for an audit rather than the extracted data.
+
+## On mobile
+
+The Expenses tab header carries a badge counting uploads still in progress. Tapping it opens the same processing view, so a receipt captured on your phone can be tracked from there.
+
+## When nothing appears at all
+
+If an upload never reaches the Processing tab, it did not start. The usual causes:
+
+- The file exceeded 5 MB or was an unsupported format. Rejections are reported in the upload dialog before processing begins.
+- Your monthly receipt quota is exhausted. Check **Settings > Workspace > Usage**.
+- The business has an overdue subscription payment, which blocks uploads.
+
+See [Add an expense](/guides/web-app/expenses/upload-expense) for the full list of file requirements.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Add an expense" icon="upload" href="/guides/web-app/expenses/upload-expense">
+    File requirements and upload methods
+  </Card>
+  <Card title="Edit an expense" icon="pen-to-square" href="/guides/web-app/expenses/edit-expense">
+    Correct data that was read incorrectly
+  </Card>
+</CardGroup>

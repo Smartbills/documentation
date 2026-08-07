@@ -1,0 +1,67 @@
+---
+title: "Paradas múltiples e ida y vuelta"
+description: "Añada paradas intermedias a una ruta, reordénelas e incluya el trayecto de regreso"
+---
+
+## Resumen
+
+La mayoría de los desplazamientos profesionales no son un solo salto. Smartbills modela un desplazamiento como una lista ordenada de puntos: el primero es el origen, el último el destino, y todo lo que hay en medio es una parada. Una ruta admite hasta **12 puntos en total**.
+
+## Añadir una parada
+
+En la sección **Ruta**, use **Añadir parada** (Add stop). La nueva fila se añade después del último punto, así que pasa a ser el destino y el destino anterior se convierte en parada intermedia. Es el comportamiento de Google Maps. Arrastre las filas si ese no es el orden en que condujo.
+
+Cada parada debe elegirse entre las sugerencias de direcciones. Una fila con texto escrito pero sin lugar resuelto impide guardar, y se señala para que la encuentre.
+
+## Reordenar paradas
+
+Arrastre cualquier fila por su asa. El reordenamiento es inmediato: en cuanto la fila arrastrada cruza otra, la lista y los marcadores del mapa se intercambian, sin esperar a que suelte. La distancia se recalcula al soltar.
+
+## Eliminar una parada
+
+Cada fila tiene un botón de eliminación. Puede bajar hasta los dos puntos obligatorios. El origen y el destino no se eliminan, solo se sustituyen.
+
+## Leer el mapa
+
+Los marcadores coinciden exactamente con los iconos de las filas, así que se identifica cada punto de un vistazo:
+
+| Punto | Icono de la fila | Marcador del mapa |
+|-------|------------------|-------------------|
+| Origen | Círculo relleno | Círculo relleno |
+| Parada | Cuadrado blanco numerado | Cuadrado blanco con el mismo número |
+| Destino | Cuadrado relleno | Cuadrado relleno |
+
+Al pasar el cursor por una fila se resalta su marcador y pasa al frente, lo que ayuda cuando varias paradas están próximas.
+
+## Ida y vuelta
+
+Active **Round trip** cuando haya regresado al punto de partida. La distancia calculada cubre entonces el trayecto de ida y el de vuelta.
+
+<Note>
+  No añada el origen otra vez como parada final para representar el regreso. Use la opción. Añadir el origen dos veces produce una ruta que parece correcta pero resulta más difícil de leer para un aprobador y se comporta mal al reordenar.
+</Note>
+
+La ida y vuelta funciona con paradas. Una ruta A a B a C con la opción activada se mide como A a B a C y regreso.
+
+## Filas vacías
+
+Las filas añadidas pero nunca rellenadas se descartan al guardar. No hace falta limpiarlas antes. El origen y el destino se conservan siempre, ya que la validación garantiza que están resueltos.
+
+## Rutas guardadas
+
+Smartbills puede almacenar rutas frecuentes como plantillas reutilizables, aplicando las paradas, el nombre por defecto y el vehículo de una vez.
+
+<Warning>
+  Las rutas guardadas no están accesibles en la interfaz por ahora. La función existe pero su punto de entrada está oculto, así que la opción no aparecerá ni en el formulario ni en los ajustes. Use **Clonar** sobre un desplazamiento existente como alternativa práctica para rutas repetidas.
+</Warning>
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Registrar un desplazamiento" icon="route" href="/es/guides/web-app/mileage/log-a-trip">
+    El formulario, campo a campo
+  </Card>
+  <Card title="Convertir en gasto" icon="receipt" href="/es/guides/web-app/mileage/convert-to-expense">
+    Hacerlo reclamable
+  </Card>
+</CardGroup>

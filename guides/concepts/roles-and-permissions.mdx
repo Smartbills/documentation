@@ -1,142 +1,94 @@
 ---
 title: "Roles & Permissions"
-description: "Understand user roles and permission levels in Smartbills"
+description: "What each role can do, and why your colleague sees things you do not"
 ---
 
-## What are Roles and Permissions?
+## Overview
 
-Roles and permissions control what each user can see and do within your Smartbills organization. Every user is assigned a role, and each role grants a specific set of permissions. This ensures that employees can only access the features they need, managers can review and approve expenses, and administrators have full control over organization settings.
+Everyone in a business has one role. The role decides what appears in the sidebar and what you are allowed to do.
 
-Roles are managed from **Settings > Team** (`/:slug/settings/team`).
+Roles are set in **Settings > Workspace > Team**, and only Administrators can change them.
 
-## Available Roles
+## The five roles
 
-Smartbills provides five predefined roles, each designed for a specific function within the expense management workflow.
-
-### Owner
-
-The Owner is the person who created the Smartbills organization. There is exactly one Owner per organization. The Owner has unrestricted access to every feature and setting, including billing management and the ability to transfer ownership.
-
-### Admin
-
-Admins have full access to all features except billing and ownership transfer. They can manage team members, configure approval workflows, create categories and departments, and access all expenses and reports across the organization. Admins are typically finance leaders or operations managers.
-
-### Manager
-
-Managers can view and approve expenses for their direct reports. They have access to the Approvals pages and can see spending data for their team. Managers cannot change organization settings or manage other team members' roles.
-
-### Employee
-
-Employees are the most common role. They can create and manage their own expenses, build expense reports, and submit them for approval. Employees can only see their own data and cannot access other users' expenses or organization-wide reports.
-
-### Accountant
-
-Accountants have read access to all expenses, reports, and the Vault for audit and compliance purposes. They can review and categorize expenses in the Company Inbox but cannot change organization settings or manage team members.
-
-## Permission Groups
-
-Permissions in Smartbills are organized into groups. Each permission has a `VIEW` variant (read-only access) and a `MANAGE` variant (read and write access).
-
-### Expense Permissions
-
-| Permission | Description |
-|-----------|-------------|
-| `EXPENSES_VIEW` | View expenses in the Personal Wallet |
-| `EXPENSES_MANAGE` | Create, edit, and delete expenses in the Personal Wallet |
-| `BUSINESS_EXPENSES_VIEW` | View expenses in the Company Expenses Inbox |
-| `BUSINESS_EXPENSES_MANAGE` | Create, edit, categorize, and manage expenses in the Company Inbox |
-
-### Bills Permissions
-
-| Permission | Description |
-|-----------|-------------|
-| `BILLS_VIEW` | View bills and invoices |
-| `BILLS_MANAGE` | Create, edit, approve, and manage bills |
-
-### Vendor Permissions
-
-| Permission | Description |
-|-----------|-------------|
-| `VENDORS_VIEW` | View the vendor directory and vendor details |
-| `VENDORS_MANAGE` | Create, edit, merge, and delete vendor records |
-
-### Vault Permissions
-
-| Permission | Description |
-|-----------|-------------|
-| `VAULT_VIEW` | View and search documents in the Vault |
-
-### Settings Permissions
-
-| Permission | Description |
-|-----------|-------------|
-| `SETTINGS_TEAM_VIEW` | View the team roster and user roles |
-| `SETTINGS_GENERAL_MANAGE` | Manage organization settings including categories, departments, approval workflows, and integrations |
-
-## Role-Permission Matrix
-
-The following table shows which permissions are granted to each role by default.
-
-| Permission | Owner | Admin | Manager | Employee | Accountant |
-|-----------|-------|-------|---------|----------|------------|
-| `EXPENSES_VIEW` | Yes | Yes | Yes | Yes | Yes |
-| `EXPENSES_MANAGE` | Yes | Yes | No | Yes | No |
-| `BUSINESS_EXPENSES_VIEW` | Yes | Yes | Yes | No | Yes |
-| `BUSINESS_EXPENSES_MANAGE` | Yes | Yes | No | No | Yes |
-| `BILLS_VIEW` | Yes | Yes | Yes | No | Yes |
-| `BILLS_MANAGE` | Yes | Yes | No | No | No |
-| `VENDORS_VIEW` | Yes | Yes | Yes | No | Yes |
-| `VENDORS_MANAGE` | Yes | Yes | No | No | No |
-| `VAULT_VIEW` | Yes | Yes | Yes | No | Yes |
-| `SETTINGS_TEAM_VIEW` | Yes | Yes | Yes | No | No |
-| `SETTINGS_GENERAL_MANAGE` | Yes | Yes | No | No | No |
-
-## How to Assign Roles
-
-Roles are assigned when inviting a new team member or by editing an existing member's profile in **Settings > Team**.
-
-1. Navigate to **Settings > Team** (`/:slug/settings/team`)
-2. To change a role: click on the team member's name and select a new role from the dropdown
-3. To invite a new member: click **Invite**, enter their email address, and select their role
+| Role | Who it is for | What they can do |
+|------|---------------|------------------|
+| **Member** | Anyone claiming expenses | Their own expenses, reports, and mileage. Nothing belonging to anyone else. |
+| **Finance Team** | AP clerks and bookkeepers | Everything a Member can do, plus reviewing business expenses and uploading bills. Cannot approve or pay anything. |
+| **Manager** | People managers | Everything a Member can do, plus approving and rejecting their team's expense reports. Cannot pay them out. |
+| **Finance Admin** | Controllers and finance managers | Approves, rejects, and reimburses reports. Full access to bills, vendors, the vault, and most settings. Cannot invite people or change billing. |
+| **Administrator** | Business owners and operations leads | Everything, including inviting people, changing roles, billing, and business settings. |
 
 <Note>
-  Only users with the `SETTINGS_GENERAL_MANAGE` permission (Owners and Admins) can invite team members and change roles.
+  There is no Owner role. Everything an owner would need, including billing and the ability to change who has access, belongs to **Administrator**.
 </Note>
 
-## Key Terminology
+## Approving and paying are separate on purpose
 
-| Term | Definition |
-|------|-----------|
-| **Role** | A predefined set of permissions assigned to a user (Owner, Admin, Manager, Employee, Accountant) |
-| **Permission** | A specific capability that grants access to a feature or action |
-| **VIEW** | A permission level that allows reading data without making changes |
-| **MANAGE** | A permission level that allows creating, editing, and deleting data |
-| **Team** | All users in your Smartbills organization |
-| **Invitation** | The process of adding a new user to your organization by email |
+A Manager can approve an expense report but cannot reimburse it. Releasing money is limited to Finance Admins and Administrators.
 
-## Roles Involved
+This is deliberate. It means no single person can both authorise a claim and pay it, which is the control most auditors look for. It is also the reason a Manager who has approved a report still sees it sitting there afterwards: it is waiting on finance, not on them.
 
-| Role | Responsibility |
-|------|---------------|
-| **Owner** | Full control. Manages billing, can transfer ownership, and has all Admin capabilities |
-| **Admin** | Manages team members, configures settings, and has full access to all expense data |
-| **Manager** | Approves expenses and reports for their team. Views team spending data |
-| **Employee** | Manages their own expenses and submits reports for approval |
-| **Accountant** | Read access to all expenses, reports, and the Vault for audit purposes |
+## Why your sidebar looks different from a colleague's
 
-## Related Guides
+The business section of the sidebar only appears if your role gives you access to something in it. A Member has access to none of it, which is why they see only Dashboard, Mileage Trips, Expenses, and Expense Reports.
+
+The same applies inside Settings. A Finance Admin sees Categories, Departments, and Employees. A Member sees only Vehicles and Delegation, because those two are personal rather than business-wide.
+
+This is also why the sidebar can change when you switch between businesses. Your role is per business, so being an Administrator in one grants you nothing in another. See [Switching between businesses](/guides/web-app/switching-businesses).
+
+## Common questions
+
+<AccordionGroup>
+  <Accordion title="I cannot see Bills, Vendors, or the Vault">
+    Those need Finance Admin or Administrator. Managers and Members do not have them. Ask an Administrator if you need access.
+  </Accordion>
+
+  <Accordion title="I approved a report but cannot mark it reimbursed">
+    You are a Manager. Approval and payment are split, so the report now needs a Finance Admin or Administrator to pay it out.
+  </Accordion>
+
+  <Accordion title="I cannot invite a new team member">
+    Only Administrators can invite people or change roles. Finance Admins cannot, even though they can change most other settings.
+  </Accordion>
+
+  <Accordion title="I am a Finance Admin and cannot submit my own expense report">
+    This is a known limitation. Finance Admins can approve and reimburse other people's reports but cannot submit or delete their own.
+
+    If your controllers also need to claim their own expenses, contact Smartbills support. Do not work around it by making them an Administrator, since that grants far more than they need.
+  </Accordion>
+
+  <Accordion title="Someone needs to cover for me while I am away">
+    Use delegation rather than changing their role. It lets them act for you temporarily, keeps the record of who did what, and is easy to undo. See [Delegation](/guides/web-app/settings/delegation).
+  </Accordion>
+</AccordionGroup>
+
+## Change someone's role
+
+<Steps>
+  <Step title="Open team settings">
+    Go to **Settings > Workspace > Team**.
+  </Step>
+  <Step title="Pick the person and the new role">
+    The change takes effect straight away.
+  </Step>
+</Steps>
+
+To add someone new, use **Invite** and choose their role at the same time. Only Administrators can do this.
+
+## Related
 
 <CardGroup cols={2}>
-  <Card title="Invite Team Members" icon="user-plus" href="/guides/web-app/team/invite-members">
-    How to add new members to your organization
+  <Card title="Invite team members" icon="user-plus" href="/guides/web-app/team/invite-members">
+    Add people to your business
   </Card>
-  <Card title="Manage Roles" icon="user-gear" href="/guides/web-app/team/manage-roles">
-    How to change a team member's role
+  <Card title="Delegation" icon="user-shield" href="/guides/web-app/settings/delegation">
+    Let someone act for you
   </Card>
-  <Card title="Approval Workflows" icon="check-double" href="/guides/concepts/approval-workflows">
-    Learn how roles interact with the approval process
+  <Card title="Audit log" icon="scroll" href="/guides/web-app/settings/audit-log">
+    Check who approved or paid something
   </Card>
-  <Card title="Team Overview" icon="users" href="/guides/web-app/team/overview">
-    Managing your team in the web application
+  <Card title="Switching businesses" icon="repeat" href="/guides/web-app/switching-businesses">
+    Why your access differs per business
   </Card>
 </CardGroup>

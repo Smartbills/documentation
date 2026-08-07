@@ -1,0 +1,77 @@
+---
+title: "Switching Between Businesses"
+description: "Work across multiple businesses from one Smartbills account"
+---
+
+## Overview
+
+One Smartbills login can belong to any number of businesses. An accountant serving several clients, a founder running two companies, or an employee working across group entities all use the same account and switch between them.
+
+Your role, permissions, and data are scoped per business. Being an Administrator of one business grants you nothing in another.
+
+## The business switcher
+
+The switcher sits at the **top of the sidebar**, showing the current business's logo and name. Opening it lists every business you belong to, under a **Teams** heading, plus an option to add another.
+
+## Switching keeps your place
+
+Switching preserves the page you were on. If you are looking at Bills in one business and switch to another, you land on Bills there rather than being dropped back at the dashboard.
+
+This works because every business URL is scoped by the business slug:
+
+```
+/acme/bills      →  switch to Globex  →  /globex/bills
+/acme/expenses   →  switch to Globex  →  /globex/expenses
+```
+
+When the page you are on is not business-scoped, switching takes you to that business's dashboard instead.
+
+## What changes when you switch
+
+| Changes | Stays the same |
+|---------|----------------|
+| Sidebar contents, based on your role in the new business | Your login and profile |
+| Expenses, reports, bills, vendors, and vault data | Your language and theme preference |
+| Categories, departments, and approval routing | Your notification settings |
+| Available settings pages | |
+
+<Note>
+  The sidebar can look quite different from one business to the next. The business section only renders when you hold at least one of the relevant view permissions there, so if you are an Administrator in one business and a Member in another, the second will show far fewer entries. That is expected, not a loading error. See [Roles & permissions](/guides/concepts/roles-and-permissions).
+</Note>
+
+## Personal versus business context
+
+Smartbills separates your own account from the businesses you belong to.
+
+- **Personal** pages are unprefixed: `/receipts`, `/expense-reports`, `/settings`
+- **Business** pages carry the slug: `/{slug}/expenses`, `/{slug}/bills`, `/{slug}/settings`
+
+Some features exist only in a business context because they need a business to belong to. Mileage is one: it does not appear when you are in your personal account.
+
+## Add another business
+
+Choose **Add team** at the bottom of the switcher. This starts the business creation flow, where you enter the business details and address. Once created, it appears in the switcher alongside the others.
+
+You can also be added to an existing business by one of its Administrators. Accept the emailed invitation and the business appears in your switcher automatically. See [Invite team members](/guides/web-app/team/invite-members).
+
+## On other surfaces
+
+| Surface | How to switch |
+|---------|--------------|
+| **Mobile app** | From the **Menu** tab |
+| **Outlook add-in** | The business selector at the top of the pane, which is independent of your web session |
+
+<Warning>
+  The Outlook add-in keeps its own business selection. If receipts uploaded from Outlook are landing in the wrong business, check the selector in the add-in pane rather than the web app.
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Navigating the dashboard" icon="compass" href="/guides/web-app/navigation">
+    What each part of the interface does
+  </Card>
+  <Card title="Roles & permissions" icon="shield-halved" href="/guides/concepts/roles-and-permissions">
+    Why the sidebar differs per business
+  </Card>
+</CardGroup>

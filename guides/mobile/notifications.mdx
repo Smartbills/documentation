@@ -7,10 +7,6 @@ description: "Configure push notifications for expense updates and approval requ
 
 Smartbills sends push notifications to keep you informed about expense activity that needs your attention. You can control exactly which types of notifications you receive, set up quiet hours to avoid interruptions, and manage email notification preferences separately from push notifications.
 
-<Frame>
-  <img src="/images/guides/mobile/notifications/notification-example.png" alt="Push notification showing an expense approval" />
-</Frame>
-
 ## Notification Types
 
 Smartbills supports the following push notification types:
@@ -22,7 +18,7 @@ Smartbills supports the following push notification types:
 | **Report Status Change** | Your expense report status has changed (e.g., submitted, approved, rejected, reimbursed) | On |
 | **Approval Request** | A new expense report has been submitted for your approval | On |
 | **Comment on Report** | Someone has added a comment to one of your expense reports | On |
-| **Reminder to Submit** | A periodic reminder that you have unsubmitted expenses in your wallet | Off |
+| **Reminder to Submit** | A periodic reminder that you have unsubmitted expenses in your Expenses list | Off |
 
 ## Configuring Push Notifications
 
@@ -32,9 +28,6 @@ You can enable or disable each notification type individually.
   <Step title="Open Notification Settings">
     Tap the **Menu** tab in the bottom navigation, then go to **Settings** > **Notifications**.
 
-    <Frame>
-      <img src="/images/guides/mobile/notifications/notification-settings.png" alt="Notification settings screen with toggles for each notification type" />
-    </Frame>
   </Step>
 
   <Step title="Toggle Notification Types">
@@ -47,9 +40,6 @@ You can enable or disable each notification type individually.
     - **iOS**: Go to **Settings** > **Notifications** > **Smartbills** and ensure **Allow Notifications** is enabled
     - **Android**: Go to **Settings** > **Apps** > **Smartbills** > **Notifications** and ensure notifications are allowed
 
-    <Frame>
-      <img src="/images/guides/mobile/notifications/device-permissions.png" alt="Device notification permissions for Smartbills" />
-    </Frame>
   </Step>
 </Steps>
 
@@ -59,10 +49,10 @@ You can enable or disable each notification type individually.
 
 On iOS, Smartbills notifications appear as:
 
-- **Lock screen alerts** -- Visible on your lock screen and in the Notification Center
-- **Banners** -- Brief alerts at the top of the screen when the phone is unlocked
-- **Badge count** -- The red badge on the Smartbills app icon shows the number of unread notifications
-- **Sounds** -- An optional notification sound (configurable in iOS notification settings)
+- **Lock screen alerts**: Visible on your lock screen and in the Notification Center
+- **Banners**: Brief alerts at the top of the screen when the phone is unlocked
+- **Badge count**: The red badge on the Smartbills app icon shows the number of unread notifications
+- **Sounds**: An optional notification sound (configurable in iOS notification settings)
 
 You can customize the notification style in **iOS Settings** > **Notifications** > **Smartbills** by choosing between banners, alerts, or none.
 
@@ -105,7 +95,7 @@ Email notifications are managed separately from push notifications. You can rece
   </Step>
 
   <Step title="Select Email Event Types">
-    Toggle which event types are included in your email notifications. These toggles are independent of your push notification preferences -- you can receive push notifications for approvals but email notifications only for rejections, or any other combination.
+    Toggle which event types are included in your email notifications. These toggles are independent of your push notification preferences, you can receive push notifications for approvals but email notifications only for rejections, or any other combination.
   </Step>
 </Steps>
 
@@ -125,9 +115,6 @@ Set up quiet hours during which Smartbills will not send push notifications. Not
   <Step title="Set Your Schedule">
     Choose the start and end times for your quiet period. For example, set 8:00 PM to 8:00 AM to silence notifications overnight.
 
-    <Frame>
-      <img src="/images/guides/mobile/notifications/dnd-schedule.png" alt="Do Not Disturb schedule with start and end time pickers" />
-    </Frame>
   </Step>
 
   <Step title="Choose Active Days">
@@ -164,9 +151,6 @@ Unread notifications are highlighted. Notifications are retained for 30 days.
 <CardGroup cols={2}>
   <Card title="Mobile App Overview" icon="mobile" href="/guides/mobile/overview">
     Return to the mobile app overview
-  </Card>
-  <Card title="Offline Mode" icon="wifi-slash" href="/guides/mobile/offline-mode">
-    Learn how notifications work in offline mode
   </Card>
   <Card title="Manage Expenses" icon="receipt" href="/guides/mobile/manage-expenses">
     View and manage your expenses on mobile

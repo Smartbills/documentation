@@ -1,33 +1,33 @@
 ---
 title: "Expenses"
-description: "Understand the difference between employee wallet expenses and company inbox expenses in Smartbills"
+description: "Understand the difference between personal expenses and business expenses in Smartbills"
 ---
 
 ## What is an Expense?
 
-An expense in Smartbills represents a business-related purchase or cost that needs to be tracked, categorized, and potentially reimbursed. Every expense starts with a receipt or transaction record and flows through a structured lifecycle until it is accounted for. Smartbills provides two distinct inboxes for managing expenses depending on who owns them: the **Personal Wallet** and the **Company Expenses Inbox**.
+An expense in Smartbills represents a business-related purchase or cost that needs to be tracked, categorized, and potentially reimbursed. Every expense starts with a receipt or transaction record and flows through a structured lifecycle until it is accounted for. Smartbills provides two distinct inboxes for managing expenses depending on who owns them: the **Expenses** and the **Business Expenses**.
 
-## Personal Wallet vs. Company Expenses Inbox
+## Expenses vs. Business Expenses
 
 Smartbills separates expenses into two workspaces to match how organizations actually handle spending.
 
-### Personal Wallet
+### Expenses
 
-The Personal Wallet (`/:slug/wallet`) is where individual employees manage their own out-of-pocket expenses. When an employee pays for a business meal, a taxi, or office supplies with their own money, the receipt goes into their wallet. From there, the employee categorizes the expense, attaches it to an expense report, and submits it for reimbursement.
+The Expenses is where individual employees manage their own out-of-pocket expenses. When an employee pays for a business meal, a taxi, or office supplies with their own money, the receipt lands in their Expenses list. From there, the employee categorizes the expense, attaches it to an expense report, and submits it for reimbursement.
 
-- Each employee has their own private wallet
-- Only the employee (and admins) can see wallet contents
+- Each employee has their own private Expenses list
+- Only the employee, and administrators, can see its contents
 - Expenses here are typically submitted via expense reports for reimbursement
-- Requires `EXPENSES_VIEW` permission to access
+- Requires that access permission to access
 
-### Company Expenses Inbox
+### Business Expenses
 
-The Company Expenses Inbox (`/:slug/expenses`) is a shared workspace where business expenses that belong to the organization are collected and reviewed. These might include corporate credit card charges, vendor invoices forwarded by email, or any expense that does not require employee reimbursement.
+The Business Expenses is a shared workspace where business expenses that belong to the organization are collected and reviewed. These might include corporate credit card charges, vendor invoices forwarded by email, or any expense that does not require employee reimbursement.
 
 - Shared across team members with the appropriate permissions
 - Managed by finance teams, managers, or accountants
 - Expenses flow in from email forwarding, integrations, and manual entry
-- Requires `BUSINESS_EXPENSES_VIEW` or `BUSINESS_EXPENSES_MANAGE` permission
+- Requires that access or that access permission
 
 ## How It Works
 
@@ -45,7 +45,7 @@ The Company Expenses Inbox (`/:slug/expenses`) is a shared workspace where busin
     The employee or manager reviews the extracted data, corrects any errors, adds notes, and confirms the expense is ready. Required fields such as business purpose or project code may need to be filled in depending on company policy.
   </Step>
   <Step title="Report">
-    For Personal Wallet expenses, the employee adds the expense to an expense report and submits it for approval. Company Inbox expenses may be processed directly without a report depending on the organization's workflow. See [Expense Reports](/guides/concepts/expense-reports).
+    For Expenses expenses, the employee adds the expense to an expense report and submits it for approval. Business Expenses expenses may be processed directly without a report depending on the organization's workflow. See [Expense Reports](/guides/concepts/expense-reports).
   </Step>
 </Steps>
 
@@ -76,7 +76,7 @@ The Company Expenses Inbox (`/:slug/expenses`) is a shared workspace where busin
 | Term | Definition |
 |------|-----------|
 | **Receipt** | A document (image or PDF) that serves as proof of purchase for an expense |
-| **OCR** | Optical Character Recognition -- the technology that reads text from receipt images |
+| **OCR** | Optical Character Recognition: the technology that reads text from receipt images |
 | **Vendor** | The merchant or supplier where the purchase was made |
 | **Category** | The classification of an expense by type (e.g., Travel, Meals, Software) |
 | **Department** | The business unit or cost center the expense is allocated to |
@@ -103,7 +103,7 @@ The Company Expenses Inbox (`/:slug/expenses`) is a shared workspace where busin
   <Card title="Categories and Departments" icon="tags" href="/guides/concepts/categories-and-departments">
     Organize expenses by type and business unit
   </Card>
-  <Card title="Upload an Expense" icon="upload" href="/guides/web-app/wallet/upload-expense">
+  <Card title="Upload an Expense" icon="upload" href="/guides/web-app/expenses/upload-expense">
     Step-by-step guide to uploading your first expense
   </Card>
 </CardGroup>

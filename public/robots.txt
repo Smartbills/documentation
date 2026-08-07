@@ -1,9 +1,6 @@
-# *
 User-agent: *
 Allow: /
 
-# Host
 Host: https://docs.smartbills.io
 
-# Sitemaps
 Sitemap: https://docs.smartbills.io/sitemap.xml

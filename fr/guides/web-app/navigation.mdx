@@ -1,190 +1,139 @@
 ---
-title: "Navigation dans le Tableau de Bord"
-description: "Apprenez la mise en page et la navigation du tableau de bord web Smartbills"
+title: "Naviguer dans le tableau de bord"
+description: "La disposition du tableau de bord Smartbills et le rôle de chaque zone"
 ---
 
 ## Aperçu
 
-Le tableau de bord Smartbills est conçu pour garder tout à portée de main. Ce guide explique chaque zone de l'interface afin que vous puissiez naviguer avec confiance et trouver rapidement ce dont vous avez besoin.
+Le tableau de bord s'organise autour d'une barre latérale à gauche et d'un en-tête en haut. Ce que vous voyez dans la barre latérale dépend de votre rôle : deux collègues d'une même entreprise peuvent donc avoir une navigation sensiblement différente.
 
-<Frame>
-  <img src="/images/guides/web-app/navigation/dashboard-labeled.png" alt="Capture d'écran annotée du tableau de bord Smartbills montrant la barre latérale, la barre supérieure et la zone de contenu principal" />
-</Frame>
+## La barre latérale
 
-## Barre Latérale Gauche
+Elle comporte trois parties : le sélecteur d'entreprise en haut, la navigation au milieu, puis Intégrations et Paramètres épinglés en bas.
 
-La barre latérale est divisée en trois groupes : **Personnel**, **Entreprise** et **Système**. Elle reste visible sur ordinateur et se replie en menu sur les écrans plus petits.
+### Sélecteur d'entreprise
 
-### Section Personnelle
+Le logo et le nom de l'entreprise en cours figurent tout en haut. En le sélectionnant, vous listez les entreprises auxquelles vous appartenez et pouvez basculer, ou en ajouter une. Voir [Changer d'entreprise](/fr/guides/web-app/switching-businesses).
+
+### Votre activité
+
+Le premier groupe est toujours visible et couvre votre propre travail.
 
 <AccordionGroup>
-  <Accordion title="Accueil" icon="house">
-    Votre page d'accueil personnalisée. Elle affiche :
-
-    - Un résumé de l'activité récente
-    - Les tâches en attente comme les dépenses à examiner ou les rapports à soumettre
-    - Des boutons d'action rapide pour les tâches courantes
+  <Accordion title="Tableau de bord" icon="house">
+    Votre page d'accueil, avec l'activité récente et les actions rapides.
   </Accordion>
 
-  <Accordion title="Portefeuille" icon="wallet">
-    Votre portefeuille de dépenses personnel. C'est ici que vous :
+  <Accordion title="Trajets kilométriques" icon="car">
+    Enregistrez vos déplacements professionnels et demandez leur remboursement. Uniquement dans un contexte d'entreprise, donc absent de votre compte personnel.
 
-    - Téléchargez des reçus et créez des dépenses
-    - Consultez, filtrez et triez votre liste de dépenses
-    - Modifiez les détails des dépenses et joignez des documents
-
-    [En savoir plus sur le Portefeuille](/fr/guides/web-app/wallet/overview)
+    [Kilométrage](/fr/guides/web-app/mileage/overview)
   </Accordion>
 
-  <Accordion title="Mes Rapports de Dépenses" icon="file-invoice">
-    Gérez vos propres rapports de dépenses :
+  <Accordion title="Dépenses" icon="wallet">
+    Les dépenses que vous avez payées vous-même. Téléversez des reçus, catégorisez-les et préparez-les pour un rapport.
 
-    - Créez de nouveaux rapports et ajoutez-y des dépenses
-    - Soumettez les rapports pour approbation
-    - Suivez le statut des rapports (Brouillon, Soumis, Approuvé, Rejeté)
-    - Rappelez les rapports soumis si des modifications sont nécessaires
+    [Dépenses](/fr/guides/web-app/expenses/overview)
+  </Accordion>
 
-    [En savoir plus sur les Rapports de Dépenses](/fr/guides/web-app/reports/overview)
+  <Accordion title="Rapports de dépenses" icon="file-invoice">
+    Vos propres rapports. Créez-les, ajoutez des dépenses, soumettez-les et rappelez-les si besoin.
+
+    Une pastille sur cette entrée compte les rapports qu'un approbateur vous a renvoyés pour modification.
+
+    [Rapports de dépenses](/fr/guides/web-app/reports/overview)
   </Accordion>
 </AccordionGroup>
 
-### Section Entreprise
+### Le groupe entreprise
+
+Le second groupe porte le nom de votre entreprise. Il n'apparaît que si votre rôle vous donne accès à quelque chose qu'il contient, raison pour laquelle un Membre ne voit aucun groupe entreprise.
 
 <AccordionGroup>
-  <Accordion title="Dépenses (Boîte de Réception)" icon="inbox">
-    La boîte de réception des dépenses à l'échelle de l'entreprise. Visible par les gestionnaires, les finances et les administrateurs. Utilisez-la pour :
+  <Accordion title="Dépenses d'entreprise" icon="credit-card">
+    Les dépenses payées par l'entreprise plutôt que par une personne, comme les paiements par carte d'entreprise et les factures transférées par courriel. Équipe financière, Administrateurs financiers et Administrateurs.
 
-    - Examiner les dépenses soumises par les membres de l'équipe
-    - Filtrer par employé, date, statut ou catégorie
-    - Exporter les données de dépenses pour la comptabilité
-
-    [En savoir plus sur les Dépenses d'Entreprise](/fr/guides/web-app/inbox/overview)
+    [Dépenses d'entreprise](/fr/guides/web-app/business-expenses/overview)
   </Accordion>
 
-  <Accordion title="Factures" icon="file-invoice-dollar">
-    Téléchargez et gérez les factures des fournisseurs :
+  <Accordion title="Factures" icon="receipt">
+    Comptes fournisseurs. Les factures que votre entreprise doit payer, de l'approbation au paiement. Équipe financière, Administrateurs financiers et Administrateurs.
 
-    - Téléchargez des factures avec extraction de données par IA
-    - Acheminez les factures à travers les flux d'approbation
-    - Suivez le statut des paiements
-
-    [En savoir plus sur les Factures](/fr/guides/web-app/bills/overview)
+    [Factures](/fr/guides/web-app/bills/overview)
   </Accordion>
 
-  <Accordion title="Coffre-fort" icon="vault">
-    Un espace de stockage numérique sécurisé pour les documents importants :
+  <Accordion title="Coffre-fort" icon="folder-open">
+    Stockage sécurisé de documents. Administrateurs financiers et Administrateurs.
 
-    - Stockez des reçus, contrats et documents financiers
-    - Recherchez et filtrez par date, type ou mot-clé
-    - Organisez les documents dans des dossiers
-
-    [En savoir plus sur le Coffre-fort](/fr/guides/web-app/vault/overview)
+    [Coffre-fort](/fr/guides/web-app/vault/overview)
   </Accordion>
 
-  <Accordion title="Fournisseurs" icon="store">
-    Gérez votre répertoire de fournisseurs :
+  <Accordion title="Fournisseurs" icon="building">
+    Votre répertoire de fournisseurs, y compris les connexions aux portails qui récupèrent les factures automatiquement. Administrateurs financiers et Administrateurs.
 
-    - Ajoutez des profils de fournisseurs avec leurs coordonnées et détails de paiement
-    - Consultez l'historique des dépenses par fournisseur
-    - Liez automatiquement les fournisseurs aux dépenses et factures
-
-    [En savoir plus sur les Fournisseurs](/fr/guides/web-app/vendors/overview)
+    [Fournisseurs](/fr/guides/web-app/vendors/overview)
   </Accordion>
 
-  <Accordion title="Équipe" icon="users">
-    Gérez les membres de votre organisation :
+  <Accordion title="Approbations" icon="square-check">
+    Les rapports de dépenses en attente de votre décision, classés par état. Gestionnaires, Administrateurs financiers et Administrateurs.
 
-    - Invitez de nouveaux membres par courriel
-    - Attribuez des rôles (Employé, Gestionnaire, Administrateur)
-    - Consultez et mettez à jour les profils des membres
-
-    [En savoir plus sur la Gestion d'Équipe](/fr/guides/web-app/team/overview)
-  </Accordion>
-
-  <Accordion title="Approbations" icon="check-double">
-    Examinez les rapports de dépenses et factures en attente :
-
-    - Approuvez, rejetez ou d.mandez des modifications sur les rapports
-    - Consultez l'historique complet des approbations et la piste d'audit
-    - Ajoutez des commentaires pour le soumetteur
-
-    [En savoir plus sur les Approbations](/fr/guides/web-app/approvals/overview)
+    [Approbations](/fr/guides/web-app/approvals/overview)
   </Accordion>
 </AccordionGroup>
 
-### Section Système
+### Épinglés en bas
 
-<AccordionGroup>
-  <Accordion title="Paramètres" icon="gear">
-    Configurez les préférences de votre entreprise et de votre compte :
+| Entrée | Qui la voit |
+|--------|-------------|
+| **Intégrations** | Administrateurs uniquement |
+| **Paramètres** | Tout le monde, le contenu variant selon le rôle |
 
-    - **Général** -- Nom de l'entreprise, adresse, devise et fuseau horaire
-    - **Catégories** -- Créez et gérez les catégories de dépenses
-    - **Départements** -- Définissez les départements organisationnels
-    - **Comptes Courriel** -- Configurez les adresses de transfert de reçus
-    - **Facturation** -- Gérez votre plan d'abonnement et mode de paiement
-    - **Image de Marque** -- Personnaliséz les logos et couleurs pour les rapports
+<Note>
+  La gestion de l'équipe n'est pas une entrée de la barre latérale. Elle se trouve dans **Paramètres > Espace de travail > Équipe**, la liste des membres étant dans **Paramètres > Organisation > Employés**.
+</Note>
 
-    [En savoir plus sur les Paramètres](/fr/guides/web-app/settings/general)
-  </Accordion>
-</AccordionGroup>
+## L'en-tête
 
-## Barre Supérieure
+| Élément | Rôle |
+|---------|------|
+| **Recherche** | Rechercher ou accéder rapidement à un enregistrement. S'ouvre avec `Ctrl + K` ou `Cmd + K`. |
+| **Téléverser** | Un menu proposant Créer une dépense, Téléverser un reçu, Téléverser une facture et Transférer par courriel. Voir [Ajouter une dépense](/fr/guides/web-app/expenses/upload-expense). |
+| **Notifications** | Une cloche indiquant approbations, commentaires et changements de statut. |
+| **Aide** | Recherche dans le centre d'aide sans quitter l'application. |
+| **Menu utilisateur** | Votre avatar. Profil, paramètres du compte, apparence et déconnexion. |
 
-La barre supérieure est toujours visible et offre trois contrôles principaux :
+## Apparence
 
-| Élément | Description |
-|---------|-------------|
-| **Sélecteur d'Entreprise** | Un menu déroulant en haut à gauche qui vous permet de basculer entre les entreprises si vous appartenez à plusieurs organisations. Le nom et le logo de l'entreprise actuelle sont affichés. |
-| **Notifications** | Une icône de cloche affichant les alertes non lues. Cliquez dessus pour voir les approbations, commentaires, changements de statut et annonces système. |
-| **Menu Utilisateur** | Votre avatar en haut à droite. Cliquez pour accéder à votre profil, vos préférences, les paramètres de langue et l'option de déconnexion. |
+Les thèmes clair, sombre et système sont disponibles depuis le menu utilisateur, sous **Apparence**. Le réglage est conservé dans le navigateur : il s'applique donc à l'appareil sur lequel vous l'avez défini et ne vous suit pas d'un appareil à l'autre.
 
-<Frame>
-  <img src="/images/guides/web-app/navigation/top-bar.png" alt="Barre supérieure montrant le sélecteur d'entreprise, la cloche de notification et le menu avatar" />
-</Frame>
+## Réduire la barre latérale
 
-## Zone de Contenu Principal
+Réduisez la barre latérale à des icônes avec `Ctrl + B` ou `Cmd + B`, ou via le bouton sur son bord. Elle se réduit aussi automatiquement à l'ouverture d'un rapport de dépenses ou d'une approbation, pour laisser plus de place au document, et se déploie de nouveau ensuite.
 
-Le panneau central changé selon votre sélection dans la barre latérale. Les modèles courants incluent :
-
-- **Vues en liste** avec recherche, filtres et colonnes triables (Portefeuille, Dépenses, Factures)
-- **Panneaux de détail** qui glissent depuis la droite lorsque vous cliquez sur un élément
-- **Formulaires** pour créer ou modifier des enregistrements (rapports de dépenses, fournisseurs, membres d'équipe)
-- **Tableaux de bord** avec graphiques et cartes de synthèse (Accueil)
-
-## Mode Sombre et Clair
-
-Smartbills prend en charge les deux thèmes. Pour changer :
-
-1. Ouvrez le **Menu Utilisateur** en haut à droite
-2. Cliquez sur **Thème** ou utilisez le commutateur
-3. Sélectionnez **Clair**, **Sombre** ou **Système** pour correspondre à la préférence de votre système d'exploitation
-
-Votre choix est enregistré dans votre profil et s'applique sur tous vos appareils.
-
-## Raccourcis Clavier
-
-Accélérez votre flux de travail avec ces raccourcis :
+## Raccourcis clavier
 
 | Raccourci | Action |
 |-----------|--------|
-| `Ctrl + K` / `Cmd + K` | Ouvrir la palette de commandes pour naviguer ou rechercher rapidement |
-| `N` | Créer une nouvelle dépense (dans le Portefeuille) |
-| `R` | Créer un nouveau rapport (dans Mes Rapports de Dépenses) |
+| `Ctrl + K` / `Cmd + K` | Ouvrir la recherche |
+| `Ctrl + B` / `Cmd + B` | Réduire ou déployer la barre latérale |
 
-## Prochaînes Étapes
+## Glisser-déposer partout
+
+Déposer un fichier de reçu sur n'importe quelle page ouvre la fenêtre de téléversement avec le fichier déjà joint. Vous n'avez pas besoin d'être sur la page Dépenses.
+
+## Et ensuite
 
 <CardGroup cols={2}>
-  <Card title="Portefeuille Personnel" icon="wallet" href="/fr/guides/web-app/wallet/overview">
-    Commencez à gérer vos dépenses
+  <Card title="Dépenses" icon="wallet" href="/fr/guides/web-app/expenses/overview">
+    Commencer à gérer vos dépenses
   </Card>
-  <Card title="Rapports de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
-    Créez et soumettez des rapports de dépenses
+  <Card title="Rapports de dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
+    Créer et soumettre des rapports
   </Card>
-  <Card title="Gestion d'Équipe" icon="users" href="/fr/guides/web-app/team/overview">
-    Invitez des collègues et attribuez des rôles
+  <Card title="Rôles et autorisations" icon="shield-halved" href="/fr/guides/concepts/roles-and-permissions">
+    Pourquoi votre barre latérale est ce qu'elle est
   </Card>
   <Card title="Paramètres" icon="gear" href="/fr/guides/web-app/settings/general">
-    Configurez les préférences de votre entreprise
+    Configurer votre entreprise
   </Card>
 </CardGroup>

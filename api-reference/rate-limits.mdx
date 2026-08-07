@@ -1,277 +1,109 @@
 ---
 title: "Rate Limits"
-description: "Understand Smartbills API rate limiting policies, headers, and best practices for handling rate limit errors"
+description: "How the Smartbills API throttles requests, what a 429 looks like, and how to back off correctly"
 ---
 
 ## Overview
 
-To ensure fair usage and maintain optimal performance, the Smartbills API implements rate limiting. This helps control incoming request traffic and provides a smooth, predictable API experience for all users.
+The Smartbills API throttles requests using a **token bucket**. Every request consumes one token. Tokens refill continuously, so short bursts are absorbed and sustained load is capped.
+
+## The limits
+
+| Setting | Value |
+|---------|-------|
+| Bucket capacity (maximum burst) | **1,000 requests** |
+| Refill rate | **100 tokens every 5 seconds** |
+| Sustained throughput | **1,200 requests per minute** |
+| Queue depth once the bucket is empty | 100 requests, oldest first |
 
 <Note>
-  **Fair usage**: Rate limits ensure that no single user can monopolize API resources, maintaining quality service for everyone.
+  These limits are the same for every plan. There is no per-plan or per-tier rate limiting. If you need a higher ceiling, contact [support@smartbills.io](mailto:support@smartbills.io) rather than assuming an upgrade will raise it.
 </Note>
 
-## Rate Limits by Plan
+## How requests are partitioned
 
-| Plan | Requests Per Minute | Burst Capacity | Daily Limit |
-|------|---------------------|----------------|-------------|
-| **Free** | 60 | 60 | 5,000 |
-| **Professional** | 300 | 300 | 50,000 |
-| **Business** | 1,000 | 1,000 | 200,000 |
-| **Enterprise** | Custom | Custom | Custom |
+Each **access token** gets its own bucket. Two integrations using different tokens do not compete with each other, and exhausting one token's bucket does not affect another.
 
-<Tip>
-  **Need higher limits?** Enterprise customers can request custom rate limits. Contact [sales@smartbills.io](mailto:sales@smartbills.io) for details.
-</Tip>
+<Warning>
+  Unauthenticated requests are the exception. They all share a **single global bucket** across every caller. Do not build anything that depends on unauthenticated throughput, because someone else's traffic will exhaust it.
+</Warning>
 
-## Rate Limit Headers
+## When you exceed the limit
 
-Every API response includes rate limit information in the headers:
-
-```http
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1704067200
-```
-
-<ResponseField name="X-RateLimit-Limit" type="integer">
-  Maximum number of requests allowed per minute for your plan
-</ResponseField>
-
-<ResponseField name="X-RateLimit-Remaining" type="integer">
-  Number of requests remaining in the current window
-</ResponseField>
-
-<ResponseField name="X-RateLimit-Reset" type="integer">
-  Unix timestamp (in seconds) when the rate limit window resets
-</ResponseField>
-
-## Rate Limit Exceeded Response
-
-When you exceed the rate limit, you receive a `429 Too Many Requests` response:
+The API responds with **429 Too Many Requests**:
 
 ```http
 HTTP/1.1 429 Too Many Requests
+Retry-After: 5
 Content-Type: application/json
-Retry-After: 60
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 0
-X-RateLimit-Reset: 1704067200
 ```
 
 ```json
 {
-  "error": {
-    "code": "RATE_LIMIT_EXCEEDED",
-    "message": "Rate limit exceeded. Please try again later.",
-    "retryAfter": 60
-  }
+  "code": "RATE_LIMITED",
+  "message": "Too many requests. Please try again later."
 }
 ```
 
-The `Retry-After` header indicates how many seconds to wait before retrying.
+### The Retry-After header
 
-## Handling Rate Limits
-
-### Check Rate Limit Headers
-
-Always monitor rate limit headers in your application:
-
-<CodeGroup>
-
-```bash cURL
-curl --request GET \
-  --url https://api.smartbills.io/v1/expenses \
-  --header 'Authorization: Bearer YOUR_API_KEY' \
-  --header 'x-tenant-id: 123' \
-  --verbose 2>&1 | grep -i "x-ratelimit"
-```
-
-```javascript JavaScript
-import { SmartbillsClient } from '@smartbills/sdk';
-
-const client = new SmartbillsClient({
-  accessToken: 'YOUR_API_KEY',
-  businessId: 123
-});
-
-// When making raw fetch requests, check headers:
-const response = await fetch('https://api.smartbills.io/v1/expenses', {
-  headers: {
-    'Authorization': 'Bearer YOUR_API_KEY',
-    'x-tenant-id': '123'
-  }
-});
-
-const limit = response.headers.get('X-RateLimit-Limit');
-const remaining = response.headers.get('X-RateLimit-Remaining');
-const reset = response.headers.get('X-RateLimit-Reset');
-
-console.log(`Rate limit: ${remaining}/${limit}`);
-console.log(`Resets at: ${new Date(reset * 1000)}`);
-
-if (remaining < limit * 0.1) {
-  console.warn('Approaching rate limit!');
-}
-```
-
-```python Python
-from smartbills import SmartbillsClient
-import requests
-from datetime import datetime
-
-# When making raw requests, check headers:
-response = requests.get(
-    'https://api.smartbills.io/v1/expenses',
-    headers={
-        'Authorization': 'Bearer YOUR_API_KEY',
-        'x-tenant-id': '123'
-    }
-)
-
-limit = int(response.headers.get('X-RateLimit-Limit', 0))
-remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
-reset = int(response.headers.get('X-RateLimit-Reset', 0))
-
-print(f"Rate limit: {remaining}/{limit}")
-print(f"Resets at: {datetime.fromtimestamp(reset)}")
-
-if remaining < limit * 0.1:
-    print("Warning: Approaching rate limit!")
-```
-
-</CodeGroup>
-
-### Implement Exponential Backoff
-
-When you receive a 429 error, implement exponential backoff:
-
-<CodeGroup>
-
-```javascript JavaScript
-async function makeRequestWithRetry(client, fn, maxRetries = 3) {
-  for (let attempt = 0; attempt < maxRetries; attempt++) {
-    try {
-      return await fn();
-    } catch (error) {
-      if (error.status === 429) {
-        const retryAfter = error.retryAfter || Math.pow(2, attempt);
-        const waitTime = retryAfter * 1000;
-
-        console.log(`Rate limited. Waiting ${retryAfter}s before retry...`);
-        await new Promise(resolve => setTimeout(resolve, waitTime));
-        continue;
-      }
-
-      throw error;
-    }
-  }
-
-  throw new Error('Max retries exceeded');
-}
-
-// Usage
-const expense = await makeRequestWithRetry(client, () =>
-  client.expenses.get(12345)
-);
-```
-
-```python Python
-import time
-from smartbills.errors import SmartbillsRateLimitError
-
-def make_request_with_retry(fn, max_retries=3):
-    for attempt in range(max_retries):
-        try:
-            return fn()
-        except SmartbillsRateLimitError as e:
-            retry_after = e.retry_after or (2 ** attempt)
-
-            print(f"Rate limited. Waiting {retry_after}s before retry...")
-            time.sleep(retry_after)
-            continue
-
-    raise Exception("Max retries exceeded")
-
-# Usage
-expense = make_request_with_retry(lambda: client.expenses.get(12345))
-```
-
-</CodeGroup>
-
-## Best Practices
-
-<AccordionGroup>
-  <Accordion title="Use Caching" icon="database">
-    Cache API responses to reduce redundant requests. Use time-based cache invalidation for data that does not change frequently.
-  </Accordion>
-
-  <Accordion title="Use Pagination Efficiently" icon="list">
-    Use the maximum page size (100) for batch processing to minimize the number of API calls. See [Pagination](/api-reference/pagination) for details.
-  </Accordion>
-
-  <Accordion title="Batch Requests" icon="layer-group">
-    Combine multiple operations into single requests when batch endpoints are available (e.g., batch update expenses).
-  </Accordion>
-
-  <Accordion title="Use Webhooks Instead of Polling" icon="webhook">
-    Use webhooks to receive real-time event notifications instead of polling the API for changes. See [Webhooks](/api-reference/webhooks) for setup instructions.
-  </Accordion>
-
-  <Accordion title="Implement Request Queuing" icon="list-ol">
-    Queue requests and process them at a controlled rate to avoid bursts that exceed your rate limit.
-  </Accordion>
-
-  <Accordion title="Monitor Usage" icon="chart-line">
-    Track your API usage patterns and set up alerts when approaching rate limits. Review usage regularly and optimize high-frequency calls.
-  </Accordion>
-</AccordionGroup>
-
-## Requesting Higher Limits
-
-Enterprise customers can request custom rate limits:
-
-- Email: [sales@smartbills.io](mailto:sales@smartbills.io)
-- Include your use case, expected request volume, and current plan details
-- Typical approval time: 2-3 business days
-
-## Troubleshooting
-
-<AccordionGroup>
-  <Accordion title="Consistently hitting rate limits" icon="gauge-high">
-    1. Optimize your code to reduce unnecessary requests
-    2. Implement caching for frequently accessed data
-    3. Use webhooks to replace polling patterns
-    4. Batch operations when possible
-    5. Consider upgrading your plan
-  </Accordion>
-
-  <Accordion title="Rate limit headers missing" icon="question">
-    Ensure you are using the latest API version (v1) and check that your HTTP client is not stripping response headers.
-  </Accordion>
-
-  <Accordion title="Unexpected 429 errors" icon="triangle-exclamation">
-    Check for multiple instances of your application running, shared API keys across services, or automated scripts using the same key. Use separate API keys for each environment and service.
-  </Accordion>
-</AccordionGroup>
+`Retry-After` gives the number of seconds until capacity is available. Honour it.
 
 <Warning>
-  **Important**: Rate limits are per API key. Using the same key across multiple services will share the rate limit.
+  The API does **not** return `X-RateLimit-Limit`, `X-RateLimit-Remaining`, or `X-RateLimit-Reset`. If your client reads those headers to decide when to throttle, it will read `undefined` and never back off until it starts collecting 429s. `Retry-After` on a 429 is the only rate limit signal the API emits.
 </Warning>
 
-## Related Resources
+## Backing off correctly
+
+Because there is no remaining-quota header, the correct pattern is reactive rather than predictive: send requests, and back off when you are told to.
+
+```javascript
+async function request(url, options = {}, attempt = 0) {
+  const res = await fetch(url, options);
+
+  if (res.status !== 429) return res;
+  if (attempt >= 5) throw new Error("Rate limited: retries exhausted");
+
+  // Prefer the server's value; fall back to exponential backoff with jitter.
+  const retryAfter = Number(res.headers.get("Retry-After"));
+  const waitSeconds = Number.isFinite(retryAfter) && retryAfter > 0
+    ? retryAfter
+    : Math.min(2 ** attempt, 30) * (0.5 + Math.random());
+
+  await new Promise(r => setTimeout(r, waitSeconds * 1000));
+  return request(url, options, attempt + 1);
+}
+```
+
+Add jitter even when using `Retry-After`. If several workers are limited at the same moment they will otherwise all retry on the same tick and collide again.
+
+## Staying under the limit
+
+<AccordionGroup>
+  <Accordion title="Use the batch and bulk endpoints" icon="layer-group">
+    Many resources expose batch or bulk variants. Updating 200 expenses through a bulk endpoint is a handful of requests instead of 200.
+  </Accordion>
+
+  <Accordion title="Page with a larger page size" icon="list">
+    Raising the page size on list endpoints reduces the number of round trips for the same data. See [Pagination](/api-reference/pagination).
+  </Accordion>
+
+  <Accordion title="Use webhooks instead of polling" icon="bell">
+    Polling for changes is the most common cause of hitting the limit. Subscribe to the events you care about and let Smartbills call you. See [Webhooks](/api-reference/webhooks).
+  </Accordion>
+
+  <Accordion title="Give each integration its own token" icon="key">
+    Buckets are per access token. Separate tokens per integration keeps a noisy batch job from starving your interactive traffic.
+  </Accordion>
+</AccordionGroup>
+
+## Related
 
 <CardGroup cols={2}>
-  <Card title="Webhooks" icon="webhook" href="/api-reference/webhooks">
-    Use webhooks instead of polling
+  <Card title="Errors" icon="triangle-exclamation" href="/api-reference/errors">
+    Error codes and response shapes
   </Card>
-  <Card title="Error Handling" icon="triangle-exclamation" href="/api-reference/errors">
-    Handle rate limit errors
-  </Card>
-  <Card title="Pagination" icon="list" href="/api-reference/pagination">
-    Efficiently paginate results
-  </Card>
-  <Card title="API Keys" icon="key" href="/api-reference/api-keys">
-    Manage your API keys
+  <Card title="Webhooks" icon="bell" href="/api-reference/webhooks">
+    Receive events instead of polling
   </Card>
 </CardGroup>

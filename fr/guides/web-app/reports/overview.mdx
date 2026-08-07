@@ -3,15 +3,11 @@ title: "Rapports de Dépenses"
 description: "Créez et gérez les rapports de dépenses pour le remboursement"
 ---
 
-<Frame>
-  <img src="/images/guides/web-app/reports/overview.png" alt="Vue en liste des rapports de dépenses affichant des rapports dans differents statuts" />
-</Frame>
-
 ## Introduction
 
-Les rapports de dépenses permettent aux employés de regrouper des dépenses connexes pour approbation et remboursement. Au lieu de soumettre chaque dépense individuellement, vous les regroupez dans un rapport avec un titre, une justification d'affaires et une plage de dates, puis soumettez le rapport complet à votre gestionnaire ou équipe financiere pour examen.
+Les rapports de dépenses permettent aux employés de regrouper des dépenses connexes pour approbation et remboursement. Au lieu de soumettre chaque dépense individuellement, vous les regroupez dans un rapport avec un titre, une justification d'affaires et une plage de dates, puis soumettez le rapport complet à votre gestionnaire ou équipe financière pour examen.
 
-Accédez à vos rapports de dépenses en cliquant sur **Mes Rapports de Dépenses** dans la barre latérale ou en naviguant vers `/:slug/expense-reports`.
+Accédez à vos rapports de dépenses en cliquant sur **Mes Rapports de Dépenses** dans la barre latérale ou en naviguant vers `/{slug}/expense-reports`.
 
 ## Cycle de vie d'un rapport
 
@@ -19,7 +15,7 @@ Chaque rapport de dépenses suit un cycle de vie structure, de la création au r
 
 <Steps>
   <Step title="Brouillon">
-    Vous créez un nouveau rapport et commencez à ajouter des dépenses depuis votre portefeuille. Le rapport reste modifiable. Vous pouvez ajouter ou retirer des dépenses, mettre à jour le titre et modifier la justification d'affaires à tout moment.
+    Vous créez un nouveau rapport et commencez à ajouter des dépenses depuis votre Dépenses. Le rapport reste modifiable. Vous pouvez ajouter ou retirer des dépenses, mettre à jour le titre et modifier la justification d'affaires à tout moment.
   </Step>
   <Step title="Soumis">
     Lorsque le rapport est pret, vous le soumettez pour approbation. Le rapport est verrouillé pour modification et votre approbateur recoit une notification. Si vous devez apporter des modifications après la soumission, vous devez d'abord rappelér le rapport.
@@ -27,11 +23,11 @@ Chaque rapport de dépenses suit un cycle de vie structure, de la création au r
   <Step title="En revision">
     Votre gestionnaire ou approbateur designe ouvre le rapport et examine chaque dépense, verifiant les reçus, les montants et la categorisation.
   </Step>
-  <Step title="Approuve ou Rejete">
-    L'approbateur approuvé le rapport, faisant passer toutes les dépenses au statut Approuve, ou le rejette avec des commentaires. En cas de rejet, le rapport vous est retourné pour corrections avant resoumission.
+  <Step title="Approuvé ou Rejeté">
+    L'approbateur approuvé le rapport, faisant passer toutes les dépenses au statut Approuvé, ou le rejette avec des commentaires. En cas de rejet, le rapport vous est retourné pour corrections avant resoumission.
   </Step>
-  <Step title="Rembourse">
-    Après approbation, l'équipe financiere traite le remboursement. Le statut du rapport passe à Rembourse et tous les reçus joints sont archives dans le [Coffre-fort](/fr/guides/concepts/vault).
+  <Step title="Remboursé">
+    Après approbation, l'équipe financière traite le remboursement. Le statut du rapport passe à Remboursé et tous les reçus joints sont archives dans le [Coffre-fort](/fr/guides/concepts/vault).
   </Step>
 </Steps>
 
@@ -42,13 +38,13 @@ Chaque rapport de dépenses suit un cycle de vie structure, de la création au r
 | **Brouillon** | Le rapport est en preparation. Les dépenses peuvent être ajoutees ou retirees. |
 | **Soumis** | Le rapport à été envoye pour approbation. La modification est verrouillee. |
 | **En revision** | Un approbateur à ouvert le rapport et l'examine. |
-| **Approuve** | Tous les approbateurs requis ont approuvé le rapport. |
-| **Rejete** | Le rapport à été renvoye avec des commentaires pour corrections. |
-| **Rembourse** | L'employé à été remboursé pour les dépenses approuvées. |
+| **Approuvé** | Tous les approbateurs requis ont approuvé le rapport. |
+| **Rejeté** | Le rapport à été renvoye avec des commentaires pour corrections. |
+| **Remboursé** | L'employé à été remboursé pour les dépenses approuvées. |
 
 ## Vue en liste des rapports
 
-La liste des rapports affiche tous vos rapports de dépenses avec les détails clés :
+La liste des rapports affiché tous vos rapports de dépenses avec les détails clés :
 
 | Colonne | Description |
 |---------|-------------|
@@ -56,15 +52,11 @@ La liste des rapports affiche tous vos rapports de dépenses avec les détails c
 | **Statut** | L'étape actuelle du cycle de vie |
 | **Total** | La somme de toutes les dépenses du rapport |
 | **Dépenses** | Le nombre de dépenses incluses |
-| **Plage de dates** | La periode couverte par le rapport |
+| **Plage de dates** | La période couverte par le rapport |
 | **Créé le** | La date de création du rapport |
 | **Soumis le** | La date de soumission du rapport (le cas echeant) |
 
-Utilisez les onglets de statut au-dessus de la liste pour filtrer les rapports par étape : Tous, Brouillon, Soumis, Approuve, Rejeté ou Rembourse.
-
-<Frame>
-  <img src="/images/guides/web-app/reports/list-view.png" alt="Liste des rapports avec onglets de filtre de statut et colonnes de détails" />
-</Frame>
+Utilisez les onglets de statut au-dessus de la liste pour filtrer les rapports par étape : Tous, Brouillon, Soumis, Approuvé, Rejeté ou Remboursé.
 
 ## Prochaînes Étapes
 
@@ -73,7 +65,7 @@ Utilisez les onglets de statut au-dessus de la liste pour filtrer les rapports p
     Démarrer un nouveau rapport de dépenses et configurer ses détails
   </Card>
   <Card title="Ajouter des Dépenses" icon="plus" href="/fr/guides/web-app/reports/add-expenses">
-    Sélectionner des dépenses de votre portefeuille à inclure dans un rapport
+    Sélectionner des dépenses de votre Dépenses à inclure dans un rapport
   </Card>
   <Card title="Soumettre un Rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
     Soumettre votre rapport pour approbation

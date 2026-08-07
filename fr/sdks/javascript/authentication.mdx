@@ -3,7 +3,7 @@ title: "Authentification"
 description: "Configurer l'authentification, le contexte d'entreprise et la locale pour le SDK JavaScript Smartbills."
 ---
 
-# Authentification
+## Authentification
 
 Le SDK Smartbills utilisé des jetons Bearer OAuth2 pour l'authentification. Chaque requête inclut le jeton dans l'en-tête `Authorization`, un identifiant d'entreprise dans l'en-tête `x-tenant-id` et une locale dans l'en-tête `Accept-Language`.
 
@@ -29,9 +29,9 @@ const client = new SmartbillsClient({
 
 | Option | Type | Défaut | Description |
 |--------|------|--------|-------------|
-| `accessToken` | `string` | -- | Jeton Bearer OAuth2 pour l'authentification API |
-| `businessId` | `number` | -- | ID d'entreprise pour limiter les requêtes à un tenant spécifique |
-| `locale` | `string` | -- | Code de locale pour les réponses localisées (`en-CA`, `fr-CA`) |
+| `accessToken` | `string` |: | Jeton Bearer OAuth2 pour l'authentification API |
+| `businessId` | `number` |: | ID d'entreprise pour limiter les requêtes à un tenant spécifique |
+| `locale` | `string` |: | Code de locale pour les réponses localisées (`en-CA`, `fr-CA`) |
 | `baseUrl` | `string` | `https://api.smartbills.io` | URL de base de l'API |
 | `timeout` | `number` | `30000` | Délai d'expiration des requêtes en millisecondes |
 | `maxRetries` | `number` | `2` | Nombre maximal de tentatives automatiques |
@@ -166,8 +166,8 @@ const depEntreprise200 = await client.expenses.listBusiness(
 
 Le SDK retente automatiquement les requêtes sur les erreurs transitoires :
 
-- **429 Trop de requêtes** -- retente après la valeur de l'en-tête `Retry-After`
-- **Erreurs serveur 5xx** -- retente avec back-off exponentiel
-- **Erreurs réseau** (reset de connexion, timeout) -- retente avec back-off exponentiel
+- **429 Trop de requêtes**: retente après la valeur de l'en-tête `Retry-After`
+- **Erreurs serveur 5xx**: retente avec back-off exponentiel
+- **Erreurs réseau** (reset de connexion, timeout), retente avec back-off exponentiel
 
 Les tentatives s'arretent après `maxRetries` essais. Les erreurs non-retentables (400, 401, 403, 404) sont levées immédiatement.

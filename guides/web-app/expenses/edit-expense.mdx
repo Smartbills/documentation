@@ -1,0 +1,76 @@
+---
+title: "Edit an Expense"
+description: "Modify expense details including amount, merchant, date, and notes"
+---
+
+## Overview
+
+After uploading a receipt, you may need to correct extracted data or add missing information. The expense detail view lets you edit all fields associated with an expense.
+
+<Note>
+  **Locked expenses**: Expenses that belong to a submitted expense report cannot be edited until the report is recalled. See [Recall a Report](/guides/web-app/reports/recall-report) for instructions.
+</Note>
+
+## How to Edit an Expense
+
+<Steps>
+  <Step title="Open the Expense">
+    Navigate to **Expenses** in the sidebar and click on the expense you want to edit. The expense detail view opens, showing the receipt image on one side and the editable fields on the other.
+
+  </Step>
+
+  <Step title="Modify the Fields">
+    Click on any field to edit it. The following fields are available:
+
+    | Field | Description |
+    |-------|-------------|
+    | **Merchant** | The name of the vendor or store |
+    | **Amount** | The total expense amount |
+    | **Date** | The date of the transaction |
+    | **Currency** | The currency used for the purchase |
+    | **Category** | The expense category (e.g., Travel, Meals) |
+    | **Department** | The department this expense is charged to |
+    | **Payment Method** | How the expense was paid (corporate card, personal card, cash) |
+    | **Notes** | Additional context or description |
+    | **Tax Amounts** | Individual tax line items (GST, HST, PST, VAT, etc.) |
+
+  </Step>
+
+  <Step title="Save Your Changes">
+    Click **Save** to apply your edits. The expense list updates immediately to reflect the new values.
+
+  </Step>
+</Steps>
+
+## Replacing the Receipt Attachment
+
+If you uploaded the wrong file or need to attach a clearer image, you can replace the receipt:
+
+1. Open the expense detail view
+2. Click the **Replace** button on the receipt image
+3. Upload a new file (JPG, PNG, PDF, or HEIC, max 10 MB)
+4. Smartbills re-runs OCR on the new file and updates the extracted fields
+
+<Tip>
+  Review the re-extracted data after replacing a receipt. The new file may produce different OCR results.
+</Tip>
+
+## Editing Restrictions
+
+Keep these rules in mind:
+
+- **Draft expenses** can be freely edited at any time
+- **Expenses in a draft report** can still be edited from Expenses
+- **Expenses in a submitted report** are locked. You must recall the report before making changes
+- **Approved expenses** cannot be edited. Contact your administrator if a correction is needed
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Categorize Expenses" icon="tags" href="/guides/web-app/expenses/categorize-expense">
+    Assign categories and departments
+  </Card>
+  <Card title="Split an Expense" icon="scissors" href="/guides/web-app/expenses/split-expense">
+    Divide an expense across multiple categories
+  </Card>
+</CardGroup>

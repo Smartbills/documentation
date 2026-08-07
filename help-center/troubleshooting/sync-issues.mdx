@@ -3,12 +3,6 @@ title: "Sync Issues"
 description: "Resolve data synchronization problems between devices, platforms, and integrations in Smartbills"
 ---
 
-<img
-  className="block"
-  src="/images/help-center/troubleshooting/sync-issues-hero.png"
-  alt="Sync Issues"
-/>
-
 ## Overview
 
 Smartbills synchronizes your data in real time across web, iOS, and Android using persistent connections (SignalR). Data created or modified on one platform should appear on all others within seconds. This guide helps you diagnose and resolve synchronization problems between devices, platforms, and third-party integrations.
@@ -21,14 +15,14 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
 
     **Solutions:**
 
-    1. **Check your internet connection** -- ensure WiFi or cellular data is active and working
-    2. **Pull to refresh** -- on any list screen, pull down to force a sync
-    3. **Check the correct business** -- ensure you are viewing the correct business using the business selector at the top
-    4. **Sign out and sign back in** -- this forces a full data refresh
+    1. **Check your internet connection**: ensure WiFi or cellular data is active and working
+    2. **Pull to refresh**: on any list screen, pull down to force a sync
+    3. **Check the correct business**: ensure you are viewing the correct business using the business selector at the top
+    4. **Sign out and sign back in**: this forces a full data refresh
        - Go to **Menu** > **Sign Out**
        - Sign back in with your credentials
-    5. **Update the app** -- install the latest version from the App Store or Google Play
-    6. **Reinstall the app** -- as a last resort, delete and reinstall the app (your data is safe in the cloud)
+    5. **Update the app**: install the latest version from the App Store or Google Play
+    6. **Reinstall the app**: as a last resort, delete and reinstall the app (your data is safe in the cloud)
   </Accordion>
 
   <Accordion title="Offline changes not uploading" icon="wifi-slash">
@@ -36,11 +30,11 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
 
     **Solutions:**
 
-    1. **Check the sync queue** -- go to **Menu** > **Settings** > **Sync Status** to see pending uploads
-    2. **Ensure WiFi or cellular data is enabled** -- the app cannot sync without an active internet connection
-    3. **Wait for sync to complete** -- large queues of offline changes may take several minutes to upload
-    4. **Do not delete the app** -- uninstalling the app before offline changes have synced will result in data loss
-    5. **Force sync** -- on the sync status screen, tap **Sync Now** to manually trigger the upload
+    1. **Check the sync queue**: go to **Menu** > **Settings** > **Sync Status** to see pending uploads
+    2. **Ensure WiFi or cellular data is enabled**: the app cannot sync without an active internet connection
+    3. **Wait for sync to complete**: large queues of offline changes may take several minutes to upload
+    4. **Do not delete the app**: uninstalling the app before offline changes have synced will result in data loss
+    5. **Force sync**: on the sync status screen, tap **Sync Now** to manually trigger the upload
 
     <Warning>
       Do not uninstall or clear app data while offline changes are pending. This will permanently delete unsynced data.
@@ -54,9 +48,9 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
 
     1. **Pull to refresh** on the relevant screen
     2. **Close and reopen the app** to re-establish the real-time connection
-    3. **Check your timezone settings** -- incorrect timezone can make recent entries appear out of order
+    3. **Check your timezone settings**: incorrect timezone can make recent entries appear out of order
     4. **Clear app cache** (Android: device Settings > Apps > Smartbills > Storage > Clear Cache)
-    5. **Check available storage** -- low device storage can prevent the app from caching updated data
+    5. **Check available storage**: low device storage can prevent the app from caching updated data
   </Accordion>
 </AccordionGroup>
 
@@ -68,12 +62,12 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
 
     **Solutions:**
 
-    1. **Allow time for sync** -- while sync is typically instant, brief delays can occur during high server load
+    1. **Allow time for sync**: while sync is typically instant, brief delays can occur during high server load
     2. **Force refresh on both platforms:**
        - Web: Press `Ctrl+Shift+R` (Windows/Linux) or `Cmd+Shift+R` (Mac) for a hard refresh
        - Mobile: Pull to refresh on the list screen
-    3. **Verify the same business** -- ensure both platforms are showing the same business workspace
-    4. **Check expense status** -- drafts and processing expenses may appear differently across platforms
+    3. **Verify the same business**: ensure both platforms are showing the same business workspace
+    4. **Check expense status**: drafts and processing expenses may appear differently across platforms
     5. **Sign out and back in** on the platform where data is missing
   </Accordion>
 
@@ -85,10 +79,10 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
     Smartbills uses SignalR for real-time push updates. If real-time sync stops:
 
     1. **Refresh the page** (web) or **close and reopen the app** (mobile) to re-establish the connection
-    2. **Check your internet connection** -- real-time sync requires a stable connection
-    3. **Disable VPN or proxy** -- some VPN configurations and corporate proxies block WebSocket connections required for real-time updates
-    4. **Check firewall settings** -- corporate firewalls may block WebSocket traffic. Contact your IT administrator to allow connections to `*.smartbills.io`
-    5. **Try a different network** -- switch between WiFi and cellular to test
+    2. **Check your internet connection**: real-time sync requires a stable connection
+    3. **Disable VPN or proxy**: some VPN configurations and corporate proxies block WebSocket connections required for real-time updates
+    4. **Check firewall settings**: corporate firewalls may block WebSocket traffic. Contact your IT administrator to allow connections to `*.smartbills.io`
+    5. **Try a different network**: switch between WiFi and cellular to test
   </Accordion>
 </AccordionGroup>
 
@@ -140,10 +134,10 @@ Smartbills synchronizes your data in real time across web, iOS, and Android usin
 
     **Solutions:**
 
-    1. **Check sync frequency** -- some integrations sync periodically (e.g., every 15 minutes) rather than in real time
-    2. **Trigger a manual sync** -- go to **Settings** > **Integrations** > select the integration > click **Sync Now**
-    3. **Check the sync queue** -- large batches of data may take longer to process
-    4. **Verify rate limits** -- accounting APIs have rate limits. If you are syncing a large volume of data, the process may be throttled
+    1. **Check sync frequency**: some integrations sync periodically (e.g., every 15 minutes) rather than in real time
+    2. **Trigger a manual sync**: go to **Settings** > **Integrations** > select the integration > click **Sync Now**
+    3. **Check the sync queue**: large batches of data may take longer to process
+    4. **Verify rate limits**: accounting APIs have rate limits. If you are syncing a large volume of data, the process may be throttled
   </Accordion>
 </AccordionGroup>
 
@@ -187,10 +181,7 @@ If you have tried the solutions above and data sync problems persist, contact ou
   - Screenshots of any error messages
 
 <CardGroup cols={2}>
-  <Card title="Offline Mode" icon="wifi-slash" href="/help-center/mobile/offline-mode">
-    Understand offline data sync
-  </Card>
-  <Card title="Integrations" icon="plug" href="/help-center/integrations/quickbooks">
+  <Card title="Integrations" icon="plug" href="/integrations/quickbooks">
     Set up and manage integrations
   </Card>
   <Card title="Upload Problems" icon="cloud-arrow-up" href="/help-center/troubleshooting/upload-problems">
