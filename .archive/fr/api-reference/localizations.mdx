@@ -5,7 +5,7 @@ description: "Apprenez à utiliser l'API Smartbills avec plusieurs langues et lo
 
 ## Aperçu
 
-L'API Smartbills prend en charge plusieurs langues et locales, vous permettant de recevoir des réponses localisées pour vos utilisateurs. Utilisez l'en-tête `Accept-Language` pour spécifiér la locale souhaitee pour chaque requête.
+L'API Smartbills prend en charge plusieurs langues et locales, vous permettant de recevoir des réponses localisées pour vos utilisateurs. Utilisez l'en-tête `Accept-Language` pour spécifier la locale souhaitee pour chaque requête.
 
 ## Locales supportées
 
@@ -91,9 +91,9 @@ response = requests.get(
 
 </CodeGroup>
 
-## Champs de réponse localises
+## Champs de réponse localisés
 
-Lorsque vous spécifiéz une locale, les éléments suivants sont localises dans les réponses API :
+Lorsque vous spécifiez une locale, les éléments suivants sont localisés dans les réponses API :
 
 ### Messages d'erreur
 
@@ -149,9 +149,9 @@ Les catégories de dépenses sont automatiquement localisées :
 
 </CodeGroup>
 
-### Etiquettes de statut
+### Étiquettes de statut
 
-Les etiquettes de statut sont localisées selon l'en-tête `Accept-Language` :
+Les étiquettes de statut sont localisées selon l'en-tête `Accept-Language` :
 
 <CodeGroup>
 
@@ -217,7 +217,7 @@ Les messages de validation au niveau des champs sont retournés dans la langue d
 
 </CodeGroup>
 
-## Champs NON localises
+## Champs NON localisés
 
 Les champs suivants sont toujours retournés tels quels, quelle que soit la locale :
 
@@ -285,7 +285,7 @@ print(locale.currency(1234.56, grouping=True))
 ## Bonnes pratiques
 
 <AccordionGroup>
-  <Accordion title="Toujours spécifiér Accept-Language" icon="language">
+  <Accordion title="Toujours spécifier Accept-Language" icon="language">
     Incluez toujours l'en-tête `Accept-Language` pour assurer une localisation cohérente. Ne vous fiez pas au comportement par défaut.
   </Accordion>
 
@@ -310,7 +310,7 @@ Si vous avez besoin du support pour des langues supplémentaires, contactez-nous
 - Votre cas d'utilisation
 - Le volume de requêtes prévu
 
-Nous ajoutons regulierement de nouvelles langues en fonction de la demande des clients.
+Nous ajoutons régulièrement de nouvelles langues en fonction de la demande des clients.
 
 ## Ressources connexes
 
@@ -319,7 +319,7 @@ Nous ajoutons regulierement de nouvelles langues en fonction de la demande des c
     Aperçu de l'API et en-têtes
   </Card>
   <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
-    Messages d'erreur localises
+    Messages d'erreur localisés
   </Card>
   <Card title="Authentification" icon="shield" href="/fr/api-reference/authentication">
     Authentification et en-têtes

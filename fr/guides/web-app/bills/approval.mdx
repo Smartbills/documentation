@@ -5,10 +5,10 @@ description: "Comprendre le flux d'approbation des factures pour les approbateur
 
 ## Aperçu
 
-Les factures dans Smartbills suivent un flux d'approbation similaire à celui des rapports de dépenses. Avant qu'une facture fournisseur puisse être payee, elle peut devoir être examinee et approuvée par un ou plusieurs utilisateurs autorises. Ce guide explique le flux de travail du point de vue de l'approbateur et du soumetteur.
+Les factures dans Smartbills suivent un flux d'approbation similaire à celui des rapports de dépenses. Avant qu'une facture fournisseur puisse être payée, elle peut devoir être examinée et approuvée par un ou plusieurs utilisateurs autorisés. Ce guide explique le flux de travail du point de vue de l'approbateur et du soumetteur.
 
 <Note>
-  **Configuration des approbations** : Les flux d'approbation des factures sont configures par les administrateurs dans **Paramètres > Flux d'approbation**. Le nombre de niveaux d'approbation, les seuils et les approbateurs designes varient selon l'organisation.
+  **Configuration des approbations** : Les flux d'approbation des factures sont configurés par les administrateurs dans **Paramètres > Flux d'approbation**. Le nombre de niveaux d'approbation, les seuils et les approbateurs designes varient selon l'organisation.
 </Note>
 
 ## Fonctionnement de l'Approbation des Factures
@@ -21,12 +21,12 @@ Télécharger la facture --> En attente de revision --> Approuvee --> Payee
                                 +--> Rejetée (avec raison)
 ```
 
-1. Un utilisateur téléchargé une facture et l'enregistre
+1. Un utilisateur télécharge une facture et l'enregistre
 2. La facture entre dans la file d'approbation avec un statut **En attente**
-3. L'approbateur designe examine la facture
+3. L'approbateur désigné examine la facture
 4. L'approbateur approuvé ou rejette la facture
-5. Si approuvée, la facture passe au statut **Approuvée** et peut être payee
-6. Si rejetée, le soumetteur est notifie avec une raison
+5. Si approuvée, la facture passe au statut **Approuvée** et peut être payée
+6. Si rejetée, le soumetteur est notifié avec une raison
 
 ## Pour les Approbateurs
 
@@ -48,8 +48,8 @@ Télécharger la facture --> En attente de revision --> Approuvee --> Payee
 
     - La facture est lisible et complété
     - Les éléments de ligne correspondent au total indique
-    - Les conditions de paiement et la date d'echeance sont correctes
-    - La facture n'a pas déjà été payee (vérifiéz les doublons)
+    - Les conditions de paiement et la date d'échéance sont correctes
+    - La facture n'a pas déjà été payée (vérifiez les doublons)
 
   </Step>
 
@@ -71,16 +71,16 @@ Télécharger la facture --> En attente de revision --> Approuvee --> Payee
 
 ### Seuils d'Approbation
 
-Votre organisation peut avoir des seuils bases sur les montants qui determinent quelles factures nécessitent une approbation :
+Votre organisation peut avoir des seuils bases sur les montants qui déterminent quelles factures nécessitent une approbation :
 
 | Seuil | Comportement |
 |-------|-------------|
-| En dessous du minimum | La facture est auto-approuvée, aucune revision manuelle nécessaire |
-| Plage standard | Necessite un niveau d'approbation |
-| Au-dessus du maximum | Necessite plusieurs niveaux d'approbation |
+| En dessous du minimum | La facture est auto-approuvée, aucune révision manuelle nécessaire |
+| Plage standard | Nécessite un niveau d'approbation |
+| Au-dessus du maximum | Nécessite plusieurs niveaux d'approbation |
 
 <Tip>
-  **Vérifiez vos seuils.** Demandez à votre administrateur quels seuils d'approbation s'appliquent à votre role afin de savoir quelles factures vous seront acheminees.
+  **Vérifiez vos seuils.** Demandez à votre administrateur quels seuils d'approbation s'appliquent à votre rôle afin de savoir quelles factures vous seront acheminées.
 </Tip>
 
 ## Pour les Soumetteurs
@@ -121,14 +121,14 @@ Si votre facture est rejetée :
 
 Chaque action sur une facture est enregistrée dans la chronologie en bas de la vue détaillée de la facture :
 
-- Qui à téléchargé la facture et quand
+- Qui a téléchargé la facture et quand
 - Qui l'a approuvée ou rejetée, avec les horodatages
-- Les notes ou commentaires ajoutes pendant le processus
+- Les notes ou commentaires ajoutés pendant le processus
 - Les changements de statut et les modifications
 
 Cette piste d'audit fournit un historique complet à des fins de conformité et de comptabilité.
 
-## Prochaînes Étapes
+## Prochaines Étapes
 
 <CardGroup cols={2}>
   <Card title="Télécharger une Facture" icon="cloud-arrow-up" href="/fr/guides/web-app/bills/upload-bill">
@@ -138,9 +138,9 @@ Cette piste d'audit fournit un historique complet à des fins de conformité et 
     Retourner au guide du tableau de bord des factures
   </Card>
   <Card title="Aperçu des Approbations" icon="check-double" href="/fr/guides/web-app/approvals/overview">
-    Decouvrir le système d'approbation global
+    Découvrir le système d'approbation global
   </Card>
   <Card title="Coffre-fort" icon="vault" href="/fr/guides/web-app/vault/overview">
-    Accéder aux factures et documents archives
+    Accéder aux factures et documents archivés
   </Card>
 </CardGroup>

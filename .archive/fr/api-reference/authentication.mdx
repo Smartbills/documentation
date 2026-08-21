@@ -35,7 +35,7 @@ Ou `{jeton}` est soit :
 
 ## En-tête multi-locataire
 
-Smartbills est une plateforme multi-locataire. Vous devez inclure l'en-tête `x-tenant-id` pour spécifiér le contexte d'entreprise :
+Smartbills est une plateforme multi-locataire. Vous devez inclure l'en-tête `x-tenant-id` pour spécifier le contexte d'entreprise :
 
 ```http
 x-tenant-id: 123
@@ -187,13 +187,13 @@ grant_type=authorization_code&code=CODE_AUTORISATION&redirect_uri=VOTRE_URI_REDI
 }
 ```
 
-## Expiration et rafraichissement des jetons
+## Expiration et rafraîchissement des jetons
 
 Les jetons d'accès expirent après une période definie (généralement 3600 secondes / 1 heure). Utilisez le champ `expires_in` pour savoir quand un jeton expirera.
 
-### Rafraichir les jetons
+### Rafraîchir les jetons
 
-Lorsque votre jeton d'accès expiré, utilisez le jeton de rafraichissement pour en obtenir un nouveau :
+Lorsque votre jeton d'accès expiré, utilisez le jeton de rafraîchissement pour en obtenir un nouveau :
 
 <CodeGroup>
 
@@ -242,12 +242,12 @@ def refresh_access_token(refresh_token):
 </CodeGroup>
 
 <Warning>
-  **Rotation des jetons de rafraichissement** : Chaque fois que vous utilisez un jeton de rafraichissement, un nouveau jeton de rafraichissement est retourne. L'ancien jeton est invalide. Stockez toujours le dernier jeton de rafraichissement.
+  **Rotation des jetons de rafraîchissement** : Chaque fois que vous utilisez un jeton de rafraîchissement, un nouveau jeton de rafraîchissement est retourné. L'ancien jeton est invalide. Stockez toujours le dernier jeton de rafraîchissement.
 </Warning>
 
 ## Utilisation des SDK
 
-Les SDK officiels gerent automatiquement l'authentification, le rafraichissement des jetons et la gestion des en-têtes :
+Les SDK officiels gerent automatiquement l'authentification, le rafraîchissement des jetons et la gestion des en-têtes :
 
 <CodeGroup>
 
@@ -280,7 +280,7 @@ expenses = client.expenses.list()
 |-------------|---------------|-------------|
 | 401 | `UNAUTHORIZED` | Clé API manquante ou invalide |
 | 401 | `API_KEY_EXPIRED` | La clé API à expiré |
-| 401 | `API_KEY_REVOKED` | La clé API à été révoquée |
+| 401 | `API_KEY_REVOKED` | La clé API a été révoquée |
 | 401 | `INVALID_TOKEN` | Jeton JWT invalide ou mal forme |
 | 403 | `FORBIDDEN` | Le jeton n'a pas les permissions requises |
 | 403 | `BUSINESS_ACCESS_DENIED` | Aucun accès à l'entreprise spécifiée |
@@ -288,7 +288,7 @@ expenses = client.expenses.list()
 ## Bonnes pratiques de sécurité
 
 <AccordionGroup>
-  <Accordion title="Proteger vos identifiants" icon="shield">
+  <Accordion title="Protéger vos identifiants" icon="shield">
     - Stockez les clés API et les secrets dans des variables d'environnement
     - Ne commitez jamais les identifiants dans le contrôle de version
     - N'exposez jamais les jetons dans le code côté client
@@ -296,20 +296,20 @@ expenses = client.expenses.list()
   </Accordion>
 
   <Accordion title="Utiliser les portées appropriees" icon="lock">
-    - Demandez uniquement les portées dont votre application à besoin
-    - Utilisez des portées en lecture seule quand l'accès en ecriture n'est pas nécessaire
-    - Revisez et auditez les portées regulierement
+    - Demandez uniquement les portées dont votre application a besoin
+    - Utilisez des portées en lecture seule quand l'accès en écriture n'est pas nécessaire
+    - Révisez et auditez les portées régulièrement
   </Accordion>
 
   <Accordion title="Gérer l'expiration des jetons" icon="clock">
     - Vérifiez la valeur `expires_in` après avoir obtenu les jetons
-    - Implementez le rafraichissement automatique des jetons avant l'expiration
+    - Implémentez le rafraîchissement automatique des jetons avant l'expiration
     - Gérez les erreurs 401 en rafraichissant et en retentant
   </Accordion>
 
-  <Accordion title="Rotation reguliere des clés" icon="rotate">
+  <Accordion title="Rotation régulière des clés" icon="rotate">
     - Effectuez la rotation des clés API tous les 90 jours
-    - Revoquez immédiatement les clés compromises
+    - Révoquez immédiatement les clés compromises
     - Utilisez des clés séparées pour chaque environnement
   </Accordion>
 </AccordionGroup>

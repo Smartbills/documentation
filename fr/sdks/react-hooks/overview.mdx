@@ -50,9 +50,9 @@ Le `SmartbillsProvider` rend le client Smartbills disponible à tous les hooks v
 En interne, chaque hook correspond à une primitive React Query :
 
 - **Les hooks de requête** utilisent `useQuery` ou `useInfiniteQuery` pour les opérations de lecture. Ils retournent l'objet résultat standard de React Query avec `data`, `isLoading`, `error`, `refetch`, et des helpers de pagination.
-- **Les hooks de mutation** utilisent `useMutation` pour les opérations d'ecriture. Ils retournent des fonctions `mutate` / `mutateAsync` et invalident automatiquement les entrées de cache associées en cas de succès.
+- **Les hooks de mutation** utilisent `useMutation` pour les opérations d'écriture. Ils retournent des fonctions `mutate` / `mutateAsync` et invalident automatiquement les entrées de cache associées en cas de succès.
 
-Cela signifie que vous bénéficiez de toutes les fonctionnalités intégrées de React Query : refetch en arriere-plan, stale-while-revalidate, mises à jour optimistes, défilement infini et support des devtools.
+Cela signifie que vous bénéficiez de toutes les fonctionnalités intégrées de React Query : refetch en arrière-plan, stale-while-revalidate, mises à jour optimistes, défilement infini et support des devtools.
 
 ## Patrons de Hooks
 
@@ -93,7 +93,7 @@ function ListeDépenses() {
 }
 ```
 
-### Hooks de Mutation (ecriture de données)
+### Hooks de Mutation (écriture de données)
 
 Les hooks de mutation utilisent `useMutation` et invalident automatiquement les requêtes associées en cas de succès :
 
@@ -147,16 +147,16 @@ Le SDK fournit des hooks pour 37 domaines couvrant l'ensemble de la plateforme S
     Lister, télécharger, mettre à jour, supprimer, diviser, opérations en lot, exporter
   </Card>
   <Card title="Rapports de Dépenses" icon="file-lines">
-    CRUD, soumettre, approuver, rejeter, rappelér, rembourser, commenter
+    CRUD, soumettre, approuver, rejeter, rappeler, rembourser, commenter
   </Card>
   <Card title="Approbations" icon="check-double">
     En attente, approuvées, rejetées, rembourser, demander des changements
   </Card>
   <Card title="Factures Fournisseurs" icon="file-invoice-dollar">
-    CRUD, approuver, planifier le paiement, marquer comme payee, annuler
+    CRUD, approuver, planifier le paiement, marquer comme payée, annuler
   </Card>
   <Card title="Factures" icon="file-invoice">
-    CRUD, envoyer, annuler, marquer comme payee, dupliquer, résumé
+    CRUD, envoyer, annuler, marquer comme payée, dupliquer, résumé
   </Card>
   <Card title="Fournisseurs" icon="store">
     CRUD, fusionner, suppression en lot, télécharger le logo
@@ -220,7 +220,7 @@ const { data } = useExpenses(
 
 ## Flux d'Authentification
 
-Le `SmartbillsProvider` accepte une instance `SmartbillsClient` pre-configurée. Pour les applications ou le jeton d'accès changé (par exemple, après la connexion de l'utilisateur), mettez à jour l'instance du client et React Query refetchera automatiquement :
+Le `SmartbillsProvider` accepte une instance `SmartbillsClient` préconfigurée. Pour les applications ou le jeton d'accès changé (par exemple, après la connexion de l'utilisateur), mettez à jour l'instance du client et React Query refetchera automatiquement :
 
 ```tsx
 function AppAuthentifiee() {
@@ -241,7 +241,7 @@ function AppAuthentifiee() {
 }
 ```
 
-## Prochaînes Étapes
+## Prochaines Étapes
 
 <Card title="Référence des Hooks" icon="book" href="/fr/sdks/react-hooks/reference">
   Référence complète de plus de 100 hooks organisés par domaine

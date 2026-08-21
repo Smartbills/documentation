@@ -7,7 +7,7 @@
     "light": "/logo/light.svg",
     "href": "https://smartbills.io"
   },
-  "favicon": "/favicon.png",
+  "favicon": "/favicon.ico",
   "colors": {
     "primary": "#171717",
     "light": "#FAFAFA",

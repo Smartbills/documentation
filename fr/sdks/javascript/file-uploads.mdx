@@ -147,7 +147,7 @@ const updated = await client.vendors.uploadBusinessLogo(vendorId, fichierLogo);
 
 ## Téléchargement de fichiers
 
-### Pieces jointes de dépenses
+### Pièces jointes de dépenses
 
 ```typescript
 // Piece jointe unique
@@ -162,7 +162,7 @@ const zipBlob = await client.expenses.downloadAttachments({
 const { blob: file, filename } = await client.expenses.downloadSingleAttachmentWithFilename(expenseId);
 ```
 
-### Pieces jointes de factures
+### Pièces jointes de factures
 
 ```typescript
 const zipBlob = await client.bills.downloadAttachments({ billIds: [1, 2, 3] });
@@ -209,7 +209,7 @@ URL.revokeObjectURL(url);
 
 ## Types de fichiers supportés
 
-| Contexte | Formats acceptes |
+| Contexte | Formats acceptés |
 |----------|-----------------|
 | Reçus de dépenses | JPEG, PNG, PDF, HEIC |
 | Documents de facture | PDF, JPEG, PNG |

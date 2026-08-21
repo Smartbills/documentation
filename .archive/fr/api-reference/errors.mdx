@@ -5,14 +5,14 @@ description: "Apprenez à gérer les erreurs de l'API Smartbills, y compris les 
 
 ## Aperçu
 
-L'API Smartbills utilisé les codes de réponse HTTP conventionnels pour indiquer le succès ou l'échec d'une requête API. Les codes dans la plage `2xx` indiquent le succès, `4xx` indiquent les erreurs du client, et `5xx` indiquent les erreurs du serveur.
+L'API Smartbills utilise les codes de réponse HTTP conventionnels pour indiquer le succès ou l'échec d'une requête API. Les codes dans la plage `2xx` indiquent le succès, `4xx` indiquent les erreurs du client, et `5xx` indiquent les erreurs du serveur.
 
 ## Codes de statut HTTP
 
 | Code | Statut | Description |
 |------|--------|-------------|
 | 200 | OK | La requête à réussi |
-| 201 | Created | La ressource à été créée avec succès |
+| 201 | Created | La ressource a été créée avec succès |
 | 204 | No Content | La requête à réussi sans corps de réponse (ex. : suppression réussie) |
 | 400 | Bad Request | Paramètres de requête invalides ou erreur de validation |
 | 401 | Unauthorized | Clé API / jeton invalide ou manquant |
@@ -63,7 +63,7 @@ Toutes les erreurs suivent une structure JSON cohérente :
 |------|-------------|-------------|
 | `UNAUTHORIZED` | 401 | Clé API invalide ou manquante |
 | `API_KEY_EXPIRED` | 401 | La clé API à expiré |
-| `API_KEY_REVOKED` | 401 | La clé API à été révoquée |
+| `API_KEY_REVOKED` | 401 | La clé API a été révoquée |
 | `INVALID_TOKEN` | 401 | Jeton JWT invalide ou mal forme |
 
 ### Erreurs de permission
@@ -71,7 +71,7 @@ Toutes les erreurs suivent une structure JSON cohérente :
 | Code | Statut HTTP | Description |
 |------|-------------|-------------|
 | `FORBIDDEN` | 403 | Permissions insuffisantes |
-| `INSUFFICIENT_PERMISSIONS` | 403 | Portees requises manquantes |
+| `INSUFFICIENT_PERMISSIONS` | 403 | Portées requises manquantes |
 | `BUSINESS_ACCESS_DENIED` | 403 | Aucun accès à l'entreprise spécifiée |
 
 ### Erreurs de validation
@@ -129,7 +129,7 @@ try {
       console.error(`  Champ "${detail.field}" : ${detail.message}`);
     });
   } else if (error instanceof SmartbillsAuthenticationError) {
-    // Gérer les erreurs d'authentification - rafraichir le jeton ou d.mander la connexion
+    // Gérer les erreurs d'authentification - rafraichir le jeton ou demander la connexion
     console.error('Echec d\'authentification :', error.message);
   } else if (error instanceof SmartbillsPermissionError) {
     // Gérer les erreurs de permission - l'utilisateur n'a pas l'acces
@@ -210,7 +210,7 @@ Les erreurs de validation incluent des informations détaillées sur les champs 
 
 ## Logique de réessai
 
-Implementez une logique de réessai avec un backoff exponentiel pour les erreurs transitoires :
+Implémentez une logique de réessai avec un backoff exponentiel pour les erreurs transitoires :
 
 <CodeGroup>
 
@@ -295,7 +295,7 @@ Chaque réponse d'erreur inclut un `requestId`. Incluez-le lorsque vous contacte
 
 Lorsque vous contactez le support, incluez :
 - Le `requestId` de la réponse d'erreur
-- Le point d'accès et la méthode HTTP que vous avez appeles
+- Le point d'accès et la méthode HTTP que vous avez appelés
 - L'horodatage de l'erreur
 - Une description de ce que vous attendiez
 
@@ -307,7 +307,7 @@ Lorsque vous contactez le support, incluez :
   </Accordion>
 
   <Accordion title="Utiliser des gestionnaires d'erreurs par type" icon="code">
-    Gérez les differents types d'erreurs avec les actions appropriees : rediriger vers la connexion pour 401, afficher les erreurs de champ pour les échecs de validation, réessayer pour 429/5xx.
+    Gérez les différents types d'erreurs avec les actions appropriees : rediriger vers la connexion pour 401, afficher les erreurs de champ pour les échecs de validation, réessayer pour 429/5xx.
   </Accordion>
 
   <Accordion title="Journaliser les erreurs avec contexte" icon="file-lines">
@@ -318,8 +318,8 @@ Lorsque vous contactez le support, incluez :
     N'affichez pas les messages d'erreur bruts de l'API aux utilisateurs finaux. Mappez les codes d'erreur à des messages conviviaux dans votre application.
   </Accordion>
 
-  <Accordion title="Implementer une logique de réessai" icon="rotate">
-    Implementez un backoff exponentiel pour les erreurs transitoires (429, 5xx). Ne retentez pas les erreurs du client (4xx autre que 429).
+  <Accordion title="Implémenter une logique de réessai" icon="rotate">
+    Implémentez un backoff exponentiel pour les erreurs transitoires (429, 5xx). Ne retentez pas les erreurs du client (4xx autre que 429).
   </Accordion>
 </AccordionGroup>
 

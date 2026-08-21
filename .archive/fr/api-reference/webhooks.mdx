@@ -111,36 +111,36 @@ print(f"Secret du webhook : {webhook.secret}")
 
 | Événement | Description |
 |-----------|-------------|
-| `expense.created` | Une nouvelle dépense à été téléchargée ou créée |
-| `expense.updated` | Une dépense existante à été modifiée |
-| `expense.deleted` | Une dépense à été supprimee |
-| `expense.categorized` | La catégorie d'une dépense à été changee |
+| `expense.created` | Une nouvelle dépense a été téléchargée ou créée |
+| `expense.updated` | Une dépense existante a été modifiée |
+| `expense.deleted` | Une dépense a été supprimée |
+| `expense.categorized` | La catégorie d'une dépense a été changée |
 
 ### Événements de rapports de dépenses
 
 | Événement | Description |
 |-----------|-------------|
-| `expense_report.submitted` | Un rapport à été soumis pour approbation |
-| `expense_report.approved` | Un rapport à été approuvé par un gestionnaire |
-| `expense_report.rejected` | Un rapport à été rejeté par un approbateur |
-| `expense_report.recalled` | Un rapport à été rappelé par le soumetteur |
-| `expense_report.comment_added` | Un commentaire à été ajoute à un rapport |
+| `expense_report.submitted` | Un rapport a été soumis pour approbation |
+| `expense_report.approved` | Un rapport a été approuvé par un gestionnaire |
+| `expense_report.rejected` | Un rapport a été rejeté par un approbateur |
+| `expense_report.recalled` | Un rapport a été rappelé par le soumetteur |
+| `expense_report.comment_added` | Un commentaire a été ajouté à un rapport |
 
 ### Événements de factures
 
 | Événement | Description |
 |-----------|-------------|
-| `bill.created` | Une nouvelle facture à été créée |
-| `bill.updated` | Une facture existante à été modifiée |
-| `bill.paid` | Une facture à été marquee comme payee |
+| `bill.created` | Une nouvelle facture a été créée |
+| `bill.updated` | Une facture existante a été modifiée |
+| `bill.paid` | Une facture a été marquée comme payée |
 
 ### Événements d'entreprise
 
 | Événement | Description |
 |-----------|-------------|
-| `business.updated` | Les paramètres de l'entreprise ont été modifies |
-| `business.user_added` | Un utilisateur à été invite à une entreprise |
-| `business.user_removed` | Un utilisateur à été retire d'une entreprise |
+| `business.updated` | Les paramètres de l'entreprise ont été modifiés |
+| `business.user_added` | Un utilisateur a été invité à une entreprise |
+| `business.user_removed` | Un utilisateur a été retiré d'une entreprise |
 
 ## Structure de la charge utile
 
@@ -264,8 +264,8 @@ Smartbills retente automatiquement les livraisons de webhooks échouées :
 **Conditions de réessai :**
 - Code de statut HTTP >= 500
 - Délai d'expiration de connexion
-- Connexion refusee
-- Échec de resolution DNS
+- Connexion refusée
+- Échec de résolution DNS
 
 **Pas de réessai pour :**
 - Code de statut HTTP < 500 (y compris les erreurs 4xx)
@@ -374,7 +374,7 @@ client.webhooks.test("wh_1234567890")
 ## Bonnes pratiques
 
 <AccordionGroup>
-  <Accordion title="Repondre rapidement" icon="bolt">
+  <Accordion title="Répondre rapidement" icon="bolt">
     Retournez une réponse 200 OK dans les 5 secondes. Accusez réception immédiatement et traitez l'événement de manière asynchrone avec une file d'attente de travaux.
   </Accordion>
 

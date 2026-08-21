@@ -1,11 +1,11 @@
 ---
 title: "Versionnage de l'API"
-description: "Découvrez le versionnage de l'API Smartbills, la compatibilite ascendante et la gestion des changements de version"
+description: "Découvrez le versionnage de l'API Smartbills, la compatibilité ascendante et la gestion des changements de version"
 ---
 
 ## Aperçu
 
-L'API Smartbills utilisé le versionnage pour assurer la compatibilite ascendante et permettre des améliorations sans casser les intégrations existantes. La version est spécifiée dans le chemin de l'URL.
+L'API Smartbills utilise le versionnage pour assurer la compatibilité ascendante et permettre des améliorations sans casser les intégrations existantes. La version est spécifiée dans le chemin de l'URL.
 
 ## Version actuelle
 
@@ -35,7 +35,7 @@ https://api.smartbills.io/v1/vendors
 ```
 
 <Warning>
-  **Toujours spécifiér la version** : N'omettez pas la version du chemin de l'URL. Les requêtes sans version peuvent retourner des résultats inattendus.
+  **Toujours spécifier la version** : N'omettez pas la version du chemin de l'URL. Les requêtes sans version peuvent retourner des résultats inattendus.
 </Warning>
 
 ## Vérifier votre version de l'API
@@ -87,13 +87,13 @@ print('Version de l\'API :', response.headers.get('X-API-Version'))  # "v1"
 
 </CodeGroup>
 
-## Politique de compatibilite ascendante
+## Politique de compatibilité ascendante
 
-Nous maintenons la compatibilite ascendante au sein d'une version majeure. Cela signifie que votre intégration ne sera pas cassee tant que vous restez sur la même version majeure.
+Nous maintenons la compatibilité ascendante au sein d'une version majeure. Cela signifie que votre intégration ne sera pas cassée tant que vous restez sur la même version majeure.
 
 ### Changements non cassants (securitaires)
 
-Les changements suivants sont consideres comme non cassants et peuvent être effectues au sein d'une version majeure sans preavis :
+Les changements suivants sont considérés comme non cassants et peuvent être effectués au sein d'une version majeure sans préavis :
 
 - Ajout de nouveaux points d'accès API
 - Ajout de nouveaux paramètres de requête optionnels
@@ -104,12 +104,12 @@ Les changements suivants sont consideres comme non cassants et peuvent être eff
 - Changement de l'ordre des propriétés dans les réponses
 
 <Tip>
-  **Bonne pratique** : Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutees à l'avenir.
+  **Bonne pratique** : Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutées à l'avenir.
 </Tip>
 
 ### Changements cassants (nécessitent une nouvelle version)
 
-Les changements suivants sont consideres comme cassants et ne seront introduits que dans une nouvelle version majeure :
+Les changements suivants sont considérés comme cassants et ne seront introduits que dans une nouvelle version majeure :
 
 - Suppression ou renommage de points d'accès API
 - Suppression ou renommage de paramètres de requête requis
@@ -119,17 +119,17 @@ Les changements suivants sont consideres comme cassants et ne seront introduits 
 - Changement des formats de réponse d'erreur
 - Suppression de valeurs d'enum des champs existants
 
-## Politique de depreciation
+## Politique de dépréciation
 
-Lorsqu'une nouvelle version majeure est publiee :
+Lorsqu'une nouvelle version majeure est publiée :
 
 <Steps>
-  <Step title="Avis de depreciation">
-    Nous fournissons un preavis d'au moins **12 mois** avant de deprecier une ancienne version. Vous recevrez des notifications par courriel et via le portail développeur.
+  <Step title="Avis de dépréciation">
+    Nous fournissons un préavis d'au moins **12 mois** avant de deprecier une ancienne version. Vous recevrez des notifications par courriel et via le portail développeur.
   </Step>
   
-  <Step title="Période de depreciation">
-    L'ancienne version continue de fonctionner pendant la période de depreciation. Vous verrez des avertissements de depreciation dans les en-têtes de réponse.
+  <Step title="Période de dépréciation">
+    L'ancienne version continue de fonctionner pendant la période de dépréciation. Vous verrez des avertissements de dépréciation dans les en-têtes de réponse.
   </Step>
   
   <Step title="Guides de migration">
@@ -137,13 +137,13 @@ Lorsqu'une nouvelle version majeure est publiee :
   </Step>
   
   <Step title="Fin de vie">
-    Après la période de depreciation, l'ancienne version cesse de recevoir des mises à jour. Les requêtes API vers la version depreciee peuvent éventuellement retourner des erreurs.
+    Après la période de dépréciation, l'ancienne version cesse de recevoir des mises à jour. Les requêtes API vers la version dépréciée peuvent éventuellement retourner des erreurs.
   </Step>
 </Steps>
 
-### En-têtes de depreciation
+### En-têtes de dépréciation
 
-Lorsqu'une version est depreciee, les réponses incluent un en-tête d'avertissement :
+Lorsqu'une version est dépréciée, les réponses incluent un en-tête d'avertissement :
 
 ```http
 X-API-Deprecated: true
@@ -153,7 +153,7 @@ X-API-Sunset-Date: 2027-01-01
 ## Bonnes pratiques
 
 <AccordionGroup>
-  <Accordion title="Toujours spécifiér la version" icon="hashtag">
+  <Accordion title="Toujours spécifier la version" icon="hashtag">
     Incluez toujours le numéro de version dans vos requêtes API. Ne vous fiez pas aux versions par défaut.
     
     ```
@@ -166,11 +166,11 @@ X-API-Sunset-Date: 2027-01-01
   </Accordion>
 
   <Accordion title="Gérer les champs inconnus gracieusement" icon="question">
-    Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutees à l'avenir sans casser.
+    Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutées à l'avenir sans casser.
   </Accordion>
 
   <Accordion title="S'abonner aux mises à jour de l'API" icon="bell">
-    Abonnez-vous à notre infolettre pour développeurs et surveillez le journal des changements pour recevoir des notifications sur les nouvelles versions, les avis de depreciation et les nouvelles fonctionnalités.
+    Abonnez-vous à notre infolettre pour développeurs et surveillez le journal des changements pour recevoir des notifications sur les nouvelles versions, les avis de dépréciation et les nouvelles fonctionnalités.
   </Accordion>
 
   <Accordion title="Tester d'abord dans le bac à sable" icon="flask">
@@ -182,7 +182,7 @@ X-API-Sunset-Date: 2027-01-01
 
 ### v1 (Actuelle)
 
-**Publiee :** Janvier 2024
+**Publiée :** Janvier 2024
 
 **Statut :** Activé
 

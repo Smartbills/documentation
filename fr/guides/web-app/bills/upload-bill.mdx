@@ -5,7 +5,7 @@ description: "Téléchargez les factures fournisseurs pour traitement avec extra
 
 ## Aperçu
 
-Smartbills facilite le téléchargement des factures fournisseurs et l'extraction automatique des informations clés grace à l'OCR. Ce guide vous accompagne dans le téléchargement d'une facture, la vérification des données extraites et l'enregistrement pour approbation.
+Smartbills facilite le téléchargement des factures fournisseurs et l'extraction automatique des informations clés grâce à l'OCR. Ce guide vous accompagne dans le téléchargement d'une facture, la vérification des données extraites et l'enregistrement pour approbation.
 
 <Note>
   **Formats pris en charge** : Vous pouvez télécharger des fichiers PDF et des images (JPEG, PNG). Pour de meilleurs résultats OCR, assurez-vous que le document est clair et lisible.
@@ -37,10 +37,10 @@ Smartbills facilite le téléchargement des factures fournisseurs et l'extractio
   <Step title="L'OCR Extrait les Données">
     Une fois le fichier téléchargé, Smartbills traite le document par OCR pour extraire automatiquement :
 
-    - **Nom du fournisseur**: L'entreprise ou le prestataire qui à emis la facture
+    - **Nom du fournisseur**: L'entreprise ou le prestataire qui à émis la facture
     - **Numéro de facture**: Le numéro de référence du fournisseur
     - **Montant total**: Le montant du, taxes comprises
-    - **Date d'echeance**: La date limite de paiement
+    - **Date d'échéance**: La date limite de paiement
     - **Éléments de ligne**: Les produits ou services individuels listes sur la facture
     - **Montants de taxes**: Les taxes ventilees par type
 
@@ -51,7 +51,7 @@ Smartbills facilite le téléchargement des factures fournisseurs et l'extractio
   <Step title="Vérifier et Corriger les Données Extraites">
     Les données extraites apparaissent dans un formulaire à côté de l'aperçu de la facture. Vérifiez chaque champ et corrigez les valeurs que l'OCR à mal lues.
 
-    - Les champs avec une confiance elevee sont pre-remplis et surlignés en vert
+    - Les champs avec une confiance élevée sont pre-remplis et surlignés en vert
     - Les champs avec une confiance faible sont surlignés en jaune pour votre vérification
     - Les champs vides indiquent des données qui n'ont pas pu être détectées et doivent être saisies manuellement
 
@@ -60,17 +60,17 @@ Smartbills facilite le téléchargement des factures fournisseurs et l'extractio
   <Step title="Assigner le Fournisseur">
     Smartbills tente de faire correspondre le nom du fournisseur extrait à un fournisseur existant dans votre répertoire.
 
-    - **Correspondance automatique** : Si une correspondance est trouvee, le fournisseur est pre-sélectionne. Vérifiez qu'il est correct.
-    - **Sélection manuelle** : Si aucune correspondance n'est trouvee ou si la correspondance est incorrecte, cliquez sur le champ fournisseur et recherchez le bon fournisseur.
+    - **Correspondance automatique** : Si une correspondance est trouvée, le fournisseur est présélectionne. Vérifiez qu'il est correct.
+    - **Sélection manuelle** : Si aucune correspondance n'est trouvée ou si la correspondance est incorrecte, cliquez sur le champ fournisseur et recherchez le bon fournisseur.
     - **Nouveau fournisseur** : Si le fournisseur n'existe pas dans votre répertoire, vous pouvez créer un nouveau profil de fournisseur directement depuis cet écran.
 
   </Step>
 
-  <Step title="Définir les Conditions de Paiement et la Date d'Echeance">
+  <Step title="Définir les Conditions de Paiement et la Date d'Échéance">
     Configurez le calendrier de paiement :
 
     - **Conditions de paiement**: Sélectionnez parmi les options standard (Net 15, Net 30, Net 60, Payable à réception) ou saisissez des conditions personnalisées
-    - **Date d'echeance**: La date d'echeance peut être calculee automatiquement à partir de la date de facture et des conditions de paiement, ou vous pouvez la définir manuellement
+    - **Date d'échéance**: La date d'échéance peut être calculée automatiquement à partir de la date de facture et des conditions de paiement, ou vous pouvez la définir manuellement
     - **Devise**: Vérifiez que la devise correspond à la facture
 
   </Step>
@@ -79,13 +79,13 @@ Smartbills facilite le téléchargement des factures fournisseurs et l'extractio
     Classifiez la facture pour la comptabilité et les rapports :
 
     - **Catégorie**: Sélectionnez la catégorie de dépense (p. ex., Fournitures de bureau, Logiciels, Services professionnels)
-    - **Département**: Assignez la facture au département ou centre de couts responsable
-    - **Etiquettes** (facultatif), Ajoutez des etiquettes pour une organisation supplémentaire
+    - **Département**: Assignez la facture au département ou centre de coûts responsable
+    - **Étiquettes** (facultatif), Ajoutez des étiquettes pour une organisation supplémentaire
 
   </Step>
 
   <Step title="Enregistrer la Facture">
-    Cliquez sur **Enregistrer** pour créer la facture. Elle apparaîtra dans votre liste de factures avec un statut **En attente** et, si les flux d'approbation sont actives, entrera dans la file d'approbation.
+    Cliquez sur **Enregistrer** pour créer la facture. Elle apparaîtra dans votre liste de factures avec un statut **En attente** et, si les flux d'approbation sont activés, entrera dans la file d'approbation.
 
   </Step>
 </Steps>
@@ -94,22 +94,22 @@ Smartbills facilite le téléchargement des factures fournisseurs et l'extractio
 
 Une fois enregistrée, la facture entre dans le flux de travail de votre organisation :
 
-- Si les **approbations de factures** sont activées, la facture est acheminee vers l'approbateur designe. Voir [Approbation de Facture](/fr/guides/web-app/bills/approval) pour les détails.
+- Si les **approbations de factures** sont activées, la facture est acheminée vers l'approbateur désigné. Voir [Approbation de Facture](/fr/guides/web-app/bills/approval) pour les détails.
 - Si les approbations ne sont pas requises, la facture passe directement au statut **Approuvée** et attend le paiement.
-- Le document original de la facture est stocke dans le [Coffre-fort](/fr/guides/web-app/vault/overview) pour archivage.
+- Le document original de la facture est stocké dans le [Coffre-fort](/fr/guides/web-app/vault/overview) pour archivage.
 
 ## Conseils pour de Meilleurs Résultats OCR
 
 <Tip>
-  **Téléchargez des documents clairs.** La précision de l'OCR depend de la qualite du document. Numerisez les factures à 300 DPI ou plus et evitez les photos prises en angle.
+  **Téléchargez des documents clairs.** La précision de l'OCR dépend de la qualité du document. Numérisez les factures à 300 DPI ou plus et évitez les photos prises en angle.
 </Tip>
 
 - **Utilisez le PDF lorsque possible**: Les PDF avec du texte sélectionnable produisent les extractions les plus précises
-- **Evitez les factures manuscrites**: L'OCR fonctionne mieux avec du texte imprime ou tape
-- **Vérifiez les éléments de ligne**: L'extraction des éléments de ligne est la partie la plus complexe ; vérifiéz toujours les quantites et les prix unitaires
+- **Évitez les factures manuscrites**: L'OCR fonctionne mieux avec du texte imprime ou tape
+- **Vérifiez les éléments de ligne**: L'extraction des éléments de ligne est la partie la plus complexe ; vérifiez toujours les quantites et les prix unitaires
 - **Recadrez le document**: Supprimez les marges inutiles ou l'espace vide avant le téléchargement
 
-## Prochaînes Étapes
+## Prochaines Étapes
 
 <CardGroup cols={2}>
   <Card title="Approbation de Facture" icon="check-double" href="/fr/guides/web-app/bills/approval">

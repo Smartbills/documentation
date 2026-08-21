@@ -3,7 +3,7 @@ title: "Référence des Hooks"
 description: "Référence complète de tous les hooks React Smartbills, organisés par domaine"
 ---
 
-Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requête retournent les objets résultat standard de React Query. Les hooks de mutation retournent des résultats `useMutation` avec une fonction `mutate` / `mutateAsync`.
+Tous les hooks sont importés depuis `@smartbills/react-hooks`. Les hooks de requête retournent les objets résultat standard de React Query. Les hooks de mutation retournent des résultats `useMutation` avec une fonction `mutate` / `mutateAsync`.
 
 ## Dépenses
 
@@ -20,14 +20,14 @@ Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requ
 | `usePresignedEmployéeUpload(employéeId)` | Mutation | Upload présigné pour un employé spécifique |
 | `useUpdateExpenseCategory()` | Mutation | Mettre à jour la catégorie : `{ expenseId, categoryId }` |
 | `useUpdateExpenseNote()` | Mutation | Mettre à jour la note : `{ expenseId, note }` |
-| `useUpdateExpenseReview()` | Mutation | Marquer comme revise : `{ expenseId, isReviewed }` |
+| `useUpdateExpenseReview()` | Mutation | Marquer comme révisé : `{ expenseId, isReviewed }` |
 | `useAssignExpenseToReport()` | Mutation | Assigner à un rapport : `{ expenseId, expenseReportId }` |
 | `useSplitExpense()` | Mutation | Diviser une dépense : `{ expenseId, request }` |
 | `useExportExpenses()` | Mutation | Exporter les dépenses en fichier (Blob) |
 | `useExportExpensesWithFilename()` | Mutation | Exporter avec métadonnées du nom de fichier |
-| `useDownloadExpenseAttachments()` | Mutation | Télécharger les pieces jointes en archive |
-| `useDownloadExpenseAttachmentsWithFilename()` | Mutation | Télécharger les pieces jointes avec nom de fichier |
-| `useDownloadSingleExpenseAttachment()` | Mutation | Télécharger une seule piece jointe |
+| `useDownloadExpenseAttachments()` | Mutation | Télécharger les pièces jointes en archive |
+| `useDownloadExpenseAttachmentsWithFilename()` | Mutation | Télécharger les pièces jointes avec nom de fichier |
+| `useDownloadSingleExpenseAttachment()` | Mutation | Télécharger une seule pièce jointe |
 
 ### Opérations en Lot sur les Dépenses
 
@@ -85,8 +85,8 @@ Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requ
 | `useMarkApprobationReimbursed()` | Mutation | Marquer comme remboursé |
 | `usePlanApprobationReimbursement()` | Mutation | Planifier le remboursement : `{ reportId, data }` |
 | `useExportApprobationCsv()` | Mutation | Exporter en CSV : `{ reportId, locale? }` |
-| `useDownloadApprobationAttachmentsPdf()` | Mutation | Télécharger les pieces jointes en PDF |
-| `useDownloadApprobationAttachmentsZip()` | Mutation | Télécharger les pieces jointes en ZIP |
+| `useDownloadApprobationAttachmentsPdf()` | Mutation | Télécharger les pièces jointes en PDF |
+| `useDownloadApprobationAttachmentsZip()` | Mutation | Télécharger les pièces jointes en ZIP |
 
 ---
 
@@ -104,11 +104,11 @@ Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requ
 | `useSubmitBillForApproval()` | Mutation | Soumettre pour approbation |
 | `useApproveBill()` | Mutation | Approuver : `{ billId, data? }` |
 | `useScheduleBillPayment()` | Mutation | Planifier le paiement : `{ billId, data }` |
-| `useMarkBillPaid()` | Mutation | Marquer comme payee |
+| `useMarkBillPaid()` | Mutation | Marquer comme payée |
 | `useCancelBill()` | Mutation | Annuler une facture |
 | `useRescheduleBillPayment()` | Mutation | Replanifier le paiement |
 | `useBulkApproveBills()` | Mutation | Approuver plusieurs factures |
-| `useBulkMarkBillsPaid()` | Mutation | Marquer plusieurs factures comme payees |
+| `useBulkMarkBillsPaid()` | Mutation | Marquer plusieurs factures comme payées |
 | `useBulkScheduleBillsPayment()` | Mutation | Planifier le paiement pour plusieurs factures |
 | `useBulkDeleteBills()` | Mutation | Supprimer plusieurs factures |
 
@@ -126,7 +126,7 @@ Tous les hooks sont importes depuis `@smartbills/react-hooks`. Les hooks de requ
 | `useDeleteInvoice()` | Mutation | Supprimer une facture |
 | `useSendInvoice()` | Mutation | Envoyer (avec mise à jour optimiste) |
 | `useVoidInvoice()` | Mutation | Annuler (avec mise à jour optimiste) |
-| `useMarkInvoicePaid()` | Mutation | Marquer comme payee (avec mise à jour optimiste) |
+| `useMarkInvoicePaid()` | Mutation | Marquer comme payée (avec mise à jour optimiste) |
 | `useDuplicateInvoice()` | Mutation | Dupliquer une facture |
 
 ---
@@ -196,8 +196,8 @@ Le SDK inclut également des hooks pour les domaines suivants. Chacun suit le m�
 
 | Domaine | Fichier de Hook | Hooks Principaux |
 |---------|----------------|------------------|
-| **Pieces jointes** | `useAttachments` | Gérer les pieces jointes |
-| **Expéditeurs autorises** | `useAuthorizedSenders` | Gérer les expéditeurs de transfert d'email |
+| **Pièces jointes** | `useAttachments` | Gérer les pièces jointes |
+| **Expéditeurs autorisés** | `useAuthorizedSenders` | Gérer les expéditeurs de transfert d'email |
 | **Facturation** | `useBilling` | Gestion des abonnements et de la facturation |
 | **Paiement** | `useCheckout` | Gestion des sessions de paiement |
 | **Connexion** | `useConnect` | Flux de connexion OAuth |
@@ -205,7 +205,7 @@ Le SDK inclut également des hooks pour les domaines suivants. Chacun suit le m�
 | **Clients** | `useCustomers` | Gestion des clients |
 | **Comptes email** | `useEmailAccounts` | Configuration des comptes email |
 | **Transfert d'email** | `useEmailForwarding` | Règles de transfert d'email |
-| **Tâches de dépenses** | `useExpenseJobs` | Statut des tâches en arriere-plan |
+| **Tâches de dépenses** | `useExpenseJobs` | Statut des tâches en arrière-plan |
 | **Dépenses de rapport** | `useExpenseReportExpenses` | Gérer les éléments d'un rapport |
 | **Paiements de rapport** | `useExpenseReportPayments` | Suivi des paiements de rapport |
 | **Intégrations** | `useIntégrations`, `useAppInstallations` | Intégration et marketplace |

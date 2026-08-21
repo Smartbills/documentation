@@ -5,7 +5,7 @@ description: "Configurer l'authentification, le contexte d'entreprise et la loca
 
 ## Authentification
 
-Le SDK Smartbills utilisé des jetons Bearer OAuth2 pour l'authentification. Chaque requête inclut le jeton dans l'en-tête `Authorization`, un identifiant d'entreprise dans l'en-tête `x-tenant-id` et une locale dans l'en-tête `Accept-Language`.
+Le SDK Smartbills utilise des jetons Bearer OAuth2 pour l'authentification. Chaque requête inclut le jeton dans l'en-tête `Authorization`, un identifiant d'entreprise dans l'en-tête `x-tenant-id` et une locale dans l'en-tête `Accept-Language`.
 
 ## Initialisation du client
 
@@ -106,7 +106,7 @@ try {
 
 ## Patron de fournisseur d'identifiants
 
-Pour des scénarios avancés comme le rafraichissement automatique des jetons, implementez l'interface `CredentialProvider` :
+Pour des scénarios avancés comme le rafraichissement automatique des jetons, implémentez l'interface `CredentialProvider` :
 
 ```typescript
 import { CredentialProvider, AccessToken } from '@smartbills/sdk';
