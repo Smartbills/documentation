@@ -4,7 +4,7 @@
   "description": "Smartbills product guides, API reference, and SDKs for expense management, mileage, accounts payable, and approvals.",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.png",
+    "light": "/logo/light.svg",
     "href": "https://smartbills.io"
   },
   "favicon": "/favicon.png",
