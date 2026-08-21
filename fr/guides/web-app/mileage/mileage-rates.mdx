@@ -1,0 +1,105 @@
+---
+title: "Taux kilométriques"
+description: "Configurez les taux au kilomètre et au mille auxquels votre entreprise rembourse le kilométrage"
+---
+
+## Aperçu
+
+Les taux kilométriques déterminent la valeur d'un kilomètre ou d'un mille. Smartbills intègre les barèmes publiés de l'ARC et de l'IRS et les applique automatiquement : une entreprise qui rembourse au taux standard n'a donc rien à configurer. Celles qui remboursent différemment ajoutent des taux personnalisés, qui priment.
+
+Les taux se trouvent dans **Paramètres > Organisation > Taux kilométriques**.
+
+<Note>
+  Seuls les Administrateurs peuvent modifier les taux. Les Administrateurs financiers voient la page mais ne peuvent pas la modifier.
+</Note>
+
+## Comment un taux est choisi
+
+La page comporte deux sections, résolues dans un ordre fixe :
+
+1. **Vos taux.** Les taux personnalisés de votre entreprise. Consultés en premier.
+2. **Taux par défaut.** Les barèmes publiés de l'ARC et de l'IRS. Appliqués lorsqu'aucun taux personnalisé ne correspond.
+
+Un taux correspond selon le pays, la région et la date. Le véhicule du trajet détermine la juridiction, et la date du déplacement détermine quelle version du taux était en vigueur.
+
+## Taux progressifs et taux fixes
+
+| Type | Comportement |
+|------|--------------|
+| **Progressif** | Un taux plus élevé jusqu'à un seuil annuel de distance, puis un taux plus faible au-delà. C'est le fonctionnement du programme de l'ARC. |
+| **Fixe** | Un seul taux, quelle que soit la distance. |
+
+Un taux progressif comporte trois valeurs : le **seuil**, le **taux du premier palier** et le **taux du palier supérieur**. Le seuil est fixé par défaut à **5 000**, conformément à la limite annuelle de l'ARC, et s'exprime dans l'unité du taux.
+
+Smartbills suit la distance cumulée de chaque employé depuis le début de l'année et applique le bon palier à chaque trajet. Un trajet qui franchit le seuil est réparti entre les deux taux plutôt que facturé entièrement à l'un d'eux.
+
+### Distances de départ
+
+Un employé qui arrive en cours d'année, ou dont vous migrez les données depuis un autre système, peut déjà avoir parcouru une distance que Smartbills n'a jamais vue. Les distances de départ permettent d'enregistrer ce cumul initial par année, afin que le calcul des paliers reparte du bon point plutôt que de zéro.
+
+## Ajouter un taux personnalisé
+
+<Steps>
+  <Step title="Partir d'un barème ou de zéro">
+    La section **Barèmes** liste les taux publiés de l'ARC et de l'IRS. Choisir **Utiliser** sur l'un d'eux préremplit un nouveau taux personnalisé avec ses valeurs. C'est le moyen le plus rapide d'ajuster légèrement le taux standard.
+  </Step>
+  <Step title="Définir la portée">
+    Choisissez le pays, puis appliquez le taux à l'ensemble du pays ou limitez-le à une région ou une province.
+  </Step>
+  <Step title="Choisir le type de taux">
+    Progressif ou fixe, puis saisissez les valeurs. Pour un taux progressif, renseignez le seuil, le taux du premier palier et celui du palier supérieur.
+  </Step>
+  <Step title="Définir les dates d'application">
+    La date **d'application** est obligatoire. La date **de fin** est facultative : la laisser vide rend le taux ouvert.
+
+    Il n'y a pas de champ « année » distinct. L'année découle de la date de début, ce qui permet de modéliser un taux qui change en cours d'année et pas seulement au 1er janvier.
+  </Step>
+  <Step title="Enregistrer">
+    Le taux s'applique dès lors aux trajets datés dans sa fenêtre.
+  </Step>
+</Steps>
+
+## Modifier un taux existant
+
+L'historique des taux ne s'écrase jamais, car les trajets déjà remboursés doivent conserver le taux auquel ils l'ont été. Il n'existe donc pas de modification simple, mais deux opérations, et le choix entre les deux compte pour vos registres.
+
+<AccordionGroup>
+  <Accordion title="Remplacer : le taux a réellement changé" icon="calendar-clock">
+    À utiliser lorsque le taux change pour l'avenir, par exemple parce que l'ARC a publié un nouveau barème. Vous choisissez la date d'entrée en vigueur, et une nouvelle version ouverte est créée à partir de cette date. La version précédente est clôturée la veille et reste consignée.
+
+    Les trajets antérieurs au changement conservent l'ancien taux. Les suivants prennent le nouveau.
+  </Accordion>
+
+  <Accordion title="Corriger : le taux avait été mal saisi" icon="pencil">
+    À utiliser lorsque la version saisie était simplement erronée. La correction la remplace sur la même période, et la version fautive est conservée dans l'historique plutôt que supprimée.
+
+    N'y recourez que si la saisie d'origine était fausse. L'employer pour un véritable changement de taux réécrirait le passé et fausserait ce qui a déjà été remboursé.
+  </Accordion>
+</AccordionGroup>
+
+## Archiver et restaurer
+
+L'archivage retire un taux de la sélection sans le supprimer. La restauration le réactive. Ni l'un ni l'autre n'affecte les trajets déjà remboursés à ce taux.
+
+## Exemple : le taux progressif de l'ARC
+
+Une entreprise canadienne qui rembourse au taux standard de l'ARC n'a aucun taux personnalisé à créer. Pour vérifier ce qu'un employé recevra :
+
+1. Le véhicule est immatriculé au Canada, les trajets sont donc mesurés en kilomètres.
+2. Le barème de l'ARC est progressif, avec un seuil de 5 000 km.
+3. Les 5 000 premiers kilomètres de l'année sont remboursés au taux du premier palier.
+4. Tout ce qui dépasse 5 000 km est remboursé au taux réduit du palier supérieur.
+5. Le trajet qui franchit les 5 000 km est réparti : la portion sous le seuil au taux élevé, le reste au taux réduit.
+
+La page de détail de chaque trajet affiche ce calcul, y compris la distance cumulée avant et après. Un employé peut ainsi comprendre pourquoi un trajet plus tardif vaut moins au kilomètre qu'un trajet antérieur.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Gérer les véhicules" icon="car" href="/fr/guides/web-app/mileage/vehicles">
+    Le pays d'immatriculation fixe l'unité
+  </Card>
+  <Card title="Ajouter à un rapport" icon="file-invoice" href="/fr/guides/web-app/mileage/add-to-expense-report">
+    Ce que voit l'approbateur
+  </Card>
+</CardGroup>

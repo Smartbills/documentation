@@ -1,0 +1,121 @@
+---
+title: "Upload a Bill"
+description: "Upload vendor bills and invoices for processing with AI-powered data extraction"
+---
+
+## Overview
+
+Smartbills makes it easy to upload vendor invoices and extract key information automatically using OCR. This guide walks you through uploading a bill, reviewing the extracted data, and saving it for approval.
+
+<Note>
+  **Supported formats**: You can upload PDF files and images (JPEG, PNG). For best OCR results, ensure the document is clear and legible.
+</Note>
+
+## Steps
+
+<Steps>
+  <Step title="Navigate to Bills">
+    Click **Bills** in the left sidebar to open the bills dashboard.
+
+  </Step>
+
+  <Step title="Click Upload Bill">
+    Click the **Upload Bill** button in the top-right corner of the bills dashboard.
+
+  </Step>
+
+  <Step title="Add the Invoice File">
+    You can add the vendor invoice in two ways:
+
+    - **Drag and drop** the file directly onto the upload area
+    - **Click Browse** to open your file picker and select the file
+
+    Supported file types include PDF and image formats (JPEG, PNG). You can upload a single file per bill.
+
+  </Step>
+
+  <Step title="OCR Extracts the Data">
+    Once the file is uploaded, Smartbills processes the document using OCR to automatically extract:
+
+    - **Vendor name**: The company or supplier that issued the invoice
+    - **Invoice number**: The vendor's reference number
+    - **Total amount**: The amount due, including taxes
+    - **Due date**: The payment deadline
+    - **Line items**: Individual products or services listed on the invoice
+    - **Tax amounts**: Taxes broken out by type
+
+    A progress indicator shows the extraction status. Processing typically takes a few seconds.
+
+  </Step>
+
+  <Step title="Review and Correct Extracted Data">
+    The extracted data appears in a form next to the invoice preview. Review each field and correct any values that the OCR misread.
+
+    - Fields with high confidence are pre-filled and highlighted in green
+    - Fields with low confidence are highlighted in yellow for your review
+    - Empty fields indicate data that could not be detected and must be entered manually
+
+  </Step>
+
+  <Step title="Assign the Vendor">
+    Smartbills attempts to match the extracted vendor name to an existing vendor in your directory.
+
+    - **Auto-matched**: If a match is found, the vendor is pre-selected. Verify it is correct.
+    - **Manual selection**: If no match is found or the match is wrong, click the vendor field and search for the correct vendor.
+    - **New vendor**: If the vendor does not exist in your directory, you can create a new vendor profile directly from this screen.
+
+  </Step>
+
+  <Step title="Set Payment Terms and Due Date">
+    Configure the payment schedule:
+
+    - **Payment terms**: Select from standard options (Net 15, Net 30, Net 60, Due on Receipt) or enter custom terms
+    - **Due date**: The due date may be auto-calculated from the invoice date and payment terms, or you can set it manually
+    - **Currency**: Verify the currency matches the invoice
+
+  </Step>
+
+  <Step title="Add Category and Department">
+    Classify the bill for accounting and reporting:
+
+    - **Category**: Select the expense category (e.g., Office Supplies, Software, Professional Services)
+    - **Department**: Assign the bill to the responsible department or cost center
+    - **Tags** (optional), Add tags for additional organization
+
+  </Step>
+
+  <Step title="Save the Bill">
+    Click **Save** to create the bill. It will appear in your bills list with a **Pending** status and, if approval workflows are enabled, will enter the approval queue.
+
+  </Step>
+</Steps>
+
+## After Uploading
+
+Once saved, the bill enters your organization's workflow:
+
+- If **bill approvals** are enabled, the bill is routed to the designated approver. See [Bill Approval](/guides/web-app/bills/approval) for details.
+- If approvals are not required, the bill moves directly to **Approved** status and awaits payment.
+- The original invoice document is stored in the [Vault](/guides/web-app/vault/overview) for archival.
+
+## Tips for Better OCR Results
+
+<Tip>
+  **Upload clear documents.** OCR accuracy depends on document quality. Scan invoices at 300 DPI or higher and avoid photos taken at an angle.
+</Tip>
+
+- **Use PDF when possible**: PDFs with selectable text produce the most accurate extractions
+- **Avoid handwritten invoices**: OCR works best with printed or typed text
+- **Check line items**: Line item extraction is the most complex part; always verify quantities and unit prices
+- **Crop the document**: Remove unnecessary margins or blank space before uploading
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Bill Approval" icon="check-double" href="/guides/web-app/bills/approval">
+    Learn how bills move through the approval workflow
+  </Card>
+  <Card title="Bills Overview" icon="file-invoice-dollar" href="/guides/web-app/bills/overview">
+    Return to the bills dashboard guide
+  </Card>
+</CardGroup>

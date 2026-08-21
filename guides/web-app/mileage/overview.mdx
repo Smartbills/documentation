@@ -1,0 +1,69 @@
+---
+title: "Mileage"
+description: "Track business driving, calculate reimbursement at CRA or IRS rates, and claim it on an expense report"
+---
+
+## Introduction
+
+Mileage lets employees log business driving and claim reimbursement for it. You enter a route, Smartbills calculates the distance, applies the reimbursement rate that governs your business, and produces an expense you can add to an expense report.
+
+Mileage appears as **Mileage Trips** in the sidebar.
+
+<Note>
+  Mileage is business-scoped, so it only appears when you are working inside a business rather than your personal account. Viewing and logging your own trips is available to everyone.
+</Note>
+
+## How a trip becomes money
+
+A mileage trip moves through two stages. Understanding the split explains most of the behaviour you will see in the interface.
+
+<Steps>
+  <Step title="Logged">
+    You record the route, vehicle, and date. The trip shows a calculated distance and an estimated reimbursement, but no expense exists yet. Its status is **Logged**.
+  </Step>
+  <Step title="Converted">
+    Converting the trip creates a real mileage expense in your Expenses list. From that point the trip carries the status of the expense report it belongs to, starting at **Unreported**.
+  </Step>
+  <Step title="Reported">
+    You add the mileage expense to an expense report and submit it like any other expense. It then follows the normal approval and reimbursement path.
+  </Step>
+</Steps>
+
+## What determines the amount
+
+Three things decide what a trip is worth.
+
+| Input | Where it comes from |
+|-------|---------------------|
+| **Distance** | Calculated from the route you enter. You can override it manually. |
+| **Unit** | Derived from the vehicle's registration country. A vehicle registered in the US is measured in miles, everything else in kilometres. |
+| **Rate** | Resolved from your business's mileage rates. Custom rates take precedence, and published CRA and IRS rates apply when no custom rate matches. |
+
+Rates are frequently tiered. Under a tiered program such as the CRA's, the first portion of your annual distance earns a higher rate and everything beyond an annual threshold earns a lower one. Smartbills tracks your year-to-date distance and applies the correct tier automatically. See [Mileage rates](/guides/web-app/mileage/mileage-rates).
+
+## In this section
+
+<CardGroup cols={2}>
+  <Card title="Manage vehicles" icon="car" href="/guides/web-app/mileage/vehicles">
+    Add the vehicles you drive and set which one is used by default
+  </Card>
+  <Card title="Log a trip" icon="route" href="/guides/web-app/mileage/log-a-trip">
+    Record a route and let Smartbills calculate the distance
+  </Card>
+  <Card title="Multi-stop and round trips" icon="map-pin" href="/guides/web-app/mileage/multi-stop-and-round-trips">
+    Add intermediate stops, reorder them, and include the return leg
+  </Card>
+  <Card title="Convert a trip to an expense" icon="receipt" href="/guides/web-app/mileage/convert-to-expense">
+    Turn logged trips into claimable expenses, one at a time or in bulk
+  </Card>
+  <Card title="Add mileage to a report" icon="file-invoice" href="/guides/web-app/mileage/add-to-expense-report">
+    Claim mileage alongside your other expenses
+  </Card>
+  <Card title="Mileage rates" icon="calculator" href="/guides/web-app/mileage/mileage-rates">
+    Configure the rates your business reimburses at
+  </Card>
+</CardGroup>
+
+## On mobile
+
+The mobile app can record a trip as you drive, capturing the route from your device's location rather than from typed addresses. See [Mobile app](/guides/mobile/overview).

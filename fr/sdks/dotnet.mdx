@@ -1,0 +1,43 @@
+---
+title: "SDK .NET"
+description: "SDK officiel Smartbills pour les applications C# et .NET"
+---
+
+Le SDK .NET Smartbills permet d'intégrer la gestion des dépenses, des rapports de dépenses, des factures et des fournisseurs dans vos applications C# et ASP.NET Core. Il offre une injection de dépendances native et une vérification des signatures pour les webhooks.
+
+## Installation
+
+```bash
+dotnet add package Smartbills.SDK
+```
+
+Ou via Package Manager Console :
+
+```powershell
+Install-Package Smartbills.SDK
+```
+
+## Démarrage rapide
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "your-access-token",
+    BusinessId = 42
+});
+
+var expenses = await client.Expenses.ListBusinessAsync(new ExpenseListRequest
+{
+    Page = 1,
+    Limit = 25
+});
+
+foreach (var expense in expenses.Data)
+{
+    Console.WriteLine($"{expense.Vendor?.Name}: {expense.Total?.Amount} {expense.Total?.Currency}");
+}
+```
+
+Les options du client incluent `BaseUrl`, `AccessToken`, `BusinessId`, `Locale`, `Timeout`, `MaxRetries` et `RetryDelay`. Pour ASP.NET Core, utilisez `services.AddSmartbills(options => { ... })` et injectez `ISmartbillsClient` dans vos contrôleurs. Les exceptions typées (`SmartbillsAuthenticationException`, `SmartbillsValidationException`, `SmartbillsNotFoundException`, etc.) facilitent la gestion des erreurs. La vérification des webhooks utilisé `WebhookSignature.Verify(payload, signature, webhookSecret)`.

@@ -1,0 +1,97 @@
+---
+title: "Intégration FreshBooks"
+description: "Connectez Smartbills avec le logiciel comptable FreshBooks"
+---
+
+## Aperçu
+
+Intégrez Smartbills avec FreshBooks pour synchroniser automatiquement les dépenses, les rapports de dépenses et les remboursements avec votre compte FreshBooks.
+
+## Fonctionnalités
+
+| Fonctionnalité | Description |
+|----------------|-------------|
+| **Sync des dépenses** | Exporter les dépenses comme dépenses FreshBooks |
+| **Rapports de dépenses** | Synchroniser les rapports comme écritures de journal |
+| **Remboursements** | Suivre les paiements de remboursement |
+| **Sync des fournisseurs** | Synchroniser les fournisseurs comme clients FreshBooks |
+| **Mapping des taxes** | Mapper les codes TPS, TVH, TVP, TVQ |
+| **Pièces jointes** | Joindre les images de reçus aux dépenses |
+| **Sync bidirectionnelle** | Importer et exporter les données dans les deux sens |
+
+## Configuration
+
+### Prérequis
+
+- Compte FreshBooks (plan Plus ou supérieur)
+- Plan Smartbills Entreprise ou supérieur
+- Accès administrateur aux deux systèmes
+
+### Connecter FreshBooks
+
+<Steps>
+  <Step title="Naviguer vers les applications">
+    Allez dans **Paramètres > Applications** dans votre tableau de bord Smartbills
+  </Step>
+  <Step title="Trouver FreshBooks">
+    Recherchez FreshBooks dans le marketplace
+  </Step>
+  <Step title="Cliquer sur Connecter">
+    Cliquez sur le bouton **Connecter** pour démarrer le flux OAuth
+  </Step>
+  <Step title="Autoriser">
+    Connectez-vous à FreshBooks et autorisez l'accès Smartbills
+  </Step>
+  <Step title="Configurer la synchronisation">
+    Configurez les données à synchroniser et les mappings de comptes
+  </Step>
+</Steps>
+
+## Paramètres de synchronisation
+
+| Paramètre | Description | Par défaut |
+|-----------|-------------|------------|
+| Sync des dépenses | Exporter les dépenses d'entreprise | Activé |
+| Sync des rapports | Exporter les rapports comme écritures | Activé |
+| Sync des remboursements | Suivre les paiements | Activé |
+| Créer auto les fournisseurs | Créer les fournisseurs manquants | Activé |
+| Envoyer à l'approbation | Auto-exporter à l'approbation | Activé |
+| Joindre les reçus | Inclure les images de reçus | Activé |
+
+## Mapping des taxes
+
+FreshBooks supporte deux champs de taxe par ligne :
+
+| Taxe Smartbills | Taxe FreshBooks 1 | Taxe FreshBooks 2 |
+|-----------------|--------------------|--------------------|
+| TPS (5%) | TPS | - |
+| TVH (13%) | TVH | - |
+| TVQ (9,975%) | TPS | TVQ |
+| TVP + TPS | TPS | TVP |
+
+## Comportement de synchronisation
+
+| Entité Smartbills | Entité FreshBooks |
+|-------------------|-------------------|
+| Dépense d'entreprise | Dépense |
+| Rapport de dépenses | Écriture de journal |
+| Remboursement | Paiement |
+| Fournisseur | Client |
+| Reçu | Pièce jointe |
+
+## Dépannage
+
+| Problème | Solution |
+|----------|----------|
+| Connexion perdue | Reconnecter via Paramètres > Applications |
+| Taxe incorrecte | Vérifier le mapping des taxes |
+| Dépenses en double | Vérifier les paramètres de direction de sync |
+| Fournisseur manquant | Activer la création automatique |
+
+<Warning>
+FreshBooks à des limites de taux d'API. Les synchronisations initiales importantes peuvent prendre plusieurs minutes.
+</Warning>
+
+<Tip>
+**Configurez les taxes d'abord** - Configurez vos codes de taxe avant d'activer la synchronisation des dépenses.
+</Tip>

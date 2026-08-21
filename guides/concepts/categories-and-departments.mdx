@@ -1,0 +1,107 @@
+---
+title: "Categories & Departments"
+description: "Organize expenses with categories and departments for proper accounting classification"
+---
+
+## What are Categories and Departments?
+
+Categories and departments are the two primary classification systems in Smartbills for organizing expenses. **Categories** describe what type of expense was incurred (such as Travel, Meals, or Office Supplies), while **departments** indicate which business unit or cost center the expense belongs to. Together, they provide the structure needed for accurate financial reporting and accounting integration.
+
+## Categories
+
+### How Categories Work
+
+Categories classify expenses by their nature or purpose. Every expense in Smartbills is assigned to a category, which determines how the expense is recorded in your accounting system. Categories are managed from **Settings > Categories** (`/:slug/settings/categories`).
+
+When an expense is created, Smartbills may automatically suggest a category based on the vendor or the content of the receipt. The user can accept the suggestion or choose a different category manually.
+
+### Default Categories
+
+Smartbills comes with a set of commonly used categories out of the box:
+
+| Category | Description |
+|----------|-------------|
+| **Travel** | Flights, trains, car rentals, fuel, and other transportation costs |
+| **Meals & Entertainment** | Business meals, client dinners, team lunches |
+| **Accommodation** | Hotels, Airbnb, and other lodging expenses |
+| **Office Supplies** | Stationery, printer supplies, desk equipment |
+| **Software & Subscriptions** | SaaS tools, software licenses, online services |
+| **Telecommunications** | Phone bills, internet service, mobile plans |
+| **Professional Services** | Legal fees, consulting, accounting services |
+| **Marketing** | Advertising, sponsorships, promotional materials |
+| **Training & Education** | Courses, conferences, certifications, books |
+| **Miscellaneous** | Expenses that do not fit other categories |
+
+### Custom Categories
+
+Administrators can create custom categories to match their organization's chart of accounts. Custom categories support:
+
+- **Custom name and description** to clearly define the category for employees
+- **Accounting code mapping** to link the category to a specific GL account number
+- **Tax treatment rules** to flag categories that have special tax implications
+- **Active/inactive toggle** to hide categories that are no longer in use without deleting historical data
+
+## Departments
+
+### How Departments Work
+
+Departments represent your organizational structure, the teams, divisions, or cost centers that expenses are charged to. Departments are managed from **Settings > Departments** (`/:slug/settings/departments`).
+
+When an expense is assigned to a department, it appears in that department's spending reports and is allocated to the correct cost center in your accounting system.
+
+### Department Configuration
+
+Each department can include:
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The display name of the department (e.g., "Engineering", "Sales") |
+| **Code** | An optional accounting code for integration with your chart of accounts |
+| **Manager** | The user responsible for reviewing the department's expenses |
+| **Budget** | An optional monthly or annual spending limit for the department |
+| **Parent Department** | For nested department hierarchies (e.g., "Frontend" under "Engineering") |
+
+### Accounting Integration
+
+Both categories and departments map directly to your accounting chart of accounts. When you export expenses or sync with accounting software like QuickBooks or Xero:
+
+- **Categories** map to expense account codes (e.g., Travel maps to GL 6200)
+- **Departments** map to cost centers, classes, or tracking categories
+- This mapping ensures expenses land in the correct accounts without manual reclassification
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Category** | A classification that describes the type of expense (e.g., Travel, Meals) |
+| **Department** | A business unit or cost center that an expense is allocated to |
+| **Chart of Accounts** | The list of financial accounts used by your organization's accounting system |
+| **GL Account** | A General Ledger account code that a category maps to |
+| **Cost Center** | An organizational unit used for tracking spending, equivalent to a department |
+| **Budget** | An optional spending limit assigned to a department or category |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Admin** | Creates, edits, and manages categories and departments. Requires that access permission |
+| **Accountant** | Maps categories and departments to the chart of accounts |
+| **Employee** | Selects a category and department when creating or editing an expense |
+| **Manager** | Reviews expenses for correct categorization within their department |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Settings: Categories" icon="folder-tree" href="/guides/web-app/settings/categories">
+    How to create and manage categories in the web app
+  </Card>
+  <Card title="Settings: Departments" icon="building" href="/guides/web-app/settings/departments">
+    How to set up departments and assign managers
+  </Card>
+  <Card title="Categorize an Expense" icon="tag" href="/guides/web-app/expenses/categorize-expense">
+    Step-by-step guide to categorizing an expense
+  </Card>
+  <Card title="Expenses" icon="receipt" href="/guides/concepts/expenses">
+    Learn about the expense lifecycle
+  </Card>
+</CardGroup>

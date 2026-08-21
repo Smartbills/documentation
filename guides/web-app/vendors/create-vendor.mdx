@@ -1,0 +1,62 @@
+---
+title: "Create a Vendor"
+description: "Add a new vendor or supplier to your organization"
+---
+
+## Overview
+
+While Smartbills automatically detects vendors from uploaded receipts, you may want to create vendor records manually. This is useful when you want to pre-configure a vendor's default category, tax ID, or other details before any expenses are logged.
+
+<Note>
+  Creating vendors requires the **VENDORS_MANAGE** permission, available to Admin and Accountant roles.
+</Note>
+
+## Create a New Vendor
+
+<Steps>
+  <Step title="Navigate to Vendors">
+    Click **Vendors** in the left sidebar to open the vendor directory.
+
+  </Step>
+
+  <Step title="Click Create">
+    Click the **Create Vendor** button in the top-right corner of the vendor list.
+
+  </Step>
+
+  <Step title="Enter Vendor Details">
+    Fill in the vendor creation form:
+
+    - **Name** (required), The display name of the vendor (e.g., "Staples", "Delta Airlines")
+    - **Address**: The vendor's business address
+    - **Tax ID**: The vendor's tax identification number for compliance and reporting
+    - **Default Category**: Select a category that will be automatically applied to all expenses from this vendor
+    - **Website**: The vendor's website URL
+    - **Phone**: Contact phone number
+    - **Notes**: Internal notes such as account number, payment terms, or contract details
+
+    <Tip>
+      Setting a default category saves time for your team. Every expense matched to this vendor will automatically inherit the selected category, reducing manual data entry.
+    </Tip>
+  </Step>
+
+  <Step title="Save the Vendor">
+    Click **Save** to create the vendor record. The new vendor will appear in your vendor directory and will be available for matching against future expenses.
+
+  </Step>
+</Steps>
+
+<Check>
+  Your vendor has been created. Future expenses from this vendor will be automatically matched and categorized based on the details you provided.
+</Check>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Manage Vendors" icon="address-book" href="/guides/web-app/vendors/manage-vendors">
+    Edit, merge, and organize your vendor records
+  </Card>
+  <Card title="Vendor Overview" icon="store" href="/guides/web-app/vendors/overview">
+    Learn about the vendor directory and auto-detection
+  </Card>
+</CardGroup>

@@ -1,0 +1,131 @@
+---
+title: "Navegar por el panel"
+description: "La disposición del panel web de Smartbills y qué hace cada zona"
+---
+
+## Resumen
+
+El panel se organiza en torno a una barra lateral a la izquierda y una cabecera arriba. Lo que ve en la barra lateral depende de su rol, así que dos compañeros de la misma empresa pueden tener una navegación bastante distinta.
+
+<Note>
+  La interfaz de Smartbills está en inglés y francés. Los nombres de los elementos se indican aquí en español con la etiqueta real en inglés entre paréntesis.
+</Note>
+
+## La barra lateral
+
+Tiene tres partes: el selector de empresa arriba, la navegación en medio, e Integraciones y Ajustes fijados abajo.
+
+### Selector de empresa
+
+El logotipo y el nombre de la empresa actual están arriba del todo. Al seleccionarlo verá todas las empresas a las que pertenece y podrá cambiar, o añadir otra. Consulte [Cambiar de empresa](/es/guides/web-app/switching-businesses).
+
+### Su actividad
+
+El primer grupo está siempre visible y cubre su propio trabajo.
+
+<AccordionGroup>
+  <Accordion title="Panel (Dashboard)" icon="house">
+    Su página de inicio, con la actividad reciente y acciones rápidas.
+  </Accordion>
+
+  <Accordion title="Kilometraje (Mileage Trips)" icon="car">
+    Registre desplazamientos en coche y solicite su reembolso. Solo dentro de una empresa, así que no aparece en su cuenta personal.
+
+    [Kilometraje](/es/guides/web-app/mileage/overview)
+  </Accordion>
+
+  <Accordion title="Gastos (Expenses)" icon="wallet">
+    Los gastos que pagó usted. Suba recibos, clasifíquelos y prepárelos para un informe.
+
+    [Añadir un gasto](/es/guides/web-app/expenses/upload-expense)
+  </Accordion>
+
+  <Accordion title="Informes de gastos (Expense Reports)" icon="file-invoice">
+    Sus propios informes. Créelos, añada gastos, envíelos a aprobación y recupérelos si necesita cambiar algo.
+
+    Un indicador en esta entrada cuenta los informes que un aprobador le ha devuelto para corregir.
+
+    [Cambios solicitados](/es/guides/web-app/reports/requested-changes)
+  </Accordion>
+</AccordionGroup>
+
+### El grupo de empresa
+
+El segundo grupo lleva el nombre de su empresa. Solo aparece si su rol le da acceso a algo dentro de él, razón por la que un Miembro no ve ningún grupo de empresa.
+
+<AccordionGroup>
+  <Accordion title="Gastos de empresa (Business Expenses)" icon="credit-card">
+    Gastos pagados por la empresa y no por una persona, como cargos de tarjeta corporativa y facturas reenviadas por correo. Equipo financiero, Administradores financieros y Administradores.
+  </Accordion>
+
+  <Accordion title="Facturas (Bills)" icon="receipt">
+    Cuentas por pagar. Las facturas de proveedor que su empresa debe, desde la aprobación hasta el pago. Equipo financiero, Administradores financieros y Administradores.
+
+    [Ciclo de vida del pago](/es/guides/web-app/bills/payment-lifecycle)
+  </Accordion>
+
+  <Accordion title="Bóveda (Vault)" icon="folder-open">
+    Almacenamiento seguro de documentos. Administradores financieros y Administradores.
+  </Accordion>
+
+  <Accordion title="Proveedores (Vendors)" icon="building">
+    Su directorio de proveedores, incluidas las conexiones con portales que recuperan facturas automáticamente. Administradores financieros y Administradores.
+
+    [Conexiones con portales](/es/guides/web-app/vendors/portal-connections)
+  </Accordion>
+
+  <Accordion title="Aprobaciones (Approvals)" icon="square-check">
+    Los informes que esperan su decisión, ordenados por estado. Responsables, Administradores financieros y Administradores.
+  </Accordion>
+</AccordionGroup>
+
+### Fijados abajo
+
+| Elemento | Quién lo ve |
+|----------|-------------|
+| **Integraciones** (Integrations) | Solo Administradores |
+| **Ajustes** (Settings) | Todos, aunque el contenido depende del rol |
+
+<Note>
+  La gestión del equipo no es una entrada de la barra lateral. Está en **Ajustes > Espacio de trabajo > Equipo**, y la lista de miembros en **Ajustes > Organización > Empleados**.
+</Note>
+
+## La cabecera
+
+| Elemento | Qué hace |
+|----------|----------|
+| **Búsqueda** | Buscar o saltar a un registro. Se abre con `Ctrl + K` o `Cmd + K`. |
+| **Subir** (Upload) | Un menú con Crear gasto, Subir recibo, Subir factura y Enviar por correo. |
+| **Notificaciones** | Una campana con aprobaciones, comentarios y cambios de estado. |
+| **Ayuda** | Busca en el centro de ayuda sin salir de la aplicación. |
+| **Menú de usuario** | Su avatar. Perfil, ajustes de cuenta, apariencia y cerrar sesión. |
+
+## Apariencia
+
+Los temas claro, oscuro y del sistema están en el menú de usuario, bajo **Appearance**. El ajuste se guarda en el navegador, así que se aplica al dispositivo donde lo fijó y no le acompaña entre dispositivos.
+
+## Contraer la barra lateral
+
+Contráigala a iconos con `Ctrl + B` o `Cmd + B`, o con el control de su borde. También se contrae sola al abrir el detalle de un informe o de una aprobación, para dar más espacio al documento, y se despliega al salir.
+
+## Atajos de teclado
+
+| Atajo | Acción |
+|-------|--------|
+| `Ctrl + K` / `Cmd + K` | Abrir la búsqueda |
+| `Ctrl + B` / `Cmd + B` | Contraer o desplegar la barra lateral |
+
+## Arrastrar y soltar en cualquier parte
+
+Soltar un archivo de recibo sobre cualquier página abre la ventana de subida con el archivo ya adjunto. No hace falta estar en la página de Gastos.
+
+## Siguiente paso
+
+<CardGroup cols={2}>
+  <Card title="Añadir un gasto" icon="upload" href="/es/guides/web-app/expenses/upload-expense">
+    Empezar a gestionar sus gastos
+  </Card>
+  <Card title="Roles y permisos" icon="shield-halved" href="/es/guides/concepts/roles-and-permissions">
+    Por qué su barra lateral es así
+  </Card>
+</CardGroup>

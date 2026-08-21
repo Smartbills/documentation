@@ -1,0 +1,77 @@
+---
+title: "Cambiar de empresa"
+description: "Trabaje con varias empresas desde una sola cuenta de Smartbills"
+---
+
+## Resumen
+
+Una misma cuenta de Smartbills puede pertenecer a varias empresas. Un contable que atiende a varios clientes, un fundador con dos sociedades o un empleado que trabaja en varias entidades de un grupo usan la misma cuenta y alternan entre ellas.
+
+Su rol, sus permisos y sus datos son propios de cada empresa. Ser Administrador en una no le da nada en otra.
+
+## El selector de empresa
+
+Está **en la parte superior de la barra lateral** y muestra el logotipo y el nombre de la empresa actual. Al abrirlo verá todas las empresas a las que pertenece, bajo el epígrafe **Teams**, y una opción para añadir otra.
+
+## El cambio conserva su posición
+
+Cambiar de empresa mantiene la página en la que estaba. Si está viendo Facturas en una empresa y cambia a otra, llega a las Facturas de esta, en lugar de volver al panel.
+
+Funciona así porque cada dirección de empresa lleva su identificador:
+
+```
+/acme/bills      →  cambia a Globex  →  /globex/bills
+/acme/expenses   →  cambia a Globex  →  /globex/expenses
+```
+
+Cuando la página actual no pertenece a una empresa, el cambio le lleva al panel de la nueva.
+
+## Qué cambia
+
+| Cambia | Se mantiene |
+|--------|-------------|
+| El contenido de la barra lateral, según su rol | Su cuenta y su perfil |
+| Gastos, informes, facturas, proveedores y bóveda | Su idioma y su tema |
+| Categorías, departamentos y circuitos de aprobación | Sus preferencias de notificación |
+| Las páginas de ajustes disponibles | |
+
+<Note>
+  La barra lateral puede ser muy distinta de una empresa a otra. La sección de empresa solo aparece si su rol le da acceso a algo dentro de ella, así que si es Administrador en una y Miembro en otra, la segunda mostrará bastantes menos entradas. Es lo esperado, no un error de carga. Consulte [Roles y permisos](/es/guides/concepts/roles-and-permissions).
+</Note>
+
+## Contexto personal y contexto de empresa
+
+Smartbills separa su cuenta personal de las empresas a las que pertenece.
+
+- Las páginas **personales** no llevan prefijo: `/receipts`, `/expense-reports`, `/settings`
+- Las páginas **de empresa** llevan el identificador: `/{slug}/expenses`, `/{slug}/bills`
+
+Algunas funciones solo existen dentro de una empresa porque necesitan una a la que pertenecer. El kilometraje es una de ellas y no aparece en su cuenta personal.
+
+## Añadir otra empresa
+
+Elija **Añadir equipo** (Add team) al final del selector. Se inicia el proceso de creación, donde introduce los datos y la dirección. Una vez creada, aparece en el selector junto a las demás.
+
+Un Administrador de una empresa existente también puede añadirle. Acepte la invitación recibida por correo y la empresa aparecerá automáticamente en su selector.
+
+## En otras plataformas
+
+| Plataforma | Cómo cambiar |
+|------------|--------------|
+| **Aplicación móvil** | Desde la pestaña **Menu** |
+| **Complemento de Outlook** | El selector de la parte superior del panel, independiente de su sesión web |
+
+<Warning>
+  El complemento de Outlook mantiene su propia selección de empresa. Si los recibos subidos desde Outlook llegan a la empresa equivocada, revise el selector del panel y no la aplicación web.
+</Warning>
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Roles y permisos" icon="shield-halved" href="/es/guides/concepts/roles-and-permissions">
+    Por qué difiere la barra lateral
+  </Card>
+  <Card title="Introducción" icon="compass" href="/es/guides/web-app/overview">
+    Cómo encaja todo
+  </Card>
+</CardGroup>

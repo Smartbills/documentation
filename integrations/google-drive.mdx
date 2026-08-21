@@ -1,0 +1,113 @@
+---
+title: "Google Drive"
+description: "Automatically back up receipts and expense documents to Google Drive"
+---
+
+## Overview
+
+The Google Drive integration automatically backs up receipt images, expense reports, and financial documents from Smartbills to your Google Drive. Organize files by date, category, or report, and access them from anywhere.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Auto-backup** | Automatically save receipts to Google Drive when expenses are created |
+| **Folder Organization** | Organize files by year, month, category, or report |
+| **Shared Drives** | Support for Google Workspace Shared Drives |
+| **Searchable** | Receipts are indexed and searchable in Google Drive |
+| **Report Export** | Export complete expense reports as PDFs to Drive |
+| **Selective Sync** | Choose which expense types to back up |
+
+## Prerequisites
+
+- Google account or Google Workspace account
+- Smartbills Business plan or higher
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Google Drive**.
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in with your Google account. Authorize Smartbills to manage files in a specific folder.
+
+  </Step>
+  <Step title="Choose Destination">
+    Select or create the destination folder in Google Drive where receipts will be stored.
+  </Step>
+  <Step title="Configure Folder Structure">
+    Choose how files are organized (by date, category, employee, or report).
+  </Step>
+  <Step title="Set Sync Triggers">
+    Select when backups occur (on upload, on approval, or scheduled).
+  </Step>
+</Steps>
+
+## Configuration
+
+### Folder Structure
+
+| Structure | Example Path |
+|-----------|-------------|
+| By year/month | `Smartbills/2026/04/receipt-123.pdf` |
+| By category | `Smartbills/Travel/receipt-123.pdf` |
+| By employee | `Smartbills/John Smith/receipt-123.pdf` |
+| By report | `Smartbills/Reports/March Travel/receipt-123.pdf` |
+
+### Sync Triggers
+
+| Trigger | Description |
+|---------|-------------|
+| On upload | Back up receipt immediately when uploaded |
+| On approval | Back up only after expense is approved |
+| Scheduled | Batch backup daily or weekly |
+
+### File Format
+
+| Format | Description |
+|--------|-------------|
+| Original | Keep original file format (JPG, PNG, PDF) |
+| PDF | Convert all receipts to PDF |
+| Both | Save original and PDF copy |
+
+### File Naming
+
+| Pattern | Example |
+|---------|---------|
+| Default | `receipt-123.pdf` |
+| Date + Vendor | `2026-04-15_Staples.pdf` |
+| Category + Date | `Office_2026-04-15_123.pdf` |
+| Custom | Define your own pattern using available variables |
+
+## Data Sync
+
+| Smartbills | Google Drive | Direction | Frequency |
+|-----------|-------------|-----------|-----------|
+| Receipt images | Files | Smartbills -> Google Drive | Based on trigger setting |
+| Expense report PDFs | PDF files | Smartbills -> Google Drive | On export |
+| Attachment bundles | ZIP files | Smartbills -> Google Drive | On export |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Files not appearing in Drive">
+    Verify the integration is connected and the destination folder still exists. Check **Settings > Apps > Google Drive** for sync status.
+  </Accordion>
+
+  <Accordion title="Permission denied errors">
+    Re-authorize the integration. If using a Shared Drive, ensure Smartbills has Contributor access or higher.
+  </Accordion>
+
+  <Accordion title="Storage quota exceeded">
+    Google Drive storage is limited by your plan. Free up space or upgrade your Google storage plan.
+  </Accordion>
+
+  <Accordion title="Duplicate files">
+    Check that only one sync trigger is active. Using both "on upload" and "scheduled" may create duplicates.
+  </Accordion>
+
+  <Accordion title="Folder structure not applied">
+    Verify the folder structure setting in the integration configuration. Changes to the folder structure apply only to new files.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,388 @@
+---
+title: "Guide d'Utilisation"
+description: "Référence complète des clients de service du SDK .NET Smartbills"
+---
+
+<Info>
+  Le SDK .NET à actuellement une couverture de services limitee par rapport aux SDKs JavaScript et Python. Il se concentre sur la facturation, la gestion de fichiers et la facturation. Des clients de service supplémentaires pour les dépenses, les fournisseurs et les rapports seront bientot disponibles.
+</Info>
+
+## InvoiceClient
+
+Le `InvoiceClient` fournit une gestion complète du cycle de vie des factures, incluant les opérations CRUD, l'envoi, l'annulation et la récupération de résumés.
+
+Accédez-y via `client.Invoices`.
+
+### Créer une Facture
+
+```csharp
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new()
+        {
+            Description = "Services de développement web",
+            Quantity = 40,
+            UnitPrice = 125.00m
+        },
+        new()
+        {
+            Description = "Hebergement (mensuel)",
+            Quantity = 1,
+            UnitPrice = 29.99m
+        }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30),
+    Notes = "Paiement du dans 30 jours"
+});
+
+Console.WriteLine($"Facture #{invoice.Id} créée");
+```
+
+### Obtenir une Facture par ID
+
+```csharp
+var invoice = await client.Invoices.GetByIdAsync(42);
+Console.WriteLine($"Total de la facture : {invoice.Total}");
+```
+
+### Lister les Factures
+
+Retourne un `SBList<SBInvoice>` paginé avec des métadonnées :
+
+```csharp
+var invoices = await client.Invoices.ListAsync(new InvoiceListRequest
+{
+    Page = 1,
+    Limit = 25
+});
+
+foreach (var invoice in invoices.Data)
+{
+    Console.WriteLine($"#{invoice.Id} - {invoice.Total:C}");
+}
+
+// Accéder aux metadonnées de pagination
+Console.WriteLine($"Total : {invoices.Pagination.Total}");
+Console.WriteLine($"Pages : {invoices.Pagination.TotalPages}");
+```
+
+### Mettre à Jour une Facture
+
+```csharp
+var updated = await client.Invoices.UpdateAsync(42, new InvoiceUpdateRequest
+{
+    Notes = "Conditions de paiement mises à jour : Net 15",
+    DueDate = DateTime.UtcNow.AddDays(15)
+});
+```
+
+### Supprimer une Facture
+
+```csharp
+var deleted = await client.Invoices.DeleteAsync(42);
+```
+
+### Envoyer une Facture
+
+Envoie la facture au client par courriel :
+
+```csharp
+var sent = await client.Invoices.SendAsync(42);
+Console.WriteLine($"Facture envoyée à : {sent.SentAt}");
+```
+
+### Annuler une Facture
+
+Marque la facture comme annulée (irreversible) :
+
+```csharp
+var voided = await client.Invoices.VoidAsync(42);
+```
+
+### Obtenir le Résumé des Factures
+
+Retourne des statistiques agrégées sur toutes les factures :
+
+```csharp
+var summary = await client.Invoices.GetSummaryAsync();
+```
+
+### Référence des Méthodes
+
+| Méthode | Paramètres | Retour | Description |
+|---------|-----------|--------|-------------|
+| `CreateAsync` | `InvoiceCreateRequest, options?, ct?` | `SBInvoice` | Créer une nouvelle facture |
+| `GetByIdAsync` | `long id, options?, ct?` | `SBInvoice` | Récupérer une facture par ID |
+| `ListAsync` | `InvoiceListRequest, options?, ct?` | `SBList<SBInvoice>` | Lister les factures avec pagination |
+| `UpdateAsync` | `long id, InvoiceUpdateRequest, options?, ct?` | `SBInvoice` | Mettre à jour une facture existante |
+| `DeleteAsync` | `long id, options?, ct?` | `SBInvoice` | Supprimer une facture |
+| `SendAsync` | `long id, options?, ct?` | `SBInvoice` | Envoyer une facture par courriel |
+| `VoidAsync` | `long id, options?, ct?` | `SBInvoice` | Annuler une facture |
+| `GetSummaryAsync` | `options?, ct?` | `SBInvoiceSummary` | Obtenir les statistiques des factures |
+
+<Info>
+  Toutes les méthodes acceptent les paramètres optionnels `SBRequestOptions options` et `CancellationToken ct`. Les identifiants utilisent le type `long`.
+</Info>
+
+---
+
+## FileClient
+
+Le `FileClient` gère la récupération et la mise à jour de fichiers via le service de fichiers Smartbills.
+
+Accédez-y via `client.Files`.
+
+### Récupérer un Fichier
+
+Récupérer un fichier par sa clé :
+
+```csharp
+var fileUrl = await client.Files.GetAsync("file-key-123", new GetFileRequest());
+```
+
+### Mettre à Jour un Fichier
+
+Mettre à jour les métadonnées d'un fichier :
+
+```csharp
+var updated = await client.Files.UpdateAsync("file-key-123", new UpdateFileRequest
+{
+    // Mettre à jour les proprietes du fichier
+});
+```
+
+### Référence des Méthodes
+
+| Méthode | Paramètres | Retour | Description |
+|---------|-----------|--------|-------------|
+| `GetAsync` | `string id, GetFileRequest, options?, ct?` | `string` | Obtenir l'URL d'un fichier par clé |
+| `UpdateAsync` | `string id, UpdateFileRequest, options?, ct?` | `string` | Mettre à jour les métadonnées du fichier |
+
+---
+
+## BillingClient
+
+Le `BillingClient` donne accès à la gestion de la facturation et des abonnements. Il inclut des sous-clients pour les sessions de paiement, la gestion des clients et les méthodes de paiement.
+
+Accédez-y via `client.Billing`.
+
+### Sessions de Paiement
+
+Gérer les sessions de paiement :
+
+```csharp
+// Accéder aux opérations de session de paiement
+var session = await client.Billing.CheckoutSessions.CreateAsync(
+    new CheckoutSessionCreateRequest
+    {
+        // Configuration de la session
+    }
+);
+```
+
+### Clients
+
+Gérer les clients de facturation :
+
+```csharp
+// Accéder aux opérations sur les clients
+var customers = await client.Billing.Customers.ListAsync();
+```
+
+### Méthodes de Paiement
+
+Gérer les méthodes de paiement :
+
+```csharp
+// Accéder aux opérations sur les méthodes de paiement
+var methods = await client.Billing.PaymentMethods.ListAsync();
+```
+
+---
+
+## Patrons Asynchrones
+
+### Support de CancellationToken
+
+Toutes les méthodes asynchrones acceptent un `CancellationToken` pour l'annulation cooperative :
+
+```csharp
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+try
+{
+    var invoice = await client.Invoices.GetByIdAsync(42, ct: cts.Token);
+}
+catch (OpérationCanceledException)
+{
+    Console.WriteLine("La requête à expire");
+}
+```
+
+### Opérations Paralleles
+
+Exécutez plusieurs opérations independantes simultanement :
+
+```csharp
+var invoiceTask = client.Invoices.GetByIdAsync(42);
+var summaryTask = client.Invoices.GetSummaryAsync();
+
+await Task.WhenAll(invoiceTask, summaryTask);
+
+var invoice = invoiceTask.Result;
+var summary = summaryTask.Result;
+```
+
+### Exemple de Controleur ASP.NET Core
+
+Utilisation du SDK avec l'injection de dépendances dans un controleur :
+
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class InvoicesController : ControllerBase
+{
+    private readonly IInvoiceClient _invoiceClient;
+
+    public InvoicesController(IInvoiceClient invoiceClient)
+    {
+        _invoiceClient = invoiceClient;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetInvoice(long id, CancellationToken ct)
+    {
+        try
+        {
+            var invoice = await _invoiceClient.GetByIdAsync(id, ct: ct);
+            return Ok(invoice);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateInvoice(
+        [FromBody] InvoiceCreateRequest request,
+        CancellationToken ct)
+    {
+        var invoice = await _invoiceClient.CreateAsync(request, ct: ct);
+        return CreatedAtAction(nameof(GetInvoice), new { id = invoice.Id }, invoice);
+    }
+}
+```
+
+## Gestion des Erreurs
+
+Le SDK lève des exceptions pour les erreurs API. Encapsulez les appels dans des blocs try-catch :
+
+```csharp
+try
+{
+    var invoice = await client.Invoices.GetByIdAsync(999);
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+{
+    Console.WriteLine("Facture introuvable");
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+{
+    Console.WriteLine("Cle API invalide");
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+{
+    Console.WriteLine("Limite de débit atteinte -- reessayez après un delai");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Erreur inattendue : {ex.Message}");
+}
+```
+
+### Codes d'Erreur Courants
+
+| Code HTTP | Signification | Action |
+|-----------|---------------|--------|
+| 400 | Requête invalide | Vérifier les paramètres de la requête |
+| 401 | Non autorisé | Vérifier la clé API |
+| 403 | Interdit | Vérifier les permissions |
+| 404 | Non trouve | Vérifier l'identifiant de la ressource |
+| 422 | Erreur de validation | Vérifier les champs requis |
+| 429 | Limite de débit | Réduire la fréquence des requêtes |
+| 500 | Erreur serveur | Réessayer avec un backoff |
+
+## Pagination
+
+Les endpoints de liste retournent `SBList<T>` qui inclut les données et les métadonnées de pagination :
+
+```csharp
+var page1 = await client.Invoices.ListAsync(new InvoiceListRequest
+{
+    Page = 1,
+    Limit = 50
+});
+
+// Parcourir toutes les pages
+var currentPage = 1;
+SBList<SBInvoice> result;
+
+do
+{
+    result = await client.Invoices.ListAsync(new InvoiceListRequest
+    {
+        Page = currentPage,
+        Limit = 50
+    });
+
+    foreach (var invoice in result.Data)
+    {
+        // Traiter chaque facture
+    }
+
+    currentPage++;
+} while (currentPage <= result.Pagination.TotalPages);
+```
+
+## Exemple Complet
+
+Un exemple de bout en bout pour créer, lister, envoyer et annuler des factures :
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = Environment.GetEnvironmentVariable("SMARTBILLS_API_KEY"),
+    BusinessId = 123
+});
+
+// 1. Créer une facture
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new() { Description = "Forfait mensuel", Quantity = 1, UnitPrice = 2000.00m }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30)
+});
+
+Console.WriteLine($"Facture #{invoice.Id} créée");
+
+// 2. Envoyer la facture
+var sent = await client.Invoices.SendAsync(invoice.Id);
+Console.WriteLine("Facture envoyée");
+
+// 3. Lister toutes les factures
+var all = await client.Invoices.ListAsync(new InvoiceListRequest { Limit = 10 });
+Console.WriteLine($"Total des factures : {all.Pagination.Total}");
+
+// 4. Obtenir un résumé
+var summary = await client.Invoices.GetSummaryAsync();
+Console.WriteLine("Résumé recupere");
+```

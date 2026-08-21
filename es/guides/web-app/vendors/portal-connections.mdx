@@ -1,0 +1,98 @@
+---
+title: "Conexiones con portales de proveedores"
+description: "Conecte el portal de facturación de un proveedor para que Smartbills recupere sus facturas automáticamente"
+---
+
+## Resumen
+
+En lugar de esperar a que un proveedor le envíe la factura por correo, Smartbills puede iniciar sesión en su portal de facturación y recogerla. Conecte la cuenta una vez, fije una frecuencia, y las facturas llegan sin que nadie reenvíe nada.
+
+Las conexiones están en la página de cada proveedor. Los Administradores financieros y los Administradores pueden gestionarlas.
+
+## Cómo funciona una conexión
+
+<Steps>
+  <Step title="Conectar la cuenta">
+    Usted facilita las credenciales que pide el portal. Cada proveedor declara sus propios campos obligatorios, así que el formulario se ajusta a lo que ese portal concreto solicita y no a un usuario y contraseña genéricos.
+  </Step>
+  <Step title="Smartbills ejecuta una recuperación">
+    Una ejecución inicia sesión, localiza las facturas y las descarga. Ocurre según la frecuencia que fije, o a demanda.
+  </Step>
+  <Step title="Las facturas pasan a borrador">
+    Los documentos recuperados se leen y se convierten en facturas en borrador, listas para su proceso de aprobación y pago.
+  </Step>
+</Steps>
+
+## Tratamiento de las credenciales
+
+<Warning>
+  Las credenciales las gestiona un conector externo seguro y Smartbills nunca las almacena. Trate como sensible cualquier hoja de cálculo que use para importarlas, y elimínela cuando termine la importación.
+</Warning>
+
+Cada conexión tiene un propietario, que puede reasignar. Algunos portales admiten además vinculación por token en lugar de credenciales almacenadas, lo que evita guardar una contraseña cuando el proveedor lo permite.
+
+## Conectar un proveedor
+
+Abra el proveedor y añada una conexión. El formulario se genera a partir del esquema de credenciales de ese proveedor, así que rellene lo que pida. Los portales suelen necesitar una dirección de inicio de sesión y un identificador de cuenta además del usuario y la contraseña.
+
+## Las ejecuciones
+
+Cada conexión guarda un historial de ejecuciones. Al abrir una verá qué ocurrió, qué facturas produjo y **capturas de pantalla** tomadas durante la sesión.
+
+Las capturas importan. Cuando una ejecución falla, muestran lo que el portal enseñaba realmente, lo que suele bastar para diagnosticar una contraseña cambiada, una aceptación de condiciones o un paso de verificación inesperado, sin recurrir al soporte.
+
+### Responder a una ejecución en curso
+
+Una ejecución puede pausarse y pedir algo que solo usted puede aportar, como un código de verificación. Las ejecuciones aceptan interacciones mientras están abiertas, así que puede responder y dejar que continúe en lugar de empezar de nuevo.
+
+Una ejecución atascada o ya innecesaria se puede cancelar.
+
+## Frecuencia
+
+Cada conexión tiene su propia frecuencia, que controla cada cuánto comprueba Smartbills si hay facturas nuevas. Ajústela al ciclo de facturación del proveedor. Comprobar a diario una factura mensual añade carga sin aportar nada.
+
+## Conectar cuentas durante una importación
+
+La importación de proveedores acepta credenciales junto al registro del proveedor, así que puede dar de alta una lista y conectar sus portales en una sola pasada.
+
+Añada estas columnas a su hoja:
+
+| Columna | Función |
+|---------|---------|
+| `Username` | Usuario del portal |
+| `Password` | Contraseña |
+| `LoginUrl` | Dirección de inicio de sesión |
+| `AccountId` | Identificador de cuenta, si el portal lo usa |
+| `field:<nombre>` | Cualquier otro valor que exija el portal |
+| `secret:<nombre>` | Un valor adicional que deba guardarse cifrado |
+
+La importación acepta CSV, XLSX y XLSM. Descargue la plantilla desde la ventana de importación en lugar de construir la fila de cabecera a mano.
+
+### Leer el resultado de una importación
+
+La importación informa fila por fila, y conviene entender los resultados antes de lanzarla sobre una lista larga:
+
+- **Creado**: se añadió un proveedor nuevo.
+- **Ya existía**: la fila coincidió con un proveedor que ya tenía, por sitio web o por nombre. Se reutilizó el existente y **sus datos no se modificaron**. La importación nunca sobrescribe registros existentes.
+- **Conectado**: las credenciales se aceptaron y la cuenta está activa.
+- **Inicio de sesión rechazado**: el proveedor se creó pero sus credenciales fallaron. Conéctelo desde su propia página.
+- **Inicio de sesión omitido**: ese proveedor ya tenía una conexión.
+
+<Note>
+  Como la coincidencia es por sitio web o nombre, un proveedor que tenga registrado con un nombre ligeramente distinto se creará por segunda vez en lugar de reconocerse. Revise la lista de creados tras una importación grande y fusione los duplicados.
+</Note>
+
+## Desconectar
+
+Eliminar una conexión detiene las ejecuciones futuras y descarta las credenciales guardadas. Las facturas ya recuperadas no se ven afectadas.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Ciclo de vida del pago" icon="arrow-right-arrow-left" href="/es/guides/web-app/bills/payment-lifecycle">
+    Qué ocurre con las facturas recuperadas
+  </Card>
+  <Card title="Buzones de proveedores" icon="inbox" href="/es/guides/web-app/bills/ap-inboxes">
+    La alternativa por correo
+  </Card>
+</CardGroup>

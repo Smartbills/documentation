@@ -1,0 +1,98 @@
+---
+title: "Approuver un Rapport"
+description: "Guide étape par étape pour examiner et approuver un rapport de dépenses"
+---
+
+## Aperçu
+
+Lorsqu'un employé soumet un rapport de dépenses, celui-ci apparaît dans votre file d'approbation. Ce guide vous accompagne dans le processus d'examen du rapport, de vérification de son contenu et d'approbation.
+
+<Note>
+  **Permissions requises** : Vous devez avoir un role d'approbateur attribue à votre compte. La section Approbations n'apparaît dans la barre latérale que pour les utilisateurs disposant de permissions d'approbation.
+</Note>
+
+## Étapes
+
+<Steps>
+  <Step title="Accéder aux Approbations">
+    Cliquez sur **Approbations** dans la barre latérale gauche. Un badge sur l'icône indique le nombre d'éléments en attente de votre revision.
+
+  </Step>
+
+  <Step title="Ouvrir un Rapport en Attente">
+    Dans la file d'approbation, cliquez sur le rapport de dépenses que vous souhaitez examiner. Les rapports avec un statut **En attente** attendent votre action. Vous pouvez utiliser les filtres en haut pour affiner la liste par date, soumetteur ou montant.
+
+  </Step>
+
+  <Step title="Examiner le Résumé du Rapport">
+    La vue détaillée du rapport affiché un résumé en haut avec les informations clés :
+
+    - **Montant total**: La valeur combinee de toutes les dépenses du rapport
+    - **Nombre de dépenses**: Combien de dépenses individuelles sont incluses
+    - **Soumetteur**: L'employé qui à créé et soumis le rapport
+    - **Plage de dates**: La période couverte par les dépenses
+    - **Description**: Les notes que le soumetteur à incluses
+
+  </Step>
+
+  <Step title="Examiner les Dépenses Individuelles">
+    Sous le résumé, vous verrez une liste de toutes les dépenses incluses dans le rapport. Cliquez sur n'importe quelle dépense pour ouvrir son panneau de détails et vérifiér :
+
+    - L'image du reçu ou le document
+    - Le montant et la devise
+    - La catégorie et la description
+    - Le nom du commercant et la date
+    - Les signalements de conformité aux politiques
+
+  </Step>
+
+  <Step title="Cliquer sur Approuver">
+    Une fois que vous etes satisfait du rapport, cliquez sur le bouton **Approuver** dans le coin supérieur droit de la vue détaillée du rapport.
+
+  </Step>
+
+  <Step title="Ajouter une Note d'Approbation (Facultatif)">
+    Une boîte de dialogue de confirmation apparaît. Vous pouvez ajouter une note facultative pour le soumetteur, comme un commentaire sur la revision ou un rappel pour les soumissions futures. Cette note est visible par le soumetteur dans la chronologie de son rapport.
+
+  </Step>
+
+  <Step title="Confirmer l'Approbation">
+    Cliquez sur **Confirmer l'Approbation** pour finaliser. Le statut du rapport passe de En attente à **Approuvé**.
+
+  </Step>
+
+  <Step title="Le Soumetteur est Notifie">
+    L'employé qui à soumis le rapport recoit une notification indiquant que son rapport à été approuvé. Si l'approbation multi-niveaux est activée, le rapport avance vers le prochain approbateur dans la chaîne.
+
+  </Step>
+</Steps>
+
+## Après l'Approbation
+
+Une fois un rapport approuvé :
+
+- Le rapport passe au statut **Approuvé** dans la liste des rapports du soumetteur
+- Si configure, le rapport est transmis à l'équipe financière pour le traitement du remboursement
+- Une entree est ajoutee à la piste d'audit d'approbation avec votre nom, l'horodatage et les notes eventuelles
+- Le rapport approuvé et ses reçus sont archives dans le [Coffre-fort](/fr/guides/web-app/vault/overview)
+
+## Conseils pour les Approbateurs
+
+<Tip>
+  **Examinez les reçus attentivement.** Vérifiez que chaque dépense à un reçu correspondant et que les montants sont coherents. Recherchez les dépenses en double et vérifiéz que les catégories sont correctes.
+</Tip>
+
+- **Vérifiez les signalements de politique**: Smartbills met en evidence les dépenses qui pourraient enfreindre la politique de l'entreprise. Examinez-les attentivement avant d'approuver.
+- **Utilisez les notes**: Laissez une note lorsque vous approuvez un rapport avec des problèmes mineurs afin que le soumetteur puisse corriger ses habitudes pour la prochaîne fois.
+- **Agissez rapidement**: Les rapports en attente retardent les remboursements des employés. Essayez d'examiner les soumissions dans le delai prevu par votre organisation.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Rejeter un Rapport" icon="circle-xmark" href="/fr/guides/web-app/approvals/reject-report">
+    Comment rejeter un rapport qui ne peut pas être approuvé
+  </Card>
+  <Card title="Demander des Modifications" icon="comment-dots" href="/fr/guides/web-app/approvals/request-changes">
+    Renvoyer un rapport pour revisions au lieu de le rejeter
+  </Card>
+</CardGroup>

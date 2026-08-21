@@ -1,0 +1,116 @@
+---
+title: "Add an Expense"
+description: "Upload a receipt, enter an expense manually, or forward one by email"
+---
+
+## Overview
+
+There are four ways to get an expense into Smartbills from the web app, all behind the **Upload** button in the header. Receipts you upload are read automatically, so the merchant, amount, date, currency, and taxes are filled in for you.
+
+| Method | Use it when |
+|--------|-------------|
+| **Upload Receipt** | You have a receipt file or photo |
+| **Create expense** | There is no receipt to scan |
+| **Upload Bill** | The document is a vendor invoice the business owes, not a personal expense |
+| **Transfer via Email** | You want to forward receipts from your mail client |
+
+You can also drag a file onto any page in the app and the upload dialog opens with it attached.
+
+## File requirements
+
+<Note>
+  **Accepted formats**: PNG, JPG, PDF, and email files (`.eml`, `.msg`).
+  **Maximum size**: 5 MB per file.
+  **Maximum per upload**: 10 files.
+</Note>
+
+<Warning>
+  HEIC images are not accepted by the web app. iPhone photos taken with the default camera setting are HEIC. Either upload them from the Smartbills mobile app, which converts them automatically, or change **Settings > Camera > Formats** to **Most Compatible** on the phone.
+</Warning>
+
+## Upload a receipt
+
+<Steps>
+  <Step title="Open the upload dialog">
+    Select **Upload** in the header, then **Upload Receipt**.
+  </Step>
+  <Step title="Add your files">
+    Drag files into the dialog or browse for them. Each file is checked before processing starts, and anything rejected is flagged with the reason so you can swap it out without losing the rest.
+  </Step>
+  <Step title="Say who paid">
+    Choose whether this was a personal expense you need reimbursing for, or one paid directly by the business. This changes what is required of you afterwards. See [Business and personal expenses](/guides/web-app/expenses/business-vs-personal).
+
+    Starting the upload from the Business Expenses page preselects "paid by business".
+  </Step>
+  <Step title="Add details">
+    Optionally set a category, assign the expense to an expense report, and add a note. You can do all of this later instead.
+  </Step>
+  <Step title="Upload">
+    Files upload directly to storage and are then queued for reading. The dialog closes and processing continues in the background, so you can carry on working.
+  </Step>
+</Steps>
+
+### What happens after upload
+
+Reading a receipt takes a few moments and happens after the dialog closes. Your expenses appear in the **Processing** tab until they are ready, then move into your list with the extracted data filled in.
+
+If something goes wrong, the expense stays in Processing with an error rather than disappearing. See [Processing and failed uploads](/guides/web-app/expenses/processing).
+
+### Check the extracted data
+
+Reading is accurate but not infallible. Open the expense and confirm the merchant, amount, date, currency, and tax breakdown against the receipt image shown alongside. Correct anything wrong by editing the field directly. See [Edit an expense](/guides/web-app/expenses/edit-expense).
+
+## Create an expense manually
+
+When there is no receipt, choose **Upload**, then **Create expense**. You enter the details yourself: vendor, amount, date, category, and taxes, with line items and fees if you need them.
+
+<Note>
+  Many approval policies require a receipt. An expense created manually has no attachment, and the report it belongs to will flag "Missing receipt" before submission. Attach a document later from the expense if you can.
+</Note>
+
+## Forward by email
+
+Choose **Upload**, then **Transfer via Email** to see your business's forwarding addresses. Forward any receipt email to the right one and the expense is created for you.
+
+| Address | What to send there |
+|---------|--------------------|
+| **Business expenses** | Business receipts and transactions |
+| **Accounts Payable** | Vendor invoices and bills |
+| **Reimbursements** | Personal receipts you need paying back for |
+
+Both the email body and its attachments are read, so a receipt in the message itself works as well as an attached PDF.
+
+## If uploading is blocked
+
+Two limits can stop an upload, and both show a dialog explaining which.
+
+<AccordionGroup>
+  <Accordion title="Monthly receipt quota reached" icon="gauge">
+    Your plan includes a set number of receipts per month. Once reached, uploading is blocked until the next period or until you upgrade. Check current consumption at **Settings > Workspace > Usage**.
+  </Accordion>
+
+  <Accordion title="Payment past due" icon="credit-card">
+    An unpaid subscription invoice blocks uploads across the business. An Administrator can resolve it at **Settings > Workspace > Billing**.
+  </Accordion>
+</AccordionGroup>
+
+## Uploading several receipts
+
+Select up to 10 files at once, or drag them in together. Each becomes its own expense and they are read in parallel. The category, report, and note you set in the dialog apply to all of them, and you can adjust individual expenses afterwards.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Processing and failed uploads" icon="arrows-rotate" href="/guides/web-app/expenses/processing">
+    Track and retry receipts that are still being read
+  </Card>
+  <Card title="Business and personal" icon="building" href="/guides/web-app/expenses/business-vs-personal">
+    What changes when the business paid
+  </Card>
+  <Card title="Edit an expense" icon="pen-to-square" href="/guides/web-app/expenses/edit-expense">
+    Correct the extracted details
+  </Card>
+  <Card title="Create a report" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Group expenses for reimbursement
+  </Card>
+</CardGroup>

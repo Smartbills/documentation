@@ -1,0 +1,10 @@
+---
+title: "Mise en Production"
+description: "Checklist pour passer en production avec Smartbills"
+---
+
+L'accès à la production est désactivé par défaut. Contactez support@smartbills.io lorsque vous êtes prêt à lancer votre intégration en production. Assurez-vous d'avoir complété tous les tests d'intégration avec des données incomplètes, invalides et des cas limites.
+
+Implémentez une gestion d'erreurs robuste couvrant tous les types d'erreurs (401, 403, 404, 429, 500). Configurez la journalisation de toutes les requêtes et réponses API, ainsi que des alertes pour les modèles inhabituels. Utilisez des clés de production distinctes des clés de développement.
+
+Avant le lancement : vérifiez la vérification des signatures des webhooks, testez les webhooks en production, configurez la surveillance et définissez un plan de rollback. Consultez la checklist complète dans la documentation pour tous les points à valider.

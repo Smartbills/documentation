@@ -1,0 +1,78 @@
+---
+title: "Claiming Less Than an Expense"
+description: "Claim part of an expense, and understand the amount an approver signs off"
+---
+
+## Overview
+
+The amount you claim does not have to equal the amount on the receipt. A dinner where a colleague's guest joined, a hotel bill covering a personal extra night, a shared taxi: in each case the receipt total is right but the reimbursable portion is smaller.
+
+Smartbills separates the two figures. Each expense on a report carries a **claimed amount** alongside the expense total.
+
+## Claim a partial amount
+
+<Steps>
+  <Step title="Open the report">
+    Go to the draft expense report containing the expense.
+  </Step>
+  <Step title="Edit the claimed amount">
+    Set the claimed amount on the expense line to the portion you are claiming.
+  </Step>
+  <Step title="Explain why">
+    Add a note on the line. An amount lower than the receipt without an explanation invites a change request, which costs you more time than writing the note.
+  </Step>
+  <Step title="Submit">
+    The report totals the claimed amounts, not the receipt totals.
+  </Step>
+</Steps>
+
+<Note>
+  The claimed amount cannot exceed the expense total. Attempting it is rejected. To claim more than a receipt shows, the receipt is wrong and the expense itself needs correcting.
+</Note>
+
+## What the approver can do
+
+An approver works with a separate figure, the **approved amount**, and can approve less than you claimed. The approval view breaks a report down into four buckets:
+
+| Bucket | Meaning |
+|--------|---------|
+| **Approved** | Signed off for reimbursement |
+| **Refused** | Denied |
+| **Pending Changes** | Sent back to you to fix |
+| **Pending** | Not yet decided |
+
+An approver reducing an amount is expected to leave a note explaining it, which appears alongside the expense when the report comes back to you.
+
+<Note>
+  Setting an approved amount to zero is blocked, with the message "Setting amount to 0 will deny this expense. Use the Deny button instead." A denial is recorded as a decision with a reason. A zero-value approval would look like an approval and pay nothing, which is why it is not permitted.
+</Note>
+
+Approvers can also override the report total directly, and can edit amounts across the report where the situation calls for it.
+
+## Mileage claims
+
+Mileage behaves slightly differently, because its value depends on your year-to-date distance.
+
+The claimed amount is **locked when the report is submitted**. The computed total continues to reflect the rate tier that applies now. If a later trip pushed you past an annual threshold, those two numbers diverge.
+
+When they differ, Smartbills shows both and explains: "The claimed amount was locked when the report was submitted; the computed total reflects the current year-to-date rate tier." The claimed amount is what gets reimbursed.
+
+This protects both sides. An approver signs off a figure that cannot change underneath them, and you are not retroactively penalised for distance driven after you submitted. See [Add mileage to an expense report](/guides/web-app/mileage/add-to-expense-report).
+
+## Reading the totals
+
+A report shows the sum of claimed amounts, the sum of approved amounts once decisions are made, and the reimbursement total. These agree only when everything was approved in full, so a gap between claimed and approved is the fastest way to spot that something was reduced or denied.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Submit a report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Send your claim for approval
+  </Card>
+  <Card title="Requested changes" icon="rotate-left" href="/guides/web-app/reports/requested-changes">
+    Fix a report sent back to you
+  </Card>
+  <Card title="Approve a report" icon="check" href="/guides/web-app/approvals/approve-report">
+    The approver's side
+  </Card>
+</CardGroup>

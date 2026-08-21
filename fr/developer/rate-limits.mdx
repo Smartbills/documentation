@@ -1,0 +1,10 @@
+---
+title: "Limites de Requêtes"
+description: "Comprendre la limitation de débit de l'API Smartbills"
+---
+
+L'API Smartbills applique une limitation de débit (rate limiting) pour assurer un usage équitable et des performances stables. Les limites varient selon le forfait : 60 requêtes/min pour le plan gratuit, 300 pour Professionnel, 1000 pour Business, et des limites personnalisées pour Enterprise.
+
+Chaque réponse inclut des en-têtes d'information : `X-RateLimit-Limit`, `X-RateLimit-Remaining` et `X-RateLimit-Reset`. Lorsque la limite est dépassée, l'API renvoie un statut 429 avec un en-tête `Retry-After` indiquant quand réessayer.
+
+Implémentez une stratégie de backoff exponentiel pour gérer les erreurs 429. Évitez les rafales de requêtes et prévoyez une mise en cache lorsque c'est pertinent. Pour des besoins supérieurs aux limites standard, contactez l'équipe commerciale pour un forfait Enterprise.

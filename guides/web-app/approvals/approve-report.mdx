@@ -1,0 +1,98 @@
+---
+title: "Approve a Report"
+description: "Step-by-step guide to reviewing and approving an expense report"
+---
+
+## Overview
+
+When an employee submits an expense report, it appears in your approval queue. This guide walks you through the process of reviewing the report, verifying its contents, and approving it.
+
+<Note>
+  **Permissions required**: You must have an approver role assigned to your account. The Approvals section only appears in the sidebar for users with approval permissions.
+</Note>
+
+## Steps
+
+<Steps>
+  <Step title="Navigate to Approvals">
+    Click **Approvals** in the left sidebar. A badge on the icon shows the number of items waiting for your review.
+
+  </Step>
+
+  <Step title="Open a Pending Report">
+    In the approval queue, click on the expense report you want to review. Reports with a **Pending** status are waiting for your action. You can use the filters at the top to narrow the list by date, submitter, or amount.
+
+  </Step>
+
+  <Step title="Review the Report Summary">
+    The report detail view displays a summary at the top with key information:
+
+    - **Total amount**: The combined value of all expenses in the report
+    - **Expense count**: How many individual expenses are included
+    - **Submitter**: The employee who created and submitted the report
+    - **Date range**: The period the expenses cover
+    - **Description**: Any notes the submitter included
+
+  </Step>
+
+  <Step title="Review Individual Expenses">
+    Below the summary, you will see a list of all expenses included in the report. Click on any expense to open its detail panel and verify:
+
+    - The receipt image or document
+    - The amount and currency
+    - The category and description
+    - The merchant name and date
+    - Any policy compliance flags
+
+  </Step>
+
+  <Step title="Click Approve">
+    Once you are satisfied with the report, click the **Approve** button in the top-right corner of the report detail view.
+
+  </Step>
+
+  <Step title="Add an Approval Note (Optional)">
+    A confirmation dialog appears. You can add an optional note for the submitter, such as a comment about the review or a reminder for future submissions. This note is visible to the submitter in their report timeline.
+
+  </Step>
+
+  <Step title="Confirm the Approval">
+    Click **Confirm Approval** to finalize. The report status changes from Pending to **Approved**.
+
+  </Step>
+
+  <Step title="Submitter Is Notified">
+    The employee who submitted the report receives a notification that their report has been approved. If multi-level approval is enabled, the report advances to the next approver in the chain instead.
+
+  </Step>
+</Steps>
+
+## After Approval
+
+Once a report is approved:
+
+- The report moves to **Approved** status in the submitter's report list
+- If configured, the report is forwarded to the finance team for reimbursement processing
+- An entry is added to the approval audit trail with your name, timestamp, and any notes
+- The approved report and its receipts are archived in the [Vault](/guides/web-app/vault/overview)
+
+## Tips for Approvers
+
+<Tip>
+  **Review receipts carefully.** Verify that each expense has a matching receipt and that amounts are consistent. Look for duplicate expenses and check that categories are correct.
+</Tip>
+
+- **Check policy flags**: Smartbills highlights expenses that may violate company policy. Review these carefully before approving.
+- **Use notes**: Leave a note when you approve a report with minor issues so the submitter can correct their habits for next time.
+- **Act promptly**: Pending reports delay employee reimbursements. Try to review submissions within your organization's expected turnaround time.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Reject a Report" icon="circle-xmark" href="/guides/web-app/approvals/reject-report">
+    How to reject a report that cannot be approved
+  </Card>
+  <Card title="Request Changes" icon="comment-dots" href="/guides/web-app/approvals/request-changes">
+    Send a report back for revisions instead of rejecting it
+  </Card>
+</CardGroup>

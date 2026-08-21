@@ -1,0 +1,65 @@
+---
+title: "Convertir un desplazamiento en gasto"
+description: "Convierta los desplazamientos registrados en gastos reclamables, de uno en uno o en lote"
+---
+
+## Resumen
+
+Registrar un desplazamiento deja constancia del trayecto. Convertirlo crea el gasto de kilometraje que podrá incluir en un informe. Mientras no se convierte, un desplazamiento no cuesta ni reclama nada.
+
+El estado indica en qué punto está:
+
+| Estado | Significado |
+|--------|-------------|
+| **Logged** | Registrado pero sin convertir. No existe ningún gasto. |
+| **Unreported** | Convertido. El gasto existe pero aún no está en ningún informe. |
+| Estado de un informe | Convertido y asociado a un informe, cuyo estado muestra. |
+
+## Convertir un desplazamiento
+
+Desde la lista, abra el menú de la fila y elija convertir. Desde la página de detalle, la misma acción está en la cabecera.
+
+Smartbills crea un gasto de kilometraje con la distancia, la unidad y la tarifa aplicable, y le lleva al nuevo gasto.
+
+<Note>
+  La conversión es idempotente. Repetirla sobre un desplazamiento ya convertido no crea un segundo gasto, así que un doble clic no puede generar una reclamación duplicada.
+</Note>
+
+## Convertir varios a la vez
+
+Seleccione desplazamientos con las casillas y elija **Añadir al informe** (Add to report) en la barra de acciones para convertirlos juntos.
+
+La conversión en lote informa de éxitos parciales en lugar de fallar por completo. Verá hasta tres resultados:
+
+- **Convertidos**, los que generaron un gasto nuevo
+- **Omitidos**, los que ya estaban convertidos y no requerían acción
+- **Fallidos**, los que no se pudieron convertir
+
+Como los omitidos y los fallidos se cuentan por separado, una conversión en lote sobre una selección mixta es segura. Los ya convertidos se dejan intactos, sin duplicar.
+
+## Cómo queda el gasto
+
+El gasto toma su título de la ruta, por ejemplo «Trayecto de Montreal a Quebec». Lleva la distancia, la tarifa aplicable y el reembolso calculado. Al abrirlo se ve un desglose con la distancia acumulada del año, el tramo aplicado y el importe resultante.
+
+El gasto enlaza al desplazamiento y el desplazamiento al gasto, así que puede moverse entre ambos en cualquier dirección.
+
+## Eliminar un desplazamiento convertido
+
+Eliminar un desplazamiento elimina también su gasto, así que Smartbills bloquea la eliminación en cuanto el gasto está comprometido en un informe.
+
+<Warning>
+  Si el gasto está en un informe, la eliminación se rechaza: primero hay que retirarlo del informe. Quite el gasto del informe y después elimine el desplazamiento.
+</Warning>
+
+La misma protección se aplica a la eliminación en lote. Los desplazamientos ya declarados de su selección se omiten y se cuentan, en lugar de eliminarse en silencio.
+
+## Siguiente paso
+
+<CardGroup cols={2}>
+  <Card title="Añadir a un informe" icon="file-invoice" href="/es/guides/web-app/mileage/add-to-expense-report">
+    Reclamar el gasto convertido
+  </Card>
+  <Card title="Tarifas de kilometraje" icon="calculator" href="/es/guides/web-app/mileage/mileage-rates">
+    Entender la tarifa aplicada
+  </Card>
+</CardGroup>

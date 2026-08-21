@@ -1,0 +1,115 @@
+---
+title: "Xero"
+description: "Export expenses and sync contacts between Smartbills and Xero"
+---
+
+## Overview
+
+The Xero integration enables you to export approved expenses from Smartbills into Xero as bills or spend money transactions. Contacts, tracking categories, and tax rates are synchronized to ensure accurate financial reporting.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Export** | Send approved expenses to Xero as bills or bank transactions |
+| **Contact Sync** | Two-way contact synchronization with vendor records |
+| **Tracking Categories** | Map Smartbills departments to Xero tracking categories |
+| **Tax Rate Mapping** | Map tax rates between both systems |
+| **Multi-currency** | Full support for multi-currency transactions |
+| **Receipt Attachments** | Attach receipt files to Xero transactions |
+| **Bank Reconciliation** | Reconcile exported expenses with bank feeds |
+
+## Prerequisites
+
+- Xero account (Starter, Standard, or Premium)
+- Smartbills Business plan or higher
+- Admin or Adviser role in Xero
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Xero**.
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Xero account. Authorize Smartbills to access your organization.
+
+  </Step>
+  <Step title="Select Organization">
+    If you have access to multiple Xero organizations, select the one to connect.
+  </Step>
+  <Step title="Map Accounts">
+    Map your Smartbills categories to Xero chart of accounts. Smartbills will suggest mappings based on account names and codes.
+  </Step>
+  <Step title="Configure Sync">
+    Set sync frequency, export format, and default settings.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Account Mapping
+
+| Smartbills Category | Xero Account | Code |
+|---------------------|-------------|------|
+| Travel | Travel Expenses | 6200 |
+| Meals | Entertainment | 6400 |
+| Office Supplies | Office Expenses | 6100 |
+| Software | Computer & Internet | 6500 |
+
+### Tracking Categories
+
+Map Smartbills departments to Xero tracking categories for reporting:
+
+| Smartbills Department | Xero Tracking Category |
+|----------------------|------------------------|
+| Engineering | Department: Engineering |
+| Marketing | Department: Marketing |
+| Sales | Department: Sales |
+
+<Info>
+  Xero limits tracking to two active categories. Plan your department and project mapping accordingly.
+</Info>
+
+### Export Options
+
+| Option | Description |
+|--------|-------------|
+| **Bills** | Create Xero bills payable to the employee |
+| **Spend Money** | Create bank transactions in a designated account |
+| **Draft vs. Approved** | Choose whether entries are created as drafts or approved |
+
+## Data Sync
+
+| Smartbills | Xero | Direction | Frequency |
+|-----------|------|-----------|-----------|
+| Approved expenses | Bills / Spend Money | Smartbills -> Xero | Real-time or scheduled |
+| Vendors | Contacts | Both ways | On demand |
+| Categories | Chart of accounts | Xero -> Smartbills | On demand |
+| Tax rates | Tax rates | Xero -> Smartbills | On demand |
+| Departments | Tracking categories | Xero -> Smartbills | On demand |
+| Receipt files | Attachments | Smartbills -> Xero | With expense export |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="OAuth token expired">
+    Xero tokens expire after 60 days if not refreshed. Go to **Settings > Apps > Xero** and click **Reconnect**.
+  </Accordion>
+
+  <Accordion title="Account not found">
+    Ensure all Smartbills categories are mapped to active Xero accounts. Archived accounts cannot receive transactions.
+  </Accordion>
+
+  <Accordion title="Currency mismatch">
+    The expense currency must match an enabled currency in your Xero organization. Add the currency in Xero Settings if needed.
+  </Accordion>
+
+  <Accordion title="Tracking categories not appearing">
+    Re-sync tracking categories from the integration settings page. Xero limits tracking to two active categories.
+  </Accordion>
+
+  <Accordion title="Duplicate transactions">
+    Check that only one sync method is active (real-time or scheduled). Using both may cause duplicate entries.
+  </Accordion>
+</AccordionGroup>

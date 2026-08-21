@@ -1,0 +1,105 @@
+---
+title: "Tarifas de kilometraje"
+description: "Configure las tarifas por kilómetro y por milla a las que su empresa reembolsa el kilometraje"
+---
+
+## Resumen
+
+Las tarifas de kilometraje deciden cuánto vale un kilómetro o una milla. Smartbills incluye los baremos publicados por la CRA y el IRS y los aplica automáticamente, así que una empresa que reembolsa a la tarifa estándar no tiene nada que configurar. Las que reembolsan de otra forma añaden tarifas propias, que tienen prioridad.
+
+Están en **Ajustes > Organización > Tarifas de kilometraje** (Settings > Organization > Mileage rates).
+
+<Note>
+  Solo los Administradores pueden modificar las tarifas. Los Administradores financieros ven la página pero no pueden editarla.
+</Note>
+
+## Cómo se elige una tarifa
+
+La página tiene dos secciones y se resuelven en un orden fijo:
+
+1. **Sus tarifas.** Las propias de su empresa. Se consultan primero.
+2. **Tarifas por defecto.** Los baremos publicados de la CRA y el IRS. Se aplican cuando ninguna propia encaja.
+
+Una tarifa encaja por país, región y fecha. El vehículo determina la jurisdicción y la fecha del trayecto determina qué versión estaba vigente.
+
+## Tarifas por tramos y tarifas planas
+
+| Tipo | Comportamiento |
+|------|----------------|
+| **Por tramos** | Una tarifa más alta hasta un umbral anual de distancia y otra más baja por encima. Así funciona el programa de la CRA. |
+| **Plana** | Una única tarifa, sea cual sea la distancia. |
+
+Una tarifa por tramos tiene tres valores: el **umbral**, la **tarifa del primer tramo** y la **tarifa del tramo superior**. El umbral está fijado por defecto en **5.000**, en línea con el límite anual de la CRA, y se expresa en la unidad de la propia tarifa.
+
+Smartbills lleva la distancia acumulada de cada empleado y aplica el tramo correcto a cada desplazamiento. Un trayecto que cruza el umbral se reparte entre ambas tarifas en lugar de cobrarse entero a una.
+
+### Distancias de partida
+
+Un empleado que se incorpora a mitad de año, o cuyos datos migra desde otro sistema, puede tener ya distancia acumulada que Smartbills nunca vio. Las distancias de partida permiten registrar ese acumulado inicial por año, de modo que el cálculo de tramos arranque en el punto correcto y no en cero.
+
+## Añadir una tarifa propia
+
+<Steps>
+  <Step title="Partir de un baremo o de cero">
+    La sección **Baremos** (Benchmarks) lista las tarifas publicadas de la CRA y el IRS. Elegir **Usar** en una de ellas rellena una tarifa nueva con sus valores, que es la forma más rápida de ajustar ligeramente la estándar.
+  </Step>
+  <Step title="Definir el alcance">
+    Elija el país y aplique la tarifa a todo el país o limítela a una región o provincia.
+  </Step>
+  <Step title="Elegir el tipo">
+    Por tramos o plana, y rellene los valores. Para las de tramos, indique umbral, tarifa del primer tramo y del tramo superior.
+  </Step>
+  <Step title="Fijar las fechas">
+    La fecha **desde** es obligatoria. La fecha **hasta** es opcional, y dejarla vacía deja la tarifa abierta.
+
+    No hay un campo de año aparte. El año se deduce de la fecha de inicio, lo que permite modelar una tarifa que cambia a mitad de año y no solo el 1 de enero.
+  </Step>
+  <Step title="Guardar">
+    La tarifa se aplica a los desplazamientos con fecha dentro de su ventana.
+  </Step>
+</Steps>
+
+## Cambiar una tarifa existente
+
+El historial de tarifas nunca se sobrescribe, porque los desplazamientos ya reembolsados deben conservar la tarifa con la que se pagaron. No existe una edición simple, sino dos operaciones, y elegir bien importa para sus registros.
+
+<AccordionGroup>
+  <Accordion title="Sustituir: la tarifa cambió de verdad" icon="calendar-clock">
+    Úselo cuando la tarifa cambia de cara al futuro, por ejemplo porque la CRA publicó una nueva. Elige la fecha de entrada en vigor y se crea una versión abierta a partir de ella. La anterior se cierra el día previo y queda registrada.
+
+    Los desplazamientos anteriores conservan la tarifa antigua. Los posteriores toman la nueva.
+  </Accordion>
+
+  <Accordion title="Corregir: la tarifa se introdujo mal" icon="pencil">
+    Úselo cuando la versión introducida era simplemente errónea. La corrección la sustituye en el mismo periodo, y la versión equivocada se conserva en el historial en lugar de borrarse.
+
+    Recurra a esto solo si la entrada original era incorrecta. Usarlo para un cambio real de tarifa reescribiría el pasado y falsearía lo ya reembolsado.
+  </Accordion>
+</AccordionGroup>
+
+## Archivar y restaurar
+
+Archivar retira una tarifa de la selección sin eliminarla. Restaurar la reactiva. Ninguna de las dos afecta a los desplazamientos ya reembolsados con ella.
+
+## Ejemplo: la tarifa por tramos de la CRA
+
+Una empresa canadiense que reembolsa a la tarifa estándar no necesita crear ninguna tarifa propia. Para comprobar lo que recibirá un empleado:
+
+1. El vehículo está matriculado en Canadá, así que se mide en kilómetros.
+2. El baremo de la CRA es por tramos, con un umbral de 5.000 km.
+3. Los primeros 5.000 km del año se reembolsan a la tarifa del primer tramo.
+4. Todo lo que supera 5.000 km se reembolsa a la tarifa reducida.
+5. El desplazamiento que cruza los 5.000 km se reparte: la parte por debajo del umbral a la tarifa alta y el resto a la reducida.
+
+La página de detalle de cada desplazamiento muestra este cálculo, incluida la distancia acumulada antes y después, así que un empleado puede ver por qué un trayecto posterior vale menos por kilómetro que uno anterior.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Gestionar vehículos" icon="car" href="/es/guides/web-app/mileage/vehicles">
+    El país de matriculación fija la unidad
+  </Card>
+  <Card title="Añadir a un informe" icon="file-invoice" href="/es/guides/web-app/mileage/add-to-expense-report">
+    Qué ve el aprobador
+  </Card>
+</CardGroup>

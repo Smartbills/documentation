@@ -1,0 +1,98 @@
+---
+title: "Connexions aux portails fournisseurs"
+description: "Connectez le portail de facturation d'un fournisseur pour que Smartbills récupère ses factures automatiquement"
+---
+
+## Aperçu
+
+Plutôt que d'attendre qu'un fournisseur envoie sa facture par courriel, Smartbills peut se connecter à son portail de facturation et la récupérer lui-même. Connectez le compte une fois, définissez une fréquence, et les factures arrivent sans que personne ait à les transférer.
+
+Les connexions se trouvent sur la page de chaque fournisseur. Les Administrateurs financiers et les Administrateurs peuvent les gérer.
+
+## Comment fonctionne une connexion
+
+<Steps>
+  <Step title="Connecter le compte">
+    Vous fournissez les identifiants dont le portail a besoin. Chaque fournisseur déclare ses propres champs obligatoires : le formulaire correspond donc à ce que ce portail précis demande, et non à un couple identifiant/mot de passe générique.
+  </Step>
+  <Step title="Smartbills lance une récupération">
+    Une exécution se connecte, localise les factures et les télécharge. Les exécutions ont lieu selon la fréquence que vous définissez, ou à la demande.
+  </Step>
+  <Step title="Les factures deviennent des brouillons">
+    Les documents récupérés sont lus et transformés en factures brouillon, prêtes pour votre processus habituel d'approbation et de paiement.
+  </Step>
+</Steps>
+
+## Traitement des identifiants
+
+<Warning>
+  Les identifiants sont pris en charge par un connecteur tiers sécurisé et ne sont jamais conservés par Smartbills. Traitez tout fichier que vous utilisez pour les importer comme une donnée sensible, et supprimez-le une fois l'import terminé.
+</Warning>
+
+Chaque connexion a un propriétaire, que vous pouvez réattribuer. Certains portails acceptent aussi une liaison par jeton plutôt que des identifiants stockés, ce qui évite de conserver un mot de passe lorsque le fournisseur le permet.
+
+## Connecter un fournisseur
+
+Ouvrez le fournisseur et ajoutez une connexion. Le formulaire est généré à partir du schéma d'identifiants du fournisseur : remplissez ce qui est demandé. Les portails exigent souvent une adresse de connexion et un identifiant de compte en plus du nom d'utilisateur et du mot de passe.
+
+## Les exécutions
+
+Chaque connexion conserve l'historique de ses exécutions. En ouvrant une exécution, vous voyez ce qui s'est passé, les factures produites et des **captures d'écran** prises pendant la session.
+
+Ces captures sont importantes. Lorsqu'une exécution échoue, elles montrent ce que le portail affichait réellement, ce qui suffit généralement à diagnostiquer un mot de passe changé, une acceptation de conditions ou une étape de vérification inattendue, sans passer par le support.
+
+### Répondre à une exécution en cours
+
+Une exécution peut se mettre en pause et demander un élément que vous seul pouvez fournir, par exemple un code de vérification. Les exécutions acceptent des interactions tant qu'elles sont ouvertes : vous pouvez donc répondre et les laisser se poursuivre plutôt que de tout recommencer.
+
+Une exécution bloquée ou devenue inutile peut être annulée.
+
+## Fréquence
+
+Chaque connexion a sa propre fréquence, qui détermine à quel rythme Smartbills vérifie l'arrivée de nouvelles factures. Alignez-la sur le cycle de facturation du fournisseur. Vérifier quotidiennement une facture mensuelle ajoute de la charge sans rien apporter.
+
+## Connecter des comptes pendant un import
+
+L'import de fournisseurs accepte des identifiants à côté de la fiche fournisseur : vous pouvez donc créer une liste de fournisseurs et connecter leurs portails en une seule opération.
+
+Ajoutez ces colonnes à votre fichier :
+
+| Colonne | Rôle |
+|---------|------|
+| `Username` | Nom d'utilisateur du portail |
+| `Password` | Mot de passe |
+| `LoginUrl` | Adresse de connexion |
+| `AccountId` | Identifiant de compte, si le portail en utilise un |
+| `field:<nom>` | Toute autre valeur exigée par le portail |
+| `secret:<nom>` | Une valeur supplémentaire à mettre en coffre |
+
+L'import accepte les formats CSV, XLSX et XLSM. Téléchargez le modèle depuis la fenêtre d'import plutôt que de composer la ligne d'en-tête à la main.
+
+### Lire le résultat d'un import
+
+L'import rend compte ligne par ligne, et les résultats méritent d'être compris avant de le lancer sur une longue liste :
+
+- **Créé** : un nouveau fournisseur a été ajouté.
+- **Existait déjà** : la ligne correspondait à un fournisseur que vous aviez déjà, par site web ou par nom. Le fournisseur existant a été réutilisé et **ses informations n'ont pas été modifiées**. L'import n'écrase jamais une fiche existante.
+- **Connecté** : les identifiants ont été acceptés et le compte est actif.
+- **Connexion refusée** : le fournisseur a été créé mais ses identifiants ont échoué. Connectez-le depuis sa propre page.
+- **Connexion ignorée** : ce fournisseur avait déjà une connexion.
+
+<Note>
+  Comme la correspondance se fait par site web ou par nom, un fournisseur que vous avez sous un nom légèrement différent sera créé une seconde fois plutôt que rapproché. Passez en revue la liste des créations après un import volumineux et fusionnez les doublons éventuels.
+</Note>
+
+## Déconnecter
+
+Supprimer une connexion arrête les exécutions futures et efface les identifiants conservés. Les factures déjà récupérées ne sont pas affectées.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Gérer les fournisseurs" icon="building" href="/fr/guides/web-app/vendors/manage-vendors">
+    Modifier, fusionner et importer des fiches
+  </Card>
+  <Card title="Factures" icon="receipt" href="/fr/guides/web-app/bills/overview">
+    Ce qu'il advient des factures récupérées
+  </Card>
+</CardGroup>

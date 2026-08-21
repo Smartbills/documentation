@@ -1,0 +1,103 @@
+---
+title: "Exporter un Rapport"
+description: "Exportez les rapports de dépenses en CSV ou PDF pour la comptabilité"
+---
+
+## Introduction
+
+L'exportation de rapports de dépenses vous permet de télécharger les données du rapport pour votre logiciel comptable, pour vos propres dossiers ou pour les partager avec des parties prenantes externes. Smartbills prend en charge plusieurs formats d'exportation, chacun adapte à un usage different.
+
+## Exporter un rapport individuel
+
+<Steps>
+  <Step title="Ouvrir le rapport">
+    Naviguez vers **Mes Rapports de Dépenses** dans la barre latérale et cliquez sur le rapport que vous souhaitez exporter. Vous pouvez exporter des rapports dans n'importe quel statut (Brouillon, Soumis, Approuvé, Remboursé).
+  </Step>
+  <Step title="Cliquer sur Exporter">
+    Cliquez sur le bouton **Exporter** dans le coin supérieur droit de la page de détail du rapport.
+
+  </Step>
+  <Step title="Choisir votre format">
+    Sélectionnez le format d'exportation qui correspond à vos besoins :
+
+    - **PDF**: Un document formate qui inclut tous les détails des dépenses et les images des reçus. Ideal pour les dossiers, les audits et le partage avec les approbateurs ou parties externes.
+    - **CSV**: Un fichier de valeurs séparées par des virgules contenant les données de dépenses en format tabulaire. Ideal pour l'importation dans les logiciels comptables comme QuickBooks, Xero ou Sage.
+    - **Excel**: Un tableur formate avec des en-tetes de colonnes, des types de données et des totaux. Utile pour des analyses supplémentaires ou des rapports personnalisés.
+  </Step>
+  <Step title="Télécharger le fichier">
+    Le fichier est généré et téléchargé sur votre ordinateur. Selon le format, le fichier inclut :
+
+    | Format | Contenu |
+    |--------|---------|
+    | **PDF** | Résumé du rapport, tableau des dépenses et images des reçus |
+    | **CSV** | Lignes de dépenses avec colonnes pour la date, le marchand, le montant, la catégorie, le département et le statut |
+    | **Excel** | Mêmes données que le CSV avec formatage, en-tetes et ligne de totaux |
+  </Step>
+</Steps>
+
+## Exporter depuis la liste des rapports
+
+Vous pouvez aussi exporter directement depuis la vue en liste des rapports sans ouvrir un rapport spécifique :
+
+1. Naviguez vers **Mes Rapports de Dépenses**
+2. Trouvez le rapport que vous souhaitez exporter dans la liste
+3. Cliquez sur le **menu à trois points** (menu d'actions) à droite de la ligne du rapport
+4. Sélectionnez **Exporter** et choisissez votre format
+
+## Détails des formats d'exportation
+
+### Exportation PDF
+
+L'exportation PDF produit un document complet qui inclut :
+
+- Titre du rapport, justification d'affaires et plage de dates
+- Nom de l'employé et date de soumission
+- Un tableau de toutes les dépenses avec les montants, catégories et dates
+- Les images des reçus joints en pages annexes
+- Totaux du rapport et repartition par devise
+
+Ce format est ideal pour l'archivage, les pistes d'audit et le partage avec des parties prenantes qui n'utilisent pas Smartbills.
+
+### Exportation CSV
+
+Le fichier CSV contient une ligne par dépense avec les colonnes suivantes :
+
+| Colonne | Description |
+|---------|-------------|
+| Date | Date de la transaction |
+| Marchand | Nom du fournisseur |
+| Montant | Total de la dépense |
+| Taxe | Montant de la taxe |
+| Devise | Devise de la transaction |
+| Catégorie | Catégorie de la dépense |
+| Département | Département assigne |
+| Description | Notes ou justification d'affaires |
+| Statut | Statut de la dépense |
+
+Les fichiers CSV peuvent être importes directement dans la plupart des systèmes comptables et ERP.
+
+### Exportation Excel
+
+L'exportation Excel contient les mêmes données que le CSV mais inclut :
+
+- En-tetes de colonnes formates
+- Types de données appropries (dates, devises)
+- Une ligne de totaux en bas
+- Des feuilles séparées pour le résumé et les détails (le cas echeant)
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Aperçu des Rapports de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
+    Comprendre le cycle de vie complet des rapports
+  </Card>
+  <Card title="Soumettre un Rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Soumettre votre rapport pour approbation
+  </Card>
+  <Card title="Gérer les Dépenses" icon="list-check" href="/fr/guides/web-app/business-expenses/manage-expenses">
+    Exporter les dépenses à l'échelle de l'entreprise depuis la boîte de réception
+  </Card>
+  <Card title="Coffre-fort" icon="box-archive" href="/fr/guides/concepts/vault">
+    Decouvrir l'archivage automatique des rapports approuvés
+  </Card>
+</CardGroup>

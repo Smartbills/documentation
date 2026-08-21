@@ -1,0 +1,173 @@
+---
+title: "Authentification"
+description: "Configurer l'authentification, le contexte d'entreprise et la locale pour le SDK JavaScript Smartbills."
+---
+
+## Authentification
+
+Le SDK Smartbills utilisé des jetons Bearer OAuth2 pour l'authentification. Chaque requête inclut le jeton dans l'en-tête `Authorization`, un identifiant d'entreprise dans l'en-tête `x-tenant-id` et une locale dans l'en-tête `Accept-Language`.
+
+## Initialisation du client
+
+Passez les identifiants lors de la construction du client :
+
+```typescript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123,
+  locale: 'fr-CA',
+  baseUrl: 'https://api.smartbills.io', // par défaut
+  timeout: 30000,                       // ms, par défaut
+  maxRetries: 2,                        // par défaut
+  retryDelay: 1000,                     // ms, par défaut
+});
+```
+
+### Options de configuration
+
+| Option | Type | Défaut | Description |
+|--------|------|--------|-------------|
+| `accessToken` | `string` |: | Jeton Bearer OAuth2 pour l'authentification API |
+| `businessId` | `number` |: | ID d'entreprise pour limiter les requêtes à un tenant spécifique |
+| `locale` | `string` |: | Code de locale pour les réponses localisées (`en-CA`, `fr-CA`) |
+| `baseUrl` | `string` | `https://api.smartbills.io` | URL de base de l'API |
+| `timeout` | `number` | `30000` | Délai d'expiration des requêtes en millisecondes |
+| `maxRetries` | `number` | `2` | Nombre maximal de tentatives automatiques |
+| `retryDelay` | `number` | `1000` | Délai de base entre les tentatives en millisecondes |
+
+## Mise à jour des identifiants à l'exécution
+
+Vous pouvez mettre à jour le jeton, l'ID d'entreprise ou la locale après l'initialisation :
+
+```typescript
+// Mettre à jour le jeton d'acces
+client.setAccessToken('NOUVEAU_JETON');
+
+// Changer le contexte d'entreprise
+client.setBusinessId(456);
+
+// Changer la locale
+client.setLocale('en-CA');
+```
+
+### Lire les valeurs actuelles
+
+```typescript
+console.log(client.accessToken);  // jeton actuel ou undefined
+console.log(client.businessId);   // ID d'entreprise actuel ou undefined
+console.log(client.locale);       // locale actuelle ou undefined
+```
+
+## Surcharges par requête
+
+Chaque méthode de service accepte un paramètre optionnel `RequestOptions` qui surcharge les valeurs par défaut du client pour cette requête :
+
+```typescript
+// Utiliser un contexte d'entreprise different pour une requête
+const expenses = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 789, locale: 'en-CA' }
+);
+```
+
+### RequestOptions
+
+```typescript
+type RequestOptions = {
+  businessId?: number;  // Surcharger l'ID d'entreprise par défaut
+  locale?: string;      // Surcharger la locale par défaut
+  signal?: AbortSignal; // Annuler la requête
+};
+```
+
+## Annulation de requête
+
+Passez un `AbortSignal` pour annuler les requêtes longues :
+
+```typescript
+const controller = new AbortController();
+
+// Annuler après 5 secondes
+setTimeout(() => controller.abort(), 5000);
+
+try {
+  const data = await client.expenses.listBusiness(
+    { limit: 100 },
+    { signal: controller.signal }
+  );
+} catch (error) {
+  if (error.name === 'CanceledError') {
+    console.log('Requête annulée');
+  }
+}
+```
+
+## Patron de fournisseur d'identifiants
+
+Pour des scénarios avancés comme le rafraichissement automatique des jetons, implementez l'interface `CredentialProvider` :
+
+```typescript
+import { CredentialProvider, AccessToken } from '@smartbills/sdk';
+
+// Jeton simple en memoire
+const credentials = new AccessToken('jeton-initial');
+console.log(credentials.getAccessToken()); // 'jeton-initial'
+
+// Mettre à jour plus tard
+credentials.setToken('jeton-rafraichi');
+```
+
+### Fournisseur d'identifiants personnalisé
+
+```typescript
+import type { CredentialProvider } from '@smartbills/sdk';
+
+class MonFournisseurAuth implements CredentialProvider {
+  private token?: string;
+
+  getAccessToken(): string | undefined {
+    return this.token;
+  }
+
+  async onTokenExpired(): Promise<string | undefined> {
+    const response = await fetch('/auth/refresh', { method: 'POST' });
+    const { accessToken } = await response.json();
+    this.token = accessToken;
+    return this.token;
+  }
+}
+```
+
+## Utilisation multi-tenant
+
+Dans les applications multi-tenant, créez une seule instance du client et changez le contexte d'entreprise par requête :
+
+```typescript
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+});
+
+// Dépenses de l'entreprise 100
+const depEntreprise100 = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 100 }
+);
+
+// Dépenses de l'entreprise 200
+const depEntreprise200 = await client.expenses.listBusiness(
+  { limit: 10 },
+  { businessId: 200 }
+);
+```
+
+## Comportement de tentatives
+
+Le SDK retente automatiquement les requêtes sur les erreurs transitoires :
+
+- **429 Trop de requêtes**: retente après la valeur de l'en-tête `Retry-After`
+- **Erreurs serveur 5xx**: retente avec back-off exponentiel
+- **Erreurs réseau** (reset de connexion, timeout), retente avec back-off exponentiel
+
+Les tentatives s'arretent après `maxRetries` essais. Les erreurs non-retentables (400, 401, 403, 404) sont levées immédiatement.

@@ -1,0 +1,388 @@
+---
+title: "Usage Guide"
+description: "Complete reference for the Smartbills .NET SDK service clients"
+---
+
+<Info>
+  The .NET SDK currently has limited service coverage compared to the JavaScript and Python SDKs. It focuses on invoicing, file management, and billing. Additional service clients for expenses, vendors, and reports are coming soon.
+</Info>
+
+## InvoiceClient
+
+The `InvoiceClient` provides full lifecycle management for invoices, including CRUD operations, sending, voiding, and retrieving summaries.
+
+Access it via `client.Invoices`.
+
+### Create an Invoice
+
+```csharp
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new()
+        {
+            Description = "Web development services",
+            Quantity = 40,
+            UnitPrice = 125.00m
+        },
+        new()
+        {
+            Description = "Hosting (monthly)",
+            Quantity = 1,
+            UnitPrice = 29.99m
+        }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30),
+    Notes = "Payment due within 30 days"
+});
+
+Console.WriteLine($"Invoice #{invoice.Id} created");
+```
+
+### Get an Invoice by ID
+
+```csharp
+var invoice = await client.Invoices.GetByIdAsync(42);
+Console.WriteLine($"Invoice total: {invoice.Total}");
+```
+
+### List Invoices
+
+Returns a paginated `SBList<SBInvoice>` with metadata:
+
+```csharp
+var invoices = await client.Invoices.ListAsync(new InvoiceListRequest
+{
+    Page = 1,
+    Limit = 25
+});
+
+foreach (var invoice in invoices.Data)
+{
+    Console.WriteLine($"#{invoice.Id} - {invoice.Total:C}");
+}
+
+// Access pagination metadata
+Console.WriteLine($"Total: {invoices.Pagination.Total}");
+Console.WriteLine($"Pages: {invoices.Pagination.TotalPages}");
+```
+
+### Update an Invoice
+
+```csharp
+var updated = await client.Invoices.UpdateAsync(42, new InvoiceUpdateRequest
+{
+    Notes = "Updated payment terms: Net 15",
+    DueDate = DateTime.UtcNow.AddDays(15)
+});
+```
+
+### Delete an Invoice
+
+```csharp
+var deleted = await client.Invoices.DeleteAsync(42);
+```
+
+### Send an Invoice
+
+Sends the invoice to the customer via email:
+
+```csharp
+var sent = await client.Invoices.SendAsync(42);
+Console.WriteLine($"Invoice sent at: {sent.SentAt}");
+```
+
+### Void an Invoice
+
+Marks the invoice as void (cannot be undone):
+
+```csharp
+var voided = await client.Invoices.VoidAsync(42);
+```
+
+### Get Invoice Summary
+
+Returns aggregate statistics across all invoices:
+
+```csharp
+var summary = await client.Invoices.GetSummaryAsync();
+```
+
+### Method Reference
+
+| Method | Parameters | Returns | Description |
+|--------|-----------|---------|-------------|
+| `CreateAsync` | `InvoiceCreateRequest, options?, ct?` | `SBInvoice` | Create a new invoice |
+| `GetByIdAsync` | `long id, options?, ct?` | `SBInvoice` | Retrieve an invoice by ID |
+| `ListAsync` | `InvoiceListRequest, options?, ct?` | `SBList<SBInvoice>` | List invoices with pagination |
+| `UpdateAsync` | `long id, InvoiceUpdateRequest, options?, ct?` | `SBInvoice` | Update an existing invoice |
+| `DeleteAsync` | `long id, options?, ct?` | `SBInvoice` | Delete an invoice |
+| `SendAsync` | `long id, options?, ct?` | `SBInvoice` | Send an invoice via email |
+| `VoidAsync` | `long id, options?, ct?` | `SBInvoice` | Void an invoice |
+| `GetSummaryAsync` | `options?, ct?` | `SBInvoiceSummary` | Get invoice summary statistics |
+
+<Info>
+  All methods accept optional `SBRequestOptions options` and `CancellationToken ct` parameters. IDs use the `long` type.
+</Info>
+
+---
+
+## FileClient
+
+The `FileClient` handles file retrieval and updates through the Smartbills file service.
+
+Access it via `client.Files`.
+
+### Get a File
+
+Retrieve a file by its key:
+
+```csharp
+var fileUrl = await client.Files.GetAsync("file-key-123", new GetFileRequest());
+```
+
+### Update a File
+
+Update file metadata:
+
+```csharp
+var updated = await client.Files.UpdateAsync("file-key-123", new UpdateFileRequest
+{
+    // Update file properties
+});
+```
+
+### Method Reference
+
+| Method | Parameters | Returns | Description |
+|--------|-----------|---------|-------------|
+| `GetAsync` | `string id, GetFileRequest, options?, ct?` | `string` | Get a file URL by key |
+| `UpdateAsync` | `string id, UpdateFileRequest, options?, ct?` | `string` | Update file metadata |
+
+---
+
+## BillingClient
+
+The `BillingClient` provides access to billing and subscription management. It includes sub-clients for checkout sessions, customer management, and payment methods.
+
+Access it via `client.Billing`.
+
+### Checkout Sessions
+
+Manage checkout sessions for payments:
+
+```csharp
+// Access checkout session operations
+var session = await client.Billing.CheckoutSessions.CreateAsync(
+    new CheckoutSessionCreateRequest
+    {
+        // Session configuration
+    }
+);
+```
+
+### Customers
+
+Manage billing customers:
+
+```csharp
+// Access customer operations
+var customers = await client.Billing.Customers.ListAsync();
+```
+
+### Payment Methods
+
+Manage payment methods:
+
+```csharp
+// Access payment method operations
+var methods = await client.Billing.PaymentMethods.ListAsync();
+```
+
+---
+
+## Async Patterns
+
+### CancellationToken Support
+
+All async methods accept a `CancellationToken` for cooperative cancellation:
+
+```csharp
+using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+
+try
+{
+    var invoice = await client.Invoices.GetByIdAsync(42, ct: cts.Token);
+}
+catch (OperationCanceledException)
+{
+    Console.WriteLine("Request timed out");
+}
+```
+
+### Parallel Operations
+
+Execute multiple independent operations concurrently:
+
+```csharp
+var invoiceTask = client.Invoices.GetByIdAsync(42);
+var summaryTask = client.Invoices.GetSummaryAsync();
+
+await Task.WhenAll(invoiceTask, summaryTask);
+
+var invoice = invoiceTask.Result;
+var summary = summaryTask.Result;
+```
+
+### ASP.NET Core Controller Example
+
+Using the SDK with dependency injection in a controller:
+
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class InvoicesController : ControllerBase
+{
+    private readonly IInvoiceClient _invoiceClient;
+
+    public InvoicesController(IInvoiceClient invoiceClient)
+    {
+        _invoiceClient = invoiceClient;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetInvoice(long id, CancellationToken ct)
+    {
+        try
+        {
+            var invoice = await _invoiceClient.GetByIdAsync(id, ct: ct);
+            return Ok(invoice);
+        }
+        catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateInvoice(
+        [FromBody] InvoiceCreateRequest request,
+        CancellationToken ct)
+    {
+        var invoice = await _invoiceClient.CreateAsync(request, ct: ct);
+        return CreatedAtAction(nameof(GetInvoice), new { id = invoice.Id }, invoice);
+    }
+}
+```
+
+## Error Handling
+
+The SDK throws exceptions for API errors. Wrap calls in try-catch blocks:
+
+```csharp
+try
+{
+    var invoice = await client.Invoices.GetByIdAsync(999);
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+{
+    Console.WriteLine("Invoice not found");
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+{
+    Console.WriteLine("Invalid API key");
+}
+catch (HttpRequestException ex) when (ex.StatusCode == System.Net.HttpStatusCode.TooManyRequests)
+{
+    Console.WriteLine("Rate limited -- retry after a delay");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Unexpected error: {ex.Message}");
+}
+```
+
+### Common Error Codes
+
+| HTTP Status | Meaning | Action |
+|-------------|---------|--------|
+| 400 | Bad Request | Check request parameters |
+| 401 | Unauthorized | Verify API key |
+| 403 | Forbidden | Check permissions |
+| 404 | Not Found | Verify resource ID |
+| 422 | Validation Error | Check required fields |
+| 429 | Rate Limited | Reduce request frequency |
+| 500 | Server Error | Retry with backoff |
+
+## Pagination
+
+List endpoints return `SBList<T>` which includes both the data and pagination metadata:
+
+```csharp
+var page1 = await client.Invoices.ListAsync(new InvoiceListRequest
+{
+    Page = 1,
+    Limit = 50
+});
+
+// Iterate through all pages
+var currentPage = 1;
+SBList<SBInvoice> result;
+
+do
+{
+    result = await client.Invoices.ListAsync(new InvoiceListRequest
+    {
+        Page = currentPage,
+        Limit = 50
+    });
+
+    foreach (var invoice in result.Data)
+    {
+        // Process each invoice
+    }
+
+    currentPage++;
+} while (currentPage <= result.Pagination.TotalPages);
+```
+
+## Complete Example
+
+An end-to-end example creating, listing, sending, and voiding invoices:
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = Environment.GetEnvironmentVariable("SMARTBILLS_API_KEY"),
+    BusinessId = 123
+});
+
+// 1. Create an invoice
+var invoice = await client.Invoices.CreateAsync(new InvoiceCreateRequest
+{
+    CustomerId = 456,
+    Items = new List<InvoiceItemRequest>
+    {
+        new() { Description = "Monthly retainer", Quantity = 1, UnitPrice = 2000.00m }
+    },
+    DueDate = DateTime.UtcNow.AddDays(30)
+});
+
+Console.WriteLine($"Created invoice #{invoice.Id}");
+
+// 2. Send the invoice
+var sent = await client.Invoices.SendAsync(invoice.Id);
+Console.WriteLine($"Invoice sent");
+
+// 3. List all invoices
+var all = await client.Invoices.ListAsync(new InvoiceListRequest { Limit = 10 });
+Console.WriteLine($"Total invoices: {all.Pagination.Total}");
+
+// 4. Get a summary
+var summary = await client.Invoices.GetSummaryAsync();
+Console.WriteLine($"Summary retrieved");
+```

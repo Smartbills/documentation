@@ -1,0 +1,94 @@
+---
+title: "Rôles et autorisations"
+description: "Ce que chaque rôle peut faire, et pourquoi votre collègue voit des choses que vous ne voyez pas"
+---
+
+## Aperçu
+
+Chaque personne d'une entreprise a un seul rôle. Ce rôle détermine ce qui apparaît dans la barre latérale et ce que vous êtes autorisé à faire.
+
+Les rôles se définissent dans **Paramètres > Espace de travail > Équipe**, et seuls les Administrateurs peuvent les modifier.
+
+## Les cinq rôles
+
+| Rôle | À qui il s'adresse | Ce qu'il permet |
+|------|--------------------|-----------------|
+| **Membre** | Toute personne qui réclame des dépenses | Ses propres dépenses, rapports et trajets. Rien de ce qui appartient à autrui. |
+| **Équipe financière** | Commis comptables et teneurs de livres | Tout ce que fait un Membre, plus la vérification des dépenses d'entreprise et le téléversement de factures. Ne peut ni approuver ni payer. |
+| **Gestionnaire** | Responsables d'équipe | Tout ce que fait un Membre, plus l'approbation et le rejet des rapports de son équipe. Ne peut pas les payer. |
+| **Administrateur financier** | Contrôleurs et responsables financiers | Approuve, rejette et rembourse les rapports. Accès complet aux factures, fournisseurs, coffre-fort et à la plupart des paramètres. Ne peut ni inviter des personnes ni modifier la facturation. |
+| **Administrateur** | Propriétaires et responsables des opérations | Tout, y compris inviter des personnes, changer les rôles, la facturation et les paramètres de l'entreprise. |
+
+<Note>
+  Il n'existe pas de rôle Propriétaire. Tout ce dont un propriétaire aurait besoin, y compris la facturation et la capacité de modifier les accès, relève du rôle **Administrateur**.
+</Note>
+
+## Approuver et payer sont volontairement séparés
+
+Un Gestionnaire peut approuver un rapport de dépenses mais ne peut pas le rembourser. La libération des fonds est réservée aux Administrateurs financiers et aux Administrateurs.
+
+C'est délibéré. Cela garantit qu'une même personne ne peut pas à la fois autoriser une demande et la payer, ce qui est le contrôle que recherchent la plupart des auditeurs. C'est aussi la raison pour laquelle un Gestionnaire qui a approuvé un rapport le voit encore ensuite : il attend la finance, pas lui.
+
+## Pourquoi votre barre latérale diffère de celle d'un collègue
+
+La section entreprise n'apparaît que si votre rôle vous donne accès à quelque chose qu'elle contient. Un Membre n'y a accès à rien, et ne voit donc que Tableau de bord, Trajets kilométriques, Dépenses et Rapports de dépenses.
+
+Il en va de même dans les Paramètres. Un Administrateur financier voit Catégories, Départements et Employés. Un Membre ne voit que Véhicules et Délégation, car ces deux-là sont personnels plutôt que propres à l'entreprise.
+
+C'est aussi pourquoi la barre latérale peut changer quand vous passez d'une entreprise à l'autre. Votre rôle est propre à chaque entreprise. Voir [Changer d'entreprise](/fr/guides/web-app/switching-businesses).
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Je ne vois pas Factures, Fournisseurs ou Coffre-fort">
+    Ces sections demandent le rôle Administrateur financier ou Administrateur. Les Gestionnaires et les Membres ne les ont pas. Demandez à un Administrateur si vous avez besoin d'y accéder.
+  </Accordion>
+
+  <Accordion title="J'ai approuvé un rapport mais je ne peux pas le marquer remboursé">
+    Vous êtes Gestionnaire. L'approbation et le paiement sont séparés : le rapport attend maintenant un Administrateur financier ou un Administrateur.
+  </Accordion>
+
+  <Accordion title="Je ne peux pas inviter un nouveau membre">
+    Seuls les Administrateurs peuvent inviter des personnes ou modifier des rôles. Les Administrateurs financiers ne le peuvent pas, même s'ils modifient la plupart des autres paramètres.
+  </Accordion>
+
+  <Accordion title="Je suis Administrateur financier et je ne peux pas soumettre mon propre rapport">
+    C'est une limitation connue. Les Administrateurs financiers peuvent approuver et rembourser les rapports des autres, mais ne peuvent ni soumettre ni supprimer les leurs.
+
+    Si vos contrôleurs doivent aussi réclamer leurs propres dépenses, contactez le support Smartbills. N'y remédiez pas en les passant Administrateur, ce qui leur accorderait bien plus que nécessaire.
+  </Accordion>
+
+  <Accordion title="Quelqu'un doit me remplacer pendant mon absence">
+    Utilisez la délégation plutôt que de changer son rôle. Elle lui permet d'agir pour vous temporairement, conserve la trace de qui a fait quoi, et s'annule facilement. Voir [Délégation](/fr/guides/web-app/settings/delegation).
+  </Accordion>
+</AccordionGroup>
+
+## Modifier le rôle d'une personne
+
+<Steps>
+  <Step title="Ouvrir les paramètres de l'équipe">
+    Allez dans **Paramètres > Espace de travail > Équipe**.
+  </Step>
+  <Step title="Choisir la personne et le nouveau rôle">
+    Le changement prend effet immédiatement.
+  </Step>
+</Steps>
+
+Pour ajouter quelqu'un, utilisez **Inviter** et choisissez son rôle au passage. Seuls les Administrateurs peuvent le faire.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Inviter des membres" icon="user-plus" href="/fr/guides/web-app/team/invite-members">
+    Ajouter des personnes à votre entreprise
+  </Card>
+  <Card title="Délégation" icon="user-shield" href="/fr/guides/web-app/settings/delegation">
+    Autoriser quelqu'un à agir pour vous
+  </Card>
+  <Card title="Journal d'audit" icon="scroll" href="/fr/guides/web-app/settings/audit-log">
+    Vérifier qui a approuvé ou payé
+  </Card>
+  <Card title="Changer d'entreprise" icon="repeat" href="/fr/guides/web-app/switching-businesses">
+    Pourquoi vos accès varient
+  </Card>
+</CardGroup>

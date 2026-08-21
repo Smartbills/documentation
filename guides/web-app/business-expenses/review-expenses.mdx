@@ -1,0 +1,95 @@
+---
+title: "Review Expenses"
+description: "Review and validate incoming company expenses"
+---
+
+## Introduction
+
+Reviewing expenses is a core part of the finance workflow. When employees upload receipts or forward expenses, those items appear in the Business Expenses for managers and accountants to verify. This guide walks you through the process of reviewing individual expenses to ensure accuracy, proper categorization, and policy compliance.
+
+## Review Workflow
+
+<Steps>
+  <Step title="Navigate to Expenses">
+    Click **Expenses** in the sidebar to open the Business Expenses. You can also navigate directly to `/{slug}/expenses`. The inbox shows all company expenses with their current status.
+  </Step>
+  <Step title="Filter by Status">
+    Use the status filter at the top of the inbox to focus on expenses that need attention. Common filters for reviewers:
+    - **Pending**: Expenses awaiting initial review
+    - **Missing Info**: Expenses that are incomplete and need employee input
+    - **Flagged**: Expenses that have been flagged for policy violations or unusual amounts
+
+  </Step>
+  <Step title="Open the Expense Detail View">
+    Click on any expense row to open the detail panel. The detail view displays the receipt image on one side and the extracted expense data on the other, so you can compare them side by side.
+  </Step>
+  <Step title="Verify Receipt Data">
+    Compare the receipt image against the extracted data fields:
+    - **Merchant name**: Does it match the vendor on the receipt?
+    - **Date**: Is the transaction date correct?
+    - **Amount**: Does the total match, including taxes?
+    - **Currency**: Is the correct currency selected?
+    - **Line items**: If applicable, do the individual items match?
+
+    If any field is incorrect, click the field to edit it directly.
+
+  </Step>
+  <Step title="Check Category and Department">
+    Verify that the expense has been assigned the correct category and department:
+    - **Category**: Is the expense classified correctly (e.g., Meals, Travel, Office Supplies)?
+    - **Department**: Is it allocated to the right business unit or cost center?
+
+    Smartbills may auto-suggest a category based on the merchant. You can override the suggestion by selecting a different category from the dropdown.
+  </Step>
+  <Step title="Take Action">
+    After reviewing the expense, choose one of the following actions:
+
+    - **Approve**: Mark the expense as verified and correctly categorized. It will move to Approved status.
+    - **Flag**: Flag the expense for a policy violation, unusual amount, or missing justification. Add a note explaining the reason.
+    - **Return for Revision**: Send the expense back to the employee with a comment describing what needs to be fixed (e.g., missing receipt, incorrect amount, needs business purpose).
+
+  </Step>
+</Steps>
+
+## What to Look For
+
+When reviewing an expense, check for the following:
+
+| Check | What to Verify |
+|-------|---------------|
+| **Receipt attached** | The expense has a legible receipt image or PDF |
+| **Amount accuracy** | The total matches the receipt, including tax |
+| **Correct category** | The category reflects the nature of the purchase |
+| **Department assigned** | The expense is allocated to the correct cost center |
+| **Business purpose** | The employee has provided a justification (if required by policy) |
+| **Duplicate check** | The expense has not been submitted twice |
+| **Policy compliance** | The amount falls within spending limits for the category |
+
+## Keyboard Shortcuts
+
+Speed up your review workflow with keyboard shortcuts:
+
+| Shortcut | Action |
+|----------|--------|
+| **A** | Approve the current expense |
+| **F** | Flag the current expense |
+| **R** | Return for revision |
+| **N** | Move to the next expense |
+| **P** | Move to the previous expense |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Manage Expenses" icon="list-check" href="/guides/web-app/business-expenses/manage-expenses">
+    Perform bulk actions on multiple expenses at once
+  </Card>
+  <Card title="Inbox Settings" icon="gear" href="/guides/web-app/business-expenses/settings">
+    Set up auto-approval rules and duplicate detection
+  </Card>
+  <Card title="Categories & Departments" icon="tags" href="/guides/concepts/categories-and-departments">
+    Understand how categorization works
+  </Card>
+  <Card title="Approval Workflows" icon="check-double" href="/guides/concepts/approval-workflows">
+    Learn about single and multi-level approvals
+  </Card>
+</CardGroup>

@@ -1,6 +1,6 @@
 
 import { Link, Text, Title } from "@smartbills/react";
-import { useTheme } from "@smartbills/react-core";
+import { useAppTheme } from "@/contexts/theme/ThemeContext";
 import styles from "./endpoints.module.scss";
 
 export type EndpointMethodType = "GET" | "PUT" | "POST" | "DELETE";

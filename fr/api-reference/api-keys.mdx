@@ -1,0 +1,315 @@
+---
+title: "Clés API"
+description: "Apprenez à créer, gérer et securiser vos clés API Smartbills"
+---
+
+## Aperçu
+
+Les clés API sont la méthode principale d'authentification avec l'API Smartbills. Chaque clé est liee à votre compte utilisateur et hérité de vos permissions. Ce guide couvre tout ce que vous devez savoir sur la création, l'utilisation et la gestion sécurisée des clés API.
+
+<Note>
+  **Les clés API sont puissantes** : Elles fournissent un accès complet à votre compte via l'API. Traitez-les comme des mots de passe et ne les partagez jamais publiquement.
+</Note>
+
+## Créer des clés API
+
+### Générer votre première clé API
+
+<Steps>
+  <Step title="Naviguer vers les clés API">
+    1. Connectez-vous à [app.smartbills.io](https://app.smartbills.io)
+    2. Cliquez sur votre icône de profil (en haut à droite)
+    3. Sélectionnez **Paramètres**
+    4. Naviguez vers **Développeur** > **Clés API**
+  </Step>
+  
+  <Step title="Créer une nouvelle clé">
+    1. Cliquez sur **Créer une nouvelle clé API**
+    2. Entrez un nom descriptif pour la clé (ex. : "Serveur de production", "Environnement de développement")
+    3. (Optionnel) Définissez une date d'expiration
+    4. (Optionnel) Restreignez à des adresses IP spécifiques
+    5. Cliquez sur **Générer la clé**
+  </Step>
+  
+  <Step title="Copier votre clé">
+    1. Votre clé API sera affichée **une seule fois**
+    2. Copiez-la immédiatement dans un emplacement sécurisé
+    3. Stockez-la dans votre gestionnaire de mots de passe ou vos variables d'environnement
+    4. Cliquez sur **J'ai sauvegarde ma clé** pour confirmer
+  </Step>
+</Steps>
+
+<Warning>
+  **Important** : Les clés API ne sont affichées qu'une seule fois lors de la création. Si vous perdez une clé, vous devez la révoquér et en créer une nouvelle.
+</Warning>
+
+## Types de clés API
+
+Smartbills fournit deux types de clés API pour differents environnements :
+
+### Clés de test
+
+```
+sk_test_1234567890abcdef...
+```
+
+**Utilisation :**
+- Développement et tests
+- Environnements de pre-production
+- Tests d'intégration
+- Apprentissage de l'API
+
+**Caracteristiques :**
+- Prefixe : `sk_test_`
+- Données de test séparées
+- Limites de débit plus elevees pour les tests
+- Aucune charge ou transaction réelle
+- Peut être partagée en toute sécurité avec votre équipe de développement
+
+<Tip>
+  Les clés de test sont parfaites pour le développement. Elles fonctionnent avec tous les points d'accès mais operent sur des données de test séparées qui n'affectent pas la production.
+</Tip>
+
+### Clés de production
+
+```
+sk_live_1234567890abcdef...
+```
+
+**Utilisation :**
+- Environnements de production
+- Applications en direct
+- Traitement réel des dépenses
+- Intégrations de production
+
+**Caracteristiques :**
+- Prefixe : `sk_live_`
+- Données de production réelles
+- Limites de débit standard
+- Traite les dépenses réelles
+- Doit être hautement sécurisée
+
+<Warning>
+  **Sécurité** : Ne commitez jamais les clés de production dans le contrôle de version et ne les exposez jamais dans le code côté client.
+</Warning>
+
+## Utiliser les clés API
+
+### En-tête d'authentification
+
+Incluez votre clé API dans l'en-tête `Authorization` de chaque requête :
+
+```http
+Authorization: Bearer VOTRE_CLE_API
+```
+
+### Exemple complet
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer sk_live_1234567890abcdef' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+const expenses = await client.expenses.list();
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
+
+expenses = client.expenses.list()
+```
+
+</CodeGroup>
+
+## Permissions et portées des clés
+
+### Heritage des permissions
+
+Les clés API héritent des permissions de l'utilisateur qui les à créées. Si vous avez accès à plusieurs entreprises, votre clé fonctionnera avec toutes via l'en-tête `x-tenant-id`.
+
+### Portees disponibles
+
+<AccordionGroup>
+  <Accordion title="Portees entreprises" icon="building">
+    **read:businesses** - Voir les informations des entreprises, lister les entreprises, obtenir les détails
+
+    **write:businesses** - Créer de nouvelles entreprises, mettre à jour les informations, modifier les paramètres
+
+    **delete:businesses** - Supprimer des entreprises (avec confirmation)
+  </Accordion>
+
+  <Accordion title="Portees dépenses" icon="receipt">
+    **read:expenses** - Lister toutes les dépenses, obtenir les détails, télécharger les pieces jointes, exporter les données
+
+    **write:expenses** - Télécharger de nouvelles dépenses, mettre à jour les informations, ajouter/supprimer des pieces jointes, catégoriser
+
+    **delete:expenses** - Supprimer des dépenses individuelles, opérations de suppression en lot
+  </Accordion>
+
+  <Accordion title="Portees rapports" icon="file-invoice">
+    **read:reports** - Lister les rapports, obtenir les détails, voir la chronologie, accéder aux journaux d'audit
+
+    **write:reports** - Créer de nouveaux rapports, mettre à jour les détails, ajouter/supprimer des dépenses, soumettre
+
+    **approve:reports** - Approuver les rapports, rejeter, demander des changements, ajouter des commentaires
+  </Accordion>
+
+  <Accordion title="Portees utilisateurs" icon="user">
+    **read:user** - Obtenir les détails de son propre utilisateur, voir les paramètres
+
+    **write:user** - Mettre à jour le profil, changer les paramètres
+
+    **manage:users** - Inviter des utilisateurs, supprimer des utilisateurs, mettre à jour les permissions (administrateur uniquement)
+  </Accordion>
+</AccordionGroup>
+
+## Gérer les clés API
+
+### Revoquer des clés
+
+Désactivez immédiatement une clé API :
+
+1. Naviguez vers votre liste de clés API
+2. Trouvez la clé à révoquér
+3. Cliquez sur **Revoquer** ou l'icône de corbeille
+4. Confirmez l'action
+
+<Warning>
+  **Effet immédiat** : La revocation d'une clé arrete immédiatement toutes les requêtes utilisant cette clé. Assurez-vous d'avoir une clé de remplacement en place avant la revocation.
+</Warning>
+
+**Quand révoquér :**
+- La clé à été compromise ou exposee
+- Un employé ayant l'accès à quitte l'organisation
+- Migration vers une nouvelle clé
+- Intégration plus utilisée
+- Utilisation non autorisée suspectee
+
+### Rotation des clés
+
+Bonne pratique : effectuez la rotation des clés regulierement.
+
+<Steps>
+  <Step title="Créer une nouvelle clé">
+    Générez une nouvelle clé API avec les mêmes permissions.
+  </Step>
+  
+  <Step title="Mettre à jour votre application">
+    Remplacez l'ancienne clé par la nouvelle dans votre application. Testez soigneusement.
+  </Step>
+  
+  <Step title="Surveiller">
+    Surveillez les requêtes utilisant encore l'ancienne clé. Vérifiez l'horodatage "Dernière utilisation".
+  </Step>
+  
+  <Step title="Revoquer l'ancienne clé">
+    Une fois que vous etes sur que la nouvelle clé fonctionne, révoquéz l'ancienne.
+  </Step>
+</Steps>
+
+<Tip>
+  **Calendrier de rotation** : Effectuez la rotation des clés API tous les 90 jours pour les environnements de production, ou chaque fois que les membres de l'équipe ayant l'accès changent.
+</Tip>
+
+## Bonnes pratiques de sécurité
+
+### Stocker dans des variables d'environnement
+
+```bash
+# Fichier .env (ne jamais commiter !)
+SMARTBILLS_API_KEY=sk_live_1234567890abcdef
+SMARTBILLS_BUSINESS_ID=123
+```
+
+```javascript
+// Utiliser dans votre code
+const apiKey = process.env.SMARTBILLS_API_KEY;
+```
+
+```python
+import os
+api_key = os.environ.get('SMARTBILLS_API_KEY')
+```
+
+### Utiliser des clés differentes par environnement
+
+- **Développement** : clé de test (`sk_test_...`)
+- **Pre-production** : clé de test séparée
+- **Production** : clé de production (`sk_live_...`)
+
+N'utilisez jamais la même clé dans plusieurs environnements.
+
+### A eviter
+
+<Warning>
+  **Ne faites jamais ceci :**
+  
+  - Commiter les clés API dans le contrôle de version (Git, SVN, etc.)
+  - Exposer les clés dans le code côté client (bundles JavaScript, applications mobiles)
+  - Partager les clés par courriel, Slack ou autres messageries
+  - Coder en dur les clés dans le code source
+  - Utiliser les clés de production en développement
+  - Stocker les clés dans des fichiers non chiffres
+  - Inclure les clés dans les URL ou paramètres de requête
+  - Enregistrer les clés API dans les journaux d'application
+</Warning>
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Erreur 401 Non autorisé" icon="lock">
+    **Causes possibles :**
+    
+    1. **En-tête Authorization manquant** - Incluez `Authorization: Bearer VOTRE_CLE_API`
+    2. **Format incorrect** - Assurez-vous que le prefixe "Bearer " est inclus sans espaces supplémentaires
+    3. **Clé révoquée ou expirée** - Vérifiez si la clé est toujours active dans le tableau de bord
+    4. **Mauvais type de clé** - Utilisez `sk_live_` pour la production et `sk_test_` pour le bac à sable
+  </Accordion>
+
+  <Accordion title="Erreur 403 Interdit" icon="ban">
+    **Causes possibles :**
+    
+    1. **Permissions insuffisantes** - Votre compte utilisateur n'a pas les permissions nécessaires
+    2. **Restriction IP** - Requête depuis une adresse IP non autorisée
+    3. **Accès à l'entreprise** - Tentative d'accès à une entreprise dont vous n'etes pas membre
+  </Accordion>
+
+  <Accordion title="Impossible de créer une clé API" icon="circle-exclamation">
+    **Causes possibles :**
+    
+    1. **Limite de clés atteinte** - Plan gratuit : 2 clés max, Professionnel : 10 clés max, Entreprise : Illimite
+    2. **Permissions insuffisantes** - Seuls les proprietaires de compte et les administrateurs peuvent créer des clés API
+  </Accordion>
+</AccordionGroup>
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Authentification" icon="shield" href="/fr/api-reference/authentication">
+    Documentation complète d'authentification
+  </Card>
+  <Card title="Environnements" icon="server" href="/fr/api-reference/environments">
+    Environnements bac à sable et production
+  </Card>
+  <Card title="Limites de débit" icon="gauge" href="/fr/api-reference/rate-limits">
+    Comprendre la limitation de débit de l'API
+  </Card>
+  <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
+    Gérer les erreurs API efficacement
+  </Card>
+</CardGroup>

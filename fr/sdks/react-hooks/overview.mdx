@@ -1,0 +1,248 @@
+---
+title: "Aperçu des React Hooks"
+description: "Hooks React Query pour l'API Smartbills, récupération de données type-safe avec mise en cache automatique et invalidation"
+---
+
+## Introduction
+
+Le SDK `@smartbills/react-hooks` fournit un ensemble complet de hooks React construits sur [TanStack React Query](https://tanstack.com/query). Chaque hook encapsule un endpoint de l'API Smartbills avec mise en cache automatique, pagination, invalidation du cache et mises à jour optimistes.
+
+<Info>
+  Ce SDK nécessité `@smartbills/sdk` (le client JS principal) et `@tanstack/react-query` comme dépendances pairs.
+</Info>
+
+## Installation
+
+```bash
+npm install @smartbills/sdk @smartbills/react-hooks @tanstack/react-query
+```
+
+## Configuration du Provider
+
+Encapsulez votre application avec `SmartbillsProvider` et un `QueryClientProvider` React Query :
+
+```tsx
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SmartbillsProvider } from "@smartbills/react-hooks";
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const queryClient = new QueryClient();
+const sbClient = new SmartbillsClient({
+  accessToken: "VOTRE_JETON_ACCES",
+  businessId: 123,
+});
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsProvider client={sbClient} businessId={123}>
+        <MonApp />
+      </SmartbillsProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+Le `SmartbillsProvider` rend le client Smartbills disponible à tous les hooks via le contexte React. Le `businessId` limite tous les appels API à l'entreprise spécifiée.
+
+## Fonctionnement des Hooks
+
+En interne, chaque hook correspond à une primitive React Query :
+
+- **Les hooks de requête** utilisent `useQuery` ou `useInfiniteQuery` pour les opérations de lecture. Ils retournent l'objet résultat standard de React Query avec `data`, `isLoading`, `error`, `refetch`, et des helpers de pagination.
+- **Les hooks de mutation** utilisent `useMutation` pour les opérations d'ecriture. Ils retournent des fonctions `mutate` / `mutateAsync` et invalident automatiquement les entrées de cache associées en cas de succès.
+
+Cela signifie que vous bénéficiez de toutes les fonctionnalités intégrées de React Query : refetch en arriere-plan, stale-while-revalidate, mises à jour optimistes, défilement infini et support des devtools.
+
+## Patrons de Hooks
+
+### Hooks de Requête (lecture de données)
+
+Les hooks de requête utilisent `useQuery` ou `useInfiniteQuery` en interne. Ils retournent l'objet résultat standard de React Query :
+
+```tsx
+import { useExpenses } from "@smartbills/react-hooks";
+
+function ListeDépenses() {
+  const {
+    data,           // pages de reponses paginees
+    isLoading,      // true au premier chargement
+    isFetching,     // true à chaque récupération (incluant le refetch)
+    error,          // objet d'erreur si la requête à échoué
+    hasNextPage,    // true s'il y à plus de pages disponibles
+    fetchNextPage,  // fonction pour charger la page suivante
+  } = useExpenses({ limit: 25 });
+
+  if (isLoading) return <p>Chargement...</p>;
+  if (error) return <p>Erreur : {error.message}</p>;
+
+  const expenses = data?.pages.flatMap((p) => p.data) ?? [];
+
+  return (
+    <div>
+      {expenses.map((expense) => (
+        <div key={expense.id}>
+          {expense.vendor?.name} - {expense.amount} $
+        </div>
+      ))}
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()}>Charger plus</button>
+      )}
+    </div>
+  );
+}
+```
+
+### Hooks de Mutation (ecriture de données)
+
+Les hooks de mutation utilisent `useMutation` et invalident automatiquement les requêtes associées en cas de succès :
+
+```tsx
+import { useCreateExpenseReport, useApproveExpenseReport } from "@smartbills/react-hooks";
+
+function ActionsRapport() {
+  const createReport = useCreateExpenseReport();
+  const approveReport = useApproveExpenseReport();
+
+  const handleCreate = () => {
+    createReport.mutate(
+      { name: "Déplacément mars", description: "Voyage d'affaires à Montreal" },
+      { onSuccess: (report) => console.log("Créé :", report.id) }
+    );
+  };
+
+  const handleApprove = (reportId: number) => {
+    approveReport.mutate(
+      { reportId, comment: "Tout est correct" },
+      { onSuccess: () => console.log("Approuve !") }
+    );
+  };
+
+  return (
+    <div>
+      <button onClick={handleCreate} disabled={createReport.isPending}>
+        Créer un rapport
+      </button>
+    </div>
+  );
+}
+```
+
+## Invalidation Automatique du Cache
+
+Lorsqu'une mutation reussit, le SDK invalide automatiquement les requêtes associées. Par exemple :
+
+- `useCreateExpenseReport` invalide toutes les requêtes de liste de rapports de dépenses
+- `useUpdateExpense` invalide les requêtes de liste de dépenses
+- `useApproveApprobation` invalide les requêtes d'approbation et de rapports de dépenses
+
+Cela signifie que votre interface reste synchronisée sans récupération manuelle.
+
+## Domaines Disponibles
+
+Le SDK fournit des hooks pour 37 domaines couvrant l'ensemble de la plateforme Smartbills :
+
+<CardGroup cols={3}>
+  <Card title="Dépenses" icon="receipt">
+    Lister, télécharger, mettre à jour, supprimer, diviser, opérations en lot, exporter
+  </Card>
+  <Card title="Rapports de Dépenses" icon="file-lines">
+    CRUD, soumettre, approuver, rejeter, rappelér, rembourser, commenter
+  </Card>
+  <Card title="Approbations" icon="check-double">
+    En attente, approuvées, rejetées, rembourser, demander des changements
+  </Card>
+  <Card title="Factures Fournisseurs" icon="file-invoice-dollar">
+    CRUD, approuver, planifier le paiement, marquer comme payee, annuler
+  </Card>
+  <Card title="Factures" icon="file-invoice">
+    CRUD, envoyer, annuler, marquer comme payee, dupliquer, résumé
+  </Card>
+  <Card title="Fournisseurs" icon="store">
+    CRUD, fusionner, suppression en lot, télécharger le logo
+  </Card>
+  <Card title="Employés" icon="users">
+    Lister et gérer les dossiers des employés
+  </Card>
+  <Card title="Catégories" icon="tags">
+    Lister et gérer les catégories de dépenses
+  </Card>
+  <Card title="Départements" icon="building">
+    Lister et gérer les départements
+  </Card>
+</CardGroup>
+
+## Uploads Présignés
+
+Le SDK inclut un hook `usePresignedUpload` qui gère le flux complet d'upload présigné S3 :
+
+```tsx
+import { usePresignedUpload } from "@smartbills/react-hooks";
+
+function TelechargeurFichiers() {
+  const upload = usePresignedUpload();
+
+  const handleUpload = (files: FileList) => {
+    upload.mutate({
+      files: Array.from(files).map((file) => ({
+        file,
+        fileName: file.name,
+        contentType: file.type,
+      })),
+      categoryId: 5,
+    });
+  };
+
+  return (
+    <input
+      type="file"
+      multiple
+      onChange={(e) => e.target.files && handleUpload(e.target.files)}
+    />
+  );
+}
+```
+
+## Options React Query
+
+Chaque hook accepte les options standard de React Query comme dernier paramètre, vous donnant un contrôle total sur le comportement du cache :
+
+```tsx
+const { data } = useExpenses(
+  { limit: 50 },
+  {
+    staleTime: 5 * 60 * 1000,     // Considerer les données comme fraiches pendant 5 minutes
+    refetchOnWindowFocus: false,   // Ne pas refetch quand l'onglet reprend le focus
+    enabled: isReady,              // Ne récupérer que quand la condition est remplie
+  }
+);
+```
+
+## Flux d'Authentification
+
+Le `SmartbillsProvider` accepte une instance `SmartbillsClient` pre-configurée. Pour les applications ou le jeton d'accès changé (par exemple, après la connexion de l'utilisateur), mettez à jour l'instance du client et React Query refetchera automatiquement :
+
+```tsx
+function AppAuthentifiee() {
+  const [token, setToken] = useState<string | null>(null);
+
+  const client = useMemo(
+    () => token ? new SmartbillsClient({ accessToken: token, businessId: 123 }) : null,
+    [token]
+  );
+
+  if (!client) return <ÉcranConnexion onLogin={setToken} />;
+
+  return (
+    <SmartbillsProvider client={client} businessId={123}>
+      <TableauDeBord />
+    </SmartbillsProvider>
+  );
+}
+```
+
+## Prochaînes Étapes
+
+<Card title="Référence des Hooks" icon="book" href="/fr/sdks/react-hooks/reference">
+  Référence complète de plus de 100 hooks organisés par domaine
+</Card>

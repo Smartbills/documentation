@@ -1,0 +1,110 @@
+---
+title: "Añadir un gasto"
+description: "Suba un recibo, cree un gasto manualmente o envíelo por correo electrónico a Smartbills"
+---
+
+## Resumen
+
+Hay cuatro formas de registrar un gasto desde la aplicación web, todas detrás del botón **Subir** (Upload) de la cabecera. Los recibos que suba se leen automáticamente: el comercio, el importe, la fecha, la moneda y los impuestos se rellenan por usted.
+
+| Método | Cuándo usarlo |
+|--------|---------------|
+| **Subir recibo** (Upload Receipt) | Tiene un archivo o una foto del recibo |
+| **Crear gasto** (Create expense) | No hay ningún recibo que leer |
+| **Subir factura** (Upload Bill) | El documento es una factura de proveedor que la empresa debe pagar |
+| **Enviar por correo** (Transfer via Email) | Quiere reenviar recibos desde su correo |
+
+También puede arrastrar un archivo a cualquier página: la ventana de subida se abre con el archivo ya adjunto.
+
+## Requisitos de los archivos
+
+<Note>
+  **Formatos aceptados**: PNG, JPG, PDF y archivos de correo (`.eml`, `.msg`).
+  **Tamaño máximo**: 5 MB por archivo.
+  **Máximo por subida**: 10 archivos.
+</Note>
+
+<Warning>
+  La aplicación web no acepta imágenes HEIC. Las fotos tomadas con la configuración por defecto de un iPhone son HEIC. Súbalas desde la aplicación móvil de Smartbills, que las convierte automáticamente, o cambie **Ajustes > Cámara > Formatos** a **Más compatible** en el teléfono.
+</Warning>
+
+## Subir un recibo
+
+<Steps>
+  <Step title="Abrir la ventana de subida">
+    Seleccione **Subir** (Upload) en la cabecera y después **Subir recibo** (Upload Receipt).
+  </Step>
+  <Step title="Añadir los archivos">
+    Arrastre los archivos a la ventana o búsquelos en su equipo. Cada archivo se comprueba antes de procesarse, y cualquier rechazo se señala con su motivo para que pueda sustituirlo sin perder los demás.
+  </Step>
+  <Step title="Indicar quién pagó">
+    Elija si es un gasto personal que debe reembolsarse, o uno pagado directamente por la empresa. Esto cambia lo que se le pedirá después.
+
+    Iniciar la subida desde la página de Gastos de empresa preselecciona «pagado por la empresa».
+  </Step>
+  <Step title="Añadir detalles">
+    Opcionalmente puede indicar una categoría, asignar el gasto a un informe y añadir una nota. También puede hacerlo más tarde.
+  </Step>
+  <Step title="Subir">
+    Los archivos se envían y se ponen en cola para su lectura. La ventana se cierra y el procesamiento continúa en segundo plano, así que puede seguir trabajando.
+  </Step>
+</Steps>
+
+### Después de subir
+
+La lectura de un recibo tarda unos instantes y ocurre tras cerrarse la ventana. Sus gastos aparecen en la pestaña **Procesando** (Processing) hasta que estén listos, y luego pasan a su lista con los datos ya extraídos.
+
+Si algo falla, el gasto permanece en Procesando con un error en lugar de desaparecer.
+
+### Revisar los datos extraídos
+
+La lectura es fiable pero no infalible. Abra el gasto y confirme el comercio, el importe, la fecha, la moneda y el desglose de impuestos comparándolos con la imagen del recibo que se muestra al lado. Corrija cualquier campo erróneo directamente.
+
+## Crear un gasto manualmente
+
+Cuando no hay recibo, elija **Subir** (Upload) y después **Crear gasto** (Create expense). Usted introduce los datos: proveedor, importe, fecha, categoría e impuestos, con líneas de detalle y comisiones si las necesita.
+
+<Note>
+  Muchas políticas de aprobación exigen un recibo. Un gasto creado manualmente no tiene documento adjunto, y el informe al que pertenezca señalará «Falta el recibo» antes de enviarse. Adjunte un documento más adelante si puede.
+</Note>
+
+## Enviar por correo electrónico
+
+Elija **Subir** (Upload) y después **Enviar por correo** (Transfer via Email) para ver las direcciones de su empresa. Reenvíe el correo del recibo a la dirección correcta y el gasto se crea solo.
+
+| Dirección | Qué enviar ahí |
+|-----------|----------------|
+| **Business expenses** | Recibos y operaciones de la empresa |
+| **Accounts Payable** | Facturas de proveedores |
+| **Reimbursements** | Recibos personales que deben reembolsarle |
+
+Se leen tanto el cuerpo del mensaje como sus archivos adjuntos.
+
+## Si la subida está bloqueada
+
+Dos límites pueden impedirla, y cada uno muestra un aviso explicándolo.
+
+<AccordionGroup>
+  <Accordion title="Cuota mensual de recibos agotada" icon="gauge">
+    Su plan incluye un número de recibos al mes. Una vez alcanzado, la subida se bloquea hasta el periodo siguiente o hasta que amplíe el plan. Consulte su consumo en **Ajustes > Espacio de trabajo > Uso** (Settings > Workspace > Usage).
+  </Accordion>
+
+  <Accordion title="Pago pendiente" icon="credit-card">
+    Una factura de suscripción impagada bloquea las subidas de toda la empresa. Un Administrador puede resolverlo en **Ajustes > Espacio de trabajo > Facturación** (Settings > Workspace > Billing).
+  </Accordion>
+</AccordionGroup>
+
+## Subir varios recibos
+
+Seleccione hasta 10 archivos a la vez, o arrástrelos juntos. Cada uno se convierte en un gasto independiente y se leen en paralelo. La categoría, el informe y la nota que indique en la ventana se aplican a todos, y podrá ajustar cada gasto después.
+
+## Siguiente paso
+
+<CardGroup cols={2}>
+  <Card title="Roles y permisos" icon="shield-halved" href="/es/guides/concepts/roles-and-permissions">
+    Qué puede hacer cada rol
+  </Card>
+  <Card title="Introducción" icon="compass" href="/es/guides/web-app/overview">
+    Cómo encaja todo
+  </Card>
+</CardGroup>

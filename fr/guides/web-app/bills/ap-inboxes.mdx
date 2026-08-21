@@ -1,0 +1,78 @@
+---
+title: "Boîtes de réception comptables"
+description: "Donnez à vos fournisseurs une adresse courriel qui transforme leurs factures en factures Smartbills"
+---
+
+## Aperçu
+
+Une boîte de réception comptable est une adresse courriel dédiée qui transforme tout ce qui lui est envoyé en facture au statut brouillon. Communiquez l'adresse à un fournisseur et ses factures arrivent dans Smartbills sans que personne ait à les transférer.
+
+Les Administrateurs financiers et les Administrateurs peuvent les configurer.
+
+## Pourquoi en avoir plusieurs
+
+Vous pouvez exploiter plusieurs boîtes et rattacher chacune à un membre de l'équipe ou à un département. Cela vous donne une répartition naturelle, par exemple une adresse par filiale, par centre de coûts ou par responsable comptable, de sorte que les factures arrivent déjà imputées plutôt qu'à trier.
+
+## Créer une boîte
+
+<Steps>
+  <Step title="Ajouter une boîte">
+    Choisissez **Ajouter une boîte** et donnez-lui un nom que vous reconnaîtrez dans la liste, par exemple « Boîte principale » ou « Bureau de Montréal ».
+  </Step>
+  <Step title="La rattacher">
+    Associez-lui éventuellement un membre de l'équipe et un département. Les factures reçues à cette adresse sont imputées en conséquence.
+  </Step>
+  <Step title="Configurer le transfert si besoin">
+    Activez le transfert et indiquez une adresse de destination pour que le courrier entrant soit également retransmis. Vous choisissez si le transfert a lieu dès la réception.
+  </Step>
+  <Step title="Vérifier">
+    Une nouvelle boîte affiche **Vérification requise** jusqu'à confirmation de son adresse. Elle passe à **Active** une fois vérifiée et commence alors à accepter du courrier.
+  </Step>
+</Steps>
+
+## La liste des boîtes
+
+| Colonne | Contenu |
+|---------|---------|
+| **Nom** | Votre libellé |
+| **Courriel** | L'adresse à communiquer aux fournisseurs |
+| **Statut** | Active, ou Vérification requise |
+| **Membre** | À qui les factures sont imputées |
+| **Département** | Quel département est imputé |
+| **Transfert** | Où le courrier est retransmis, ou Non transféré |
+| **Créée le** | Date de configuration |
+
+## Ce qui arrive
+
+Le courrier envoyé à une boîte comptable est lu de la même façon qu'une facture téléversée, produisant une facture au statut **brouillon** avec le fournisseur, le montant, le numéro et l'échéance déjà renseignés. Les brouillons ne sont jamais payés automatiquement : ils entrent dans votre processus habituel d'approbation et de paiement. Voir [Cycle de vie du paiement](/fr/guides/web-app/bills/payment-lifecycle).
+
+<Note>
+  Le corps du message et ses pièces jointes sont traités : un fournisseur qui met la facture dans le courriel lui-même est donc pris en charge aussi bien qu'un autre qui joint un PDF.
+</Note>
+
+## Les boîtes comptables et les autres adresses de transfert
+
+Smartbills dispose de trois adresses de transfert, qui ne sont pas interchangeables.
+
+| Adresse | Ce qu'elle crée | À utiliser pour |
+|---------|-----------------|-----------------|
+| **Comptes fournisseurs** | Des factures | Les factures que l'entreprise doit payer |
+| **Dépenses d'entreprise** | Des dépenses d'entreprise | Les reçus de ce que l'entreprise a payé directement |
+| **Remboursements** | Des dépenses personnelles | Les reçus qu'un employé doit se faire rembourser |
+
+<Warning>
+  Envoyer une facture fournisseur à l'adresse des dépenses d'entreprise crée une dépense et non une facture : elle n'apparaîtra donc jamais dans vos comptes fournisseurs et ne sera jamais payée. Si un fournisseur relance une facture que vous savez avoir reçue, vérifiez si elle est arrivée sous forme de dépense.
+
+  Un document mal classé n'a pas besoin d'être ressaisi. Convertissez-le. Voir [Cycle de vie du paiement](/fr/guides/web-app/bills/payment-lifecycle).
+</Warning>
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Cycle de vie du paiement" icon="arrow-right-arrow-left" href="/fr/guides/web-app/bills/payment-lifecycle">
+    Ce qu'il advient d'une facture brouillon
+  </Card>
+  <Card title="Connexions fournisseurs" icon="plug" href="/fr/guides/web-app/vendors/portal-connections">
+    Récupérer les factures sans attendre un courriel
+  </Card>
+</CardGroup>

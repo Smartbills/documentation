@@ -1,0 +1,1309 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Smartbills",
+  "description": "Smartbills product guides, API reference, and SDKs for expense management, mileage, accounts payable, and approvals.",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#6366F1",
+    "light": "#818CF8",
+    "dark": "#4F46E5"
+  },
+  "theme": "mint",
+  "modeToggle": {
+    "default": "dark"
+  },
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "og:site_name": "Smartbills Documentation",
+      "og:type": "website",
+      "og:locale": "en_CA",
+      "twitter:card": "summary_large_image",
+      "twitter:site": "@smartbills",
+      "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    },
+    "organization": {
+      "name": "Smartbills",
+      "legalName": "Smartbills Inc.",
+      "url": "https://smartbills.io",
+      "logo": "https://cdn.smartbills.io/public/assets/icons/512x512.png",
+      "sameAs": [
+        "https://www.linkedin.com/company/smartbills",
+        "https://x.com/smartbills"
+      ]
+    }
+  },
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@smartbills.io"
+    }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://app.smartbills.io"
+  },
+  "anchors": [
+    {
+      "name": "API Reference",
+      "icon": "code",
+      "url": "api-reference"
+    },
+    {
+      "name": "SDKs",
+      "icon": "cube",
+      "url": "sdks"
+    },
+    {
+      "name": "Community",
+      "icon": "slack",
+      "url": "https://community.smartbills.io"
+    },
+    {
+      "name": "Status",
+      "icon": "signal-bars",
+      "url": "https://status.smartbills.io"
+    }
+  ],
+  "integrations": {
+    "gtm": {
+      "tagId": "GTM-XXXXXXX"
+    }
+  },
+  "navigation": {
+    "languages": [
+      {
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "introduction",
+                  "quickstart",
+                  "guides/web-app/create-account",
+                  "guides/web-app/onboarding",
+                  "guides/web-app/navigation",
+                  "guides/web-app/switching-businesses",
+                  "guides/mobile/install-and-login"
+                ]
+              },
+              {
+                "group": "Core Concepts",
+                "pages": [
+                  "guides/concepts/expenses",
+                  "guides/concepts/expense-reports",
+                  "guides/concepts/approval-workflows",
+                  "guides/concepts/categories-and-departments",
+                  "guides/concepts/vendors",
+                  "guides/concepts/vault",
+                  "guides/concepts/receipt-forwarding",
+                  "guides/concepts/roles-and-permissions"
+                ]
+              },
+              {
+                "group": "Expenses",
+                "pages": [
+                  "guides/web-app/expenses/overview",
+                  "guides/web-app/expenses/upload-expense",
+                  "guides/web-app/expenses/processing",
+                  "guides/web-app/expenses/business-vs-personal",
+                  "guides/web-app/expenses/edit-expense",
+                  "guides/web-app/expenses/categorize-expense",
+                  "guides/web-app/expenses/split-expense",
+                  "guides/web-app/expenses/receipt-forwarding"
+                ]
+              },
+              {
+                "group": "Business Expenses",
+                "pages": [
+                  "guides/web-app/business-expenses/overview",
+                  "guides/web-app/business-expenses/review-expenses",
+                  "guides/web-app/business-expenses/manage-expenses",
+                  "guides/web-app/business-expenses/settings"
+                ]
+              },
+              {
+                "group": "Expense Reports",
+                "pages": [
+                  "guides/web-app/reports/overview",
+                  "guides/web-app/reports/create-report",
+                  "guides/web-app/reports/add-expenses",
+                  "guides/web-app/reports/claimed-amounts",
+                  "guides/web-app/reports/submit-report",
+                  "guides/web-app/reports/requested-changes",
+                  "guides/web-app/reports/recall-report",
+                  "guides/web-app/reports/export-report"
+                ]
+              },
+              {
+                "group": "Mileage",
+                "pages": [
+                  "guides/web-app/mileage/overview",
+                  "guides/web-app/mileage/vehicles",
+                  "guides/web-app/mileage/log-a-trip",
+                  "guides/web-app/mileage/multi-stop-and-round-trips",
+                  "guides/web-app/mileage/convert-to-expense",
+                  "guides/web-app/mileage/add-to-expense-report",
+                  "guides/web-app/mileage/mileage-rates"
+                ]
+              },
+              {
+                "group": "Approvals",
+                "pages": [
+                  "guides/web-app/approvals/overview",
+                  "guides/web-app/approvals/approve-report",
+                  "guides/web-app/approvals/reject-report",
+                  "guides/web-app/approvals/request-changes"
+                ]
+              },
+              {
+                "group": "Bills & Accounts Payable",
+                "pages": [
+                  "guides/web-app/bills/overview",
+                  "guides/web-app/bills/upload-bill",
+                  "guides/web-app/bills/approval",
+                  "guides/web-app/bills/payment-lifecycle",
+                  "guides/web-app/bills/ap-inboxes"
+                ]
+              },
+              {
+                "group": "Vendors",
+                "pages": [
+                  "guides/web-app/vendors/overview",
+                  "guides/web-app/vendors/create-vendor",
+                  "guides/web-app/vendors/manage-vendors",
+                  "guides/web-app/vendors/portal-connections"
+                ]
+              },
+              {
+                "group": "Vault",
+                "pages": [
+                  "guides/web-app/vault/overview",
+                  "guides/web-app/vault/manage-documents"
+                ]
+              },
+              {
+                "group": "Team & Administration",
+                "pages": [
+                  "guides/web-app/team/overview",
+                  "guides/web-app/team/invite-members",
+                  "guides/web-app/team/manage-roles"
+                ]
+              },
+              {
+                "group": "Settings",
+                "pages": [
+                  "guides/web-app/settings/general",
+                  "guides/web-app/settings/categories",
+                  "guides/web-app/settings/departments",
+                  "guides/web-app/settings/email-accounts",
+                  "guides/web-app/settings/billing",
+                  "guides/web-app/settings/branding",
+                  "guides/web-app/settings/delegation",
+                  "guides/web-app/settings/audit-log"
+                ]
+              },
+              {
+                "group": "Mobile App",
+                "pages": [
+                  "guides/mobile/overview",
+                  "guides/mobile/scan-receipt",
+                  "guides/mobile/manage-expenses",
+                  "guides/mobile/expense-reports",
+                  "guides/mobile/approvals",
+                  "guides/mobile/receipt-forwarding",
+                  "guides/mobile/notifications"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API Reference",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "api-reference/introduction",
+                  "api-reference/authentication",
+                  "api-reference/api-keys",
+                  "api-reference/environments",
+                  "api-reference/errors",
+                  "api-reference/pagination",
+                  "api-reference/rate-limits",
+                  "api-reference/versioning",
+                  "api-reference/localizations",
+                  "api-reference/webhooks"
+                ]
+              }
+            ],
+            "openapi": "/api-reference/openapi.json"
+          },
+          {
+            "tab": "SDKs",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "sdks/overview"
+                ]
+              },
+              {
+                "group": "JavaScript / TypeScript",
+                "pages": [
+                  "sdks/javascript/overview",
+                  "sdks/javascript/installation",
+                  "sdks/javascript/authentication",
+                  "sdks/javascript/expenses",
+                  "sdks/javascript/expense-reports",
+                  "sdks/javascript/bills",
+                  "sdks/javascript/vendors",
+                  "sdks/javascript/error-handling",
+                  "sdks/javascript/pagination",
+                  "sdks/javascript/file-uploads"
+                ]
+              },
+              {
+                "group": "Python",
+                "pages": [
+                  "sdks/python/overview",
+                  "sdks/python/installation",
+                  "sdks/python/expenses",
+                  "sdks/python/expense-reports",
+                  "sdks/python/error-handling"
+                ]
+              },
+              {
+                "group": ".NET",
+                "pages": [
+                  "sdks/dotnet/overview",
+                  "sdks/dotnet/installation",
+                  "sdks/dotnet/usage"
+                ]
+              },
+              {
+                "group": "React",
+                "pages": [
+                  "sdks/react-hooks/overview",
+                  "sdks/react-hooks/reference",
+                  "sdks/react-native/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Integrations",
+            "groups": [
+              {
+                "group": "Overview",
+                "pages": [
+                  "integrations/overview"
+                ]
+              },
+              {
+                "group": "Accounting",
+                "pages": [
+                  "integrations/quickbooks",
+                  "integrations/xero",
+                  "integrations/freshbooks",
+                  "integrations/sage"
+                ]
+              },
+              {
+                "group": "Email & Productivity",
+                "pages": [
+                  "integrations/outlook",
+                  "integrations/slack",
+                  "integrations/microsoft-teams"
+                ]
+              },
+              {
+                "group": "Point of Sale",
+                "pages": [
+                  "integrations/shopify",
+                  "integrations/square",
+                  "integrations/clover",
+                  "integrations/lightspeed"
+                ]
+              },
+              {
+                "group": "Cloud Storage",
+                "pages": [
+                  "integrations/google-drive",
+                  "integrations/onedrive"
+                ]
+              },
+              {
+                "group": "Payments & Banking",
+                "pages": [
+                  "integrations/stripe",
+                  "integrations/plaid"
+                ]
+              },
+              {
+                "group": "Automation",
+                "pages": [
+                  "integrations/zapier"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Help Center",
+            "groups": [
+              {
+                "group": "Help Center",
+                "pages": [
+                  "help-center/overview"
+                ]
+              },
+              {
+                "group": "Account",
+                "pages": [
+                  "help-center/account/create-account",
+                  "help-center/account/login",
+                  "help-center/account/reset-password",
+                  "help-center/account/two-factor-auth",
+                  "help-center/account/update-profile",
+                  "help-center/account/delete-account"
+                ]
+              },
+              {
+                "group": "Troubleshooting",
+                "pages": [
+                  "help-center/troubleshooting/login-problems",
+                  "help-center/troubleshooting/upload-problems",
+                  "help-center/troubleshooting/sync-issues"
+                ]
+              },
+              {
+                "group": "FAQs",
+                "pages": [
+                  "help-center/faqs"
+                ]
+              },
+              {
+                "group": "Security & Legal",
+                "pages": [
+                  "legal/overview",
+                  "legal/security",
+                  "legal/privacy",
+                  "legal/terms"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": [
+                  "changelog/overview",
+                  "changelog/2025-01"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "fr",
+        "tabs": [
+          {
+            "tab": "Guides",
+            "groups": [
+              {
+                "group": "Pour commencer",
+                "pages": [
+                  "fr/introduction",
+                  "fr/quickstart",
+                  "fr/guides/web-app/create-account",
+                  "fr/guides/web-app/onboarding",
+                  "fr/guides/web-app/navigation",
+                  "fr/guides/mobile/install-and-login",
+                  "fr/guides/web-app/switching-businesses"
+                ]
+              },
+              {
+                "group": "Concepts fondamentaux",
+                "pages": [
+                  "fr/guides/concepts/expenses",
+                  "fr/guides/concepts/expense-reports",
+                  "fr/guides/concepts/approval-workflows",
+                  "fr/guides/concepts/categories-and-departments",
+                  "fr/guides/concepts/vendors",
+                  "fr/guides/concepts/vault",
+                  "fr/guides/concepts/receipt-forwarding",
+                  "fr/guides/concepts/roles-and-permissions"
+                ]
+              },
+              {
+                "group": "Dépenses",
+                "pages": [
+                  "fr/guides/web-app/expenses/overview",
+                  "fr/guides/web-app/expenses/upload-expense",
+                  "fr/guides/web-app/expenses/edit-expense",
+                  "fr/guides/web-app/expenses/categorize-expense",
+                  "fr/guides/web-app/expenses/split-expense",
+                  "fr/guides/web-app/expenses/receipt-forwarding",
+                  "fr/guides/mobile/scan-receipt",
+                  "fr/guides/web-app/expenses/processing",
+                  "fr/guides/web-app/expenses/business-vs-personal"
+                ]
+              },
+              {
+                "group": "Dépenses d'entreprise",
+                "pages": [
+                  "fr/guides/web-app/business-expenses/overview",
+                  "fr/guides/web-app/business-expenses/review-expenses",
+                  "fr/guides/web-app/business-expenses/manage-expenses",
+                  "fr/guides/web-app/business-expenses/settings"
+                ]
+              },
+              {
+                "group": "Rapports de dépenses",
+                "pages": [
+                  "fr/guides/web-app/reports/overview",
+                  "fr/guides/web-app/reports/create-report",
+                  "fr/guides/web-app/reports/add-expenses",
+                  "fr/guides/web-app/reports/submit-report",
+                  "fr/guides/web-app/reports/recall-report",
+                  "fr/guides/web-app/reports/export-report",
+                  "fr/guides/mobile/expense-reports",
+                  "fr/guides/web-app/reports/claimed-amounts",
+                  "fr/guides/web-app/reports/requested-changes"
+                ]
+              },
+              {
+                "group": "Kilométrage",
+                "pages": [
+                  "fr/guides/web-app/mileage/overview",
+                  "fr/guides/web-app/mileage/vehicles",
+                  "fr/guides/web-app/mileage/log-a-trip",
+                  "fr/guides/web-app/mileage/multi-stop-and-round-trips",
+                  "fr/guides/web-app/mileage/convert-to-expense",
+                  "fr/guides/web-app/mileage/add-to-expense-report",
+                  "fr/guides/web-app/mileage/mileage-rates"
+                ]
+              },
+              {
+                "group": "Approbations",
+                "pages": [
+                  "fr/guides/web-app/approvals/overview",
+                  "fr/guides/web-app/approvals/approve-report",
+                  "fr/guides/web-app/approvals/reject-report",
+                  "fr/guides/web-app/approvals/request-changes",
+                  "fr/guides/mobile/approvals"
+                ]
+              },
+              {
+                "group": "Factures fournisseurs",
+                "pages": [
+                  "fr/guides/web-app/bills/overview",
+                  "fr/guides/web-app/bills/upload-bill",
+                  "fr/guides/web-app/bills/approval",
+                  "fr/guides/web-app/bills/payment-lifecycle",
+                  "fr/guides/web-app/bills/ap-inboxes"
+                ]
+              },
+              {
+                "group": "Coffre-fort",
+                "pages": [
+                  "fr/guides/web-app/vault/overview",
+                  "fr/guides/web-app/vault/manage-documents"
+                ]
+              },
+              {
+                "group": "Fournisseurs",
+                "pages": [
+                  "fr/guides/web-app/vendors/overview",
+                  "fr/guides/web-app/vendors/create-vendor",
+                  "fr/guides/web-app/vendors/manage-vendors",
+                  "fr/guides/web-app/vendors/portal-connections"
+                ]
+              },
+              {
+                "group": "Gestion d'équipe",
+                "pages": [
+                  "fr/guides/web-app/team/overview",
+                  "fr/guides/web-app/team/invite-members",
+                  "fr/guides/web-app/team/manage-roles"
+                ]
+              },
+              {
+                "group": "Paramètres",
+                "pages": [
+                  "fr/guides/web-app/settings/general",
+                  "fr/guides/web-app/settings/categories",
+                  "fr/guides/web-app/settings/departments",
+                  "fr/guides/web-app/settings/email-accounts",
+                  "fr/guides/web-app/settings/billing",
+                  "fr/guides/web-app/settings/branding",
+                  "fr/guides/web-app/settings/delegation",
+                  "fr/guides/web-app/settings/audit-log"
+                ]
+              },
+              {
+                "group": "Mobile",
+                "pages": [
+                  "fr/guides/mobile/overview",
+                  "fr/guides/mobile/manage-expenses",
+                  "fr/guides/mobile/receipt-forwarding",
+                  "fr/guides/mobile/notifications"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Référence API",
+            "groups": [
+              {
+                "group": "Pour commencer",
+                "pages": [
+                  "fr/api-reference/introduction",
+                  "fr/api-reference/authentication",
+                  "fr/api-reference/api-keys",
+                  "fr/api-reference/environments",
+                  "fr/api-reference/errors",
+                  "fr/api-reference/pagination",
+                  "fr/api-reference/rate-limits",
+                  "fr/api-reference/versioning",
+                  "fr/api-reference/localizations",
+                  "fr/api-reference/webhooks"
+                ]
+              }
+            ],
+            "openapi": "/api-reference/openapi.json"
+          },
+          {
+            "tab": "SDKs",
+            "groups": [
+              {
+                "group": "Aperçu",
+                "pages": [
+                  "fr/sdks/overview"
+                ]
+              },
+              {
+                "group": "JavaScript / TypeScript",
+                "pages": [
+                  "fr/sdks/javascript/overview",
+                  "fr/sdks/javascript/installation",
+                  "fr/sdks/javascript/authentication",
+                  "fr/sdks/javascript/expenses",
+                  "fr/sdks/javascript/expense-reports",
+                  "fr/sdks/javascript/bills",
+                  "fr/sdks/javascript/vendors",
+                  "fr/sdks/javascript/error-handling",
+                  "fr/sdks/javascript/pagination",
+                  "fr/sdks/javascript/file-uploads"
+                ]
+              },
+              {
+                "group": "Python",
+                "pages": [
+                  "fr/sdks/python/overview",
+                  "fr/sdks/python/installation",
+                  "fr/sdks/python/expenses",
+                  "fr/sdks/python/expense-reports",
+                  "fr/sdks/python/error-handling"
+                ]
+              },
+              {
+                "group": ".NET",
+                "pages": [
+                  "fr/sdks/dotnet/overview",
+                  "fr/sdks/dotnet/installation",
+                  "fr/sdks/dotnet/usage"
+                ]
+              },
+              {
+                "group": "React",
+                "pages": [
+                  "fr/sdks/react-hooks/overview",
+                  "fr/sdks/react-hooks/reference",
+                  "fr/sdks/react-native/overview"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Intégrations",
+            "groups": [
+              {
+                "group": "Aperçu",
+                "pages": [
+                  "fr/integrations/overview"
+                ]
+              },
+              {
+                "group": "Comptabilité",
+                "pages": [
+                  "fr/integrations/quickbooks",
+                  "fr/integrations/xero",
+                  "fr/integrations/freshbooks",
+                  "fr/integrations/sage"
+                ]
+              },
+              {
+                "group": "Email et productivité",
+                "pages": [
+                  "fr/integrations/outlook",
+                  "fr/integrations/slack",
+                  "fr/integrations/microsoft-teams"
+                ]
+              },
+              {
+                "group": "Point de vente",
+                "pages": [
+                  "fr/integrations/shopify",
+                  "fr/integrations/square",
+                  "fr/integrations/clover",
+                  "fr/integrations/lightspeed"
+                ]
+              },
+              {
+                "group": "Stockage cloud",
+                "pages": [
+                  "fr/integrations/google-drive",
+                  "fr/integrations/onedrive"
+                ]
+              },
+              {
+                "group": "Paiements et bancaire",
+                "pages": [
+                  "fr/integrations/stripe",
+                  "fr/integrations/plaid"
+                ]
+              },
+              {
+                "group": "Automatisation",
+                "pages": [
+                  "fr/integrations/zapier"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Centre d'aide",
+            "groups": [
+              {
+                "group": "Centre d'aide",
+                "pages": [
+                  "fr/help-center/overview"
+                ]
+              },
+              {
+                "group": "Compte",
+                "pages": [
+                  "fr/help-center/account/create-account",
+                  "fr/help-center/account/login",
+                  "fr/help-center/account/reset-password",
+                  "fr/help-center/account/two-factor-auth",
+                  "fr/help-center/account/update-profile",
+                  "fr/help-center/account/delete-account"
+                ]
+              },
+              {
+                "group": "Dépannage",
+                "pages": [
+                  "fr/help-center/troubleshooting/login-problems",
+                  "fr/help-center/troubleshooting/upload-problems",
+                  "fr/help-center/troubleshooting/sync-issues"
+                ]
+              },
+              {
+                "group": "FAQ",
+                "pages": [
+                  "fr/help-center/faqs"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "groups": [
+              {
+                "group": "Changelog",
+                "pages": [
+                  "fr/changelog/overview",
+                  "fr/changelog/2025-01"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "es",
+        "tabs": [
+          {
+            "tab": "Guías",
+            "groups": [
+              {
+                "group": "Primeros pasos",
+                "pages": [
+                  "es/guides/web-app/overview",
+                  "es/guides/web-app/navigation",
+                  "es/guides/web-app/switching-businesses"
+                ]
+              },
+              {
+                "group": "Conceptos",
+                "pages": [
+                  "es/guides/concepts/roles-and-permissions"
+                ]
+              },
+              {
+                "group": "Gastos",
+                "pages": [
+                  "es/guides/web-app/expenses/upload-expense",
+                  "es/guides/web-app/expenses/processing",
+                  "es/guides/web-app/expenses/business-vs-personal"
+                ]
+              },
+              {
+                "group": "Informes de gastos",
+                "pages": [
+                  "es/guides/web-app/reports/claimed-amounts",
+                  "es/guides/web-app/reports/requested-changes"
+                ]
+              },
+              {
+                "group": "Kilometraje",
+                "pages": [
+                  "es/guides/web-app/mileage/overview",
+                  "es/guides/web-app/mileage/vehicles",
+                  "es/guides/web-app/mileage/log-a-trip",
+                  "es/guides/web-app/mileage/multi-stop-and-round-trips",
+                  "es/guides/web-app/mileage/convert-to-expense",
+                  "es/guides/web-app/mileage/add-to-expense-report",
+                  "es/guides/web-app/mileage/mileage-rates"
+                ]
+              },
+              {
+                "group": "Facturas y cuentas por pagar",
+                "pages": [
+                  "es/guides/web-app/bills/payment-lifecycle",
+                  "es/guides/web-app/bills/ap-inboxes"
+                ]
+              },
+              {
+                "group": "Proveedores",
+                "pages": [
+                  "es/guides/web-app/vendors/portal-connections"
+                ]
+              },
+              {
+                "group": "Ajustes",
+                "pages": [
+                  "es/guides/web-app/settings/delegation",
+                  "es/guides/web-app/settings/audit-log"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footerSocials": {
+    "twitter": "https://twitter.com/smartbills",
+    "github": "https://github.com/smartbills",
+    "linkedin": "https://www.linkedin.com/company/smartbills"
+  },
+  "feedback": {
+    "thumbsRating": true,
+    "suggestEdit": true,
+    "raiseIssue": true
+  },
+  "redirects": [
+    {
+      "source": "/guides/web-app/wallet/overview",
+      "destination": "/guides/web-app/expenses/overview"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/overview",
+      "destination": "/fr/guides/web-app/expenses/overview"
+    },
+    {
+      "source": "/guides/web-app/wallet/upload-expense",
+      "destination": "/guides/web-app/expenses/upload-expense"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/upload-expense",
+      "destination": "/fr/guides/web-app/expenses/upload-expense"
+    },
+    {
+      "source": "/guides/web-app/wallet/edit-expense",
+      "destination": "/guides/web-app/expenses/edit-expense"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/edit-expense",
+      "destination": "/fr/guides/web-app/expenses/edit-expense"
+    },
+    {
+      "source": "/guides/web-app/wallet/categorize-expense",
+      "destination": "/guides/web-app/expenses/categorize-expense"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/categorize-expense",
+      "destination": "/fr/guides/web-app/expenses/categorize-expense"
+    },
+    {
+      "source": "/guides/web-app/wallet/split-expense",
+      "destination": "/guides/web-app/expenses/split-expense"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/split-expense",
+      "destination": "/fr/guides/web-app/expenses/split-expense"
+    },
+    {
+      "source": "/guides/web-app/wallet/receipt-forwarding",
+      "destination": "/guides/web-app/expenses/receipt-forwarding"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/receipt-forwarding",
+      "destination": "/fr/guides/web-app/expenses/receipt-forwarding"
+    },
+    {
+      "source": "/guides/web-app/inbox/overview",
+      "destination": "/guides/web-app/business-expenses/overview"
+    },
+    {
+      "source": "/fr/guides/web-app/inbox/overview",
+      "destination": "/fr/guides/web-app/business-expenses/overview"
+    },
+    {
+      "source": "/guides/web-app/inbox/manage-expenses",
+      "destination": "/guides/web-app/business-expenses/manage-expenses"
+    },
+    {
+      "source": "/fr/guides/web-app/inbox/manage-expenses",
+      "destination": "/fr/guides/web-app/business-expenses/manage-expenses"
+    },
+    {
+      "source": "/guides/web-app/inbox/review-expenses",
+      "destination": "/guides/web-app/business-expenses/review-expenses"
+    },
+    {
+      "source": "/fr/guides/web-app/inbox/review-expenses",
+      "destination": "/fr/guides/web-app/business-expenses/review-expenses"
+    },
+    {
+      "source": "/guides/web-app/inbox/settings",
+      "destination": "/guides/web-app/business-expenses/settings"
+    },
+    {
+      "source": "/fr/guides/web-app/inbox/settings",
+      "destination": "/fr/guides/web-app/business-expenses/settings"
+    },
+    {
+      "source": "/guides/mobile/offline-mode",
+      "destination": "/guides/mobile/overview"
+    },
+    {
+      "source": "/fr/guides/mobile/offline-mode",
+      "destination": "/fr/guides/mobile/overview"
+    },
+    {
+      "source": "/api-reference/webhooks/get-webhook",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/fr/api-reference/webhooks/get-webhook",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/api-reference/webhooks/update-webhook",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/fr/api-reference/webhooks/update-webhook",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/guides/web-app/wallet/:slug*",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/guides/web-app/inbox/:slug*",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/fr/guides/web-app/wallet/:slug*",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/fr/guides/web-app/inbox/:slug*",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/SBCustomer/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBCustomer",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBEmployee/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBEmployee",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBFee/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBFee",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBLocation/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBLocation",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBMerchant/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBMerchant",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBMoney/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBMoney",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct/SBProductImage/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct/SBProductImage",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct/SBProductVariant/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBProduct/SBProductVariant",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBPromoCode/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBPromoCode",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItem/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItem",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemDiscount/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemDiscount",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemTax/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemTax",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemfee/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptLineItemfee",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptPayment/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptPayment",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptTax/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBReceipt/SBReceiptTax",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBTax/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBTax",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBVendor/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/SBVendor",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/authentication/",
+      "destination": "/api-reference/authentication"
+    },
+    {
+      "source": "/authentication",
+      "destination": "/api-reference/authentication"
+    },
+    {
+      "source": "/customers/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/customers",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/dotnet/getting-started/",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/getting-started",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/employees/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/employees",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/environments/",
+      "destination": "/api-reference/environments"
+    },
+    {
+      "source": "/environments",
+      "destination": "/api-reference/environments"
+    },
+    {
+      "source": "/errors/",
+      "destination": "/api-reference/errors"
+    },
+    {
+      "source": "/errors",
+      "destination": "/api-reference/errors"
+    },
+    {
+      "source": "/fees/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/fees",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/getting-started/",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/getting-started",
+      "destination": "/quickstart"
+    },
+    {
+      "source": "/index/",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/index",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/javascript/getting-started/",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/javascript/getting-started",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/localizations/",
+      "destination": "/api-reference/localizations"
+    },
+    {
+      "source": "/localizations",
+      "destination": "/api-reference/localizations"
+    },
+    {
+      "source": "/locations/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/locations",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/merchants/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/merchants",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/metadata/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/metadata",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/pagination/",
+      "destination": "/api-reference/pagination"
+    },
+    {
+      "source": "/pagination",
+      "destination": "/api-reference/pagination"
+    },
+    {
+      "source": "/production/",
+      "destination": "/api-reference/environments"
+    },
+    {
+      "source": "/production",
+      "destination": "/api-reference/environments"
+    },
+    {
+      "source": "/products/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products/product-variants/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products/product-variants",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/promo-codes/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/promo-codes",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/rate-limit/",
+      "destination": "/api-reference/rate-limits"
+    },
+    {
+      "source": "/rate-limit",
+      "destination": "/api-reference/rate-limits"
+    },
+    {
+      "source": "/react/gettingStarted/",
+      "destination": "/sdks/react-hooks/overview"
+    },
+    {
+      "source": "/react/gettingStarted",
+      "destination": "/sdks/react-hooks/overview"
+    },
+    {
+      "source": "/receipts/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/receipts",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/receipts/items/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/receipts/items",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/taxes/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/taxes",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/vendors/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/vendors",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/versioning/",
+      "destination": "/api-reference/versioning"
+    },
+    {
+      "source": "/versioning",
+      "destination": "/api-reference/versioning"
+    }
+  ]
+}

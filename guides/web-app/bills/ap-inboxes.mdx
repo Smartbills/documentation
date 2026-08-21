@@ -1,0 +1,78 @@
+---
+title: "Accounts Payable Inboxes"
+description: "Give vendors an email address that turns their invoices into bills automatically"
+---
+
+## Overview
+
+An AP inbox is a dedicated email address that turns anything sent to it into a draft bill. Give the address to a vendor and their invoices arrive in Smartbills without anyone forwarding them.
+
+Finance Admins and Administrators can set these up.
+
+## Why more than one
+
+You can run several AP inboxes and route each to a team member or department. That gives you a natural split, for example one address per subsidiary, per cost centre, or per AP clerk, so bills land already attributed rather than needing triage.
+
+## Create an inbox
+
+<Steps>
+  <Step title="Add an inbox">
+    Choose **Add AP Inbox** and give it a name you will recognise in the list, such as "Main AP Inbox" or "Montreal office".
+  </Step>
+  <Step title="Assign it">
+    Optionally attach a team member and a department. Bills arriving at this address are attributed accordingly.
+  </Step>
+  <Step title="Set up forwarding, if needed">
+    Enable forwarding and give a destination address to have incoming mail passed on as well as processed. Choose whether forwarding happens on receipt.
+  </Step>
+  <Step title="Verify">
+    A new inbox shows **Needs Verification** until its address is confirmed. It becomes **Active** once verified and starts accepting mail.
+  </Step>
+</Steps>
+
+## The inbox list
+
+| Column | Shows |
+|--------|-------|
+| **Name** | Your label for the inbox |
+| **Email** | The address to give vendors |
+| **Status** | Active, or Needs Verification |
+| **Team Member** | Who bills are attributed to |
+| **Department** | Which department is charged |
+| **Forwarding** | Where mail is passed on, or Not forwarded |
+| **Created** | When it was set up |
+
+## What arrives
+
+Mail sent to an AP inbox is read the same way an uploaded invoice is, producing a **draft** bill with the vendor, amount, invoice number, and due date filled in. Drafts are never paid automatically. They enter your normal approval and payment process. See [Bill payment lifecycle](/guides/web-app/bills/payment-lifecycle).
+
+<Note>
+  Both the message body and its attachments are processed, so a vendor who puts the invoice in the email itself is handled as well as one who attaches a PDF.
+</Note>
+
+## AP inboxes and the other forwarding addresses
+
+Smartbills has three forwarding addresses and they are not interchangeable.
+
+| Address | Creates | Send here |
+|---------|---------|-----------|
+| **Accounts Payable** | Bills | Vendor invoices the business owes |
+| **Business expenses** | Business expenses | Receipts for things the business paid for directly |
+| **Reimbursements** | Personal expenses | Receipts an employee needs paying back for |
+
+<Warning>
+  Sending a vendor invoice to the Business expenses address creates an expense rather than a bill, so it will never appear in your payables and never get paid. If a vendor chases an invoice you know you received, check whether it landed as an expense.
+
+  A misfiled document does not need re-entering. Convert it. See [Bill payment lifecycle](/guides/web-app/bills/payment-lifecycle).
+</Warning>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Bill payment lifecycle" icon="arrow-right-arrow-left" href="/guides/web-app/bills/payment-lifecycle">
+    What happens to a draft bill
+  </Card>
+  <Card title="Vendor portal connections" icon="plug" href="/guides/web-app/vendors/portal-connections">
+    Collect invoices without waiting for email
+  </Card>
+</CardGroup>

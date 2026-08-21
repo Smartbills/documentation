@@ -1,0 +1,416 @@
+---
+title: 'Getting Started'
+description: 'Start building with Smartbills API'
+---
+
+## Introduction
+
+The Smartbills API is a RESTful API that allows you to integrate expense management capabilities into your applications. This guide will help you get started with building on Smartbills.
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- A Smartbills account ([sign up here](https://auth.smartbills.io/sign-up))
+- Basic knowledge of REST APIs
+- A development environment set up for your preferred programming language
+
+## API Overview
+
+### Base URL
+
+All API requests should be made to:
+
+```
+https://api.smartbills.io/v1
+```
+
+### Versioning
+
+The Smartbills API uses URL-based versioning. The current version is `v1`. All endpoints are prefixed with `/v1/`.
+
+### Data Format
+
+- **Request Format**: JSON (use `Content-Type: application/json`)
+- **Response Format**: JSON
+- **File Uploads**: multipart/form-data
+- **Date Format**: ISO 8601 (e.g., `2024-01-15T10:30:00Z`)
+- **Currency Format**: ISO 4217 currency codes (e.g., `USD`, `CAD`, `EUR`)
+
+## Authentication
+
+All API requests require authentication using JWT Bearer tokens. See the [Authentication](/authentication) guide for details.
+
+```bash
+Authorization: Bearer YOUR_API_KEY
+```
+
+## Making Requests
+
+### Example GET Request
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json'
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.smartbills.io/v1/expenses', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  }
+});
+
+const expenses = await response.json();
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+
+response = requests.get('https://api.smartbills.io/v1/expenses', headers=headers)
+expenses = response.json()
+```
+
+</CodeGroup>
+
+### Example POST Request
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/businesses \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "name": "My Business",
+    "currency": "USD",
+    "timezone": "America/New_York"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.smartbills.io/v1/businesses', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'My Business',
+    currency: 'USD',
+    timezone: 'America/New_York'
+  })
+});
+
+const business = await response.json();
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+
+data = {
+    'name': 'My Business',
+    'currency': 'USD',
+    'timezone': 'America/New_York'
+}
+
+response = requests.post(
+    'https://api.smartbills.io/v1/businesses',
+    headers=headers,
+    json=data
+)
+
+business = response.json()
+```
+
+</CodeGroup>
+
+## Response Format
+
+### Success Response
+
+All successful responses return a `200` (or `201` for create operations) status code with a JSON body:
+
+```json
+{
+  "id": 12345,
+  "name": "Office Supplies",
+  "amount": 49.99,
+  "currency": "USD",
+  "date": "2024-01-15T10:30:00Z",
+  "merchant": "Office Depot",
+  "category": "Office Supplies",
+  "status": "pending"
+}
+```
+
+### Paginated Response
+
+List endpoints return paginated results:
+
+```json
+{
+  "data": [
+    { "id": 1, "name": "Expense 1" },
+    { "id": 2, "name": "Expense 2" }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "totalCount": 100,
+    "hasNext": true,
+    "hasPrevious": false
+  }
+}
+```
+
+### Error Response
+
+Error responses include a status code and error details:
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request data is invalid",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0"
+      }
+    ]
+  }
+}
+```
+
+## Pagination
+
+List endpoints support pagination using query parameters:
+
+- `page` - Page number (default: 1)
+- `pageSize` - Items per page (default: 20, max: 100)
+
+```bash
+GET /v1/expenses?page=2&pageSize=50
+```
+
+## Filtering and Sorting
+
+Many list endpoints support filtering and sorting:
+
+### Filtering
+
+```bash
+GET /v1/expenses?status=pending&minAmount=100&maxAmount=500
+```
+
+### Sorting
+
+```bash
+GET /v1/expenses?sortBy=date&sortOrder=desc
+```
+
+## Common Patterns
+
+### Resource IDs
+
+All resources have a unique numeric `id`:
+
+```json
+{
+  "id": 12345
+}
+```
+
+### Timestamps
+
+All timestamps use ISO 8601 format with UTC timezone:
+
+```json
+{
+  "createdAt": "2024-01-15T10:30:00Z",
+  "updatedAt": "2024-01-15T14:45:00Z"
+}
+```
+
+### Money Amounts
+
+Amounts are represented as decimal numbers with currency codes:
+
+```json
+{
+  "amount": 49.99,
+  "currency": "USD"
+}
+```
+
+### Status Fields
+
+Many resources have a `status` field with predefined values:
+
+```json
+{
+  "status": "pending"  // pending, approved, rejected, etc.
+}
+```
+
+## Rate Limiting
+
+The API implements rate limiting to ensure fair usage. See [Rate Limits](/developer/rate-limits) for details.
+
+Rate limit information is included in response headers:
+
+```
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1640000000
+```
+
+## Error Handling
+
+Always check the HTTP status code and handle errors appropriately:
+
+<CodeGroup>
+
+```javascript JavaScript
+try {
+  const response = await fetch('https://api.smartbills.io/v1/expenses', {
+    headers: {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json'
+    }
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    console.error('API Error:', error);
+    throw new Error(error.error.message);
+  }
+  
+  const expenses = await response.json();
+  return expenses;
+} catch (error) {
+  console.error('Request failed:', error);
+  throw error;
+}
+```
+
+```python Python
+try:
+    response = requests.get(
+        'https://api.smartbills.io/v1/expenses',
+        headers=headers
+    )
+    response.raise_for_status()
+    expenses = response.json()
+except requests.exceptions.HTTPError as e:
+    print(f'API Error: {e}')
+    print(f'Response: {e.response.json()}')
+    raise
+except requests.exceptions.RequestException as e:
+    print(f'Request failed: {e}')
+    raise
+```
+
+</CodeGroup>
+
+## SDKs and Libraries
+
+While we don't currently provide official SDKs, the API is designed to work seamlessly with standard HTTP libraries in any programming language.
+
+### Recommended Libraries
+
+- **JavaScript/TypeScript**: `fetch`, `axios`, `node-fetch`
+- **Python**: `requests`, `httpx`
+- **PHP**: `Guzzle`, `cURL`
+- **Ruby**: `HTTParty`, `Faraday`
+- **Go**: `net/http`
+- **C#**: `HttpClient`
+
+## Testing
+
+### Test Environment
+
+Use test API keys (prefix `sk_test_`) for development and testing. Test keys:
+
+- Don't process real data
+- Have separate databases
+- Can be safely shared with your team
+- Have higher rate limits for testing
+
+### Example Test Data
+
+When testing, you can use these example values:
+
+```json
+{
+  "merchant": "Test Merchant",
+  "amount": 99.99,
+  "currency": "USD",
+  "date": "2024-01-15T10:30:00Z",
+  "category": "Office Supplies"
+}
+```
+
+## Webhooks
+
+Set up webhooks to receive real-time notifications about events in your Smartbills account. See [Webhooks](/developer/webhooks) for details.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create Account"
+    icon="user-plus"
+    href="/developer/create-account"
+  >
+    Set up your developer account
+  </Card>
+  <Card
+    title="API Keys"
+    icon="key"
+    href="/developer/api-keys"
+  >
+    Generate and manage API keys
+  </Card>
+  <Card
+    title="API Reference"
+    icon="book"
+    href="/api-reference/introduction"
+  >
+    Explore all endpoints
+  </Card>
+  <Card
+    title="Webhooks"
+    icon="webhook"
+    href="/developer/webhooks"
+  >
+    Set up event notifications
+  </Card>
+</CardGroup>
+
+## Support
+
+Need help? We're here to assist:
+
+- **Documentation**: Browse our [API Reference](/api-reference/introduction)
+- **Email**: [developers@smartbills.io](mailto:developers@smartbills.io)
+- **Community**: Join our [developer community](https://community.smartbills.io)
+

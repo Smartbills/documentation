@@ -1,0 +1,72 @@
+---
+title: "Gastos de empresa y personales"
+description: "Indique quién pagó un gasto y entienda qué cambia como consecuencia"
+---
+
+## Resumen
+
+Cada gasto en Smartbills registra quién pagó realmente: usted o la empresa. Ese único indicador decide si hay que reembolsarlo, qué información se le pide y dónde aparece.
+
+El control es el interruptor **Paid by business**, descrito como «Actívelo si la empresa pagó este gasto».
+
+## Qué cambia
+
+| | Gasto personal | Gasto de empresa |
+|---|----------------|------------------|
+| Quién pagó | Usted, de su bolsillo | La empresa, directamente |
+| Resultado | Le reembolsan | No se le debe nada |
+| Categoría | Obligatoria para enviar | No se le pide |
+| Informe de gastos | Obligatorio, es como le devuelven el dinero | No hace falta |
+| Quién se encarga | Usted, mediante un informe | La contabilidad |
+
+<Note>
+  Al marcar un gasto como pagado por la empresa, Smartbills indica que la categoría y el informe no son necesarios porque los gestionará el proceso contable de la empresa.
+
+  Eso no significa que la categoría sea opcional en general: la responsabilidad de imputarlo pasa de usted al equipo financiero.
+</Note>
+
+## En un solo gasto
+
+Durante la subida, indique quién pagó en la ventana. En un gasto existente, ábralo y use el interruptor **Paid by business**.
+
+## En varios a la vez
+
+Seleccione gastos en la lista y use la acción en lote para cambiar quién pagó en toda la selección. Es la forma más rápida de corregir un conjunto de cargos de tarjeta de empresa importados como personales.
+
+## Valores por defecto según el contexto
+
+La ventana de subida preselecciona según la página desde la que empiece:
+
+- Desde **Expenses**: personal por defecto
+- Desde **Business Expenses**: pagado por la empresa por defecto
+
+<Warning>
+  El valor por defecto sigue a la página, no al recibo. Si suele subir desde Business Expenses, sus gastos personales iniciados ahí quedarán marcados como pagados por la empresa y nunca llegarán a un informe de reembolso. Revise el interruptor cuando el recibo sea suyo.
+</Warning>
+
+## Corregir un error
+
+Cambiar el indicador es seguro mientras el gasto siga siendo suyo.
+
+Una vez que el gasto está en un informe enviado, queda bloqueado con el resto. Recupere el informe, cambie el indicador y vuelva a enviarlo.
+
+<Warning>
+  Un gasto personal marcado como pagado por la empresa es el error más caro de los dos. No se señalará como incompleto, no bloqueará ningún informe y sencillamente nunca se reembolsará. Si espera dinero por un gasto que no encuentra en ningún informe, revise esto primero.
+</Warning>
+
+## Dónde aparece cada tipo
+
+Ambos tipos están en su lista de gastos. Los pagados por la empresa alimentan además **Business Expenses**, donde finanzas los revisa e imputa.
+
+Lo que puede ver depende de su rol. Los Miembros solo ven sus propios gastos. El Equipo financiero, los Administradores financieros y los Administradores ven los gastos de empresa. Consulte [Roles y permisos](/es/guides/concepts/roles-and-permissions).
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Añadir un gasto" icon="upload" href="/es/guides/web-app/expenses/upload-expense">
+    Indicar quién pagó al subir
+  </Card>
+  <Card title="Procesamiento" icon="arrows-rotate" href="/es/guides/web-app/expenses/processing">
+    Seguir los recibos en lectura
+  </Card>
+</CardGroup>

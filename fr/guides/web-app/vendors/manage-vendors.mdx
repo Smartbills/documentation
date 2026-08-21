@@ -1,0 +1,123 @@
+---
+title: "Gérer les Fournisseurs"
+description: "Modifiez, fusionnez et organisez vos enregistrements de fournisseurs"
+---
+
+## Aperçu
+
+A mesure que votre répertoire de fournisseurs se développe, vous devrez peut-être mettre à jour les détails des fournisseurs, fusionner les doublons, supprimer les fournisseurs inutilisés ou importer des fournisseurs en masse. Ce guide couvre les tâches de gestion quotidiennes pour maintenir votre répertoire de fournisseurs propre et precis.
+
+<Note>
+  La gestion des fournisseurs necessite la permission **VENDORS_MANAGE**, disponible pour les roles Administrateur et Comptable.
+</Note>
+
+## Modifier les Détails d'un Fournisseur
+
+<Steps>
+  <Step title="Ouvrez le Fournisseur">
+    Accédez à **Fournisseurs** dans la barre latérale et cliquez sur le fournisseur que vous souhaitez modifier.
+
+  </Step>
+
+  <Step title="Modifiez les Champs">
+    Dans le panneau de détails du fournisseur, mettez à jour l'un des champs suivants :
+
+    - **Nom**: Corrigez le nom d'affichage
+    - **Adresse**: Ajoutez ou mettez à jour l'adresse commerciale
+    - **Numéro de taxe**: Entrez ou modifiez le numéro d'identification fiscale
+    - **Catégorie par défaut**: Changez la catégorie appliquee aux dépenses futures de ce fournisseur
+    - **Site web**, **Telephone**, **Notes**: Mettez à jour les coordonnées et les notes internes
+
+  </Step>
+
+  <Step title="Enregistrez les Modifications">
+    Cliquez sur **Enregistrer** pour appliquer vos modifications. La catégorie par défaut mise à jour s'appliquera uniquement aux dépenses futures, les dépenses existantes conservent leur catégorie actuelle.
+  </Step>
+</Steps>
+
+## Fusionner des Fournisseurs en Double
+
+Au fil du temps, le traitement OCR peut créer des fiches fournisseur en double (ex. : "Tim Hortons" et "Tim Horton's #1234"). La fusion combine deux fiches en une seule, consolidant toutes les dépenses liees sous un fournisseur unique.
+
+<Steps>
+  <Step title="Sélectionnez le Fournisseur en Double">
+    Ouvrez le fournisseur que vous souhaitez supprimer (le doublon). Cliquez sur le bouton **Fusionner** dans le panneau de détails.
+
+  </Step>
+
+  <Step title="Choisissez le Fournisseur Cible">
+    Recherchez et sélectionnez le fournisseur que vous souhaitez conserver (la cible). Toutes les dépenses du fournisseur en double seront reassignees à la cible.
+
+  </Step>
+
+  <Step title="Confirmez la Fusion">
+    Examinez le résumé de la fusion indiquant le nombre de dépenses qui seront déplacées. Cliquez sur **Confirmer la fusion** pour compléter l'opération.
+
+  </Step>
+</Steps>
+
+<Warning>
+  La fusion est permanente. La fiche du fournisseur en double est supprimee et toutes ses dépenses sont reassignees au fournisseur cible. Cette action ne peut pas être annulée.
+</Warning>
+
+## Supprimer un Fournisseur
+
+Si un fournisseur à été créé par erreur ou n'est plus pertinent, vous pouvez le supprimer du répertoire.
+
+1. Ouvrez le fournisseur que vous souhaitez supprimer
+2. Cliquez sur le bouton **Supprimer** dans le panneau de détails
+3. Confirmez la suppression dans la boîte de dialogue
+
+<Note>
+  Vous ne pouvez pas supprimer un fournisseur qui à des dépenses liees. Reassignez ou supprimez les dépenses associées d'abord, ou fusionnez le fournisseur avec une autre fiche.
+</Note>
+
+## Importer des Fournisseurs par CSV
+
+Pour les organisations ayant un grand nombre de fournisseurs, vous pouvez importer des fiches fournisseur en masse à l'aide d'un fichier CSV.
+
+<Steps>
+  <Step title="Preparez Votre Fichier CSV">
+    Créez un fichier CSV avec les colonnes suivantes :
+
+    | Colonne | Obligatoire | Description |
+    |---------|-------------|-------------|
+    | `name` | Oui | Nom d'affichage du fournisseur |
+    | `address` | Non | Adresse commerciale |
+    | `tax_id` | Non | Numéro d'identification fiscale |
+    | `category` | Non | Nom de la catégorie par défaut (doit correspondre à une catégorie existante) |
+    | `website` | Non | URL du site web |
+    | `phone` | Non | Numéro de telephone de contact |
+    | `notes` | Non | Notes internes |
+  </Step>
+
+  <Step title="Téléchargez le CSV">
+    Sur la page Fournisseurs, cliquez sur le bouton **Importer** dans le coin supérieur droit. Sélectionnez votre fichier CSV ou glissez-le dans la zone de téléchargement.
+
+  </Step>
+
+  <Step title="Vérifiez et Confirmez">
+    Smartbills affiché un aperçu des fournisseurs à importer. Vérifiez l'exactitude des données, resolvez les problèmes signales et cliquez sur **Importer** pour créer les fiches fournisseur.
+
+  </Step>
+</Steps>
+
+## Historique des Dépenses du Fournisseur
+
+Chaque panneau de détails du fournisseur inclut un journal chronologique des dépenses liees à ce fournisseur. Utilisez cet historique pour :
+
+- Suivre les tendances de dépenses au fil du temps
+- Identifier les chargés inhabituelles d'un fournisseur
+- Vérifier quels employés effectuent des achats aupres d'un fournisseur spécifique
+- Exporter les données de dépenses par fournisseur pour la comptabilité ou les audits
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Aperçu des Fournisseurs" icon="store" href="/fr/guides/web-app/vendors/overview">
+    Découvrez le répertoire des fournisseurs et la détection automatique
+  </Card>
+  <Card title="Créer un Fournisseur" icon="circle-plus" href="/fr/guides/web-app/vendors/create-vendor">
+    Ajoutez manuellement une nouvelle fiche fournisseur
+  </Card>
+</CardGroup>

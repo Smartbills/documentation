@@ -1,0 +1,154 @@
+---
+title: "Scanner un Reçu"
+description: "Capturez les reçus avec l'appareil photo de votre telephone avec extraction de données par IA"
+---
+
+## Introduction
+
+L'application mobile Smartbills utilisé l'appareil photo de votre telephone et l'OCR alimentee par l'IA pour capturer des reçus papier et extraire automatiquement les données clés. Ce guide couvre le flux complet de numérisation, de l'ouverture de l'appareil photo à l'enregistrement de la dépense.
+
+## Étape 1 : Ouvrir l'Appareil Photo
+
+Il existe plusieurs facons de commencer la numérisation d'un reçu :
+
+- **Onglet Accueil** : Appuyez sur l'icône appareil photo ou sur le bouton d'action rapide **Scanner un Reçu**
+- **Onglet Dépenses** : Appuyez sur le bouton **+** en bas de l'écran, puis sélectionnez **Scanner un Reçu**
+- **Widget** : Utilisez le widget Smartbills sur l'écran d'accueil (iOS) pour lancer le scanner directement
+
+<Note>
+  La première fois que vous utilisez le scanner, l'application vous demandera la permission d'accéder à l'appareil photo. Appuyez sur **Autoriser** pour accorder l'accès. Sans permission d'accès à l'appareil photo, vous pouvez toujours télécharger des images de reçus depuis votre phototeque.
+</Note>
+
+## Étape 2 : Positionner le Reçu
+
+Tenez votre telephone au-dessus du reçu. Le scanner affiché un viseur avec des guides pour vous aider à cadrer le document.
+
+### Conseils pour de Meilleures Numérisations
+
+- **Surface plane** : Placez le reçu sur une surface plane et contrastante (par exemple, une table sombre pour un reçu blanc)
+- **Bon eclairage** : Utilisez la lumiere naturelle ou un endroit bien eclaire. Evitez les ombres prononcees sur le reçu
+- **Evitez les reflets** : Inclinez legerement votre telephone s'il y à des reflets de l'eclairage
+- **Reçu complet** : Assurez-vous que tout le reçu est visible, y compris l'en-tete avec le nom du commercant et le pied de page avec le total
+- **Main stable** : Maintenez le telephone stable un instant pour permettre à la mise au point automatique de clarifier l'image
+
+## Étape 3 : Capturer le Reçu
+
+Le scanner prend en charge deux modes de capture :
+
+### Capture Automatique
+
+Par défaut, le scanner détecté quand un reçu est correctement cadre et le capture automatiquement. Vous verrez une bordure verte apparaître autour du reçu lorsqu'il est détecté, et l'image est prise après une breve pause.
+
+### Capture Manuelle
+
+Si la capture automatique ne se declenche pas, ou si vous preferez le contrôle manuel, appuyez sur le **bouton declencheur** en bas de l'écran pour capturer l'image.
+
+### Numérisation de Plusieurs Pages
+
+Si votre reçu comporte plusieurs pages (par exemple, une longue addition de restaurant ou une facture de plusieurs pages) :
+
+1. Après avoir capture la première page, appuyez sur **Ajouter une Page**
+2. Positionnez et capturez la page suivante
+3. Répétez pour toutes les pages
+4. Appuyez sur **Terminer** lorsque toutes les pages sont capturees
+
+Toutes les pages sont combinees en une seule dépense.
+
+## Étape 4 : Vérifier les Données Extraites
+
+Après la capture, l'IA de Smartbills traite l'image du reçu et extrait les champs clés. Cela prend généralement deux à trois secondes. L'écran de vérification affiché les informations extraites pour votre validation.
+
+L'IA extrait les champs suivants :
+
+| Champ | Description |
+|-------|-------------|
+| **Commercant** | Nom de l'entreprise ou du fournisseur depuis l'en-tete du reçu |
+| **Date** | Date de la transaction |
+| **Montant Total** | Montant final incluant les taxes |
+| **Sous-total** | Montant avant taxes |
+| **Taxes** | Montants des taxes (TPS, TVH, TVQ, TVP, TVA et autres) |
+| **Devise** | Devise détectée selon les symboles et la localisation |
+| **Méthode de Paiement** | Type de carte ou méthode de paiement si imprime sur le reçu |
+
+<Tip>
+  Un indicateur de confiance est affiché à côté de chaque champ extrait. Les champs avec une confiance plus faible sont surlignées en jaune pour que vous puissiez les examiner attentivement. Appuyez sur n'importe quel champ pour le modifier si la valeur extraite est incorrecte.
+</Tip>
+
+## Étape 5 : Attribuer une Catégorie
+
+Appuyez sur le champ **Catégorie** pour sélectionner une catégorie de dépense. Smartbills peut suggérer une catégorie basee sur le nom du commercant et vos habitudes de categorisation passees.
+
+1. Appuyez sur **Catégorie** pour ouvrir le sélecteur de catégorie
+2. Parcourez ou recherchez la catégorie appropriee
+3. Appuyez sur la catégorie pour la sélectionner
+
+## Étape 6 : Ajouter des Notes (Optionnel)
+
+Appuyez sur le champ **Notes** pour ajouter une description ou un objectif commercial pour la dépense. Cela est utile pour les approbateurs qui examinent vos rapports de dépenses.
+
+## Étape 7 : Enregistrer la Dépense
+
+Une fois que vous avez vérifié les données extraites et apporte les corrections nécessaires :
+
+1. Appuyez sur **Enregistrer** pour sauvegarder la dépense dans votre Dépenses
+2. La dépense apparaît dans votre onglet Dépenses avec l'image du reçu jointe
+
+## Langues Prises en Charge pour l'OCR
+
+Le moteur OCR de Smartbills prend en charge les reçus dans les langues suivantes :
+
+- Anglais
+- Francais
+- Espagnol
+- Allemand
+- Italien
+- Portugais
+- Neerlandais
+- Japonais
+- Chinois (simplifie et traditionnel)
+- Coreen
+
+<Note>
+  Pour une meilleure précision OCR, assurez-vous que le texte du reçu est lisible et non decolore. Les reçus sur papier thermique peuvent se degrader avec le temps, numerisez-les rapidement après l'achat.
+</Note>
+
+## Alternative : Télécharger depuis la Phototeque
+
+Si vous avez déjà pris une photo d'un reçu ou reçu un fichier image :
+
+1. Appuyez sur le bouton **+** dans l'onglet Dépenses
+2. Sélectionnez **Télécharger depuis la Phototeque**
+3. Choisissez l'image du reçu dans votre phototeque
+4. Le même processus d'extraction par IA et de vérification s'applique
+
+Vous pouvez également transferer des images de reçus à Smartbills via le menu de partage iOS ou Android depuis n'importe quelle application. Consultez [Transfert de Reçus](/fr/guides/mobile/receipt-forwarding) pour plus de détails.
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Le scanner ne détecté pas mon reçu">
+    Assurez-vous que le reçu est sur un fond contrastant et bien eclaire. Essayez la capture manuelle en appuyant sur le bouton declencheur. Si le reçu est très petit (par exemple, un ticket de depanneur), rapprochez votre telephone pour remplir davantage le viseur.
+  </Accordion>
+
+  <Accordion title="Les données extraites sont incorrectes">
+    Appuyez sur n'importe quel champ sur l'écran de vérification pour le modifier manuellement. La précision de l'OCR depend de la qualite du reçu. Le papier thermique decolore, les reçus froisses ou le texte à faible contraste peuvent produire une précision moindre. Pour de meilleurs résultats, numerisez les reçus des que possible pendant que le texte est encore clair.
+  </Accordion>
+
+  <Accordion title="La permission de l'appareil photo à été refusee">
+    Allez dans les paramètres de votre appareil : **Réglages > Smartbills > Appareil photo** (iOS) ou **Paramètres > Applications > Smartbills > Autorisations > Appareil photo** (Android). Activez l'accès à l'appareil photo, puis retournez à l'application.
+  </Accordion>
+</AccordionGroup>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les Dépenses" icon="receipt" href="/fr/guides/mobile/manage-expenses">
+    Consultez, modifiez et organisez les dépenses numerisees
+  </Card>
+  <Card title="Rapports de Dépenses" icon="file-lines" href="/fr/guides/mobile/expense-reports">
+    Ajoutez des dépenses numerisees à un rapport et soumettez
+  </Card>
+  <Card title="Transfert de Reçus" icon="envelope" href="/fr/guides/mobile/receipt-forwarding">
+    Transférez des reçus numériques par courriel ou menu de partage
+  </Card>
+</CardGroup>

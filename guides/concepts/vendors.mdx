@@ -1,0 +1,96 @@
+---
+title: "Vendors"
+description: "Manage your vendor and supplier relationships in Smartbills"
+---
+
+## What is a Vendor?
+
+A vendor in Smartbills represents a merchant, supplier, or business from which your organization makes purchases. Vendors are automatically detected when receipts are processed through OCR, or they can be created manually. Maintaining a clean vendor directory helps ensure consistent categorization, accurate reporting, and reliable vendor-level spending analysis.
+
+Vendors are managed from the Vendors page.
+
+## How It Works
+
+<Steps>
+  <Step title="Detection">
+    When a new expense is created from a receipt, Smartbills uses OCR to extract the vendor name. The system checks the extracted name against your existing vendor directory to find a match.
+  </Step>
+  <Step title="Matching">
+    If the vendor name matches an existing entry (accounting for minor spelling variations and abbreviations), the expense is automatically linked to that vendor. The vendor's default category and other saved settings are applied to the expense.
+  </Step>
+  <Step title="Creation">
+    If no match is found, Smartbills creates a new vendor entry in your directory with the extracted name. An admin or accountant can later enrich the vendor record with additional details like tax ID, address, and default category.
+  </Step>
+  <Step title="Ongoing Management">
+    Over time, your vendor directory grows into a comprehensive record of all businesses your organization transacts with. You can merge duplicates, update vendor details, and use vendor data for spending analysis.
+  </Step>
+</Steps>
+
+## Auto-Detected vs. Manually Created Vendors
+
+| Aspect | Auto-Detected | Manually Created |
+|--------|--------------|-----------------|
+| **How created** | Automatically when OCR processes a receipt with an unrecognized vendor name | Created by a user from the Vendors page |
+| **Initial data** | Vendor name extracted from receipt; other fields may be empty | All fields filled in by the user at creation time |
+| **Typical use** | Most vendors are discovered through receipt processing | Used for vendors you want to set up before any expenses are logged |
+| **Enrichment** | Admin or accountant fills in missing details later | Complete from the start |
+
+## Vendor Fields
+
+| Field | Description |
+|-------|-------------|
+| **Name** | The display name of the vendor (e.g., "Staples", "Delta Airlines") |
+| **Address** | The vendor's business address |
+| **Tax ID** | The vendor's tax identification number (e.g., EIN, GST/HST number) |
+| **Default Category** | The category automatically applied to expenses from this vendor |
+| **Website** | The vendor's website URL |
+| **Phone** | Contact phone number |
+| **Notes** | Internal notes about the vendor (e.g., account number, payment terms) |
+
+## Vendor Matching for Incoming Expenses
+
+When a new expense arrives, Smartbills uses vendor matching to link it to the correct vendor record. The matching process handles common variations:
+
+- **Abbreviations**: "Tim Hortons" matches "Tim Horton's" and "Tim Hortons #1234"
+- **Location suffixes**: "Staples - Store 456" matches the main "Staples" vendor record
+- **Minor spelling differences**: Fuzzy matching handles OCR artifacts and slight misspellings
+- **Manual override**: If the automatic match is incorrect, the user can reassign the vendor
+
+When a vendor is matched, its default category is applied to the expense. This saves time and ensures consistency, if all purchases from a given office supply store should be categorized as "Office Supplies," setting the default category on the vendor record handles this automatically.
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Vendor** | A merchant, supplier, or business from which expenses are incurred |
+| **Vendor Matching** | The automatic process of linking an expense to a known vendor record |
+| **Default Category** | The category automatically assigned to expenses from a specific vendor |
+| **Vendor Directory** | The complete list of vendors your organization has transacted with |
+| **Merge** | Combining two duplicate vendor entries into a single record |
+| **Tax ID** | The vendor's government-issued tax identification number |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Admin** | Full vendor management: create, edit, merge, and delete vendor records. Requires that access permission |
+| **Accountant** | Reviews vendor records for accuracy, sets default categories and tax information |
+| **Employee** | Views vendor information on their expenses. Can suggest corrections. Requires that access permission |
+| **Manager** | Reviews vendor assignments on expenses during the approval process |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Create a Vendor" icon="circle-plus" href="/guides/web-app/vendors/create-vendor">
+    How to manually create a new vendor record
+  </Card>
+  <Card title="Manage Vendors" icon="address-book" href="/guides/web-app/vendors/manage-vendors">
+    Edit, merge, and organize your vendor directory
+  </Card>
+  <Card title="Categories" icon="tags" href="/guides/concepts/categories-and-departments">
+    Set default categories for vendor expenses
+  </Card>
+  <Card title="Expenses" icon="receipt" href="/guides/concepts/expenses">
+    Understand how expenses are linked to vendors
+  </Card>
+</CardGroup>

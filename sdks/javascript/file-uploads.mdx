@@ -1,0 +1,266 @@
+---
+title: "File Uploads"
+description: "Upload receipts, invoices, and documents using FormData or presigned URLs in the Smartbills JavaScript SDK."
+---
+
+## File Uploads
+
+The Smartbills SDK supports two upload patterns: direct FormData uploads and presigned URL uploads for large files. Both patterns are available for expenses, bills, and vendor logos.
+
+## FormData uploads
+
+The simplest approach, construct a `FormData` object and pass it to the upload method. The SDK handles multipart encoding and content-type headers automatically.
+
+### Upload expense receipts
+
+```typescript
+// Browser environment
+const fileInput = document.querySelector('input[type="file"]');
+const formData = new FormData();
+for (const file of fileInput.files) {
+  formData.append('files', file);
+}
+
+const results = await client.expenses.uploadBusiness(formData);
+for (const result of results) {
+  console.log(`Created expense: ${result.id}`);
+}
+```
+
+### Upload in Node.js
+
+```typescript
+import { readFileSync } from 'fs';
+
+// Node.js 18+ has built-in FormData
+const formData = new FormData();
+const fileBlob = new Blob([readFileSync('/path/to/receipt.pdf')], {
+  type: 'application/pdf',
+});
+formData.append('files', fileBlob, 'receipt.pdf');
+
+const results = await client.expenses.uploadBusiness(formData);
+```
+
+### Upload scopes
+
+Different upload methods scope the created expenses to different contexts:
+
+```typescript
+// Upload for the business (admin)
+const businessResults = await client.expenses.uploadBusiness(formData);
+
+// Upload for a specific employee
+const employeeResults = await client.expenses.uploadEmployee(employeeId, formData);
+
+// Upload for the current user
+const myResults = await client.expenses.uploadMy(formData);
+```
+
+### Upload bill documents
+
+```typescript
+const formData = new FormData();
+formData.append('files', invoicePdf);
+
+const results = await client.bills.upload(formData);
+```
+
+## Validation before upload
+
+Validate files without creating expense or bill records. Useful for client-side checks before committing:
+
+```typescript
+const formData = new FormData();
+formData.append('files', receiptFile);
+
+try {
+  await client.expenses.validateBusiness(formData);
+  console.log('File is valid, proceeding with upload');
+
+  const results = await client.expenses.uploadBusiness(formData);
+} catch (error) {
+  console.error('File validation failed:', error);
+}
+
+// Employee-scoped validation
+await client.expenses.validateEmployee(employeeId, formData);
+
+// Bill validation
+await client.bills.validate(formData);
+```
+
+## Presigned URL uploads
+
+For large files or when you want to upload directly to cloud storage (bypassing the API server), use the presigned upload flow.
+
+### How it works
+
+1. **Presign**: request a presigned upload URL from the API
+2. **Upload**: upload the file directly to the presigned URL
+3. **Confirm**: notify the API that the upload is complete
+
+### Step-by-step example
+
+```typescript
+// Step 1: Request a presigned URL
+const presigned = await client.expenses.presignUpload({
+  fileName: 'large-receipt.pdf',
+  contentType: 'application/pdf',
+  fileSize: fileBuffer.byteLength,
+});
+
+console.log(`Upload to: ${presigned.url}`);
+console.log(`Key: ${presigned.key}`);
+
+// Step 2: Upload directly to the presigned URL
+const uploadResponse = await fetch(presigned.url, {
+  method: 'PUT',
+  body: fileBuffer,
+  headers: {
+    'Content-Type': 'application/pdf',
+  },
+});
+
+if (!uploadResponse.ok) {
+  throw new Error(`Upload failed: ${uploadResponse.statusText}`);
+}
+
+// Step 3: Confirm the upload with the API
+await client.expenses.confirmUpload({
+  key: presigned.key,
+  fileName: 'large-receipt.pdf',
+});
+
+console.log('Upload confirmed and expense created');
+```
+
+### Employee-scoped presigned uploads
+
+```typescript
+// Presign for a specific employee
+const presigned = await client.expenses.presignEmployeeUpload(employeeId, {
+  fileName: 'receipt.jpg',
+  contentType: 'image/jpeg',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Upload to presigned URL...
+await fetch(presigned.url, {
+  method: 'PUT',
+  body: fileBuffer,
+  headers: { 'Content-Type': 'image/jpeg' },
+});
+
+// Confirm
+await client.expenses.confirmEmployeeUpload(employeeId, {
+  key: presigned.key,
+  fileName: 'receipt.jpg',
+});
+```
+
+## Vendor logo uploads
+
+Upload logos for vendor records:
+
+```typescript
+// User-level vendor
+const updated = await client.vendors.uploadLogo(vendorId, logoFile);
+
+// Business-level vendor
+const updated = await client.vendors.uploadBusinessLogo(vendorId, logoFile);
+```
+
+## Downloading files
+
+### Download expense attachments
+
+```typescript
+// Single expense attachment
+const blob = await client.expenses.downloadSingleAttachment(expenseId);
+
+// Multiple expense attachments (zip)
+const zipBlob = await client.expenses.downloadAttachments({
+  expenseIds: [1, 2, 3],
+});
+
+// With filename metadata
+const { blob: file, filename } = await client.expenses.downloadSingleAttachmentWithFilename(expenseId);
+console.log(`Downloaded: ${filename}`);
+```
+
+### Download bill attachments
+
+```typescript
+const zipBlob = await client.bills.downloadAttachments({
+  billIds: [1, 2, 3],
+});
+```
+
+### Download vendor import template
+
+```typescript
+const templateBlob = await client.vendors.downloadImportTemplate();
+```
+
+## Exporting data
+
+Export endpoints return `Blob` objects that can be saved or streamed:
+
+```typescript
+// Export expenses
+const expenseBlob = await client.expenses.export({
+  format: 'csv',
+  startDate: '2025-01-01',
+});
+
+// Export with filename
+const { blob, filename } = await client.expenses.exportWithFilename({
+  format: 'xlsx',
+});
+
+// Export expense reports
+const reportBlob = await client.expenseReports.export({
+  format: 'xlsx',
+});
+
+// Export bills
+const billBlob = await client.bills.export({
+  format: 'csv',
+});
+```
+
+### Saving to disk in Node.js
+
+```typescript
+import { writeFileSync } from 'fs';
+
+const { blob, filename } = await client.expenses.exportWithFilename({
+  format: 'xlsx',
+});
+
+const buffer = Buffer.from(await blob.arrayBuffer());
+writeFileSync(filename ?? 'expenses.xlsx', buffer);
+```
+
+### Triggering download in the browser
+
+```typescript
+const blob = await client.expenses.export({ format: 'csv' });
+
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'expenses.csv';
+a.click();
+URL.revokeObjectURL(url);
+```
+
+## Supported file types
+
+| Context | Accepted formats |
+|---------|-----------------|
+| Expense receipts | JPEG, PNG, PDF, HEIC |
+| Bill documents | PDF, JPEG, PNG |
+| Vendor logos | JPEG, PNG, SVG |
+| CSV import | CSV (UTF-8) |

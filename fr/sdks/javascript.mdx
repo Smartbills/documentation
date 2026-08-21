@@ -1,0 +1,34 @@
+---
+title: "SDK JavaScript"
+description: "SDK officiel Smartbills pour les applications JavaScript et TypeScript"
+---
+
+Le SDK JavaScript Smartbills fournit un client typé pour Node.js et les applications navigateur. Il offre la gestion complète des dépenses, des rapports, des fournisseurs et des factures avec une excellente prise en charge TypeScript.
+
+## Installation
+
+```bash
+npm install @smartbills/sdk
+```
+
+```bash
+yarn add @smartbills/sdk
+```
+
+## Démarrage rapide
+
+```typescript
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const client = new SmartbillsClient({
+  accessToken: "your-access-token",
+  businessId: 42,
+  locale: "fr-CA",
+});
+
+const { data, pagination } = await client.expenses.listBusiness({ limit: 25 });
+```
+
+Le client accepte les options suivantes : `baseUrl`, `accessToken`, `businessId`, `locale`, `timeout`, `maxRetries` et `retryDelay`. Vous pouvez modifier la configuration au runtime avec `setAccessToken()`, `setBusinessId()` et `setLocale()`.
+
+Les services disponibles incluent `expenses`, `expenseReports`, `bills`, `vendors`, `businesses` et plusieurs autres. Chaque méthode accepte un paramètre optionnel `RequestOptions` pour surcharger `businessId` ou `locale`. L'upload de fichiers peut se faire par FormData direct ou via des URLs présignées S3 pour les gros fichiers.

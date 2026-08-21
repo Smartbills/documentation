@@ -1,0 +1,121 @@
+---
+title: "FreshBooks"
+description: "Sync expenses, clients, and projects between Smartbills and FreshBooks"
+---
+
+## Overview
+
+The FreshBooks integration connects Smartbills with your FreshBooks account to sync expenses, clients, and project data. Approved expenses are exported to FreshBooks as expense entries, with support for client billing and project tracking.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Export** | Sync approved expenses to FreshBooks expense entries |
+| **Client Mapping** | Link Smartbills vendors to FreshBooks clients |
+| **Project Tracking** | Associate expenses with FreshBooks projects |
+| **Category Sync** | Map expense categories between systems |
+| **Receipt Attachments** | Attach receipt images to FreshBooks expenses |
+| **Billable Expenses** | Mark expenses as billable to clients |
+| **Tax Mapping** | Sync tax rates and codes |
+| **Invoice Matching** | Match expenses to FreshBooks invoices |
+
+## Prerequisites
+
+- FreshBooks account (Plus plan or higher)
+- Smartbills Business plan or higher
+- Admin access in both systems
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **FreshBooks**.
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your FreshBooks account. Authorize Smartbills to access your data.
+
+  </Step>
+  <Step title="Select Business">
+    Choose the FreshBooks business to connect if you have multiple.
+  </Step>
+  <Step title="Map Categories">
+    Map Smartbills categories to FreshBooks expense categories.
+  </Step>
+  <Step title="Configure Settings">
+    Set sync preferences, default project assignment, and billable defaults.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Category Mapping
+
+| Smartbills Category | FreshBooks Category |
+|---------------------|---------------------|
+| Travel | Travel |
+| Meals | Meals and Entertainment |
+| Office Supplies | Office Expenses |
+| Software | Online Services |
+
+### Client Mapping
+
+| Mode | Behavior |
+|------|----------|
+| **Auto-match** | Match clients by name automatically |
+| **Manual** | Map clients individually |
+| **Create new** | Create missing clients in FreshBooks |
+
+### Billable Settings
+
+| Setting | Options |
+|---------|---------|
+| Default billable status | Mark all expenses as billable or non-billable |
+| Client assignment | Require client assignment for billable expenses |
+| Markup percentage | Apply markup when billing expenses to clients |
+
+### Tax Mapping
+
+FreshBooks supports two tax fields per line item:
+
+| Smartbills Tax | FreshBooks Tax 1 | FreshBooks Tax 2 |
+|----------------|------------------|------------------|
+| GST (5%) | GST |: |
+| HST (13%) | HST |: |
+| QST (9.975%) | GST | QST |
+| PST + GST | GST | PST |
+
+## Data Sync
+
+| Smartbills | FreshBooks | Direction | Frequency |
+|-----------|------------|-----------|-----------|
+| Approved expenses | Expense entries | Smartbills -> FreshBooks | Real-time or scheduled |
+| Vendors | Clients | FreshBooks -> Smartbills | On demand |
+| Projects | Projects | FreshBooks -> Smartbills | On demand |
+| Categories | Expense categories | FreshBooks -> Smartbills | On demand |
+| Tax rates | Tax rates | FreshBooks -> Smartbills | On demand |
+| Receipt images | Attachments | Smartbills -> FreshBooks | With expense export |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Connection issues">
+    FreshBooks OAuth tokens may expire. Reconnect from **Settings > Apps > FreshBooks**.
+  </Accordion>
+
+  <Accordion title="Client not found">
+    Enable auto-match or manually map the client in the integration settings.
+  </Accordion>
+
+  <Accordion title="Project not syncing">
+    Ensure the project is active in FreshBooks. Archived projects are not available for mapping.
+  </Accordion>
+
+  <Accordion title="Duplicate expenses">
+    Check that only one sync method is active. Disable scheduled sync if using real-time, or vice versa.
+  </Accordion>
+
+  <Accordion title="Tax amounts incorrect">
+    Verify tax code mappings. FreshBooks applies taxes at the line-item level, so ensure each tax field is mapped correctly.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,310 @@
+---
+title: "Two-Factor Authentication"
+description: "Secure your Smartbills account with two-factor authentication (2FA) using an authenticator app or SMS"
+---
+
+## Overview
+
+Two-factor authentication (2FA) adds an extra layer of security to your Smartbills account. When enabled, you must provide a second verification code in addition to your password each time you sign in. This ensures that even if your password is compromised, your account remains protected.
+
+<Note>
+  **Strongly recommended**: We recommend enabling 2FA for all users, especially those with access to sensitive financial data and administrative functions.
+</Note>
+
+## Why Enable 2FA?
+
+- **Prevent unauthorized access** even if your password is leaked or guessed
+- **Protect financial data** including expense reports, receipts, and reimbursement details
+- **Meet compliance requirements** for organizations that mandate multi-factor authentication
+- **Secure administrative actions** such as user management and integration configuration
+
+## Supported Methods
+
+<Tabs>
+  <Tab title="Authenticator App (Recommended)">
+    Use a time-based one-time password (TOTP) app to generate 6-digit codes that refresh every 30 seconds.
+
+    **Recommended apps:**
+    - **Google Authenticator** (iOS and Android)
+    - **Authy** (iOS, Android, and desktop), supports cloud backup
+    - **1Password** (built into the password manager)
+    - **Microsoft Authenticator** (iOS and Android)
+
+    <Tip>
+      Authy and 1Password offer cloud backup of your 2FA codes, making it easier to restore access if you switch devices.
+    </Tip>
+  </Tab>
+
+  <Tab title="SMS Verification">
+    Receive a 6-digit verification code via text message each time you sign in.
+
+    **Requirements:**
+    - A mobile phone number that can receive SMS messages
+    - Reliable cellular service
+
+    <Warning>
+      SMS-based 2FA is less secure than authenticator apps due to SIM-swapping risks. Use an authenticator app when possible.
+    </Warning>
+  </Tab>
+</Tabs>
+
+## Enable 2FA
+
+### Using an Authenticator App
+
+<Steps>
+  <Step title="Open Security Settings">
+    Navigate to **Settings** > **Security** > **Two-Factor Authentication** in your Smartbills dashboard.
+  </Step>
+
+  <Step title="Click Enable 2FA">
+    Click the **Enable Two-Factor Authentication** button. You will be prompted to confirm your password.
+  </Step>
+
+  <Step title="Choose Authenticator App">
+    Select **Authenticator App** as your preferred method.
+  </Step>
+
+  <Step title="Scan the QR Code">
+    Open your authenticator app and scan the QR code displayed on screen.
+
+    **If you cannot scan the QR code:**
+    Click **Enter code manually** to display a text key that you can type into your authenticator app.
+  </Step>
+
+  <Step title="Enter Verification Code">
+    Type the 6-digit code from your authenticator app into the verification field and click **Verify**.
+  </Step>
+
+  <Step title="Save Backup Codes">
+    You will be presented with a set of **10 single-use backup codes**. Download or copy these codes and store them in a secure location.
+
+    Each backup code can be used once to sign in if you lose access to your authenticator app.
+  </Step>
+</Steps>
+
+<Check>
+  **2FA is now active!** You will be required to enter a verification code each time you sign in.
+</Check>
+
+### Using SMS
+
+<Steps>
+  <Step title="Open Security Settings">
+    Navigate to **Settings** > **Security** > **Two-Factor Authentication**.
+  </Step>
+
+  <Step title="Click Enable 2FA">
+    Click **Enable Two-Factor Authentication** and confirm your password.
+  </Step>
+
+  <Step title="Choose SMS">
+    Select **SMS** as your preferred method.
+  </Step>
+
+  <Step title="Enter Phone Number">
+    Enter your mobile phone number including the country code (e.g., +1 for US/Canada).
+  </Step>
+
+  <Step title="Verify Phone Number">
+    You will receive a 6-digit code via SMS. Enter the code to verify your phone number.
+  </Step>
+
+  <Step title="Save Backup Codes">
+    Download or copy your **10 single-use backup codes** and store them securely.
+  </Step>
+</Steps>
+
+## Signing In with 2FA
+
+After entering your email and password, you will see a second verification screen:
+
+1. Open your authenticator app (or wait for the SMS)
+2. Enter the 6-digit code
+3. Click **Verify** to complete sign-in
+
+<Tip>
+  Check the **Remember this device for 30 days** option on trusted personal devices to reduce how often you need to enter a code.
+</Tip>
+
+## Backup Codes
+
+Backup codes are your safety net if you lose access to your authenticator app or phone.
+
+### How Backup Codes Work
+
+- You receive **10 backup codes** when you enable 2FA
+- Each code can be used **only once**
+- Codes do not expire unless you regenerate them
+- Use a backup code in place of your authenticator code on the 2FA verification screen
+
+### Using a Backup Code
+
+1. On the 2FA verification screen, click **Use a backup code**
+2. Enter one of your unused backup codes
+3. Click **Verify**
+
+### Regenerate Backup Codes
+
+If you run low on backup codes or suspect they have been compromised:
+
+1. Go to **Settings** > **Security** > **Two-Factor Authentication**
+2. Click **Regenerate Backup Codes**
+3. Confirm your password
+4. Save the new set of codes (previous codes will be invalidated)
+
+<Warning>
+  Regenerating backup codes **invalidates all previous codes**. Make sure to update your stored codes immediately.
+</Warning>
+
+## Change Your 2FA Method
+
+To switch between authenticator app and SMS:
+
+1. Go to **Settings** > **Security** > **Two-Factor Authentication**
+2. Click **Change Method**
+3. Confirm your password
+4. Follow the setup steps for your new method
+5. Save your new backup codes
+
+## Disable 2FA
+
+<Warning>
+  Disabling 2FA reduces your account security. Only disable it if absolutely necessary.
+</Warning>
+
+<Steps>
+  <Step title="Open Security Settings">
+    Navigate to **Settings** > **Security** > **Two-Factor Authentication**.
+  </Step>
+
+  <Step title="Click Disable 2FA">
+    Click **Disable Two-Factor Authentication**.
+  </Step>
+
+  <Step title="Confirm Your Identity">
+    Enter your password and a current 2FA code (or backup code) to confirm.
+  </Step>
+
+  <Step title="Confirm Disable">
+    Click **Disable** to turn off two-factor authentication. All backup codes will be invalidated.
+  </Step>
+</Steps>
+
+## Mobile Biometric Lock
+
+In addition to 2FA, the Smartbills mobile app supports biometric authentication for app-level security:
+
+<Tabs>
+  <Tab title="iOS (Face ID / Touch ID)">
+    1. Go to **Menu** > **Security**
+    2. Toggle on **Face ID** or **Touch ID**
+    3. Authenticate with your biometric to confirm
+
+    The app will require biometric verification each time you open it.
+  </Tab>
+
+  <Tab title="Android (Fingerprint)">
+    1. Go to **Menu** > **Security**
+    2. Toggle on **Fingerprint Lock**
+    3. Authenticate with your fingerprint to confirm
+
+    The app will require fingerprint verification each time you open it.
+  </Tab>
+</Tabs>
+
+<Note>
+  Biometric lock is separate from 2FA. Biometric lock secures access to the mobile app on your device, while 2FA secures the sign-in process across all platforms.
+</Note>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Lost access to authenticator app" icon="mobile">
+    If you no longer have access to your authenticator app:
+
+    1. Use one of your **backup codes** to sign in
+    2. Go to **Settings** > **Security** > **Two-Factor Authentication**
+    3. Click **Change Method** or reconfigure your authenticator app
+    4. Set up the new authenticator and save new backup codes
+
+    **No backup codes either?**
+    1. Click **I can't access my authenticator** on the 2FA screen
+    2. Verify your identity via email
+    3. Contact [support@smartbills.io](mailto:support@smartbills.io) with your account email and a description of the issue
+  </Accordion>
+
+  <Accordion title="SMS code not received" icon="comment-slash">
+    If you are not receiving SMS verification codes:
+
+    1. Verify your phone number is correct in security settings
+    2. Check that your phone has cellular signal
+    3. Wait up to 2 minutes for the message to arrive
+    4. Click **Resend Code** to request a new code
+    5. Check if your carrier blocks short-code messages
+
+    **Still not receiving codes?**
+    Switch to an authenticator app for more reliable code delivery.
+  </Accordion>
+
+  <Accordion title="2FA code is invalid" icon="circle-xmark">
+    If your authenticator code is rejected:
+
+    1. **Check the time on your device**: TOTP codes are time-sensitive. Ensure your device clock is accurate and synced automatically
+    2. **Wait for the next code**: codes refresh every 30 seconds. If you enter a code close to expiration, wait for a new one
+    3. **Verify the correct account**: ensure you are using the code for your Smartbills entry, not another service
+    4. **Resync your authenticator**: in Google Authenticator, go to Settings > Time Correction for Codes > Sync Now
+  </Accordion>
+
+  <Accordion title="Locked out of account" icon="lock">
+    If you are completely locked out:
+
+    1. Try all remaining backup codes
+    2. Click **I can't access my authenticator** on the sign-in screen
+    3. Follow the email verification process
+    4. If unsuccessful, contact [support@smartbills.io](mailto:support@smartbills.io) with:
+       - Your registered email address
+       - Proof of identity (government-issued ID may be required)
+       - Approximate date you last accessed the account
+  </Accordion>
+
+  <Accordion title="New phone or device" icon="arrows-rotate">
+    When switching to a new phone:
+
+    **If you use Authy or 1Password:**
+    Install the app on your new device and sign in. Your 2FA codes sync automatically.
+
+    **If you use Google Authenticator:**
+    1. Before switching devices, go to **Settings** > **Security** > **Two-Factor Authentication**
+    2. Click **Change Method** or **Reconfigure**
+    3. Scan the new QR code with your new device
+    4. Save new backup codes
+
+    **Already switched and lost access?**
+    Use a backup code to sign in, then reconfigure 2FA with your new device.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Update Your Profile" icon="user-pen" href="/help-center/account/update-profile">
+    Configure your personal settings
+  </Card>
+  <Card title="Login Guide" icon="right-to-bracket" href="/help-center/account/login">
+    Learn about all sign-in methods
+  </Card>
+  <Card title="Reset Password" icon="key" href="/help-center/account/reset-password">
+    Change or recover your password
+  </Card>
+  <Card title="Login Problems" icon="circle-question" href="/help-center/troubleshooting/login-problems">
+    Troubleshoot sign-in issues
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+- **Email Support**: [support@smartbills.io](mailto:support@smartbills.io)
+- **Security Concerns**: [security@smartbills.io](mailto:security@smartbills.io)
+- **Live Chat**: Available in the app (bottom right corner)
+- **Help Center**: Browse more [help articles](/help-center/overview)

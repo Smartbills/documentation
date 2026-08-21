@@ -1,0 +1,27 @@
+---
+title: "Problèmes de Synchronisation"
+description: "Résoudre les problèmes de synchronisation des données Smartbills"
+---
+
+Les problèmes de synchronisation surviennent lorsque les données ne se mettent pas à jour entre le Web et l'application mobile, ou entre Smartbills et vos intégrations (QuickBooks, Xero, etc.). Une connexion instable ou des erreurs temporaires côté serveur peuvent en être la cause.
+
+Sur mobile, tirez vers le bas pour forcer une actualisation ou rouvrez l'application. Vérifiez que vous êtes connecté à Internet. Pour les intégrations, consultez **Paramètres** → **Intégrations** pour vérifier le statut de la connexion. Si une intégration affiché une erreur, déconnectez-vous et reconnectez-vous pour rafraîchir le jeton OAuth. Les synchronisations sont souvent en file d'attente ; attendez quelques minutes avant de réessayer.
+
+<Note>
+Les données créées en mode hors ligne se synchronisent automatiquement dès qu'une connexion est disponible. Ne supprimez pas l'application avant que la synchro soit complète.
+</Note>
+
+<AccordionGroup>
+  <Accordion title="Solutions courantes" icon="wrench">
+    - Rafraîchir la page ou l'application
+    - Vérifier la connexion Internet
+    - Reconnecter les intégrations
+    - Mettre à jour l'application mobile
+  </Accordion>
+</AccordionGroup>
+
+<CardGroup cols={2}>
+  <Card title="Intégrations" icon="plug" href="/fr/integrations/overview">
+    Statut des intégrations
+  </Card>
+</CardGroup>

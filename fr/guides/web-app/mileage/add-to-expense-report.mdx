@@ -1,0 +1,57 @@
+---
+title: "Ajouter du kilométrage à un rapport"
+description: "Réclamez le remboursement du kilométrage avec vos autres dépenses"
+---
+
+## Aperçu
+
+Une fois converti, un trajet devient une dépense comme une autre. Vous l'ajoutez à un rapport, vous soumettez le rapport, et il suit le parcours normal d'approbation et de remboursement.
+
+## Depuis le trajet
+
+Ouvrez le trajet et choisissez **Ajouter à un rapport de dépenses**. Sélectionnez un brouillon existant ou créez un nouveau rapport.
+
+## Depuis la liste des trajets
+
+Sélectionnez un ou plusieurs trajets avec les cases à cocher, puis utilisez **Ajouter au rapport** dans la barre d'actions groupées. Les trajets qui n'ont pas encore été convertis le sont dans la même opération : vous n'avez pas à procéder en deux temps.
+
+## Depuis le rapport de dépenses
+
+Ouvrez un brouillon et ajoutez des dépenses comme d'habitude. Les dépenses de kilométrage apparaissent dans le sélecteur à côté de vos dépenses avec reçu, et sont identifiées comme du kilométrage.
+
+## Ce que voit l'approbateur
+
+Une dépense de kilométrage affiche plus qu'un simple montant, car les approbateurs ont régulièrement besoin de vérifier comment le chiffre a été obtenu. Le panneau de remboursement détaille :
+
+- La distance cumulée de l'année avant le trajet
+- La distance du trajet, et s'il s'agit d'une valeur calculée ou saisie manuellement
+- Le taux appliqué, et le palier dans lequel il tombe
+- Le total obtenu
+- La distance cumulée après le trajet
+
+Lorsqu'un seuil a été franchi en cours d'année, le panneau le signale explicitement et indique que le taux réduit s'applique au-delà du seuil.
+
+## Le montant calculé et le montant réclamé peuvent différer
+
+Le montant réclamé est figé au moment de la soumission du rapport. Le total calculé, lui, reflète le palier de taux applicable à l'instant présent. Ces deux chiffres peuvent diverger si votre distance cumulée a franchi un seuil après la soumission.
+
+Smartbills affiche les deux lorsqu'ils diffèrent, en précisant que le montant réclamé a été figé à la soumission tandis que le total calculé reflète le palier actuel. C'est le montant réclamé qui est remboursé.
+
+<Note>
+  C'est volontaire. Figer la demande à la soumission garantit à l'approbateur un montant qui ne bougera pas après coup, et évite de pénaliser un employé pour un seuil franchi lors d'un trajet ultérieur.
+</Note>
+
+## Modifier un trajet déjà déclaré
+
+Un trajet dont la dépense figure sur un rapport soumis est verrouillé. Rappelez d'abord le rapport, faites la modification, puis soumettez de nouveau. Voir [Rappeler un rapport](/fr/guides/web-app/reports/recall-report).
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Créer un rapport" icon="file-invoice" href="/fr/guides/web-app/reports/create-report">
+    Démarrer un nouveau rapport de dépenses
+  </Card>
+  <Card title="Soumettre un rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    L'envoyer pour approbation
+  </Card>
+</CardGroup>

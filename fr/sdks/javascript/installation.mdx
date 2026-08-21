@@ -1,0 +1,102 @@
+---
+title: "Installation"
+description: "Installer et configurer le SDK JavaScript/TypeScript Smartbills dans votre projet."
+---
+
+## Installation
+
+## Gestionnaires de packages
+
+Installez `@smartbills/sdk` avec votre gestionnaire de packages préféré :
+
+```bash
+# npm
+npm install @smartbills/sdk
+
+# yarn
+yarn add @smartbills/sdk
+
+# pnpm
+pnpm add @smartbills/sdk
+```
+
+## Configuration requise
+
+| Prérequis | Version minimale |
+|-----------|-----------------|
+| Node.js | 18.0+ |
+| TypeScript | 5.0+ (optionnel) |
+
+Le SDK inclut les définitions de types TypeScript complètes. Aucun package `@types` supplémentaire n'est requis.
+
+## Formats de modules
+
+Le package supporte ESM et CommonJS. Le format est résolu automatiquement via le champ `exports` du `package.json`.
+
+```typescript
+// ESM (recommande)
+import { SmartbillsClient } from '@smartbills/sdk';
+
+// CommonJS
+const { SmartbillsClient } = require('@smartbills/sdk');
+```
+
+## Dépendances
+
+Le SDK depend d'[axios](https://axios-http.com/) pour les requêtes HTTP. Il est installe automatiquement comme dépendance de production.
+
+## Configuration TypeScript
+
+Pour une expérience optimale, activez le mode `strict` dans votre `tsconfig.json` :
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "bundler",
+    "target": "ES2020",
+    "module": "ES2020"
+  }
+}
+```
+
+## Configuration de base
+
+Après l'installation, créez une instance du client et vériﬁez la connectivité :
+
+```typescript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: process.env.SMARTBILLS_API_KEY,
+  businessId: Number(process.env.SMARTBILLS_BUSINESS_ID),
+  locale: 'fr-CA',
+});
+
+// Vérifier la connexion
+try {
+  const { data } = await client.expenses.listBusiness({ limit: 1 });
+  console.log('Connexion à Smartbills reussie');
+} catch (error) {
+  console.error('Echec de la connexion :', error);
+}
+```
+
+## Variables d'environnement
+
+Nous recommandons de stocker les identifiants dans des variables d'environnement :
+
+```bash
+# .env
+SMARTBILLS_API_KEY=votre_cle_api_ici
+SMARTBILLS_BUSINESS_ID=123
+```
+
+<Warning>
+  Ne commitez jamais vos clés API dans le contrôle de source. Utilisez des fichiers `.env`, des gestionnaires de secrets ou la configuration des variables d'environnement de votre plateforme.
+</Warning>
+
+## Prochaînes étapes
+
+- [Authentification](/fr/sdks/javascript/authentication), gestion des tokens et configuration multi-tenant
+- [Dépenses](/fr/sdks/javascript/expenses), commencer à travailler avec le service de dépenses

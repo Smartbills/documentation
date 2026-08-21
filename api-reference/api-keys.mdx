@@ -1,0 +1,351 @@
+---
+title: "API Keys"
+description: "Learn how to create, manage, and secure your Smartbills API keys"
+---
+
+## Overview
+
+API keys are the primary method of authenticating with the Smartbills API. Each key is tied to your user account and inherits your permissions. This guide covers everything you need to know about creating, using, and managing API keys securely.
+
+<Note>
+  **API keys are powerful**: They provide full access to your account via the API. Treat them like passwords and never share them publicly.
+</Note>
+
+## Creating API Keys
+
+### Generate Your First API Key
+
+<Steps>
+  <Step title="Navigate to API Keys">
+    1. Log in to [app.smartbills.io](https://app.smartbills.io)
+    2. Click your profile icon (top right)
+    3. Select **Settings**
+    4. Navigate to **Developer** > **API Keys**
+  </Step>
+  
+  <Step title="Create New Key">
+    1. Click **Create New API Key**
+    2. Enter a descriptive name for the key (e.g., "Production Server", "Development Environment")
+    3. (Optional) Set an expiration date
+    4. (Optional) Restrict to specific IP addresses
+    5. Click **Generate Key**
+  </Step>
+  
+  <Step title="Copy Your Key">
+    1. Your API key will be displayed **once**
+    2. Copy it immediately to a secure location
+    3. Store it in your password manager or environment variables
+    4. Click **I've saved my key** to confirm
+  </Step>
+</Steps>
+
+<Warning>
+  **Important**: API keys are only shown once at creation. If you lose a key, you must revoke it and create a new one.
+</Warning>
+
+## API Key Types
+
+Smartbills provides two types of API keys for different environments:
+
+### Test Keys
+
+```
+sk_test_1234567890abcdef...
+```
+
+**Use for:**
+- Development and testing
+- Staging environments
+- Integration testing
+- Learning the API
+
+**Characteristics:**
+- Prefix: `sk_test_`
+- Operates on separate test data
+- Higher rate limits for testing
+- No real charges or transactions
+- Safe to share with your development team
+
+<Tip>
+  Test keys are perfect for development. They work with all endpoints but operate on separate test data that does not affect production.
+</Tip>
+
+### Live Keys
+
+```
+sk_live_1234567890abcdef...
+```
+
+**Use for:**
+- Production environments
+- Live applications
+- Real expense processing
+- Production integrations
+
+**Characteristics:**
+- Prefix: `sk_live_`
+- Real production data
+- Standard rate limits
+- Processes real expenses
+- Must be kept highly secure
+
+<Warning>
+  **Security**: Never commit live keys to version control or expose them in client-side code.
+</Warning>
+
+## Using API Keys
+
+### Authentication Header
+
+Include your API key in the `Authorization` header of every request:
+
+```http
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Complete Example
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer sk_live_1234567890abcdef' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123
+});
+
+const expenses = await client.expenses.list();
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+client = SmartbillsClient(access_token="YOUR_API_KEY", business_id=123)
+
+expenses = client.expenses.list()
+```
+
+</CodeGroup>
+
+## Key Permissions and Scopes
+
+### Permission Inheritance
+
+API keys inherit the permissions of the user who created them. If you have access to multiple businesses, your key will work with all of them via the `x-tenant-id` header.
+
+### Available Scopes
+
+<AccordionGroup>
+  <Accordion title="Business Scopes" icon="building">
+    **read:businesses** - View business information, list businesses, get business details
+
+    **write:businesses** - Create new businesses, update business information, modify settings
+
+    **delete:businesses** - Remove businesses (with confirmation)
+  </Accordion>
+
+  <Accordion title="Expense Scopes" icon="receipt">
+    **read:expenses** - List all expenses, get expense details, download attachments, export data
+
+    **write:expenses** - Upload new expenses, update expense information, add/remove attachments, categorize expenses
+
+    **delete:expenses** - Delete individual expenses, bulk delete operations
+  </Accordion>
+
+  <Accordion title="Report Scopes" icon="file-invoice">
+    **read:reports** - List reports, get report details, view report timeline, access audit logs
+
+    **write:reports** - Create new reports, update report details, add/remove expenses, submit reports
+
+    **approve:reports** - Approve reports, reject reports, require changes, add comments
+  </Accordion>
+
+  <Accordion title="User Scopes" icon="user">
+    **read:user** - Get own user details, view user settings
+
+    **write:user** - Update profile, change settings
+
+    **manage:users** - Invite users, remove users, update permissions (admin only)
+  </Accordion>
+</AccordionGroup>
+
+## Managing API Keys
+
+### View All Keys
+
+See all your API keys in the dashboard:
+
+1. Navigate to **Settings** > **Developer** > **API Keys**
+2. View list of all active keys with:
+   - Key name
+   - Key prefix (first/last 4 characters)
+   - Creation date
+   - Last used timestamp
+   - Expiration date (if set)
+
+### Revoking Keys
+
+Immediately disable an API key:
+
+1. Navigate to your API keys list
+2. Find the key to revoke
+3. Click **Revoke** or the trash icon
+4. Confirm the action
+
+<Warning>
+  **Immediate effect**: Revoking a key immediately stops all requests using that key. Ensure you have a replacement key in place first.
+</Warning>
+
+**When to revoke:**
+- Key has been compromised or exposed
+- Employee with access has left the organization
+- Migrating to a new key
+- No longer using an integration
+- Suspected unauthorized use
+
+### Rotating Keys
+
+Best practice: rotate keys regularly.
+
+<Steps>
+  <Step title="Create New Key">
+    Generate a new API key with the same permissions.
+  </Step>
+  
+  <Step title="Update Your Application">
+    Replace the old key with the new one in your application. Test thoroughly.
+  </Step>
+  
+  <Step title="Monitor">
+    Watch for any requests still using the old key. Check the "Last Used" timestamp.
+  </Step>
+  
+  <Step title="Revoke Old Key">
+    Once confident the new key is working, revoke the old one.
+  </Step>
+</Steps>
+
+<Tip>
+  **Rotation schedule**: Rotate API keys every 90 days for production environments, or whenever team members with access change.
+</Tip>
+
+## Security Best Practices
+
+### Store in Environment Variables
+
+```bash
+# .env file (never commit this!)
+SMARTBILLS_API_KEY=sk_live_1234567890abcdef
+SMARTBILLS_BUSINESS_ID=123
+```
+
+```javascript
+// Use in your code
+const apiKey = process.env.SMARTBILLS_API_KEY;
+```
+
+```python
+import os
+api_key = os.environ.get('SMARTBILLS_API_KEY')
+```
+
+### Use Different Keys per Environment
+
+- **Development**: test key (`sk_test_...`)
+- **Staging**: separate test key
+- **Production**: live key (`sk_live_...`)
+
+Never use the same key across environments.
+
+### What to Avoid
+
+<Warning>
+  **Never do these:**
+  
+  - Commit API keys to version control (Git, SVN, etc.)
+  - Expose keys in client-side code (JavaScript bundles, mobile apps)
+  - Share keys in emails, Slack, or other messaging platforms
+  - Hardcode keys in source code
+  - Use production keys in development
+  - Store keys in unencrypted files
+  - Include keys in URLs or query parameters
+  - Log API keys in application logs
+</Warning>
+
+### If a Key Is Exposed
+
+<Steps>
+  <Step title="Revoke Immediately">
+    Go to Settings > API Keys and revoke the exposed key right away.
+  </Step>
+  
+  <Step title="Generate New Key">
+    Create a replacement key immediately.
+  </Step>
+  
+  <Step title="Update Your Application">
+    Replace the exposed key in your application.
+  </Step>
+  
+  <Step title="Review Usage">
+    Check the "Last Used" timestamp and recent activity for suspicious requests.
+  </Step>
+  
+  <Step title="Contact Support">
+    If you suspect unauthorized use, contact [security@smartbills.io](mailto:security@smartbills.io).
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="401 Unauthorized Error" icon="lock">
+    **Possible causes:**
+    
+    1. **Missing Authorization header** - Include `Authorization: Bearer YOUR_API_KEY`
+    2. **Incorrect format** - Ensure "Bearer " prefix is included with no extra spaces
+    3. **Revoked or expired key** - Check if the key is still active in the dashboard
+    4. **Wrong key type** - Use `sk_live_` for production and `sk_test_` for sandbox
+  </Accordion>
+
+  <Accordion title="403 Forbidden Error" icon="ban">
+    **Possible causes:**
+    
+    1. **Insufficient permissions** - Your user account lacks necessary permissions
+    2. **IP restriction** - Request from an unauthorized IP address
+    3. **Business access** - Trying to access a business you are not a member of
+  </Accordion>
+
+  <Accordion title="Cannot Create API Key" icon="circle-exclamation">
+    **Possible causes:**
+    
+    1. **Reached key limit** - Free plan: 2 keys max, Professional: 10 keys max, Enterprise: Unlimited
+    2. **Insufficient permissions** - Only account owners and admins can create API keys
+  </Accordion>
+</AccordionGroup>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="shield" href="/api-reference/authentication">
+    Complete authentication documentation
+  </Card>
+  <Card title="Environments" icon="server" href="/api-reference/environments">
+    Sandbox and production environments
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Understand API rate limiting
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/api-reference/errors">
+    Handle API errors effectively
+  </Card>
+</CardGroup>

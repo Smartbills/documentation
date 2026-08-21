@@ -1,0 +1,228 @@
+---
+title: "Hooks Reference"
+description: "Complete reference for all Smartbills React hooks, organized by domain"
+---
+
+All hooks are imported from `@smartbills/react-hooks`. Query hooks return standard React Query result objects. Mutation hooks return `useMutation` results with a `mutate` / `mutateAsync` function.
+
+## Expenses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenses(params?)` | Query (infinite) | List business expenses with pagination |
+| `useMyExpenses(params?)` | Query (infinite) | List the current user's expenses |
+| `useEmployeeExpenses(employeeId, params?)` | Query (infinite) | List a specific employee's expenses |
+| `useUpdateExpense()` | Mutation | Update an expense: `{ expenseId, data }` |
+| `useDeleteExpense()` | Mutation | Delete an expense by ID |
+| `useUploadExpenses()` | Mutation | Upload expense files (FormData) |
+| `useUploadMyExpenses()` | Mutation | Upload personal expense files (FormData) |
+| `usePresignedUpload()` | Mutation | Presigned S3 upload with automatic confirmation |
+| `usePresignedEmployeeUpload(employeeId)` | Mutation | Presigned upload for a specific employee |
+| `useUpdateExpenseCategory()` | Mutation | Update category: `{ expenseId, categoryId }` |
+| `useUpdateExpenseNote()` | Mutation | Update note: `{ expenseId, note }` |
+| `useUpdateExpenseReview()` | Mutation | Mark reviewed: `{ expenseId, isReviewed }` |
+| `useAssignExpenseToReport()` | Mutation | Assign to report: `{ expenseId, expenseReportId }` |
+| `useSplitExpense()` | Mutation | Split an expense: `{ expenseId, request }` |
+| `useExportExpenses()` | Mutation | Export expenses as file (Blob) |
+| `useExportExpensesWithFilename()` | Mutation | Export with filename metadata |
+| `useDownloadExpenseAttachments()` | Mutation | Download attachments as archive |
+| `useDownloadExpenseAttachmentsWithFilename()` | Mutation | Download attachments with filename |
+| `useDownloadSingleExpenseAttachment()` | Mutation | Download a single expense attachment |
+
+### Bulk Expense Operations
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBulkAssignCategory()` | Mutation | Assign category to multiple expenses |
+| `useBulkAssignPayerType()` | Mutation | Assign payer type to multiple expenses |
+| `useBulkAssignExpenseReport()` | Mutation | Assign report to multiple expenses |
+| `useBulkAssignVendor()` | Mutation | Assign vendor to multiple expenses |
+| `useBulkDeleteExpenses()` | Mutation | Delete multiple expenses |
+| `useBulkSetNote()` | Mutation | Set note on multiple expenses |
+
+---
+
+## Expense Reports
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useExpenseReports(params?)` | Query (infinite) | List expense reports with pagination |
+| `useExpenseReport(reportId)` | Query | Get a single expense report |
+| `useExpenseReportSummary()` | Query | Get expense report summary statistics |
+| `useExpenseReportTimeline(reportId)` | Query | Get report timeline entries |
+| `useExpenseReportAuditLog(reportId)` | Query | Get report audit log |
+| `useCreateExpenseReport()` | Mutation | Create a new expense report |
+| `useUpdateExpenseReport()` | Mutation | Update report: `{ reportId, data }` |
+| `useDeleteExpenseReport()` | Mutation | Delete a report by ID |
+| `useSubmitExpenseReport()` | Mutation | Submit a report for approval |
+| `useRecallExpenseReport()` | Mutation | Recall a submitted report |
+| `useApproveExpenseReport()` | Mutation | Approve report: `{ reportId, comment? }` |
+| `useRejectExpenseReport()` | Mutation | Reject report: `{ reportId, comment?, reason? }` |
+| `useReimburseExpenseReport()` | Mutation | Reimburse report: `{ reportId, data? }` |
+| `useAddExpenseReportComment()` | Mutation | Add comment: `{ reportId, data }` |
+| `useBulkDeleteExpenseReports()` | Mutation | Delete multiple reports |
+| `useExportExpenseReports()` | Mutation | Export reports as file |
+
+---
+
+## Approvals (Approbations)
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `usePendingApprobations(params?)` | Query (infinite) | List pending approvals |
+| `useApprovedApprobations(params?)` | Query (infinite) | List approved reports |
+| `useRejectedApprobations(params?)` | Query (infinite) | List rejected reports |
+| `useReimbursedApprobations(params?)` | Query (infinite) | List reimbursed reports |
+| `useRequiresChangesApprobations(params?)` | Query (infinite) | List reports requiring changes |
+| `usePendingReimbursementApprobations(params?)` | Query (infinite) | List reports pending reimbursement |
+| `useApprobationSummary()` | Query | Get approval summary counts |
+| `useApproveApprobation()` | Mutation | Approve: `{ reportId, data? }` |
+| `useRejectApprobation()` | Mutation | Reject: `{ reportId, data? }` |
+| `useRequestApprobationChanges()` | Mutation | Request changes: `{ reportId, data? }` |
+| `useReimburseApprobation()` | Mutation | Reimburse: `{ reportId, data? }` |
+| `useRevertApprobationToReview()` | Mutation | Revert to review state |
+| `useCancelApprobationRequiredChanges()` | Mutation | Cancel required changes |
+| `useMarkApprobationReimbursed()` | Mutation | Mark as reimbursed |
+| `usePlanApprobationReimbursement()` | Mutation | Plan reimbursement: `{ reportId, data }` |
+| `useExportApprobationCsv()` | Mutation | Export as CSV: `{ reportId, locale? }` |
+| `useDownloadApprobationAttachmentsPdf()` | Mutation | Download attachments as PDF |
+| `useDownloadApprobationAttachmentsZip()` | Mutation | Download attachments as ZIP |
+
+---
+
+## Bills
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBills(params?)` | Query (infinite) | List bills with pagination |
+| `useBill(billId)` | Query | Get a single bill |
+| `useBillStatusSummary()` | Query | Get bill status summary counts |
+| `useBillHistory(billId)` | Query | Get bill approval history |
+| `useCreateBill()` | Mutation | Create a new bill |
+| `useUpdateBill()` | Mutation | Update bill: `{ billId, data }` |
+| `useDeleteBill()` | Mutation | Delete a bill |
+| `useSubmitBillForApproval()` | Mutation | Submit bill for approval |
+| `useApproveBill()` | Mutation | Approve bill: `{ billId, data? }` |
+| `useScheduleBillPayment()` | Mutation | Schedule payment: `{ billId, data }` |
+| `useMarkBillPaid()` | Mutation | Mark bill as paid |
+| `useCancelBill()` | Mutation | Cancel a bill |
+| `useRescheduleBillPayment()` | Mutation | Reschedule payment |
+| `useBulkApproveBills()` | Mutation | Approve multiple bills |
+| `useBulkMarkBillsPaid()` | Mutation | Mark multiple bills paid |
+| `useBulkScheduleBillsPayment()` | Mutation | Schedule payment for multiple bills |
+| `useBulkDeleteBills()` | Mutation | Delete multiple bills |
+
+---
+
+## Invoices
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useInvoices(params?)` | Query | List invoices |
+| `useInvoice(id)` | Query | Get a single invoice |
+| `useInvoiceSummary()` | Query | Get invoice summary statistics |
+| `useCreateInvoice()` | Mutation | Create a new invoice |
+| `useUpdateInvoice()` | Mutation | Update invoice: `{ id, data }` |
+| `useDeleteInvoice()` | Mutation | Delete an invoice |
+| `useSendInvoice()` | Mutation | Send invoice (with optimistic update) |
+| `useVoidInvoice()` | Mutation | Void invoice (with optimistic update) |
+| `useMarkInvoicePaid()` | Mutation | Mark as paid (with optimistic update) |
+| `useDuplicateInvoice()` | Mutation | Duplicate an invoice |
+
+---
+
+## Vendors
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendors(params?)` | Query (infinite) | List vendors |
+| `useBusinessVendors(params?)` | Query (infinite) | List business-scoped vendors |
+| `useVendor(id)` | Query | Get a single vendor |
+| `useCreateVendor()` | Mutation | Create a vendor |
+| `useCreateBusinessVendor()` | Mutation | Create a business vendor |
+| `useUpdateVendor()` | Mutation | Update vendor: `{ id, data }` |
+| `useDeleteVendor()` | Mutation | Delete a vendor |
+| `useMergeVendors()` | Mutation | Merge duplicate vendors |
+| `useBulkDeleteVendors()` | Mutation | Delete multiple vendors |
+| `useUploadVendorLogo()` | Mutation | Upload logo: `{ id, file }` |
+| `useUploadBusinessVendorLogo()` | Mutation | Upload business vendor logo |
+
+---
+
+## Vendor Connections
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useVendorConnections(...)` | Query | Manage vendor connection data |
+
+---
+
+## Employees
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useEmployees(params?)` | Query | List employees |
+
+---
+
+## Categories
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useCategories(params?)` | Query | List expense categories |
+
+---
+
+## Departments
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useDepartments(params?)` | Query | List departments |
+
+---
+
+## Businesses
+
+| Hook | Type | Description |
+|------|------|-------------|
+| `useBusinesses(...)` | Query | List businesses |
+| `useBusinessUsers(...)` | Query | List business users |
+
+---
+
+## Other Domains
+
+The SDK also includes hooks for the following domains. Each follows the same query/mutation pattern.
+
+| Domain | Hook File | Key Hooks |
+|--------|-----------|-----------|
+| **Attachments** | `useAttachments` | Manage file attachments |
+| **Authorized Senders** | `useAuthorizedSenders` | Manage email forwarding senders |
+| **Billing** | `useBilling` | Subscription and billing management |
+| **Checkout** | `useCheckout` | Checkout session management |
+| **Connect** | `useConnect` | OAuth connection flows |
+| **Connected Accounts** | `useConnectedAccounts` | Manage connected bank accounts |
+| **Customers** | `useCustomers` | Customer management |
+| **Email Accounts** | `useEmailAccounts` | Email account configuration |
+| **Email Forwarding** | `useEmailForwarding` | Email forwarding rules |
+| **Expense Jobs** | `useExpenseJobs` | Background processing job status |
+| **Expense Report Expenses** | `useExpenseReportExpenses` | Manage items within a report |
+| **Expense Report Payments** | `useExpenseReportPayments` | Track report payments |
+| **Integrations** | `useIntegrations`, `useAppInstallations` | Integration and app marketplace |
+| **Invitations** | `useInvitations` | Team invitations |
+| **Invoice Payments** | `useInvoicePayments` | Invoice payment tracking |
+| **Locations** | `useLocations` | Business location management |
+| **Loyalty** | `useLoyalty` | Loyalty program management |
+| **Memberships** | `useMemberships` | Organization memberships |
+| **Notifications** | `useNotifications` | Notification preferences |
+| **Payment Methods** | `usePaymentMethods` | Payment method management |
+| **Payouts** | `usePayouts` | Payout management |
+| **Products** | `useProducts` | Product catalog management |
+| **Promo Codes** | `usePromoCodes` | Promotional code management |
+| **Receipts** | `useReceipts` | Digital receipt management |
+| **Reporting** | `useReporting` | Analytics and reporting |
+| **Tables** | `useTables` | Data table configuration |
+| **Taxes** | `useTaxes` | Tax rate management |
+| **Transactions** | `useTransactions` | Transaction management |
+| **Users** | `useUsers` | User account management |
+| **Workflows** | `useWorkflows` | Approval workflow configuration |

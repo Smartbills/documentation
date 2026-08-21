@@ -1,0 +1,109 @@
+---
+title: "Rate Limits"
+description: "How the Smartbills API throttles requests, what a 429 looks like, and how to back off correctly"
+---
+
+## Overview
+
+The Smartbills API throttles requests using a **token bucket**. Every request consumes one token. Tokens refill continuously, so short bursts are absorbed and sustained load is capped.
+
+## The limits
+
+| Setting | Value |
+|---------|-------|
+| Bucket capacity (maximum burst) | **1,000 requests** |
+| Refill rate | **100 tokens every 5 seconds** |
+| Sustained throughput | **1,200 requests per minute** |
+| Queue depth once the bucket is empty | 100 requests, oldest first |
+
+<Note>
+  These limits are the same for every plan. There is no per-plan or per-tier rate limiting. If you need a higher ceiling, contact [support@smartbills.io](mailto:support@smartbills.io) rather than assuming an upgrade will raise it.
+</Note>
+
+## How requests are partitioned
+
+Each **access token** gets its own bucket. Two integrations using different tokens do not compete with each other, and exhausting one token's bucket does not affect another.
+
+<Warning>
+  Unauthenticated requests are the exception. They all share a **single global bucket** across every caller. Do not build anything that depends on unauthenticated throughput, because someone else's traffic will exhaust it.
+</Warning>
+
+## When you exceed the limit
+
+The API responds with **429 Too Many Requests**:
+
+```http
+HTTP/1.1 429 Too Many Requests
+Retry-After: 5
+Content-Type: application/json
+```
+
+```json
+{
+  "code": "RATE_LIMITED",
+  "message": "Too many requests. Please try again later."
+}
+```
+
+### The Retry-After header
+
+`Retry-After` gives the number of seconds until capacity is available. Honour it.
+
+<Warning>
+  The API does **not** return `X-RateLimit-Limit`, `X-RateLimit-Remaining`, or `X-RateLimit-Reset`. If your client reads those headers to decide when to throttle, it will read `undefined` and never back off until it starts collecting 429s. `Retry-After` on a 429 is the only rate limit signal the API emits.
+</Warning>
+
+## Backing off correctly
+
+Because there is no remaining-quota header, the correct pattern is reactive rather than predictive: send requests, and back off when you are told to.
+
+```javascript
+async function request(url, options = {}, attempt = 0) {
+  const res = await fetch(url, options);
+
+  if (res.status !== 429) return res;
+  if (attempt >= 5) throw new Error("Rate limited: retries exhausted");
+
+  // Prefer the server's value; fall back to exponential backoff with jitter.
+  const retryAfter = Number(res.headers.get("Retry-After"));
+  const waitSeconds = Number.isFinite(retryAfter) && retryAfter > 0
+    ? retryAfter
+    : Math.min(2 ** attempt, 30) * (0.5 + Math.random());
+
+  await new Promise(r => setTimeout(r, waitSeconds * 1000));
+  return request(url, options, attempt + 1);
+}
+```
+
+Add jitter even when using `Retry-After`. If several workers are limited at the same moment they will otherwise all retry on the same tick and collide again.
+
+## Staying under the limit
+
+<AccordionGroup>
+  <Accordion title="Use the batch and bulk endpoints" icon="layer-group">
+    Many resources expose batch or bulk variants. Updating 200 expenses through a bulk endpoint is a handful of requests instead of 200.
+  </Accordion>
+
+  <Accordion title="Page with a larger page size" icon="list">
+    Raising the page size on list endpoints reduces the number of round trips for the same data. See [Pagination](/api-reference/pagination).
+  </Accordion>
+
+  <Accordion title="Use webhooks instead of polling" icon="bell">
+    Polling for changes is the most common cause of hitting the limit. Subscribe to the events you care about and let Smartbills call you. See [Webhooks](/api-reference/webhooks).
+  </Accordion>
+
+  <Accordion title="Give each integration its own token" icon="key">
+    Buckets are per access token. Separate tokens per integration keeps a noisy batch job from starving your interactive traffic.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Errors" icon="triangle-exclamation" href="/api-reference/errors">
+    Error codes and response shapes
+  </Card>
+  <Card title="Webhooks" icon="bell" href="/api-reference/webhooks">
+    Receive events instead of polling
+  </Card>
+</CardGroup>

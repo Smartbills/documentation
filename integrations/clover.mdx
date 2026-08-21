@@ -1,0 +1,116 @@
+---
+title: "Clover"
+description: "Sync transactions, items, and customer data between Smartbills and Clover POS"
+---
+
+## Overview
+
+The Clover integration connects your Clover POS devices with Smartbills for real-time transaction import, item catalog sync, and digital receipt generation across all Clover device types.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Real-time Sync** | Instant transaction import via webhooks |
+| **Item Catalog** | Sync Clover inventory and item catalog |
+| **Customer Profiles** | Link Clover customer profiles to Smartbills |
+| **Multi-device** | Support for Station, Mini, Flex, and Go devices |
+| **Tax Handling** | Map Clover tax rates to Smartbills |
+| **Modifier Support** | Track item modifiers and variants |
+| **Order Types** | Differentiate dine-in, takeout, and delivery |
+
+## Prerequisites
+
+- Clover merchant account
+- Smartbills Business plan or higher
+- Clover account owner or admin access
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Clover**.
+  </Step>
+  <Step title="Enter Merchant ID">
+    Enter your Clover Merchant ID, found in your Clover Dashboard under **Account & Setup**.
+
+  </Step>
+  <Step title="Authorize Access">
+    Click **Connect** and authorize Smartbills in the Clover App Market.
+  </Step>
+  <Step title="Map Items and Taxes">
+    Map Clover items, categories, and tax rates to Smartbills equivalents.
+  </Step>
+  <Step title="Enable Sync">
+    Activate real-time webhook sync or configure scheduled imports.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Item Mapping
+
+| Clover Category | Smartbills Category |
+|----------------|---------------------|
+| Food & Drink | Meals |
+| Retail | Merchandise |
+| Service | Professional Services |
+
+### Tax Configuration
+
+| Clover Tax | Smartbills Tax |
+|------------|----------------|
+| Default Tax | State/Provincial Sales Tax |
+| Food Tax | Reduced Rate |
+| No Tax | Exempt |
+
+### Order Type Settings
+
+| Order Type | Sync |
+|------------|------|
+| Dine-in | Yes (default) |
+| Takeout | Configurable |
+| Delivery | Configurable |
+| Online | Configurable |
+
+### Device Settings
+
+| Setting | Description |
+|---------|-------------|
+| All devices | Sync transactions from every Clover device |
+| Select devices | Choose specific terminals to sync |
+| Device labels | Add labels to identify transactions by device |
+
+## Data Sync
+
+| Smartbills | Clover | Direction | Frequency |
+|-----------|--------|-----------|-----------|
+| Receipts | Orders and payments | Clover -> Smartbills | Real-time (webhook) |
+| Refund records | Refunds and voids | Clover -> Smartbills | Real-time (webhook) |
+| Categories | Item catalog | Clover -> Smartbills | On demand |
+| Customer records | Customers | Clover -> Smartbills | With transactions |
+| Employee records | Employees | Clover -> Smartbills | On demand |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="No data syncing">
+    Verify your Merchant ID is correct and that the Smartbills app is installed in the Clover App Market. Check webhook URL registration.
+  </Accordion>
+
+  <Accordion title="Items missing from receipts">
+    Trigger a catalog refresh from **Settings > Apps > Clover > Sync Catalog**. New items added in Clover need to be synced.
+  </Accordion>
+
+  <Accordion title="Tax amounts incorrect">
+    Review the tax mapping in the integration settings. Clover applies taxes at the item level, which may differ from Smartbills' calculation method.
+  </Accordion>
+
+  <Accordion title="Modifiers not appearing">
+    Ensure modifier groups are published in Clover. Hidden or unpublished modifiers are not synced.
+  </Accordion>
+
+  <Accordion title="Order types not filtering correctly">
+    Check the order type settings in the integration configuration. Each order type must be explicitly enabled or disabled.
+  </Accordion>
+</AccordionGroup>

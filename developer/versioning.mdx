@@ -1,0 +1,198 @@
+---
+title: 'API Versioning'
+description: 'Learn about API versioning in Smartbills and how to manage version changes'
+---
+
+## API Versioning
+
+The Smartbills API uses versioning to ensure backward compatibility and allow for improvements without breaking existing integrations.
+
+## Current Version
+
+The current API version is **v1**.
+
+All API requests should include the version in the URL:
+
+```
+https://api.smartbills.io/v1/expenses
+```
+
+## Version Format
+
+API versions are specified in the URL path:
+
+```
+https://api.smartbills.io/{version}/{resource}
+```
+
+For example:
+- `https://api.smartbills.io/v1/receipts`
+- `https://api.smartbills.io/v1/expenses`
+- `https://api.smartbills.io/v1/customers`
+
+## Backward Compatibility
+
+We maintain backward compatibility within a major version. This means:
+
+<Check>**Safe Changes** (Won't break your integration)</Check>
+
+- Adding new API endpoints
+- Adding new optional request parameters
+- Adding new properties to API responses
+- Adding new webhook event types
+- Adding new error codes
+
+<Warning>**Breaking Changes** (Require a new major version)</Warning>
+
+- Removing or renaming API endpoints
+- Removing or renaming request parameters
+- Removing or renaming response properties
+- Changing the type of existing fields
+- Changing authentication methods
+- Changing error response formats
+
+## Version Lifecycle
+
+### Active Support
+
+The current version (v1) receives:
+- New features and enhancements
+- Bug fixes and security updates
+- Full technical support
+
+### Deprecation Notice
+
+When a new major version is released:
+1. We provide at least **12 months notice** before deprecating the old version
+2. The old version continues to work during the deprecation period
+3. You receive notifications about the upcoming deprecation
+4. Migration guides are provided
+
+### End of Life
+
+After the deprecation period:
+- The old version stops receiving updates
+- API requests may return errors
+- You must upgrade to the new version
+
+## Checking Your API Version
+
+You can check which version you're using by looking at your API requests:
+
+<CodeGroup>
+
+```javascript JavaScript
+const response = await fetch('https://api.smartbills.io/v1/expenses', {
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY'
+  }
+});
+
+// Response headers include version information
+console.log(response.headers.get('X-API-Version')); // "v1"
+```
+
+```python Python
+response = requests.get(
+    'https://api.smartbills.io/v1/expenses',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'}
+)
+
+# Response headers include version information
+print(response.headers.get('X-API-Version'))  # "v1"
+```
+
+```csharp C#
+var response = await client.GetAsync("https://api.smartbills.io/v1/expenses");
+
+// Response headers include version information
+var version = response.Headers.GetValues("X-API-Version").FirstOrDefault();
+Console.WriteLine(version);  // "v1"
+```
+
+</CodeGroup>
+
+## Migration Between Versions
+
+When a new version is released, follow these steps to migrate:
+
+1. **Review the Changelog**
+   - Read the migration guide for the new version
+   - Understand what has changed
+
+2. **Test in Pre-Production**
+   - Update your code to use the new version
+   - Test thoroughly in the pre-production environment
+
+3. **Update Your Code**
+   - Make necessary changes to handle new response formats
+   - Update error handling if needed
+
+4. **Deploy to Production**
+   - Deploy your updated code
+   - Monitor for any issues
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Always Specify the Version" icon="hashtag">
+    Always include the version number in your API requests. Don't rely on default versions.
+    
+    ```javascript
+    // Good
+    fetch('https://api.smartbills.io/v1/expenses')
+    
+    // Avoid
+    fetch('https://api.smartbills.io/expenses')
+    ```
+  </Accordion>
+
+  <Accordion title="Handle Unknown Fields Gracefully" icon="question">
+    Your code should ignore unknown fields in API responses to handle new properties added in the future.
+    
+    ```javascript
+    // Good: Only use fields you need
+    const { id, amount, merchant } = expense;
+    
+    // Avoid: Strict validation that breaks with new fields
+    if (Object.keys(expense).length !== 10) {
+      throw new Error('Unexpected response format');
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Subscribe to API Updates" icon="bell">
+    Subscribe to our developer newsletter to receive notifications about:
+    - New API versions
+    - Deprecation notices
+    - New features and improvements
+  </Accordion>
+
+  <Accordion title="Use Semantic Versioning in Your Code" icon="code">
+    Version your own integration code to make it easier to track which API version you're using.
+  </Accordion>
+</AccordionGroup>
+
+## Version History
+
+### v1 (Current)
+
+**Released:** January 2024
+
+**Status:** Active
+
+**Features:**
+- Complete REST API for receipts, expenses, and customers
+- OAuth2 authentication
+- Webhook support
+- Comprehensive error handling
+- Multi-language support
+
+## Getting Help
+
+If you have questions about API versioning or need help migrating to a new version:
+
+- Email: support@smartbills.io
+- Developer Portal: https://developers.smartbills.io
+- Documentation: https://docs.smartbills.io
+

@@ -1,0 +1,221 @@
+---
+title: "Versionnage de l'API"
+description: "Découvrez le versionnage de l'API Smartbills, la compatibilite ascendante et la gestion des changements de version"
+---
+
+## Aperçu
+
+L'API Smartbills utilisé le versionnage pour assurer la compatibilite ascendante et permettre des améliorations sans casser les intégrations existantes. La version est spécifiée dans le chemin de l'URL.
+
+## Version actuelle
+
+La version actuelle de l'API est **v1**.
+
+Toutes les requêtes API doivent inclure la version dans l'URL :
+
+```
+https://api.smartbills.io/v1/expenses
+```
+
+## Format de version
+
+Les versions de l'API sont spécifiées dans le chemin de l'URL :
+
+```
+https://api.smartbills.io/{version}/{ressource}
+```
+
+Exemples :
+
+```
+https://api.smartbills.io/v1/expenses
+https://api.smartbills.io/v1/expense-reports
+https://api.smartbills.io/v1/businesses
+https://api.smartbills.io/v1/vendors
+```
+
+<Warning>
+  **Toujours spécifiér la version** : N'omettez pas la version du chemin de l'URL. Les requêtes sans version peuvent retourner des résultats inattendus.
+</Warning>
+
+## Vérifier votre version de l'API
+
+Vous pouvez vérifier quelle version vous utilisez en inspectant les en-têtes de réponse :
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'x-tenant-id: 123' \
+  --verbose 2>&1 | grep -i "x-api-version"
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+// Lors de requêtes fetch brutes :
+const response = await fetch('https://api.smartbills.io/v1/expenses', {
+  headers: {
+    'Authorization': 'Bearer VOTRE_CLE_API',
+    'x-tenant-id': '123'
+  }
+});
+
+console.log('Version de l\'API :', response.headers.get('X-API-Version')); // "v1"
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    'https://api.smartbills.io/v1/expenses',
+    headers={
+        'Authorization': 'Bearer VOTRE_CLE_API',
+        'x-tenant-id': '123'
+    }
+)
+
+print('Version de l\'API :', response.headers.get('X-API-Version'))  # "v1"
+```
+
+</CodeGroup>
+
+## Politique de compatibilite ascendante
+
+Nous maintenons la compatibilite ascendante au sein d'une version majeure. Cela signifie que votre intégration ne sera pas cassee tant que vous restez sur la même version majeure.
+
+### Changements non cassants (securitaires)
+
+Les changements suivants sont consideres comme non cassants et peuvent être effectues au sein d'une version majeure sans preavis :
+
+- Ajout de nouveaux points d'accès API
+- Ajout de nouveaux paramètres de requête optionnels
+- Ajout de nouvelles propriétés aux réponses API
+- Ajout de nouveaux types d'événements webhook
+- Ajout de nouveaux codes d'erreur
+- Ajout de nouvelles valeurs d'enum aux champs existants
+- Changement de l'ordre des propriétés dans les réponses
+
+<Tip>
+  **Bonne pratique** : Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutees à l'avenir.
+</Tip>
+
+### Changements cassants (nécessitent une nouvelle version)
+
+Les changements suivants sont consideres comme cassants et ne seront introduits que dans une nouvelle version majeure :
+
+- Suppression ou renommage de points d'accès API
+- Suppression ou renommage de paramètres de requête requis
+- Suppression ou renommage de propriétés de réponse
+- Changement du type de champs existants
+- Changement des méthodes d'authentification
+- Changement des formats de réponse d'erreur
+- Suppression de valeurs d'enum des champs existants
+
+## Politique de depreciation
+
+Lorsqu'une nouvelle version majeure est publiee :
+
+<Steps>
+  <Step title="Avis de depreciation">
+    Nous fournissons un preavis d'au moins **12 mois** avant de deprecier une ancienne version. Vous recevrez des notifications par courriel et via le portail développeur.
+  </Step>
+  
+  <Step title="Période de depreciation">
+    L'ancienne version continue de fonctionner pendant la période de depreciation. Vous verrez des avertissements de depreciation dans les en-têtes de réponse.
+  </Step>
+  
+  <Step title="Guides de migration">
+    Des guides de migration détaillés sont fournis pour vous aider à passer à la nouvelle version.
+  </Step>
+  
+  <Step title="Fin de vie">
+    Après la période de depreciation, l'ancienne version cesse de recevoir des mises à jour. Les requêtes API vers la version depreciee peuvent éventuellement retourner des erreurs.
+  </Step>
+</Steps>
+
+### En-têtes de depreciation
+
+Lorsqu'une version est depreciee, les réponses incluent un en-tête d'avertissement :
+
+```http
+X-API-Deprecated: true
+X-API-Sunset-Date: 2027-01-01
+```
+
+## Bonnes pratiques
+
+<AccordionGroup>
+  <Accordion title="Toujours spécifiér la version" icon="hashtag">
+    Incluez toujours le numéro de version dans vos requêtes API. Ne vous fiez pas aux versions par défaut.
+    
+    ```
+    # Correct
+    https://api.smartbills.io/v1/expenses
+    
+    # A eviter
+    https://api.smartbills.io/expenses
+    ```
+  </Accordion>
+
+  <Accordion title="Gérer les champs inconnus gracieusement" icon="question">
+    Votre code devrait ignorer les champs inconnus dans les réponses API pour gérer les nouvelles propriétés ajoutees à l'avenir sans casser.
+  </Accordion>
+
+  <Accordion title="S'abonner aux mises à jour de l'API" icon="bell">
+    Abonnez-vous à notre infolettre pour développeurs et surveillez le journal des changements pour recevoir des notifications sur les nouvelles versions, les avis de depreciation et les nouvelles fonctionnalités.
+  </Accordion>
+
+  <Accordion title="Tester d'abord dans le bac à sable" icon="flask">
+    Lors de la migration vers une nouvelle version de l'API, testez rigoureusement dans l'environnement bac à sable avant de mettre à jour la production.
+  </Accordion>
+</AccordionGroup>
+
+## Historique des versions
+
+### v1 (Actuelle)
+
+**Publiee :** Janvier 2024
+
+**Statut :** Activé
+
+**Fonctionnalités :**
+- API REST complète pour les dépenses, rapports de dépenses, entreprises, fournisseurs et plus
+- Authentification OAuth2 et par clé API
+- Support de webhooks pour les notifications d'événements en temps réel
+- Gestion complète des erreurs avec codes d'erreur
+- Support multilingue (en-CA, fr-CA, en-US)
+- Architecture multi-locataire avec en-tête `x-tenant-id`
+- Pagination, tri et filtrage sur tous les points d'accès de liste
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Introduction à l'API" icon="book" href="/fr/api-reference/introduction">
+    Aperçu de l'API et premiers pas
+  </Card>
+  <Card title="Environnements" icon="server" href="/fr/api-reference/environments">
+    Environnements bac à sable et production
+  </Card>
+  <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
+    Codes d'erreur et gestion
+  </Card>
+  <Card title="Authentification" icon="shield" href="/fr/api-reference/authentication">
+    Méthodes d'authentification
+  </Card>
+</CardGroup>
+
+## Obtenir de l'aide
+
+Si vous avez des questions sur le versionnage de l'API ou avez besoin d'aide pour migrer vers une nouvelle version :
+
+- **Courriel** : [developers@smartbills.io](mailto:developers@smartbills.io)
+- **Portail développeur** : [developers.smartbills.io](https://developers.smartbills.io)
+- **Documentation** : [docs.smartbills.io](https://docs.smartbills.io)

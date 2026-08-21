@@ -1,0 +1,109 @@
+---
+title: "Dépenses"
+description: "Comprendre la différence entre les dépenses personnelles et les dépenses d'entreprise dans Smartbills"
+---
+
+## Qu'est-ce qu'une dépense?
+
+Une dépense dans Smartbills représente un achat ou un coût lié à l'entreprise qui doit être suivi, catégorisé et potentiellement remboursé. Chaque dépense commence par un reçu ou un relevé de transaction et suit un cycle de vie structuré jusqu'à sa comptabilisation. Smartbills propose deux espaces distincts pour gérer les dépenses selon leur propriétaire : le **Dépenses Personnel** et la **Dépenses d'entreprise**.
+
+## Dépenses Personnel vs. Boîte de réception d'entreprise
+
+Smartbills sépare les dépenses en deux espaces de travail pour refléter la façon dont les organisations gèrent réellement leurs dépenses.
+
+### Dépenses Personnel
+
+Le Dépenses Personnel (`/{slug}/receipts`) est l'espace où chaque employé gère ses propres dépenses payées de sa poche. Lorsqu'un employé paie un repas d'affaires, un taxi ou des fournitures de bureau avec ses propres fonds, le reçu va dans son Dépenses. L'employé catégorise ensuite la dépense, l'ajoute à un rapport de dépenses et le soumet pour remboursement.
+
+- Chaque employé dispose de son propre Dépenses privé
+- Seul l'employé (et les administrateurs) peut voir le contenu du Dépenses
+- Les dépenses sont généralement soumises via des rapports de dépenses pour remboursement
+- Nécessite la permission `EXPENSES_VIEW` pour y accéder
+
+### Dépenses d'entreprise
+
+La Dépenses d'entreprise (`/{slug}/expenses`) est un espace partagé ou les dépenses appartenant à l'organisation sont collectées et examinées. Il peut s'agir de frais de carte de crédit d'entreprise, de factures fournisseurs transférées par courriel, ou de toute dépense ne nécessitant pas de remboursement à un employé.
+
+- Partagée entre les membres de l'équipe disposant des permissions appropriées
+- Gérée par les équipes financières, les gestionnaires ou les comptables
+- Les dépenses proviennent du transfert de courriels, des intégrations et de la saisie manuelle
+- Nécessite la permission `BUSINESS_EXPENSES_VIEW` ou `BUSINESS_EXPENSES_MANAGE`
+
+## Comment ça fonctionne
+
+<Steps>
+  <Step title="Capture">
+    Une dépense entre dans Smartbills par l'une des méthodes suivantes : téléversement d'une image de reçu, transfert de courriel, numérisation mobile, saisie manuelle ou complément Outlook. Consultez [Transfert de reçus](/fr/guides/concepts/receipt-forwarding) pour les détails de chaque méthode.
+  </Step>
+  <Step title="Traitement (OCR)">
+    Smartbills utilisé la reconnaissance optique de caractères (OCR) pour extraire automatiquement les données clés des images de reçus : nom du fournisseur, date, montant total, taxes, devise et articles individuels. Les données extraites sont pré-remplies dans le formulaire de dépense pour révision par l'utilisateur.
+  </Step>
+  <Step title="Catégorisation">
+    La dépense est assignée à une catégorie (telle que Voyage, Repas ou Fournitures de bureau) et optionnellement à un département. Smartbills peut suggérer une catégorie basée sur le fournisseur ou le comportement passé. Voir [Catégories et Départements](/fr/guides/concepts/categories-and-departments).
+  </Step>
+  <Step title="Révision">
+    L'employé ou le gestionnaire révise les données extraites, corrige les erreurs, ajoute des notes et confirme que la dépense est prête. Les champs obligatoires tels que la justification d'affaires ou le code de projet peuvent devoir être remplis selon la politique de l'entreprise.
+  </Step>
+  <Step title="Rapport">
+    Pour les dépenses du Dépenses Personnel, l'employé ajoute la dépense à un rapport de dépenses et le soumet pour approbation. Les dépenses de la Boîte de réception peuvent être traitées directement sans rapport, selon le flux de travail de l'organisation. Voir [Rapports de dépenses](/fr/guides/concepts/expense-reports).
+  </Step>
+</Steps>
+
+## Méthodes d'ajout d'une dépense
+
+| Méthode | Description | Idéal pour |
+|---------|-------------|------------|
+| **Téléverser un reçu** | Glisser-déposer ou parcourir pour téléverser une image ou un PDF de reçu depuis le tableau de bord web | Utilisateurs de bureau avec des reçus numériques |
+| **Transfert par courriel** | Transférer un courriel de reçu à votre adresse de transfert Smartbills unique | Reçus déjà dans votre boîte de réception |
+| **Numérisation mobile** | Utiliser la caméra de l'application mobile Smartbills pour photographier un reçu papier | Capture en déplacement de reçus physiques |
+| **Saisie manuelle** | Créer une dépense manuellement en remplissant le montant, le fournisseur, la date et les autres champs | Dépenses sans reçu |
+| **Complément Outlook** | Transférer les reçus directement depuis Outlook en utilisant le panneau latéral Smartbills | Utilisateurs Microsoft 365 |
+
+## Statuts des dépenses
+
+| Statut | Signification |
+|--------|---------------|
+| **Brouillon** | La dépense a été créée mais n'est pas encore complète. L'utilisateur peut encore modifier tous les champs. |
+| **En attente** | La dépense est complète et attend une action ultérieure, comme être ajoutée à un rapport. |
+| **Dans un rapport** | La dépense a été ajoutée à un rapport de dépenses mais le rapport n'a pas encore été soumis. |
+| **Soumise** | La dépense fait partie d'un rapport soumis en attente d'approbation. |
+| **Approuvée** | La dépense a été approuvée par le(s) approbateur(s) désigné(s). |
+| **Rejetée** | La dépense a été rejetée. L'employé peut la corriger et la soumettre à nouveau. |
+| **Remboursée** | La dépense a été approuvée et l'employé a été remboursé. |
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Reçu** | Un document (image ou PDF) servant de preuve d'achat pour une dépense |
+| **OCR** | Reconnaissance optique de caractères: la technologie qui lit le texte des images de reçus |
+| **Fournisseur** | Le commerçant ou le fournisseur où l'achat a été effectué |
+| **Catégorie** | La classification d'une dépense par type (ex. : Voyage, Repas, Logiciels) |
+| **Département** | L'unité d'affaires ou le centre de coûts auquel la dépense est allouée |
+| **Justification d'affaires** | Une brève description de la raison de la dépense |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Employé** | Capture les reçus, remplit les détails des dépenses, soumet pour remboursement |
+| **Gestionnaire** | Révise et approuvé les dépenses de ses membres d'équipe |
+| **Comptable** | Révise les dépenses de la boîte de réception d'entreprise, assure la bonne catégorisation et la conformité |
+| **Administrateur** | Configure les politiques de dépenses, les catégories et gère les paramètres de l'organisation |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Transfert de reçus" icon="envelope" href="/fr/guides/concepts/receipt-forwarding">
+    Découvrez toutes les façons d'envoyer des reçus dans Smartbills
+  </Card>
+  <Card title="Rapports de dépenses" icon="file-invoice" href="/fr/guides/concepts/expense-reports">
+    Regroupez les dépenses en rapports pour approbation et remboursement
+  </Card>
+  <Card title="Catégories et Départements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
+    Organisez les dépenses par type et unité d'affaires
+  </Card>
+  <Card title="Téléverser une dépense" icon="upload" href="/fr/guides/web-app/expenses/upload-expense">
+    Guide étape par étape pour téléverser votre première dépense
+  </Card>
+</CardGroup>

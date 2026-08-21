@@ -1,0 +1,92 @@
+---
+title: "Email Accounts"
+description: "Connect email accounts for automatic receipt import"
+---
+
+## Overview
+
+Smartbills can connect to your email accounts and automatically scan for receipt emails. When a receipt email is detected, the system extracts the receipt data and creates an expense entry in your inbox. This eliminates the need to manually forward or upload receipts.
+
+To manage email accounts, navigate to **Settings > Email Accounts** in the left sidebar.
+
+<Note>
+  Only users with the **Admin** or **Owner** role can connect and manage email accounts.
+</Note>
+
+## Supported Email Providers
+
+Smartbills supports the following email providers:
+
+| Provider | Connection Method |
+|----------|-------------------|
+| **Gmail** | OAuth 2.0 (Google account sign-in) |
+| **Outlook / Office 365** | OAuth 2.0 (Microsoft account sign-in) |
+
+## Connect an Email Account
+
+<Steps>
+  <Step title="Open Email Account Settings">
+    Navigate to **Settings > Email Accounts**. The page displays any currently connected accounts.
+
+  </Step>
+
+  <Step title="Click Connect Account">
+    Click the **Connect Account** button and select your email provider (Gmail or Outlook).
+
+  </Step>
+
+  <Step title="Authorize Access">
+    A new window opens for your email provider's OAuth sign-in flow. Sign in with the email account you want to connect and grant Smartbills read access to your inbox.
+
+    <Note>
+      Smartbills only requests read access to scan for receipt emails. It does not send, delete, or modify any emails in your account.
+    </Note>
+  </Step>
+
+  <Step title="Confirm Connection">
+    Once authorization is complete, you are redirected back to Smartbills. The connected email account appears in the list with an **Active** status.
+
+  </Step>
+</Steps>
+
+<Check>
+  Your email account is connected. Smartbills will begin scanning for receipt emails automatically.
+</Check>
+
+## How Auto-Scanning Works
+
+Once connected, Smartbills periodically checks the connected email account for messages that contain receipts or invoices. The system:
+
+1. Scans incoming emails for receipt-like content (order confirmations, invoices, payment receipts)
+2. Extracts receipt data including vendor name, amount, date, and tax information
+3. Creates an expense entry in your company inbox
+4. Attaches the original email or PDF as the receipt document
+
+Smartbills uses AI to distinguish receipt emails from regular correspondence, so only relevant emails are processed.
+
+## Manage Connected Accounts
+
+### Disconnect an Account
+
+To stop scanning an email account:
+
+1. Click the account in the connected accounts list
+2. Click **Disconnect**
+3. Confirm the action
+
+Disconnecting removes Smartbills' access to the email account. Expenses already imported from that account are preserved.
+
+### Reconnect an Account
+
+If your email provider's authorization expires or is revoked, the account status changes to **Disconnected**. Click **Reconnect** next to the account and complete the OAuth flow again.
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="General Settings" icon="gear" href="/guides/web-app/settings/general">
+    Configure your business information
+  </Card>
+  <Card title="Billing" icon="credit-card" href="/guides/web-app/settings/billing">
+    Manage your subscription
+  </Card>
+</CardGroup>

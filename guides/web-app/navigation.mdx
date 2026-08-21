@@ -1,0 +1,138 @@
+---
+title: "Navigating the Dashboard"
+description: "The layout of the Smartbills web dashboard and what each area does"
+---
+
+## Overview
+
+The dashboard is built around a sidebar on the left and a header across the top. What you see in the sidebar depends on your role, so two colleagues in the same business can have noticeably different navigation.
+
+## The sidebar
+
+The sidebar has three parts: a business switcher at the top, navigation in the middle, and Integrations and Settings pinned at the bottom.
+
+### Business switcher
+
+The current business's logo and name sit at the very top. Selecting it lists every business you belong to and lets you switch, or add another. See [Switching between businesses](/guides/web-app/switching-businesses).
+
+### Your work
+
+The first navigation group is always visible and covers your own activity.
+
+<AccordionGroup>
+  <Accordion title="Dashboard" icon="house">
+    Your landing page, with recent activity and quick actions.
+  </Accordion>
+
+  <Accordion title="Mileage Trips" icon="car">
+    Log business driving and claim reimbursement for it. Business context only, so it does not appear in your personal account.
+
+    [Mileage](/guides/web-app/mileage/overview)
+  </Accordion>
+
+  <Accordion title="Expenses" icon="wallet">
+    The expenses you paid for yourself. Upload receipts, categorize them, and organize them ready for a report.
+
+    [Expenses](/guides/web-app/expenses/overview)
+  </Accordion>
+
+  <Accordion title="Expense Reports" icon="file-invoice">
+    Your own reports. Create them, add expenses, submit for approval, and recall if you need to change something.
+
+    A badge on this item counts reports an approver has sent back to you for changes.
+
+    [Expense Reports](/guides/web-app/reports/overview)
+  </Accordion>
+</AccordionGroup>
+
+### The business group
+
+The second group is labelled with your business's name. It only appears if your role gives you access to something in it, which is why a Member sees no business group at all.
+
+<AccordionGroup>
+  <Accordion title="Business Expenses" icon="credit-card">
+    Expenses paid by the business rather than by an individual, such as corporate card charges and invoices forwarded by email. Finance Team, Finance Admins, and Administrators.
+
+    [Business Expenses](/guides/web-app/business-expenses/overview)
+  </Accordion>
+
+  <Accordion title="Bills" icon="receipt">
+    Accounts payable. Vendor invoices your business owes, through approval and payment. Finance Team, Finance Admins, and Administrators.
+
+    [Bills](/guides/web-app/bills/overview)
+  </Accordion>
+
+  <Accordion title="Vault" icon="folder-open">
+    Secure document storage. Finance Admins and Administrators.
+
+    [Vault](/guides/web-app/vault/overview)
+  </Accordion>
+
+  <Accordion title="Vendors" icon="building">
+    Your vendor directory, including portal connections that retrieve invoices automatically. Finance Admins and Administrators.
+
+    [Vendors](/guides/web-app/vendors/overview)
+  </Accordion>
+
+  <Accordion title="Approvals" icon="square-check">
+    Expense reports waiting on you, organized by state. Managers, Finance Admins, and Administrators.
+
+    [Approvals](/guides/web-app/approvals/overview)
+  </Accordion>
+</AccordionGroup>
+
+### Pinned at the bottom
+
+| Item | Who sees it |
+|------|-------------|
+| **Integrations** | Administrators only |
+| **Settings** | Everyone, though what is inside depends on your role |
+
+<Note>
+  Team management is not a sidebar item. It lives under **Settings > Workspace > Team**, with the member roster at **Settings > Organization > Employees**.
+</Note>
+
+## The header
+
+| Element | What it does |
+|---------|-------------|
+| **Search** | Search or jump to a record. Opens with `Ctrl + K` or `Cmd + K`. |
+| **Upload** | A dropdown with Create expense, Upload Receipt, Upload Bill, and Transfer via Email. See [Upload an expense](/guides/web-app/expenses/upload-expense). |
+| **Notifications** | A bell showing approvals, comments, and status changes. |
+| **Help** | Searches the help centre without leaving the app. |
+| **User menu** | Your avatar. Profile, account settings, appearance, and sign out. |
+
+## Appearance
+
+Light, dark, and system themes are available from the user menu under **Appearance**. The setting is stored in the browser, so it applies to the device you set it on rather than following you across devices.
+
+## Collapsing the sidebar
+
+Collapse the sidebar to icons with `Ctrl + B` or `Cmd + B`, or the control at its edge. It also collapses automatically when you open an expense report or approval detail view, to give the document more room, and expands again when you leave.
+
+## Keyboard shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Ctrl + K` / `Cmd + K` | Open search |
+| `Ctrl + B` / `Cmd + B` | Collapse or expand the sidebar |
+
+## Drag and drop anywhere
+
+Dragging a receipt file onto any page opens the upload dialog with that file attached. You do not need to be on the Expenses page first.
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Expenses" icon="wallet" href="/guides/web-app/expenses/overview">
+    Start managing your expenses
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Create and submit expense reports
+  </Card>
+  <Card title="Roles & permissions" icon="shield-halved" href="/guides/concepts/roles-and-permissions">
+    Why your sidebar looks the way it does
+  </Card>
+  <Card title="Settings" icon="gear" href="/guides/web-app/settings/general">
+    Configure your business
+  </Card>
+</CardGroup>

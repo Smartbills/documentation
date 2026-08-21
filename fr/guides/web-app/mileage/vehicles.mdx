@@ -1,0 +1,59 @@
+---
+title: "Gérer les véhicules"
+description: "Ajoutez, modifiez et supprimez les véhicules pour lesquels vous réclamez du kilométrage"
+---
+
+## Aperçu
+
+Chaque trajet doit être rattaché à un véhicule. Les véhicules sont personnels : ceux que vous ajoutez vous appartiennent et ne sont pas partagés avec l'entreprise. Chaque employé gère donc sa propre liste.
+
+Les véhicules se trouvent dans **Paramètres > Personnel > Véhicules**. Tout le monde peut gérer les siens.
+
+<Note>
+  Le véhicule choisi détermine l'unité de distance du trajet. Un véhicule immatriculé aux États-Unis mesure les trajets en **milles**. Tout autre pays d'immatriculation les mesure en **kilomètres**. Choisissez donc le véhicule avant de vérifier la distance.
+</Note>
+
+## Ajouter un véhicule
+
+<Steps>
+  <Step title="Ouvrir les paramètres des véhicules">
+    Allez dans **Paramètres**, puis **Véhicules** sous le groupe **Personnel**.
+  </Step>
+  <Step title="Saisir le véhicule">
+    Donnez-lui un nom que vous reconnaîtrez dans le formulaire de trajet, puis renseignez la marque, le modèle et l'immatriculation. Le pays d'immatriculation compte, car il fixe l'unité de distance.
+  </Step>
+  <Step title="Enregistrer">
+    Le véhicule devient immédiatement sélectionnable dans le formulaire de trajet.
+  </Step>
+</Steps>
+
+### Ajouter un véhicule pendant la saisie d'un trajet
+
+Vous n'avez pas besoin de passer par les paramètres. Le sélecteur de véhicule du formulaire propose **Ajouter un nouveau véhicule**, qui ouvre le même formulaire dans une fenêtre. À l'enregistrement, le nouveau véhicule est sélectionné sur le trajet que vous étiez en train de saisir.
+
+## Modifier un véhicule
+
+Ouvrez le véhicule depuis les paramètres et modifiez les champs voulus. La modification ne recalcule pas les trajets déjà enregistrés. Si vous corrigez un pays d'immatriculation après coup, les trajets existants conservent l'unité avec laquelle ils ont été enregistrés.
+
+## Supprimer un véhicule
+
+La suppression retire le véhicule de votre sélecteur. Les trajets qui le référencent continuent de fonctionner : le formulaire réinjecte le véhicule enregistré comme option, afin que la sélection reste valide et que le trajet ne perde pas discrètement son véhicule.
+
+<Warning>
+  Comme un véhicule supprimé reste visible sur les trajets passés, la suppression n'est pas un moyen de masquer un historique de kilométrage. Supprimez plutôt les trajets eux-mêmes, sachant qu'un trajet déjà rattaché à un rapport de dépenses ne peut pas être supprimé tant qu'il n'en a pas été retiré.
+</Warning>
+
+## Changer le véhicule d'un trajet existant
+
+Ouvrez le trajet et utilisez **Changer de véhicule** dans le panneau de résumé. Pratique lorsque vous avez enregistré un trajet avec la mauvaise voiture. Le remboursement est recalculé si le nouveau véhicule change l'unité de distance.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Enregistrer un trajet" icon="route" href="/fr/guides/web-app/mileage/log-a-trip">
+    Saisir un trajet avec votre véhicule
+  </Card>
+  <Card title="Taux kilométriques" icon="calculator" href="/fr/guides/web-app/mileage/mileage-rates">
+    Le taux appliqué à vos trajets
+  </Card>
+</CardGroup>

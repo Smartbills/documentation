@@ -1,0 +1,113 @@
+---
+title: "OneDrive"
+description: "Archive receipts and expense documents to Microsoft OneDrive and SharePoint"
+---
+
+## Overview
+
+The OneDrive integration automatically archives receipt images and expense documents from Smartbills to your Microsoft OneDrive or SharePoint document library. Files are organized in configurable folder structures with support for retention policies.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Auto-archival** | Automatically save receipts to OneDrive when expenses are created or approved |
+| **SharePoint Sync** | Support for SharePoint Online document libraries |
+| **Folder Structure** | Configurable folder organization by date, category, or employee |
+| **Retention Policies** | Leverage Microsoft 365 retention and compliance policies |
+| **Report Export** | Export expense report bundles to OneDrive |
+| **Selective Backup** | Choose which expense types to archive |
+
+## Prerequisites
+
+- Microsoft 365 account (personal or business)
+- Smartbills Business plan or higher
+- OneDrive storage available
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **OneDrive**.
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in with your Microsoft account. Authorize Smartbills to manage files.
+
+  </Step>
+  <Step title="Choose Destination">
+    Select OneDrive (personal) or a SharePoint document library as the destination.
+  </Step>
+  <Step title="Configure Folder Structure">
+    Set up folder naming conventions and hierarchy.
+  </Step>
+  <Step title="Set Sync Preferences">
+    Configure when files are archived and in what format.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Storage Destination
+
+| Destination | Best For |
+|-------------|---------|
+| OneDrive Personal | Individual users, small teams |
+| OneDrive for Business | Organizations using Microsoft 365 |
+| SharePoint Library | Shared access, compliance requirements |
+
+### Folder Structure
+
+| Structure | Example Path |
+|-----------|-------------|
+| By year/month | `Smartbills/2026/04/receipt-123.pdf` |
+| By category | `Smartbills/Office Supplies/receipt-123.pdf` |
+| By employee | `Smartbills/Jane Doe/receipt-123.pdf` |
+| By report | `Smartbills/Reports/Q1 Expenses/receipt-123.pdf` |
+
+### Sync Triggers
+
+| Trigger | Description |
+|---------|-------------|
+| On upload | Archive immediately when receipt is uploaded |
+| On approval | Archive only after expense is approved |
+| Scheduled | Batch archive daily or weekly |
+
+### File Format
+
+| Format | Description |
+|--------|-------------|
+| Original | Keep original file format (JPG, PNG, PDF) |
+| PDF | Convert all receipts to PDF |
+| Both | Save original and PDF copy |
+
+## Data Sync
+
+| Smartbills | OneDrive | Direction | Frequency |
+|-----------|----------|-----------|-----------|
+| Receipt images | Files | Smartbills -> OneDrive | Based on trigger setting |
+| Expense report PDFs | PDF files | Smartbills -> OneDrive | On export |
+| Document bundles | ZIP files | Smartbills -> OneDrive | On export |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Files not appearing in OneDrive">
+    Check the integration status in **Settings > Apps > OneDrive**. Verify the destination folder exists and has not been renamed or moved.
+  </Accordion>
+
+  <Accordion title="Authentication expired">
+    Microsoft tokens expire periodically. Go to integration settings and click **Reconnect**.
+  </Accordion>
+
+  <Accordion title="SharePoint access denied">
+    Ensure the connected account has Contribute permissions or higher on the target SharePoint library.
+  </Accordion>
+
+  <Accordion title="Storage quota full">
+    Check your OneDrive or SharePoint storage quota. Free up space or contact your Microsoft 365 admin.
+  </Accordion>
+
+  <Accordion title="Retention policy conflicts">
+    If files are being deleted or moved unexpectedly, check your Microsoft 365 retention policies. Smartbills does not override existing retention rules.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,231 @@
+---
+title: "Gestion des Erreurs"
+description: "Guide complet des classes d'erreurs et des patrons de gestion dans le SDK Python Smartbills."
+---
+
+## Gestion des Erreurs
+
+Le SDK Python Smartbills lève des exceptions structurées pour chaque échec API. Chaque classe d'exception correspond à un code de statut HTTP spécifique et inclut des informations contextuelles pour le débogage.
+
+## Hiérarchie des erreurs
+
+Toutes les erreurs du SDK héritent de `SmartbillsApiError` :
+
+```
+SmartbillsApiError (base, toute erreur HTTP)
+  +-- SmartbillsValidationError    (400)
+  +-- SmartbillsAuthenticationError (401)
+  +-- SmartbillsQuotaError          (402/403)
+  +-- SmartbillsPermissionError     (403)
+  +-- SmartbillsNotFoundError       (404)
+  +-- SmartbillsConflictError       (409)
+  +-- SmartbillsRateLimitError      (429)
+```
+
+## SmartbillsApiError (base)
+
+Chaque erreur inclut ces attributs :
+
+```python
+class SmartbillsApiError(Exception):
+    message: str             # Message d'erreur lisible
+    status_code: int | None  # Code de statut HTTP
+    body: Any                # Corps de reponse brut
+    headers: dict[str, str]  # En-tetes de reponse
+```
+
+## Types d'erreurs
+
+### SmartbillsValidationError (400)
+
+Levée lorsque le corps de la requête échoué la validation côté serveur. Inclut une liste d'erreurs par champ.
+
+```python
+from smartbills.errors import SmartbillsValidationError
+
+try:
+    await client.expenses.update(expense_id=123, request=données_invalides)
+except SmartbillsValidationError as e:
+    print(f"Validation échouée : {e}")
+    for erreur_champ in e.errors:
+        print(f"  {erreur_champ.get('field')}: {erreur_champ.get('message')}")
+```
+
+### SmartbillsAuthenticationError (401)
+
+Levée lorsque le jeton d'accès est manquant, expiré ou invalide.
+
+```python
+from smartbills.errors import SmartbillsAuthenticationError
+
+try:
+    await client.expenses.list_business()
+except SmartbillsAuthenticationError:
+    # Rafraichir le jeton
+    nouveau_jeton = await rafraichir_jeton()
+    client.set_access_token(nouveau_jeton)
+```
+
+### SmartbillsPermissionError (403)
+
+Levée lorsque l'utilisateur n'a pas les permissions pour l'action demandée.
+
+```python
+from smartbills.errors import SmartbillsPermissionError
+
+try:
+    await client.expense_reports.approve(report_id=123)
+except SmartbillsPermissionError:
+    print("Vous n'avez pas la permission d'approuver ce rapport")
+```
+
+### SmartbillsNotFoundError (404)
+
+Levée lorsque la ressource demandée n'existe pas.
+
+```python
+from smartbills.errors import SmartbillsNotFoundError
+
+try:
+    expense = await client.expenses.get_by_id(expense_id=99999)
+except SmartbillsNotFoundError:
+    print("Dépense introuvable")
+```
+
+### SmartbillsConflictError (409)
+
+Levée lorsque la requête entre en conflit avec l'état actuel de la ressource.
+
+```python
+from smartbills.errors import SmartbillsConflictError
+
+try:
+    await client.expense_reports.submit(report_id=123)
+except SmartbillsConflictError:
+    print("Le rapport est deja soumis ou d.ns un etat incompatible")
+```
+
+### SmartbillsRateLimitError (429)
+
+Levée lorsque la limite de débit API est dépassée.
+
+```python
+from smartbills.errors import SmartbillsRateLimitError
+
+try:
+    await client.expenses.list_business()
+except SmartbillsRateLimitError as e:
+    print(f"Limite atteinte. Réessayer après {e.retry_after} secondes")
+```
+
+### SmartbillsQuotaError (402/403)
+
+Levée lorsque l'entreprise à dépassé son quota de forfait.
+
+```python
+from smartbills.errors import SmartbillsQuotaError
+
+try:
+    await client.expenses.upload(files=données_fichier)
+except SmartbillsQuotaError:
+    print("Quota de téléchargement depasse. Veuillez mettre à niveau votre forfait.")
+```
+
+## Gestionnaire d'erreurs complet
+
+```python
+from smartbills.errors import (
+    SmartbillsApiError,
+    SmartbillsAuthenticationError,
+    SmartbillsConflictError,
+    SmartbillsNotFoundError,
+    SmartbillsPermissionError,
+    SmartbillsQuotaError,
+    SmartbillsRateLimitError,
+    SmartbillsValidationError,
+)
+
+async def appel_api_securise(coro):
+    try:
+        return await coro
+    except SmartbillsValidationError as e:
+        print(f"Erreur de validation : {e.errors}")
+    except SmartbillsAuthenticationError:
+        print("Authentification échouée -- le jeton est peut-être expire")
+    except SmartbillsPermissionError:
+        print("Permission refusee")
+    except SmartbillsNotFoundError:
+        print("Ressource introuvable")
+    except SmartbillsConflictError:
+        print("Conflit d'etat -- la ressource à peut-être change")
+    except SmartbillsRateLimitError as e:
+        print(f"Limite atteinte -- réessayer après {e.retry_after}s")
+    except SmartbillsQuotaError:
+        print("Quota du forfait depasse")
+    except SmartbillsApiError as e:
+        print(f"Erreur API ({e.status_code}): {e}")
+    return None
+```
+
+## Patron de tentatives
+
+Le SDK à des tentatives intégrées pour les erreurs transitoires (429, 5xx, erreurs réseau). Pour un contrôle supplémentaire, implementez votre propre logique de tentatives :
+
+```python
+import asyncio
+from smartbills.errors import SmartbillsApiError, SmartbillsRateLimitError
+
+async def avec_tentatives(coro_fn, max_tentatives=3):
+    for tentative in range(max_tentatives + 1):
+        try:
+            return await coro_fn()
+        except SmartbillsRateLimitError as e:
+            if tentative == max_tentatives:
+                raise
+            attente = e.retry_after or (2 ** tentative)
+            await asyncio.sleep(attente)
+        except SmartbillsApiError as e:
+            if tentative == max_tentatives or (e.status_code and e.status_code < 500):
+                raise
+            await asyncio.sleep(2 ** tentative)
+
+# Utilisation
+expenses = await avec_tentatives(
+    lambda: client.expenses.list_business()
+)
+```
+
+## Comportement des tentatives automatiques
+
+Le SDK retente automatiquement les scénarios suivants :
+
+| Scenario | Comportement |
+|----------|-------------|
+| **429 Trop de requêtes** | Attend la valeur de l'en-tête `Retry-After`, puis retente |
+| **Erreurs serveur 5xx** | Retente avec back-off exponentiel (délai * 2^tentative) |
+| **Erreurs de connexion** | Retente avec back-off exponentiel |
+| **Timeouts lecture/ecriture** | Retente avec back-off exponentiel |
+
+Les erreurs non-retentables (400, 401, 403, 404, 409) sont levées immédiatement sans tentative.
+
+Le nombre maximal de tentatives et le délai de base sont configurés via `SmartbillsClientOptions` :
+
+```python
+options = SmartbillsClientOptions(
+    max_retries=3,     # par défaut
+    retry_delay=1.0,   # secondes, par défaut
+)
+```
+
+## Inspecter les réponses brutes
+
+Toutes les erreurs incluent le corps de réponse brut et les en-têtes pour le débogage :
+
+```python
+try:
+    await client.expenses.get_by_id(expense_id=99999)
+except SmartbillsApiError as e:
+    print(f"Statut : {e.status_code}")
+    print(f"Corps : {e.body}")
+    print(f"En-tetes : {e.headers}")
+```

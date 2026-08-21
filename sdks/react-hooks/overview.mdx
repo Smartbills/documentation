@@ -1,0 +1,248 @@
+---
+title: "React Hooks Overview"
+description: "React Query hooks for the Smartbills API, type-safe data fetching with automatic caching and cache invalidation"
+---
+
+## Introduction
+
+The `@smartbills/react-hooks` SDK provides a comprehensive set of React hooks built on top of [TanStack React Query](https://tanstack.com/query). Each hook wraps a Smartbills API endpoint with automatic caching, pagination, cache invalidation, and optimistic updates.
+
+<Info>
+  This SDK requires `@smartbills/sdk` (the core JS client) and `@tanstack/react-query` as peer dependencies.
+</Info>
+
+## Installation
+
+```bash
+npm install @smartbills/sdk @smartbills/react-hooks @tanstack/react-query
+```
+
+## Provider Setup
+
+Wrap your application with `SmartbillsProvider` and a React Query `QueryClientProvider`:
+
+```tsx
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SmartbillsProvider } from "@smartbills/react-hooks";
+import { SmartbillsClient } from "@smartbills/sdk";
+
+const queryClient = new QueryClient();
+const sbClient = new SmartbillsClient({
+  accessToken: "YOUR_ACCESS_TOKEN",
+  businessId: 123,
+});
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsProvider client={sbClient} businessId={123}>
+        <MyApp />
+      </SmartbillsProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+The `SmartbillsProvider` makes the Smartbills client available to all hooks via React context. The `businessId` scopes all API calls to the specified business.
+
+## How Hooks Work
+
+Under the hood, every hook maps to a React Query primitive:
+
+- **Query hooks** use `useQuery` or `useInfiniteQuery` for read operations. They return the standard React Query result object with `data`, `isLoading`, `error`, `refetch`, and pagination helpers.
+- **Mutation hooks** use `useMutation` for write operations. They return `mutate` / `mutateAsync` functions and automatically invalidate related cache entries on success.
+
+This means you get all of React Query's built-in features for free: background refetching, stale-while-revalidate, optimistic updates, infinite scrolling, and devtools support.
+
+## Hook Patterns
+
+### Query Hooks (read data)
+
+Query hooks use `useQuery` or `useInfiniteQuery` under the hood. They return the standard React Query result object:
+
+```tsx
+import { useExpenses } from "@smartbills/react-hooks";
+
+function ExpenseList() {
+  const {
+    data,           // paginated response pages
+    isLoading,      // true on first load
+    isFetching,     // true on any fetch (including refetch)
+    error,          // error object if request failed
+    hasNextPage,    // true if more pages available
+    fetchNextPage,  // function to load the next page
+  } = useExpenses({ limit: 25 });
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  const expenses = data?.pages.flatMap((p) => p.data) ?? [];
+
+  return (
+    <div>
+      {expenses.map((expense) => (
+        <div key={expense.id}>
+          {expense.vendor?.name} - ${expense.amount}
+        </div>
+      ))}
+      {hasNextPage && (
+        <button onClick={() => fetchNextPage()}>Load more</button>
+      )}
+    </div>
+  );
+}
+```
+
+### Mutation Hooks (write data)
+
+Mutation hooks use `useMutation` and automatically invalidate related queries on success:
+
+```tsx
+import { useCreateExpenseReport, useApproveExpenseReport } from "@smartbills/react-hooks";
+
+function ReportActions() {
+  const createReport = useCreateExpenseReport();
+  const approveReport = useApproveExpenseReport();
+
+  const handleCreate = () => {
+    createReport.mutate(
+      { name: "March Travel", description: "Business trip to NYC" },
+      { onSuccess: (report) => console.log("Created:", report.id) }
+    );
+  };
+
+  const handleApprove = (reportId: number) => {
+    approveReport.mutate(
+      { reportId, comment: "Looks good" },
+      { onSuccess: () => console.log("Approved!") }
+    );
+  };
+
+  return (
+    <div>
+      <button onClick={handleCreate} disabled={createReport.isPending}>
+        Create Report
+      </button>
+    </div>
+  );
+}
+```
+
+## Automatic Cache Invalidation
+
+When a mutation succeeds, the SDK automatically invalidates related queries. For example:
+
+- `useCreateExpenseReport` invalidates all expense report list queries
+- `useUpdateExpense` invalidates expense list queries
+- `useApproveApprobation` invalidates both approbation and expense report queries
+
+This means your UI stays in sync without manual refetching.
+
+## Available Domains
+
+The SDK provides hooks for 37 domains covering the full Smartbills platform:
+
+<CardGroup cols={3}>
+  <Card title="Expenses" icon="receipt">
+    List, upload, update, delete, split, bulk operations, export
+  </Card>
+  <Card title="Expense Reports" icon="file-lines">
+    CRUD, submit, approve, reject, recall, reimburse, comment
+  </Card>
+  <Card title="Approvals" icon="check-double">
+    Pending, approved, rejected, reimburse, request changes
+  </Card>
+  <Card title="Bills" icon="file-invoice-dollar">
+    CRUD, approve, schedule payment, mark paid, cancel, bulk
+  </Card>
+  <Card title="Invoices" icon="file-invoice">
+    CRUD, send, void, mark paid, duplicate, summary
+  </Card>
+  <Card title="Vendors" icon="store">
+    CRUD, merge, bulk delete, logo upload
+  </Card>
+  <Card title="Employees" icon="users">
+    List and manage employee records
+  </Card>
+  <Card title="Categories" icon="tags">
+    List and manage expense categories
+  </Card>
+  <Card title="Departments" icon="building">
+    List and manage departments
+  </Card>
+</CardGroup>
+
+## Presigned Uploads
+
+The SDK includes a `usePresignedUpload` hook that handles the full S3 presigned upload flow:
+
+```tsx
+import { usePresignedUpload } from "@smartbills/react-hooks";
+
+function FileUploader() {
+  const upload = usePresignedUpload();
+
+  const handleUpload = (files: FileList) => {
+    upload.mutate({
+      files: Array.from(files).map((file) => ({
+        file,
+        fileName: file.name,
+        contentType: file.type,
+      })),
+      categoryId: 5,
+    });
+  };
+
+  return (
+    <input
+      type="file"
+      multiple
+      onChange={(e) => e.target.files && handleUpload(e.target.files)}
+    />
+  );
+}
+```
+
+## React Query Options
+
+Every hook accepts standard React Query options as the last parameter, giving you full control over caching behavior:
+
+```tsx
+const { data } = useExpenses(
+  { limit: 50 },
+  {
+    staleTime: 5 * 60 * 1000,     // Consider data fresh for 5 minutes
+    refetchOnWindowFocus: false,   // Don't refetch when tab regains focus
+    enabled: isReady,              // Only fetch when condition is met
+  }
+);
+```
+
+## Authentication Flow
+
+The `SmartbillsProvider` accepts a pre-configured `SmartbillsClient` instance. For applications where the access token changes (for example, after user login), update the client instance and React Query will automatically refetch:
+
+```tsx
+function AuthenticatedApp() {
+  const [token, setToken] = useState<string | null>(null);
+
+  const client = useMemo(
+    () => token ? new SmartbillsClient({ accessToken: token, businessId: 123 }) : null,
+    [token]
+  );
+
+  if (!client) return <LoginScreen onLogin={setToken} />;
+
+  return (
+    <SmartbillsProvider client={client} businessId={123}>
+      <Dashboard />
+    </SmartbillsProvider>
+  );
+}
+```
+
+## Next Steps
+
+<Card title="Hooks Reference" icon="book" href="/sdks/react-hooks/reference">
+  Complete reference table of all 100+ hooks organized by domain
+</Card>

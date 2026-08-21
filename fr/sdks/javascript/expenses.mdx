@@ -1,0 +1,268 @@
+---
+title: "Dépenses"
+description: "Référence complète du ExpenseService dans le SDK JavaScript Smartbills, lister, télécharger, mettre à jour, scinder, exporter et gérer les dépenses en masse."
+---
+
+## Dépenses
+
+Le `ExpenseService` (`client.expenses`) fournit des méthodes pour lister, créer, mettre à jour, supprimer et opérer en masse sur les dépenses. Les dépenses représentent les reçus et transactions capturées au sein d'une entreprise.
+
+## Lister les dépenses
+
+### Dépenses de l'entreprise
+
+```typescript
+const { data: expenses, pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+});
+
+console.log(`Page ${pagination.currentPage} sur ${pagination.pageCount}`);
+console.log(`Total : ${pagination.count} dépenses`);
+```
+
+### Dépenses d'un employé
+
+```typescript
+const { data } = await client.expenses.listEmployée(employéeId, {
+  limit: 50,
+});
+```
+
+### Mes dépenses
+
+```typescript
+const { data: mesDépenses } = await client.expenses.listMy({
+  limit: 20,
+});
+```
+
+## Obtenir une dépense
+
+```typescript
+const expense = await client.expenses.getById(expenseId);
+console.log(expense.id, expense.amount, expense.vendor);
+```
+
+## Mettre à jour une dépense
+
+```typescript
+const updated = await client.expenses.update(expenseId, {
+  note: 'Diner client - Projet Alpha',
+  categoryId: 42,
+});
+```
+
+### Modifier la catégorie
+
+```typescript
+const updated = await client.expenses.updateCategory(expenseId, {
+  categoryId: 15,
+});
+```
+
+### Modifier la note
+
+```typescript
+const updated = await client.expenses.updateNote(expenseId, {
+  note: 'Description mise à jour',
+});
+```
+
+### Associer à un rapport de dépenses
+
+```typescript
+const updated = await client.expenses.updateReport(expenseId, {
+  expenseReportId: 789,
+});
+
+const result = await client.expenses.setReport(expenseId, {
+  expenseReportId: 789,
+});
+```
+
+## Supprimer des dépenses
+
+```typescript
+// Supprimer une dépense de l'entreprise
+await client.expenses.delete(expenseId);
+
+// Supprimer la dépense d'un employé
+await client.expenses.deleteEmployée(employéeId, expenseId);
+```
+
+## Télécharger des reçus
+
+```typescript
+const formData = new FormData();
+formData.append('files', fichierRecu1);
+formData.append('files', fichierRecu2);
+
+// Pour l'entreprise
+const results = await client.expenses.uploadBusiness(formData);
+
+// Pour un employé
+const empResults = await client.expenses.uploadEmployée(employéeId, formData);
+
+// Pour l'utilisateur courant
+const myResults = await client.expenses.uploadMy(formData);
+```
+
+### Valider avant le téléchargement
+
+```typescript
+const formData = new FormData();
+formData.append('files', fichierRecu);
+
+await client.expenses.validateBusiness(formData);
+await client.expenses.validateEmployée(employéeId, formData);
+```
+
+## Téléchargement présigné
+
+Pour les fichiers volumineux, utilisez le flux de téléchargement présigné :
+
+```typescript
+// Étape 1 : Obtenir une URL presignee
+const presigned = await client.expenses.presignUpload({
+  fileName: 'reçu.pdf',
+  contentType: 'application/pdf',
+  fileSize: fileBuffer.byteLength,
+});
+
+// Étape 2 : Télécharger directement vers l'URL presignee
+await fetch(presigned.url, {
+  method: 'PUT',
+  body: fileBuffer,
+  headers: { 'Content-Type': 'application/pdf' },
+});
+
+// Étape 3 : Confirmer le téléchargement
+await client.expenses.confirmUpload({
+  key: presigned.key,
+  fileName: 'reçu.pdf',
+});
+```
+
+## Scinder une dépense
+
+```typescript
+const splitExpenses = await client.expenses.split(expenseId, {
+  lines: [
+    { amount: 50.00, categoryId: 10, note: 'Repas' },
+    { amount: 25.00, categoryId: 20, note: 'Transport' },
+  ],
+});
+```
+
+## Exporter les dépenses
+
+```typescript
+const blob = await client.expenses.export({
+  format: 'csv',
+  startDate: '2025-01-01',
+  endDate: '2025-03-31',
+});
+
+const { blob: file, filename } = await client.expenses.exportWithFilename({
+  format: 'xlsx',
+});
+```
+
+## Télécharger les pieces jointes
+
+```typescript
+// Pieces jointes de plusieurs dépenses
+const zipBlob = await client.expenses.downloadAttachments({
+  expenseIds: [1, 2, 3],
+});
+
+// Piece jointe d'une seule dépense
+const attachment = await client.expenses.downloadSingleAttachment(expenseId);
+
+// Avec le nom de fichier
+const { blob, filename } = await client.expenses.downloadSingleAttachmentWithFilename(expenseId);
+```
+
+## Opérations par lot
+
+```typescript
+const updated = await client.expenses.batchUpdate([
+  { id: 1, categoryId: 10 },
+  { id: 2, categoryId: 20 },
+]);
+```
+
+## Opérations en masse
+
+### Assigner une catégorie en masse
+
+```typescript
+const result = await client.expenses.bulkAssignCategory({
+  expenseIds: [1, 2, 3, 4],
+  categoryId: 15,
+});
+console.log(`Reussis : ${result.succèded}, Échoués : ${result.failed}`);
+```
+
+### Assigner un fournisseur en masse
+
+```typescript
+const result = await client.expenses.bulkAssignVendor({
+  expenseIds: [1, 2, 3],
+  vendorId: 42,
+});
+```
+
+### Assigner un rapport en masse
+
+```typescript
+const result = await client.expenses.bulkAssignReport({
+  expenseIds: [1, 2, 3],
+  expenseReportId: 100,
+});
+```
+
+### Définir une note en masse
+
+```typescript
+const result = await client.expenses.bulkSetNote({
+  expenseIds: [1, 2, 3],
+  note: 'Reunion équipe T1',
+});
+```
+
+### Suppression en masse
+
+```typescript
+const result = await client.expenses.bulkDelete({
+  expenseIds: [10, 11, 12],
+});
+```
+
+## Référence des méthodes
+
+| Méthode | Paramètres | Retour |
+|---------|-----------|--------|
+| `listBusiness` | `params?`, `options?` | `SBListResponse<SBTransaction>` |
+| `listEmployée` | `employéeId`, `params?`, `options?` | `SBListResponse<SBTransaction>` |
+| `listMy` | `params?`, `options?` | `SBListResponse<SBTransaction>` |
+| `getById` | `expenseId`, `options?` | `SBTransaction` |
+| `update` | `expenseId`, `data`, `options?` | `SBTransaction` |
+| `delete` | `expenseId`, `options?` | `void` |
+| `deleteEmployée` | `employéeId`, `expenseId`, `options?` | `void` |
+| `updateCategory` | `expenseId`, `data`, `options?` | `SBTransaction` |
+| `updateNote` | `expenseId`, `data`, `options?` | `SBTransaction` |
+| `split` | `expenseId`, `data`, `options?` | `SBTransaction[]` |
+| `uploadBusiness` | `formData`, `options?` | `SBTransactionUploadResponse[]` |
+| `uploadEmployée` | `employéeId`, `formData`, `options?` | `SBTransactionUploadResponse[]` |
+| `uploadMy` | `formData`, `options?` | `SBTransactionUploadResponse[]` |
+| `export` | `data`, `options?` | `Blob` |
+| `presignUpload` | `request`, `options?` | `PresignedUploadResponse` |
+| `confirmUpload` | `request`, `options?` | `void` |
+| `bulkAssignCategory` | `data`, `options?` | `SBExpenseBulkActionResponse` |
+| `bulkAssignVendor` | `data`, `options?` | `SBExpenseBulkActionResponse` |
+| `bulkAssignReport` | `data`, `options?` | `SBExpenseBulkActionResponse` |
+| `bulkDelete` | `data`, `options?` | `SBExpenseBulkActionResponse` |

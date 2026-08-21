@@ -1,0 +1,96 @@
+---
+title: "Reject a Report"
+description: "How to reject an expense report and provide feedback to the submitter"
+---
+
+## Overview
+
+Sometimes an expense report cannot be approved due to missing documentation, policy violations, or incorrect information. In these cases, you can reject the report and provide a reason so the submitter understands what went wrong.
+
+<Warning>
+  **Rejection is final for that report.** When you reject a report, the submitter must create a new report or make corrections and resubmit. If you want the submitter to revise and resubmit the same report, consider using [Request Changes](/guides/web-app/approvals/request-changes) instead.
+</Warning>
+
+## Steps
+
+<Steps>
+  <Step title="Open the Pending Report">
+    Navigate to **Approvals** in the left sidebar and click on the expense report you need to review. Only reports with a **Pending** status can be rejected.
+
+  </Step>
+
+  <Step title="Review the Report">
+    Examine the report summary and click through the individual expenses. Look for issues such as:
+
+    - Missing or illegible receipts
+    - Amounts that do not match the receipt
+    - Out-of-policy expenses without justification
+    - Incorrect categories or duplicate entries
+    - Expenses outside the allowed date range
+
+  </Step>
+
+  <Step title="Click Reject">
+    Click the **Reject** button in the top-right corner of the report detail view.
+
+  </Step>
+
+  <Step title="Enter a Rejection Reason">
+    A dialog appears prompting you to enter a reason for the rejection. This field is **required**. Provide a clear, actionable explanation so the submitter knows what needs to be fixed.
+
+    **Examples of good rejection reasons:**
+    - "Receipt missing for the $85 dinner expense on March 12."
+    - "Hotel expense exceeds the $200/night policy limit. Please provide manager pre-approval documentation."
+    - "Three duplicate taxi entries detected for March 15."
+
+  </Step>
+
+  <Step title="Confirm the Rejection">
+    Click **Confirm Rejection** to finalize. The report status changes to **Rejected**.
+
+  </Step>
+
+  <Step title="Submitter Is Notified">
+    The employee receives a notification that their report was rejected, along with the reason you provided. The notification appears in-app and is sent by email.
+
+  </Step>
+</Steps>
+
+## What Happens After Rejection
+
+When a report is rejected:
+
+- The report moves to **Rejected** status and is removed from the approval queue
+- The submitter sees the rejection reason in their report timeline
+- The expenses in the rejected report become available again and can be added to a new report
+- The submitter must create a new report or correct the issues and resubmit
+
+<Note>
+  **Audit trail**: All rejections are logged with the approver name, timestamp, and rejection reason. This information is available in the report's audit log.
+</Note>
+
+## When to Reject vs. Request Changes
+
+| Scenario | Recommended Action |
+|----------|--------------------|
+| Minor issues that can be corrected in place | [Request Changes](/guides/web-app/approvals/request-changes) |
+| Missing receipts for a few expenses | [Request Changes](/guides/web-app/approvals/request-changes) |
+| Serious policy violations | Reject |
+| Fraudulent or duplicate report | Reject |
+| Report submitted to the wrong approver | Reject |
+| Fundamentally incorrect report structure | Reject |
+
+<Tip>
+  **Prefer Request Changes when possible.** It creates a smoother experience for the submitter because they can revise the same report without starting over.
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Approve a Report" icon="circle-check" href="/guides/web-app/approvals/approve-report">
+    Steps to approve a report that meets requirements
+  </Card>
+  <Card title="Request Changes" icon="comment-dots" href="/guides/web-app/approvals/request-changes">
+    A less disruptive alternative to rejection
+  </Card>
+</CardGroup>

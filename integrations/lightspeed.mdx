@@ -1,0 +1,117 @@
+---
+title: "Lightspeed"
+description: "Sync transactions and inventory data between Smartbills and Lightspeed POS"
+---
+
+## Overview
+
+The Lightspeed integration connects your Lightspeed POS with Smartbills, enabling multi-location transaction import, inventory sync, and employee-level reporting across Lightspeed Restaurant and Retail products.
+
+<Info>
+  This integration supports **Lightspeed Restaurant (L-Series)** and **Lightspeed Retail (R-Series / X-Series)**.
+</Info>
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Multi-location** | Sync transactions across all Lightspeed locations |
+| **Inventory Sync** | Import product catalog and inventory data |
+| **Employee Mapping** | Link Lightspeed employees to Smartbills users |
+| **Custom Fields** | Map Lightspeed custom fields to Smartbills metadata |
+| **Category Mapping** | Map Lightspeed product categories |
+| **Tax Configuration** | Sync tax profiles and rates |
+| **Shift Reports** | Import end-of-day shift data |
+
+## Prerequisites
+
+- Lightspeed Restaurant or Retail account
+- Smartbills Business plan or higher
+- Admin access in Lightspeed
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Lightspeed**.
+  </Step>
+  <Step title="Select Product">
+    Choose **Lightspeed Restaurant** or **Lightspeed Retail**.
+
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and authorize Smartbills in the Lightspeed portal.
+  </Step>
+  <Step title="Select Locations">
+    Choose which Lightspeed locations to sync.
+  </Step>
+  <Step title="Map Products and Employees">
+    Configure product categories and employee mappings.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Location Settings
+
+| Setting | Description |
+|---------|-------------|
+| Sync all locations | Import from all Lightspeed locations |
+| Select locations | Choose specific locations |
+| Location grouping | Group transactions by location in reports |
+
+### Product Mapping
+
+| Lightspeed Category | Smartbills Category |
+|--------------------|---------------------|
+| Food | Meals |
+| Beverages | Meals |
+| Retail Items | Merchandise |
+| Services | Professional Services |
+
+### Employee Mapping
+
+Map Lightspeed employee accounts to Smartbills users to attribute transactions to the correct team member. This is useful for commission tracking and individual performance reporting.
+
+### Shift Reports
+
+| Setting | Description |
+|---------|-------------|
+| Auto-import | Automatically import shift reports at end of day |
+| Include tips | Add tip totals to shift report data |
+| Cash variance | Track over/short amounts per shift |
+
+## Data Sync
+
+| Smartbills | Lightspeed | Direction | Frequency |
+|-----------|------------|-----------|-----------|
+| Receipts | Sales transactions | Lightspeed -> Smartbills | Real-time or scheduled |
+| Refund records | Refunds | Lightspeed -> Smartbills | Real-time or scheduled |
+| Categories | Product catalog | Lightspeed -> Smartbills | On demand |
+| Locations | Locations | Lightspeed -> Smartbills | On demand |
+| Employee records | Employees | Lightspeed -> Smartbills | On demand |
+| Shift data | Shift reports | Lightspeed -> Smartbills | Daily |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Transactions not importing">
+    Verify the API connection in **Settings > Apps > Lightspeed**. Check that the selected locations are active.
+  </Accordion>
+
+  <Accordion title="Location not found">
+    New locations must be added to the sync configuration manually. Go to integration settings and select the new location.
+  </Accordion>
+
+  <Accordion title="Employee mapping issues">
+    Ensure employees have active accounts in both Lightspeed and Smartbills. Deactivated employees are excluded from sync.
+  </Accordion>
+
+  <Accordion title="Product catalog out of sync">
+    Trigger a manual product catalog refresh from the integration settings page.
+  </Accordion>
+
+  <Accordion title="Shift reports missing">
+    Verify that auto-import is enabled and that the shift was properly closed in Lightspeed. Open shifts will not generate reports.
+  </Accordion>
+</AccordionGroup>

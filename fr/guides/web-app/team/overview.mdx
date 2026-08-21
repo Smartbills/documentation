@@ -1,0 +1,61 @@
+---
+title: "Gestion d'Ã‰quipe"
+description: "GÃ©rez les membres de l'Ã©quipe de votre organisation et leurs accès"
+---
+
+## AperÃ§u
+
+La page Ã‰quipe est l'endroit oÃ¹ vous gÃ©rez tous les membres de votre organisation Smartbills. De cette page, vous pouvez inviter de nouveaux membres, attribuer des roles, consulter les statuts des employÃ©s et contrôler qui Ã  accÃ¨s Ã  quoi. Une structure d'Ã©quipe bien organisÃ©e garantit que les dÃ©penses sont acheminees vers les bons approbateurs et que les donnÃ©es financières sensibles ne sont visibles que par le personnel autorise.
+
+<Note>
+  L'accès Ã  la page Ã‰quipe necessite la permission **SETTINGS_TEAM_VIEW**. Seuls les utilisateurs ayant le role Administrateur ou Proprietaire peuvent inviter des membres et modifier les roles.
+</Note>
+
+## Naviguer sur la Page Ã‰quipe
+
+Cliquez sur **Ã‰quipe** dans la barre latÃ©rale gauche pour ouvrir la page de gestion d'Ã©quipe. La page affiché une liste de tous les membres de votre organisation.
+
+### Liste des EmployÃ©s
+
+Chaque ligne de la liste des employÃ©s affiché :
+
+- **Nom**: Le nom complet du membre
+- **Courriel**: Son adresse courriel enregistrÃ©e
+- **Role**: Son role attribue (Proprietaire, Administrateur, Gestionnaire, EmployÃ© ou Comptable)
+- **DÃ©partement**: Le dÃ©partement auquel il appartient, s'il est assigne
+- **Statut**: Actif, InvitÃ© (en attente d'acceptation) ou DÃ©sactivÃ©
+
+### Recherche et Filtrage
+
+Utilisez la barre de recherche pour trouver des membres par nom ou courriel. Vous pouvez Ã©galement filtrer la liste par role, dÃ©partement ou statut pour localiser rapidement des groupes spÃ©cifiques d'employÃ©s.
+
+## Roles
+
+Smartbills utilisé un contrôle d'accès base sur les roles. Chaque membre se voit attribuer l'un des roles suivants :
+
+| Role | Description |
+|------|-------------|
+| **Proprietaire** | Contrôle total de l'organisation. Peut gÃ©rer la facturation, supprimer l'entreprise et transferer la propriete. Un seul Proprietaire par organisation. |
+| **Administrateur** | Accès complet Ã  toutes les fonctionnalitÃ©s et paramÃ¨très sauf la facturation et le transfert de propriete. Peut inviter des membres et gÃ©rer les roles. |
+| **Gestionnaire** | Peut approuver les rapports de dÃ©penses de son Ã©quipe ou d.©partement assigne. A un accÃ¨s en lecture aux dÃ©penses de l'Ã©quipe. |
+| **EmployÃ©** | Peut soumettre des dÃ©penses et des rapports de dÃ©penses. Limite Ã  ses propres donnÃ©es. |
+| **Comptable** | Peut consulter et gÃ©rer toutes les dÃ©penses, fournisseurs et catÃ©gories. Ne peut pas gÃ©rer les paramÃ¨très d'Ã©quipe ou la facturation. |
+
+## Statuts des Membres
+
+| Statut | Signification |
+|--------|---------------|
+| **Actif** | Le membre Ã  accepte son invitation et peut utiliser Smartbills |
+| **Invite** | Une invitation Ã  Ã©tÃ© envoyÃ©e mais n'a pas encore Ã©tÃ© acceptee |
+| **DÃ©sactivÃ©** | L'accès du membre Ã  Ã©tÃ© rÃ©voquÃ©. Ses donnÃ©es historiques sont conservÃ©es. |
+
+## ProchaÃ®nes Ã‰tapes
+
+<CardGroup cols={2}>
+  <Card title="Inviter des Membres" icon="user-plus" href="/fr/guides/web-app/team/invite-members">
+    Ajoutez de nouveaux employÃ©s Ã  votre organisation
+  </Card>
+  <Card title="GÃ©rer les Roles" icon="user-gear" href="/fr/guides/web-app/team/manage-roles">
+    Modifiez les roles et comprenez les permissions
+  </Card>
+</CardGroup>

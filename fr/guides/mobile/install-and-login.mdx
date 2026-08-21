@@ -1,0 +1,141 @@
+---
+title: "Installation et Connexion"
+description: "Téléchargez l'application Smartbills et connectez-vous à votre compte"
+---
+
+## Introduction
+
+Ce guide vous accompagne dans le téléchargement de l'application mobile Smartbills, la première connexion, la sélection de votre entreprise et la configuration des paramètres de sécurité optionnels comme la connexion biométrique.
+
+<Note>
+  Vous avez besoin d'un compte Smartbills existant pour utiliser l'application mobile. Si vous n'en avez pas encore, demandez à votre administrateur de vous inviter, ou [créez un compte](/fr/guides/web-app/create-account) depuis le tableau de bord web.
+</Note>
+
+## Étape 1 : Télécharger l'Application
+
+L'application mobile Smartbills est gratuite et disponible sur l'App Store d'Apple et le Google Play Store.
+
+<CardGroup cols={2}>
+  <Card title="App Store" icon="apple" href="https://apps.apple.com/app/smartbills">
+    Télécharger pour iPhone et iPad (iOS 15+)
+  </Card>
+  <Card title="Google Play" icon="google-play" href="https://play.google.com/store/apps/details?id=com.smartbills">
+    Télécharger pour Android (Android 10+)
+  </Card>
+</CardGroup>
+
+### Configuration Requise
+
+| Plateforme | Version Minimale |
+|------------|-----------------|
+| iOS | 15.0 ou ulterieur |
+| Android | 10.0 (API level 29) ou ulterieur |
+| Stockage | 100 Mo d'espace libre |
+
+## Étape 2 : Ouvrir l'Application
+
+Après l'installation, appuyez sur l'icône Smartbills sur votre écran d'accueil pour lancer l'application. Vous verrez l'écran de bienvenue avec les options de connexion.
+
+## Étape 3 : Se Connecter
+
+Vous pouvez vous connecter avec votre adresse courriel et mot de passe, ou via l'authentification unique (SSO) si votre organisation l'a configurée.
+
+### Courriel et Mot de Passe
+
+1. Appuyez sur **Se connecter avec Courriel**
+2. Entrez l'adresse courriel associée à votre compte Smartbills
+3. Entrez votre mot de passe
+4. Appuyez sur **Se Connecter**
+
+### Authentification Unique (SSO)
+
+Si votre entreprise utilisé le SSO (Google, Microsoft ou un fournisseur SAML personnalisé) :
+
+1. Appuyez sur **Se connecter avec SSO**
+2. Entrez votre adresse courriel professionnelle ou votre domaine SSO
+3. Vous serez redirige vers la page de connexion de votre fournisseur d'identite
+4. Complétez l'authentification avec vos identifiants professionnels
+5. Vous serez redirige vers l'application Smartbills, connecte
+
+### Mot de Passe Oublie
+
+Si vous avez oublie votre mot de passe :
+
+1. Appuyez sur **Mot de passe oublie ?** sur l'écran de connexion
+2. Entrez votre adresse courriel
+3. Appuyez sur **Envoyer le Lien de Reinitialisation**
+4. Vérifiez votre courriel pour le lien de reinitialisation
+5. Suivez le lien pour définir un nouveau mot de passe
+6. Retournez à l'application et connectez-vous avec votre nouveau mot de passe
+
+## Étape 4 : Sélectionner Votre Entreprise
+
+Si votre compte est associé à plusieurs entreprises, vous serez invite à sélectionner celle avec laquelle vous souhaitez travailler. Vous pouvez changer d'entreprise à tout moment depuis l'onglet Menu.
+
+1. Consultez la liste des entreprises liees à votre compte
+2. Appuyez sur l'entreprise avec laquelle vous souhaitez travailler
+3. L'application chargera les données et paramètres de cette entreprise
+
+<Tip>
+  L'application retient votre dernière entreprise sélectionnée. Lors des lancements suivants, vous accéderez directement à l'écran d'accueil sans avoir à sélectionner une entreprise.
+</Tip>
+
+## Étape 5 : Activer la Connexion Biométrique (Optionnel)
+
+Après votre première connexion reussie, l'application vous proposera d'activer l'authentification biométrique pour un accès plus rapide lors des prochaînes utilisations.
+
+1. Lorsque vous y etes invite, appuyez sur **Activer** pour activer la connexion biométrique
+2. Confirmez avec votre Face ID, Touch ID ou empreinte digitale
+3. Lors de votre prochain lancement de l'application, vous pourrez vous connecter par biometrie au lieu d'entrer votre mot de passe
+
+Pour activer ou d.sactiver la connexion biométrique plus tard, allez dans **Menu > Paramètres > Sécurité > Connexion Biométrique**.
+
+## Étape 6 : Autoriser les Notifications (Optionnel)
+
+L'application vous demandera la permission d'envoyer des notifications push. Les notifications vous tiennent informe des approbations, des rejets et des changements de statut des rapports.
+
+1. Lorsque l'invite système apparaît, appuyez sur **Autoriser**
+2. Vous pouvez personnalisér les types de notifications dans **Menu > Paramètres > Notifications**
+
+Consultez [Notifications](/fr/guides/mobile/notifications) pour les détails sur les types de notifications disponibles.
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Je ne trouve pas l'application dans mon magasin d'applications">
+    Assurez-vous que votre appareil répond aux exigences minimales du système d'exploitation (iOS 15+ ou Android 10+). Si votre appareil est compatible, essayez de rechercher "Smartbills" dans le magasin d'applications. Si vous ne la trouvez toujours pas, votre organisation à peut-être restreint les installations d'applications sur les appareils gérés, contactez votre administrateur informatique.
+  </Accordion>
+
+  <Accordion title="J'obtiens une erreur 'Identifiants invalides'">
+    Vérifiez que vous utilisez la même adresse courriel avec laquelle vous vous etes inscrit sur le tableau de bord web Smartbills. Les mots de passe sont sensibles à la casse. Si vous continuez à avoir des problèmes, utilisez l'option **Mot de passe oublie** pour réinitialiser votre mot de passe.
+  </Accordion>
+
+  <Accordion title="Je ne vois pas mon entreprise après la connexion">
+    Votre administrateur ne vous à peut-être pas encore ajoute à l'entreprise. Contactez l'administrateur Smartbills de votre entreprise pour vérifiér que votre compte à été invite.
+  </Accordion>
+
+  <Accordion title="La connexion SSO redirige mais ne se complété pas">
+    Assurez-vous que l'intégration SSO de votre entreprise est entièrement configurée. Contactez votre administrateur informatique pour vérifiér que l'application Smartbills SSO est configurée dans votre fournisseur d'identite. Assurez-vous également d'utiliser le bon domaine de courriel professionnel.
+  </Accordion>
+
+  <Accordion title="La connexion biométrique à cesse de fonctionner">
+    Si vous avez modifié vos données biométriques (ajout d'une nouvelle empreinte digitale ou réinscription Face ID), vous devrez peut-être réactiver la connexion biométrique dans l'application. Allez dans **Menu > Paramètres > Sécurité > Connexion Biométrique** et désactivez puis réactivez l'option.
+  </Accordion>
+</AccordionGroup>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Scanner un Reçu" icon="camera" href="/fr/guides/mobile/scan-receipt">
+    Commencez à capturer des reçus avec l'appareil photo de votre telephone
+  </Card>
+  <Card title="Gérer les Dépenses" icon="receipt" href="/fr/guides/mobile/manage-expenses">
+    Consultez et organisez vos dépenses sur mobile
+  </Card>
+  <Card title="Rapports de Dépenses" icon="file-lines" href="/fr/guides/mobile/expense-reports">
+    Créez et soumettez des rapports depuis votre telephone
+  </Card>
+  <Card title="Notifications" icon="bell" href="/fr/guides/mobile/notifications">
+    Configurez vos préférences de notifications push
+  </Card>
+</CardGroup>

@@ -1,0 +1,130 @@
+---
+title: "Outlook Add-in"
+description: "Upload receipts and invoices to Smartbills directly from Outlook"
+---
+
+## Overview
+
+The Smartbills add-in adds a pane to Outlook that uploads attachments, or whole emails, straight into Smartbills. It is aimed at the receipts and invoices that arrive by email and would otherwise need forwarding or downloading first.
+
+## Requirements
+
+- Outlook desktop or Outlook on the web, supporting **Mailbox API 1.15 or later**
+- A Smartbills account belonging to at least one business
+- A connected Microsoft account, required to read email content
+
+<Warning>
+  Connecting your Microsoft account is not optional for email uploads. Until it is connected the pane shows "Microsoft account connection required to upload emails". Uploading files from your computer works without it, but uploading attachments or the email itself does not. Connect it from **Settings** in the pane.
+</Warning>
+
+## Install
+
+The add-in is deployed by your organization rather than installed individually. An administrator uploads it through the Microsoft 365 admin centre under **Settings > Integrated apps** and assigns it to users or groups. It then appears in Outlook automatically.
+
+Once it appears, open the pane and sign in with your Smartbills account. If you belong to more than one business, choose which one to upload into.
+
+<Note>
+  The pane keeps its own business selection, independent of the web app. If uploads are landing in the wrong business, check the selector at the top of the pane.
+</Note>
+
+## The two tabs
+
+| Tab | Purpose |
+|-----|---------|
+| **Current email** | Upload attachments from the email you have open, or the email itself |
+| **Upload files** | Upload files from your computer |
+
+## Upload from an email
+
+<Steps>
+  <Step title="Open the email and the pane">
+    Select the email containing the receipt or invoice, then open the Smartbills pane.
+  </Step>
+  <Step title="Choose what to upload">
+    Attachments are listed with a selection count. Inline images are included, so a receipt embedded in the message body can be picked as well as an attached file.
+
+    To capture the whole message rather than a single file, turn on **Include entire email as .eml**. This preserves the sender, subject, and body along with the attachments.
+  </Step>
+  <Step title="Set the details">
+    Before uploading you can set a **note**, a **category**, an **expense report**, and a **vendor**, and mark it as a **company expense** if the business paid.
+
+    Expense reports and vendors can be created here without leaving Outlook.
+  </Step>
+  <Step title="Upload">
+    Select **Upload**. The files are sent and queued for reading, and the expenses appear in Smartbills shortly afterwards.
+  </Step>
+</Steps>
+
+### Several emails at once
+
+Selecting multiple emails in Outlook uploads all of them together, each as a `.eml` file. The pane confirms with "All selected emails will be uploaded as .eml files".
+
+### Already uploaded
+
+If an email was uploaded before, the pane says so and offers **View in Smartbills** or **Upload again anyway**, so you can check rather than creating a duplicate.
+
+## Upload files from your computer
+
+Switch to **Upload files** and drag files into the pane or browse for them. The same note, category, expense report, vendor, and company expense options apply.
+
+## File requirements
+
+| | |
+|---|---|
+| **Formats** | PNG, JPG, WebP, HEIC, PDF, EML, MSG |
+| **Maximum size** | 50 MB per file |
+| **File names** | Up to 255 characters |
+
+<Note>
+  The add-in accepts HEIC and WebP and allows files up to 50 MB. The web app is stricter, at 5 MB and no HEIC. If a file is rejected in the browser, uploading it through Outlook may work.
+</Note>
+
+## Settings
+
+The pane has two settings:
+
+| Setting | What it does |
+|---------|-------------|
+| **Language** | English or French |
+| **Microsoft Account** | Connect or disconnect the account Smartbills uses to read email content |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The add-in does not appear">
+    It is deployed centrally, so check with your IT administrator that it has been assigned to you. Confirm your Outlook build supports Mailbox API 1.15, then restart Outlook.
+  </Accordion>
+
+  <Accordion title="Attachments cannot be uploaded">
+    This is almost always the Microsoft account connection. Open **Settings** in the pane and connect it. Uploading files from your computer will keep working meanwhile.
+  </Accordion>
+
+  <Accordion title="Uploads land in the wrong business">
+    The pane holds its own business selection. Change it at the top of the pane.
+  </Accordion>
+
+  <Accordion title="A file is rejected">
+    Check it against the limits above. The pane names the file and the reason, either an unsupported format, a size above 50 MB, or a file name over 255 characters.
+  </Accordion>
+
+  <Accordion title="Session expired">
+    Sign in again from the pane. Your Smartbills session is separate from your Outlook session and expires independently.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Add an expense" icon="upload" href="/guides/web-app/expenses/upload-expense">
+    Upload methods in the web app
+  </Card>
+  <Card title="Email forwarding" icon="envelope" href="/guides/web-app/expenses/receipt-forwarding">
+    Forward receipts without the add-in
+  </Card>
+  <Card title="AP inboxes" icon="inbox" href="/guides/web-app/bills/ap-inboxes">
+    Let vendors email invoices directly
+  </Card>
+  <Card title="Mobile app" icon="mobile" href="/guides/mobile/overview">
+    Capture receipts on your phone
+  </Card>
+</CardGroup>

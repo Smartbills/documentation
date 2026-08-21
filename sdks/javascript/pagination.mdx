@@ -1,0 +1,184 @@
+---
+title: "Pagination"
+description: "Work with paginated API responses using SBListResponse in the Smartbills JavaScript SDK."
+---
+
+## Pagination
+
+All list endpoints in the Smartbills API return paginated results. The SDK provides a consistent `SBListResponse<T>` wrapper that includes both the data and pagination metadata.
+
+## Response structure
+
+```typescript
+interface SBListResponse<T> {
+  data: T[];                // Array of items on the current page
+  pagination: SBPagination; // Pagination metadata
+}
+
+interface SBPagination {
+  count: number;                       // Total number of items across all pages
+  limit: number;                       // Number of items per page
+  currentPage: number;                 // Current page number (1-based)
+  pageCount: number;                   // Total number of pages
+  filters?: Record<string, unknown>;   // Applied filters
+  sorts?: Record<string, string>;      // Applied sort criteria
+}
+```
+
+## Basic usage
+
+```typescript
+const response = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+});
+
+console.log(`Items: ${response.data.length}`);
+console.log(`Total: ${response.pagination.count}`);
+console.log(`Page: ${response.pagination.currentPage} of ${response.pagination.pageCount}`);
+```
+
+## Pagination parameters
+
+All list methods accept the following pagination parameters:
+
+```typescript
+interface PaginationRequest {
+  page?: number;                    // Page number (1-based, default: 1)
+  limit?: number;                   // Items per page (default varies by endpoint)
+  sortBy?: string;                  // Field to sort by
+  sortDirection?: 'asc' | 'desc';  // Sort order
+}
+```
+
+### Example with sorting
+
+```typescript
+const { data: expenses } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 50,
+  sortBy: 'createdAt',
+  sortDirection: 'desc',
+});
+```
+
+## Iterating through all pages
+
+### Manual pagination
+
+```typescript
+async function getAllExpenses() {
+  const allExpenses = [];
+  let currentPage = 1;
+  let hasMore = true;
+
+  while (hasMore) {
+    const { data, pagination } = await client.expenses.listBusiness({
+      page: currentPage,
+      limit: 100,
+    });
+
+    allExpenses.push(...data);
+    hasMore = currentPage < pagination.pageCount;
+    currentPage++;
+  }
+
+  return allExpenses;
+}
+```
+
+### Generic paginated iterator
+
+Create a reusable helper for fetching all pages:
+
+```typescript
+async function fetchAllPages<T>(
+  fetcher: (params: { page: number; limit: number }) => Promise<SBListResponse<T>>,
+  limit = 100
+): Promise<T[]> {
+  const allItems: T[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const response = await fetcher({ page, limit });
+    allItems.push(...response.data);
+    totalPages = response.pagination.pageCount;
+    page++;
+  } while (page <= totalPages);
+
+  return allItems;
+}
+
+// Usage
+const allExpenses = await fetchAllPages(
+  (params) => client.expenses.listBusiness(params)
+);
+
+const allVendors = await fetchAllPages(
+  (params) => client.vendors.listBusiness(params)
+);
+```
+
+### Async generator pattern
+
+For memory-efficient processing of large datasets:
+
+```typescript
+async function* paginateExpenses(
+  params?: Partial<ExpenseListRequest>
+) {
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const response = await client.expenses.listBusiness({
+      ...params,
+      page,
+      limit: params?.limit ?? 100,
+    });
+
+    for (const expense of response.data) {
+      yield expense;
+    }
+
+    totalPages = response.pagination.pageCount;
+    page++;
+  } while (page <= totalPages);
+}
+
+// Process expenses one at a time without loading all into memory
+for await (const expense of paginateExpenses({ sortBy: 'amount' })) {
+  console.log(expense.id, expense.amount);
+}
+```
+
+## Checking for more pages
+
+```typescript
+const { pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 20,
+});
+
+const hasNextPage = pagination.currentPage < pagination.pageCount;
+const hasPreviousPage = pagination.currentPage > 1;
+
+console.log(`Has next: ${hasNextPage}`);
+console.log(`Has previous: ${hasPreviousPage}`);
+```
+
+## Pagination with filters
+
+Filters and pagination work together. The pagination metadata reflects the filtered result set:
+
+```typescript
+const { data, pagination } = await client.expenses.listBusiness({
+  page: 1,
+  limit: 25,
+  // Additional filters depend on the endpoint
+});
+
+// pagination.count reflects the total matching the filter, not the overall total
+console.log(`Matched ${pagination.count} expenses`);
+```

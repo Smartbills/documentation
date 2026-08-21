@@ -1,0 +1,76 @@
+---
+title: "Procesamiento y subidas fallidas"
+description: "Siga los recibos que se están leyendo y reintente los que fallan"
+---
+
+## Resumen
+
+La lectura de un recibo ocurre después de la subida, no durante. Entre ambas, el gasto está en la pestaña **Processing**, donde puede seguir su avance y actuar sobre lo que salga mal.
+
+Ahí es donde están los recibos que parecen haber desaparecido tras subirlos.
+
+## La pestaña Processing
+
+Abra **Expenses** o **Business Expenses** y seleccione **Processing**. Cada fila es una subida, con el archivo, cuándo se envió y su estado.
+
+| Estado | Significado |
+|--------|-------------|
+| **En cola** | Subido, esperando lectura |
+| **Procesando** | Se está leyendo |
+| **Completado** | Leído correctamente. El gasto ya está en su lista |
+| **Fallido** | No se pudo leer. La subida se conserva para reintentarla |
+
+Las filas completadas desaparecen cuando el gasto se crea. Las fallidas permanecen hasta que las trate, así que nada se pierde en silencio.
+
+## Reintentar una subida fallida
+
+Pulse **Retry** en la fila. Se reprocesa el archivo original, así que no tiene que buscarlo ni volver a subirlo.
+
+Reintentar es lo correcto ante un fallo puntual. Si un archivo falla repetidamente, el problema suele ser el documento.
+
+<AccordionGroup>
+  <Accordion title="No se pudo leer el documento" icon="file-circle-exclamation">
+    Fotos borrosas, reflejos fuertes, bordes cortados o resolución baja impiden la extracción. Vuelva a fotografiar el recibo en plano, con luz uniforme, y con el comercio y el total visibles.
+  </Accordion>
+
+  <Accordion title="El archivo no es un recibo" icon="file-circle-question">
+    Extractos, contratos y correspondencia no tienen estructura de recibo que extraer. Cree el gasto manualmente y adjunte el documento.
+  </Accordion>
+
+  <Accordion title="Un PDF protegido con contraseña" icon="lock">
+    Los PDF cifrados no se pueden abrir para leerlos. Quite la contraseña y vuelva a subirlo.
+  </Accordion>
+</AccordionGroup>
+
+## Eliminar una subida
+
+Las subidas fallidas que no piense corregir se pueden eliminar desde la fila. Esto quita la tarea y su archivo, sin afectar a los gastos ya creados.
+
+## Recuperar los archivos originales
+
+**Batch download** recupera los archivos de origen de una selección en un solo archivo comprimido. Es útil cuando necesita los documentos originales para una auditoría y no los datos extraídos.
+
+## En el móvil
+
+La cabecera de la pestaña de gastos muestra un indicador con el número de subidas en curso. Al tocarlo se abre la misma vista, así que un recibo capturado con el teléfono se puede seguir desde ahí.
+
+## Cuando no aparece nada
+
+Si una subida nunca llega a Processing, es que no empezó. Causas habituales:
+
+- El archivo superaba 5 MB o su formato no está admitido. Los rechazos se avisan en la ventana de subida, antes de procesar.
+- Su cuota mensual de recibos está agotada. Revise **Ajustes > Espacio de trabajo > Uso**.
+- La empresa tiene un pago de suscripción pendiente, lo que bloquea las subidas.
+
+Consulte [Añadir un gasto](/es/guides/web-app/expenses/upload-expense) para los requisitos completos.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Añadir un gasto" icon="upload" href="/es/guides/web-app/expenses/upload-expense">
+    Requisitos y métodos de subida
+  </Card>
+  <Card title="Empresa o personal" icon="building" href="/es/guides/web-app/expenses/business-vs-personal">
+    Qué cambia según quién pagó
+  </Card>
+</CardGroup>

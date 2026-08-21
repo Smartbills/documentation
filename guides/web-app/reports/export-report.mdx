@@ -1,0 +1,103 @@
+---
+title: "Export a Report"
+description: "Export expense reports as CSV or PDF for accounting"
+---
+
+## Introduction
+
+Exporting expense reports lets you download report data for your accounting software, for your own records, or for sharing with external stakeholders. Smartbills supports multiple export formats, each suited to a different use case.
+
+## Export a Single Report
+
+<Steps>
+  <Step title="Open the Report">
+    Navigate to **My Expense Reports** in the sidebar and click on the report you want to export. You can export reports in any status (Draft, Submitted, Approved, Reimbursed).
+  </Step>
+  <Step title="Click Export">
+    Click the **Export** button in the top-right corner of the report detail page.
+
+  </Step>
+  <Step title="Choose Your Format">
+    Select the export format that matches your needs:
+
+    - **PDF**: A formatted document that includes all expense details and receipt images. Ideal for records, audits, and sharing with approvers or external parties.
+    - **CSV**: A comma-separated values file containing expense data in tabular format. Best for importing into accounting software like QuickBooks, Xero, or Sage.
+    - **Excel**: A formatted spreadsheet with column headers, data types, and totals. Useful for further analysis or custom reporting.
+  </Step>
+  <Step title="Download the File">
+    The file is generated and downloaded to your computer. Depending on the format, the file includes:
+
+    | Format | Includes |
+    |--------|----------|
+    | **PDF** | Report summary, expense table, and receipt images |
+    | **CSV** | Expense rows with columns for date, merchant, amount, category, department, and status |
+    | **Excel** | Same data as CSV with formatting, headers, and a totals row |
+  </Step>
+</Steps>
+
+## Export from the Reports List
+
+You can also export directly from the reports list view without opening a specific report:
+
+1. Navigate to **My Expense Reports**
+2. Find the report you want to export in the list
+3. Click the **three-dot menu** (actions menu) on the right side of the report row
+4. Select **Export** and choose your format
+
+## Export Format Details
+
+### PDF Export
+
+The PDF export produces a complete document that includes:
+
+- Report title, business purpose, and date range
+- Employee name and submission date
+- A table of all expenses with amounts, categories, and dates
+- Attached receipt images appended as pages
+- Report totals and currency breakdown
+
+This format is ideal for archiving, audit trails, and sharing with stakeholders who do not use Smartbills.
+
+### CSV Export
+
+The CSV file contains one row per expense with the following columns:
+
+| Column | Description |
+|--------|-------------|
+| Date | Transaction date |
+| Merchant | Vendor name |
+| Amount | Expense total |
+| Tax | Tax amount |
+| Currency | Transaction currency |
+| Category | Expense category |
+| Department | Assigned department |
+| Description | Notes or business purpose |
+| Status | Expense status |
+
+CSV files can be imported directly into most accounting and ERP systems.
+
+### Excel Export
+
+The Excel export contains the same data as the CSV but includes:
+
+- Formatted column headers
+- Proper data types (dates, currency)
+- A totals row at the bottom
+- Separate sheets for summary and line items (when applicable)
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Expense Reports Overview" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Understand the full report lifecycle
+  </Card>
+  <Card title="Submit a Report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Submit your report for approval
+  </Card>
+  <Card title="Manage Expenses" icon="list-check" href="/guides/web-app/business-expenses/manage-expenses">
+    Export company-wide expenses from the inbox
+  </Card>
+  <Card title="Vault" icon="box-archive" href="/guides/concepts/vault">
+    Learn about automatic archiving of approved reports
+  </Card>
+</CardGroup>

@@ -1,0 +1,286 @@
+---
+title: 'Going into Production'
+description: 'Learn how to go into production with Smartbills, including verification steps, integration testing, and API key management'
+---
+
+## Going into Production
+
+Smartbills has designed its production and test modes so that they operate in a substantially similar manner. Changing mode therefore mainly comes down to your access point to the URL.
+
+If you are a developer, or a developer is creating an integration for you, follow the tips below before going live.
+
+## Request Access
+
+Before you launch into production, your client must be authorized with our team.
+
+<Info>
+  Production access is disabled by default. When you are ready to go into production, please contact us at support@smartbills.io.
+</Info>
+
+## Pre-Launch Checklist
+
+<AccordionGroup>
+  <Accordion title="1. Complete Integration Testing" icon="check">
+    Be vigilant and test your integration with:
+    
+    - **Incomplete data** - Test with missing optional fields
+    - **Invalid data** - Test with incorrect formats and types
+    - **Duplicate data** - Try the same query multiple times to see what happens
+    - **Edge cases** - Test boundary conditions and unusual scenarios
+    
+    We also advise you to have your integration tested by a third party, particularly if that third party is not a developer themselves.
+  </Accordion>
+
+  <Accordion title="2. Implement Robust Error Handling" icon="shield">
+    It's always a shame to discover in production mode that your code was not written to support all possible types of errors, including those that should "never" occur.
+    
+    Make sure your code is defensive and handles all possible errors, not just the most common ones.
+    
+    When testing your error handling process, pay close attention to the information that is returned to the user.
+    
+    ```javascript
+    try {
+      const response = await fetch('https://api.smartbills.io/v1/expenses', {
+        headers: { 'Authorization': `Bearer ${API_KEY}` }
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        // Handle different error types
+        switch (error.error.code) {
+          case 'UNAUTHORIZED':
+            // Refresh token or re-authenticate
+            break;
+          case 'RATE_LIMIT_EXCEEDED':
+            // Implement backoff strategy
+            break;
+          default:
+            // Log and alert for unexpected errors
+            console.error('Unexpected error:', error);
+        }
+      }
+    } catch (error) {
+      // Handle network errors
+      console.error('Network error:', error);
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="3. Set Up Logging" icon="file-lines">
+    Smartbills saves all requests sent with your API keys, which can then be viewed in the Dashboard.
+    
+    We advise you to also back up all important data on your side, even if this may seem redundant. Your logs will save the day if your server can't connect to Smartbills or if there is a problem with your API keys.
+    
+    **Best Practices:**
+    - Log all API requests and responses
+    - Include timestamps and request IDs
+    - Monitor error rates and response times
+    - Set up alerts for unusual patterns
+    
+    **Security:**
+    - Regularly check that your logs only store the information you need
+    - Do not store any confidential information (e.g., credit card information or personally identifiable information)
+    - Implement log rotation and retention policies
+  </Accordion>
+
+  <Accordion title="4. Verify Webhook Configuration" icon="webhook">
+    Your Smartbills account can have both test and production webhook endpoints.
+    
+    If you use webhooks, make sure you have:
+    - Defined production endpoints in your Smartbills account
+    - Confirmed that the production endpoint works exactly like your test endpoint
+    - Implemented webhook signature verification
+    - Set up proper error handling and retry logic
+  </Accordion>
+
+  <Accordion title="5. Secure Your API Keys" icon="key">
+    As a security measure, we advise you to:
+    
+    - Change your API keys regularly
+    - Change keys just before switching to production mode
+    - Ensure keys are not represented or stored in multiple places
+    - Remove keys from version control software
+    - Use environment variables for key storage
+    - Implement key rotation procedures
+    
+    ```bash
+    # Good: Use environment variables
+    SMARTBILLS_API_KEY=your_production_key
+    
+    # Bad: Hardcoded in source code
+    const API_KEY = 'sk_live_1234567890';
+    ```
+  </Accordion>
+
+  <Accordion title="6. Understand Data Separation" icon="database">
+    Smartbills objects created in test mode (for example, receipts, customers, and products) cannot be used in production mode.
+    
+    This prevents your test data from being accidentally used in your production code.
+    
+    **Important:**
+    - Test and production data are completely isolated
+    - User accounts are separate between environments
+    - Webhooks are sent to different endpoints
+    - API keys only work in their respective environment
+  </Accordion>
+</AccordionGroup>
+
+## Production Readiness Checklist
+
+Before requesting production access, ensure you have completed the following:
+
+- [ ] Tested all API endpoints in pre-production
+- [ ] Implemented comprehensive error handling
+- [ ] Set up logging and monitoring
+- [ ] Configured production webhook endpoints
+- [ ] Secured and rotated API keys
+- [ ] Tested with various data scenarios (valid, invalid, incomplete)
+- [ ] Implemented rate limit handling
+- [ ] Set up alerts for errors and anomalies
+- [ ] Documented your integration
+- [ ] Trained your team on the integration
+
+## Requesting Production Access
+
+Once you've completed the checklist above:
+
+1. **Email our team** at support@smartbills.io with:
+   - Your company name and contact information
+   - A brief description of your integration
+   - Expected API usage volume
+   - Go-live date (if known)
+
+2. **Provide integration details:**
+   - Which API endpoints you're using
+   - Whether you're using webhooks
+   - Any special requirements or use cases
+
+3. **Wait for approval:**
+   - Our team will review your request
+   - We may ask for additional information
+   - Once approved, your production API keys will be activated
+
+4. **Test in production:**
+   - Start with a small subset of users
+   - Monitor closely for any issues
+   - Gradually roll out to all users
+
+## Post-Launch Monitoring
+
+After going live, continue to monitor your integration:
+
+<CardGroup cols={2}>
+  <Card title="Monitor API Usage" icon="chart-line">
+    Track your API request volume, response times, and error rates
+  </Card>
+  <Card title="Review Logs Regularly" icon="magnifying-glass">
+    Check logs for errors, warnings, and unusual patterns
+  </Card>
+  <Card title="Set Up Alerts" icon="bell">
+    Configure alerts for high error rates or API downtime
+  </Card>
+  <Card title="Stay Updated" icon="newspaper">
+    Subscribe to our developer newsletter for updates and changes
+  </Card>
+</CardGroup>
+
+## Support
+
+If you encounter any issues during your production launch:
+
+- **Email:** support@smartbills.io
+- **Developer Portal:** https://developers.smartbills.io
+- **Status Page:** https://status.smartbills.io
+
+## Best Practices for Production
+
+<AccordionGroup>
+  <Accordion title="Implement Retry Logic" icon="rotate">
+    Network issues and temporary failures can occur. Implement exponential backoff for retries.
+    
+    ```javascript
+    async function fetchWithRetry(url, options, maxRetries = 3) {
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          const response = await fetch(url, options);
+          if (response.ok) return response;
+          
+          if (response.status === 429) {
+            // Rate limited - wait before retry
+            const retryAfter = response.headers.get('Retry-After') || 60;
+            await new Promise(resolve => setTimeout(resolve, retryAfter * 1000));
+            continue;
+          }
+          
+          if (response.status >= 500) {
+            // Server error - exponential backoff
+            await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+            continue;
+          }
+          
+          // Client error - don't retry
+          return response;
+        } catch (error) {
+          if (i === maxRetries - 1) throw error;
+          await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+        }
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Cache Appropriately" icon="database">
+    Cache responses when appropriate to reduce API calls and improve performance.
+    
+    - Cache reference data (categories, tax rates)
+    - Respect cache headers
+    - Implement cache invalidation strategies
+  </Accordion>
+
+  <Accordion title="Monitor Performance" icon="gauge">
+    Track key metrics:
+    
+    - API response times
+    - Error rates by endpoint
+    - Success rates
+    - Rate limit usage
+    - Webhook delivery success
+  </Accordion>
+
+  <Accordion title="Plan for Scaling" icon="arrow-up-right-dots">
+    As your usage grows:
+    
+    - Contact us about rate limit increases
+    - Implement request queuing
+    - Consider batch operations
+    - Optimize your API usage patterns
+  </Accordion>
+</AccordionGroup>
+
+## Common Production Issues
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| 401 Unauthorized | Using test API keys in production | Use production API keys |
+| 429 Rate Limited | Too many requests | Implement rate limiting and backoff |
+| Webhooks not received | Wrong endpoint URL | Verify production webhook URL |
+| Data not found | Looking for test data in production | Recreate data in production environment |
+| Slow response times | Not using pagination | Implement proper pagination |
+
+## Rollback Plan
+
+Have a rollback plan in case issues arise:
+
+1. **Identify the issue** - Use logs and monitoring to diagnose
+2. **Assess impact** - Determine how many users are affected
+3. **Decide on action** - Fix forward or rollback
+4. **Execute rollback** - Revert to previous stable version if needed
+5. **Communicate** - Inform affected users and stakeholders
+6. **Post-mortem** - Analyze what went wrong and how to prevent it
+
+## Conclusion
+
+Going into production is an exciting milestone. By following this guide and our best practices, you'll ensure a smooth launch and reliable operation of your Smartbills integration.
+
+If you have any questions or need assistance, don't hesitate to reach out to our support team at support@smartbills.io.
+

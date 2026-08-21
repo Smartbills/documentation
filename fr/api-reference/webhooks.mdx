@@ -1,0 +1,428 @@
+---
+title: "Webhooks"
+description: "Recevez des notifications en temps réel lorsque des événements se produisent dans votre compte Smartbills"
+---
+
+## Aperçu
+
+Les webhooks vous permettent de recevoir des notifications HTTP lorsque des événements spécifiques se produisent dans votre compte Smartbills. Au lieu d'interroger l'API pour des changements, Smartbills envoie des notifications à votre serveur en temps réel.
+
+<Note>
+  **Mises à jour en temps réel** : Les webhooks sont livres dans les secondes suivant l'événement, ce qui les rend ideaux pour l'automatisation et les intégrations.
+</Note>
+
+## Fonctionnement des webhooks
+
+<Steps>
+  <Step title="Un événement se produit">
+    Une action se produit dans Smartbills (ex. : dépense créée, rapport approuvé)
+  </Step>
+  
+  <Step title="Webhook declenche">
+    Smartbills prepare une charge utile de webhook avec les détails de l'événement
+  </Step>
+  
+  <Step title="Envoi HTTP POST">
+    Smartbills envoie une requête HTTP POST à votre point d'accès configure
+  </Step>
+  
+  <Step title="Votre serveur repond">
+    Votre serveur traite le webhook et retourné une réponse 200 OK
+  </Step>
+</Steps>
+
+## Configuration des webhooks
+
+### Enregistrer votre webhook
+
+Enregistrez votre point d'accès avec Smartbills via l'API :
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/webhooks \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 123' \
+  --data '{
+    "url": "https://votre-domaine.com/webhooks/smartbills",
+    "events": ["expense.created", "expense_report.approved"],
+    "description": "Point d accès webhook de production"
+  }'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+const webhook = await client.webhooks.create({
+  url: 'https://votre-domaine.com/webhooks/smartbills',
+  events: ['expense.created', 'expense_report.approved'],
+  description: 'Point d accès webhook de production'
+});
+
+console.log('ID du webhook :', webhook.id);
+console.log('Secret du webhook :', webhook.secret);
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
+
+webhook = client.webhooks.create(
+    url="https://votre-domaine.com/webhooks/smartbills",
+    events=["expense.created", "expense_report.approved"],
+    description="Point d accès webhook de production"
+)
+
+print(f"ID du webhook : {webhook.id}")
+print(f"Secret du webhook : {webhook.secret}")
+```
+
+</CodeGroup>
+
+### Réponse
+
+```json
+{
+  "id": "wh_1234567890",
+  "url": "https://votre-domaine.com/webhooks/smartbills",
+  "events": ["expense.created", "expense_report.approved"],
+  "description": "Point d accès webhook de production",
+  "secret": "whsec_abcdef123456",
+  "status": "active",
+  "createdAt": "2025-01-15T10:30:00Z"
+}
+```
+
+<Warning>
+  **Sauvegardez le secret** : Le secret du webhook n'est affiché qu'une seule fois. Stockez-le en sécurité, vous en avez besoin pour vérifier les signatures des webhooks.
+</Warning>
+
+## Événements disponibles
+
+### Événements de dépenses
+
+| Événement | Description |
+|-----------|-------------|
+| `expense.created` | Une nouvelle dépense à été téléchargée ou créée |
+| `expense.updated` | Une dépense existante à été modifiée |
+| `expense.deleted` | Une dépense à été supprimee |
+| `expense.categorized` | La catégorie d'une dépense à été changee |
+
+### Événements de rapports de dépenses
+
+| Événement | Description |
+|-----------|-------------|
+| `expense_report.submitted` | Un rapport à été soumis pour approbation |
+| `expense_report.approved` | Un rapport à été approuvé par un gestionnaire |
+| `expense_report.rejected` | Un rapport à été rejeté par un approbateur |
+| `expense_report.recalled` | Un rapport à été rappelé par le soumetteur |
+| `expense_report.comment_added` | Un commentaire à été ajoute à un rapport |
+
+### Événements de factures
+
+| Événement | Description |
+|-----------|-------------|
+| `bill.created` | Une nouvelle facture à été créée |
+| `bill.updated` | Une facture existante à été modifiée |
+| `bill.paid` | Une facture à été marquee comme payee |
+
+### Événements d'entreprise
+
+| Événement | Description |
+|-----------|-------------|
+| `business.updated` | Les paramètres de l'entreprise ont été modifies |
+| `business.user_added` | Un utilisateur à été invite à une entreprise |
+| `business.user_removed` | Un utilisateur à été retire d'une entreprise |
+
+## Structure de la charge utile
+
+Tous les webhooks suivent cette structure :
+
+```json
+{
+  "id": "evt_1234567890",
+  "type": "expense.created",
+  "createdAt": "2025-01-15T10:30:00Z",
+  "data": {
+    "expense": {
+      "id": 12345,
+      "amount": 49.99,
+      "currency": "CAD",
+      "merchant": "Bureau en Gros",
+      "date": "2025-01-15",
+      "category": "Fournitures de bureau",
+      "status": "pending"
+    }
+  },
+  "metadata": {
+    "businessId": 123,
+    "userId": 500
+  }
+}
+```
+
+### Champs de la charge utile
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| `id` | string | Identifiant unique de l'événement |
+| `type` | string | Type d'événement (ex. : `expense.created`) |
+| `createdAt` | string | Horodatage ISO 8601 de l'événement |
+| `data` | object | Données spécifiques à l'événement |
+| `metadata` | object | Contexte d'entreprise et d'utilisateur |
+
+## Sécurité des webhooks
+
+### Vérifier les signatures
+
+Vérifiez toujours les signatures des webhooks pour vous assurer que les requêtes proviennent de Smartbills. Smartbills signe chaque charge utile avec HMAC-SHA256 en utilisant votre secret de webhook :
+
+<CodeGroup>
+
+```javascript JavaScript
+const crypto = require('crypto');
+
+function verifyWebhookSignature(payload, signature, secret) {
+  const hmac = crypto.createHmac('sha256', secret);
+  const digest = hmac.update(JSON.stringify(payload)).digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(digest)
+  );
+}
+
+// Dans votre gestionnaire de webhook :
+app.post('/webhooks/smartbills', express.json(), (req, res) => {
+  const signature = req.headers['x-smartbills-signature'];
+
+  if (!verifyWebhookSignature(req.body, signature, process.env.WEBHOOK_SECRET)) {
+    return res.status(401).send('Signature invalide');
+  }
+
+  const event = req.body;
+  console.log('Événement reçu :', event.type);
+
+  res.status(200).send('OK');
+});
+```
+
+```python Python
+import hmac
+import hashlib
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+def verify_webhook_signature(payload, signature, secret):
+    computed = hmac.new(
+        secret.encode(),
+        payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(computed, signature)
+
+@app.route('/webhooks/smartbills', methods=['POST'])
+def handle_webhook():
+    signature = request.headers.get('X-Smartbills-Signature')
+
+    if not verify_webhook_signature(
+        request.data.décodé(),
+        signature,
+        os.environ['WEBHOOK_SECRET']
+    ):
+        return jsonify({'error': 'Signature invalide'}), 401
+
+    event = request.json
+    print(f"Événement reçu : {event['type']}")
+
+    return jsonify({'status': 'succèss'}), 200
+```
+
+</CodeGroup>
+
+## Politique de réessai
+
+Smartbills retente automatiquement les livraisons de webhooks échouées :
+
+| Tentative | Délai |
+|-----------|-------|
+| 1ere tentative | 1 minute |
+| 2e tentative | 5 minutes |
+| 3e tentative | 15 minutes |
+| 4e tentative | 1 heure |
+| 5e tentative | 6 heures |
+| Dernière tentative | 24 heures |
+
+**Conditions de réessai :**
+- Code de statut HTTP >= 500
+- Délai d'expiration de connexion
+- Connexion refusee
+- Échec de resolution DNS
+
+**Pas de réessai pour :**
+- Code de statut HTTP < 500 (y compris les erreurs 4xx)
+- Certificat SSL invalide
+
+<Warning>
+  **Retournez 200 OK** : Retournez toujours un code de statut 200 lorsque vous recevez le webhook avec succès, même si le traitement échoué. Gérez les erreurs de traitement en interne pour eviter les réessais inutiles.
+</Warning>
+
+## Gérer les webhooks
+
+### Lister les webhooks
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url https://api.smartbills.io/v1/webhooks \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+const webhooks = await client.webhooks.list();
+```
+
+```python Python
+webhooks = client.webhooks.list()
+```
+
+</CodeGroup>
+
+### Mettre à jour un webhook
+
+<CodeGroup>
+
+```bash cURL
+curl --request PATCH \
+  --url https://api.smartbills.io/v1/webhooks/wh_1234567890 \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 123' \
+  --data '{
+    "events": ["expense.created", "expense.updated", "expense_report.approved"]
+  }'
+```
+
+```javascript JavaScript
+await client.webhooks.update('wh_1234567890', {
+  events: ['expense.created', 'expense.updated', 'expense_report.approved']
+});
+```
+
+```python Python
+client.webhooks.update("wh_1234567890",
+    events=["expense.created", "expense.updated", "expense_report.approved"]
+)
+```
+
+</CodeGroup>
+
+### Supprimer un webhook
+
+<CodeGroup>
+
+```bash cURL
+curl --request DELETE \
+  --url https://api.smartbills.io/v1/webhooks/wh_1234567890 \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+await client.webhooks.delete('wh_1234567890');
+```
+
+```python Python
+client.webhooks.delete("wh_1234567890")
+```
+
+</CodeGroup>
+
+### Tester un webhook
+
+Envoyez un événement de test pour vérifier que votre point d'accès fonctionne :
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/webhooks/wh_1234567890/test \
+  --header 'Authorization: Bearer VOTRE_CLE_API' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+await client.webhooks.test('wh_1234567890');
+```
+
+```python Python
+client.webhooks.test("wh_1234567890")
+```
+
+</CodeGroup>
+
+## Bonnes pratiques
+
+<AccordionGroup>
+  <Accordion title="Repondre rapidement" icon="bolt">
+    Retournez une réponse 200 OK dans les 5 secondes. Accusez réception immédiatement et traitez l'événement de manière asynchrone avec une file d'attente de travaux.
+  </Accordion>
+
+  <Accordion title="Gérer l'idempotence" icon="repeat">
+    Les webhooks peuvent être livres plus d'une fois. Stockez les ID d'événements et vériﬁez les doublons avant le traitement.
+  </Accordion>
+
+  <Accordion title="Vérifier les signatures" icon="shield">
+    Vérifiez toujours l'en-tête `x-smartbills-signature` avant de traiter toute charge utile de webhook.
+  </Accordion>
+
+  <Accordion title="Utiliser HTTPS" icon="lock">
+    Votre point d'accès webhook doit utiliser HTTPS en production pour protéger la charge utile en transit.
+  </Accordion>
+
+  <Accordion title="Tout journaliser" icon="file-lines">
+    Journalisez les chargés utiles entrantes, les résultats de vérification de signature et les résultats de traitement pour le débogage.
+  </Accordion>
+</AccordionGroup>
+
+## Tester les webhooks localement
+
+Utilisez des outils comme [ngrok](https://ngrok.com) pour tester les webhooks pendant le développement local :
+
+```bash
+# Démarrer votre serveur local
+node server.js  # En cours d'execution sur http://localhost:3000
+
+# Créer un tunnel
+ngrok http 3000
+# Redirection https://abc123.ngrok.io -> http://localhost:3000
+
+# Enregistrer l'URL ngrok comme point d'acces webhook
+```
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Clés API" icon="key" href="/fr/api-reference/api-keys">
+    Securiser vos points d'accès webhook
+  </Card>
+  <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
+    Gérer les erreurs de webhook
+  </Card>
+  <Card title="Limites de débit" icon="gauge" href="/fr/api-reference/rate-limits">
+    Limitation de débit de l'API
+  </Card>
+  <Card title="Environnements" icon="server" href="/fr/api-reference/environments">
+    Bac à sable et production
+  </Card>
+</CardGroup>

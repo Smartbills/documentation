@@ -1,0 +1,524 @@
+---
+title: 'Metadata'
+description: 'Learn how to use metadata to attach custom data to Smartbills objects'
+---
+
+## Metadata
+
+Updateable Smartbills objects—including Receipts, Customers, Products, and Merchants—have a `metadata` parameter. You can use this parameter to attach key-value data to these Smartbills objects.
+
+## Overview
+
+Metadata allows you to store additional, structured information on an object. This is useful for:
+
+- Linking Smartbills objects to your internal systems
+- Storing custom business logic data
+- Adding context that's specific to your application
+- Tracking additional information not covered by standard fields
+
+<Info>
+  Smartbills doesn't use metadata for any internal purposes—for example, we don't use it to authorize or decline operations, and it won't be seen by your users unless you choose to show it to them.
+</Info>
+
+<Warning>
+  Don't store any sensitive information (like passwords, API keys, or personal identification numbers) as metadata.
+</Warning>
+
+## Limitations
+
+- **Maximum keys:** 50 keys per object
+- **Key name length:** Up to 40 characters
+- **Value length:** Up to 500 characters
+- **Format:** Key-value pairs (both must be strings)
+
+## Supported Objects
+
+Metadata can be attached to the following object types:
+
+- Receipts
+- Customers
+- Products
+- Merchants
+- Locations
+- Employees
+- Expenses
+- Expense Reports
+
+## Adding Metadata
+
+You can add metadata when creating or updating an object:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Creating a receipt with metadata
+const response = await fetch('https://api.smartbills.io/v1/receipts', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    merchantId: 123,
+    total: { amount: 49.99, currency: 'USD' },
+    metadata: {
+      order_id: 'ORD-12345',
+      customer_segment: 'premium',
+      campaign_id: 'SUMMER2024',
+      internal_notes: 'VIP customer'
+    }
+  })
+});
+```
+
+```python Python
+import requests
+
+# Creating a customer with metadata
+response = requests.post(
+    'https://api.smartbills.io/v1/customers',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    json={
+        'email': 'customer@example.com',
+        'name': 'John Doe',
+        'metadata': {
+            'crm_id': 'CRM-98765',
+            'account_tier': 'gold',
+            'signup_source': 'mobile_app',
+            'referral_code': 'REF123'
+        }
+    }
+)
+```
+
+```csharp C#
+using System.Net.Http;
+using System.Text.Json;
+
+// Creating an expense with metadata
+var expense = new
+{
+    amount = 125.50,
+    currency = "USD",
+    merchant = "Office Supplies Inc",
+    metadata = new Dictionary<string, string>
+    {
+        { "project_id", "PROJ-456" },
+        { "department", "Marketing" },
+        { "cost_center", "CC-789" },
+        { "approval_required", "true" }
+    }
+};
+
+var content = new StringContent(
+    JsonSerializer.Serialize(expense),
+    Encoding.UTF8,
+    "application/json"
+);
+
+var response = await client.PostAsync(
+    "https://api.smartbills.io/v1/expenses",
+    content
+);
+```
+
+</CodeGroup>
+
+## Updating Metadata
+
+You can update metadata on existing objects:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Update metadata on existing receipt
+const response = await fetch('https://api.smartbills.io/v1/receipts/12345', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    metadata: {
+      order_id: 'ORD-12345',
+      status: 'processed',
+      processed_date: '2024-01-15'
+    }
+  })
+});
+```
+
+```python Python
+# Update metadata on existing customer
+response = requests.patch(
+    'https://api.smartbills.io/v1/customers/67890',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    json={
+        'metadata': {
+            'crm_id': 'CRM-98765',
+            'last_purchase': '2024-01-15',
+            'lifetime_value': '5000'
+        }
+    }
+)
+```
+
+```csharp C#
+// Update metadata on existing expense
+var update = new
+{
+    metadata = new Dictionary<string, string>
+    {
+        { "project_id", "PROJ-456" },
+        { "approved_by", "manager@company.com" },
+        { "approval_date", "2024-01-15" }
+    }
+};
+
+var content = new StringContent(
+    JsonSerializer.Serialize(update),
+    Encoding.UTF8,
+    "application/json"
+);
+
+var response = await client.PatchAsync(
+    "https://api.smartbills.io/v1/expenses/12345",
+    content
+);
+```
+
+</CodeGroup>
+
+<Note>
+  When updating metadata, the entire metadata object is replaced. Include all keys you want to keep, not just the ones you're changing.
+</Note>
+
+## Retrieving Metadata
+
+Metadata is included in the object response:
+
+```json
+{
+  "id": 12345,
+  "merchantId": 123,
+  "total": {
+    "amount": 49.99,
+    "currency": "USD"
+  },
+  "metadata": {
+    "order_id": "ORD-12345",
+    "customer_segment": "premium",
+    "campaign_id": "SUMMER2024",
+    "internal_notes": "VIP customer"
+  },
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+## Deleting Metadata
+
+To remove specific metadata keys, set them to `null`:
+
+<CodeGroup>
+
+```javascript JavaScript
+// Remove specific metadata keys
+const response = await fetch('https://api.smartbills.io/v1/receipts/12345', {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    metadata: {
+      order_id: 'ORD-12345',
+      campaign_id: null,  // This key will be removed
+      internal_notes: null  // This key will be removed
+    }
+  })
+});
+```
+
+```python Python
+# Remove specific metadata keys
+response = requests.patch(
+    'https://api.smartbills.io/v1/receipts/12345',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    json={
+        'metadata': {
+            'order_id': 'ORD-12345',
+            'campaign_id': None,  # This key will be removed
+            'internal_notes': None  # This key will be removed
+        }
+    }
+)
+```
+
+</CodeGroup>
+
+To remove all metadata, set the metadata field to an empty object:
+
+```javascript
+{
+  "metadata": {}
+}
+```
+
+## Sample Use Cases
+
+<AccordionGroup>
+  <Accordion title="Link Internal IDs" icon="link">
+    Attach your system's unique IDs to Smartbills objects to simplify lookups.
+    
+    ```json
+    {
+      "metadata": {
+        "internal_order_id": "ORD-12345",
+        "erp_transaction_id": "TXN-98765",
+        "accounting_reference": "ACC-456"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Track Business Context" icon="briefcase">
+    Store business-specific information for reporting and analytics.
+    
+    ```json
+    {
+      "metadata": {
+        "department": "Marketing",
+        "cost_center": "CC-789",
+        "project_code": "PROJ-2024-Q1",
+        "budget_category": "Advertising"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Customer Segmentation" icon="users">
+    Annotate customers with segmentation data.
+    
+    ```json
+    {
+      "metadata": {
+        "customer_tier": "gold",
+        "acquisition_channel": "mobile_app",
+        "referral_source": "friend",
+        "lifetime_value_segment": "high"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Workflow Tracking" icon="list-check">
+    Track approval workflows and processing status.
+    
+    ```json
+    {
+      "metadata": {
+        "approval_status": "pending",
+        "approver_id": "USER-123",
+        "submitted_date": "2024-01-15",
+        "workflow_step": "manager_review"
+      }
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Campaign Tracking" icon="bullhorn">
+    Associate receipts or transactions with marketing campaigns.
+    
+    ```json
+    {
+      "metadata": {
+        "campaign_id": "SUMMER2024",
+        "promo_code": "SAVE20",
+        "utm_source": "email",
+        "utm_campaign": "newsletter_jan"
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Filtering by Metadata
+
+You can filter list requests by metadata values:
+
+```bash
+GET /v1/receipts?metadata[order_id]=ORD-12345
+GET /v1/customers?metadata[customer_tier]=gold
+GET /v1/expenses?metadata[department]=Marketing
+```
+
+<CodeGroup>
+
+```javascript JavaScript
+// Filter receipts by metadata
+const params = new URLSearchParams({
+  'metadata[campaign_id]': 'SUMMER2024',
+  'metadata[customer_segment]': 'premium'
+});
+
+const response = await fetch(
+  `https://api.smartbills.io/v1/receipts?${params}`,
+  {
+    headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+  }
+);
+```
+
+```python Python
+# Filter customers by metadata
+params = {
+    'metadata[customer_tier]': 'gold',
+    'metadata[signup_source]': 'mobile_app'
+}
+
+response = requests.get(
+    'https://api.smartbills.io/v1/customers',
+    headers={'Authorization': 'Bearer YOUR_API_KEY'},
+    params=params
+)
+```
+
+</CodeGroup>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Consistent Naming" icon="code">
+    Use a consistent naming convention for metadata keys across your application.
+    
+    ```javascript
+    // Good: Consistent snake_case
+    {
+      "order_id": "ORD-123",
+      "customer_tier": "gold",
+      "cost_center": "CC-789"
+    }
+    
+    // Avoid: Mixed conventions
+    {
+      "orderId": "ORD-123",
+      "customer_tier": "gold",
+      "CostCenter": "CC-789"
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Document Your Metadata Schema" icon="book">
+    Maintain documentation of which metadata keys you use and their purposes.
+  </Accordion>
+
+  <Accordion title="Validate Metadata Values" icon="check">
+    Validate metadata values in your application before sending to the API.
+    
+    ```javascript
+    function validateMetadata(metadata) {
+      for (const [key, value] of Object.entries(metadata)) {
+        if (key.length > 40) {
+          throw new Error(`Key "${key}" exceeds 40 characters`);
+        }
+        if (value && value.length > 500) {
+          throw new Error(`Value for "${key}" exceeds 500 characters`);
+        }
+      }
+      return true;
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Don't Store Sensitive Data" icon="shield">
+    Never store sensitive information in metadata:
+    
+    - Passwords or API keys
+    - Credit card numbers
+    - Social security numbers
+    - Personal health information
+    - Any PII that requires encryption
+  </Accordion>
+
+  <Accordion title="Use Metadata for Filtering" icon="filter">
+    Design your metadata schema to support efficient filtering and querying.
+  </Accordion>
+</AccordionGroup>
+
+## Error Handling
+
+Common metadata-related errors:
+
+| Error Code | Description | Solution |
+|------------|-------------|----------|
+| `METADATA_KEY_TOO_LONG` | Key exceeds 40 characters | Use shorter key names |
+| `METADATA_VALUE_TOO_LONG` | Value exceeds 500 characters | Truncate or store elsewhere |
+| `METADATA_TOO_MANY_KEYS` | More than 50 keys | Remove unnecessary keys |
+| `INVALID_METADATA_FORMAT` | Invalid JSON format | Ensure proper JSON encoding |
+
+## Example: Complete Integration
+
+Here's a complete example showing how to use metadata in a real-world scenario:
+
+```javascript
+class ReceiptManager {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseUrl = 'https://api.smartbills.io/v1';
+  }
+  
+  async createReceiptWithMetadata(receiptData, internalData) {
+    // Validate metadata
+    const metadata = {
+      order_id: internalData.orderId,
+      customer_segment: internalData.customerTier,
+      campaign_id: internalData.campaignId,
+      store_location: internalData.storeCode,
+      sales_rep: internalData.salesRepId
+    };
+    
+    // Create receipt
+    const response = await fetch(`${this.baseUrl}/receipts`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        ...receiptData,
+        metadata
+      })
+    });
+    
+    return response.json();
+  }
+  
+  async findReceiptByOrderId(orderId) {
+    const params = new URLSearchParams({
+      'metadata[order_id]': orderId
+    });
+    
+    const response = await fetch(
+      `${this.baseUrl}/receipts?${params}`,
+      {
+        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+      }
+    );
+    
+    const data = await response.json();
+    return data.data[0]; // Return first match
+  }
+}
+```
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="API Reference" icon="book" href="/api-reference/introduction">
+    Complete API documentation
+  </Card>
+  <Card title="Best Practices" icon="lightbulb" href="/developer/best-practices">
+    Learn API best practices
+  </Card>
+</CardGroup>
+

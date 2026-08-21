@@ -1,0 +1,10 @@
+---
+title: "Webhooks"
+description: "Recevoir des notifications en temps réel des événements Smartbills"
+---
+
+Les webhooks permettent de recevoir des notifications HTTP lorsque des événements surviennent dans votre compte Smartbills. Plutôt que de faire du polling, Smartbills envoie des requêtes POST vers votre endpoint configuré en quelques secondes.
+
+Configurer un webhook : créez un endpoint sur votre serveur qui accepte les requêtes POST, vérifiez la signature avec l'en-tête `X-Smartbills-Signature`, traitez l'événement et renvoyez un statut 200 OK. Les échecs de livraison sont réessayés automatiquement selon une stratégie d'intervalles.
+
+Les types d'événements incluent notamment `expense.created`, `report.approved` et `report.submitted`. Consultez la documentation des webhooks pour la liste complète des événements et la vérification des signatures.

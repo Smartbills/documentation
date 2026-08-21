@@ -1,0 +1,218 @@
+---
+title: "Factures"
+description: "Référence complète du BillService dans le SDK JavaScript Smartbills, gérez le cycle de vie complet des comptes fournisseurs."
+---
+
+## Factures
+
+Le `BillService` (`client.bills`) gère les comptes fournisseurs. Les factures représentent les sommes dues aux fournisseurs et supportent un cycle de vie complet, de la création du brouillon jusqu'au paiement.
+
+## Cycle de vie des factures
+
+**Brouillon** -> **En attente d'approbation** -> **Approuvée** -> **Planifiee** -> **Payee**
+
+A tout moment, une facture peut être **Annulee** ou **Revertie en brouillon**.
+
+## Lister les factures
+
+```typescript
+const { data: bills, pagination } = await client.bills.list({
+  page: 1,
+  limit: 25,
+});
+
+// Filtrer par statut
+const { data: pendingBills } = await client.bills.list({
+  status: 'pending_approval',
+});
+
+// Factures personnelles
+const { data: myBills } = await client.bills.listPersonal({ limit: 10 });
+```
+
+## Obtenir une facture
+
+```typescript
+const bill = await client.bills.getById(billId);
+console.log(bill.vendorName, bill.totalAmount, bill.status);
+```
+
+## Créer des factures
+
+```typescript
+const bill = await client.bills.create({
+  vendorId: 42,
+  dueDate: '2025-04-30',
+  lineItems: [
+    { description: 'Services de consultation', amount: 5000.00 },
+    { description: 'Frais de déplacement', amount: 1200.00 },
+  ],
+});
+```
+
+### Création par lot
+
+```typescript
+const bills = await client.bills.batchCreate([
+  { vendorId: 42, dueDate: '2025-04-30', lineItems: [{ description: 'Facture #001', amount: 500 }] },
+  { vendorId: 43, dueDate: '2025-05-15', lineItems: [{ description: 'Facture #002', amount: 750 }] },
+]);
+```
+
+## Mettre à jour une facture
+
+```typescript
+const updated = await client.bills.update(billId, {
+  dueDate: '2025-05-15',
+  note: 'Conditions de paiement prolongees',
+});
+```
+
+## Supprimer une facture
+
+```typescript
+await client.bills.delete(billId);
+```
+
+## Transitions de statut
+
+### Soumettre pour approbation
+
+```typescript
+const result = await client.bills.submitForApproval(billId, {
+  comment: 'A vérifiér et approuver.',
+});
+```
+
+### Approuver
+
+```typescript
+const result = await client.bills.approve(billId, {
+  comment: 'Approuvee pour paiement.',
+});
+```
+
+### Planifier le paiement
+
+```typescript
+const result = await client.bills.schedulePayment(billId, {
+  scheduledDate: '2025-04-20',
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Marquer comme payee
+
+```typescript
+const result = await client.bills.markPaid(billId, {
+  paidDate: '2025-04-20',
+  paymentRéférence: 'TXN-12345',
+});
+```
+
+### Annuler
+
+```typescript
+const result = await client.bills.cancel(billId, {
+  reason: 'Facture en double',
+});
+```
+
+### Revertir en brouillon
+
+```typescript
+const result = await client.bills.revertToDraft(billId);
+```
+
+### Retenter un paiement échoué
+
+```typescript
+const result = await client.bills.retryPayment(billId);
+```
+
+## Inspection du statut
+
+### Résumé par statut
+
+```typescript
+const summary = await client.bills.getStatusSummary();
+console.log(`Brouillon : ${summary.draft}`);
+console.log(`En attente : ${summary.pendingApproval}`);
+console.log(`Payee : ${summary.paid}`);
+```
+
+### Transitions autorisées
+
+```typescript
+const transitions = await client.bills.getAllowedTransitions(billId);
+```
+
+### Historique d'approbation
+
+```typescript
+const history = await client.bills.getHistory(billId);
+for (const entry of history) {
+  console.log(`${entry.action} par ${entry.userId} à ${entry.timestamp}`);
+}
+```
+
+## Opérations sur fichiers
+
+```typescript
+// Télécharger des documents de facture
+const formData = new FormData();
+formData.append('files', pdfFacture);
+const results = await client.bills.upload(formData);
+
+// Exporter les factures
+const blob = await client.bills.export({ format: 'csv', status: 'paid' });
+
+// Télécharger les pieces jointes
+const zipBlob = await client.bills.downloadAttachments({ billIds: [1, 2, 3] });
+```
+
+## Opérations en masse
+
+```typescript
+// Approbation en masse
+const result = await client.bills.bulkApprove({
+  billIds: [1, 2, 3],
+  comment: 'Approuvees en lot.',
+});
+console.log(`Approuvees : ${result.succèded}, Échouées : ${result.failed}`);
+
+// Paiement en masse
+await client.bills.bulkMarkPaid({ billIds: [4, 5, 6] });
+
+// Planification en masse
+await client.bills.bulkSchedulePayment({
+  billIds: [7, 8, 9],
+  scheduledDate: '2025-05-01',
+});
+
+// Suppression en masse
+await client.bills.bulkDelete({ billIds: [14, 15] });
+
+// Rappels en masse
+await client.bills.bulkRemind({ billIds: [20, 21, 22] });
+```
+
+## Référence des méthodes
+
+| Méthode | Paramètres | Retour |
+|---------|-----------|--------|
+| `list` | `params?`, `options?` | `SBListResponse<SBBill>` |
+| `listPersonal` | `params?`, `options?` | `SBListResponse<SBBill>` |
+| `getById` | `billId`, `options?` | `SBBill` |
+| `create` | `data`, `options?` | `SBBill` |
+| `update` | `billId`, `data`, `options?` | `SBBill` |
+| `delete` | `billId`, `options?` | `void` |
+| `submitForApproval` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `approve` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `schedulePayment` | `billId`, `data`, `options?` | `SBBillTransitionResponse` |
+| `markPaid` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `cancel` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `revertToDraft` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `bulkApprove` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkMarkPaid` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkDelete` | `data`, `options?` | `SBBillBulkActionResponse` |

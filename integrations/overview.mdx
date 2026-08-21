@@ -1,0 +1,198 @@
+---
+title: "Integrations"
+description: "Connect Smartbills with your favorite tools and services to automate expense management"
+---
+
+## Integrations Marketplace
+
+Smartbills integrates with leading accounting, point of sale, communication, storage, payment, and automation platforms. Connect your existing tools to streamline expense tracking, automate data entry, and keep your financial data in sync across every system your business relies on.
+
+<CardGroup cols={3}>
+  <Card title="Accounting" icon="calculator">
+    Sync expenses and invoices with your accounting software
+  </Card>
+  <Card title="Point of Sale" icon="cash-register">
+    Import transactions and receipts from POS systems
+  </Card>
+  <Card title="Email & Productivity" icon="comments">
+    Submit expenses and receive notifications from Slack, Teams, and Outlook
+  </Card>
+  <Card title="Cloud Storage" icon="cloud">
+    Automatically back up receipts and documents
+  </Card>
+  <Card title="Payments" icon="credit-card">
+    Process reimbursements and reconcile transactions
+  </Card>
+  <Card title="Automation" icon="bolt">
+    Build custom workflows with Zapier
+  </Card>
+</CardGroup>
+
+## Accounting
+
+Sync approved expenses, chart of accounts, vendors, and tax codes with your accounting software.
+
+<CardGroup cols={2}>
+  <Card title="QuickBooks Online" icon="calculator" href="/integrations/quickbooks">
+    Two-way expense sync, GL account mapping, vendor matching, tax code mapping
+  </Card>
+  <Card title="Xero" icon="calculator" href="/integrations/xero">
+    Expense export, contact sync, tracking categories, multi-currency
+  </Card>
+  <Card title="FreshBooks" icon="calculator" href="/integrations/freshbooks">
+    Expense sync, client mapping, project tracking, invoice matching
+  </Card>
+  <Card title="Sage" icon="calculator" href="/integrations/sage">
+    Expense export, dimension mapping, tax group sync, batch posting
+  </Card>
+</CardGroup>
+
+## Email & Productivity
+
+Capture receipts from your inbox, receive expense notifications, and approve reports without leaving your communication tools.
+
+<CardGroup cols={2}>
+  <Card title="Outlook Add-in" icon="envelope" href="/integrations/outlook">
+    Email forwarding, file upload, OCR processing, business selector
+  </Card>
+  <Card title="Slack" icon="slack" href="/integrations/slack">
+    Slash commands, approval workflows, bot conversations, channel notifications
+  </Card>
+  <Card title="Microsoft Teams" icon="microsoft" href="/integrations/microsoft-teams">
+    Expense notifications, approval actions, tab integration, bot commands
+  </Card>
+</CardGroup>
+
+## Point of Sale
+
+Import transactions and generate digital receipts from your POS systems automatically.
+
+<CardGroup cols={2}>
+  <Card title="Shopify" icon="cart-shopping" href="/integrations/shopify">
+    Order sync, product mapping, multi-location, refund tracking
+  </Card>
+  <Card title="Square" icon="square" href="/integrations/square">
+    Transaction import, location sync, item catalog, customer matching
+  </Card>
+  <Card title="Clover" icon="cash-register" href="/integrations/clover">
+    Real-time sync, item catalog, multi-device, modifier support
+  </Card>
+  <Card title="Lightspeed" icon="bolt" href="/integrations/lightspeed">
+    Multi-location, inventory sync, employee mapping, custom fields
+  </Card>
+</CardGroup>
+
+## Cloud Storage
+
+Automatically back up receipts, reports, and financial documents to your preferred cloud storage.
+
+<CardGroup cols={2}>
+  <Card title="Google Drive" icon="google-drive" href="/integrations/google-drive">
+    Auto-backup receipts, folder organization, shared drives, search
+  </Card>
+  <Card title="OneDrive" icon="microsoft" href="/integrations/onedrive">
+    Receipt archival, SharePoint sync, folder structure, retention policies
+  </Card>
+</CardGroup>
+
+## Payments
+
+Process employee reimbursements and reconcile card transactions automatically.
+
+<CardGroup cols={2}>
+  <Card title="Stripe" icon="stripe" href="/integrations/stripe">
+    Reimbursement processing, card reconciliation, payment tracking
+  </Card>
+  <Card title="Plaid" icon="building-columns" href="/integrations/plaid">
+    Bank account linking, transaction import, balance verification
+  </Card>
+</CardGroup>
+
+## Automation
+
+Build custom workflows connecting Smartbills to thousands of other applications.
+
+<CardGroup cols={2}>
+  <Card title="Zapier" icon="bolt" href="/integrations/zapier">
+    Connect with 7,000+ apps, custom triggers, multi-step workflows
+  </Card>
+</CardGroup>
+
+## How Integrations Work
+
+### Connection Flow
+
+<Steps>
+  <Step title="Browse">
+    Find the integration in **Settings > Apps** in the Smartbills dashboard.
+  </Step>
+  <Step title="Connect">
+    Authorize Smartbills to access the third-party service via OAuth 2.0 or API key.
+  </Step>
+  <Step title="Configure">
+    Set up data mapping, sync direction, and preferences.
+  </Step>
+  <Step title="Sync">
+    Data flows automatically between systems based on your configuration.
+  </Step>
+</Steps>
+
+### Authorization Types
+
+| Type | Security | Used By |
+|------|----------|---------|
+| OAuth 2.0 | High | QuickBooks, Xero, Slack, Stripe, Shopify, and most integrations |
+| API Key | Medium | Zapier, developer tools |
+| Webhook | Varies | POS systems, real-time event notifications |
+
+### Sync Options
+
+| Direction | Description | Example |
+|-----------|-------------|---------|
+| One-way import | Data flows into Smartbills | POS transactions, bank transactions |
+| One-way export | Data flows from Smartbills to the other app | Approved expenses to accounting |
+| Two-way | Bidirectional sync | Vendor lists, categories |
+
+| Frequency | Description |
+|-----------|-------------|
+| Real-time | Instant sync via webhooks |
+| Scheduled | Configurable intervals (15 min, hourly, daily) |
+| Manual | On-demand sync from the dashboard |
+
+## Managing Integrations
+
+### View Connected Apps
+
+1. Go to **Settings > Apps** in the Smartbills dashboard
+2. See all connected integrations with their status
+3. View last sync time and sync history
+
+### Disconnect an Integration
+
+1. Go to **Settings > Apps**
+2. Click on the integration you want to disconnect
+3. Click **Disconnect**
+4. Confirm the disconnection
+
+<Warning>
+  Disconnecting an integration stops all data sync. Historical data that was already synced is not affected.
+</Warning>
+
+## Request a New Integration
+
+Do not see the integration you need? Submit a request to the Smartbills team:
+
+1. Go to **Settings > Apps** and click **Request Integration**
+2. Provide the name of the application and a brief description of your use case
+3. The Smartbills team will review your request and notify you of any updates
+
+You can also build custom integrations using the Smartbills API:
+
+<CardGroup cols={2}>
+  <Card title="REST API" icon="code" href="/api-reference/introduction">
+    Full API documentation for all endpoints
+  </Card>
+  <Card title="Webhooks" icon="bolt" href="/api-reference/webhooks">
+    Real-time event notifications for your application
+  </Card>
+</CardGroup>

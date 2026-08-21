@@ -1,0 +1,139 @@
+---
+title: "Naviguer dans le tableau de bord"
+description: "La disposition du tableau de bord Smartbills et le rôle de chaque zone"
+---
+
+## Aperçu
+
+Le tableau de bord s'organise autour d'une barre latérale à gauche et d'un en-tête en haut. Ce que vous voyez dans la barre latérale dépend de votre rôle : deux collègues d'une même entreprise peuvent donc avoir une navigation sensiblement différente.
+
+## La barre latérale
+
+Elle comporte trois parties : le sélecteur d'entreprise en haut, la navigation au milieu, puis Intégrations et Paramètres épinglés en bas.
+
+### Sélecteur d'entreprise
+
+Le logo et le nom de l'entreprise en cours figurent tout en haut. En le sélectionnant, vous listez les entreprises auxquelles vous appartenez et pouvez basculer, ou en ajouter une. Voir [Changer d'entreprise](/fr/guides/web-app/switching-businesses).
+
+### Votre activité
+
+Le premier groupe est toujours visible et couvre votre propre travail.
+
+<AccordionGroup>
+  <Accordion title="Tableau de bord" icon="house">
+    Votre page d'accueil, avec l'activité récente et les actions rapides.
+  </Accordion>
+
+  <Accordion title="Trajets kilométriques" icon="car">
+    Enregistrez vos déplacements professionnels et demandez leur remboursement. Uniquement dans un contexte d'entreprise, donc absent de votre compte personnel.
+
+    [Kilométrage](/fr/guides/web-app/mileage/overview)
+  </Accordion>
+
+  <Accordion title="Dépenses" icon="wallet">
+    Les dépenses que vous avez payées vous-même. Téléversez des reçus, catégorisez-les et préparez-les pour un rapport.
+
+    [Dépenses](/fr/guides/web-app/expenses/overview)
+  </Accordion>
+
+  <Accordion title="Rapports de dépenses" icon="file-invoice">
+    Vos propres rapports. Créez-les, ajoutez des dépenses, soumettez-les et rappelez-les si besoin.
+
+    Une pastille sur cette entrée compte les rapports qu'un approbateur vous a renvoyés pour modification.
+
+    [Rapports de dépenses](/fr/guides/web-app/reports/overview)
+  </Accordion>
+</AccordionGroup>
+
+### Le groupe entreprise
+
+Le second groupe porte le nom de votre entreprise. Il n'apparaît que si votre rôle vous donne accès à quelque chose qu'il contient, raison pour laquelle un Membre ne voit aucun groupe entreprise.
+
+<AccordionGroup>
+  <Accordion title="Dépenses d'entreprise" icon="credit-card">
+    Les dépenses payées par l'entreprise plutôt que par une personne, comme les paiements par carte d'entreprise et les factures transférées par courriel. Équipe financière, Administrateurs financiers et Administrateurs.
+
+    [Dépenses d'entreprise](/fr/guides/web-app/business-expenses/overview)
+  </Accordion>
+
+  <Accordion title="Factures" icon="receipt">
+    Comptes fournisseurs. Les factures que votre entreprise doit payer, de l'approbation au paiement. Équipe financière, Administrateurs financiers et Administrateurs.
+
+    [Factures](/fr/guides/web-app/bills/overview)
+  </Accordion>
+
+  <Accordion title="Coffre-fort" icon="folder-open">
+    Stockage sécurisé de documents. Administrateurs financiers et Administrateurs.
+
+    [Coffre-fort](/fr/guides/web-app/vault/overview)
+  </Accordion>
+
+  <Accordion title="Fournisseurs" icon="building">
+    Votre répertoire de fournisseurs, y compris les connexions aux portails qui récupèrent les factures automatiquement. Administrateurs financiers et Administrateurs.
+
+    [Fournisseurs](/fr/guides/web-app/vendors/overview)
+  </Accordion>
+
+  <Accordion title="Approbations" icon="square-check">
+    Les rapports de dépenses en attente de votre décision, classés par état. Gestionnaires, Administrateurs financiers et Administrateurs.
+
+    [Approbations](/fr/guides/web-app/approvals/overview)
+  </Accordion>
+</AccordionGroup>
+
+### Épinglés en bas
+
+| Entrée | Qui la voit |
+|--------|-------------|
+| **Intégrations** | Administrateurs uniquement |
+| **Paramètres** | Tout le monde, le contenu variant selon le rôle |
+
+<Note>
+  La gestion de l'équipe n'est pas une entrée de la barre latérale. Elle se trouve dans **Paramètres > Espace de travail > Équipe**, la liste des membres étant dans **Paramètres > Organisation > Employés**.
+</Note>
+
+## L'en-tête
+
+| Élément | Rôle |
+|---------|------|
+| **Recherche** | Rechercher ou accéder rapidement à un enregistrement. S'ouvre avec `Ctrl + K` ou `Cmd + K`. |
+| **Téléverser** | Un menu proposant Créer une dépense, Téléverser un reçu, Téléverser une facture et Transférer par courriel. Voir [Ajouter une dépense](/fr/guides/web-app/expenses/upload-expense). |
+| **Notifications** | Une cloche indiquant approbations, commentaires et changements de statut. |
+| **Aide** | Recherche dans le centre d'aide sans quitter l'application. |
+| **Menu utilisateur** | Votre avatar. Profil, paramètres du compte, apparence et déconnexion. |
+
+## Apparence
+
+Les thèmes clair, sombre et système sont disponibles depuis le menu utilisateur, sous **Apparence**. Le réglage est conservé dans le navigateur : il s'applique donc à l'appareil sur lequel vous l'avez défini et ne vous suit pas d'un appareil à l'autre.
+
+## Réduire la barre latérale
+
+Réduisez la barre latérale à des icônes avec `Ctrl + B` ou `Cmd + B`, ou via le bouton sur son bord. Elle se réduit aussi automatiquement à l'ouverture d'un rapport de dépenses ou d'une approbation, pour laisser plus de place au document, et se déploie de nouveau ensuite.
+
+## Raccourcis clavier
+
+| Raccourci | Action |
+|-----------|--------|
+| `Ctrl + K` / `Cmd + K` | Ouvrir la recherche |
+| `Ctrl + B` / `Cmd + B` | Réduire ou déployer la barre latérale |
+
+## Glisser-déposer partout
+
+Déposer un fichier de reçu sur n'importe quelle page ouvre la fenêtre de téléversement avec le fichier déjà joint. Vous n'avez pas besoin d'être sur la page Dépenses.
+
+## Et ensuite
+
+<CardGroup cols={2}>
+  <Card title="Dépenses" icon="wallet" href="/fr/guides/web-app/expenses/overview">
+    Commencer à gérer vos dépenses
+  </Card>
+  <Card title="Rapports de dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
+    Créer et soumettre des rapports
+  </Card>
+  <Card title="Rôles et autorisations" icon="shield-halved" href="/fr/guides/concepts/roles-and-permissions">
+    Pourquoi votre barre latérale est ce qu'elle est
+  </Card>
+  <Card title="Paramètres" icon="gear" href="/fr/guides/web-app/settings/general">
+    Configurer votre entreprise
+  </Card>
+</CardGroup>

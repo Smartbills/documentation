@@ -1,0 +1,102 @@
+---
+title: "Vault"
+description: "Securely store and manage financial documents in the Smartbills vault"
+---
+
+## What is the Vault?
+
+The Vault is Smartbills' secure document storage system for receipts, expense reports, invoices, and other financial records. It acts as a digital filing cabinet where all expense-related documents are organized, searchable, and available for audit. The Vault ensures your organization maintains a complete paper trail for every transaction, with documents archived automatically as expenses move through their lifecycle.
+
+The Vault is accessible from `/{slug}/vault`.
+
+## How It Works
+
+<Steps>
+  <Step title="Automatic Archiving">
+    When an expense is created, its receipt image or PDF is stored in the Vault. As the expense moves through the lifecycle (categorized, added to a report, approved, reimbursed), the Vault record is updated with the latest metadata.
+  </Step>
+  <Step title="Report Archiving">
+    When an expense report is approved and reimbursed, the complete report, including all attached expenses, receipts, comments, and approval history, is archived as a single document package in the Vault.
+  </Step>
+  <Step title="Manual Upload">
+    Users can also upload documents directly to the Vault that are not tied to a specific expense. This is useful for contracts, vendor agreements, or other supporting financial documents.
+  </Step>
+  <Step title="Search and Retrieval">
+    All documents in the Vault are indexed and searchable. You can search by vendor name, date range, amount, category, employee, or any text extracted by OCR from the document.
+  </Step>
+</Steps>
+
+## What Gets Stored
+
+| Document Type | How It Arrives | Retention |
+|--------------|----------------|-----------|
+| **Receipt Images** | Uploaded, scanned, or forwarded with an expense | Stored for the configured retention period |
+| **Expense Reports** | Archived automatically when a report is reimbursed | Stored with all attached expenses and approval history |
+| **Invoices and Bills** | Uploaded through the Bills module | Stored for the configured retention period |
+| **Supporting Documents** | Manually uploaded by users | Stored until manually deleted |
+
+## Access Control
+
+Access to the Vault is governed by the that access permission. This ensures that only authorized users can browse and retrieve stored documents.
+
+| Role | Access Level |
+|------|-------------|
+| **Admin** | Full access to all documents in the Vault |
+| **Accountant** | Full access for audit and compliance purposes |
+| **Manager** | Access to documents related to their team's expenses |
+| **Employee** | Access to their own receipts and submitted reports only |
+
+<Note>
+  The Vault is read-only for most users. Documents are archived automatically by the system. Only admins can delete documents from the Vault.
+</Note>
+
+## Search and Retrieval
+
+The Vault provides several ways to find documents:
+
+| Search Method | Description |
+|--------------|-------------|
+| **Full-Text Search** | Search by any text that appears in the document, including OCR-extracted text from receipts |
+| **Date Range Filter** | Filter documents by the date they were created or the expense date |
+| **Vendor Filter** | Find all receipts from a specific vendor |
+| **Category Filter** | Find all documents tagged with a specific expense category |
+| **Employee Filter** | Find all documents belonging to a specific team member |
+| **Amount Range** | Find documents within a specific dollar amount range |
+| **Status Filter** | Filter by document status (e.g., show only approved reports) |
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Vault** | The secure document storage system in Smartbills |
+| **Archiving** | The process of storing a document in the Vault for long-term retention |
+| **Auto-Archive** | The automatic archiving of receipts and reports as they are processed |
+| **Retention Period** | The length of time documents are kept before they can be removed |
+| **Document Package** | A report with all its associated receipts, comments, and approval history |
+| **OCR Index** | The searchable text extracted from receipt images by optical character recognition |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Admin** | Configures retention policies, manages Vault access, can delete documents |
+| **Accountant** | Searches and retrieves documents for audits, tax filings, and reconciliation |
+| **Manager** | Accesses their team's archived reports and receipts for reference |
+| **Employee** | Views their own archived receipts and reports |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Manage Documents" icon="folder-open" href="/guides/web-app/vault/manage-documents">
+    How to search, view, and organize documents in the Vault
+  </Card>
+  <Card title="Vault Overview" icon="vault" href="/guides/web-app/vault/overview">
+    Navigating the Vault in the web application
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/concepts/expense-reports">
+    Understand how reports are archived after reimbursement
+  </Card>
+  <Card title="Roles and Permissions" icon="lock" href="/guides/concepts/roles-and-permissions">
+    Learn about who can access the Vault
+  </Card>
+</CardGroup>

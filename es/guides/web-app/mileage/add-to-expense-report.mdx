@@ -1,0 +1,57 @@
+---
+title: "Añadir kilometraje a un informe"
+description: "Reclame el reembolso del kilometraje junto con sus demás gastos"
+---
+
+## Resumen
+
+Una vez convertido, un desplazamiento se comporta como cualquier otro gasto. Lo añade a un informe, envía el informe, y sigue el recorrido normal de aprobación y reembolso.
+
+## Desde el desplazamiento
+
+Ábralo y elija **Añadir a un informe de gastos** (Add to expense report). Escoja un borrador existente o cree uno nuevo.
+
+## Desde la lista
+
+Seleccione uno o varios desplazamientos con las casillas y use **Añadir al informe** en la barra de acciones. Los que aún no estén convertidos se convierten en la misma operación, así que no hay que hacerlo en dos pasos.
+
+## Desde el informe
+
+Abra un borrador y añada gastos como siempre. Los gastos de kilometraje aparecen en el selector junto a los gastos con recibo y se identifican como kilometraje.
+
+## Qué ve el aprobador
+
+Un gasto de kilometraje muestra más que un importe, porque los aprobadores necesitan comprobar cómo se ha llegado a la cifra. El panel de reembolso detalla:
+
+- La distancia acumulada del año antes del desplazamiento
+- La distancia del desplazamiento, y si es calculada o introducida manualmente
+- La tarifa aplicada y el tramo en el que cae
+- El total resultante
+- La distancia acumulada después
+
+Cuando se ha cruzado un umbral durante el año, el panel lo indica explícitamente y señala que la tarifa reducida se aplica por encima de él.
+
+## El importe calculado y el reclamado pueden diferir
+
+El importe reclamado se congela al enviar el informe. El total calculado sigue reflejando el tramo de tarifa vigente ahora. Ambas cifras pueden separarse si su distancia acumulada cruzó un umbral después del envío.
+
+Cuando difieren, Smartbills muestra las dos y lo explica. El importe reembolsado es el reclamado.
+
+<Note>
+  Es intencionado. Congelar la reclamación al enviar garantiza al aprobador una cifra que no cambiará después, y evita penalizar al empleado por una distancia recorrida más tarde.
+</Note>
+
+## Editar un desplazamiento ya declarado
+
+Un desplazamiento cuyo gasto está en un informe enviado queda bloqueado. Recupere el informe, haga el cambio y vuelva a enviarlo. Consulte [Recuperar un informe](/guides/web-app/reports/recall-report).
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Crear un informe" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Empezar un informe nuevo
+  </Card>
+  <Card title="Enviar un informe" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Mandarlo a aprobación
+  </Card>
+</CardGroup>

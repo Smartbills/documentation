@@ -1,0 +1,53 @@
+---
+title: "SDK React"
+description: "Hooks React Query et composants pour l'intégration Smartbills"
+---
+
+Le SDK React Smartbills propose deux paquets : `@smartbills/react-hooks-sdk` pour les hooks React Query (requêtes et mutations) et `@smartbills/react-sdk` pour les composants préconstruits tels que Receipt et Bank. Les deux s'appuient sur `@smartbills/sdk` et `@tanstack/react-query`.
+
+## Installation
+
+```bash
+npm install @smartbills/sdk @smartbills/react-hooks-sdk @tanstack/react-query
+```
+
+Pour les composants préconstruits :
+
+```bash
+npm install @smartbills/react-sdk
+```
+
+## Démarrage rapide
+
+```tsx
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { SmartbillsProvider, useExpenses } from "@smartbills/react-hooks-sdk";
+
+const queryClient = new QueryClient();
+const client = new SmartbillsClient({ accessToken: "your-token", businessId: 42 });
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsProvider client={client} businessId={42}>
+        <ExpenseList />
+      </SmartbillsProvider>
+    </QueryClientProvider>
+  );
+}
+
+function ExpenseList() {
+  const { data, fetchNextPage, hasNextPage, isLoading } = useExpenses({ limit: 25 });
+  if (isLoading) return <div>Chargement...</div>;
+  const expenses = data?.pages.flatMap((p) => p.data) ?? [];
+  return (
+    <ul>
+      {expenses.map((e) => <li key={e.id}>{e.vendor?.name}</li>)}
+      {hasNextPage && <button onClick={() => fetchNextPage()}>Charger plus</button>}
+    </ul>
+  );
+}
+```
+
+Les hooks de liste utilisent `useInfiniteQuery` pour la pagination automatique. Les hooks de mutation utilisent `useMutation` avec invalidation du cache. Le hook `useSmartbills()` permet d'accéder au contexte du fournisseur, et `queryKeys` facilite l'invalidation personnalisée des requêtes.

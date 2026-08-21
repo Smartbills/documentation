@@ -1,0 +1,116 @@
+---
+title: "Ajouter une dépense"
+description: "Téléversez un reçu, saisissez une dépense manuellement, ou transférez-la par courriel"
+---
+
+## Aperçu
+
+Il existe quatre façons d'ajouter une dépense depuis l'application web, toutes derrière le bouton **Téléverser** de l'en-tête. Les reçus que vous téléversez sont lus automatiquement : le commerçant, le montant, la date, la devise et les taxes sont renseignés pour vous.
+
+| Méthode | Quand l'utiliser |
+|---------|------------------|
+| **Téléverser un reçu** | Vous avez un fichier ou une photo de reçu |
+| **Créer une dépense** | Il n'y a aucun reçu à lire |
+| **Téléverser une facture** | Le document est une facture fournisseur que l'entreprise doit payer |
+| **Transférer par courriel** | Vous voulez transférer des reçus depuis votre messagerie |
+
+Vous pouvez aussi déposer un fichier sur n'importe quelle page : la fenêtre de téléversement s'ouvre avec le fichier déjà joint.
+
+## Contraintes de fichier
+
+<Note>
+  **Formats acceptés** : PNG, JPG, PDF et fichiers courriel (`.eml`, `.msg`).
+  **Taille maximale** : 5 Mo par fichier.
+  **Maximum par téléversement** : 10 fichiers.
+</Note>
+
+<Warning>
+  Les images HEIC ne sont pas acceptées par l'application web. Les photos prises avec le réglage par défaut d'un iPhone sont au format HEIC. Téléversez-les depuis l'application mobile Smartbills, qui les convertit automatiquement, ou réglez **Réglages > Appareil photo > Formats** sur **Plus compatible** sur le téléphone.
+</Warning>
+
+## Téléverser un reçu
+
+<Steps>
+  <Step title="Ouvrir la fenêtre de téléversement">
+    Sélectionnez **Téléverser** dans l'en-tête, puis **Téléverser un reçu**.
+  </Step>
+  <Step title="Ajouter vos fichiers">
+    Déposez les fichiers dans la fenêtre ou parcourez votre ordinateur. Chaque fichier est vérifié avant traitement, et tout refus est signalé avec sa raison, pour que vous puissiez le remplacer sans perdre les autres.
+  </Step>
+  <Step title="Indiquer qui a payé">
+    Choisissez s'il s'agit d'une dépense personnelle à vous rembourser, ou d'une dépense payée directement par l'entreprise. Cela change ce qui vous sera demandé ensuite. Voir [Dépenses d'entreprise et personnelles](/fr/guides/web-app/expenses/business-vs-personal).
+
+    Lancer le téléversement depuis la page Dépenses d'entreprise présélectionne « payé par l'entreprise ».
+  </Step>
+  <Step title="Ajouter des informations">
+    Vous pouvez définir une catégorie, rattacher la dépense à un rapport et ajouter une note. Vous pouvez aussi le faire plus tard.
+  </Step>
+  <Step title="Téléverser">
+    Les fichiers sont envoyés puis mis en file pour lecture. La fenêtre se ferme et le traitement se poursuit en arrière-plan : vous pouvez continuer à travailler.
+  </Step>
+</Steps>
+
+### Après le téléversement
+
+La lecture d'un reçu prend quelques instants et se produit après la fermeture de la fenêtre. Vos dépenses apparaissent dans l'onglet **Traitement** jusqu'à ce qu'elles soient prêtes, puis rejoignent votre liste avec les données extraites.
+
+En cas de problème, la dépense reste dans Traitement avec une erreur plutôt que de disparaître. Voir [Traitement et échecs](/fr/guides/web-app/expenses/processing).
+
+### Vérifier les données extraites
+
+La lecture est fiable mais pas infaillible. Ouvrez la dépense et confirmez le commerçant, le montant, la date, la devise et le détail des taxes par rapport à l'image du reçu affichée à côté. Corrigez directement les champs erronés. Voir [Modifier une dépense](/fr/guides/web-app/expenses/edit-expense).
+
+## Créer une dépense manuellement
+
+Lorsqu'il n'y a pas de reçu, choisissez **Téléverser**, puis **Créer une dépense**. Vous saisissez vous-même les informations : fournisseur, montant, date, catégorie et taxes, avec des lignes de détail et des frais si nécessaire.
+
+<Note>
+  De nombreuses politiques d'approbation exigent un reçu. Une dépense créée manuellement n'a pas de pièce jointe, et le rapport auquel elle appartient signalera « Reçu manquant » avant la soumission. Joignez un document par la suite si vous le pouvez.
+</Note>
+
+## Transférer par courriel
+
+Choisissez **Téléverser**, puis **Transférer par courriel** pour voir les adresses de votre entreprise. Transférez un courriel de reçu à la bonne adresse et la dépense est créée.
+
+| Adresse | Ce qu'il faut y envoyer |
+|---------|-------------------------|
+| **Dépenses d'entreprise** | Reçus et transactions de l'entreprise |
+| **Comptes fournisseurs** | Factures fournisseurs |
+| **Remboursements** | Reçus personnels à vous faire rembourser |
+
+Le corps du message et ses pièces jointes sont lus : un reçu dans le message fonctionne aussi bien qu'un PDF joint.
+
+## Si le téléversement est bloqué
+
+Deux limites peuvent l'empêcher, et chacune affiche une explication.
+
+<AccordionGroup>
+  <Accordion title="Quota mensuel de reçus atteint" icon="gauge">
+    Votre forfait inclut un nombre de reçus par mois. Une fois atteint, le téléversement est bloqué jusqu'à la période suivante ou jusqu'à une montée en gamme. Consultez votre consommation dans **Paramètres > Espace de travail > Utilisation**.
+  </Accordion>
+
+  <Accordion title="Paiement en souffrance" icon="credit-card">
+    Une facture d'abonnement impayée bloque les téléversements pour toute l'entreprise. Un Administrateur peut régulariser dans **Paramètres > Espace de travail > Facturation**.
+  </Accordion>
+</AccordionGroup>
+
+## Téléverser plusieurs reçus
+
+Sélectionnez jusqu'à 10 fichiers à la fois, ou déposez-les ensemble. Chacun devient une dépense distincte et ils sont lus en parallèle. La catégorie, le rapport et la note définis dans la fenêtre s'appliquent à tous, et vous pourrez ajuster chaque dépense ensuite.
+
+## Et ensuite
+
+<CardGroup cols={2}>
+  <Card title="Traitement et échecs" icon="arrows-rotate" href="/fr/guides/web-app/expenses/processing">
+    Suivre et relancer les reçus en cours de lecture
+  </Card>
+  <Card title="Entreprise ou personnel" icon="building" href="/fr/guides/web-app/expenses/business-vs-personal">
+    Ce que change le fait que l'entreprise ait payé
+  </Card>
+  <Card title="Modifier une dépense" icon="pen-to-square" href="/fr/guides/web-app/expenses/edit-expense">
+    Corriger les données extraites
+  </Card>
+  <Card title="Créer un rapport" icon="file-invoice" href="/fr/guides/web-app/reports/create-report">
+    Regrouper les dépenses pour remboursement
+  </Card>
+</CardGroup>

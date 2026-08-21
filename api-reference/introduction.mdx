@@ -1,0 +1,279 @@
+---
+title: "API Introduction"
+description: "Complete overview of the Smartbills REST API for expense management, reports, approvals, and more"
+---
+
+## Introduction
+
+The Smartbills API is a RESTful API that allows you to programmatically manage expenses, expense reports, approvals, vendors, bills, categories, departments, and more. Use this API to integrate expense management capabilities into your applications, automate workflows, and build custom integrations.
+
+<Note>
+  **Getting started?** If you are new to the Smartbills API, start by [creating an account](https://developers.smartbills.io) and obtaining your [API keys](/api-reference/api-keys).
+</Note>
+
+## Base URL
+
+All API requests should be made to:
+
+```
+https://api.smartbills.io/v1
+```
+
+For sandbox testing, use:
+
+```
+https://sandbox.api.smartbills.io/v1
+```
+
+See [Environments](/api-reference/environments) for details on the available environments.
+
+## Authentication
+
+All API requests require authentication using a JWT Bearer token. Include your API key or OAuth2 access token in the `Authorization` header:
+
+```http
+GET /v1/expenses HTTP/1.1
+Host: api.smartbills.io
+Authorization: Bearer YOUR_API_KEY
+```
+
+See [Authentication](/api-reference/authentication) for complete details on obtaining and managing tokens.
+
+## Required Headers
+
+Every request to the Smartbills API must include the following headers:
+
+| Header | Value | Required | Description |
+|--------|-------|----------|-------------|
+| `Authorization` | `Bearer {token}` | Yes | Your API key or OAuth2 access token |
+| `Content-Type` | `application/json` | For POST/PUT/PATCH | Request body format |
+| `Accept` | `application/json` | Recommended | Expected response format |
+| `x-tenant-id` | `{businessId}` | Yes | Business context for multi-tenant operations |
+| `Accept-Language` | `en-CA`, `fr-CA`, `en-US` | Optional | Locale for localized responses |
+
+## Multi-Tenant Architecture
+
+Smartbills uses a multi-tenant architecture. You must specify the business context for each request using the `x-tenant-id` header:
+
+```http
+GET /v1/expenses HTTP/1.1
+Host: api.smartbills.io
+Authorization: Bearer YOUR_API_KEY
+x-tenant-id: 123
+```
+
+This header determines which business's data you are accessing. Your API key must have permission to access the specified business.
+
+## Quick Example
+
+Here is a quick example showing how to list expenses for a business:
+
+<CodeGroup>
+
+```bash cURL
+curl --request GET \
+  --url 'https://api.smartbills.io/v1/expenses?page=1&pageSize=20' \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123
+});
+
+const expenses = await client.expenses.list({
+  page: 1,
+  pageSize: 20
+});
+
+console.log(`Found ${expenses.pagination.totalCount} expenses`);
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+client = SmartbillsClient(access_token="YOUR_API_KEY", business_id=123)
+
+expenses = client.expenses.list(page=1, page_size=20)
+
+print(f"Found {expenses.pagination.total_count} expenses")
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "data": [
+    {
+      "id": 12345,
+      "merchant": "Office Depot",
+      "amount": 45.99,
+      "currency": "CAD",
+      "date": "2025-01-15",
+      "category": "Office Supplies",
+      "status": "pending"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "totalCount": 95,
+    "hasNext": true,
+    "hasPrevious": false
+  }
+}
+```
+
+## Request Format
+
+### JSON Body
+
+For POST, PUT, and PATCH requests, send JSON in the request body:
+
+```json
+{
+  "merchant": "Office Depot",
+  "amount": 45.99,
+  "currency": "CAD",
+  "date": "2025-01-15",
+  "categoryId": 10
+}
+```
+
+### Query Parameters
+
+List endpoints support query parameters for pagination, sorting, and filtering:
+
+```
+GET /v1/expenses?page=2&pageSize=50&sortBy=date&sortOrder=desc&status=approved
+```
+
+## Response Format
+
+### Success Response (Single Resource)
+
+```json
+{
+  "data": {
+    "id": 12345,
+    "merchant": "Office Depot",
+    "amount": 45.99,
+    "currency": "CAD"
+  }
+}
+```
+
+### Success Response (List)
+
+```json
+{
+  "data": [...],
+  "pagination": {
+    "page": 1,
+    "pageSize": 20,
+    "totalPages": 5,
+    "totalCount": 95,
+    "hasNext": true,
+    "hasPrevious": false
+  }
+}
+```
+
+### Error Response
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Amount is required",
+    "details": [
+      {
+        "field": "amount",
+        "message": "Amount must be greater than 0"
+      }
+    ]
+  }
+}
+```
+
+## API Endpoint Groups
+
+<CardGroup cols={2}>
+  <Card title="Expenses" icon="receipt" href="/api-reference/introduction">
+    Create, read, update, and delete expenses. Upload attachments and export expense data.
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/api-reference/introduction">
+    Create and manage expense reports. Submit, approve, reject, and track report workflows.
+  </Card>
+  <Card title="Businesses" icon="building" href="/api-reference/introduction">
+    Manage businesses and their settings.
+  </Card>
+  <Card title="Vendors" icon="store" href="/api-reference/introduction">
+    Manage vendors and supplier information.
+  </Card>
+  <Card title="Categories" icon="tags" href="/api-reference/introduction">
+    Manage expense categories for organizing expenses.
+  </Card>
+  <Card title="Departments" icon="sitemap" href="/api-reference/introduction">
+    Manage departments and organizational structure.
+  </Card>
+  <Card title="Employees" icon="users" href="/api-reference/introduction">
+    Manage employee records and permissions.
+  </Card>
+  <Card title="Locations" icon="location-dot" href="/api-reference/introduction">
+    Manage business locations and addresses.
+  </Card>
+</CardGroup>
+
+## Developer Resources
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="shield" href="/api-reference/authentication">
+    Set up authentication and obtain tokens
+  </Card>
+  <Card title="API Keys" icon="key" href="/api-reference/api-keys">
+    Create and manage API keys
+  </Card>
+  <Card title="Pagination" icon="list" href="/api-reference/pagination">
+    Paginate through large result sets
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/api-reference/errors">
+    Handle API errors effectively
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Understand rate limiting policies
+  </Card>
+  <Card title="Webhooks" icon="webhook" href="/api-reference/webhooks">
+    Receive real-time event notifications
+  </Card>
+  <Card title="Versioning" icon="code-branch" href="/api-reference/versioning">
+    API versioning and compatibility
+  </Card>
+  <Card title="Localizations" icon="language" href="/api-reference/localizations">
+    Multi-language and locale support
+  </Card>
+</CardGroup>
+
+## SDKs
+
+Official SDKs are available for the following platforms:
+
+- [JavaScript SDK](/sdks/javascript) (`@smartbills/sdk`)
+- [.NET SDK](/sdks/dotnet) (`Smartbills.NET`)
+- [React SDK](/sdks/react)
+- [React Native SDK](/sdks/react-native)
+
+## Need Help?
+
+- **Developer Portal**: [developers.smartbills.io](https://developers.smartbills.io)
+- **General Support**: [developers@smartbills.io](mailto:developers@smartbills.io)
+- **Security Issues**: [security@smartbills.io](mailto:security@smartbills.io)
+- **Community**: [community.smartbills.io](https://community.smartbills.io)

@@ -1,0 +1,69 @@
+---
+title: "Kilométrage"
+description: "Enregistrez vos déplacements professionnels, calculez le remboursement aux taux de l'ARC ou de l'IRS, et réclamez-le sur un rapport de dépenses"
+---
+
+## Introduction
+
+Le kilométrage permet aux employés d'enregistrer leurs déplacements professionnels et d'en demander le remboursement. Vous saisissez un trajet, Smartbills calcule la distance, applique le taux de remboursement qui s'applique à votre entreprise, et génère une dépense que vous pouvez ajouter à un rapport de dépenses.
+
+Le kilométrage apparaît sous **Trajets kilométriques** dans la barre latérale.
+
+<Note>
+  Le kilométrage est rattaché à une entreprise : il n'apparaît donc pas dans votre compte personnel. Tout le monde peut enregistrer et consulter ses propres trajets.
+</Note>
+
+## Comment un trajet devient un remboursement
+
+Un trajet passe par deux étapes. Comprendre cette distinction explique l'essentiel du comportement de l'interface.
+
+<Steps>
+  <Step title="Enregistré">
+    Vous saisissez le trajet, le véhicule et la date. Le trajet affiche une distance calculée et un remboursement estimé, mais aucune dépense n'existe encore. Son statut est **Enregistré**.
+  </Step>
+  <Step title="Converti">
+    La conversion crée une véritable dépense de kilométrage dans votre liste de dépenses. À partir de là, le trajet porte le statut du rapport de dépenses auquel il appartient, en commençant par **Non déclaré**.
+  </Step>
+  <Step title="Déclaré">
+    Vous ajoutez la dépense à un rapport et le soumettez comme n'importe quelle autre dépense. Il suit ensuite le parcours normal d'approbation et de remboursement.
+  </Step>
+</Steps>
+
+## Ce qui détermine le montant
+
+Trois éléments décident de la valeur d'un trajet.
+
+| Élément | D'où il vient |
+|---------|---------------|
+| **Distance** | Calculée à partir du trajet saisi. Vous pouvez la remplacer manuellement. |
+| **Unité** | Déterminée par le pays d'immatriculation du véhicule. Un véhicule immatriculé aux États-Unis est mesuré en milles, tous les autres en kilomètres. |
+| **Taux** | Résolu à partir des taux kilométriques de votre entreprise. Vos taux personnalisés priment, et les taux publiés de l'ARC et de l'IRS s'appliquent lorsqu'aucun taux personnalisé ne correspond. |
+
+Les taux sont souvent progressifs. Dans un programme progressif comme celui de l'ARC, la première partie de votre distance annuelle est remboursée à un taux plus élevé, et tout ce qui dépasse un seuil annuel à un taux plus faible. Smartbills suit votre distance cumulée depuis le début de l'année et applique automatiquement le bon palier. Voir [Taux kilométriques](/fr/guides/web-app/mileage/mileage-rates).
+
+## Dans cette section
+
+<CardGroup cols={2}>
+  <Card title="Gérer les véhicules" icon="car" href="/fr/guides/web-app/mileage/vehicles">
+    Ajoutez les véhicules que vous conduisez
+  </Card>
+  <Card title="Enregistrer un trajet" icon="route" href="/fr/guides/web-app/mileage/log-a-trip">
+    Saisissez un trajet et laissez Smartbills calculer la distance
+  </Card>
+  <Card title="Arrêts multiples et aller-retour" icon="map-pin" href="/fr/guides/web-app/mileage/multi-stop-and-round-trips">
+    Ajoutez des arrêts, réorganisez-les, incluez le retour
+  </Card>
+  <Card title="Convertir en dépense" icon="receipt" href="/fr/guides/web-app/mileage/convert-to-expense">
+    Transformez vos trajets en dépenses réclamables
+  </Card>
+  <Card title="Ajouter à un rapport" icon="file-invoice" href="/fr/guides/web-app/mileage/add-to-expense-report">
+    Réclamez le kilométrage avec vos autres dépenses
+  </Card>
+  <Card title="Taux kilométriques" icon="calculator" href="/fr/guides/web-app/mileage/mileage-rates">
+    Configurez les taux de remboursement
+  </Card>
+</CardGroup>
+
+## Sur mobile
+
+L'application mobile peut enregistrer un trajet pendant que vous conduisez, en captant l'itinéraire depuis la position de votre appareil plutôt qu'à partir d'adresses saisies. Voir [Application mobile](/fr/guides/mobile/overview).

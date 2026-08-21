@@ -1,0 +1,59 @@
+---
+title: "Gestionar vehículos"
+description: "Añada, edite y elimine los vehículos por los que reclama kilometraje"
+---
+
+## Resumen
+
+Cada desplazamiento debe ir asociado a un vehículo. Los vehículos son personales: los que usted añade le pertenecen y no se comparten con la empresa, así que cada empleado mantiene su propia lista.
+
+Están en **Ajustes > Personal > Vehículos** (Settings > Personal > Vehicles). Cualquiera puede gestionar los suyos.
+
+<Note>
+  El vehículo elegido fija la unidad de distancia del desplazamiento. Un vehículo matriculado en Estados Unidos mide en **millas**. Cualquier otro país de matriculación mide en **kilómetros**. Elija el vehículo antes de comprobar la distancia.
+</Note>
+
+## Añadir un vehículo
+
+<Steps>
+  <Step title="Abrir los ajustes de vehículos">
+    Vaya a **Ajustes** y después a **Vehículos**, dentro del grupo **Personal**.
+  </Step>
+  <Step title="Introducir el vehículo">
+    Póngale un nombre que reconozca en el formulario de desplazamiento e indique marca, modelo y matriculación. El país de matriculación importa porque fija la unidad.
+  </Step>
+  <Step title="Guardar">
+    El vehículo queda disponible de inmediato en el formulario.
+  </Step>
+</Steps>
+
+### Añadir un vehículo mientras registra un desplazamiento
+
+No hace falta pasar por los ajustes. El selector de vehículo del formulario incluye **Añadir un vehículo nuevo**, que abre el mismo formulario en una ventana. Al guardar, el vehículo queda seleccionado en el desplazamiento que estaba rellenando.
+
+## Editar un vehículo
+
+Ábralo desde los ajustes y cambie lo que necesite. La edición no recalcula los desplazamientos ya registrados. Si corrige el país de matriculación después, los desplazamientos existentes conservan la unidad con la que se guardaron.
+
+## Eliminar un vehículo
+
+Al eliminarlo desaparece del selector. Los desplazamientos que lo referencian siguen funcionando: el formulario reinserta el vehículo guardado como opción, de modo que la selección sigue siendo válida y el desplazamiento no pierde su vehículo.
+
+<Warning>
+  Como un vehículo eliminado sigue apareciendo en los desplazamientos pasados, eliminarlo no sirve para ocultar un historial de kilometraje. Elimine los desplazamientos en su lugar, teniendo en cuenta que uno que ya esté en un informe no puede eliminarse hasta retirarlo de él.
+</Warning>
+
+## Cambiar el vehículo de un desplazamiento
+
+Abra el desplazamiento y use **Cambiar vehículo** (Change vehicle) en el panel de resumen. Es útil cuando lo registró con el coche equivocado, y recalcula el reembolso si el nuevo vehículo cambia la unidad.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Registrar un desplazamiento" icon="route" href="/es/guides/web-app/mileage/log-a-trip">
+    Introducir una ruta con su vehículo
+  </Card>
+  <Card title="Tarifas de kilometraje" icon="calculator" href="/es/guides/web-app/mileage/mileage-rates">
+    La tarifa que se aplica
+  </Card>
+</CardGroup>

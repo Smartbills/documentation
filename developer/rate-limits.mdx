@@ -1,0 +1,688 @@
+---
+title: 'Rate Limits'
+description: 'Understand Smartbills API rate limiting and how to handle rate limit errors'
+---
+
+## Overview
+
+To ensure fair usage and maintain optimal performance, the Smartbills API implements rate limiting using the **Leaky Bucket** algorithm. This helps control incoming request traffic and provides a smooth, predictable API experience for all users.
+
+<Note>
+  **Fair usage**: Rate limits ensure that no single user can monopolize API resources, maintaining quality service for everyone.
+</Note>
+
+## Rate Limiting Policy
+
+### Current Limits
+
+| Plan | Requests Per Minute | Burst Capacity | Daily Limit |
+|------|---------------------|----------------|-------------|
+| **Free** | 60 | 60 | 5,000 |
+| **Professional** | 300 | 300 | 50,000 |
+| **Business** | 1,000 | 1,000 | 200,000 |
+| **Enterprise** | Custom | Custom | Custom |
+
+<Tip>
+  **Need higher limits?** Enterprise customers can request custom rate limits. Contact [sales@smartbills.io](mailto:sales@smartbills.io) for details.
+</Tip>
+
+### Rate Limit Headers
+
+Every API response includes rate limit information in the headers:
+
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1704067200
+```
+
+<ResponseField name="X-RateLimit-Limit" type="integer">
+  Maximum number of requests allowed per minute
+</ResponseField>
+
+<ResponseField name="X-RateLimit-Remaining" type="integer">
+  Number of requests remaining in the current window
+</ResponseField>
+
+<ResponseField name="X-RateLimit-Reset" type="integer">
+  Unix timestamp when the rate limit resets
+</ResponseField>
+
+## How the Leaky Bucket Works
+
+The Leaky Bucket algorithm provides smooth traffic shaping:
+
+<Steps>
+  <Step title="Bucket Capacity">
+    The bucket has a fixed capacity representing the maximum number of requests that can be stored temporarily.
+  </Step>
+  
+  <Step title="Leak Rate">
+    The bucket leaks at a constant rate, allowing a specific number of requests to be processed per second.
+  </Step>
+  
+  <Step title="Request Handling">
+    - When a request arrives, it's added to the bucket if space is available
+    - If the bucket is full, the request is rejected with a 429 error
+    - Requests are processed at the leak rate, ensuring steady flow
+  </Step>
+</Steps>
+
+### Why Leaky Bucket?
+
+**Advantages:**
+- ✅ Prevents traffic bursts from overwhelming the system
+- ✅ Provides predictable request processing
+- ✅ Allows short bursts up to bucket capacity
+- ✅ Smooths out traffic spikes automatically
+
+## Rate Limit Exceeded Response
+
+When you exceed the rate limit, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "error": {
+    "code": "RATE_LIMIT_EXCEEDED",
+    "message": "Rate limit exceeded. Please try again later.",
+    "retryAfter": 60
+  }
+}
+```
+
+### Response Headers
+
+```http
+HTTP/1.1 429 Too Many Requests
+Content-Type: application/json
+Retry-After: 60
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 0
+X-RateLimit-Reset: 1704067200
+```
+
+<ResponseField name="Retry-After" type="integer">
+  Number of seconds to wait before retrying
+</ResponseField>
+
+## Handling Rate Limits
+
+### Check Rate Limit Headers
+
+Always monitor rate limit headers in your application:
+
+<CodeGroup>
+
+```javascript JavaScript
+async function makeRequest(url) {
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': 'Bearer YOUR_API_KEY'
+    }
+  });
+  
+  // Check rate limit headers
+  const limit = response.headers.get('X-RateLimit-Limit');
+  const remaining = response.headers.get('X-RateLimit-Remaining');
+  const reset = response.headers.get('X-RateLimit-Reset');
+  
+  console.log(`Rate limit: ${remaining}/${limit}`);
+  console.log(`Resets at: ${new Date(reset * 1000)}`);
+  
+  // Warn if approaching limit
+  if (remaining < limit * 0.1) {
+    console.warn('Approaching rate limit!');
+  }
+  
+  return response.json();
+}
+```
+
+```python Python
+import requests
+from datetime import datetime
+
+def make_request(url, api_key):
+    response = requests.get(
+        url,
+        headers={'Authorization': f'Bearer {api_key}'}
+    )
+    
+    # Check rate limit headers
+    limit = int(response.headers.get('X-RateLimit-Limit', 0))
+    remaining = int(response.headers.get('X-RateLimit-Remaining', 0))
+    reset = int(response.headers.get('X-RateLimit-Reset', 0))
+    
+    print(f"Rate limit: {remaining}/{limit}")
+    print(f"Resets at: {datetime.fromtimestamp(reset)}")
+    
+    # Warn if approaching limit
+    if remaining < limit * 0.1:
+        print("Warning: Approaching rate limit!")
+    
+    return response.json()
+```
+
+```php PHP
+<?php
+function makeRequest($url, $apiKey) {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Authorization: Bearer ' . $apiKey
+    ]);
+    
+    $response = curl_exec($ch);
+    $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+    $headers = substr($response, 0, $headerSize);
+    $body = substr($response, $headerSize);
+    
+    // Parse rate limit headers
+    preg_match('/X-RateLimit-Limit: (\d+)/', $headers, $limitMatch);
+    preg_match('/X-RateLimit-Remaining: (\d+)/', $headers, $remainingMatch);
+    preg_match('/X-RateLimit-Reset: (\d+)/', $headers, $resetMatch);
+    
+    $limit = $limitMatch[1] ?? 0;
+    $remaining = $remainingMatch[1] ?? 0;
+    $reset = $resetMatch[1] ?? 0;
+    
+    echo "Rate limit: $remaining/$limit\n";
+    echo "Resets at: " . date('Y-m-d H:i:s', $reset) . "\n";
+    
+    if ($remaining < $limit * 0.1) {
+        echo "Warning: Approaching rate limit!\n";
+    }
+    
+    curl_close($ch);
+    return json_decode($body, true);
+}
+?>
+```
+
+</CodeGroup>
+
+### Implement Exponential Backoff
+
+When you receive a 429 error, implement exponential backoff:
+
+<CodeGroup>
+
+```javascript JavaScript
+async function makeRequestWithRetry(url, maxRetries = 3) {
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'Authorization': 'Bearer YOUR_API_KEY'
+        }
+      });
+      
+      if (response.status === 429) {
+        const retryAfter = response.headers.get('Retry-After');
+        const waitTime = retryAfter 
+          ? parseInt(retryAfter) * 1000 
+          : Math.pow(2, attempt) * 1000;
+        
+        console.log(`Rate limited. Waiting ${waitTime}ms before retry...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime));
+        continue;
+      }
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      return await response.json();
+      
+    } catch (error) {
+      if (attempt === maxRetries - 1) {
+        throw error;
+      }
+    }
+  }
+}
+```
+
+```python Python
+import time
+import requests
+
+def make_request_with_retry(url, api_key, max_retries=3):
+    for attempt in range(max_retries):
+        try:
+            response = requests.get(
+                url,
+                headers={'Authorization': f'Bearer {api_key}'}
+            )
+            
+            if response.status_code == 429:
+                retry_after = response.headers.get('Retry-After')
+                wait_time = int(retry_after) if retry_after else 2 ** attempt
+                
+                print(f"Rate limited. Waiting {wait_time}s before retry...")
+                time.sleep(wait_time)
+                continue
+            
+            response.raise_for_status()
+            return response.json()
+            
+        except requests.exceptions.RequestException as e:
+            if attempt == max_retries - 1:
+                raise e
+    
+    raise Exception("Max retries exceeded")
+```
+
+```php PHP
+<?php
+function makeRequestWithRetry($url, $apiKey, $maxRetries = 3) {
+    for ($attempt = 0; $attempt < $maxRetries; $attempt++) {
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HEADER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Authorization: Bearer ' . $apiKey
+        ]);
+        
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+        $headers = substr($response, 0, $headerSize);
+        $body = substr($response, $headerSize);
+        
+        if ($httpCode === 429) {
+            preg_match('/Retry-After: (\d+)/', $headers, $match);
+            $waitTime = $match[1] ?? pow(2, $attempt);
+            
+            echo "Rate limited. Waiting {$waitTime}s before retry...\n";
+            sleep($waitTime);
+            curl_close($ch);
+            continue;
+        }
+        
+        curl_close($ch);
+        
+        if ($httpCode >= 200 && $httpCode < 300) {
+            return json_decode($body, true);
+        }
+        
+        if ($attempt === $maxRetries - 1) {
+            throw new Exception("Request failed with HTTP $httpCode");
+        }
+    }
+}
+?>
+```
+
+</CodeGroup>
+
+### Rate Limit Aware Client
+
+Create a client that automatically handles rate limiting:
+
+```javascript
+class SmartbillsClient {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.baseUrl = 'https://api.smartbills.io/v1';
+    this.rateLimit = {
+      limit: null,
+      remaining: null,
+      reset: null
+    };
+  }
+  
+  async request(endpoint, options = {}) {
+    // Check if we're approaching rate limit
+    if (this.rateLimit.remaining !== null && this.rateLimit.remaining < 10) {
+      const now = Date.now() / 1000;
+      const waitTime = Math.max(0, this.rateLimit.reset - now);
+      
+      if (waitTime > 0) {
+        console.log(`Approaching rate limit. Waiting ${waitTime}s...`);
+        await new Promise(resolve => setTimeout(resolve, waitTime * 1000));
+      }
+    }
+    
+    const response = await fetch(`${this.baseUrl}${endpoint}`, {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json',
+        ...options.headers
+      }
+    });
+    
+    // Update rate limit info
+    this.rateLimit.limit = parseInt(response.headers.get('X-RateLimit-Limit'));
+    this.rateLimit.remaining = parseInt(response.headers.get('X-RateLimit-Remaining'));
+    this.rateLimit.reset = parseInt(response.headers.get('X-RateLimit-Reset'));
+    
+    if (response.status === 429) {
+      const retryAfter = parseInt(response.headers.get('Retry-After'));
+      throw new RateLimitError('Rate limit exceeded', retryAfter);
+    }
+    
+    return response.json();
+  }
+  
+  getRateLimitStatus() {
+    return {
+      ...this.rateLimit,
+      percentage: this.rateLimit.limit 
+        ? (this.rateLimit.remaining / this.rateLimit.limit) * 100 
+        : 100
+    };
+  }
+}
+
+class RateLimitError extends Error {
+  constructor(message, retryAfter) {
+    super(message);
+    this.name = 'RateLimitError';
+    this.retryAfter = retryAfter;
+  }
+}
+
+// Usage
+const client = new SmartbillsClient('YOUR_API_KEY');
+
+try {
+  const expenses = await client.request('/expenses');
+  console.log('Rate limit status:', client.getRateLimitStatus());
+} catch (error) {
+  if (error instanceof RateLimitError) {
+    console.log(`Rate limited. Retry after ${error.retryAfter}s`);
+  }
+}
+```
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Batch Requests" icon="layer-group">
+    **Combine multiple operations into single requests:**
+    
+    ```javascript
+    // Bad: Multiple requests
+    for (const expense of expenses) {
+      await updateExpense(expense.id, expense.data);
+    }
+    
+    // Good: Batch update
+    await batchUpdateExpenses(expenses);
+    ```
+    
+    This reduces the number of API calls and helps stay within rate limits.
+  </Accordion>
+
+  <Accordion title="Cache Responses" icon="database">
+    **Cache API responses to reduce redundant requests:**
+    
+    ```javascript
+    const cache = new Map();
+    const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+    
+    async function getCachedExpense(id) {
+      const cached = cache.get(id);
+      
+      if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return cached.data;
+      }
+      
+      const data = await fetchExpense(id);
+      cache.set(id, { data, timestamp: Date.now() });
+      
+      return data;
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Use Webhooks" icon="webhook">
+    **Use webhooks instead of polling:**
+    
+    ```javascript
+    // Bad: Polling every minute
+    setInterval(async () => {
+      const reports = await fetchReports({ status: 'pending' });
+      checkForUpdates(reports);
+    }, 60000);
+    
+    // Good: Use webhooks
+    // Configure webhook to receive report.approved events
+    // No polling needed!
+    ```
+    
+    See [Webhooks](/developer/webhooks) for setup instructions.
+  </Accordion>
+
+  <Accordion title="Implement Request Queuing" icon="list">
+    **Queue requests to control rate:**
+    
+    ```javascript
+    class RequestQueue {
+      constructor(requestsPerMinute) {
+        this.queue = [];
+        this.processing = false;
+        this.interval = 60000 / requestsPerMinute;
+      }
+      
+      async add(requestFn) {
+        return new Promise((resolve, reject) => {
+          this.queue.push({ requestFn, resolve, reject });
+          this.process();
+        });
+      }
+      
+      async process() {
+        if (this.processing || this.queue.length === 0) return;
+        
+        this.processing = true;
+        const { requestFn, resolve, reject } = this.queue.shift();
+        
+        try {
+          const result = await requestFn();
+          resolve(result);
+        } catch (error) {
+          reject(error);
+        }
+        
+        setTimeout(() => {
+          this.processing = false;
+          this.process();
+        }, this.interval);
+      }
+    }
+    
+    // Usage
+    const queue = new RequestQueue(60); // 60 requests per minute
+    
+    for (const id of expenseIds) {
+      await queue.add(() => fetchExpense(id));
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Monitor Usage" icon="chart-line">
+    **Track your API usage:**
+    
+    ```javascript
+    class UsageMonitor {
+      constructor() {
+        this.requests = [];
+      }
+      
+      logRequest(endpoint, remaining) {
+        this.requests.push({
+          endpoint,
+          remaining,
+          timestamp: Date.now()
+        });
+      }
+      
+      getStats(minutes = 60) {
+        const cutoff = Date.now() - (minutes * 60 * 1000);
+        const recent = this.requests.filter(r => r.timestamp > cutoff);
+        
+        return {
+          totalRequests: recent.length,
+          requestsPerMinute: recent.length / minutes,
+          lowestRemaining: Math.min(...recent.map(r => r.remaining))
+        };
+      }
+    }
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limit Strategies
+
+### Strategy 1: Proactive Throttling
+
+Slow down before hitting the limit:
+
+```javascript
+async function makeThrottledRequest(url) {
+  const response = await fetch(url, {
+    headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+  });
+  
+  const remaining = parseInt(response.headers.get('X-RateLimit-Remaining'));
+  const limit = parseInt(response.headers.get('X-RateLimit-Limit'));
+  
+  // If below 20% remaining, add delay
+  if (remaining < limit * 0.2) {
+    const delay = 1000; // 1 second delay
+    await new Promise(resolve => setTimeout(resolve, delay));
+  }
+  
+  return response.json();
+}
+```
+
+### Strategy 2: Token Bucket
+
+Implement your own token bucket:
+
+```javascript
+class TokenBucket {
+  constructor(capacity, refillRate) {
+    this.capacity = capacity;
+    this.tokens = capacity;
+    this.refillRate = refillRate; // tokens per second
+    this.lastRefill = Date.now();
+  }
+  
+  async consume(tokens = 1) {
+    this.refill();
+    
+    while (this.tokens < tokens) {
+      const waitTime = ((tokens - this.tokens) / this.refillRate) * 1000;
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+      this.refill();
+    }
+    
+    this.tokens -= tokens;
+  }
+  
+  refill() {
+    const now = Date.now();
+    const timePassed = (now - this.lastRefill) / 1000;
+    const tokensToAdd = timePassed * this.refillRate;
+    
+    this.tokens = Math.min(this.capacity, this.tokens + tokensToAdd);
+    this.lastRefill = now;
+  }
+}
+
+// Usage
+const bucket = new TokenBucket(100, 1.67); // 100 requests per minute
+
+for (const id of expenseIds) {
+  await bucket.consume();
+  await fetchExpense(id);
+}
+```
+
+## Quota Extensions
+
+### Request Higher Limits
+
+Enterprise customers can request custom rate limits:
+
+**Contact information:**
+- Email: [sales@smartbills.io](mailto:sales@smartbills.io)
+- Include:
+  - Your use case
+  - Expected request volume
+  - Business justification
+  - Current plan details
+
+**Typical approval time:** 2-3 business days
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Consistently hitting rate limits" icon="gauge-high">
+    **Solutions:**
+    
+    1. **Optimize your code** - Reduce unnecessary requests
+    2. **Implement caching** - Cache responses when possible
+    3. **Use webhooks** - Replace polling with event-driven updates
+    4. **Batch operations** - Combine multiple requests
+    5. **Upgrade your plan** - Get higher rate limits
+  </Accordion>
+
+  <Accordion title="Rate limit headers missing" icon="question">
+    **Possible reasons:**
+    
+    - Using an old API version
+    - Proxy stripping headers
+    - Client library not exposing headers
+    
+    **Solution:** Ensure you're using the latest API version and check your HTTP client configuration.
+  </Accordion>
+
+  <Accordion title="Unexpected 429 errors" icon="triangle-exclamation">
+    **Check for:**
+    
+    - Multiple instances of your application running
+    - Shared API keys across services
+    - Automated scripts or cron jobs
+    - Development/staging environments using production keys
+    
+    **Solution:** Use separate API keys for each environment and service.
+  </Accordion>
+</AccordionGroup>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="Webhooks" icon="webhook" href="/developer/webhooks">
+    Use webhooks instead of polling
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/developer/errors">
+    Handle rate limit errors
+  </Card>
+  <Card title="Pagination" icon="list" href="/developer/pagination">
+    Efficiently paginate results
+  </Card>
+  <Card title="API Keys" icon="key" href="/developer/api-keys">
+    Manage your API keys
+  </Card>
+</CardGroup>
+
+## Summary
+
+- ✅ Monitor rate limit headers in every response
+- ✅ Implement exponential backoff for 429 errors
+- ✅ Use caching to reduce redundant requests
+- ✅ Batch operations when possible
+- ✅ Consider webhooks instead of polling
+- ✅ Track your usage patterns
+- ✅ Upgrade plan if consistently hitting limits
+
+<Warning>
+  **Important**: Rate limits are per API key. Using the same key across multiple services will share the rate limit.
+</Warning>

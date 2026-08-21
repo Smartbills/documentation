@@ -1,0 +1,65 @@
+---
+title: "Convert a Trip to an Expense"
+description: "Turn logged mileage trips into claimable expenses, individually or in bulk"
+---
+
+## Overview
+
+Logging a trip records the drive. Converting it creates the actual mileage expense you can put on an expense report. Until a trip is converted it costs nothing and claims nothing.
+
+A trip's status tells you where it is:
+
+| Status | Meaning |
+|--------|---------|
+| **Logged** | Recorded but not yet converted. No expense exists. |
+| **Unreported** | Converted. The expense exists but is not on a report yet. |
+| Any report status | Converted and attached to a report, showing that report's status. |
+
+## Convert a single trip
+
+From the trip list, open the row menu and choose the convert action. From the trip detail page, use the same action in the header.
+
+Smartbills creates a mileage expense using the trip's distance, unit, and the rate that applies to it, then takes you to the new expense.
+
+<Note>
+  Converting is idempotent. Running it again on a trip that is already converted does not create a second expense, so a double click cannot produce a duplicate claim.
+</Note>
+
+## Convert several trips at once
+
+Select trips in the list using the checkboxes, then choose **Add to report** from the bulk actions bar to convert the selection together.
+
+Bulk conversion reports partial success rather than failing as a whole. You will see up to three results:
+
+- **Converted**, for trips that produced a new expense
+- **Skipped**, for trips that were already converted and needed no action
+- **Failed**, for trips that could not be converted
+
+Because skipped and failed are counted separately, a bulk run over a mixed selection is safe. Already-converted trips are left alone rather than duplicated.
+
+## What the expense looks like
+
+The resulting expense is titled from the route, for example "Trip from Montreal to Quebec City". It carries the trip's distance, the applicable rate, and the calculated reimbursement. Opening it shows a breakdown that walks through year-to-date distance, the tier applied, and the resulting amount.
+
+The expense links back to the trip, and the trip links forward to the expense, so you can move between them from either side.
+
+## Deleting a converted trip
+
+Deleting a trip also removes its expense, so Smartbills blocks the delete once the expense is committed to a report.
+
+<Warning>
+  If the trip's expense sits on a report, deletion is refused with "This trip is on an expense report. Remove it from the report first to delete it." Remove the expense from the report, then delete the trip.
+</Warning>
+
+The same protection applies to bulk delete. Reported trips in your selection are skipped and counted, rather than silently removed.
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Add mileage to a report" icon="file-invoice" href="/guides/web-app/mileage/add-to-expense-report">
+    Claim the converted expense
+  </Card>
+  <Card title="Mileage rates" icon="calculator" href="/guides/web-app/mileage/mileage-rates">
+    Understand the rate that was applied
+  </Card>
+</CardGroup>

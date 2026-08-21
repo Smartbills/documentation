@@ -1,0 +1,353 @@
+---
+title: "Rapports de Dépenses"
+description: "Référence complète de la gestion des rapports de dépenses dans le SDK Python Smartbills, créer, soumettre, approuver, rejeter, rembourser et exporter."
+---
+
+## Rapports de Dépenses
+
+L'API des rapports de dépenses en Python couvre trois services :
+
+- **`client.expense_reports`**: cycle de vie des rapports (créer, soumettre, approuver, rejeter, rembourser)
+- **`client.expense_report_expenses`**: gérer les dépenses au sein d'un rapport
+- **`client.expense_report_payments`**: opérations de remboursement et de paiement
+
+Toutes les méthodes sont asynchrones et doivent être appelées avec `await`.
+
+## ExpenseReportService
+
+### Lister les rapports
+
+```python
+# Lister tous les rapports de l'entreprise
+result = await client.expense_reports.list()
+for report in result.data:
+    print(f"{report.id}: {report.name} ({report.status})")
+
+# Avec filtres
+from smartbills.models.expense_reports import ExpenseReportListRequest
+result = await client.expense_reports.list(
+    ExpenseReportListRequest(page=1, limit=20)
+)
+
+# Rapports d'un employé
+result = await client.expense_reports.list_for_employée(employée_id=42)
+
+# Mes rapports
+my_reports = await client.expense_reports.get_mine(params={"status": "draft"})
+
+# Rapports en attente d'approbation
+pending = await client.expense_reports.get_pending_approvals()
+```
+
+### Obtenir un rapport
+
+```python
+report = await client.expense_reports.get_by_id(report_id=123)
+print(report.name, report.status)
+```
+
+### Créer un rapport
+
+```python
+from smartbills.models.expense_reports import ExpenseReportCreateRequest
+
+report = await client.expense_reports.create(
+    ExpenseReportCreateRequest(
+        name="Dépenses de voyage T1",
+        description="Voyages d'affaires janvier-mars",
+    )
+)
+```
+
+### Mettre à jour un rapport
+
+```python
+from smartbills.models.expense_reports import ExpenseReportUpdateRequest
+
+updated = await client.expense_reports.update(
+    report_id=123,
+    request=ExpenseReportUpdateRequest(
+        name="Dépenses de voyage T1 (Modifie)",
+    ),
+)
+```
+
+### Supprimer un rapport
+
+```python
+await client.expense_reports.delete(report_id=123)
+```
+
+## Cycle de vie du rapport
+
+Les rapports suivent un flux : **Brouillon** -> **Soumis** -> **Approuvé** -> **Remboursé**.
+
+### Soumettre pour approbation
+
+```python
+submitted = await client.expense_reports.submit(report_id=123)
+print(submitted.status)  # 'submitted'
+```
+
+### Approuver
+
+```python
+from smartbills.models.expense_reports import ExpenseReportApproveRequest
+
+approved = await client.expense_reports.approve(
+    report_id=123,
+    request=ExpenseReportApproveRequest(comment="Tout est en ordre."),
+)
+```
+
+### Rejeter
+
+```python
+from smartbills.models.expense_reports import ExpenseReportRejectRequest
+
+rejected = await client.expense_reports.reject(
+    report_id=123,
+    request=ExpenseReportRejectRequest(reason="Reçus manquants."),
+)
+```
+
+### Demander des modifications
+
+```python
+from smartbills.models.expense_reports import ExpenseReportRequestChangesRequest
+
+returned = await client.expense_reports.request_changes(
+    report_id=123,
+    request=ExpenseReportRequestChangesRequest(
+        comment="Veuillez joindre le reçu de la conference."
+    ),
+)
+```
+
+### Rappeler un rapport soumis
+
+```python
+from smartbills.models.expense_reports import ExpenseReportRecallRequest
+
+recalled = await client.expense_reports.recall(
+    report_id=123,
+    request=ExpenseReportRecallRequest(reason="Je dois ajouter d'autres dépenses."),
+)
+```
+
+### Rembourser
+
+```python
+from smartbills.models.expense_reports import ExpenseReportReimburseRequest
+
+reimbursed = await client.expense_reports.reimburse(
+    report_id=123,
+    request=ExpenseReportReimburseRequest(payment_method="bank_transfer"),
+)
+```
+
+### Planifier le remboursement
+
+```python
+from smartbills.models.expense_reports import ExpenseReportPlanReimbursementRequest
+
+planned = await client.expense_reports.plan_reimbursement(
+    report_id=123,
+    request=ExpenseReportPlanReimbursementRequest(
+        scheduled_date="2025-04-15",
+        payment_method="bank_transfer",
+    ),
+)
+```
+
+## Commentaires et piste d'audit
+
+### Obtenir les commentaires
+
+```python
+comments = await client.expense_reports.get_comments(report_id=123)
+for comment in comments:
+    print(f"{comment.author}: {comment.content}")
+```
+
+### Ajouter un commentaire
+
+```python
+from smartbills.models.expense_reports import ExpenseReportCommentCreateRequest
+
+comment = await client.expense_reports.add_comment(
+    report_id=123,
+    request=ExpenseReportCommentCreateRequest(
+        content="Veuillez vérifiér les frais d'hotel."
+    ),
+)
+```
+
+### Obtenir la chronologie
+
+```python
+timeline = await client.expense_reports.get_timeline(report_id=123)
+for entry in timeline:
+    print(f"{entry.type}: {entry.description}")
+```
+
+### Obtenir le journal d'audit
+
+```python
+audit_log = await client.expense_reports.get_audit_log(report_id=123)
+for entry in audit_log:
+    print(f"{entry.action} par utilisateur {entry.user_id} à {entry.timestamp}")
+```
+
+## Affectation de compte comptable
+
+```python
+from smartbills.models.expense_reports import ExpenseReportAssignLedgerAccountRequest
+
+# Au niveau du rapport
+await client.expense_reports.assign_ledger_account(
+    report_id=123,
+    request=ExpenseReportAssignLedgerAccountRequest(ledger_account_id=500),
+)
+
+# Par dépense dans un rapport
+await client.expense_reports.assign_expense_ledger_account(
+    report_id=123,
+    expense_id=456,
+    request=ExpenseReportAssignLedgerAccountRequest(ledger_account_id=501),
+)
+```
+
+## Résumé et export
+
+```python
+# Obtenir le résumé
+summary = await client.expense_reports.get_summary()
+
+# Exporter les rapports
+from smartbills.models.expense_reports import ExpenseReportExportRequest
+
+data = await client.expense_reports.export(
+    ExpenseReportExportRequest(format="xlsx")
+)
+with open("rapports.xlsx", "wb") as f:
+    f.write(data)
+```
+
+## Gérer les dépenses dans les rapports
+
+```python
+from smartbills.models.expense_reports import (
+    AddExpenseToReportRequest,
+    AddExpensesToReportBatchRequest,
+    EditExpenseInReportRequest,
+)
+
+# Ajouter une dépense
+await client.expense_reports.add_expense(
+    report_id=123,
+    request=AddExpenseToReportRequest(expense_id=456),
+)
+
+# Ajouter plusieurs dépenses
+await client.expense_reports.add_expenses_batch(
+    report_id=123,
+    request=AddExpensesToReportBatchRequest(expense_ids=[456, 457, 458]),
+)
+
+# Modifier une dépense dans le rapport
+await client.expense_reports.edit_expense(
+    report_id=123,
+    expense_id=456,
+    request=EditExpenseInReportRequest(category_id=15),
+)
+
+# Retirer une dépense
+await client.expense_reports.remove_expense(report_id=123, expense_id=456)
+```
+
+## Opérations en masse
+
+```python
+from smartbills.models.expense_reports import (
+    BulkDeleteExpenseReportsRequest,
+    BulkSubmitExpenseReportsRequest,
+    BulkRecallExpenseReportsRequest,
+    BulkApproveApprobationsRequest,
+    BulkRejectApprobationsRequest,
+)
+
+# Suppression en masse
+await client.expense_reports.bulk_delete(
+    BulkDeleteExpenseReportsRequest(report_ids=[1, 2, 3])
+)
+
+# Soumission en masse
+await client.expense_reports.bulk_submit(
+    BulkSubmitExpenseReportsRequest(report_ids=[4, 5, 6])
+)
+
+# Rappel en masse
+await client.expense_reports.bulk_recall(
+    BulkRecallExpenseReportsRequest(report_ids=[7, 8])
+)
+
+# Approbation en masse
+await client.expense_reports.bulk_approve(
+    BulkApproveApprobationsRequest(report_ids=[9, 10])
+)
+
+# Rejet en masse
+await client.expense_reports.bulk_reject(
+    BulkRejectApprobationsRequest(report_ids=[11, 12])
+)
+```
+
+---
+
+## ExpenseReportExpenseService
+
+Le service `client.expense_report_expenses` fournit des méthodes dédiées pour gérer les dépenses dans les rapports.
+
+```python
+from smartbills.models.expense_reports import AddExpenseToReportRequest
+
+# Ajouter une dépense
+await client.expense_report_expenses.add(
+    report_id=123,
+    request=AddExpenseToReportRequest(expense_id=456),
+)
+
+# Retirer une dépense
+await client.expense_report_expenses.remove(report_id=123, expense_id=456)
+```
+
+---
+
+## ExpenseReportPaymentService
+
+Le service `client.expense_report_payments` gère les paiements de remboursement.
+
+```python
+from smartbills.models.expense_reports import (
+    ExpenseReportReimburseRequest,
+    ExpenseReportPlanReimbursementRequest,
+)
+
+# Remboursement complet
+await client.expense_report_payments.reimburse(report_id=123)
+
+# Remboursement partiel
+await client.expense_report_payments.partial_reimburse(
+    report_id=123,
+    request={"amount": 150.00},
+)
+
+# Planifier un remboursement
+await client.expense_report_payments.plan_reimbursement(
+    report_id=123,
+    request=ExpenseReportPlanReimbursementRequest(
+        scheduled_date="2025-05-01",
+    ),
+)
+```

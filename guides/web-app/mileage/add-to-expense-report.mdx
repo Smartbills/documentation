@@ -1,0 +1,57 @@
+---
+title: "Add Mileage to an Expense Report"
+description: "Claim mileage reimbursement alongside your other expenses"
+---
+
+## Overview
+
+Once a trip is converted, its mileage expense behaves like any other expense. You add it to an expense report, submit the report, and it follows the normal approval and reimbursement path.
+
+## From the trip
+
+Open the trip and choose **Add to expense report**. Pick an existing draft report or create a new one.
+
+## From the trip list
+
+Select one or more trips with the checkboxes and use **Add to report** in the bulk actions bar. Trips that have not been converted yet are converted as part of the same action, so you do not need to do it in two passes.
+
+## From the expense report
+
+Open a draft report and add expenses as usual. Mileage expenses appear in the picker next to your receipt-based expenses and are identified as mileage.
+
+## What the approver sees
+
+A mileage expense shows more than a flat amount, because approvers routinely need to check how the figure was reached. The reimbursement panel walks through:
+
+- Year-to-date distance before the trip
+- The trip's distance, and whether it was calculated or manually claimed
+- The rate applied, including which tier it fell into
+- The resulting total
+- Year-to-date distance after the trip
+
+When a tier boundary was crossed during the year, the panel says so explicitly, noting that the reduced rate applies beyond the threshold.
+
+## Calculated and claimed amounts can differ
+
+The claimed amount is fixed when the report is submitted. The computed total reflects the rate tier that applies right now. Those two numbers can drift apart if your year-to-date distance crossed a threshold after submission.
+
+Smartbills shows both when they differ, with the explanation: "The claimed amount was locked when the report was submitted; the computed total reflects the current year-to-date rate tier." The claimed amount is what gets reimbursed.
+
+<Note>
+  This is deliberate. Locking the claim at submission means an approver signs off on a number that cannot move underneath them, and an employee is not penalised for a threshold they crossed on a later trip.
+</Note>
+
+## Editing a reported trip
+
+A trip whose expense is on a submitted report is locked for editing. Recall the report first, make the change, then resubmit. See [Recall a report](/guides/web-app/reports/recall-report).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Create a report" icon="file-invoice" href="/guides/web-app/reports/create-report">
+    Start a new expense report
+  </Card>
+  <Card title="Submit a report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Send it for approval
+  </Card>
+</CardGroup>

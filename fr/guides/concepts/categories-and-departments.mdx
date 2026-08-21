@@ -1,0 +1,107 @@
+---
+title: "Catégories et Départements"
+description: "Organisez les dépenses avec des catégories et départements pour une classification comptable appropriée"
+---
+
+## Que sont les catégories et départements?
+
+Les catégories et les départements sont les deux systèmes de classification principaux dans Smartbills pour organiser les dépenses. Les **catégories** décrivent le type de dépense engagée (comme Voyage, Repas ou Fournitures de bureau), tandis que les **départements** indiquent à quelle unité d'affaires ou centre de coûts la dépense appartient. Ensemble, ils fournissent la structure nécessaire pour des rapports financiers précis et l'intégration comptable.
+
+## Catégories
+
+### Fonctionnement des catégories
+
+Les catégories classifient les dépenses par leur nature ou leur objectif. Chaque dépense dans Smartbills est assignée à une catégorie, ce qui détermine comment la dépense est enregistrée dans votre système comptable. Les catégories sont gérées depuis **Paramètres > Catégories** (`/:slug/settings/categories`).
+
+Lorsqu'une dépense est créée, Smartbills peut automatiquement suggérer une catégorie basée sur le fournisseur ou le contenu du reçu. L'utilisateur peut accepter la suggestion ou choisir une catégorie différente manuellement.
+
+### Catégories par défaut
+
+Smartbills est livré avec un ensemble de catégories couramment utilisées :
+
+| Catégorie | Description |
+|-----------|-------------|
+| **Voyage** | Vols, trains, location de véhicules, carburant et autres frais de transport |
+| **Repas et divertissement** | Repas d'affaires, dîners avec clients, déjeuners d'équipe |
+| **Hébergement** | Hôtels, Airbnb et autres frais de logement |
+| **Fournitures de bureau** | Papeterie, fournitures d'imprimante, équipement de bureau |
+| **Logiciels et abonnements** | Outils SaaS, licences logicielles, services en ligne |
+| **Télécommunications** | Factures téléphoniques, service Internet, forfaits mobiles |
+| **Services professionnels** | Frais juridiques, consultation, services comptables |
+| **Marketing** | Publicité, commandites, matériel promotionnel |
+| **Formation et éducation** | Cours, conférences, certifications, livres |
+| **Divers** | Dépenses ne correspondant à aucune autre catégorie |
+
+### Catégories personnalisées
+
+Les administrateurs peuvent créer des catégories personnalisées pour correspondre au plan comptable de leur organisation. Les catégories personnalisées prennent en charge :
+
+- **Nom et description personnalisés** pour définir clairement la catégorie pour les employés
+- **Correspondance de code comptable** pour relier la catégorie à un numéro de compte du grand livre spécifique
+- **Règles de traitement fiscal** pour signaler les catégories ayant des implications fiscales particulières
+- **Bascule actif/inactif** pour masquer les catégories qui ne sont plus utilisées sans supprimer les données historiques
+
+## Départements
+
+### Fonctionnement des départements
+
+Les départements représentent votre structure organisationnelle, les équipes, divisions ou centres de coûts auxquels les dépenses sont imputées. Les départements sont gérés depuis **Paramètres > Départements** (`/:slug/settings/departments`).
+
+Lorsqu'une dépense est assignée à un département, elle apparaît dans les rapports de dépenses de ce département et est allouée au bon centre de coûts dans votre système comptable.
+
+### Configuration des départements
+
+Chaque département peut inclure :
+
+| Champ | Description |
+|-------|-------------|
+| **Nom** | Le nom d'affichage du département (ex. : "Ingénierie", "Ventes") |
+| **Code** | Un code comptable optionnel pour l'intégration avec votre plan comptable |
+| **Gestionnaire** | L'utilisateur responsable de la révision des dépenses du département |
+| **Budget** | Une limite de dépenses mensuelle ou annuelle optionnelle pour le département |
+| **Département parent** | Pour les hiérarchies de départements imbriquées (ex. : "Frontend" sous "Ingénierie") |
+
+### Intégration comptable
+
+Les catégories et les départements se rattachent directement à votre plan comptable. Lorsque vous exportez des dépenses ou synchronisez avec un logiciel comptable comme QuickBooks ou Xero :
+
+- Les **catégories** correspondent aux codes de comptes de dépenses (ex. : Voyage correspond au GL 6200)
+- Les **départements** correspondent aux centres de coûts, classes ou catégories de suivi
+- Cette correspondance assure que les dépenses sont enregistrées dans les bons comptes sans reclassification manuelle
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Catégorie** | Une classification qui décrit le type de dépense (ex. : Voyage, Repas) |
+| **Département** | Une unité d'affaires ou centre de coûts auquel une dépense est allouée |
+| **Plan comptable** | La liste des comptes financiers utilisés par le système comptable de votre organisation |
+| **Compte du grand livre** | Un code de compte du grand livre auquel une catégorie correspond |
+| **Centre de coûts** | Une unité organisationnelle utilisée pour le suivi des dépenses, équivalent à un département |
+| **Budget** | Une limite de dépenses optionnelle assignée à un département ou une catégorie |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Administrateur** | Crée, modifié et gère les catégories et départements. Nécessite la permission `SETTINGS_GENERAL_MANAGE` |
+| **Comptable** | Fait correspondre les catégories et départements au plan comptable |
+| **Employé** | Sélectionne une catégorie et un département lors de la création ou modification d'une dépense |
+| **Gestionnaire** | Révise les dépenses pour une catégorisation correcte au sein de son département |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Paramètres : Catégories" icon="folder-tree" href="/fr/guides/web-app/settings/categories">
+    Comment créer et gérer les catégories dans l'application web
+  </Card>
+  <Card title="Paramètres : Départements" icon="building" href="/fr/guides/web-app/settings/departments">
+    Comment configurer les départements et assigner les gestionnaires
+  </Card>
+  <Card title="Catégoriser une dépense" icon="tag" href="/fr/guides/web-app/expenses/categorize-expense">
+    Guide étape par étape pour catégoriser une dépense
+  </Card>
+  <Card title="Dépenses" icon="receipt" href="/fr/guides/concepts/expenses">
+    En savoir plus sur le cycle de vie des dépenses
+  </Card>
+</CardGroup>

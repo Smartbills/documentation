@@ -1,0 +1,109 @@
+---
+title: "Approvals"
+description: "Manage expense and report approvals as a manager or approver"
+---
+
+## Introduction
+
+The Approvals section is where managers and designated approvers review, approve, reject, or request changes on submitted expense reports. Smartbills supports two levels of approval to give organizations the flexibility they need.
+
+<Note>
+  **Who sees Approvals?** Only users with approval permissions see the Approvals section in the sidebar. If you do not see it, contact your administrator to verify your role.
+</Note>
+
+## Two Types of Approvals
+
+Smartbills provides two distinct approval workflows that can be used independently or together:
+
+### Expense-Level Approvals
+
+Accessed at `/:slug/approvals`, expense-level approvals let approvers review individual expenses before they are grouped into a report. This is useful for organizations that want granular control over each transaction.
+
+- Approvers see a queue of individual expenses awaiting review
+- Each expense can be approved or flagged independently
+- Expenses must be approved before they can be added to a report (when this workflow is enabled)
+
+### Report-Level Approvals
+
+Accessed at `/:slug/approbations`, report-level approvals operate on entire expense reports. This is the more traditional workflow where employees bundle expenses into a report and submit it as a single unit.
+
+- Approvers see a queue of submitted expense reports
+- The full report is reviewed, including all attached expenses
+- The approver can approve, reject, or request changes on the entire report
+
+## The Approval Queue
+
+When you open Approvals in the sidebar, you see a list of items waiting for your action. A badge on the sidebar icon shows the number of pending items.
+
+### Queue Features
+
+- **Status filters**: Filter by Pending, Approved, Rejected, or Changes Requested
+- **Date range**: Narrow results to a specific time period
+- **Submitter filter**: View items from a particular team member
+- **Amount range**: Focus on items above or below a certain threshold
+- **Search**: Find items by name, description, or reference number
+
+### Queue Columns
+
+| Column | Description |
+|--------|-------------|
+| **Submitter** | The employee who submitted the item |
+| **Title** | Report name or expense description |
+| **Amount** | Total amount of the report or expense |
+| **Date** | Submission date |
+| **Status** | Current status (Pending, Approved, Rejected, Changes Requested) |
+| **Expenses** | Number of expenses included (report-level only) |
+
+## Approval Actions
+
+For each pending item, you can take one of three actions:
+
+<CardGroup cols={3}>
+  <Card title="Approve" icon="check" href="/guides/web-app/approvals/approve-report">
+    Accept the report and move it forward
+  </Card>
+  <Card title="Reject" icon="xmark" href="/guides/web-app/approvals/reject-report">
+    Decline the report with a required reason
+  </Card>
+  <Card title="Request Changes" icon="pen" href="/guides/web-app/approvals/request-changes">
+    Send the report back for revisions
+  </Card>
+</CardGroup>
+
+## Notifications
+
+Smartbills keeps both approvers and submitters informed throughout the process:
+
+- **Approvers** receive notifications when a new item is submitted for their review
+- **Submitters** receive notifications when their item is approved, rejected, or returned for changes
+- Notifications appear in the top bar bell icon and are also sent by email (configurable in Settings)
+
+## Multi-Level Approvals
+
+For organizations that require more than one level of sign-off, Smartbills supports sequential approval chains. When enabled:
+
+1. The first approver reviews and approves
+2. The item advances to the next approver in the chain
+3. The process repeats until all required approvals are collected
+4. The submitter is notified only after final approval or if any approver rejects
+
+<Tip>
+  Approval chains are configured by administrators in **Settings > Approval Workflows**. Contact your admin if you need to adjust the approval hierarchy.
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Approve a Report" icon="circle-check" href="/guides/web-app/approvals/approve-report">
+    Step-by-step guide to approving an expense report
+  </Card>
+  <Card title="Reject a Report" icon="circle-xmark" href="/guides/web-app/approvals/reject-report">
+    How to reject a report and notify the submitter
+  </Card>
+  <Card title="Request Changes" icon="comment-dots" href="/guides/web-app/approvals/request-changes">
+    Send a report back for revisions
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Learn about the report lifecycle
+  </Card>
+</CardGroup>

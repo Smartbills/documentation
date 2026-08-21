@@ -1,0 +1,983 @@
+---
+title: 'Webhooks'
+description: 'Receive real-time notifications when events occur in your Smartbills account'
+---
+
+## Overview
+
+Webhooks allow you to receive HTTP notifications when specific events occur in your Smartbills account. Instead of polling the API for changes, Smartbills will push notifications to your server in real-time.
+
+<Note>
+  **Real-time updates**: Webhooks are delivered within seconds of the event occurring, making them ideal for automation and integrations.
+</Note>
+
+## How Webhooks Work
+
+<Steps>
+  <Step title="Event Occurs">
+    An action happens in Smartbills (e.g., expense created, report approved)
+  </Step>
+  
+  <Step title="Webhook Triggered">
+    Smartbills prepares a webhook payload with event details
+  </Step>
+  
+  <Step title="HTTP POST Sent">
+    Smartbills sends an HTTP POST request to your configured endpoint
+  </Step>
+  
+  <Step title="Your Server Responds">
+    Your server processes the webhook and returns a 200 OK response
+  </Step>
+  
+  <Step title="Confirmation">
+    Smartbills marks the webhook as delivered
+  </Step>
+</Steps>
+
+## Setting Up Webhooks
+
+### Create a Webhook Endpoint
+
+First, create an endpoint on your server to receive webhooks:
+
+<CodeGroup>
+
+```javascript Node.js/Express
+const express = require('express');
+const app = express();
+
+app.post('/webhooks/smartbills', express.json(), (req, res) => {
+  const event = req.body;
+  
+  // Verify webhook signature
+  const signature = req.headers['x-smartbills-signature'];
+  if (!verifySignature(event, signature)) {
+    return res.status(401).send('Invalid signature');
+  }
+  
+  // Process the event
+  console.log('Received event:', event.type);
+  
+  switch (event.type) {
+    case 'expense.created':
+      handleExpenseCreated(event.data);
+      break;
+    case 'report.approved':
+      handleReportApproved(event.data);
+      break;
+    default:
+      console.log(`Unhandled event type: ${event.type}`);
+  }
+  
+  // Return 200 OK
+  res.status(200).send('Webhook received');
+});
+
+app.listen(3000);
+```
+
+```python Python/Flask
+from flask import Flask, request, jsonify
+import hmac
+import hashlib
+
+app = Flask(__name__)
+
+@app.route('/webhooks/smartbills', methods=['POST'])
+def handle_webhook():
+    event = request.json
+    signature = request.headers.get('X-Smartbills-Signature')
+    
+    # Verify signature
+    if not verify_signature(event, signature):
+        return jsonify({'error': 'Invalid signature'}), 401
+    
+    # Process event
+    event_type = event['type']
+    
+    if event_type == 'expense.created':
+        handle_expense_created(event['data'])
+    elif event_type == 'report.approved':
+        handle_report_approved(event['data'])
+    
+    return jsonify({'status': 'success'}), 200
+
+if __name__ == '__main__':
+    app.run(port=3000)
+```
+
+```php PHP
+<?php
+// webhooks.php
+
+$payload = file_get_contents('php://input');
+$event = json_decode($payload, true);
+$signature = $_SERVER['HTTP_X_SMARTBILLS_SIGNATURE'];
+
+// Verify signature
+if (!verifySignature($payload, $signature)) {
+    http_response_code(401);
+    die('Invalid signature');
+}
+
+// Process event
+switch ($event['type']) {
+    case 'expense.created':
+        handleExpenseCreated($event['data']);
+        break;
+    case 'report.approved':
+        handleReportApproved($event['data']);
+        break;
+}
+
+http_response_code(200);
+echo json_encode(['status' => 'success']);
+?>
+```
+
+```ruby Ruby/Sinatra
+require 'sinatra'
+require 'json'
+
+post '/webhooks/smartbills' do
+  payload = request.body.read
+  event = JSON.parse(payload)
+  signature = request.env['HTTP_X_SMARTBILLS_SIGNATURE']
+  
+  # Verify signature
+  unless verify_signature(payload, signature)
+    status 401
+    return { error: 'Invalid signature' }.to_json
+  end
+  
+  # Process event
+  case event['type']
+  when 'expense.created'
+    handle_expense_created(event['data'])
+  when 'report.approved'
+    handle_report_approved(event['data'])
+  end
+  
+  status 200
+  { status: 'success' }.to_json
+end
+```
+
+</CodeGroup>
+
+### Register Your Webhook
+
+Register your endpoint with Smartbills:
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/v1/webhooks \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "url": "https://your-domain.com/webhooks/smartbills",
+    "events": ["expense.created", "report.approved"],
+    "description": "Production webhook endpoint"
+  }'
+```
+
+```javascript JavaScript
+const response = await fetch('https://api.smartbills.io/v1/webhooks', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    url: 'https://your-domain.com/webhooks/smartbills',
+    events: ['expense.created', 'report.approved'],
+    description: 'Production webhook endpoint'
+  })
+});
+
+const webhook = await response.json();
+console.log('Webhook ID:', webhook.id);
+```
+
+```python Python
+import requests
+
+headers = {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+}
+
+data = {
+    'url': 'https://your-domain.com/webhooks/smartbills',
+    'events': ['expense.created', 'report.approved'],
+    'description': 'Production webhook endpoint'
+}
+
+response = requests.post(
+    'https://api.smartbills.io/v1/webhooks',
+    headers=headers,
+    json=data
+)
+
+webhook = response.json()
+print(f"Webhook ID: {webhook['id']}")
+```
+
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "id": "wh_1234567890",
+  "url": "https://your-domain.com/webhooks/smartbills",
+  "events": ["expense.created", "report.approved"],
+  "description": "Production webhook endpoint",
+  "secret": "whsec_abcdef123456",
+  "status": "active",
+  "createdAt": "2024-01-15T10:30:00Z"
+}
+```
+
+<Warning>
+  **Save the secret**: The webhook secret is only shown once. Store it securely - you'll need it to verify webhook signatures.
+</Warning>
+
+## Available Events
+
+### Expense Events
+
+| Event | Description |
+|-------|-------------|
+| `expense.created` | New expense uploaded or created |
+| `expense.updated` | Expense details modified |
+| `expense.deleted` | Expense removed |
+| `expense.categorized` | Expense category changed |
+| `expense.validated` | Expense validated by OCR or user |
+
+### Expense Report Events
+
+| Event | Description |
+|-------|-------------|
+| `report.created` | New expense report created |
+| `report.updated` | Report details modified |
+| `report.submitted` | Report submitted for approval |
+| `report.approved` | Report approved by manager |
+| `report.rejected` | Report rejected by approver |
+| `report.recalled` | Report recalled by submitter |
+| `report.reimbursed` | Reimbursement processed |
+| `report.comment_added` | Comment added to report |
+
+### Business Events
+
+| Event | Description |
+|-------|-------------|
+| `business.created` | New business created |
+| `business.updated` | Business settings modified |
+| `business.user_added` | User invited to business |
+| `business.user_removed` | User removed from business |
+
+### User Events
+
+| Event | Description |
+|-------|-------------|
+| `user.created` | New user registered |
+| `user.updated` | User profile modified |
+| `user.deleted` | User account deleted |
+
+## Webhook Payload Structure
+
+All webhooks follow this structure:
+
+```json
+{
+  "id": "evt_1234567890",
+  "type": "expense.created",
+  "createdAt": "2024-01-15T10:30:00Z",
+  "data": {
+    // Event-specific data
+  },
+  "metadata": {
+    "businessId": 100,
+    "userId": 500
+  }
+}
+```
+
+### Example Payloads
+
+<Tabs>
+  <Tab title="expense.created">
+    ```json
+    {
+      "id": "evt_abc123",
+      "type": "expense.created",
+      "createdAt": "2024-01-15T10:30:00Z",
+      "data": {
+        "expense": {
+          "id": 12345,
+          "amount": 49.99,
+          "currency": "USD",
+          "merchant": "Office Depot",
+          "date": "2024-01-15",
+          "category": "Office Supplies",
+          "status": "pending",
+          "userId": 500,
+          "businessId": 100
+        }
+      },
+      "metadata": {
+        "businessId": 100,
+        "userId": 500
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="report.approved">
+    ```json
+    {
+      "id": "evt_def456",
+      "type": "report.approved",
+      "createdAt": "2024-01-15T14:30:00Z",
+      "data": {
+        "report": {
+          "id": 789,
+          "name": "January 2024 Expenses",
+          "totalAmount": 1250.00,
+          "currency": "USD",
+          "status": "approved",
+          "submittedBy": 500,
+          "approvedBy": 501,
+          "businessId": 100,
+          "expenseCount": 15
+        },
+        "approver": {
+          "id": 501,
+          "name": "Jane Manager",
+          "email": "jane@company.com"
+        }
+      },
+      "metadata": {
+        "businessId": 100,
+        "userId": 500
+      }
+    }
+    ```
+  </Tab>
+  
+  <Tab title="report.submitted">
+    ```json
+    {
+      "id": "evt_ghi789",
+      "type": "report.submitted",
+      "createdAt": "2024-01-15T09:00:00Z",
+      "data": {
+        "report": {
+          "id": 789,
+          "name": "January 2024 Expenses",
+          "totalAmount": 1250.00,
+          "currency": "USD",
+          "status": "submitted",
+          "submittedBy": 500,
+          "submittedAt": "2024-01-15T09:00:00Z",
+          "businessId": 100,
+          "expenseCount": 15,
+          "approvers": [501, 502]
+        }
+      },
+      "metadata": {
+        "businessId": 100,
+        "userId": 500
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Webhook Security
+
+### Verify Signatures
+
+Always verify webhook signatures to ensure requests are from Smartbills:
+
+<CodeGroup>
+
+```javascript Node.js
+const crypto = require('crypto');
+
+function verifySignature(payload, signature, secret) {
+  const hmac = crypto.createHmac('sha256', secret);
+  const digest = hmac.update(JSON.stringify(payload)).digest('hex');
+  return crypto.timingSafeEqual(
+    Buffer.from(signature),
+    Buffer.from(digest)
+  );
+}
+
+// Usage
+const isValid = verifySignature(
+  req.body,
+  req.headers['x-smartbills-signature'],
+  process.env.WEBHOOK_SECRET
+);
+```
+
+```python Python
+import hmac
+import hashlib
+
+def verify_signature(payload, signature, secret):
+    computed = hmac.new(
+        secret.encode(),
+        payload.encode(),
+        hashlib.sha256
+    ).hexdigest()
+    return hmac.compare_digest(computed, signature)
+
+# Usage
+is_valid = verify_signature(
+    request.data.decode(),
+    request.headers.get('X-Smartbills-Signature'),
+    os.environ['WEBHOOK_SECRET']
+)
+```
+
+```php PHP
+<?php
+function verifySignature($payload, $signature, $secret) {
+    $computed = hash_hmac('sha256', $payload, $secret);
+    return hash_equals($computed, $signature);
+}
+
+// Usage
+$isValid = verifySignature(
+    file_get_contents('php://input'),
+    $_SERVER['HTTP_X_SMARTBILLS_SIGNATURE'],
+    getenv('WEBHOOK_SECRET')
+);
+?>
+```
+
+```ruby Ruby
+require 'openssl'
+
+def verify_signature(payload, signature, secret)
+  computed = OpenSSL::HMAC.hexdigest('SHA256', secret, payload)
+  Rack::Utils.secure_compare(computed, signature)
+end
+
+# Usage
+is_valid = verify_signature(
+  request.body.read,
+  request.env['HTTP_X_SMARTBILLS_SIGNATURE'],
+  ENV['WEBHOOK_SECRET']
+)
+```
+
+</CodeGroup>
+
+### Security Best Practices
+
+<Steps>
+  <Step title="Always Verify Signatures">
+    Never process webhooks without verifying the signature first
+  </Step>
+  
+  <Step title="Use HTTPS">
+    Your webhook endpoint must use HTTPS in production
+  </Step>
+  
+  <Step title="Keep Secrets Secure">
+    Store webhook secrets in environment variables, never in code
+  </Step>
+  
+  <Step title="Validate Payload">
+    Check that the payload structure matches expected format
+  </Step>
+  
+  <Step title="Use IP Allowlist (Optional)">
+    Restrict webhook requests to Smartbills IP addresses
+  </Step>
+</Steps>
+
+## Handling Webhooks
+
+### Best Practices
+
+<AccordionGroup>
+  <Accordion title="Respond Quickly" icon="bolt">
+    Return a `200 OK` response within 5 seconds
+    
+    **Do:**
+    - Acknowledge receipt immediately
+    - Process asynchronously
+    - Use job queues for heavy processing
+    
+    **Don't:**
+    - Perform long-running operations
+    - Make external API calls before responding
+    - Wait for database writes to complete
+    
+    ```javascript
+    app.post('/webhooks', async (req, res) => {
+      // Respond immediately
+      res.status(200).send('OK');
+      
+      // Process asynchronously
+      processWebhook(req.body).catch(console.error);
+    });
+    ```
+  </Accordion>
+
+  <Accordion title="Handle Idempotency" icon="repeat">
+    Webhooks may be delivered more than once
+    
+    **Strategy:**
+    - Store event IDs
+    - Check if event was already processed
+    - Skip duplicate events
+    
+    ```javascript
+    async function processWebhook(event) {
+      // Check if already processed
+      const exists = await db.events.findOne({ id: event.id });
+      if (exists) {
+        console.log('Event already processed:', event.id);
+        return;
+      }
+      
+      // Process event
+      await handleEvent(event);
+      
+      // Mark as processed
+      await db.events.insert({ id: event.id, processedAt: new Date() });
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Implement Retry Logic" icon="rotate">
+    Handle failures gracefully
+    
+    **If processing fails:**
+    - Log the error
+    - Store webhook for retry
+    - Implement exponential backoff
+    - Alert on repeated failures
+    
+    ```javascript
+    async function processWithRetry(event, maxRetries = 3) {
+      for (let i = 0; i < maxRetries; i++) {
+        try {
+          await handleEvent(event);
+          return;
+        } catch (error) {
+          console.error(`Attempt ${i + 1} failed:`, error);
+          if (i < maxRetries - 1) {
+            await sleep(Math.pow(2, i) * 1000); // Exponential backoff
+          }
+        }
+      }
+      // All retries failed - alert admin
+      await alertAdmin('Webhook processing failed', event);
+    }
+    ```
+  </Accordion>
+
+  <Accordion title="Log Everything" icon="file-lines">
+    Maintain detailed logs for debugging
+    
+    **Log:**
+    - Incoming webhook payloads
+    - Signature verification results
+    - Processing outcomes
+    - Errors and exceptions
+    
+    ```javascript
+    app.post('/webhooks', async (req, res) => {
+      const event = req.body;
+      
+      logger.info('Webhook received', {
+        eventId: event.id,
+        eventType: event.type,
+        timestamp: event.createdAt
+      });
+      
+      try {
+        await processWebhook(event);
+        logger.info('Webhook processed successfully', { eventId: event.id });
+      } catch (error) {
+        logger.error('Webhook processing failed', {
+          eventId: event.id,
+          error: error.message,
+          stack: error.stack
+        });
+      }
+      
+      res.status(200).send('OK');
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Webhook Retries
+
+### Automatic Retries
+
+Smartbills automatically retries failed webhooks:
+
+| Attempt | Delay |
+|---------|-------|
+| 1st retry | 1 minute |
+| 2nd retry | 5 minutes |
+| 3rd retry | 15 minutes |
+| 4th retry | 1 hour |
+| 5th retry | 6 hours |
+| Final retry | 24 hours |
+
+**Retry conditions:**
+- HTTP status code ≥ 500
+- Connection timeout
+- Connection refused
+- DNS resolution failure
+
+**No retry for:**
+- HTTP status code < 500 (including 4xx errors)
+- Invalid SSL certificate
+- Signature verification failures
+
+<Warning>
+  **Return 200 OK**: Always return a 200 status code if you successfully received the webhook, even if processing fails. Handle processing errors internally.
+</Warning>
+
+## Managing Webhooks
+
+### List Webhooks
+
+```bash
+GET /v1/webhooks
+```
+
+```javascript
+const response = await fetch('https://api.smartbills.io/v1/webhooks', {
+  headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+});
+const webhooks = await response.json();
+```
+
+### Update Webhook
+
+```bash
+PATCH /v1/webhooks/{webhookId}
+```
+
+```javascript
+await fetch(`https://api.smartbills.io/v1/webhooks/${webhookId}`, {
+  method: 'PATCH',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    events: ['expense.created', 'expense.updated', 'report.approved']
+  })
+});
+```
+
+### Delete Webhook
+
+```bash
+DELETE /v1/webhooks/{webhookId}
+```
+
+```javascript
+await fetch(`https://api.smartbills.io/v1/webhooks/${webhookId}`, {
+  method: 'DELETE',
+  headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+});
+```
+
+### Test Webhook
+
+Send a test event to your endpoint:
+
+```bash
+POST /v1/webhooks/{webhookId}/test
+```
+
+```javascript
+await fetch(`https://api.smartbills.io/v1/webhooks/${webhookId}/test`, {
+  method: 'POST',
+  headers: { 'Authorization': 'Bearer YOUR_API_KEY' }
+});
+```
+
+## Webhook Logs
+
+View delivery history and debug issues:
+
+```bash
+GET /v1/webhooks/{webhookId}/deliveries
+```
+
+Response:
+```json
+{
+  "data": [
+    {
+      "id": "del_123",
+      "eventId": "evt_abc",
+      "eventType": "expense.created",
+      "status": "success",
+      "statusCode": 200,
+      "responseTime": 145,
+      "attempts": 1,
+      "deliveredAt": "2024-01-15T10:30:01Z"
+    },
+    {
+      "id": "del_124",
+      "eventId": "evt_def",
+      "eventType": "report.approved",
+      "status": "failed",
+      "statusCode": 500,
+      "responseTime": 5000,
+      "attempts": 3,
+      "lastAttemptAt": "2024-01-15T11:45:00Z",
+      "nextRetryAt": "2024-01-15T12:00:00Z",
+      "error": "Internal Server Error"
+    }
+  ]
+}
+```
+
+## Testing Webhooks
+
+### Local Development
+
+Use tools like ngrok to test webhooks locally:
+
+<Steps>
+  <Step title="Install ngrok">
+    ```bash
+    # Download from https://ngrok.com
+    npm install -g ngrok
+    ```
+  </Step>
+  
+  <Step title="Start Your Server">
+    ```bash
+    node server.js
+    # Server running on http://localhost:3000
+    ```
+  </Step>
+  
+  <Step title="Create Tunnel">
+    ```bash
+    ngrok http 3000
+    # Forwarding https://abc123.ngrok.io -> http://localhost:3000
+    ```
+  </Step>
+  
+  <Step title="Register Webhook">
+    Use the ngrok URL as your webhook endpoint:
+    ```
+    https://abc123.ngrok.io/webhooks/smartbills
+    ```
+  </Step>
+  
+  <Step title="Test">
+    Trigger events in Smartbills and watch your local server receive webhooks
+  </Step>
+</Steps>
+
+### Testing Tools
+
+**Webhook.site**
+- Free webhook testing tool
+- Inspect webhook payloads
+- No coding required
+- URL: https://webhook.site
+
+**RequestBin**
+- Collect and inspect webhooks
+- Debug payload structure
+- URL: https://requestbin.com
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Webhooks not being delivered" icon="circle-exclamation">
+    **Check these:**
+    
+    1. **Endpoint is accessible**
+       - Test with curl or Postman
+       - Ensure HTTPS is working
+       - Check firewall rules
+    
+    2. **Webhook is active**
+       - Verify status in dashboard
+       - Check if webhook was disabled
+    
+    3. **Events are subscribed**
+       - Confirm you're subscribed to the event type
+       - Check event filters
+    
+    4. **No errors in logs**
+       - Review webhook delivery logs
+       - Check for 4xx/5xx errors
+  </Accordion>
+
+  <Accordion title="Signature verification fails" icon="key">
+    **Common causes:**
+    
+    1. **Wrong secret**
+       - Verify you're using the correct webhook secret
+       - Check environment variables
+    
+    2. **Payload modification**
+       - Don't modify the raw payload before verification
+       - Use the exact bytes received
+    
+    3. **Encoding issues**
+       - Ensure consistent encoding (UTF-8)
+       - Don't parse JSON before verification
+    
+    **Debug:**
+    ```javascript
+    console.log('Received signature:', req.headers['x-smartbills-signature']);
+    console.log('Computed signature:', computedSignature);
+    console.log('Payload:', req.body);
+    ```
+  </Accordion>
+
+  <Accordion title="Duplicate webhooks" icon="copy">
+    **This is normal behavior**
+    
+    Webhooks may be delivered more than once due to:
+    - Network issues
+    - Timeout retries
+    - Server restarts
+    
+    **Solution**: Implement idempotency
+    ```javascript
+    const processedEvents = new Set();
+    
+    if (processedEvents.has(event.id)) {
+      return; // Already processed
+    }
+    
+    await handleEvent(event);
+    processedEvents.add(event.id);
+    ```
+  </Accordion>
+
+  <Accordion title="Webhook endpoint timing out" icon="clock">
+    **Problem**: Webhooks failing due to timeout
+    
+    **Solution**: Process asynchronously
+    
+    ```javascript
+    // Bad - synchronous processing
+    app.post('/webhooks', async (req, res) => {
+      await processExpense(req.body); // Takes 10 seconds
+      res.status(200).send('OK');
+    });
+    
+    // Good - async processing
+    app.post('/webhooks', async (req, res) => {
+      res.status(200).send('OK'); // Respond immediately
+      
+      // Process in background
+      queue.add('process-webhook', req.body);
+    });
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Example Use Cases
+
+### Sync to Accounting Software
+
+```javascript
+async function handleExpenseCreated(event) {
+  const expense = event.data.expense;
+  
+  // Sync to QuickBooks
+  await quickbooks.createExpense({
+    amount: expense.amount,
+    vendor: expense.merchant,
+    category: mapCategory(expense.category),
+    date: expense.date,
+    memo: expense.notes
+  });
+  
+  console.log(`Synced expense ${expense.id} to QuickBooks`);
+}
+```
+
+### Send Slack Notifications
+
+```javascript
+async function handleReportApproved(event) {
+  const report = event.data.report;
+  
+  await slack.postMessage({
+    channel: '#expense-reports',
+    text: `✅ Expense report "${report.name}" approved!`,
+    blocks: [
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: `*${report.name}* has been approved\nAmount: $${report.totalAmount}\nApproved by: ${event.data.approver.name}`
+        }
+      }
+    ]
+  });
+}
+```
+
+### Trigger Reimbursement
+
+```javascript
+async function handleReportApproved(event) {
+  const report = event.data.report;
+  
+  // Initiate payment via payment processor
+  await paymentProcessor.createPayment({
+    recipient: report.submittedBy,
+    amount: report.totalAmount,
+    currency: report.currency,
+    description: `Reimbursement for ${report.name}`,
+    reference: `REPORT-${report.id}`
+  });
+  
+  console.log(`Initiated reimbursement for report ${report.id}`);
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/developer/api-keys">
+    Secure your webhook endpoints
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/developer/rate-limits">
+    Understand API rate limiting
+  </Card>
+  <Card title="Error Handling" icon="triangle-exclamation" href="/developer/errors">
+    Handle webhook errors
+  </Card>
+  <Card title="API Reference" icon="code" href="/api-reference/introduction">
+    Explore all API endpoints
+  </Card>
+</CardGroup>
+
+## Need Help?
+
+- **Webhook Issues**: [developers@smartbills.io](mailto:developers@smartbills.io)
+- **Community**: [community.smartbills.io](https://community.smartbills.io)
+- **Status**: [status.smartbills.io](https://status.smartbills.io)

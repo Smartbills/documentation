@@ -1,0 +1,158 @@
+---
+title: "Installation"
+description: "Installer et configurer le SDK Python Smartbills dans votre projet."
+---
+
+## Installation
+
+## Installer depuis PyPI
+
+```bash
+pip install smartbills
+```
+
+Ou avec votre gestionnaire de dépendances préféré :
+
+```bash
+# poetry
+poetry add smartbills
+
+# pipenv
+pipenv install smartbills
+
+# uv
+uv add smartbills
+```
+
+## Configuration requise
+
+| Prérequis | Version minimale |
+|-----------|-----------------|
+| Python | 3.10+ |
+| httpx | 0.27+ |
+| pydantic | 2.0+ |
+
+Les dépendances `httpx` et `pydantic` sont installees automatiquement.
+
+## Configuration de base
+
+```python
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token="VOTRE_CLE_API",
+    business_id=123,
+    locale="fr-CA",
+)
+
+async with SmartbillsClient(options) as client:
+    result = await client.expenses.list_business()
+    print(f"{len(result.data)} dépenses trouvées")
+```
+
+## Options de configuration
+
+Le dataclass `SmartbillsClientOptions` accepte les paramètres suivants :
+
+| Option | Type | Défaut | Description |
+|--------|------|--------|-------------|
+| `access_token` | `str \| None` | `None` | Jeton Bearer OAuth2 pour l'authentification API |
+| `business_id` | `int \| None` | `None` | ID d'entreprise pour limiter les requêtes à un tenant |
+| `locale` | `str` | `"en-CA"` | Code de locale pour les réponses localisées |
+| `base_url` | `str` | `"https://api.smartbills.io"` | URL de base de l'API |
+| `timeout` | `float` | `30.0` | Délai d'expiration des requêtes en secondes |
+| `max_retries` | `int` | `3` | Nombre maximal de tentatives automatiques |
+| `retry_delay` | `float` | `1.0` | Délai de base entre les tentatives en secondes |
+
+## Patron de gestionnaire de contexte
+
+Le client utilisé un gestionnaire de contexte asynchrone pour assurer la fermeture propre du pool de connexions HTTP :
+
+```python
+async with SmartbillsClient(options) as client:
+    # Utiliser le client
+    expenses = await client.expenses.list_business()
+```
+
+Si vous préférez une gestion manuelle du cycle de vie :
+
+```python
+client = SmartbillsClient(options)
+try:
+    expenses = await client.expenses.list_business()
+finally:
+    await client.close()
+```
+
+## Mise à jour des identifiants à l'exécution
+
+```python
+# Mettre à jour le jeton d'acces
+client.set_access_token("NOUVEAU_JETON")
+
+# Changer le contexte d'entreprise
+client.set_business_id(456)
+
+# Changer la locale
+client.set_locale("en-CA")
+```
+
+### Lire les valeurs actuelles
+
+```python
+print(client.access_token)  # jeton actuel ou None
+print(client.business_id)   # ID d'entreprise actuel ou None
+print(client.locale)        # locale actuelle
+```
+
+## Surcharges par requête
+
+Chaque méthode de service accepte un paramètre optionnel `RequestOptions` :
+
+```python
+from smartbills.http_client import RequestOptions
+
+# Surcharger le contexte d'entreprise pour une seule requête
+result = await client.expenses.list_business(
+    options=RequestOptions(business_id=789, locale="en-CA")
+)
+```
+
+### RequestOptions
+
+```python
+@dataclass
+class RequestOptions:
+    business_id: int | None = None
+    locale: str | None = None
+    access_token: str | None = None
+    extra_headers: dict[str, str] = field(default_factory=dict)
+```
+
+## Variables d'environnement
+
+Nous recommandons de stocker les identifiants dans des variables d'environnement :
+
+```bash
+# .env
+SMARTBILLS_API_KEY=votre_cle_api_ici
+SMARTBILLS_BUSINESS_ID=123
+```
+
+```python
+import os
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token=os.environ["SMARTBILLS_API_KEY"],
+    business_id=int(os.environ["SMARTBILLS_BUSINESS_ID"]),
+)
+
+async with SmartbillsClient(options) as client:
+    ...
+```
+
+## Prochaînes étapes
+
+- [Dépenses](/fr/sdks/python/expenses), référence complète du service de dépenses
+- [Gestion des erreurs](/fr/sdks/python/error-handling), comprendre les classes d'erreurs

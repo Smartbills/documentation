@@ -1,0 +1,382 @@
+---
+title: "Expenses"
+description: "Complete reference for the ExpenseService in the Smartbills Python SDK, list, upload, update, split, export, and bulk-manage expenses."
+---
+
+## Expenses
+
+The `ExpenseService` (`client.expenses`) provides async methods to list, create, update, delete, and bulk-operate on expenses.
+
+## Listing expenses
+
+### List business expenses
+
+```python
+result = await client.expenses.list_business()
+for expense in result.data:
+    print(f"{expense.id}: {expense.amount}")
+
+print(f"Page {result.pagination.current_page} of {result.pagination.page_count}")
+```
+
+### With filters and pagination
+
+```python
+from smartbills.models.expenses import ExpenseListRequest
+
+result = await client.expenses.list_business(
+    ExpenseListRequest(page=1, limit=50, sort_by="created_at", sort_direction="desc")
+)
+```
+
+### List employee expenses
+
+```python
+result = await client.expenses.list_employee(employee_id=42)
+```
+
+### List current user's expenses
+
+```python
+result = await client.expenses.list_my(
+    ExpenseListRequest(limit=20)
+)
+```
+
+## Getting a single expense
+
+```python
+expense = await client.expenses.get_by_id(expense_id=123)
+print(expense.id, expense.amount, expense.vendor_name)
+```
+
+## Updating an expense
+
+```python
+from smartbills.models.expenses import ExpenseUpdateRequest
+
+updated = await client.expenses.update(
+    expense_id=123,
+    request=ExpenseUpdateRequest(
+        note="Client dinner - Project Alpha",
+        category_id=42,
+    ),
+)
+```
+
+### Update category only
+
+```python
+from smartbills.models.expenses import ExpenseCategoryUpdateRequest
+
+updated = await client.expenses.update_category(
+    expense_id=123,
+    request=ExpenseCategoryUpdateRequest(category_id=15),
+)
+```
+
+### Update note only
+
+```python
+from smartbills.models.expenses import ExpenseNoteUpdateRequest
+
+updated = await client.expenses.update_note(
+    expense_id=123,
+    request=ExpenseNoteUpdateRequest(note="Updated description"),
+)
+```
+
+### Associate with an expense report
+
+```python
+from smartbills.models.expenses import AssociateExpenseReportUpdateRequest
+
+updated = await client.expenses.update_report(
+    expense_id=123,
+    request=AssociateExpenseReportUpdateRequest(expense_report_id=789),
+)
+
+# Or set directly
+result = await client.expenses.set_report(
+    expense_id=123,
+    request=AssociateExpenseReportUpdateRequest(expense_report_id=789),
+)
+```
+
+## Deleting expenses
+
+```python
+# Delete a business expense
+await client.expenses.delete(expense_id=123)
+
+# Delete an employee's expense
+await client.expenses.delete_employee(employee_id=42, expense_id=123)
+```
+
+## Uploading receipts
+
+Upload receipt files for automatic processing:
+
+```python
+# Upload for the business
+results = await client.expenses.upload(
+    files={"files": ("receipt.pdf", open("receipt.pdf", "rb"), "application/pdf")}
+)
+
+# Upload for an employee
+results = await client.expenses.upload_employee(
+    employee_id=42,
+    files={"files": ("receipt.jpg", open("receipt.jpg", "rb"), "image/jpeg")},
+)
+
+# Upload for the current user
+results = await client.expenses.upload_my(
+    files={"files": ("receipt.png", open("receipt.png", "rb"), "image/png")}
+)
+```
+
+### Validate before uploading
+
+```python
+# Business-level validation
+await client.expenses.validate_business(
+    files={"files": ("receipt.pdf", open("receipt.pdf", "rb"), "application/pdf")}
+)
+
+# Employee-level validation
+await client.expenses.validate_employee(
+    employee_id=42,
+    files={"files": ("receipt.pdf", open("receipt.pdf", "rb"), "application/pdf")},
+)
+```
+
+## Presigned uploads
+
+For large files, use the presigned upload flow:
+
+```python
+import httpx
+from smartbills.models.expenses import PresignedUploadRequest, ConfirmUploadRequest
+
+# Step 1: Get a presigned URL
+presigned = await client.expenses.presign_upload(
+    PresignedUploadRequest(
+        file_name="large-receipt.pdf",
+        content_type="application/pdf",
+        file_size=1024000,
+    )
+)
+
+# Step 2: Upload directly to the presigned URL
+async with httpx.AsyncClient() as http:
+    with open("large-receipt.pdf", "rb") as f:
+        await http.put(
+            presigned.url,
+            content=f.read(),
+            headers={"Content-Type": "application/pdf"},
+        )
+
+# Step 3: Confirm the upload
+await client.expenses.confirm_upload(
+    ConfirmUploadRequest(key=presigned.key, file_name="large-receipt.pdf")
+)
+```
+
+### Employee presigned uploads
+
+```python
+presigned = await client.expenses.presign_employee_upload(
+    employee_id=42,
+    request=PresignedUploadRequest(
+        file_name="receipt.jpg",
+        content_type="image/jpeg",
+        file_size=512000,
+    ),
+)
+
+# Upload to presigned URL...
+
+await client.expenses.confirm_employee_upload(
+    employee_id=42,
+    request=ConfirmUploadRequest(key=presigned.key, file_name="receipt.jpg"),
+)
+```
+
+## Splitting expenses
+
+```python
+from smartbills.models.expenses import ExpenseSplitRequest
+
+result = await client.expenses.split(
+    expense_id=123,
+    request=ExpenseSplitRequest(
+        lines=[
+            {"amount": 50.00, "category_id": 10, "note": "Meals"},
+            {"amount": 25.00, "category_id": 20, "note": "Transport"},
+        ]
+    ),
+)
+```
+
+## Exporting expenses
+
+```python
+from smartbills.models.expenses import ExpenseExportRequest
+
+# Export as bytes
+data = await client.expenses.export(
+    ExpenseExportRequest(format="csv", start_date="2025-01-01", end_date="2025-03-31")
+)
+
+with open("expenses.csv", "wb") as f:
+    f.write(data)
+
+# Export with filename
+data, filename = await client.expenses.export_with_filename(
+    ExpenseExportRequest(format="xlsx")
+)
+with open(filename or "expenses.xlsx", "wb") as f:
+    f.write(data)
+```
+
+## Downloading attachments
+
+```python
+# Single expense attachment
+data = await client.expenses.download_attachment(expense_id=123)
+with open("attachment.pdf", "wb") as f:
+    f.write(data)
+
+# Multiple expense attachments
+from smartbills.models.expenses import ExpenseAttachmentDownloadRequest
+
+data = await client.expenses.download_attachments(
+    ExpenseAttachmentDownloadRequest(expense_ids=[1, 2, 3])
+)
+
+# With filename
+data, filename = await client.expenses.download_single_attachment_with_filename(expense_id=123)
+```
+
+## Batch operations
+
+### Batch update
+
+```python
+from smartbills.models.expenses import ExpenseBatchUpdateRequest
+
+results = await client.expenses.batch_update([
+    ExpenseBatchUpdateRequest(id=1, category_id=10),
+    ExpenseBatchUpdateRequest(id=2, category_id=20),
+])
+```
+
+## Bulk operations
+
+### Bulk assign category
+
+```python
+from smartbills.models.expenses import BulkAssignCategoryRequest
+
+result = await client.expenses.bulk_assign_category(
+    BulkAssignCategoryRequest(expense_ids=[1, 2, 3], category_id=15)
+)
+```
+
+### Bulk assign vendor
+
+```python
+from smartbills.models.expenses import BulkAssignVendorRequest
+
+result = await client.expenses.bulk_assign_vendor(
+    BulkAssignVendorRequest(expense_ids=[1, 2, 3], vendor_id=42)
+)
+```
+
+### Bulk assign expense report
+
+```python
+from smartbills.models.expenses import BulkAssignExpenseReportRequest
+
+result = await client.expenses.bulk_assign_report(
+    BulkAssignExpenseReportRequest(expense_ids=[1, 2, 3], expense_report_id=100)
+)
+```
+
+### Bulk assign payer type
+
+```python
+from smartbills.models.expenses import BulkAssignPayerTypeRequest
+
+result = await client.expenses.bulk_assign_payer_type(
+    BulkAssignPayerTypeRequest(expense_ids=[1, 2, 3], payer_type="company")
+)
+```
+
+### Bulk set note
+
+```python
+from smartbills.models.expenses import BulkSetNoteRequest
+
+result = await client.expenses.bulk_set_note(
+    BulkSetNoteRequest(expense_ids=[1, 2, 3], note="Q1 offsite")
+)
+```
+
+### Bulk delete
+
+```python
+from smartbills.models.expenses import BulkDeleteExpensesRequest
+
+result = await client.expenses.bulk_delete(
+    BulkDeleteExpensesRequest(expense_ids=[10, 11, 12])
+)
+```
+
+## Review management
+
+```python
+from smartbills.models.expenses import ExpenseReviewUpdateRequest
+
+updated = await client.expenses.update_review(
+    expense_id=123,
+    request=ExpenseReviewUpdateRequest(reviewed=True),
+)
+```
+
+## Method reference
+
+| Method | Parameters | Returns |
+|--------|-----------|---------|
+| `list_business` | `request?`, `options?` | `SBList[SBTransaction]` |
+| `list_all` | `request?`, `options?` | `SBList[SBTransaction]` |
+| `list_my` | `request?`, `options?` | `SBList[SBTransaction]` |
+| `list_employee` | `employee_id`, `request?`, `options?` | `SBList[SBTransaction]` |
+| `get_by_id` | `expense_id`, `options?` | `SBTransaction` |
+| `update` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `delete` | `expense_id`, `options?` | `None` |
+| `delete_employee` | `employee_id`, `expense_id`, `options?` | `None` |
+| `upload` | `files`, `options?` | `Any` |
+| `upload_employee` | `employee_id`, `files`, `options?` | `Any` |
+| `upload_my` | `files`, `options?` | `Any` |
+| `validate_business` | `files`, `options?` | `Any` |
+| `validate_employee` | `employee_id`, `files`, `options?` | `Any` |
+| `update_category` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `update_note` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `update_report` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `set_report` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `update_review` | `expense_id`, `request`, `options?` | `SBTransaction` |
+| `split` | `expense_id`, `request`, `options?` | `Any` |
+| `batch_update` | `request[]`, `options?` | `Any` |
+| `export` | `request`, `options?` | `bytes` |
+| `export_with_filename` | `request`, `options?` | `tuple[bytes, str \| None]` |
+| `download_attachment` | `expense_id`, `options?` | `bytes` |
+| `download_attachments` | `request`, `options?` | `bytes` |
+| `presign_upload` | `request`, `options?` | `PresignedUploadResponse` |
+| `confirm_upload` | `request`, `options?` | `Any` |
+| `bulk_assign_category` | `request`, `options?` | `Any` |
+| `bulk_assign_vendor` | `request`, `options?` | `Any` |
+| `bulk_assign_report` | `request`, `options?` | `Any` |
+| `bulk_assign_payer_type` | `request`, `options?` | `Any` |
+| `bulk_set_note` | `request`, `options?` | `Any` |
+| `bulk_delete` | `request`, `options?` | `Any` |

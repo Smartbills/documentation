@@ -1,0 +1,124 @@
+---
+title: "Complément Outlook"
+description: "Téléversez reçus et factures vers Smartbills directement depuis Outlook"
+---
+
+## Aperçu
+
+Le complément Smartbills ajoute un volet à Outlook qui téléverse des pièces jointes, ou des courriels entiers, directement vers Smartbills. Il s'adresse aux reçus et factures qui arrivent par courriel et qu'il faudrait sinon transférer ou télécharger d'abord.
+
+## Prérequis
+
+- Outlook pour ordinateur ou Outlook sur le web, prenant en charge **l'API Mailbox 1.15 ou ultérieure**
+- Un compte Smartbills appartenant à au moins une entreprise
+- Un compte Microsoft connecté, nécessaire pour lire le contenu des courriels
+
+<Warning>
+  La connexion de votre compte Microsoft n'est pas facultative pour téléverser des courriels. Tant qu'elle n'est pas faite, le volet indique qu'une connexion au compte Microsoft est requise. Le téléversement de fichiers depuis votre ordinateur fonctionne sans, mais pas celui des pièces jointes ni du courriel lui-même. Connectez-le depuis **Paramètres** dans le volet.
+</Warning>
+
+## Installation
+
+Le complément est déployé par votre organisation plutôt qu'installé individuellement. Un administrateur le téléverse depuis le centre d'administration Microsoft 365, sous **Paramètres > Applications intégrées**, et l'attribue à des utilisateurs ou à des groupes. Il apparaît ensuite automatiquement dans Outlook.
+
+Une fois visible, ouvrez le volet et connectez-vous avec votre compte Smartbills. Si vous appartenez à plusieurs entreprises, choisissez celle vers laquelle téléverser.
+
+<Note>
+  Le volet conserve sa propre sélection d'entreprise, indépendante de l'application web. Si les téléversements arrivent dans la mauvaise entreprise, vérifiez le sélecteur en haut du volet.
+</Note>
+
+## Les deux onglets
+
+| Onglet | Rôle |
+|--------|------|
+| **Courriel en cours** | Téléverser les pièces jointes du courriel ouvert, ou le courriel lui-même |
+| **Téléverser des fichiers** | Téléverser des fichiers depuis votre ordinateur |
+
+## Téléverser depuis un courriel
+
+<Steps>
+  <Step title="Ouvrir le courriel et le volet">
+    Sélectionnez le courriel contenant le reçu ou la facture, puis ouvrez le volet Smartbills.
+  </Step>
+  <Step title="Choisir ce qu'il faut téléverser">
+    Les pièces jointes sont listées avec un compteur de sélection. Les images intégrées sont incluses : un reçu inséré dans le corps du message peut donc être choisi au même titre qu'un fichier joint.
+
+    Pour capturer tout le message plutôt qu'un seul fichier, activez **Inclure le courriel entier en .eml**. Cela conserve l'expéditeur, l'objet et le corps en plus des pièces jointes.
+  </Step>
+  <Step title="Renseigner les informations">
+    Avant de téléverser, vous pouvez définir une **note**, une **catégorie**, un **rapport de dépenses** et un **fournisseur**, et marquer la dépense comme **payée par l'entreprise**.
+
+    Les rapports et les fournisseurs peuvent être créés ici sans quitter Outlook.
+  </Step>
+  <Step title="Téléverser">
+    Sélectionnez **Téléverser**. Les fichiers sont envoyés et mis en file pour lecture, et les dépenses apparaissent peu après dans Smartbills.
+  </Step>
+</Steps>
+
+### Plusieurs courriels à la fois
+
+Sélectionner plusieurs courriels dans Outlook les téléverse tous ensemble, chacun sous forme de fichier `.eml`. Le volet le confirme.
+
+### Déjà téléversé
+
+Si un courriel a déjà été téléversé, le volet le signale et propose **Voir dans Smartbills** ou **Téléverser quand même**, pour que vous puissiez vérifier plutôt que créer un doublon.
+
+## Téléverser des fichiers depuis votre ordinateur
+
+Passez à **Téléverser des fichiers** et déposez vos fichiers dans le volet ou parcourez votre ordinateur. Les mêmes options de note, catégorie, rapport, fournisseur et dépense d'entreprise s'appliquent.
+
+## Contraintes de fichier
+
+| | |
+|---|---|
+| **Formats** | PNG, JPG, WebP, HEIC, PDF, EML, MSG |
+| **Taille maximale** | 50 Mo par fichier |
+| **Noms de fichier** | Jusqu'à 255 caractères |
+
+<Note>
+  Le complément accepte le HEIC et le WebP et autorise des fichiers jusqu'à 50 Mo. L'application web est plus stricte : 5 Mo et pas de HEIC. Si un fichier est refusé dans le navigateur, le téléverser via Outlook peut fonctionner.
+</Note>
+
+## Paramètres
+
+Le volet propose deux réglages :
+
+| Réglage | Rôle |
+|---------|------|
+| **Langue** | Français ou anglais |
+| **Compte Microsoft** | Connecter ou déconnecter le compte que Smartbills utilise pour lire les courriels |
+
+## Dépannage
+
+<AccordionGroup>
+  <Accordion title="Le complément n'apparaît pas">
+    Il est déployé de façon centralisée : vérifiez auprès de votre administrateur informatique qu'il vous a bien été attribué. Confirmez que votre version d'Outlook prend en charge l'API Mailbox 1.15, puis redémarrez Outlook.
+  </Accordion>
+
+  <Accordion title="Impossible de téléverser les pièces jointes">
+    C'est presque toujours la connexion au compte Microsoft. Ouvrez **Paramètres** dans le volet et connectez-le. Le téléversement de fichiers depuis votre ordinateur continue de fonctionner entre-temps.
+  </Accordion>
+
+  <Accordion title="Les téléversements arrivent dans la mauvaise entreprise">
+    Le volet a sa propre sélection d'entreprise. Changez-la en haut du volet.
+  </Accordion>
+
+  <Accordion title="Un fichier est refusé">
+    Comparez-le aux limites ci-dessus. Le volet nomme le fichier et la raison : format non pris en charge, taille supérieure à 50 Mo, ou nom de plus de 255 caractères.
+  </Accordion>
+
+  <Accordion title="Session expirée">
+    Reconnectez-vous depuis le volet. Votre session Smartbills est distincte de votre session Outlook et expire indépendamment.
+  </Accordion>
+</AccordionGroup>
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Ajouter une dépense" icon="upload" href="/fr/guides/web-app/expenses/upload-expense">
+    Les méthodes de téléversement dans l'application web
+  </Card>
+  <Card title="Boîtes de réception comptables" icon="inbox" href="/fr/guides/web-app/bills/ap-inboxes">
+    Recevoir les factures directement des fournisseurs
+  </Card>
+</CardGroup>

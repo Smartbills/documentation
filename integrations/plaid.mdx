@@ -1,0 +1,117 @@
+---
+title: "Plaid"
+description: "Connect bank accounts and import transactions automatically with Plaid"
+---
+
+## Overview
+
+The Plaid integration connects your bank accounts and credit cards to Smartbills for automatic transaction import. Bank transactions are matched to uploaded receipts, reducing manual data entry and ensuring complete expense tracking.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Bank Account Linking** | Securely connect bank accounts and credit cards |
+| **Transaction Import** | Automatically import transactions from linked accounts |
+| **Receipt Matching** | Match imported transactions to uploaded receipts |
+| **Auto-categorization** | Suggest categories based on merchant category codes |
+| **Balance Verification** | Verify account balances for reconciliation |
+| **Multi-account** | Link multiple accounts across different institutions |
+| **Secure Connection** | Bank-grade security via Plaid's encrypted infrastructure |
+
+## Prerequisites
+
+- Bank account or credit card at a Plaid-supported institution
+- Smartbills Business plan or higher
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Plaid**.
+  </Step>
+  <Step title="Start Connection">
+    Click **Connect Bank Account** to launch the Plaid Link interface.
+
+  </Step>
+  <Step title="Select Institution">
+    Search for and select your bank or credit card provider from the list.
+  </Step>
+  <Step title="Authenticate">
+    Sign in to your bank using your online banking credentials. Smartbills never sees your banking password, it is handled securely by Plaid.
+  </Step>
+  <Step title="Select Accounts">
+    Choose which accounts to link (checking, savings, credit card).
+  </Step>
+  <Step title="Configure Import">
+    Set transaction import frequency and matching rules.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Import Settings
+
+| Setting | Options |
+|---------|---------|
+| Import frequency | Daily, real-time, or manual |
+| Date range | Import transactions from last 30, 60, or 90 days on first sync |
+| Minimum amount | Optionally filter out transactions below a threshold |
+
+### Matching Rules
+
+| Rule | Description |
+|------|-------------|
+| Auto-match | Match bank transactions to receipts by amount and date |
+| Vendor matching | Link recurring charges to known vendors |
+| Category suggestion | Suggest categories based on merchant category codes |
+| Manual review | Flag unmatched transactions for review |
+
+### Account Types
+
+| Account Type | Features |
+|-------------|----------|
+| Checking | Transaction import, balance verification |
+| Savings | Transaction import, balance verification |
+| Credit Card | Transaction import, statement matching |
+
+### Security
+
+Plaid uses bank-level encryption and security measures:
+
+- Smartbills never stores your banking credentials
+- Data is transmitted via TLS 1.2 encryption
+- Plaid is SOC 2 Type II certified
+- You can revoke access at any time from the integration settings
+
+## Data Sync
+
+| Smartbills | Bank (via Plaid) | Direction | Frequency |
+|-----------|-----------------|-----------|-----------|
+| Transaction records | Transactions | Bank -> Smartbills | Daily or real-time |
+| Account balances | Balances | Bank -> Smartbills | On demand |
+| Institution data | Institution info | Plaid -> Smartbills | On connection |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Bank not found">
+    Plaid supports thousands of institutions, but some smaller banks may not be available. Check Plaid's supported institutions list. If your bank is not listed, you can still upload transactions manually via CSV.
+  </Accordion>
+
+  <Accordion title="Connection expired">
+    Some banks require periodic re-authentication. When prompted, go to **Settings > Apps > Plaid** and click **Update Connection** to re-authenticate with your bank.
+  </Accordion>
+
+  <Accordion title="Transactions missing">
+    Plaid may take up to 24 hours to sync new transactions. Check the last sync time in the integration settings. Pending transactions may not appear until they are posted by the bank.
+  </Accordion>
+
+  <Accordion title="Duplicate transactions">
+    Plaid has built-in deduplication, but if you see duplicates, check whether the same account is linked multiple times. Remove duplicate connections from the settings page.
+  </Accordion>
+
+  <Accordion title="Incorrect categorization">
+    Auto-categorization is based on merchant category codes (MCC) provided by your bank. You can override categories manually or create custom matching rules in the integration settings.
+  </Accordion>
+</AccordionGroup>

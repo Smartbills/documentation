@@ -1,0 +1,158 @@
+---
+title: "Zapier"
+description: "Connect Smartbills with 7,000+ apps using Zapier automation"
+---
+
+## Overview
+
+The Zapier integration connects Smartbills to over 7,000 applications, enabling you to build custom automation workflows without writing code. Use Smartbills triggers to start workflows when expenses or reports change, or use actions to create expenses from other apps.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Triggers** | Start workflows when expenses are created, reports submitted, or approvals completed |
+| **Actions** | Create expenses, update reports, or add comments from other apps |
+| **Multi-step Zaps** | Build complex workflows with multiple steps and conditions |
+| **Filters** | Add conditions to run Zaps only when criteria are met |
+| **Formatter** | Transform data between Smartbills and other apps |
+| **Scheduled Zaps** | Run automations on a schedule |
+
+## Prerequisites
+
+- Zapier account (Free plan supports basic Zaps; Starter or higher for multi-step)
+- Smartbills Business plan or higher
+- Smartbills API key
+
+## Setup
+
+<Steps>
+  <Step title="Open Zapier">
+    Go to [zapier.com](https://zapier.com) and sign in to your account.
+  </Step>
+  <Step title="Search for Smartbills">
+    In the Zapier app directory, search for **Smartbills**.
+
+  </Step>
+  <Step title="Create a Zap">
+    Click **Create Zap** and choose Smartbills as the trigger or action app.
+  </Step>
+  <Step title="Connect Your Account">
+    Enter your Smartbills API key when prompted. You can find this in **Settings > API Keys** in the Smartbills dashboard.
+  </Step>
+  <Step title="Configure and Test">
+    Set up the trigger/action fields, test the connection, and activate the Zap.
+  </Step>
+</Steps>
+
+## Available Triggers
+
+Use these triggers to start a Zap when something happens in Smartbills:
+
+| Trigger | Description |
+|---------|-------------|
+| **New Expense** | Fires when a new expense is created |
+| **Expense Updated** | Fires when an expense is modified |
+| **Report Submitted** | Fires when an expense report is submitted for approval |
+| **Report Approved** | Fires when an expense report is approved |
+| **Report Rejected** | Fires when an expense report is rejected |
+| **New Vendor** | Fires when a new vendor is created |
+| **Bill Created** | Fires when a new bill is created |
+
+## Available Actions
+
+Use these actions to create or update data in Smartbills:
+
+| Action | Description |
+|--------|-------------|
+| **Create Expense** | Create a new expense in Smartbills |
+| **Update Expense** | Update an existing expense |
+| **Create Vendor** | Create a new vendor record |
+| **Add Report Comment** | Add a comment to an expense report |
+| **Create Bill** | Create a new bill |
+| **Submit Report** | Submit an expense report for approval |
+
+## Example Workflows
+
+### Expense to Google Sheets
+
+Automatically log every new expense to a Google Sheets spreadsheet:
+
+1. **Trigger:** Smartbills, New Expense
+2. **Action:** Google Sheets, Create Spreadsheet Row
+
+### Slack Notification on Approval
+
+Notify a Slack channel when a report is approved:
+
+1. **Trigger:** Smartbills, Report Approved
+2. **Action:** Slack, Send Channel Message
+
+### Email Receipt to Expense
+
+Create an expense when a receipt is forwarded to a specific email:
+
+1. **Trigger:** Email by Zapier, New Inbound Email
+2. **Action:** Smartbills, Create Expense
+
+### Weekly Summary to Email
+
+Send a weekly expense summary to finance managers:
+
+1. **Trigger:** Schedule by Zapier, Every Week
+2. **Action:** Smartbills, Find Expenses (search)
+3. **Action:** Email by Zapier, Send Outbound Email
+
+### CRM to Expense Tracking
+
+Create a Smartbills expense when a deal closes in your CRM:
+
+1. **Trigger:** HubSpot/Salesforce, Deal/Opportunity Won
+2. **Action:** Smartbills, Create Expense
+
+## Configuration Tips
+
+<Tip>
+  Use Zapier Filters to run Zaps only for expenses above a certain amount or from specific categories.
+</Tip>
+
+<Tip>
+  Use Zapier Paths (available on Professional plan) to route different expense types to different destinations.
+</Tip>
+
+<Tip>
+  Test your Zap with a sample expense before activating to ensure the data maps correctly.
+</Tip>
+
+## Data Sync
+
+| Smartbills | Zapier | Direction | Frequency |
+|-----------|--------|-----------|-----------|
+| Expense events | Triggers | Smartbills -> Zapier | Real-time (polling) |
+| Report events | Triggers | Smartbills -> Zapier | Real-time (polling) |
+| Expense creation | Actions | Zapier -> Smartbills | On Zap execution |
+| Vendor creation | Actions | Zapier -> Smartbills | On Zap execution |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Zap not triggering">
+    Check that the Zap is turned on and that the Smartbills connection is active. Test the trigger step to verify data is flowing.
+  </Accordion>
+
+  <Accordion title="Authentication error">
+    Verify your API key is correct and has not been revoked. Generate a new key in **Settings > API Keys** if needed.
+  </Accordion>
+
+  <Accordion title="Missing fields in trigger data">
+    Some fields are only available after the expense is fully processed (e.g., OCR-extracted data). Add a delay step if needed.
+  </Accordion>
+
+  <Accordion title="Rate limit errors">
+    Zapier may hit Smartbills API rate limits on high-volume Zaps. Add a delay between actions or reduce the Zap's polling frequency.
+  </Accordion>
+
+  <Accordion title="Zap turns off automatically">
+    Zapier will pause Zaps that fail repeatedly. Check the Zap history for error details and fix the underlying issue before re-enabling.
+  </Accordion>
+</AccordionGroup>

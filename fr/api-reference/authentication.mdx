@@ -1,0 +1,332 @@
+---
+title: "Authentification"
+description: "Apprenez à vous authentifier avec l'API Smartbills en utilisant les jetons JWT Bearer et les flux OAuth2"
+---
+
+## Aperçu
+
+L'API Smartbills utilisé l'authentification par jeton JWT Bearer. Chaque requête API doit inclure un jeton valide dans l'en-tête `Authorization`. Les jetons peuvent être obtenus via des clés API ou des flux OAuth2.
+
+<Note>
+  **Avant de commencer** : Vous avez besoin d'un compte Smartbills et de clés API pour vous authentifier. Visitez [developers.smartbills.io](https://developers.smartbills.io) pour commencer.
+</Note>
+
+## En-tête d'authentification
+
+Incluez votre jeton dans l'en-tête `Authorization` de chaque requête :
+
+```http
+GET /v1/expenses HTTP/1.1
+Host: api.smartbills.io
+Authorization: Bearer VOTRE_CLE_API
+Content-Type: application/json
+x-tenant-id: 123
+```
+
+Le format de l'en-tête est :
+
+```
+Authorization: Bearer {jeton}
+```
+
+Ou `{jeton}` est soit :
+- Une clé API (ex. : `sk_live_1234567890abcdef`)
+- Un jeton d'accès OAuth2 obtenu via le point d'accès de jetons
+
+## En-tête multi-locataire
+
+Smartbills est une plateforme multi-locataire. Vous devez inclure l'en-tête `x-tenant-id` pour spécifiér le contexte d'entreprise :
+
+```http
+x-tenant-id: 123
+```
+
+Cet en-tête indique à l'API les données de quelle entreprise vous souhaitez accéder. Votre jeton doit avoir la permission d'accéder à l'entreprise spécifiée.
+
+## En-tête de locale
+
+Utilisez l'en-tête `Accept-Language` pour recevoir des réponses localisées :
+
+```http
+Accept-Language: fr-CA
+```
+
+Locales supportées : `en-CA`, `fr-CA`, `en-US`. Consultez [Localisations](/fr/api-reference/localizations) pour plus de détails.
+
+## En-têtes de requête complets
+
+Une requête authentifiee complète inclut ces en-têtes :
+
+```http
+GET /v1/expenses HTTP/1.1
+Host: api.smartbills.io
+Authorization: Bearer VOTRE_CLE_API
+Content-Type: application/json
+Accept: application/json
+x-tenant-id: 123
+Accept-Language: fr-CA
+```
+
+## Authentification OAuth2
+
+### Flux Client Credentials
+
+Utilisez ce flux pour la communication serveur à serveur sans interaction utilisateur.
+
+**Point d'accès :** `POST https://api.smartbills.io/connect/token`
+
+**Requête :**
+
+```http
+POST /connect/token HTTP/1.1
+Host: api.smartbills.io
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials&client_id=VOTRE_CLIENT_ID&client_secret=VOTRE_CLIENT_SECRET
+```
+
+**Réponse :**
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
+
+#### Exemples de code
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/connect/token \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'grant_type=client_credentials' \
+  --data 'client_id=VOTRE_CLIENT_ID' \
+  --data 'client_secret=VOTRE_CLIENT_SECRET'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+// Le SDK géré automatiquement la gestion des jetons.
+// Pour les flux OAuth2 manuels :
+const tokenResponse = await fetch('https://api.smartbills.io/connect/token', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+  body: new URLSearchParams({
+    grant_type: 'client_credentials',
+    client_id: 'VOTRE_CLIENT_ID',
+    client_secret: 'VOTRE_CLIENT_SECRET'
+  })
+});
+
+const { access_token, expires_in } = await tokenResponse.json();
+```
+
+```python Python
+from smartbills import SmartbillsClient
+import requests
+
+client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
+
+# Le SDK géré automatiquement la gestion des jetons.
+# Pour les flux OAuth2 manuels :
+token_response = requests.post(
+    'https://api.smartbills.io/connect/token',
+    data={
+        'grant_type': 'client_credentials',
+        'client_id': 'VOTRE_CLIENT_ID',
+        'client_secret': 'VOTRE_CLIENT_SECRET'
+    }
+)
+
+token_data = token_response.json()
+access_token = token_data['access_token']
+expires_in = token_data['expires_in']
+```
+
+</CodeGroup>
+
+### Flux Authorization Code
+
+Utilisez ce flux pour les applications orientees utilisateur ou vous devez agir au nom d'un utilisateur.
+
+**Étape 1 : Rediriger vers le point d'accès d'autorisation**
+
+```http
+GET /connect/authorize?response_type=code&client_id=VOTRE_CLIENT_ID&redirect_uri=VOTRE_URI_REDIRECTION&scope=read:expenses write:expenses
+Host: api.smartbills.io
+```
+
+**Étape 2 : Echanger le code d'autorisation contre un jeton d'accès**
+
+```http
+POST /connect/token HTTP/1.1
+Host: api.smartbills.io
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=authorization_code&code=CODE_AUTORISATION&redirect_uri=VOTRE_URI_REDIRECTION&client_id=VOTRE_CLIENT_ID&client_secret=VOTRE_CLIENT_SECRET
+```
+
+**Réponse :**
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "rt_abcdef123456..."
+}
+```
+
+## Expiration et rafraichissement des jetons
+
+Les jetons d'accès expirent après une période definie (généralement 3600 secondes / 1 heure). Utilisez le champ `expires_in` pour savoir quand un jeton expirera.
+
+### Rafraichir les jetons
+
+Lorsque votre jeton d'accès expiré, utilisez le jeton de rafraichissement pour en obtenir un nouveau :
+
+<CodeGroup>
+
+```bash cURL
+curl --request POST \
+  --url https://api.smartbills.io/connect/token \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'grant_type=refresh_token' \
+  --data 'refresh_token=VOTRE_REFRESH_TOKEN' \
+  --data 'client_id=VOTRE_CLIENT_ID' \
+  --data 'client_secret=VOTRE_CLIENT_SECRET'
+```
+
+```javascript JavaScript
+async function refreshAccessToken(refreshToken) {
+  const response = await fetch('https://api.smartbills.io/connect/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: 'VOTRE_CLIENT_ID',
+      client_secret: 'VOTRE_CLIENT_SECRET'
+    })
+  });
+
+  const { access_token, refresh_token, expires_in } = await response.json();
+  return { access_token, refresh_token, expires_in };
+}
+```
+
+```python Python
+def refresh_access_token(refresh_token):
+    response = requests.post(
+        'https://api.smartbills.io/connect/token',
+        data={
+            'grant_type': 'refresh_token',
+            'refresh_token': refresh_token,
+            'client_id': 'VOTRE_CLIENT_ID',
+            'client_secret': 'VOTRE_CLIENT_SECRET'
+        }
+    )
+    return response.json()
+```
+
+</CodeGroup>
+
+<Warning>
+  **Rotation des jetons de rafraichissement** : Chaque fois que vous utilisez un jeton de rafraichissement, un nouveau jeton de rafraichissement est retourne. L'ancien jeton est invalide. Stockez toujours le dernier jeton de rafraichissement.
+</Warning>
+
+## Utilisation des SDK
+
+Les SDK officiels gerent automatiquement l'authentification, le rafraichissement des jetons et la gestion des en-têtes :
+
+<CodeGroup>
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+const client = new SmartbillsClient({
+  accessToken: 'VOTRE_CLE_API',
+  businessId: 123
+});
+
+// Le SDK inclut automatiquement les en-tetes Authorization et x-tenant-id
+const expenses = await client.expenses.list();
+```
+
+```python Python
+from smartbills import SmartbillsClient
+
+client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
+
+# Le SDK inclut automatiquement les en-tetes Authorization et x-tenant-id
+expenses = client.expenses.list()
+```
+
+</CodeGroup>
+
+## Erreurs d'authentification
+
+| Statut HTTP | Code d'erreur | Description |
+|-------------|---------------|-------------|
+| 401 | `UNAUTHORIZED` | Clé API manquante ou invalide |
+| 401 | `API_KEY_EXPIRED` | La clé API à expiré |
+| 401 | `API_KEY_REVOKED` | La clé API à été révoquée |
+| 401 | `INVALID_TOKEN` | Jeton JWT invalide ou mal forme |
+| 403 | `FORBIDDEN` | Le jeton n'a pas les permissions requises |
+| 403 | `BUSINESS_ACCESS_DENIED` | Aucun accès à l'entreprise spécifiée |
+
+## Bonnes pratiques de sécurité
+
+<AccordionGroup>
+  <Accordion title="Proteger vos identifiants" icon="shield">
+    - Stockez les clés API et les secrets dans des variables d'environnement
+    - Ne commitez jamais les identifiants dans le contrôle de version
+    - N'exposez jamais les jetons dans le code côté client
+    - Utilisez HTTPS pour toutes les requêtes API
+  </Accordion>
+
+  <Accordion title="Utiliser les portées appropriees" icon="lock">
+    - Demandez uniquement les portées dont votre application à besoin
+    - Utilisez des portées en lecture seule quand l'accès en ecriture n'est pas nécessaire
+    - Revisez et auditez les portées regulierement
+  </Accordion>
+
+  <Accordion title="Gérer l'expiration des jetons" icon="clock">
+    - Vérifiez la valeur `expires_in` après avoir obtenu les jetons
+    - Implementez le rafraichissement automatique des jetons avant l'expiration
+    - Gérez les erreurs 401 en rafraichissant et en retentant
+  </Accordion>
+
+  <Accordion title="Rotation reguliere des clés" icon="rotate">
+    - Effectuez la rotation des clés API tous les 90 jours
+    - Revoquez immédiatement les clés compromises
+    - Utilisez des clés séparées pour chaque environnement
+  </Accordion>
+</AccordionGroup>
+
+## Ressources connexes
+
+<CardGroup cols={2}>
+  <Card title="Clés API" icon="key" href="/fr/api-reference/api-keys">
+    Créer et gérer les clés API
+  </Card>
+  <Card title="Environnements" icon="server" href="/fr/api-reference/environments">
+    Environnements bac à sable et production
+  </Card>
+  <Card title="Gestion des erreurs" icon="triangle-exclamation" href="/fr/api-reference/errors">
+    Gérer les erreurs d'authentification
+  </Card>
+  <Card title="Limites de débit" icon="gauge" href="/fr/api-reference/rate-limits">
+    Comprendre la limitation de débit
+  </Card>
+</CardGroup>

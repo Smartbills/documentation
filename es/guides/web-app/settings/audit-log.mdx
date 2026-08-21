@@ -1,0 +1,61 @@
+---
+title: "Journal de auditoría"
+description: "Averigüe quién aprobó, modificó o reembolsó algo, y cuándo"
+---
+
+## Resumen
+
+El journal de auditoría responde preguntas a posteriori. Quién aprobó este informe. Quién cambió el importe. Quién lo reembolsó y en qué fecha.
+
+Vaya a **Ajustes > Seguridad > Journal de auditoría** (Settings > Security > Audit log). Lo ven los Administradores y los Administradores financieros.
+
+## Buscar el historial de un solo informe
+
+Si está investigando una única solicitud, no empiece aquí. Abra el informe de gastos y consulte su **historial**. Muestra en orden todo lo que le ha ocurrido, sin que tenga que filtrar nada.
+
+Use el journal cuando necesite mirar muchos informes a la vez, por ejemplo en una revisión de cierre de periodo.
+
+## Qué puede consultar
+
+El journal cubre toda la vida de un informe de gastos: cuándo se creó, se envió, se aprobó, se rechazó, se devolvió para cambios, se recuperó y se reembolsó. También registra cada gasto añadido a un informe, retirado, editado o sustituido, junto con los comentarios dejados por el camino.
+
+Cada entrada indica quién lo hizo y cuándo.
+
+## Preguntas frecuentes que resuelve
+
+<AccordionGroup>
+  <Accordion title="¿Quién aprobó este informe de gastos?">
+    Busque el informe y su entrada de aprobación. Indica el aprobador y la fecha. Si antes se devolvió para cambios, verá también esa entrada anterior, así que sabrá si se aprobó a la primera.
+  </Accordion>
+
+  <Accordion title="¿Se cambió algo después de aprobarlo?">
+    Busque ediciones o sustituciones de gastos con fecha posterior a la aprobación. Son las entradas que conviene revisar en una auditoría, porque son cambios hechos sobre un informe ya validado.
+  </Accordion>
+
+  <Accordion title="¿Quién realizó realmente el pago?">
+    Las entradas de reembolso se registran aparte de las aprobaciones, y suelen ser personas distintas. Los Responsables pueden aprobar pero no reembolsar, así que quien liberó el dinero siempre es un Administrador financiero o un Administrador.
+  </Accordion>
+
+  <Accordion title="Alguien aprobó en nombre de mi responsable. ¿Queda registrado?">
+    Sí. Cuando un delegado actúa por otra persona, el journal nombra a las dos. Una aprobación hecha por un delegado nunca es indistinguible de la del propio responsable. Consulte [Delegación](/es/guides/web-app/settings/delegation).
+  </Accordion>
+
+  <Accordion title="Un gasto desapareció de un informe. ¿Dónde fue?">
+    Las retiradas quedan registradas. Verá quién lo quitó del informe y cuándo. El gasto en sí no se elimina, sigue en la lista de su propietario.
+  </Accordion>
+</AccordionGroup>
+
+## Las facturas de proveedor
+
+Las facturas no están en el journal de auditoría. Cada una conserva su propio historial, accesible desde la factura, con cada cambio de estado y su autor. Consulte [Ciclo de vida del pago](/es/guides/web-app/bills/payment-lifecycle).
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Delegación" icon="user-shield" href="/es/guides/web-app/settings/delegation">
+    Cómo se registran las acciones en nombre de otro
+  </Card>
+  <Card title="Roles y permisos" icon="shield-halved" href="/es/guides/concepts/roles-and-permissions">
+    Quién puede aprobar y reembolsar
+  </Card>
+</CardGroup>

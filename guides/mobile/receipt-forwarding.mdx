@@ -1,0 +1,132 @@
+---
+title: "Receipt Forwarding on Mobile"
+description: "Set up receipt forwarding and share receipts to Smartbills from other apps"
+---
+
+## Overview
+
+Receipt forwarding lets you send receipts to Smartbills from any app on your phone, your email client, photo gallery, messaging apps, or file manager. Every Smartbills account includes a unique forwarding email address. You can also use the native share sheet on iOS and Android to send images and PDFs directly to Smartbills without leaving the app you are in.
+
+## Finding Your Forwarding Email Address
+
+Each Smartbills user has a unique forwarding email address. Any receipt sent to this address is automatically processed by OCR and added to your Expenses as a new expense.
+
+<Steps>
+  <Step title="Open Settings">
+    Tap the **Menu** tab in the bottom navigation, then tap **Settings**.
+  </Step>
+
+  <Step title="Go to Receipt Forwarding">
+    Tap **Receipt Forwarding** in the settings list.
+
+  </Step>
+
+  <Step title="Copy Your Address">
+    Your unique forwarding email address is displayed at the top of the screen (e.g., `yourname-abc123@receipts.smartbills.io`). Tap the **Copy** button to copy it to your clipboard.
+
+  </Step>
+</Steps>
+
+<Tip>
+  Save your forwarding address as a contact on your phone named "Smartbills Receipts" so it appears as a suggestion when forwarding emails.
+</Tip>
+
+## Forwarding Receipts via Email
+
+Once you have your forwarding address, you can forward receipt emails directly from any email app on your phone.
+
+1. Open the email containing the receipt
+2. Tap **Forward**
+3. Enter your Smartbills forwarding email address as the recipient
+4. Tap **Send**
+
+Smartbills processes both email attachments (images and PDFs) and receipt images embedded in the email body. Within a few minutes, the new expense appears in your Expenses with the extracted data pre-filled.
+
+<Note>
+  Only emails sent from the address associated with your Smartbills account are accepted. Forwarding from a different email address is rejected for security purposes.
+</Note>
+
+## Sharing from Other Apps
+
+The Smartbills mobile app registers as a share target on both iOS and Android. This means you can send images and PDFs to Smartbills from virtually any app using the native share sheet.
+
+### Sharing on iOS
+
+<Steps>
+  <Step title="Open the Share Sheet">
+    In any app (Photos, Mail, Safari, Files, or a messaging app), tap the **Share** button on an image or PDF.
+  </Step>
+
+  <Step title="Select Smartbills">
+    Scroll through the app icons in the share sheet and tap **Smartbills**. If you do not see Smartbills, tap **More** and enable it in your share extensions list.
+
+  </Step>
+
+  <Step title="Confirm and Send">
+    A preview screen appears showing the selected image. You can optionally add a note or select a category before sending. Tap **Send to Smartbills** to submit the receipt for processing.
+  </Step>
+</Steps>
+
+### Sharing on Android
+
+<Steps>
+  <Step title="Open the Share Menu">
+    In any app (Gallery, Gmail, Chrome, Files, or a messaging app), tap the **Share** button on an image or PDF.
+  </Step>
+
+  <Step title="Select Smartbills">
+    Find and tap **Smartbills** in the Android share menu. If it does not appear, look under **More** or **See all** in the share target list.
+
+  </Step>
+
+  <Step title="Confirm and Send">
+    Review the preview and tap **Send to Smartbills**. The receipt is uploaded and processed by OCR. A notification confirms when the new expense has been created.
+  </Step>
+</Steps>
+
+## Supported File Formats
+
+The following file formats are accepted through both email forwarding and share sheet:
+
+| Format | Notes |
+|--------|-------|
+| **JPEG / JPG** | Standard photo format from phone cameras |
+| **PNG** | Screenshots and digital receipts |
+| **PDF** | Multi-page PDFs are supported; each page is processed separately |
+| **HEIC / HEIF** | Native iPhone photo format; automatically converted during processing |
+
+The maximum file size for a single attachment is **10 MB**. Emails with multiple attachments create one expense per attachment.
+
+## Managing Forwarded Receipts
+
+Forwarded receipts follow the same workflow as any other expense in Smartbills:
+
+1. The receipt is processed by OCR and a new expense is created in your Expenses
+2. Review and correct the extracted data (merchant, amount, date, taxes)
+3. Assign a category and department
+4. Add the expense to a report for submission
+
+You can identify forwarded receipts by the **Forwarded** label on the expense detail screen, which also shows the original email subject line and sender.
+
+## Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Email not accepted | Verify you are forwarding from the email address linked to your Smartbills account |
+| Expense not appearing | Allow 2--3 minutes for processing. Check the Expenses tab and pull to refresh |
+| Poor OCR results | Ensure the receipt image is clear, well-lit, and not cropped. You can edit extracted fields manually |
+| Smartbills not in share sheet | On iOS, enable Smartbills in the share extensions. On Android, ensure the app is installed and not restricted by battery optimization |
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Manage Expenses" icon="receipt" href="/guides/mobile/manage-expenses">
+    View and edit forwarded expenses
+  </Card>
+  <Card title="Scan a Receipt" icon="camera" href="/guides/mobile/scan-receipt">
+    Capture paper receipts with your camera instead
+  </Card>
+  <Card title="Receipt Forwarding (Concept)" icon="envelope" href="/guides/concepts/receipt-forwarding">
+    Learn about all receipt forwarding methods across platforms
+  </Card>
+</CardGroup>

@@ -1,0 +1,190 @@
+---
+title: "Installation"
+description: "Comment installer et configurer le SDK .NET Smartbills"
+---
+
+## Prérequis
+
+- .NET 6.0 ou ultérieur
+- Un compte Smartbills avec une clé API
+- Gestionnaire de packages NuGet (inclus avec le SDK .NET)
+
+## Installation via NuGet
+
+<CodeGroup>
+
+```bash .NET CLI
+dotnet add package Smartbills.SDK
+```
+
+```bash Console du Gestionnaire de Packages
+Install-Package Smartbills.SDK
+```
+
+```xml PackageRéférence
+<PackageRéférence Include="Smartbills.SDK" Version="*" />
+```
+
+</CodeGroup>
+
+### Intégration ASP.NET Core
+
+Pour les applications ASP.NET Core, installez le package compagnon pour le support de l'injection de dépendances :
+
+```bash
+dotnet add package Smartbills.SDK.AspNetCore
+```
+
+## Configuration
+
+### Configuration de Base
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "VOTRE_CLE_API",
+    BusinessId = 123
+});
+```
+
+### Options de Configuration
+
+| Option | Type | Requis | Description |
+|--------|------|--------|-------------|
+| `AccessToken` | `string` | Oui | Votre jeton d'accès API Smartbills |
+| `BusinessId` | `long` | Oui | L'identifiant de l'entreprise sur laquelle opérer |
+
+### Injection de Dépendances ASP.NET Core
+
+Avec le package `Smartbills.SDK.AspNetCore`, enregistrez le client dans votre `Program.cs` ou `Startup.cs` :
+
+```csharp
+using Smartbills.SDK;
+using Smartbills.SDK.AspNetCore;
+
+builder.Services.AddSmartbills(options =>
+{
+    options.AccessToken = builder.Configuration["Smartbills:AccessToken"];
+    options.BusinessId = long.Parse(builder.Configuration["Smartbills:BusinessId"]);
+});
+```
+
+Puis injectez le client dans vos services :
+
+```csharp
+public class InvoiceService
+{
+    private readonly IInvoiceClient _invoiceClient;
+
+    public InvoiceService(IInvoiceClient invoiceClient)
+    {
+        _invoiceClient = invoiceClient;
+    }
+
+    public async Task<SBInvoice> GetInvoiceAsync(long id)
+    {
+        return await _invoiceClient.GetByIdAsync(id);
+    }
+}
+```
+
+Vous pouvez aussi injecter le client principal :
+
+```csharp
+public class BillingService
+{
+    private readonly SmartbillsClient _client;
+
+    public BillingService(SmartbillsClient client)
+    {
+        _client = client;
+    }
+
+    public async Task<SBInvoiceSummary> GetSummaryAsync(CancellationToken ct)
+    {
+        return await _client.Invoices.GetSummaryAsync(ct: ct);
+    }
+}
+```
+
+### Configuration par Environnement
+
+Stockez vos identifiants de manière sécurisée via `appsettings.json` ou des variables d'environnement :
+
+```json appsettings.json
+{
+  "Smartbills": {
+    "AccessToken": "VOTRE_CLE_API",
+    "BusinessId": "123"
+  }
+}
+```
+
+Pour les surcharges spécifiques à l'environnement :
+
+```json appsettings.Development.json
+{
+  "Smartbills": {
+    "AccessToken": "sk_test_cle_dev_ici"
+  }
+}
+```
+
+<Warning>
+  Ne committez jamais de clés API dans le contrôle de version. Utilisez des variables d'environnement, des secrets utilisateur ou un service de coffre-fort pour les déploiements en production.
+</Warning>
+
+### Secrets Utilisateur (Développement)
+
+Pour le développement local, utilisez le gestionnaire de secrets .NET :
+
+```bash
+dotnet user-secrets set "Smartbills:AccessToken" "sk_test_votre_cle"
+dotnet user-secrets set "Smartbills:BusinessId" "123"
+```
+
+## Options par Requête
+
+Chaque méthode accepte un paramètre optionnel `SBRequestOptions` pour surcharger les paramètres par défaut pour des requêtes individuelles :
+
+```csharp
+var options = new SBRequestOptions
+{
+    // Surcharger les paramètres pour cette requête spécifique
+};
+
+var invoice = await client.Invoices.GetByIdAsync(42, options);
+```
+
+## Vérification de l'Installation
+
+Créez une application console simple pour vérifier que le SDK fonctionne :
+
+```csharp
+using Smartbills.SDK;
+
+var client = new SmartbillsClient(new SmartbillsClientOptions
+{
+    AccessToken = "VOTRE_CLE_API",
+    BusinessId = 123
+});
+
+try
+{
+    var summary = await client.Invoices.GetSummaryAsync();
+    Console.WriteLine("Connexion reussie !");
+    Console.WriteLine("Résumé des factures recupere.");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Erreur : {ex.Message}");
+}
+```
+
+## Prochaînes Étapes
+
+<Card title="Guide d'utilisation" icon="book" href="/fr/sdks/dotnet/usage">
+  Apprenez à utiliser InvoiceClient, FileClient et BillingClient
+</Card>

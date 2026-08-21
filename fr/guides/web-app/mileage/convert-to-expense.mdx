@@ -1,0 +1,65 @@
+---
+title: "Convertir un trajet en dépense"
+description: "Transformez vos trajets enregistrés en dépenses réclamables, à l'unité ou en lot"
+---
+
+## Aperçu
+
+Enregistrer un trajet consigne le déplacement. La conversion crée la dépense de kilométrage que vous pourrez porter sur un rapport. Tant qu'un trajet n'est pas converti, il ne coûte rien et ne réclame rien.
+
+Le statut du trajet indique où il en est :
+
+| Statut | Signification |
+|--------|---------------|
+| **Enregistré** | Saisi mais pas encore converti. Aucune dépense n'existe. |
+| **Non déclaré** | Converti. La dépense existe mais n'est encore sur aucun rapport. |
+| Statut d'un rapport | Converti et rattaché à un rapport, dont il affiche le statut. |
+
+## Convertir un trajet
+
+Depuis la liste des trajets, ouvrez le menu de la ligne et choisissez l'action de conversion. Depuis la page de détail, la même action se trouve dans l'en-tête.
+
+Smartbills crée une dépense de kilométrage à partir de la distance, de l'unité et du taux applicable, puis vous amène à la nouvelle dépense.
+
+<Note>
+  La conversion est idempotente. La relancer sur un trajet déjà converti ne crée pas de seconde dépense : un double-clic ne peut donc pas produire de demande en double.
+</Note>
+
+## Convertir plusieurs trajets à la fois
+
+Sélectionnez des trajets dans la liste à l'aide des cases à cocher, puis choisissez **Ajouter au rapport** dans la barre d'actions groupées pour les convertir ensemble.
+
+La conversion groupée rend compte des réussites partielles plutôt que d'échouer en bloc. Vous verrez jusqu'à trois résultats :
+
+- **Convertis**, pour les trajets ayant produit une nouvelle dépense
+- **Ignorés**, pour ceux déjà convertis, qui ne nécessitaient aucune action
+- **En échec**, pour ceux qui n'ont pas pu être convertis
+
+Comme les trajets ignorés et en échec sont comptés séparément, une conversion groupée sur une sélection hétérogène est sans risque. Les trajets déjà convertis sont laissés tels quels, sans duplication.
+
+## À quoi ressemble la dépense
+
+La dépense reprend l'itinéraire dans son intitulé, par exemple « Trajet de Montréal à Québec ». Elle porte la distance, le taux applicable et le remboursement calculé. En l'ouvrant, vous voyez un détail qui reprend la distance cumulée de l'année, le palier appliqué et le montant obtenu.
+
+La dépense renvoie au trajet, et le trajet renvoie à la dépense : vous pouvez donc passer de l'un à l'autre dans les deux sens.
+
+## Supprimer un trajet converti
+
+Supprimer un trajet supprime aussi sa dépense. Smartbills bloque donc la suppression dès que la dépense est engagée sur un rapport.
+
+<Warning>
+  Si la dépense figure sur un rapport, la suppression est refusée : le trajet doit d'abord en être retiré. Retirez la dépense du rapport, puis supprimez le trajet.
+</Warning>
+
+La même protection s'applique à la suppression groupée. Les trajets déjà déclarés dans votre sélection sont ignorés et comptés, plutôt que supprimés silencieusement.
+
+## Et ensuite
+
+<CardGroup cols={2}>
+  <Card title="Ajouter à un rapport" icon="file-invoice" href="/fr/guides/web-app/mileage/add-to-expense-report">
+    Réclamer la dépense convertie
+  </Card>
+  <Card title="Taux kilométriques" icon="calculator" href="/fr/guides/web-app/mileage/mileage-rates">
+    Comprendre le taux appliqué
+  </Card>
+</CardGroup>

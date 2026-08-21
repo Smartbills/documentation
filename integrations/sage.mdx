@@ -1,0 +1,130 @@
+---
+title: "Sage"
+description: "Export expenses and sync financial data between Smartbills and Sage"
+---
+
+## Overview
+
+The Sage integration exports approved expenses from Smartbills into Sage accounting products. It supports dimension mapping, tax group synchronization, and batch posting for efficient financial processing.
+
+<Info>
+  This integration supports **Sage Business Cloud Accounting** and **Sage Intacct**. Contact support for Sage 50 connectivity.
+</Info>
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Expense Export** | Batch export approved expenses to Sage |
+| **Dimension Mapping** | Map departments and projects to Sage dimensions |
+| **Tax Group Sync** | Synchronize tax groups and rates |
+| **Batch Posting** | Post multiple expenses in a single batch |
+| **Ledger Account Mapping** | Map categories to Sage nominal codes |
+| **Vendor Sync** | Sync vendor records between systems |
+| **Audit Trail** | Full sync history with transaction references |
+
+## Prerequisites
+
+- Sage Business Cloud Accounting or Sage Intacct account
+- Smartbills Business plan or higher
+- Admin access in both systems
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Sage**.
+  </Step>
+  <Step title="Select Sage Product">
+    Choose your Sage product (Business Cloud Accounting or Intacct).
+
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Sage account. Authorize Smartbills to access your data.
+  </Step>
+  <Step title="Map Ledger Accounts">
+    Map Smartbills categories to Sage nominal codes or GL accounts.
+  </Step>
+  <Step title="Configure Dimensions">
+    Map departments and projects to Sage dimensions.
+  </Step>
+  <Step title="Set Sync Preferences">
+    Configure batch posting frequency and default settings.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Ledger Account Mapping
+
+| Smartbills Category | Sage Nominal Code | Description |
+|---------------------|-------------------|-------------|
+| Travel | 7400 | Travel and Subsistence |
+| Office Supplies | 7500 | Office Costs |
+| Software | 7600 | Computer Costs |
+| Meals | 7700 | Entertainment |
+
+### Dimension Mapping
+
+| Smartbills Field | Sage Dimension |
+|-----------------|----------------|
+| Department | Dimension 1 (Department) |
+| Project | Dimension 2 (Project) |
+| Location | Dimension 3 (Location) |
+
+### Batch Posting
+
+| Setting | Options |
+|---------|---------|
+| Frequency | Daily, weekly, or on demand |
+| Grouping | By employee, by department, or individual entries |
+| Status | Post as draft or finalized |
+
+### Double-Entry Accounting
+
+Expense reports are synced as journal entries:
+
+| Debit | Credit |
+|-------|--------|
+| Expense account (per line item) | Accounts payable |
+| Tax account (if applicable) |: |
+
+Reimbursements create payment records:
+
+| Debit | Credit |
+|-------|--------|
+| Accounts payable | Bank account |
+
+## Data Sync
+
+| Smartbills | Sage | Direction | Frequency |
+|-----------|------|-----------|-----------|
+| Approved expenses | Purchase invoices | Smartbills -> Sage | Batch (scheduled or manual) |
+| Categories | Nominal codes | Sage -> Smartbills | On demand |
+| Tax rates | Tax groups | Sage -> Smartbills | On demand |
+| Vendors | Suppliers / Contacts | Both ways | On demand |
+| Departments | Dimensions | Sage -> Smartbills | On demand |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Batch posting failed">
+    Check the error log in **Settings > Apps > Sage > Sync History** for specific transaction errors. Common causes include unmapped accounts or inactive nominal codes.
+  </Accordion>
+
+  <Accordion title="Nominal code not found">
+    Ensure the target nominal code is active in Sage. Re-sync the chart of accounts from the integration settings.
+  </Accordion>
+
+  <Accordion title="Dimension mismatch">
+    Verify that the mapped dimensions exist and are active in your Sage account. Inactive dimensions will cause posting failures.
+  </Accordion>
+
+  <Accordion title="Tax calculation differences">
+    Sage may round taxes differently. Verify tax group configuration in both systems to minimize discrepancies.
+  </Accordion>
+
+  <Accordion title="Connection expired">
+    Sage OAuth tokens expire periodically. Go to **Settings > Apps > Sage** and click **Reconnect** to re-authorize.
+  </Accordion>
+</AccordionGroup>

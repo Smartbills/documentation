@@ -1,0 +1,83 @@
+---
+title: "Add Expenses to a Report"
+description: "Select and add expenses to your expense report"
+---
+
+## Introduction
+
+Once you have created an expense report, the next step is to add expenses from your Expenses. You can select multiple expenses at once using filters to find the right transactions, then confirm your selection to include them in the report.
+
+## Add Expenses from the Report
+
+<Steps>
+  <Step title="Open Your Expense Report">
+    Navigate to **My Expense Reports** in the sidebar and click on the report you want to add expenses to. The report must be in **Draft** status.
+
+  </Step>
+  <Step title="Click Add Expenses">
+    Click the **Add Expenses** button in the report detail view. A dialog opens showing all eligible expenses from your Expenses.
+  </Step>
+  <Step title="Filter and Select Expenses">
+    Use the available filters to narrow down the list:
+    - **Date range**: Show expenses from a specific period
+    - **Category**: Filter by expense category
+    - **Status**: Show only Pending expenses (those not already in another report)
+
+    Click the checkbox next to each expense you want to include. Selected expenses are highlighted and a running total is displayed at the bottom.
+
+  </Step>
+  <Step title="Review Selected Expenses and Totals">
+    Before confirming, review the summary at the bottom of the dialog:
+    - **Number of expenses selected**
+    - **Total amount** including taxes
+    - **Currency** breakdown if multiple currencies are present
+  </Step>
+  <Step title="Confirm Selection">
+    Click **Add Selected** to add the expenses to your report. The dialog closes and the expenses appear in the report's expense list. Their status changes to **In Report**.
+  </Step>
+</Steps>
+
+## Add from the Expense Detail View
+
+You can also add a single expense to a report directly from the expense detail view in your Expenses list:
+
+1. Open your **Expenses** and click on an expense
+2. In the expense detail view, click **Add to Report**
+3. Select the target report from the dropdown list
+4. The expense is added to the report immediately
+
+## Important Rules
+
+<Note>
+  Each expense can only belong to one report at a time. If an expense is already in a report, it will not appear in the selection list. To move an expense to a different report, you must first remove it from the current report.
+</Note>
+
+## Remove an Expense from a Report
+
+If you added an expense by mistake or need to reorganize:
+
+1. Open the report in Draft status
+2. Find the expense in the report's expense list
+3. Click the **Remove** button (or the **X** icon) next to the expense
+4. The expense returns to your Expenses list with Pending status and can be added to another report
+
+<Warning>
+  You can only remove expenses from a report while it is in **Draft** status. Once submitted, you must [recall the report](/guides/web-app/reports/recall-report) before making changes.
+</Warning>
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Create a Report" icon="file-circle-plus" href="/guides/web-app/reports/create-report">
+    Start a new expense report before adding expenses
+  </Card>
+  <Card title="Submit a Report" icon="paper-plane" href="/guides/web-app/reports/submit-report">
+    Submit your report once all expenses are added
+  </Card>
+  <Card title="Expenses" icon="wallet" href="/guides/web-app/expenses/overview">
+    Manage the expenses available for inclusion in reports
+  </Card>
+  <Card title="Recall a Report" icon="rotate-left" href="/guides/web-app/reports/recall-report">
+    Withdraw a submitted report to add or remove expenses
+  </Card>
+</CardGroup>

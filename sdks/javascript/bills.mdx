@@ -1,0 +1,345 @@
+---
+title: "Bills"
+description: "Complete reference for the BillService in the Smartbills JavaScript SDK, manage the full accounts-payable lifecycle."
+---
+
+## Bills
+
+The `BillService` (`client.bills`) handles accounts payable. Bills represent money owed to vendors and support a full lifecycle from draft creation through approval, payment scheduling, and completion.
+
+## Bill lifecycle
+
+Bills follow a state machine:
+
+**Draft** -> **Pending Approval** -> **Approved** -> **Scheduled** -> **Paid**
+
+At any point, a bill can be **Cancelled** or **Reverted to Draft**. The SDK provides methods for every transition.
+
+## Listing bills
+
+```typescript
+// List all bills for the business
+const { data: bills, pagination } = await client.bills.list({
+  page: 1,
+  limit: 25,
+});
+
+// Filter by status
+const { data: pendingBills } = await client.bills.list({
+  status: 'pending_approval',
+});
+
+// List personal bills
+const { data: myBills } = await client.bills.listPersonal({
+  limit: 10,
+});
+```
+
+## Getting a single bill
+
+```typescript
+const bill = await client.bills.getById(billId);
+console.log(bill.vendorName, bill.totalAmount, bill.status);
+```
+
+## Creating bills
+
+```typescript
+const bill = await client.bills.create({
+  vendorId: 42,
+  dueDate: '2025-04-30',
+  lineItems: [
+    { description: 'Consulting services', amount: 5000.00 },
+    { description: 'Travel expenses', amount: 1200.00 },
+  ],
+});
+```
+
+### Batch create
+
+Create multiple bills in a single request:
+
+```typescript
+const bills = await client.bills.batchCreate([
+  { vendorId: 42, dueDate: '2025-04-30', lineItems: [{ description: 'Invoice #001', amount: 500 }] },
+  { vendorId: 43, dueDate: '2025-05-15', lineItems: [{ description: 'Invoice #002', amount: 750 }] },
+]);
+```
+
+## Updating bills
+
+```typescript
+const updated = await client.bills.update(billId, {
+  dueDate: '2025-05-15',
+  note: 'Extended payment terms',
+});
+```
+
+### Batch update
+
+```typescript
+const updated = await client.bills.batchUpdate([
+  { id: 1, note: 'Updated note' },
+  { id: 2, dueDate: '2025-06-01' },
+]);
+```
+
+## Deleting bills
+
+```typescript
+await client.bills.delete(billId);
+```
+
+## Lifecycle transitions
+
+### Submit for approval
+
+```typescript
+const result = await client.bills.submitForApproval(billId, {
+  comment: 'Please review and approve.',
+});
+```
+
+### Approve
+
+```typescript
+const result = await client.bills.approve(billId, {
+  comment: 'Approved for payment.',
+});
+```
+
+### Schedule payment
+
+```typescript
+const result = await client.bills.schedulePayment(billId, {
+  scheduledDate: '2025-04-20',
+  paymentMethod: 'bank_transfer',
+});
+```
+
+### Reschedule payment
+
+```typescript
+const result = await client.bills.reschedulePayment(billId, {
+  scheduledDate: '2025-05-01',
+});
+```
+
+### Mark as paid
+
+```typescript
+const result = await client.bills.markPaid(billId, {
+  paidDate: '2025-04-20',
+  paymentReference: 'TXN-12345',
+});
+```
+
+### Cancel
+
+```typescript
+const result = await client.bills.cancel(billId, {
+  reason: 'Duplicate bill',
+});
+```
+
+### Revert to draft
+
+```typescript
+const result = await client.bills.revertToDraft(billId);
+```
+
+### Retry failed payment
+
+```typescript
+const result = await client.bills.retryPayment(billId);
+```
+
+## Status inspection
+
+### Get status summary
+
+Retrieve counts of bills by status for dashboard displays:
+
+```typescript
+const summary = await client.bills.getStatusSummary();
+console.log(`Draft: ${summary.draft}`);
+console.log(`Pending: ${summary.pendingApproval}`);
+console.log(`Paid: ${summary.paid}`);
+```
+
+### Get allowed transitions
+
+Check which status transitions are valid for a bill in its current state:
+
+```typescript
+const transitions = await client.bills.getAllowedTransitions(billId);
+console.log('Allowed transitions:', transitions);
+```
+
+### Get approval history
+
+```typescript
+const history = await client.bills.getHistory(billId);
+for (const entry of history) {
+  console.log(`${entry.action} by ${entry.userId} at ${entry.timestamp}`);
+}
+```
+
+## File operations
+
+### Upload bill documents
+
+```typescript
+const formData = new FormData();
+formData.append('files', invoicePdf);
+
+const results = await client.bills.upload(formData);
+```
+
+### Validate before upload
+
+```typescript
+const formData = new FormData();
+formData.append('files', invoicePdf);
+
+const validation = await client.bills.validate(formData);
+```
+
+### Export bills
+
+```typescript
+const blob = await client.bills.export({
+  format: 'csv',
+  status: 'paid',
+  startDate: '2025-01-01',
+});
+```
+
+### Download attachments
+
+```typescript
+const zipBlob = await client.bills.downloadAttachments({
+  billIds: [1, 2, 3],
+});
+```
+
+## Bulk operations
+
+All bulk methods return an `SBBillBulkActionResponse` with success and failure counts.
+
+### Bulk approve
+
+```typescript
+const result = await client.bills.bulkApprove({
+  billIds: [1, 2, 3],
+  comment: 'Batch approved.',
+});
+console.log(`Approved: ${result.succeeded}, Failed: ${result.failed}`);
+```
+
+### Bulk mark paid
+
+```typescript
+const result = await client.bills.bulkMarkPaid({
+  billIds: [4, 5, 6],
+});
+```
+
+### Bulk schedule payment
+
+```typescript
+const result = await client.bills.bulkSchedulePayment({
+  billIds: [7, 8, 9],
+  scheduledDate: '2025-05-01',
+});
+```
+
+### Bulk unschedule
+
+```typescript
+const result = await client.bills.bulkUnschedule({
+  billIds: [7, 8],
+});
+```
+
+### Bulk cancel payment
+
+```typescript
+const result = await client.bills.bulkCancelPayment({
+  billIds: [10, 11],
+});
+```
+
+### Bulk retry payment
+
+```typescript
+const result = await client.bills.bulkRetryPayment({
+  billIds: [12, 13],
+});
+```
+
+### Bulk delete
+
+```typescript
+const result = await client.bills.bulkDelete({
+  billIds: [14, 15],
+});
+```
+
+### Bulk update
+
+```typescript
+const result = await client.bills.bulkUpdate({
+  updates: [
+    { billId: 1, note: 'Updated' },
+    { billId: 2, dueDate: '2025-06-01' },
+  ],
+});
+```
+
+### Bulk remind
+
+Send payment reminders for outstanding bills:
+
+```typescript
+const result = await client.bills.bulkRemind({
+  billIds: [20, 21, 22],
+});
+```
+
+## Method reference
+
+| Method | Parameters | Returns |
+|--------|-----------|---------|
+| `list` | `params?`, `options?` | `SBListResponse<SBBill>` |
+| `listPersonal` | `params?`, `options?` | `SBListResponse<SBBill>` |
+| `getById` | `billId`, `options?` | `SBBill` |
+| `create` | `data`, `options?` | `SBBill` |
+| `update` | `billId`, `data`, `options?` | `SBBill` |
+| `delete` | `billId`, `options?` | `void` |
+| `batchCreate` | `data[]`, `options?` | `SBBill[]` |
+| `batchUpdate` | `data[]`, `options?` | `SBBill[]` |
+| `upload` | `formData`, `options?` | `SBTransactionUploadResponse[]` |
+| `validate` | `formData`, `options?` | `unknown` |
+| `getStatusSummary` | `options?` | `SBBillStatusSummary` |
+| `getHistory` | `billId`, `options?` | `SBBillApprovalHistoryItem[]` |
+| `getAllowedTransitions` | `billId`, `options?` | `BillStatus[]` |
+| `submitForApproval` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `approve` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `schedulePayment` | `billId`, `data`, `options?` | `SBBillTransitionResponse` |
+| `reschedulePayment` | `billId`, `data`, `options?` | `SBBillTransitionResponse` |
+| `markPaid` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `cancel` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `revertToDraft` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `retryPayment` | `billId`, `data?`, `options?` | `SBBillTransitionResponse` |
+| `export` | `data`, `options?` | `Blob` |
+| `downloadAttachments` | `data`, `options?` | `Blob` |
+| `bulkApprove` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkMarkPaid` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkSchedulePayment` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkUnschedule` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkCancelPayment` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkRetryPayment` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkDelete` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkUpdate` | `data`, `options?` | `SBBillBulkActionResponse` |
+| `bulkRemind` | `data`, `options?` | `SBBillBulkActionResponse` |

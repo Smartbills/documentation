@@ -1,0 +1,108 @@
+---
+title: "Shopify"
+description: "Sync orders, products, and transactions between Smartbills and Shopify"
+---
+
+## Overview
+
+The Shopify integration imports orders and transactions from your Shopify store into Smartbills, enabling automatic receipt generation and expense tracking for Shopify-based businesses. Both online orders and Shopify POS transactions are supported.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Order Sync** | Import Shopify orders as digital receipts |
+| **Product Mapping** | Map Shopify products to Smartbills categories |
+| **Multi-location** | Support for multiple Shopify locations and POS |
+| **Refund Tracking** | Automatically track refunds and adjustments |
+| **Customer Matching** | Link Shopify customers to Smartbills records |
+| **Tax Sync** | Map Shopify tax rates to Smartbills |
+| **Webhook Events** | Real-time order notifications via Shopify webhooks |
+
+## Prerequisites
+
+- Shopify store (any plan)
+- Smartbills Business plan or higher
+- Store owner or staff account with app installation permissions
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Shopify**.
+  </Step>
+  <Step title="Enter Store URL">
+    Enter your Shopify store URL (e.g., `your-store.myshopify.com`).
+
+  </Step>
+  <Step title="Install the App">
+    You will be redirected to Shopify to install the Smartbills app. Review the permissions and click **Install**.
+  </Step>
+  <Step title="Configure Mapping">
+    Map Shopify products and locations to Smartbills categories and settings.
+  </Step>
+  <Step title="Enable Sync">
+    Choose which data to sync and set the sync frequency.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Product Mapping
+
+| Shopify Product Type | Smartbills Category |
+|---------------------|---------------------|
+| Physical goods | Merchandise |
+| Digital products | Software & Digital |
+| Gift cards | Gift Cards |
+| Services | Professional Services |
+
+### Location Settings
+
+| Setting | Description |
+|---------|-------------|
+| Sync all locations | Import orders from all Shopify locations |
+| Select locations | Choose specific locations to sync |
+| POS transactions | Include or exclude Shopify POS transactions |
+
+### Order Filters
+
+| Filter | Description |
+|--------|-------------|
+| Order status | Import only paid, partially paid, or all orders |
+| Date range | Set starting date for historical order import |
+| Minimum amount | Skip orders below a threshold value |
+
+## Data Sync
+
+| Smartbills | Shopify | Direction | Frequency |
+|-----------|---------|-----------|-----------|
+| Receipts | Orders | Shopify -> Smartbills | Real-time (webhook) |
+| Refund records | Refunds | Shopify -> Smartbills | Real-time (webhook) |
+| Categories | Products | Shopify -> Smartbills | On demand |
+| Customer records | Customers | Shopify -> Smartbills | With orders |
+| Locations | Locations | Shopify -> Smartbills | On demand |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Orders not appearing">
+    Verify that webhooks are registered correctly in Shopify Admin > Settings > Notifications. Re-install the integration if webhooks are missing.
+  </Accordion>
+
+  <Accordion title="Duplicate orders">
+    Check if both webhook sync and scheduled sync are enabled. Use one sync method to prevent duplicates.
+  </Accordion>
+
+  <Accordion title="Products not mapped">
+    New Shopify products need to be mapped to Smartbills categories. Go to integration settings to map unmapped products.
+  </Accordion>
+
+  <Accordion title="POS transactions missing">
+    Ensure POS sync is enabled in the integration settings. Shopify POS transactions use a separate event stream.
+  </Accordion>
+
+  <Accordion title="Refunds not tracked">
+    Refund webhooks must be registered separately. Check the webhook configuration in the integration settings and re-authorize if needed.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,74 @@
+---
+title: "Python SDK Overview"
+description: "Official Python SDK for the Smartbills API, async-first, type-safe expense management with Pydantic models."
+---
+
+## Python SDK
+
+The `smartbills` package provides an async Python client for the Smartbills REST API. Built on `httpx` for async HTTP and `pydantic` for data validation, it offers a fully typed, production-ready integration layer.
+
+## Features
+
+- Fully async with `async/await` support
+- Pydantic v2 models for all request and response types
+- Automatic retry with exponential back-off on transient failures
+- Structured error hierarchy matching HTTP status codes
+- Multi-tenant support via `business_id` context
+- Async context manager for clean resource management
+
+## Quick start
+
+```python
+from smartbills import SmartbillsClient, SmartbillsClientOptions
+
+options = SmartbillsClientOptions(
+    access_token="YOUR_API_KEY",
+    business_id=123,
+    locale="en-CA",
+)
+
+async with SmartbillsClient(options) as client:
+    # List recent expenses
+    result = await client.expenses.list_business()
+    for expense in result.data:
+        print(f"{expense.id}: {expense.amount}")
+
+    # Create an expense report
+    from smartbills.models.expense_reports import ExpenseReportCreateRequest
+    report = await client.expense_reports.create(
+        ExpenseReportCreateRequest(name="Q1 Travel")
+    )
+    print(f"Created report: {report.id}")
+```
+
+## Available services
+
+| Service | Property | Description |
+|---------|----------|-------------|
+| Expenses | `client.expenses` | List, upload, update, split, export, and bulk-manage expenses |
+| Expense Reports | `client.expense_reports` | Create, submit, approve, reject, and reimburse reports |
+| Report Expenses | `client.expense_report_expenses` | Add, remove, and edit expenses within a report |
+| Report Payments | `client.expense_report_payments` | Reimbursement and payment operations |
+| Approbations | `client.approbations` | Manage approval workflows |
+| Bills | `client.bills` | Accounts-payable lifecycle management |
+| Vendors | `client.vendors` | Vendor CRUD at user level |
+| Business Vendors | `client.business_vendors` | Vendor CRUD scoped to a business |
+| Employees | `client.employees` | Employee management |
+| Businesses | `client.businesses` | Business entity management |
+| Categories | `client.categories` | Expense category management |
+| Receipts | `client.receipts` | Receipt processing |
+
+All methods are **async** and must be called with `await`.
+
+## Requirements
+
+- **Python** 3.10 or later
+- **httpx** 0.27+
+- **pydantic** 2.0+
+
+## Next steps
+
+- [Installation](/sdks/python/installation), install the package and configure your environment
+- [Expenses](/sdks/python/expenses), full expense service reference
+- [Expense Reports](/sdks/python/expense-reports), report lifecycle management
+- [Error Handling](/sdks/python/error-handling), understand the error classes

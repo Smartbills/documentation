@@ -1,0 +1,91 @@
+---
+title: "Soumettre un Rapport"
+description: "Soumettez votre rapport de dépenses pour approbation"
+---
+
+## Introduction
+
+Soumettre un rapport de dépenses l'envoie à votre gestionnaire ou approbateur designe pour examen. Une fois soumis, le rapport est verrouillé et vous ne pouvez pas modifier les dépenses ou les détails du rapport à moins de le rappelér d'abord. Ce guide vous accompagne dans le processus de soumission et ce qu'il faut vérifiér avant de soumettre.
+
+## Soumettre votre rapport
+
+<Steps>
+  <Step title="Ouvrir votre rapport brouillon">
+    Naviguez vers **Mes Rapports de Dépenses** dans la barre latérale et cliquez sur le rapport que vous souhaitez soumettre. Le rapport doit être au statut **Brouillon** et contenir au moins une dépense.
+
+  </Step>
+  <Step title="Examiner toutes les dépenses et le montant total">
+    Avant de soumettre, examinez le résumé du rapport :
+    - **Liste des dépenses**: Vérifiez que toutes les dépenses prevues sont incluses
+    - **Montant total**: Confirmez que la somme est correcte
+    - **Reçus**: Vérifiez que chaque dépense à un reçu joint
+    - **Catégories**: Assurez-vous que les dépenses sont correctement categorisees
+  </Step>
+  <Step title="S'assurer que tous les champs requis sont completes">
+    Smartbills vérifié la completude avant d'autoriser la soumission. Si des dépenses ont des champs requis manquants, vous verrez une **icône d'avertissement** à côté d'elles. Les problèmes courants incluent :
+    - Image de reçu manquante
+    - Catégorie vide
+    - Justification d'affaires manquante (si requise par la politique de l'entreprise)
+    - Montant ou d.te incomplet
+
+    Resolvez tous les avertissements avant de continuer. Cliquez sur une dépense signalée pour l'ouvrir et remplir les informations manquantes.
+  </Step>
+  <Step title="Cliquer sur Soumettre pour approbation">
+    Lorsque tout est en ordre, cliquez sur le bouton **Soumettre pour approbation** en haut de la page du rapport.
+
+  </Step>
+  <Step title="Confirmer la soumission">
+    Une boîte de dialogue de confirmation apparaît resumant le rapport :
+    - Titre du rapport
+    - Nombre de dépenses
+    - Montant total
+    - Nom de l'approbateur
+
+    Cliquez sur **Confirmer** pour soumettre le rapport.
+  </Step>
+  <Step title="Le rapport passe au statut Soumis">
+    Après confirmation, le statut du rapport passe à **Soumis**. Votre approbateur recoit une notification et le rapport apparaît dans sa file d'approbation. Vous pouvez suivre le statut depuis votre liste de rapports de dépenses.
+  </Step>
+</Steps>
+
+## Liste de vérification pre-soumission
+
+| Vérification | Description |
+|--------------|-------------|
+| Toutes les dépenses incluses | Aucune transaction manquante pour la période |
+| Reçus joints | Chaque dépense à une image de reçu ou un PDF |
+| Catégories assignees | Chaque dépense à une catégorie valide |
+| Montants corrects | Les totaux correspondent aux reçus |
+| Justification d'affaires fournie | La description du rapport explique les dépenses |
+| Aucune icône d'avertissement | Tous les champs requis sont complets sur chaque dépense |
+
+<Warning>
+  Une fois soumis, vous ne pouvez pas modifier les dépenses ou les détails du rapport. Si vous devez apporter des changements après la soumission, vous devez d'abord [rappelér le rapport](/fr/guides/web-app/reports/recall-report), ce qui le ramene au statut Brouillon. Vous ne pouvez rappelér un rapport qu'avant son approbation.
+</Warning>
+
+## Après la soumission
+
+Après avoir soumis votre rapport :
+
+- Vous recevez une notification de confirmation
+- Le rapport apparaît comme **Soumis** dans votre liste de rapports
+- Votre approbateur est notifie et peut commencer l'examen
+- Vous pouvez consulter le rapport en mode lecture seule
+- La chronologie du rapport enregistre toute l'activité, incluant la date de soumission et le destinataire
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Rappeler un Rapport" icon="rotate-left" href="/fr/guides/web-app/reports/recall-report">
+    Retirer un rapport soumis pour apporter des modifications
+  </Card>
+  <Card title="Ajouter des Dépenses" icon="plus" href="/fr/guides/web-app/reports/add-expenses">
+    Ajouter plus de dépenses avant de soumettre
+  </Card>
+  <Card title="Flux d'approbation" icon="check-double" href="/fr/guides/concepts/approval-workflows">
+    Comprendre le fonctionnement du processus d'approbation
+  </Card>
+  <Card title="Exporter un Rapport" icon="file-export" href="/fr/guides/web-app/reports/export-report">
+    Télécharger votre rapport pour vos dossiers
+  </Card>
+</CardGroup>

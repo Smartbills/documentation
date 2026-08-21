@@ -1,0 +1,91 @@
+---
+title: "Enregistrer un trajet"
+description: "Saisissez un déplacement professionnel et laissez Smartbills calculer la distance et le remboursement"
+---
+
+## Aperçu
+
+Enregistrer un trajet consiste à indiquer où vous avez conduit, avec quel véhicule et à quelle date. Smartbills calcule l'itinéraire, la distance, et affiche la valeur du trajet selon le taux kilométrique de votre entreprise.
+
+Partez de **Trajets kilométriques** dans la barre latérale, puis **Nouveau trajet**.
+
+L'écran est divisé en deux. La carte à gauche prévisualise votre itinéraire à mesure que vous saisissez. Le formulaire à droite contient les détails.
+
+## Remplir le trajet
+
+<Steps>
+  <Step title="Nommer le trajet">
+    Le **nom du trajet** est obligatoire. Choisissez un intitulé qu'un approbateur comprendra sans avoir à demander, par exemple « Visite client au centre-ville ». C'est le libellé qui apparaîtra sur la dépense et sur le rapport.
+  </Step>
+  <Step title="Choisir un véhicule">
+    Le **véhicule** est obligatoire. Il détermine si le trajet est mesuré en kilomètres ou en milles : choisissez-le donc avant de vérifier la distance. Si la voiture n'est pas dans la liste, utilisez **Ajouter un nouveau véhicule** sans quitter le formulaire.
+  </Step>
+  <Step title="Indiquer la date">
+    La date du jour est proposée par défaut. Modifiez-la si vous enregistrez un déplacement antérieur.
+  </Step>
+  <Step title="Saisir l'itinéraire">
+    Saisissez l'adresse de départ, puis la destination. **Sélectionnez chaque adresse parmi les suggestions** au lieu de la taper librement. Smartbills a besoin du lieu résolu pour calculer l'itinéraire, et une adresse saisie mais jamais sélectionnée empêche l'enregistrement.
+
+    Pour ajouter des arrêts, voir [Arrêts multiples et aller-retour](/fr/guides/web-app/mileage/multi-stop-and-round-trips).
+  </Step>
+  <Step title="Activer l'aller-retour si vous êtes revenu">
+    L'option **Aller-retour** inclut le trajet de retour dans la distance. La mention « Inclut le trajet de retour » vous évite de doubler la distance à la main.
+  </Step>
+  <Step title="Vérifier la distance">
+    Le champ **Distance** se remplit à partir de l'itinéraire calculé. N'y touchez pas, sauf si la distance réelle a différé, par exemple à cause d'un détour.
+  </Step>
+  <Step title="Ajouter des notes si utile">
+    Contexte facultatif pour la personne qui approuvera la demande.
+  </Step>
+  <Step title="Enregistrer">
+    **Enregistrer le trajet** le crée et ouvre sa page de détail. Son statut reste **Enregistré** jusqu'à ce que vous le convertissiez en dépense.
+  </Step>
+</Steps>
+
+## Remplacer la distance
+
+Le champ de distance est modifiable. Saisissez un autre nombre et il devient une valeur manuelle, qui sera réclamée à la place de la distance calculée.
+
+Deux comportements à connaître :
+
+- Un lien **Réinitialiser à la valeur calculée** apparaît dès que vous avez saisi une valeur manuelle. Utilisez-le pour revenir à la distance de l'itinéraire.
+- Saisir une valeur identique à la distance calculée annule le remplacement plutôt que de l'enregistrer. Smartbills considère « identique à l'itinéraire » comme l'absence de remplacement, afin que les modifications ultérieures du trajet continuent de s'appliquer.
+
+<Note>
+  L'aperçu sur la carte est une estimation produite dans votre navigateur. À l'enregistrement, le serveur recalcule l'itinéraire, et c'est ce résultat qui sert de base à votre demande. De petits écarts entre l'aperçu et le trajet enregistré sont normaux.
+</Note>
+
+## Validation
+
+L'enregistrement échoue avec un message si quelque chose est incomplet :
+
+| Message | Que faire |
+|---------|-----------|
+| Ajoutez un nom pour ce trajet. | Remplissez le **nom du trajet**. |
+| Choisissez un véhicule. | Sélectionnez ou ajoutez un véhicule. |
+| Sélectionnez une adresse de départ parmi les suggestions. | Ressaisissez le point de départ et cliquez sur une suggestion. |
+| Sélectionnez une destination parmi les suggestions. | Ressaisissez la destination et cliquez sur une suggestion. |
+| Un arrêt ajouté n'est pas reconnu, sélectionnez-le parmi les suggestions. | Un de vos arrêts a été saisi sans être sélectionné. Effacez-le ou choisissez-le correctement. |
+
+## Modifier un trajet
+
+Ouvrez le trajet et choisissez **Modifier**. L'écran de modification est le même formulaire.
+
+<Warning>
+  Un trajet ne peut plus être modifié dès qu'il figure sur un rapport de dépenses soumis. Le message indique que le rapport doit d'abord être rappelé ou rouvert. Rappelez le rapport, faites votre correction, puis soumettez de nouveau.
+</Warning>
+
+## Dupliquer un trajet
+
+Pour un déplacement récurrent, ouvrez le menu du trajet dans la liste et choisissez **Dupliquer**. La copie reprend l'itinéraire et le véhicule dans un nouveau trajet daté du jour, ce qui évite de ressaisir un déplacement régulier entre deux sites.
+
+## Et ensuite
+
+<CardGroup cols={2}>
+  <Card title="Arrêts multiples et aller-retour" icon="map-pin" href="/fr/guides/web-app/mileage/multi-stop-and-round-trips">
+    Ajouter et réorganiser des arrêts
+  </Card>
+  <Card title="Convertir en dépense" icon="receipt" href="/fr/guides/web-app/mileage/convert-to-expense">
+    Rendre le trajet réclamable
+  </Card>
+</CardGroup>

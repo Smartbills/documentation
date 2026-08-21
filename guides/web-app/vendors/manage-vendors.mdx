@@ -1,0 +1,123 @@
+---
+title: "Manage Vendors"
+description: "Edit, merge, and organize your vendor records"
+---
+
+## Overview
+
+As your vendor directory grows, you may need to update vendor details, merge duplicate entries, remove unused vendors, or import vendors in bulk. This guide covers the day-to-day management tasks for keeping your vendor directory clean and accurate.
+
+<Note>
+  Managing vendors requires the **VENDORS_MANAGE** permission, available to Admin and Accountant roles.
+</Note>
+
+## Edit Vendor Details
+
+<Steps>
+  <Step title="Open the Vendor">
+    Navigate to **Vendors** in the sidebar and click the vendor you want to edit.
+
+  </Step>
+
+  <Step title="Modify Fields">
+    In the vendor detail panel, update any of the following fields:
+
+    - **Name**: Correct the display name
+    - **Address**: Add or update the business address
+    - **Tax ID**: Enter or modify the tax identification number
+    - **Default Category**: Change the category applied to future expenses from this vendor
+    - **Website**, **Phone**, **Notes**: Update contact information and internal notes
+
+  </Step>
+
+  <Step title="Save Changes">
+    Click **Save** to apply your changes. The updated default category will apply to future expenses only, existing expenses retain their current category.
+  </Step>
+</Steps>
+
+## Merge Duplicate Vendors
+
+Over time, OCR processing may create duplicate vendor entries (e.g., "Tim Hortons" and "Tim Horton's #1234"). Merging combines two records into one, consolidating all linked expenses under a single vendor.
+
+<Steps>
+  <Step title="Select the Duplicate Vendor">
+    Open the vendor you want to remove (the duplicate). Click the **Merge** button in the detail panel.
+
+  </Step>
+
+  <Step title="Choose the Target Vendor">
+    Search for and select the vendor you want to keep (the target). All expenses from the duplicate vendor will be reassigned to the target.
+
+  </Step>
+
+  <Step title="Confirm the Merge">
+    Review the merge summary showing how many expenses will be moved. Click **Confirm Merge** to complete the operation.
+
+  </Step>
+</Steps>
+
+<Warning>
+  Merging is permanent. The duplicate vendor record is deleted and all of its expenses are reassigned to the target vendor. This action cannot be undone.
+</Warning>
+
+## Delete a Vendor
+
+If a vendor was created by mistake or is no longer relevant, you can delete it from the directory.
+
+1. Open the vendor you want to delete
+2. Click the **Delete** button in the detail panel
+3. Confirm the deletion in the dialog
+
+<Note>
+  You cannot delete a vendor that has linked expenses. Reassign or delete the associated expenses first, or merge the vendor into another record.
+</Note>
+
+## Import Vendors from CSV
+
+For organizations with a large number of vendors, you can import vendor records in bulk using a CSV file.
+
+<Steps>
+  <Step title="Prepare Your CSV File">
+    Create a CSV file with the following columns:
+
+    | Column | Required | Description |
+    |--------|----------|-------------|
+    | `name` | Yes | Vendor display name |
+    | `address` | No | Business address |
+    | `tax_id` | No | Tax identification number |
+    | `category` | No | Default category name (must match an existing category) |
+    | `website` | No | Website URL |
+    | `phone` | No | Contact phone number |
+    | `notes` | No | Internal notes |
+  </Step>
+
+  <Step title="Upload the CSV">
+    On the Vendors page, click the **Import** button in the top-right corner. Select your CSV file or drag it into the upload area.
+
+  </Step>
+
+  <Step title="Review and Confirm">
+    Smartbills displays a preview of the vendors to be imported. Review the data for accuracy, resolve any flagged issues, and click **Import** to create the vendor records.
+
+  </Step>
+</Steps>
+
+## Vendor Expense History
+
+Every vendor detail panel includes a chronological log of expenses linked to that vendor. Use this history to:
+
+- Track spending patterns over time
+- Identify unusual charges from a vendor
+- Review which employees are making purchases from a specific vendor
+- Export vendor-specific spending data for accounting or audits
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Vendor Overview" icon="store" href="/guides/web-app/vendors/overview">
+    Learn about the vendor directory and auto-detection
+  </Card>
+  <Card title="Create a Vendor" icon="circle-plus" href="/guides/web-app/vendors/create-vendor">
+    Add a new vendor record manually
+  </Card>
+</CardGroup>

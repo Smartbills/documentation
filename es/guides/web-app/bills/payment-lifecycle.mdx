@@ -1,0 +1,107 @@
+---
+title: "Ciclo de vida del pago de una factura"
+description: "Los estados por los que pasa una factura de proveedor y las acciones disponibles en cada uno"
+---
+
+## Resumen
+
+Una factura recorre un conjunto definido de estados, del borrador al pago. Cada estado permite solo ciertas acciones, y eso es lo que impide que una factura sin aprobar se programe para pago.
+
+## Los estados
+
+| Estado | Significado |
+|--------|-------------|
+| **Draft** | Creada o subida, sin enviar |
+| **Pending Approval** | Enviada, esperando aprobador |
+| **Approved** | Aprobada, aún no en cola de pago |
+| **Ready for Payment** | Autorizada para pagarse |
+| **Scheduled** | Pago previsto para una fecha futura |
+| **Processing** | Pago en curso |
+| **Paid** | Pago realizado a través de Smartbills |
+| **Marked Paid** | Registrada como pagada fuera de Smartbills |
+| **Payment Failed** | Se intentó el pago y falló |
+| **Denied** | Rechazada por un aprobador |
+| **Cancelled** | Retirada |
+
+Las facturas vencidas e impagadas también aparecen como **Overdue**, que se deduce de la fecha de vencimiento y no es un estado propio.
+
+<Note>
+  **Paid** y **Marked Paid** son distintos a propósito. Paid significa que Smartbills ejecutó el pago y conserva el registro. Marked Paid significa que usted indicó que se liquidó por otra vía, con cheque o transferencia directa. Ambos cierran la factura, pero solo uno deja rastro de pago.
+</Note>
+
+## La lista
+
+Las facturas se organizan en pestañas según dónde esté el trabajo:
+
+| Pestaña | Contiene |
+|---------|----------|
+| **All** | Todas |
+| **Drafts** | Sin enviar |
+| **For approval** | Esperando aprobador |
+| **For payment** | Aprobadas, pendientes de pago |
+| **Processing** | Pagos en curso |
+| **History** | Terminadas y cerradas |
+
+## Las acciones
+
+<AccordionGroup>
+  <Accordion title="Enviar a aprobación" icon="paper-plane">
+    Pasa un borrador a la cola de aprobación.
+  </Accordion>
+
+  <Accordion title="Aprobar" icon="check">
+    Autoriza la factura para pago. Solo Administradores financieros y Administradores.
+  </Accordion>
+
+  <Accordion title="Programar el pago" icon="calendar">
+    Fija una fecha futura. Un pago programado se puede reprogramar o cancelar antes de ejecutarse.
+  </Accordion>
+
+  <Accordion title="Marcar como pagada" icon="money-check">
+    Registra una liquidación fuera de Smartbills. Puede adjuntar una referencia, como un número de cheque o de transacción.
+  </Accordion>
+
+  <Accordion title="Reintentar el pago" icon="rotate-right">
+    Vuelve a intentar un pago fallido sin recrear la factura.
+  </Accordion>
+
+  <Accordion title="Volver a borrador" icon="rotate-left">
+    Devuelve la factura a borrador para corregirla y reenviarla.
+  </Accordion>
+
+  <Accordion title="Cancelar" icon="ban">
+    Retira la factura. Úselo para duplicados y facturas que no debieron introducirse.
+  </Accordion>
+</AccordionGroup>
+
+### Qué acciones están disponibles
+
+Cada factura expone solo las transiciones permitidas desde su estado actual. La interfaz ofrece únicamente esas, así que si no encuentra una acción que esperaba, la factura no está en un estado que la permita. Volver a borrador suele ser el camino de vuelta.
+
+## Acciones en lote
+
+Seleccione facturas para actuar sobre varias a la vez: aprobar, marcar pagadas, programar pago, desprogramar, cancelar pago, reintentar, eliminar, enviar un recordatorio, o cambiar el proveedor o los impuestos de toda la selección.
+
+Las acciones en lote informan factura por factura, así que una selección con facturas en estado incompatible se completa para las elegibles en lugar de fallar entera.
+
+## Historial
+
+Cada factura conserva el historial de sus cambios de estado y de quién los hizo. Ábrala y revíselo cuando necesite establecer quién aprobó qué y cuándo.
+
+## Convertir entre facturas y gastos
+
+Un documento que llegó al sitio equivocado no hay que reintroducirlo.
+
+- **Factura a gasto**: convierte una factura en gasto de empresa, de una en una o en lote. Las no elegibles se omiten y se cuentan.
+- **Gasto a factura**: convierte un gasto en factura, para una factura de proveedor subida como recibo.
+
+## Véase también
+
+<CardGroup cols={2}>
+  <Card title="Buzones de proveedores" icon="inbox" href="/es/guides/web-app/bills/ap-inboxes">
+    Recibir facturas directamente
+  </Card>
+  <Card title="Conexiones con portales" icon="plug" href="/es/guides/web-app/vendors/portal-connections">
+    Recuperar facturas sin esperar un correo
+  </Card>
+</CardGroup>

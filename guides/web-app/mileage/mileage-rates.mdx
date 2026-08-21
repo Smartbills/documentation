@@ -1,0 +1,105 @@
+---
+title: "Mileage Rates"
+description: "Configure the per-kilometre and per-mile rates your business reimburses mileage at"
+---
+
+## Overview
+
+Mileage rates decide what a kilometre or a mile is worth. Smartbills ships published CRA and IRS benchmarks and applies them automatically, so a business that reimburses at the standard rate needs no configuration at all. Businesses that reimburse differently add custom rates that take precedence.
+
+Rates live at **Settings > Organization > Mileage rates**.
+
+<Note>
+  Only Administrators can change rates. Finance Admins can see the page but not edit it.
+</Note>
+
+## How a rate is chosen
+
+The page has two sections and they resolve in a fixed order:
+
+1. **Your rates.** Custom rates defined by your business. Checked first.
+2. **Default rates.** Published CRA and IRS benchmarks. Applied when no custom rate matches.
+
+A rate matches on country, region, and date. The trip's vehicle determines the jurisdiction, and the travel date determines which version of the rate was in effect.
+
+## Tiered and flat rates
+
+| Type | Behaviour |
+|------|-----------|
+| **Tiered** | A higher rate up to an annual distance threshold, a lower rate beyond it. This is how the CRA program works. |
+| **Flat** | One rate regardless of distance. |
+
+A tiered rate takes three values: the **tier threshold**, the **first-tier rate**, and the **additional-tier rate**. The threshold defaults to **5,000**, matching the CRA's annual limit, and is expressed in the rate's own unit.
+
+Smartbills tracks each employee's year-to-date distance and applies the correct tier per trip. A trip that straddles the threshold is split across both rates rather than being charged entirely at one.
+
+### Year-to-date baselines
+
+An employee who joins mid-year, or who is migrating from another system, may already have distance on the books that Smartbills never saw. Baselines let you record that opening distance per year so the tier calculation starts from the right place instead of resetting them to zero.
+
+## Add a custom rate
+
+<Steps>
+  <Step title="Start from a benchmark or from scratch">
+    The **Benchmarks** section lists published CRA and IRS rates. Choosing **Use** on one prefills a new custom rate with its values, which is the quickest way to make a small adjustment to the standard rate.
+  </Step>
+  <Step title="Set the scope">
+    Choose the country, and either apply the rate country-wide or restrict it to a region or province.
+  </Step>
+  <Step title="Choose the rate type">
+    Pick tiered or flat, then fill in the rate values. For tiered rates set the threshold, first-tier rate, and additional-tier rate.
+  </Step>
+  <Step title="Set the applicable dates">
+    **Applicable from** is required. **Applicable until** is optional, and leaving it empty makes the rate open-ended.
+
+    There is no separate year field. The year is derived from the start date, which is what lets you model a rate that changes partway through a year rather than only on January 1.
+  </Step>
+  <Step title="Save">
+    The rate applies to trips dated inside its window from that point on.
+  </Step>
+</Steps>
+
+## Changing a rate that already exists
+
+Rate history is append-only, because trips already reimbursed must keep the rate they were reimbursed at. That means there is no plain edit. Instead there are two operations, and choosing correctly matters for your records.
+
+<AccordionGroup>
+  <Accordion title="Supersede: the rate genuinely changed" icon="calendar-clock">
+    Use this when the rate is changing going forward, for example because the CRA published a new figure. You pick the date the new rate takes effect, and a new open-ended version is created from that date. The previous version is closed off the day before and stays on record.
+
+    Trips dated before the change keep the old rate. Trips after it get the new one.
+  </Accordion>
+
+  <Accordion title="Correct: the rate was recorded wrong" icon="pencil">
+    Use this when the version you entered was simply a mistake. The correction replaces it over the same date window, and the erroneous version is retained in history rather than deleted.
+
+    Reach for this only when the original entry was wrong. Using it for a genuine rate change would rewrite the past and misstate what was already reimbursed.
+  </Accordion>
+</AccordionGroup>
+
+## Archive and restore
+
+Archiving takes a rate out of consideration without deleting it. Restoring brings it back. Neither affects trips that were already reimbursed under it.
+
+## Worked example: the CRA tiered rate
+
+A Canadian business reimbursing at the standard CRA rate needs no custom rate. To confirm what an employee will receive:
+
+1. The employee's vehicle is registered in Canada, so trips are measured in kilometres.
+2. The CRA benchmark is tiered with a 5,000 km threshold.
+3. The employee's first 5,000 km in the year are reimbursed at the first-tier rate.
+4. Everything beyond 5,000 km is reimbursed at the lower additional-tier rate.
+5. The trip that crosses 5,000 km is split, with the portion below the threshold at the higher rate and the remainder at the lower one.
+
+Each trip's detail page shows this breakdown, including year-to-date distance before and after, so an employee can see exactly why a later trip was worth less per kilometre than an earlier one.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Manage vehicles" icon="car" href="/guides/web-app/mileage/vehicles">
+    Registration country sets the distance unit
+  </Card>
+  <Card title="Add mileage to a report" icon="file-invoice" href="/guides/web-app/mileage/add-to-expense-report">
+    What approvers see on a mileage claim
+  </Card>
+</CardGroup>

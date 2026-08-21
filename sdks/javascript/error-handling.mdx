@@ -1,0 +1,280 @@
+---
+title: "Error Handling"
+description: "Complete guide to error types, type guards, and retry patterns in the Smartbills JavaScript SDK."
+---
+
+## Error Handling
+
+The Smartbills SDK throws structured errors for every API failure. Each error class maps to a specific HTTP status code and includes contextual information to help you handle failures gracefully.
+
+## Error hierarchy
+
+All SDK errors extend a common base class:
+
+```
+SmartbillsError (base)
+  +-- SmartbillsApiError (any API error with response body)
+        +-- SmartbillsValidationError    (400)
+        +-- SmartbillsAuthenticationError (401)
+        +-- SmartbillsPermissionError     (403)
+        +-- SmartbillsNotFoundError       (404)
+        +-- SmartbillsConflictError       (409)
+        +-- SmartbillsRateLimitError      (429)
+        +-- SmartbillsQuotaError          (402/403)
+  +-- SmartbillsNetworkError (connection failures)
+```
+
+## SmartbillsError (base)
+
+Every error includes these properties:
+
+```typescript
+interface SmartbillsError extends Error {
+  code: ErrorCodeType;    // Machine-readable error code
+  statusCode: number;     // HTTP status code
+  requestId?: string;     // Unique request ID for support
+  isRetryable: boolean;   // Whether the request can be retried
+}
+```
+
+## SmartbillsApiError
+
+Extends `SmartbillsError` with response details:
+
+```typescript
+interface SmartbillsApiError extends SmartbillsError {
+  errors: SmartbillsFieldError[];  // Field-level validation errors
+  rawResponse: unknown;            // Raw API response body
+}
+
+interface SmartbillsFieldError {
+  code: string;
+  message: string;
+  field?: string;
+}
+```
+
+## Error types
+
+### SmartbillsValidationError (400)
+
+Thrown when the request body fails server-side validation. Check the `errors` array for field-level details.
+
+```typescript
+try {
+  await client.expenses.update(expenseId, { amount: -100 });
+} catch (error) {
+  if (isValidationError(error)) {
+    console.log('Validation failed:');
+    for (const fieldError of error.errors) {
+      console.log(`  ${fieldError.field}: ${fieldError.message}`);
+    }
+  }
+}
+```
+
+### SmartbillsAuthenticationError (401)
+
+Thrown when the access token is missing, expired, or invalid.
+
+```typescript
+try {
+  await client.expenses.listBusiness();
+} catch (error) {
+  if (isAuthenticationError(error)) {
+    // Redirect to login or refresh the token
+    const newToken = await refreshAccessToken();
+    client.setAccessToken(newToken);
+  }
+}
+```
+
+### SmartbillsPermissionError (403)
+
+Thrown when the authenticated user lacks permission for the requested action.
+
+```typescript
+try {
+  await client.expenseReports.approve(reportId);
+} catch (error) {
+  if (isPermissionError(error)) {
+    console.log('You do not have permission to approve this report');
+  }
+}
+```
+
+### SmartbillsNotFoundError (404)
+
+Thrown when the requested resource does not exist.
+
+```typescript
+try {
+  const expense = await client.expenses.getById(99999);
+} catch (error) {
+  if (isNotFoundError(error)) {
+    console.log('Expense not found');
+  }
+}
+```
+
+### SmartbillsConflictError (409)
+
+Thrown when the request conflicts with the current state of the resource (e.g., trying to approve an already-approved report).
+
+```typescript
+try {
+  await client.expenseReports.submit(reportId);
+} catch (error) {
+  if (isConflictError(error)) {
+    console.log('Report is already submitted');
+  }
+}
+```
+
+### SmartbillsRateLimitError (429)
+
+Thrown when the API rate limit is exceeded. Includes a `retryAfter` hint.
+
+```typescript
+try {
+  await client.expenses.listBusiness();
+} catch (error) {
+  if (isRateLimitError(error)) {
+    console.log(`Rate limited. Retry after ${error.retryAfter} seconds`);
+  }
+}
+```
+
+### SmartbillsQuotaError (402/403)
+
+Thrown when the business has exceeded its plan quota.
+
+```typescript
+try {
+  await client.expenses.uploadBusiness(formData);
+} catch (error) {
+  if (isQuotaError(error)) {
+    console.log('Upload quota exceeded. Please upgrade your plan.');
+  }
+}
+```
+
+### SmartbillsNetworkError
+
+Thrown when the request fails due to a network issue (DNS failure, connection reset, timeout).
+
+```typescript
+try {
+  await client.expenses.listBusiness();
+} catch (error) {
+  if (isNetworkError(error)) {
+    console.log('Network error -- check your internet connection');
+  }
+}
+```
+
+## Type guards
+
+The SDK exports type guard functions for each error class. These narrow the `unknown` error type in `catch` blocks:
+
+```typescript
+import {
+  isSmartbillsError,
+  isApiError,
+  isValidationError,
+  isAuthenticationError,
+  isPermissionError,
+  isNotFoundError,
+  isConflictError,
+  isRateLimitError,
+  isQuotaError,
+  isNetworkError,
+  isRetryableError,
+} from '@smartbills/sdk';
+```
+
+### Comprehensive error handler
+
+```typescript
+import {
+  isValidationError,
+  isAuthenticationError,
+  isPermissionError,
+  isNotFoundError,
+  isRateLimitError,
+  isNetworkError,
+  isSmartbillsError,
+} from '@smartbills/sdk';
+
+async function safeApiCall<T>(fn: () => Promise<T>): Promise<T | null> {
+  try {
+    return await fn();
+  } catch (error) {
+    if (isValidationError(error)) {
+      console.error('Validation:', error.errors);
+    } else if (isAuthenticationError(error)) {
+      console.error('Auth expired -- redirecting to login');
+    } else if (isPermissionError(error)) {
+      console.error('Permission denied');
+    } else if (isNotFoundError(error)) {
+      console.error('Resource not found');
+    } else if (isRateLimitError(error)) {
+      console.error(`Rate limited -- retry after ${error.retryAfter}s`);
+    } else if (isNetworkError(error)) {
+      console.error('Network error -- please retry');
+    } else if (isSmartbillsError(error)) {
+      console.error(`API error [${error.code}]: ${error.message}`);
+    } else {
+      throw error; // Re-throw unexpected errors
+    }
+    return null;
+  }
+}
+```
+
+## Retryable errors
+
+Check `isRetryable` or use the `isRetryableError` guard to determine whether a request can be safely retried:
+
+```typescript
+import { isRetryableError } from '@smartbills/sdk';
+
+async function withRetry<T>(fn: () => Promise<T>, maxRetries = 3): Promise<T> {
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (attempt === maxRetries || !isRetryableError(error)) {
+        throw error;
+      }
+      const delay = Math.pow(2, attempt) * 1000;
+      await new Promise(resolve => setTimeout(resolve, delay));
+    }
+  }
+  throw new Error('Unreachable');
+}
+
+// Usage
+const expenses = await withRetry(() =>
+  client.expenses.listBusiness({ limit: 50 })
+);
+```
+
+The following errors are retryable by default:
+- `SmartbillsRateLimitError` (429)
+- `SmartbillsNetworkError` (connection failures)
+- Server errors (5xx) returned as `SmartbillsApiError`
+
+## Request ID
+
+Every error includes a `requestId` that you can provide to Smartbills support for debugging:
+
+```typescript
+try {
+  await client.expenses.getById(expenseId);
+} catch (error) {
+  if (isSmartbillsError(error)) {
+    console.log(`Request failed. Support reference: ${error.requestId}`);
+  }
+}
+```

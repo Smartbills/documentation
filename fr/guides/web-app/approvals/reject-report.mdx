@@ -1,0 +1,96 @@
+---
+title: "Rejeter un Rapport"
+description: "Comment rejeter un rapport de dépenses et fournir des commentaires au soumetteur"
+---
+
+## Aperçu
+
+Parfois, un rapport de dépenses ne peut pas être approuvé en raison de documentation manquante, de violations de politique ou d.informations incorrectes. Dans ces cas, vous pouvez rejeter le rapport et fournir une raison pour que le soumetteur comprenne ce qui n'a pas fonctionne.
+
+<Warning>
+  **Le rejet est definitif pour ce rapport.** Lorsque vous rejetez un rapport, le soumetteur doit créer un nouveau rapport ou apporter des corrections et le soumettre à nouveau. Si vous souhaitez que le soumetteur revise et soumette à nouveau le même rapport, envisagez d'utiliser [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) à la place.
+</Warning>
+
+## Étapes
+
+<Steps>
+  <Step title="Ouvrir le Rapport en Attente">
+    Accédez à **Approbations** dans la barre latérale gauche et cliquez sur le rapport de dépenses que vous devez examiner. Seuls les rapports avec un statut **En attente** peuvent être rejetés.
+
+  </Step>
+
+  <Step title="Examiner le Rapport">
+    Examinez le résumé du rapport et parcourez les dépenses individuelles. Recherchez des problèmes tels que :
+
+    - Reçus manquants ou illisibles
+    - Montants ne correspondant pas au reçu
+    - Dépenses hors politique sans justification
+    - Catégories incorrectes ou entrees en double
+    - Dépenses en dehors de la plage de dates autorisee
+
+  </Step>
+
+  <Step title="Cliquer sur Rejeter">
+    Cliquez sur le bouton **Rejeter** dans le coin supérieur droit de la vue détaillée du rapport.
+
+  </Step>
+
+  <Step title="Saisir la Raison du Rejet">
+    Une boîte de dialogue apparaît vous demandant de saisir une raison pour le rejet. Ce champ est **obligatoire**. Fournissez une explication claire et actionnable pour que le soumetteur sache ce qui doit être corrige.
+
+    **Exemples de bonnes raisons de rejet :**
+    - "Reçu manquant pour la dépense de diner de 85 $ du 12 mars."
+    - "La dépense d'hotel depasse la limite de politique de 200 $/nuit. Veuillez fournir la documentation de pre-approbation du gestionnaire."
+    - "Trois entrees de taxi en double détectées pour le 15 mars."
+
+  </Step>
+
+  <Step title="Confirmer le Rejet">
+    Cliquez sur **Confirmer le Rejet** pour finaliser. Le statut du rapport passe à **Rejeté**.
+
+  </Step>
+
+  <Step title="Le Soumetteur est Notifie">
+    L'employé recoit une notification indiquant que son rapport à été rejeté, accompagnee de la raison que vous avez fournie. La notification apparaît dans l'application et est envoyée par courriel.
+
+  </Step>
+</Steps>
+
+## Ce Qui Se Passe Après le Rejet
+
+Lorsqu'un rapport est rejeté :
+
+- Le rapport passe au statut **Rejeté** et est retire de la file d'approbation
+- Le soumetteur voit la raison du rejet dans la chronologie de son rapport
+- Les dépenses du rapport rejeté redeviennent disponibles et peuvent être ajoutees à un nouveau rapport
+- Le soumetteur doit créer un nouveau rapport ou corriger les problèmes et soumettre à nouveau
+
+<Note>
+  **Piste d'audit** : Tous les rejets sont enregistres avec le nom de l'approbateur, l'horodatage et la raison du rejet. Ces informations sont disponibles dans le journal d'audit du rapport.
+</Note>
+
+## Quand Rejeter vs. Demander des Modifications
+
+| Scenario | Action Recommandee |
+|----------|-------------------|
+| Problèmes mineurs pouvant être corriges sur place | [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) |
+| Reçus manquants pour quelques dépenses | [Demander des Modifications](/fr/guides/web-app/approvals/request-changes) |
+| Violations de politique serieuses | Rejeter |
+| Rapport frauduleux ou en double | Rejeter |
+| Rapport soumis au mauvais approbateur | Rejeter |
+| Structure du rapport fondamentalement incorrecte | Rejeter |
+
+<Tip>
+  **Privilegiez Demander des Modifications lorsque possible.** Cela créé une experience plus fluide pour le soumetteur car il peut reviser le même rapport sans recommencer.
+</Tip>
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Approuver un Rapport" icon="circle-check" href="/fr/guides/web-app/approvals/approve-report">
+    Étapes pour approuver un rapport conforme aux exigences
+  </Card>
+  <Card title="Demander des Modifications" icon="comment-dots" href="/fr/guides/web-app/approvals/request-changes">
+    Une alternative moins perturbante au rejet
+  </Card>
+</CardGroup>

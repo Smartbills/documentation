@@ -1,0 +1,108 @@
+---
+title: "Vault"
+description: "Access the secure document vault for financial records"
+---
+
+## Introduction
+
+The Vault is a secure digital storage area where Smartbills automatically archives copies of all receipts, expense reports, vendor invoices, and other financial documents. It serves as your organization's central repository for document retention and compliance. The Vault is accessed at `/{slug}/vault` in the web app.
+
+<Note>
+  **Permissions required**: You need the **VAULT_VIEW** permission to access the Vault. The level of access depends on your role, employees may see only their own documents, while managers and administrators can access documents across the organization.
+</Note>
+
+## What Gets Stored
+
+The Vault automatically collects and organizes documents from across Smartbills:
+
+- **Receipts**: Images and PDFs uploaded with expenses
+- **Expense reports**: Finalized reports in their approved state
+- **Vendor invoices**: Bills uploaded through the Bills section
+- **Supporting documents**: Any additional files attached to expenses or reports
+- **Manually uploaded documents**: Files you add directly to the Vault
+
+## Navigating the Vault
+
+### Organization
+
+Documents in the Vault are organized by:
+
+- **Date**: Sorted chronologically with the most recent documents first
+- **Type**: Grouped by document type (receipts, reports, invoices, other)
+- **Source**: Where the document originated (expense, bill, manual upload)
+- **Employee**: The team member associated with the document (for managers and admins)
+
+### Filtering
+
+Use the filter bar at the top to narrow the document list:
+
+| Filter | Description |
+|--------|-------------|
+| **Date range** | Show documents from a specific period |
+| **Document type** | Filter by receipts, reports, invoices, or other |
+| **Employee** | Show documents from a specific team member |
+| **Tags** | Filter by tags applied to documents |
+| **Status** | Filter by document status (e.g., linked to approved reports only) |
+
+### Search
+
+The search bar supports finding documents by:
+
+- File name
+- Tags and descriptions
+- Associated expense or report name
+- Vendor name
+- Date
+
+## Document Preview
+
+Click on any document to open a preview panel without leaving the Vault. The preview shows:
+
+- A full-size view of the document (image or PDF)
+- Metadata including upload date, source, file size, and associated records
+- Tags and descriptions
+- A link to the related expense, report, or bill
+
+## Access Control
+
+The Vault enforces role-based access to protect sensitive financial documents:
+
+| Role | Access Level |
+|------|-------------|
+| **Employee** | Own documents only (receipts and reports they submitted) |
+| **Manager** | Documents from direct reports and their own |
+| **Finance / Admin** | All documents across the organization |
+| **Auditor** | Read-only access to all documents (if configured) |
+
+<Warning>
+  **Sensitive data**: The Vault may contain confidential financial information. Access is logged and administrators can review who viewed or downloaded documents.
+</Warning>
+
+## Retention
+
+Documents in the Vault are retained according to your organization's retention policy, configured in **Settings > Vault > Retention**. Common configurations include:
+
+- **Duration**: How long documents are kept (e.g., 7 years for tax compliance)
+- **Auto-archive**: Older documents are moved to a long-term archive
+- **Deletion policy**: Whether documents are ever automatically deleted
+
+<Tip>
+  **Compliance**: Many jurisdictions require businesses to retain financial records for a minimum period. Configure your retention policy to meet your local requirements.
+</Tip>
+
+## What's Next?
+
+<CardGroup cols={2}>
+  <Card title="Manage Documents" icon="folder-open" href="/guides/web-app/vault/manage-documents">
+    Upload, search, download, and export documents
+  </Card>
+  <Card title="Bills" icon="file-invoice-dollar" href="/guides/web-app/bills/overview">
+    Manage vendor invoices
+  </Card>
+  <Card title="Expense Reports" icon="file-invoice" href="/guides/web-app/reports/overview">
+    Create and manage expense reports
+  </Card>
+  <Card title="Settings" icon="gear" href="/guides/web-app/settings/general">
+    Configure vault retention policies
+  </Card>
+</CardGroup>

@@ -1,0 +1,117 @@
+---
+title: "Receipt Forwarding"
+description: "Capture receipts automatically via email forwarding, Outlook add-in, mobile scanning, and email inbox integration"
+---
+
+## What is Receipt Forwarding?
+
+Receipt forwarding is the process of getting receipts into Smartbills without manually uploading files. Smartbills provides several automated and semi-automated methods for capturing receipts: email forwarding to a unique address, the Outlook add-in sidebar, mobile camera scanning, and direct email inbox integration. Each method feeds receipts into the OCR pipeline, which extracts the vendor, amount, date, and other details automatically.
+
+## How It Works
+
+<Steps>
+  <Step title="Capture">
+    A receipt enters Smartbills through one of the supported channels: email forward, Outlook add-in, mobile scan, or email inbox sync. The receipt can be an image (JPEG, PNG), a PDF, or an email with attachments.
+  </Step>
+  <Step title="OCR Processing">
+    Smartbills' OCR engine analyzes the receipt and extracts key data: vendor name, transaction date, total amount, subtotal, taxes, currency, and individual line items when available. The accuracy depends on the quality of the image and the format of the receipt.
+  </Step>
+  <Step title="Expense Creation">
+    A new expense is created with the extracted data pre-filled. The expense appears in the user's Expenses (for individual forwarding) or in the Business Expenses (for shared forwarding addresses).
+  </Step>
+  <Step title="Review and Complete">
+    The user reviews the extracted data, corrects any errors, assigns a category and department, and adds any required information such as a business purpose or project code.
+  </Step>
+</Steps>
+
+## Receipt Capture Methods
+
+### Email Forwarding
+
+Every Smartbills user receives a unique forwarding email address (e.g., `receipts+user123@in.smartbills.io`). When you forward a receipt email to this address, Smartbills processes the email and creates an expense.
+
+- **How to find your address**: Go to your Expenses and look for the forwarding address in the settings or header area
+- **What to forward**: Forward the original receipt email. Smartbills will process both the email body and any attachments (images, PDFs)
+- **Multiple receipts**: If an email contains multiple receipt attachments, a separate expense is created for each one
+- **Company forwarding**: Organizations can also configure a shared forwarding address that routes to the Business Expenses
+
+### Outlook Add-in
+
+The Smartbills Outlook add-in adds a sidebar to your Outlook client (desktop and web). When you receive a receipt email, you can forward it to Smartbills directly from the sidebar without leaving Outlook.
+
+- **One-click forwarding**: Select an email and click "Send to Smartbills" in the sidebar
+- **Preview before sending**: The add-in shows a preview of the extracted data before creating the expense
+- **Works with attachments**: The add-in handles both inline receipt images and file attachments
+- See the [Outlook Add-in Guide](/integrations/outlook) for installation and setup
+
+### Mobile Scanning
+
+The Smartbills mobile app (iOS and Android) includes a camera scanner optimized for receipts.
+
+- **Real-time capture**: Point your camera at a receipt and the app detects the edges, adjusts for perspective, and captures a clean image
+- **Batch scanning**: Scan multiple receipts in succession without returning to the main screen
+- **Offline support**: Receipts scanned offline are queued and uploaded when connectivity is restored
+- See the [Mobile App Guide](/guides/mobile/scan-receipt) for details
+
+### Email Inbox Integration
+
+For organizations that want fully automated receipt capture, Smartbills can connect directly to a Gmail or Outlook inbox.
+
+- **Auto-import**: Smartbills monitors the connected inbox and automatically imports emails that contain receipts
+- **Filter rules**: Configure rules to control which emails are imported (e.g., only emails from specific senders or with specific subject lines)
+- **No forwarding needed**: Once connected, receipts are imported without any manual action
+- See [Settings: Email Accounts](/guides/web-app/settings/email-accounts) for setup instructions
+
+## OCR Data Extraction
+
+When a receipt is processed, Smartbills extracts the following fields:
+
+| Field | Description | Accuracy |
+|-------|-------------|----------|
+| **Vendor Name** | The merchant or business name from the receipt header | High |
+| **Date** | The transaction date | High |
+| **Total Amount** | The final total including taxes | High |
+| **Subtotal** | The pre-tax amount | Medium-High |
+| **Taxes** | Tax amounts broken down by type (e.g., GST, HST, PST) | Medium-High |
+| **Currency** | The currency of the transaction | High |
+| **Line Items** | Individual products or services listed on the receipt | Medium |
+| **Payment Method** | Credit card type or last four digits if shown | Medium |
+
+<Note>
+  OCR accuracy depends on receipt quality. Clear, well-lit photos of printed receipts yield the best results. Handwritten receipts, faded thermal paper, and low-resolution images may require more manual correction.
+</Note>
+
+## Key Terminology
+
+| Term | Definition |
+|------|-----------|
+| **Forwarding Address** | The unique email address assigned to each user for forwarding receipts to Smartbills |
+| **OCR** | Optical Character Recognition: the technology that reads text from receipt images |
+| **Auto-Import** | The automatic retrieval of receipts from a connected email inbox |
+| **Batch Scanning** | Scanning multiple receipts in a single session using the mobile app |
+| **Inbox Integration** | A direct connection between an email account and Smartbills for automated receipt import |
+
+## Roles Involved
+
+| Role | Responsibility |
+|------|---------------|
+| **Employee** | Forwards receipts via email, scans receipts with the mobile app, reviews extracted data |
+| **Admin** | Configures shared forwarding addresses, sets up email inbox integrations. Requires that access permission |
+| **Accountant** | Reviews and corrects OCR-extracted data on company inbox expenses |
+
+## Related Guides
+
+<CardGroup cols={2}>
+  <Card title="Mobile Scanning" icon="mobile" href="/guides/mobile/scan-receipt">
+    How to scan receipts with the Smartbills mobile app
+  </Card>
+  <Card title="Outlook Add-in" icon="envelope-open-text" href="/integrations/outlook">
+    Install and use the Outlook add-in for receipt forwarding
+  </Card>
+  <Card title="Email Accounts" icon="at" href="/guides/web-app/settings/email-accounts">
+    Connect your email inbox for automatic receipt import
+  </Card>
+  <Card title="Expenses" icon="receipt" href="/guides/concepts/expenses">
+    Learn about the full expense lifecycle after receipts are captured
+  </Card>
+</CardGroup>

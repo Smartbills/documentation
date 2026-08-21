@@ -1,0 +1,287 @@
+---
+title: "React Native SDK"
+description: "Native receipt display components and mobile utilities for React Native and Expo applications"
+---
+
+## Introduction
+
+The `@smartbills/react-native` SDK provides native mobile components for displaying digital receipts, barcodes, and QR codes in React Native applications. It includes a provider for configuration, pre-built receipt components, and hooks for receipt management.
+
+<Info>
+  This SDK is built on top of `@smartbills/react-hooks` and `@smartbills/sdk`. All React hooks from the hooks SDK are available when using this package.
+</Info>
+
+## Installation
+
+```bash
+npm install @smartbills/react-native @smartbills/react-hooks @smartbills/sdk @tanstack/react-query
+```
+
+### Expo Projects
+
+```bash
+npx expo install @smartbills/react-native @smartbills/react-hooks @smartbills/sdk @tanstack/react-query
+```
+
+### Requirements
+
+| Requirement | Minimum Version |
+|-------------|----------------|
+| React Native | 0.70+ |
+| Expo | SDK 49+ |
+| React | 18+ |
+
+## Provider Setup
+
+Wrap your app with `SmartbillsReactNativeProvider`. It requires an `SBClient` instance and a configuration object:
+
+```tsx
+import { SmartbillsReactNativeProvider } from "@smartbills/react-native";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+const client = new SmartbillsClient({
+  accessToken: "YOUR_ACCESS_TOKEN",
+  businessId: 123,
+});
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsReactNativeProvider
+        client={client}
+        config={{ locale: "en", currency: "CAD" }}
+      >
+        <MyApp />
+      </SmartbillsReactNativeProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+### Provider Config
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `locale` | `"en" \| "fr"` | `"en"` | Display language for receipt components |
+| `currency` | `string` | `"CAD"` | Default currency code for formatting |
+
+## Components
+
+### Receipt
+
+The `Receipt` component renders a full digital receipt with merchant info, line items, payment details, and totals:
+
+```tsx
+import { Receipt } from "@smartbills/react-native";
+
+function ReceiptScreen({ receiptData }) {
+  return <Receipt data={receiptData} />;
+}
+```
+
+The Receipt component is composed of several sub-components that can also be used independently:
+
+| Component | Description |
+|-----------|-------------|
+| `Receipt` | Full receipt layout combining all sub-components |
+| `ReceiptMerchant` | Merchant name, logo, and location header |
+| `ReceiptItems` | Line items list with descriptions and prices |
+| `ReceiptItemListItem` | Individual line item row |
+| `ReceiptPayment` | Payment summary section |
+| `ReceiptPaymentCard` | Card payment details (last 4 digits, card brand) |
+| `ReceiptPaymentCash` | Cash payment details (amount tendered, change) |
+| `ReceiptLocation` | Store location and address |
+| `ReceiptFooter` | Footer with receipt number and date |
+| `ReceiptSkeleton` | Loading skeleton placeholder |
+| `ReceiptError` | Error state display |
+| `ReceiptOriginal` | View for the original scanned receipt image |
+
+### Barcode
+
+Renders a barcode from receipt data:
+
+```tsx
+import { Barcode } from "@smartbills/react-native";
+
+function BarcodeDisplay({ value }) {
+  return <Barcode value={value} />;
+}
+```
+
+### QRCode
+
+Renders a QR code:
+
+```tsx
+import { QRCode } from "@smartbills/react-native";
+
+function QRCodeDisplay({ value }) {
+  return <QRCode value={value} />;
+}
+```
+
+### Brand
+
+Displays a merchant brand logo:
+
+```tsx
+import { Brand } from "@smartbills/react-native";
+
+function MerchantLogo({ brandData }) {
+  return <Brand data={brandData} />;
+}
+```
+
+### Money
+
+Formats and displays a monetary value according to the configured locale and currency:
+
+```tsx
+import { Money } from "@smartbills/react-native";
+
+function PriceDisplay() {
+  return <Money amount={49.99} currency="CAD" />;
+}
+```
+
+## Hooks
+
+### useReceiptRef
+
+A convenience hook for creating a ref to a `Receipt` component, useful for programmatic scrolling or capturing the receipt as an image:
+
+```tsx
+import { useReceiptRef, Receipt } from "@smartbills/react-native";
+
+function ReceiptViewer({ data }) {
+  const receiptRef = useReceiptRef(null);
+
+  return <Receipt ref={receiptRef} data={data} />;
+}
+```
+
+### All React Hooks Available
+
+Since the React Native SDK wraps `@smartbills/react-hooks`, all hooks from the hooks SDK are available in your React Native app. See the [React Hooks Reference](/sdks/react-hooks/reference) for the complete list.
+
+## Camera Integration for Receipt Capture
+
+The SDK works alongside React Native camera libraries for receipt scanning workflows. Use the device camera to capture receipt images, then upload them via the `usePresignedUpload` hook:
+
+```tsx
+import { usePresignedUpload } from "@smartbills/react-hooks";
+import { launchCamera } from "react-native-image-picker";
+
+function ReceiptCapture() {
+  const upload = usePresignedUpload();
+
+  const handleCapture = async () => {
+    const result = await launchCamera({ mediaType: "photo", quality: 0.8 });
+
+    if (result.assets?.[0]) {
+      const asset = result.assets[0];
+      upload.mutate({
+        files: [
+          {
+            file: {
+              uri: asset.uri,
+              name: asset.fileName ?? "receipt.jpg",
+              type: asset.type ?? "image/jpeg",
+            },
+            fileName: asset.fileName ?? "receipt.jpg",
+            contentType: asset.type ?? "image/jpeg",
+          },
+        ],
+      });
+    }
+  };
+
+  return (
+    <Button
+      title="Scan Receipt"
+      onPress={handleCapture}
+      disabled={upload.isPending}
+    />
+  );
+}
+```
+
+## Internationalization
+
+The SDK includes built-in i18n support for English and French. Set the locale in the provider config:
+
+```tsx
+<SmartbillsReactNativeProvider
+  client={client}
+  config={{ locale: "fr", currency: "CAD" }}
+>
+  {/* Receipt components render in French */}
+</SmartbillsReactNativeProvider>
+```
+
+## Complete Example
+
+A full receipt viewer screen:
+
+```tsx
+import React from "react";
+import { ScrollView } from "react-native";
+import {
+  SmartbillsReactNativeProvider,
+  Receipt,
+  Barcode,
+  QRCode,
+  useReceiptRef,
+} from "@smartbills/react-native";
+import { SmartbillsClient } from "@smartbills/sdk";
+import { useReceipt } from "@smartbills/react-hooks";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+const client = new SmartbillsClient({
+  accessToken: "YOUR_TOKEN",
+  businessId: 123,
+});
+
+function ReceiptViewer({ receiptId }: { receiptId: number }) {
+  const { data: receipt, isLoading } = useReceipt(receiptId);
+  const receiptRef = useReceiptRef(null);
+
+  if (isLoading) return <ReceiptSkeleton />;
+  if (!receipt) return <ReceiptError />;
+
+  return (
+    <ScrollView>
+      <Receipt ref={receiptRef} data={receipt} />
+      {receipt.barcode && <Barcode value={receipt.barcode} />}
+      {receipt.qrCode && <QRCode value={receipt.qrCode} />}
+    </ScrollView>
+  );
+}
+
+export default function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <SmartbillsReactNativeProvider
+        client={client}
+        config={{ locale: "en", currency: "CAD" }}
+      >
+        <ReceiptViewer receiptId={42} />
+      </SmartbillsReactNativeProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="React Hooks Reference" icon="react" href="/sdks/react-hooks/reference">
+    Full reference for all available React hooks
+  </Card>
+  <Card title="JavaScript SDK" icon="js" href="/sdks/javascript/overview">
+    Core client documentation
+  </Card>
+</CardGroup>

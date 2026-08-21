@@ -1,0 +1,121 @@
+---
+title: "Slack"
+description: "Submit and manage expenses directly from Slack with slash commands, approvals, and notifications"
+---
+
+## Overview
+
+The Slack integration brings expense management into your Slack workspace. Team members can submit expenses, upload receipts, and receive notifications without leaving Slack. Managers can approve or reject expense reports directly from Slack messages.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Slash Commands** | Quick expense submission with `/expense` and related commands |
+| **Receipt Upload** | Upload receipt images via DM to the Smartbills bot |
+| **Approval Workflow** | Approve or reject reports with one-click actions |
+| **Channel Notifications** | Route notifications to specific channels |
+| **Bot Conversations** | Natural language expense entry with the Smartbills bot |
+| **Report Sharing** | Share expense report summaries in channels |
+
+## Prerequisites
+
+- Slack workspace (any plan)
+- Smartbills Business plan or higher
+- Slack workspace admin permissions (for installation)
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Slack**.
+  </Step>
+  <Step title="Add to Slack">
+    Click **Add to Slack** and select your workspace.
+
+  </Step>
+  <Step title="Authorize Permissions">
+    Review the permissions requested and click **Allow**. Smartbills needs access to post messages and receive commands.
+  </Step>
+  <Step title="Configure Channels">
+    Set up which channels receive expense notifications and approval requests.
+  </Step>
+  <Step title="Link Accounts">
+    Team members link their Slack accounts to Smartbills by typing `/smartbills connect` in Slack.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Slash Commands
+
+| Command | Description |
+|---------|-------------|
+| `/expense` | Open the expense submission dialog |
+| `/expenses` | View your recent expenses |
+| `/report` | View your current expense reports |
+| `/approve` | View pending approvals (managers only) |
+| `/smartbills connect` | Link your Slack account to Smartbills |
+| `/smartbills help` | List all available commands |
+
+### Notification Channels
+
+Configure which channels receive notifications:
+
+| Notification Type | Suggested Channel |
+|------------------|-------------------|
+| New submissions | #expense-reports |
+| Approval requests | #approvers |
+| Report status changes | DM to submitter |
+| Weekly summaries | #finance |
+
+### Bot Conversations
+
+Send a receipt image or text to the @Smartbills bot in a direct message:
+
+1. Upload a receipt photo to the bot DM
+2. The bot extracts merchant, amount, and date automatically
+3. Confirm or edit the extracted details
+4. The expense is created in your Smartbills wallet
+
+### Approval Actions
+
+When a report is submitted, approvers receive an interactive message with action buttons:
+
+- **Approve**: One-click approval
+- **View Details**: Open the full report in Smartbills
+- **Reject**: Reject with an optional reason
+- **Request Changes**: Ask the submitter to make edits
+
+## Data Sync
+
+| Smartbills | Slack | Direction | Frequency |
+|-----------|-------|-----------|-----------|
+| Expense submissions | Slash command / bot | Slack -> Smartbills | User-initiated |
+| Approval actions | Button clicks | Slack -> Smartbills | User-initiated |
+| Status notifications | Channel messages | Smartbills -> Slack | Real-time |
+| Receipt images | File uploads | Slack -> Smartbills | User-initiated |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Slash commands not working">
+    Verify the Smartbills app is installed in your workspace. Check **Apps** in the Slack sidebar. Reinstall if commands are unresponsive.
+  </Accordion>
+
+  <Accordion title="Bot not responding to DMs">
+    Ensure the @Smartbills bot is added to the channel or that you are DMing it directly. The bot only responds in channels where it has been invited.
+  </Accordion>
+
+  <Accordion title="Notifications not appearing">
+    Check channel notification settings in the Smartbills integration configuration. Verify the bot has permission to post in the target channel.
+  </Accordion>
+
+  <Accordion title="Account not linked">
+    Run `/smartbills connect` to link your Slack identity to your Smartbills account. Each team member must link individually.
+  </Accordion>
+
+  <Accordion title="Approval buttons not responding">
+    Ensure your Smartbills session is active. If the button returns an error, try the `/approve` command to view pending items directly.
+  </Accordion>
+</AccordionGroup>

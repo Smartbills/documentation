@@ -1,0 +1,66 @@
+---
+title: "Fournisseurs"
+description: "Consultez et gérez votre répertoire de fournisseurs"
+---
+
+## Aperçu
+
+La page Fournisseurs vous offre un répertoire centralisé de chaque marchand, fournisseur et prestataire de services avec lesquels votre organisation effectue des transactions. Smartbills détecte automatiquement les fournisseurs lorsque les reçus sont traités par OCR, et vous pouvez également créer des fiches fournisseur manuellement. Un répertoire de fournisseurs bien entretenu garantit une catégorisation cohérente des dépenses, des rapports de dépenses précis et un traitement plus rapide des reçus.
+
+<Note>
+  L'accès à la page Fournisseurs nécessite la permission **VENDORS_VIEW**. Contactez votre administrateur si vous ne voyez pas la section Fournisseurs dans la barre latérale.
+</Note>
+
+## Naviguer dans le Répertoire des Fournisseurs
+
+Pour ouvrir le répertoire des fournisseurs, cliquez sur **Fournisseurs** dans la barre latérale gauche. La page affiché une liste consultable de tous les fournisseurs associés à votre entreprise.
+
+### Recherche et Filtrage
+
+Utilisez la barre de recherche en haut de la liste pour trouver des fournisseurs par nom. Les résultats se mettent à jour au fur et à mesure que vous tapez, ce qui facilite la localisation d'un fournisseur spécifique même dans un répertoire volumineux.
+
+### Liste des Fournisseurs
+
+Chaque ligne de la liste des fournisseurs affiché :
+
+- **Nom du fournisseur**: Le nom d'affichage du fournisseur
+- **Catégorie par défaut**: La catégorie automatiquement attribuée aux dépenses de ce fournisseur
+- **Nombre de dépenses**: Le nombre total de dépenses liées à ce fournisseur
+- **Total dépensé**: Le montant cumulé dépensé auprès du fournisseur
+
+Cliquez sur n'importe quelle ligne pour ouvrir le panneau de détails.
+
+## Panneau de Détails du Fournisseur
+
+La sélection d'un fournisseur ouvre une vue détaillée avec les informations suivantes :
+
+| Champ | Description |
+|-------|-------------|
+| **Nom** | Le nom d'affichage du fournisseur |
+| **Adresse** | L'adresse commerciale du fournisseur |
+| **Numéro de taxe** | Le numéro d'identification fiscale du fournisseur (ex. : NEQ, TPS/TVQ) |
+| **Catégorie par défaut** | La catégorie appliquée automatiquement aux dépenses de ce fournisseur |
+| **Site web** | L'URL du site web du fournisseur |
+| **Téléphone** | Numéro de téléphone de contact |
+| **Notes** | Notes internes telles que numéro de compte ou conditions de paiement |
+
+### Historique des Dépenses
+
+Le bas du panneau de détails du fournisseur affiché une liste chronologique de toutes les dépenses liées à ce fournisseur. Chaque entrée comprend la date, le montant, la catégorie et l'employé qui à soumis la dépense. Utilisez cet historique pour analyser les tendances de dépenses avec un fournisseur spécifique au fil du temps.
+
+## Fournisseurs Auto-Détectés
+
+Lorsqu'un reçu est téléchargé et traité par OCR, Smartbills extrait le nom du marchand et le compare à votre répertoire de fournisseurs existant. Si une correspondance est trouvée, la dépense est liée au fournisseur existant et la catégorie par défaut du fournisseur est appliquée. Si aucune correspondance n'est trouvée, une nouvelle fiche fournisseur est créée automatiquement avec le nom extrait.
+
+Les fournisseurs auto-détectés peuvent avoir des détails incomplets (ex. : adresse ou numéro de taxe manquants). Un administrateur ou un comptable peut enrichir ces fiches à tout moment depuis le panneau de détails du fournisseur.
+
+## Prochaînes Étapes
+
+<CardGroup cols={2}>
+  <Card title="Créer un Fournisseur" icon="circle-plus" href="/fr/guides/web-app/vendors/create-vendor">
+    Ajoutez manuellement un nouveau fournisseur à votre répertoire
+  </Card>
+  <Card title="Gérer les Fournisseurs" icon="address-book" href="/fr/guides/web-app/vendors/manage-vendors">
+    Modifiez, fusionnez et organisez vos fiches fournisseur
+  </Card>
+</CardGroup>

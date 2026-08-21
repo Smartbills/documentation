@@ -1,0 +1,98 @@
+---
+title: "Vendor Portal Connections"
+description: "Connect a vendor's billing portal so Smartbills retrieves invoices automatically"
+---
+
+## Overview
+
+Rather than waiting for a vendor to email an invoice, Smartbills can sign in to that vendor's billing portal and collect invoices itself. Connect the account once, set a schedule, and bills arrive without anyone forwarding anything.
+
+Connections live on each vendor's detail page. Finance Admins and Administrators can manage them.
+
+## How a connection works
+
+<Steps>
+  <Step title="Connect the account">
+    You supply the credentials the portal needs. Each vendor declares its own required fields, so the form matches what that specific portal asks for rather than a generic username and password.
+  </Step>
+  <Step title="Smartbills runs a retrieval">
+    A run signs in, locates invoices, and downloads them. Runs happen on a schedule you set, or on demand.
+  </Step>
+  <Step title="Invoices become bills">
+    Retrieved documents are read and turned into draft bills, ready for your normal approval and payment process.
+  </Step>
+</Steps>
+
+## Credential handling
+
+<Warning>
+  Credentials are handled by a secure third-party connector and are never stored by Smartbills. Treat any spreadsheet you use to import them as sensitive, and delete it once the import is done.
+</Warning>
+
+Each connection has an owner, which you can reassign. Some portals also support token-based linking instead of stored credentials, which avoids holding a password at all where the vendor offers it.
+
+## Connect a vendor
+
+Open the vendor and choose to add a connection. The form is generated from that vendor's credential schema, so fill in whatever it asks for. Portals commonly need a login URL and an account identifier in addition to the username and password.
+
+## Runs
+
+Each connection keeps a history of runs. Opening a run shows what happened, which bills it produced, and **screenshots** captured during the session.
+
+The screenshots matter. When a run fails, they show you what the portal actually displayed, which is usually enough to diagnose a changed password, a terms-of-service prompt, or an unexpected verification step without contacting support.
+
+### Responding to a run in progress
+
+A run can pause and ask for something only you can supply, such as a one-time verification code. Runs accept interactions while they are open, so you can answer the prompt and let the run continue rather than starting over.
+
+A run that is stuck or no longer needed can be cancelled.
+
+## Scheduling
+
+Each connection carries its own schedule that controls how often Smartbills checks for new invoices. Set it to match the vendor's billing cycle. Checking a monthly invoice daily adds load without adding value.
+
+## Connecting accounts during import
+
+Vendor import accepts credentials alongside the vendor record, so you can onboard a list of vendors and connect their portals in one pass.
+
+Add these columns to your spreadsheet:
+
+| Column | Purpose |
+|--------|---------|
+| `Username` | Portal username |
+| `Password` | Portal password |
+| `LoginUrl` | Where to sign in |
+| `AccountId` | Account identifier, where the portal uses one |
+| `field:<name>` | Any additional value the portal requires |
+| `secret:<name>` | An additional value that should be vaulted |
+
+Import accepts CSV, XLSX, and XLSM. Download the template from the import dialog rather than building the header row by hand.
+
+### Reading the import result
+
+Import reports each row separately, and the outcomes are worth understanding before you run it on a large list:
+
+- **Created**: a new vendor was added.
+- **Already existed**: the row matched a vendor you already had, by website or name. The existing vendor was reused and **its details were left untouched**. Import will not overwrite existing records.
+- **Connected**: the credentials were accepted and the account is live.
+- **Login rejected**: the vendor was created but its credentials failed. Connect it from its own page.
+- **Login skipped**: that vendor already had a connection.
+
+<Note>
+  Because matching is by website or name, a vendor you have under a slightly different name will be created a second time rather than matched. Review the created list after a large import and merge any duplicates.
+</Note>
+
+## Disconnecting
+
+Removing a connection stops future runs and discards the stored credentials. Bills already retrieved are unaffected.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Manage vendors" icon="building" href="/guides/web-app/vendors/manage-vendors">
+    Edit, merge, and import vendor records
+  </Card>
+  <Card title="Bills" icon="receipt" href="/guides/web-app/bills/overview">
+    What happens to retrieved invoices
+  </Card>
+</CardGroup>

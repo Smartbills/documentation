@@ -1,0 +1,107 @@
+---
+title: "Cycle de vie du paiement d'une facture"
+description: "Les états par lesquels passe une facture, et les actions possibles à chacun"
+---
+
+## Aperçu
+
+Une facture passe par une série d'états définis, du brouillon au paiement. Chaque état n'autorise que certaines actions, ce qui empêche qu'une facture non approuvée soit programmée au paiement.
+
+## Les états
+
+| État | Signification |
+|------|---------------|
+| **Brouillon** | Créée ou téléversée, pas encore soumise |
+| **En attente d'approbation** | Soumise, en attente d'un approbateur |
+| **Approuvée** | Approuvée, pas encore mise en paiement |
+| **Prête à payer** | Autorisée au paiement |
+| **Programmée** | Paiement prévu à une date future |
+| **En traitement** | Paiement en cours |
+| **Payée** | Paiement effectué via Smartbills |
+| **Marquée payée** | Enregistrée comme réglée en dehors de Smartbills |
+| **Échec de paiement** | Paiement tenté et échoué |
+| **Refusée** | Rejetée par un approbateur |
+| **Annulée** | Retirée |
+
+Les factures échues et impayées apparaissent aussi comme **En retard**, ce qui découle de la date d'échéance plutôt que d'un état distinct.
+
+<Note>
+  **Payée** et **Marquée payée** sont volontairement différentes. Payée signifie que Smartbills a exécuté le paiement et en conserve la trace. Marquée payée signifie que vous avez indiqué un règlement effectué ailleurs, par chèque ou virement direct. Les deux clôturent la facture, mais une seule porte une piste de paiement.
+</Note>
+
+## La liste
+
+Les factures sont réparties en onglets correspondant à l'endroit où se trouve le travail :
+
+| Onglet | Contenu |
+|--------|---------|
+| **Toutes** | Toutes les factures |
+| **Brouillons** | Pas encore soumises |
+| **À approuver** | En attente d'un approbateur |
+| **À payer** | Approuvées, en attente de paiement |
+| **En traitement** | Paiements en cours |
+| **Historique** | Terminées et clôturées |
+
+## Les actions
+
+<AccordionGroup>
+  <Accordion title="Soumettre pour approbation" icon="paper-plane">
+    Fait passer un brouillon dans la file d'approbation.
+  </Accordion>
+
+  <Accordion title="Approuver" icon="check">
+    Autorise la facture au paiement. Réservé aux Administrateurs financiers et aux Administrateurs.
+  </Accordion>
+
+  <Accordion title="Programmer le paiement" icon="calendar">
+    Fixe une date de paiement future. Un paiement programmé peut être reprogrammé ou annulé avant son exécution.
+  </Accordion>
+
+  <Accordion title="Marquer comme payée" icon="money-check">
+    Enregistre un règlement effectué en dehors de Smartbills. Vous pouvez joindre une référence, par exemple un numéro de chèque ou de transaction.
+  </Accordion>
+
+  <Accordion title="Relancer le paiement" icon="rotate-right">
+    Retente un paiement échoué sans recréer la facture.
+  </Accordion>
+
+  <Accordion title="Repasser en brouillon" icon="rotate-left">
+    Ramène une facture au brouillon pour la corriger et la resoumettre.
+  </Accordion>
+
+  <Accordion title="Annuler" icon="ban">
+    Retire la facture. À utiliser pour les doublons et les factures saisies par erreur.
+  </Accordion>
+</AccordionGroup>
+
+### Quelles actions sont disponibles
+
+Chaque facture n'expose que les transitions autorisées depuis son état actuel. L'interface ne propose que celles-là : si une action que vous attendez est introuvable, c'est que la facture n'est pas dans un état qui la permet. Repasser en brouillon est généralement la voie de retour.
+
+## Actions groupées
+
+Sélectionnez des factures dans la liste pour agir sur plusieurs à la fois : approuver, marquer payées, programmer un paiement, déprogrammer, annuler un paiement, relancer, supprimer, envoyer un rappel, ou modifier le fournisseur ou les taxes sur toute la sélection.
+
+Les actions groupées rendent compte facture par facture : une sélection contenant des factures dans un état incompatible aboutit pour celles qui sont éligibles, plutôt que d'échouer entièrement.
+
+## Historique
+
+Chaque facture conserve l'historique de ses changements d'état et de leurs auteurs. Ouvrez une facture et consultez son historique lorsque vous devez établir qui a approuvé quoi et quand.
+
+## Convertir entre factures et dépenses
+
+Un document arrivé au mauvais endroit n'a pas besoin d'être ressaisi.
+
+- **Facture vers dépense** : convertit une facture en dépense d'entreprise, à l'unité ou en lot. Les factures non éligibles sont ignorées et comptées.
+- **Dépense vers facture** : convertit une dépense en facture, pour une facture fournisseur téléversée comme un reçu.
+
+## Voir aussi
+
+<CardGroup cols={2}>
+  <Card title="Aperçu des factures" icon="receipt" href="/fr/guides/web-app/bills/overview">
+    L'espace de travail des factures
+  </Card>
+  <Card title="Boîtes de réception comptables" icon="inbox" href="/fr/guides/web-app/bills/ap-inboxes">
+    Recevoir les factures directement des fournisseurs
+  </Card>
+</CardGroup>

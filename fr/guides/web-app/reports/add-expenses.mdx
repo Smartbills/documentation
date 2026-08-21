@@ -1,0 +1,83 @@
+---
+title: "Ajouter des Dépenses"
+description: "Sélectionnez et ajoutez des dépenses à votre rapport de dépenses"
+---
+
+## Introduction
+
+Une fois que vous avez créé un rapport de dépenses, l'étape suivante est d'ajouter des dépenses depuis votre Dépenses Personnel. Vous pouvez sélectionner plusieurs dépenses à la fois en utilisant des filtres pour trouver les bonnes transactions, puis confirmer votre sélection pour les inclure dans le rapport.
+
+## Ajouter des dépenses depuis le rapport
+
+<Steps>
+  <Step title="Ouvrir votre rapport de dépenses">
+    Naviguez vers **Mes Rapports de Dépenses** dans la barre latérale et cliquez sur le rapport auquel vous souhaitez ajouter des dépenses. Le rapport doit être au statut **Brouillon**.
+
+  </Step>
+  <Step title="Cliquer sur Ajouter des dépenses">
+    Cliquez sur le bouton **Ajouter des dépenses** dans la vue de détail du rapport. Une boîte de dialogue s'ouvre affichant toutes les dépenses eligibles de votre Dépenses Personnel.
+  </Step>
+  <Step title="Filtrer et sélectionner les dépenses">
+    Utilisez les filtres disponibles pour réduire la liste :
+    - **Plage de dates**: Afficher les dépenses d'une période spécifique
+    - **Catégorie**: Filtrer par catégorie de dépense
+    - **Statut**: Afficher uniquement les dépenses En attente (celles qui ne sont pas déjà dans un autre rapport)
+
+    Cliquez sur la case à cocher à côté de chaque dépense que vous souhaitez inclure. Les dépenses sélectionnées sont mises en surbrillance et un total cumulatif est affiché en bas.
+
+  </Step>
+  <Step title="Examiner les dépenses sélectionnées et les totaux">
+    Avant de confirmer, examinez le résumé en bas de la boîte de dialogue :
+    - **Nombre de dépenses sélectionnées**
+    - **Montant total** incluant les taxes
+    - **Repartition par devise** si plusieurs devises sont presentes
+  </Step>
+  <Step title="Confirmer la sélection">
+    Cliquez sur **Ajouter la sélection** pour ajouter les dépenses à votre rapport. La boîte de dialogue se ferme et les dépenses apparaissent dans la liste de dépenses du rapport. Leur statut passe à **Dans un rapport**.
+  </Step>
+</Steps>
+
+## Ajouter depuis la vue de détail d'une dépense
+
+Vous pouvez aussi ajouter une dépense individuelle à un rapport directement depuis la vue de détail de la dépense dans votre Dépenses :
+
+1. Ouvrez votre **Dépenses Personnel** et cliquez sur une dépense
+2. Dans la vue de détail de la dépense, cliquez sur **Ajouter à un rapport**
+3. Sélectionnez le rapport cible dans la liste déroulante
+4. La dépense est ajoutee au rapport immédiatement
+
+## Règles importantes
+
+<Note>
+  Chaque dépense ne peut appartenir qu'a un seul rapport à la fois. Si une dépense est déjà dans un rapport, elle n'apparaîtra pas dans la liste de sélection. Pour déplacér une dépense vers un autre rapport, vous devez d'abord la retirer du rapport actuel.
+</Note>
+
+## Retirer une dépense d'un rapport
+
+Si vous avez ajoute une dépense par erreur ou d.vez reorganiser :
+
+1. Ouvrez le rapport au statut Brouillon
+2. Trouvez la dépense dans la liste de dépenses du rapport
+3. Cliquez sur le bouton **Retirer** (ou l'icône **X**) à côté de la dépense
+4. La dépense retourné à votre Dépenses avec le statut En attente et peut être ajoutee à un autre rapport
+
+<Warning>
+  Vous pouvez uniquement retirer des dépenses d'un rapport tant qu'il est au statut **Brouillon**. Une fois soumis, vous devez [rappelér le rapport](/fr/guides/web-app/reports/recall-report) avant de faire des modifications.
+</Warning>
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Créer un Rapport" icon="file-circle-plus" href="/fr/guides/web-app/reports/create-report">
+    Démarrer un nouveau rapport de dépenses avant d'ajouter des dépenses
+  </Card>
+  <Card title="Soumettre un Rapport" icon="paper-plane" href="/fr/guides/web-app/reports/submit-report">
+    Soumettre votre rapport une fois toutes les dépenses ajoutees
+  </Card>
+  <Card title="Dépenses Personnel" icon="wallet" href="/fr/guides/web-app/expenses/overview">
+    Gérer les dépenses disponibles pour inclusion dans les rapports
+  </Card>
+  <Card title="Rappeler un Rapport" icon="rotate-left" href="/fr/guides/web-app/reports/recall-report">
+    Retirer un rapport soumis pour ajouter ou retirer des dépenses
+  </Card>
+</CardGroup>

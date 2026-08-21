@@ -1,0 +1,102 @@
+---
+title: "Coffre-fort"
+description: "Stockez et gérez vos documents financiers en toute sécurité dans le coffre-fort Smartbills"
+---
+
+## Qu'est-ce que le Coffre-fort?
+
+Le Coffre-fort est le système de stockage sécurisé de documents de Smartbills pour les reçus, les rapports de dépenses, les factures et autres documents financiers. Il agit comme un classeur numérique ou tous les documents liés aux dépenses sont organisés, recherchables et disponibles pour les audits. Le Coffre-fort assure que votre organisation maintient une piste documentaire complète pour chaque transaction, avec des documents archivés automatiquement à mesure que les dépenses progressent dans leur cycle de vie.
+
+Le Coffre-fort est accessible depuis `/{slug}/vault`.
+
+## Comment ça fonctionne
+
+<Steps>
+  <Step title="Archivage automatique">
+    Lorsqu'une dépense est créée, son image de reçu ou PDF est stocké dans le Coffre-fort. À mesure que la dépense progresse dans son cycle de vie (catégorisée, ajoutée à un rapport, approuvée, remboursée), l'enregistrement du Coffre-fort est mis à jour avec les dernières métadonnées.
+  </Step>
+  <Step title="Archivage des rapports">
+    Lorsqu'un rapport de dépenses est approuvé et remboursé, le rapport complet, incluant toutes les dépenses jointes, reçus, commentaires et l'historique d'approbation, est archivé comme un ensemble documentaire unique dans le Coffre-fort.
+  </Step>
+  <Step title="Téléversement manuel">
+    Les utilisateurs peuvent également téléverser des documents directement dans le Coffre-fort qui ne sont pas liés à une dépense spécifique. Ceci est utile pour les contrats, les ententes fournisseurs ou d.autres documents financiers de support.
+  </Step>
+  <Step title="Recherche et récupération">
+    Tous les documents du Coffre-fort sont indexés et recherchables. Vous pouvez chercher par nom de fournisseur, période, montant, catégorie, employé ou tout texte extrait par l'OCR du document.
+  </Step>
+</Steps>
+
+## Ce qui est stocké
+
+| Type de document | Comment il arrive | Conservation |
+|-----------------|-------------------|-------------|
+| **Images de reçus** | Téléversées, numérisées ou transférées avec une dépense | Conservées pour la période de rétention configurée |
+| **Rapports de dépenses** | Archivés automatiquement lorsqu'un rapport est remboursé | Conservés avec toutes les dépenses jointes et l'historique d'approbation |
+| **Factures** | Téléversées via le module Factures | Conservées pour la période de rétention configurée |
+| **Documents de support** | Téléversés manuellement par les utilisateurs | Conservés jusqu'à suppression manuelle |
+
+## Contrôle d'accès
+
+L'accès au Coffre-fort est régi par la permission `VAULT_VIEW`. Cela garantit que seuls les utilisateurs autorisés peuvent parcourir et récupérer les documents stockés.
+
+| Rôle | Niveau d'accès |
+|------|---------------|
+| **Administrateur** | Accès complet à tous les documents du Coffre-fort |
+| **Comptable** | Accès complet pour les besoins d'audit et de conformité |
+| **Gestionnaire** | Accès aux documents liés aux dépenses de leur équipe |
+| **Employé** | Accès uniquement à ses propres reçus et rapports soumis |
+
+<Note>
+  Le Coffre-fort est en lecture seule pour la plupart des utilisateurs. Les documents sont archivés automatiquement par le système. Seuls les administrateurs peuvent supprimer des documents du Coffre-fort.
+</Note>
+
+## Recherche et récupération
+
+Le Coffre-fort offre plusieurs façons de trouver des documents :
+
+| Méthode de recherche | Description |
+|---------------------|-------------|
+| **Recherche plein texte** | Recherchez par tout texte apparaissant dans le document, y compris le texte extrait par OCR des reçus |
+| **Filtre par période** | Filtrez les documents par la date de création ou la date de la dépense |
+| **Filtre par fournisseur** | Trouvez tous les reçus d'un fournisseur spécifique |
+| **Filtre par catégorie** | Trouvez tous les documents étiquetés avec une catégorie de dépense spécifique |
+| **Filtre par employé** | Trouvez tous les documents appartenant à un membre de l'équipe spécifique |
+| **Plage de montants** | Trouvez les documents dans une plage de montants spécifique |
+| **Filtre par statut** | Filtrez par statut de document (ex. : afficher uniquement les rapports approuvés) |
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Coffre-fort** | Le système de stockage sécurisé de documents dans Smartbills |
+| **Archivage** | Le processus de stockage d'un document dans le Coffre-fort pour conservation à long terme |
+| **Archivage automatique** | L'archivage automatique des reçus et rapports à mesure qu'ils sont traités |
+| **Période de rétention** | La durée pendant laquelle les documents sont conservés avant de pouvoir être supprimés |
+| **Ensemble documentaire** | Un rapport avec tous ses reçus, commentaires et historique d'approbation associés |
+| **Index OCR** | Le texte recherchable extrait des images de reçus par la reconnaissance optique de caractères |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Administrateur** | Configure les politiques de rétention, gère l'accès au Coffre-fort, peut supprimer des documents |
+| **Comptable** | Recherche et récupère des documents pour les audits, déclarations fiscales et rapprochements |
+| **Gestionnaire** | Accède aux rapports et reçus archivés de son équipe pour référence |
+| **Employé** | Consulte ses propres reçus et rapports archivés |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Gérer les documents" icon="folder-open" href="/fr/guides/web-app/vault/manage-documents">
+    Comment rechercher, consulter et organiser les documents dans le Coffre-fort
+  </Card>
+  <Card title="Aperçu du Coffre-fort" icon="vault" href="/fr/guides/web-app/vault/overview">
+    Naviguer dans le Coffre-fort de l'application web
+  </Card>
+  <Card title="Rapports de dépenses" icon="file-invoice" href="/fr/guides/concepts/expense-reports">
+    Comprendre comment les rapports sont archivés après remboursement
+  </Card>
+  <Card title="Rôles et Permissions" icon="lock" href="/fr/guides/concepts/roles-and-permissions">
+    En savoir plus sur qui peut accéder au Coffre-fort
+  </Card>
+</CardGroup>

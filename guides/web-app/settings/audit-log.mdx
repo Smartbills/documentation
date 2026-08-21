@@ -1,0 +1,61 @@
+---
+title: "Audit Log"
+description: "Find out who approved, changed, or reimbursed something, and when"
+---
+
+## Overview
+
+The audit log answers questions after the fact. Who approved this report. Who changed the amount. Who reimbursed it, and on what date.
+
+Go to **Settings > Security > Audit log**. Administrators and Finance Admins can see it.
+
+## Finding one report's history
+
+If you are looking into a single claim, do not start here. Open the expense report itself and use its **Timeline**. It shows everything that happened to that report in order, without you having to filter anything.
+
+Use the audit log when you need to look across many reports at once, for example during a period-end review.
+
+## What you can look up
+
+The log covers the full life of an expense report: when it was created, submitted, approved, rejected, sent back for changes, recalled, and reimbursed. It also records every expense added to a report, removed from it, edited, or swapped out, along with any comments left along the way.
+
+Each entry shows who did it and when.
+
+## Common questions it answers
+
+<AccordionGroup>
+  <Accordion title="Who approved this expense report?">
+    Find the report and look for its approval entry. It names the approver and the date. If the report was sent back for changes first, you will see that earlier entry too, so you can tell whether it was approved first time.
+  </Accordion>
+
+  <Accordion title="Was anything changed after it was approved?">
+    Look for expense edits or replacements dated after the approval. These are the entries worth checking during an audit, because they are changes made to a report someone had already signed off.
+  </Accordion>
+
+  <Accordion title="Who actually paid this out?">
+    Reimbursement entries are recorded separately from approvals, and the two are usually different people. Managers can approve but cannot reimburse, so the person who released the money is always a Finance Admin or an Administrator.
+  </Accordion>
+
+  <Accordion title="Someone approved this on my manager's behalf. Is that recorded?">
+    Yes. When a delegate acts for someone else, the log names both people. An approval made by a delegate is never indistinguishable from one the manager made themselves. See [Delegation](/guides/web-app/settings/delegation).
+  </Accordion>
+
+  <Accordion title="An expense disappeared from a report. Where did it go?">
+    Removals are logged. You will see who took it off the report and when. The expense itself is not deleted, so it will still be in the owner's expense list.
+  </Accordion>
+</AccordionGroup>
+
+## Bills
+
+Bills are not in the audit log. Each bill keeps its own history instead, reachable from the bill itself, showing every status change and who made it. See [Bill payment lifecycle](/guides/web-app/bills/payment-lifecycle).
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Delegation" icon="user-shield" href="/guides/web-app/settings/delegation">
+    How actions taken on someone's behalf are recorded
+  </Card>
+  <Card title="Roles & permissions" icon="shield-halved" href="/guides/concepts/roles-and-permissions">
+    Who is able to approve and reimburse
+  </Card>
+</CardGroup>

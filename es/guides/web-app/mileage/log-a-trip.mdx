@@ -1,0 +1,91 @@
+---
+title: "Registrar un desplazamiento"
+description: "Registre un trayecto profesional y deje que Smartbills calcule la distancia y el reembolso"
+---
+
+## Resumen
+
+Registrar un desplazamiento consiste en indicar por dónde condujo, con qué vehículo y en qué fecha. Smartbills traza la ruta, calcula la distancia y muestra cuánto vale según la tarifa de su empresa.
+
+Empiece en **Mileage Trips** en la barra lateral y después **Nuevo desplazamiento** (New trip).
+
+La pantalla se divide en dos. El mapa de la izquierda previsualiza la ruta mientras escribe. El formulario de la derecha contiene los datos.
+
+## Rellenar el desplazamiento
+
+<Steps>
+  <Step title="Ponerle nombre">
+    El **nombre** es obligatorio. Use algo que un aprobador entienda sin preguntar, por ejemplo «Visita a cliente en el centro». Es la etiqueta que aparecerá en el gasto y en el informe.
+  </Step>
+  <Step title="Elegir vehículo">
+    El **vehículo** es obligatorio y determina si se mide en kilómetros o millas, así que elíjalo antes de comprobar la distancia. Si el coche no está en la lista, use **Añadir un vehículo nuevo** sin salir del formulario.
+  </Step>
+  <Step title="Indicar la fecha">
+    Por defecto es la fecha actual. Cámbiela si registra un trayecto de otro día.
+  </Step>
+  <Step title="Introducir la ruta">
+    Escriba la dirección de salida y después el destino. **Elija cada dirección entre las sugerencias** en lugar de escribirla libremente. Smartbills necesita el lugar resuelto para trazar la ruta, y una dirección escrita pero nunca seleccionada impide guardar.
+
+    Para añadir paradas, consulte [Paradas múltiples e ida y vuelta](/es/guides/web-app/mileage/multi-stop-and-round-trips).
+  </Step>
+  <Step title="Activar ida y vuelta si regresó">
+    La opción **Round trip** incluye el trayecto de vuelta en la distancia, así que no la duplique a mano.
+  </Step>
+  <Step title="Comprobar la distancia">
+    El campo **Distancia** se rellena con la ruta calculada. No lo toque salvo que la distancia real fuera distinta, por ejemplo por un desvío.
+  </Step>
+  <Step title="Añadir notas si ayudan">
+    Contexto opcional para quien apruebe la solicitud.
+  </Step>
+  <Step title="Guardar">
+    **Guardar** crea el desplazamiento y abre su página de detalle. Su estado es **Logged** hasta que lo convierta en gasto.
+  </Step>
+</Steps>
+
+## Sustituir la distancia
+
+El campo es editable. Escriba otro número y pasa a ser un valor manual, que es lo que se reclama en lugar de la distancia calculada.
+
+Dos comportamientos que conviene conocer:
+
+- Aparece un enlace **Restablecer al valor calculado** (Reset to calculated) en cuanto introduce un valor manual. Úselo para volver a la distancia de la ruta.
+- Escribir un valor idéntico al calculado cancela la sustitución en lugar de guardarla. Smartbills interpreta «igual que la ruta» como ausencia de sustitución, de modo que los cambios posteriores en la ruta se siguen aplicando.
+
+<Note>
+  La previsualización del mapa es una estimación hecha en su navegador. Al guardar, el servidor recalcula la ruta y ese resultado es la base de su solicitud. Pequeñas diferencias entre ambos son normales.
+</Note>
+
+## Validación
+
+Guardar falla con un mensaje si falta algo:
+
+| Mensaje | Qué hacer |
+|---------|-----------|
+| Añada un nombre para este desplazamiento | Rellene el nombre |
+| Elija un vehículo | Seleccione o añada uno |
+| Elija una dirección de salida entre las sugerencias | Vuelva a escribir el origen y pulse una sugerencia |
+| Elija un destino entre las sugerencias | Vuelva a escribir el destino y pulse una sugerencia |
+| Una parada añadida no se reconoce | Una parada intermedia se escribió sin seleccionarla. Bórrela o elíjala correctamente |
+
+## Editar un desplazamiento
+
+Ábralo y elija **Editar**. La pantalla de edición es el mismo formulario.
+
+<Warning>
+  Un desplazamiento no se puede editar una vez que está en un informe enviado. Recupere el informe, haga el cambio y vuelva a enviarlo.
+</Warning>
+
+## Duplicar un desplazamiento
+
+Para un trayecto que repite, abra su menú en la lista y elija **Clonar** (Clone). La copia reproduce la ruta y el vehículo en un desplazamiento nuevo con la fecha de hoy, lo que evita reintroducir un trayecto habitual entre dos sedes.
+
+## Siguiente paso
+
+<CardGroup cols={2}>
+  <Card title="Paradas múltiples" icon="map-pin" href="/es/guides/web-app/mileage/multi-stop-and-round-trips">
+    Añadir y reordenar paradas
+  </Card>
+  <Card title="Convertir en gasto" icon="receipt" href="/es/guides/web-app/mileage/convert-to-expense">
+    Hacerlo reclamable
+  </Card>
+</CardGroup>

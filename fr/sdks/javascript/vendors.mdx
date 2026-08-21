@@ -1,0 +1,178 @@
+---
+title: "Fournisseurs"
+description: "Référence complète du VendorService dans le SDK JavaScript Smartbills, CRUD, opérations par lot, fusion et import CSV."
+---
+
+## Fournisseurs
+
+Le `VendorService` (`client.vendors`) gère les enregistrements de fournisseurs utilisés pour la catégorisation des dépenses et la gestion des factures. Les opérations sont disponibles au niveau utilisateur (toutes les entreprises) et au niveau entreprise.
+
+## Opérations au niveau utilisateur
+
+### Lister les fournisseurs
+
+```typescript
+const { data: vendors, pagination } = await client.vendors.list({
+  page: 1,
+  limit: 50,
+});
+```
+
+### Obtenir un fournisseur
+
+```typescript
+const vendor = await client.vendors.getById(vendorId);
+console.log(vendor.name, vendor.email);
+```
+
+### Créer un fournisseur
+
+```typescript
+const vendor = await client.vendors.create({
+  name: 'Fournitures Acme',
+  email: 'facturation@acme.com',
+});
+```
+
+### Mettre à jour un fournisseur
+
+```typescript
+const updated = await client.vendors.update(vendorId, {
+  name: 'Fournitures Acme Inc.',
+  phone: '555-0123',
+});
+```
+
+### Supprimer un fournisseur
+
+```typescript
+const deleted = await client.vendors.delete(vendorId);
+```
+
+### Télécharger un logo
+
+```typescript
+const updated = await client.vendors.uploadLogo(vendorId, fichierLogo);
+```
+
+## Opérations au niveau entreprise
+
+### Lister les fournisseurs de l'entreprise
+
+```typescript
+const { data: vendors } = await client.vendors.listBusiness({ limit: 100 });
+```
+
+### Obtenir un fournisseur de l'entreprise
+
+```typescript
+const vendor = await client.vendors.getBusinessVendor(vendorId);
+```
+
+### Créer un fournisseur pour l'entreprise
+
+```typescript
+const vendor = await client.vendors.createBusiness({
+  name: 'Bureau Depot',
+  category: 'Fournitures de bureau',
+});
+```
+
+### Mettre à jour un fournisseur de l'entreprise
+
+```typescript
+const updated = await client.vendors.updateBusiness(vendorId, {
+  name: 'Bureau Depot (Principal)',
+});
+```
+
+### Supprimer un fournisseur de l'entreprise
+
+```typescript
+const deleted = await client.vendors.deleteBusiness(vendorId);
+```
+
+### Rafraichir les données
+
+```typescript
+await client.vendors.refreshBusiness(vendorId);
+```
+
+## Opérations par lot
+
+### Création par lot
+
+```typescript
+const vendors = await client.vendors.batchCreate([
+  { name: 'Fournisseur A' },
+  { name: 'Fournisseur B' },
+  { name: 'Fournisseur C' },
+]);
+console.log(`${vendors.length} fournisseurs créés`);
+```
+
+### Mise à jour par lot
+
+```typescript
+const updated = await client.vendors.batchUpdate([
+  { id: 1, name: 'Fournisseur A (Modifie)' },
+  { id: 2, category: 'Consultation' },
+]);
+```
+
+## Suppression en masse
+
+```typescript
+const result = await client.vendors.bulkDelete({
+  vendorIds: [10, 11, 12],
+});
+console.log(`Supprimes : ${result.succèded}, Échoués : ${result.failed}`);
+```
+
+## Fusionner des fournisseurs
+
+Combinez les doublons en un seul enregistrement. Toutes les dépenses, factures et l'historique sont transférés vers le fournisseur cible.
+
+```typescript
+const merged = await client.vendors.merge({
+  targetVendorId: 1,
+  sourceVendorIds: [2, 3, 4],
+});
+console.log(`Fusionne vers : ${merged.name}`);
+```
+
+## Import CSV
+
+```typescript
+const result = await client.vendors.importCsv(fichierCsv);
+console.log(`Importes : ${result.created}, Erreurs : ${result.errors?.length}`);
+```
+
+### Télécharger le modèle d'import
+
+```typescript
+const templateBlob = await client.vendors.downloadImportTemplate();
+```
+
+## Référence des méthodes
+
+| Méthode | Paramètres | Retour |
+|---------|-----------|--------|
+| `list` | `params?`, `options?` | `SBListResponse<SBVendor>` |
+| `getById` | `id`, `options?` | `SBVendor` |
+| `create` | `data`, `options?` | `SBVendor` |
+| `update` | `id`, `data`, `options?` | `SBVendor` |
+| `delete` | `id`, `options?` | `SBVendor` |
+| `listBusiness` | `params?`, `options?` | `SBListResponse<SBVendor>` |
+| `getBusinessVendor` | `vendorId`, `options?` | `SBVendor` |
+| `createBusiness` | `data`, `options?` | `SBVendor` |
+| `updateBusiness` | `vendorId`, `data`, `options?` | `SBVendor` |
+| `deleteBusiness` | `vendorId`, `options?` | `SBVendor` |
+| `batchCreate` | `data[]`, `options?` | `SBVendor[]` |
+| `batchUpdate` | `data[]`, `options?` | `SBVendor[]` |
+| `bulkDelete` | `data`, `options?` | `SBVendorBulkActionResponse` |
+| `merge` | `data`, `options?` | `SBVendor` |
+| `importCsv` | `file`, `options?` | `SBVendorImportResult` |
+| `downloadImportTemplate` | `options?` | `Blob` |
+| `uploadLogo` | `vendorId`, `file`, `options?` | `SBVendor` |
+| `uploadBusinessLogo` | `vendorId`, `file`, `options?` | `SBVendor` |

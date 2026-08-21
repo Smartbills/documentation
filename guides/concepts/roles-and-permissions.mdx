@@ -1,0 +1,94 @@
+---
+title: "Roles & Permissions"
+description: "What each role can do, and why your colleague sees things you do not"
+---
+
+## Overview
+
+Everyone in a business has one role. The role decides what appears in the sidebar and what you are allowed to do.
+
+Roles are set in **Settings > Workspace > Team**, and only Administrators can change them.
+
+## The five roles
+
+| Role | Who it is for | What they can do |
+|------|---------------|------------------|
+| **Member** | Anyone claiming expenses | Their own expenses, reports, and mileage. Nothing belonging to anyone else. |
+| **Finance Team** | AP clerks and bookkeepers | Everything a Member can do, plus reviewing business expenses and uploading bills. Cannot approve or pay anything. |
+| **Manager** | People managers | Everything a Member can do, plus approving and rejecting their team's expense reports. Cannot pay them out. |
+| **Finance Admin** | Controllers and finance managers | Approves, rejects, and reimburses reports. Full access to bills, vendors, the vault, and most settings. Cannot invite people or change billing. |
+| **Administrator** | Business owners and operations leads | Everything, including inviting people, changing roles, billing, and business settings. |
+
+<Note>
+  There is no Owner role. Everything an owner would need, including billing and the ability to change who has access, belongs to **Administrator**.
+</Note>
+
+## Approving and paying are separate on purpose
+
+A Manager can approve an expense report but cannot reimburse it. Releasing money is limited to Finance Admins and Administrators.
+
+This is deliberate. It means no single person can both authorise a claim and pay it, which is the control most auditors look for. It is also the reason a Manager who has approved a report still sees it sitting there afterwards: it is waiting on finance, not on them.
+
+## Why your sidebar looks different from a colleague's
+
+The business section of the sidebar only appears if your role gives you access to something in it. A Member has access to none of it, which is why they see only Dashboard, Mileage Trips, Expenses, and Expense Reports.
+
+The same applies inside Settings. A Finance Admin sees Categories, Departments, and Employees. A Member sees only Vehicles and Delegation, because those two are personal rather than business-wide.
+
+This is also why the sidebar can change when you switch between businesses. Your role is per business, so being an Administrator in one grants you nothing in another. See [Switching between businesses](/guides/web-app/switching-businesses).
+
+## Common questions
+
+<AccordionGroup>
+  <Accordion title="I cannot see Bills, Vendors, or the Vault">
+    Those need Finance Admin or Administrator. Managers and Members do not have them. Ask an Administrator if you need access.
+  </Accordion>
+
+  <Accordion title="I approved a report but cannot mark it reimbursed">
+    You are a Manager. Approval and payment are split, so the report now needs a Finance Admin or Administrator to pay it out.
+  </Accordion>
+
+  <Accordion title="I cannot invite a new team member">
+    Only Administrators can invite people or change roles. Finance Admins cannot, even though they can change most other settings.
+  </Accordion>
+
+  <Accordion title="I am a Finance Admin and cannot submit my own expense report">
+    This is a known limitation. Finance Admins can approve and reimburse other people's reports but cannot submit or delete their own.
+
+    If your controllers also need to claim their own expenses, contact Smartbills support. Do not work around it by making them an Administrator, since that grants far more than they need.
+  </Accordion>
+
+  <Accordion title="Someone needs to cover for me while I am away">
+    Use delegation rather than changing their role. It lets them act for you temporarily, keeps the record of who did what, and is easy to undo. See [Delegation](/guides/web-app/settings/delegation).
+  </Accordion>
+</AccordionGroup>
+
+## Change someone's role
+
+<Steps>
+  <Step title="Open team settings">
+    Go to **Settings > Workspace > Team**.
+  </Step>
+  <Step title="Pick the person and the new role">
+    The change takes effect straight away.
+  </Step>
+</Steps>
+
+To add someone new, use **Invite** and choose their role at the same time. Only Administrators can do this.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="Invite team members" icon="user-plus" href="/guides/web-app/team/invite-members">
+    Add people to your business
+  </Card>
+  <Card title="Delegation" icon="user-shield" href="/guides/web-app/settings/delegation">
+    Let someone act for you
+  </Card>
+  <Card title="Audit log" icon="scroll" href="/guides/web-app/settings/audit-log">
+    Check who approved or paid something
+  </Card>
+  <Card title="Switching businesses" icon="repeat" href="/guides/web-app/switching-businesses">
+    Why your access differs per business
+  </Card>
+</CardGroup>

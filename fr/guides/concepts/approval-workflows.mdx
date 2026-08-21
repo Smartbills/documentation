@@ -1,0 +1,112 @@
+---
+title: "Flux d'approbation"
+description: "Découvrez comment fonctionnent les approbations de dépenses et de rapports dans Smartbills, y compris les chaînes d'approbation à un et plusieurs niveaux"
+---
+
+## Qu'est-ce qu'un flux d'approbation?
+
+Les flux d'approbation définissent qui révise et autorise les dépenses et les rapports de dépenses avant qu'ils puissent être remboursés. Smartbills prend en charge deux types d'approbations : les approbations au niveau de la dépense pour les transactions individuelles et les approbations au niveau du rapport pour les rapports de dépenses complets. Les flux peuvent être configurés avec un seul approbateur ou une chaîne à plusieurs niveaux selon les politiques de votre organisation.
+
+## Deux types d'approbations
+
+### Approbations au niveau de la dépense
+
+Les approbations au niveau de la dépense (`/:slug/approvals`) permettent aux approbateurs de réviser et d'agir sur les dépenses individuelles une par une. Ceci est utile lorsque les dépenses doivent être approuvées à mesure qu'elles arrivent plutôt que d'attendre leur regroupement dans un rapport.
+
+- Chaque dépense est approuvée ou rejetée indépendamment
+- Couramment utilisé pour les dépenses de la Boîte de réception qui ne passent pas par les rapports de dépenses
+- Permet un délai de traitement plus rapide sur les transactions individuelles
+
+### Approbations au niveau du rapport
+
+Les approbations au niveau du rapport (`/:slug/approbations`) s'appliquent aux rapports de dépenses entiers. Lorsqu'un employé soumet un rapport, l'approbateur examine toutes les dépenses du rapport ensemble et prend une seule décision.
+
+- L'approbateur voit le rapport complet avec toutes les dépenses, les reçus et les totaux
+- Le rapport est approuvé ou rejeté dans son ensemble (les dépenses individuelles peuvent être signalées pour modifications)
+- C'est le flux de travail standard pour le remboursement des dépenses du Dépenses Personnel
+
+## Comment ça fonctionne
+
+<Steps>
+  <Step title="Soumission">
+    Un employé soumet un rapport de dépenses ou une dépense individuelle est signalée pour approbation. Le système identifié le(s) bon(s) approbateur(s) selon la chaîne d'approbation configurée.
+  </Step>
+  <Step title="Notification">
+    L'approbateur désigné reçoit un courriel et une notification dans l'application indiquant qu'un élément attend sa révision. La notification inclut un résumé de la dépense ou du rapport avec le montant total.
+  </Step>
+  <Step title="Révision">
+    L'approbateur ouvre l'élément et examine les détails : reçus, montants, catégories, informations du fournisseur et justification d'affaires. Il peut ajouter des commentaires ou poser des questions.
+  </Step>
+  <Step title="Décision">
+    L'approbateur prend l'une des trois actions suivantes : **Approuver** l'élément, le **Rejeter** avec une raison, ou **Demander des modifications** pour demander au soumetteur de corriger des problèmes spécifiques.
+  </Step>
+  <Step title="Escalade (Plusieurs niveaux)">
+    Si la chaîne d'approbation comporte plusieurs niveaux, l'élément passe à l'approbateur suivant après que le premier niveau à approuvé. Cela continue jusqu'à ce que tous les niveaux requis aient approuvé. Si un niveau rejette, l'élément est renvoyé au soumetteur.
+  </Step>
+  <Step title="Résolution">
+    Une fois toutes les approbations requises obtenues, la dépense ou le rapport passe au statut Approuvé et procède au remboursement. En cas de rejet, le soumetteur peut corriger les problèmes et soumettre à nouveau.
+  </Step>
+</Steps>
+
+## Configurations des chaînes d'approbation
+
+| Configuration | Description | Exemple |
+|--------------|-------------|---------|
+| **Approbateur unique** | Une personne approuvé toutes les soumissions | Un gestionnaire d'équipe approuvé toutes les dépenses de l'équipe |
+| **Plusieurs niveaux** | Deux ou plusieurs approbateurs en séquence | Le gestionnaire approuvé d'abord, puis le directeur financier |
+| **Basée sur les seuils** | Différentes chaînes selon le montant | Moins de 500 $ : Gestionnaire seulement. Plus de 500 $ : Gestionnaire puis VP |
+| **Par département** | Approbateur assigné par département | Chaque chef de département approuvé les dépenses de son équipe |
+
+## Actions de l'approbateur
+
+| Action | Effet |
+|--------|-------|
+| **Approuver** | L'élément passe ce niveau d'approbation et avance au suivant (ou au statut Approuvé si c'est le dernier niveau) |
+| **Rejeter** | L'élément est renvoyé au soumetteur avec les commentaires de l'approbateur. Le soumetteur doit corriger et soumettre à nouveau |
+| **Demander des modifications** | L'élément est retourné au soumetteur pour des corrections spécifiques sans rejet complet. Le soumetteur peut mettre à jour et soumettre à nouveau sans recommencer |
+
+## Notifications et escalades
+
+Smartbills tient tous les participants informés tout au long du processus d'approbation :
+
+- **Notification de soumission** : Les approbateurs sont notifiés par courriel et dans l'application lorsqu'un nouvel élément nécessite leur révision
+- **Notification de décision** : Les soumetteurs sont notifiés lorsque leur dépense ou rapport est approuvé, rejeté ou retourné pour modifications
+- **Notifications de rappel** : Si un approbateur n'a pas agi dans un délai configurable, un rappel est envoyé automatiquement
+- **Escalade** : Après plusieurs rappels, l'élément peut être escaladé au niveau suivant ou à un administrateur, selon la configuration
+
+## Terminologie clé
+
+| Terme | Définition |
+|-------|-----------|
+| **Chaîne d'approbation** | La séquence ordonnée d'approbateurs qu'une soumission doit traverser |
+| **Approbateur** | Un utilisateur autorisé à approuver, rejeter ou d.mander des modifications sur les soumissions |
+| **Niveau** | Une seule étape dans une chaîne d'approbation à plusieurs niveaux |
+| **Escalade** | Le processus de transmission d'un élément approuvé au niveau suivant de la chaîne |
+| **Seuil** | Une limite monétaire qui détermine quelle chaîne d'approbation est utilisée |
+| **Délégation** | L'attribution temporaire de la responsabilité d'approbation à un autre utilisateur |
+
+## Rôles impliqués
+
+| Rôle | Responsabilité |
+|------|---------------|
+| **Employé** | Soumet les dépenses ou rapports pour approbation, répond aux demandes de modifications |
+| **Gestionnaire** | Agit comme approbateur de premier niveau pour ses subordonnés directs |
+| **Directeur financier** | Sert souvent d'approbateur de deuxième niveau pour les soumissions de grande valeur |
+| **Administrateur** | Configure les chaînes d'approbation, définit les seuils, assigne les approbateurs |
+
+## Guides connexes
+
+<CardGroup cols={2}>
+  <Card title="Rapports de dépenses" icon="file-invoice" href="/fr/guides/concepts/expense-reports">
+    Comprendre comment les rapports sont créés et soumis pour approbation
+  </Card>
+  <Card title="Approuver un rapport" icon="check" href="/fr/guides/web-app/approvals/approve-report">
+    Guide étape par étape pour approuver un rapport de dépenses
+  </Card>
+  <Card title="Rejeter un rapport" icon="xmark" href="/fr/guides/web-app/approvals/reject-report">
+    Comment rejeter un rapport et fournir des commentaires
+  </Card>
+  <Card title="Rôles et Permissions" icon="users" href="/fr/guides/concepts/roles-and-permissions">
+    En savoir plus sur les rôles pouvant approuver les dépenses
+  </Card>
+</CardGroup>

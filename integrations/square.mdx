@@ -1,0 +1,107 @@
+---
+title: "Square"
+description: "Import transactions and sync catalog data between Smartbills and Square POS"
+---
+
+## Overview
+
+The Square integration imports transactions from your Square POS into Smartbills, providing automatic receipt generation, item catalog sync, and location-based reporting.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Transaction Import** | Automatically import Square payments and receipts |
+| **Item Catalog** | Sync Square item catalog with Smartbills products |
+| **Location Sync** | Support for multiple Square locations |
+| **Customer Matching** | Link Square customers to Smartbills records |
+| **Refund Tracking** | Track refunds and voids automatically |
+| **Tax Mapping** | Map Square tax rates to Smartbills |
+| **Tip Tracking** | Record tip amounts with transactions |
+
+## Prerequisites
+
+- Square account (any plan)
+- Smartbills Business plan or higher
+- Square account owner or admin access
+
+## Setup
+
+<Steps>
+  <Step title="Open the Apps Marketplace">
+    In Smartbills, go to **Settings > Apps** and search for **Square**.
+  </Step>
+  <Step title="Connect Your Account">
+    Click **Connect** and sign in to your Square account. Authorize Smartbills to read transactions and catalog data.
+
+  </Step>
+  <Step title="Select Locations">
+    Choose which Square locations to sync with Smartbills.
+  </Step>
+  <Step title="Map Items">
+    Map Square catalog items to Smartbills product categories.
+  </Step>
+  <Step title="Enable Sync">
+    Activate real-time sync via webhooks or set a scheduled sync interval.
+  </Step>
+</Steps>
+
+## Configuration
+
+### Location Settings
+
+| Setting | Description |
+|---------|-------------|
+| Sync all locations | Import transactions from all locations |
+| Select locations | Choose specific locations to sync |
+| Default location | Set a default location for unassigned transactions |
+
+### Item Mapping
+
+| Square Item Category | Smartbills Category |
+|---------------------|---------------------|
+| Food & Beverage | Meals |
+| Merchandise | Products |
+| Services | Professional Services |
+
+### Transaction Filters
+
+| Filter | Description |
+|--------|-------------|
+| Payment type | Card, cash, or all payment types |
+| Minimum amount | Skip transactions below a threshold |
+| Date range | Set starting date for historical import |
+
+## Data Sync
+
+| Smartbills | Square | Direction | Frequency |
+|-----------|--------|-----------|-----------|
+| Receipts | Payments | Square -> Smartbills | Real-time or scheduled |
+| Refund records | Refunds | Square -> Smartbills | Real-time or scheduled |
+| Categories | Item catalog | Square -> Smartbills | On demand |
+| Locations | Locations | Square -> Smartbills | On demand |
+| Customer records | Customers | Square -> Smartbills | With transactions |
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Transactions not syncing">
+    Verify the webhook configuration in your Square Developer Dashboard. Re-authorize the integration if issues persist.
+  </Accordion>
+
+  <Accordion title="Missing locations">
+    Re-sync locations from the integration settings. New Square locations are not added automatically.
+  </Accordion>
+
+  <Accordion title="Item catalog out of date">
+    Trigger a manual catalog sync from **Settings > Apps > Square > Sync Catalog**.
+  </Accordion>
+
+  <Accordion title="Duplicate transactions">
+    Ensure only one sync method (real-time or scheduled) is active.
+  </Accordion>
+
+  <Accordion title="Tips not appearing">
+    Verify that tip tracking is enabled in the integration settings. Tips are recorded as a separate line item on the receipt.
+  </Accordion>
+</AccordionGroup>

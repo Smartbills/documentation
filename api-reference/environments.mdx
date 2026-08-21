@@ -1,0 +1,273 @@
+---
+title: "Environments"
+description: "Learn about the Smartbills API sandbox and production environments for development and testing"
+---
+
+## Overview
+
+Smartbills provides two distinct environments to help you develop and test your integration before going live. Each environment is fully isolated with its own data, API keys, and configuration.
+
+## Available Environments
+
+### Sandbox Environment
+
+The sandbox environment is a safe space for development and testing. No real data is processed or stored.
+
+**Base URL:**
+
+```
+https://sandbox.api.smartbills.io/v1
+```
+
+**Characteristics:**
+- Available immediately to all developer accounts
+- Uses test API keys (`sk_test_...`)
+- Separate test data that does not affect production
+- Higher rate limits for faster development
+- Pre-populated with sample data for testing
+- No real charges or transactions
+
+<Info>
+  All developer accounts have immediate access to the sandbox environment. No approval is required.
+</Info>
+
+### Production Environment
+
+The production environment is where your live application runs and processes real data.
+
+**Base URL:**
+
+```
+https://api.smartbills.io/v1
+```
+
+**Characteristics:**
+- Uses live API keys (`sk_live_...`)
+- Real customer and business data
+- Standard rate limits apply
+- Processes real expenses and reports
+- Requires application approval before access
+
+<Note>
+  Production API keys are enabled once your application has been reviewed and approved.
+</Note>
+
+## Key Differences
+
+| Feature | Sandbox | Production |
+|---------|---------|------------|
+| **Base URL** | `sandbox.api.smartbills.io` | `api.smartbills.io` |
+| **API Keys** | `sk_test_...` | `sk_live_...` |
+| **Data** | Test data only | Real customer data |
+| **Access** | Available immediately | Requires approval |
+| **Rate Limits** | More lenient | Standard limits |
+| **Webhooks** | Sent to test URLs | Sent to production URLs |
+| **Transactions** | Simulated | Real |
+
+## Switching Between Environments
+
+You can switch between environments by changing the base URL and API key in your application:
+
+<CodeGroup>
+
+```bash cURL
+# Sandbox
+curl --request GET \
+  --url https://sandbox.api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer sk_test_1234567890abcdef' \
+  --header 'x-tenant-id: 123'
+
+# Production
+curl --request GET \
+  --url https://api.smartbills.io/v1/expenses \
+  --header 'Authorization: Bearer sk_live_1234567890abcdef' \
+  --header 'x-tenant-id: 123'
+```
+
+```javascript JavaScript
+import { SmartbillsClient } from '@smartbills/sdk';
+
+// Sandbox
+const sandboxClient = new SmartbillsClient({
+  accessToken: 'YOUR_API_KEY',
+  businessId: 123
+});
+
+// Or configure via environment variables
+// SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+// SMARTBILLS_API_KEY=sk_test_1234567890abcdef
+
+const client = new SmartbillsClient({
+  accessToken: process.env.SMARTBILLS_API_KEY,
+  businessId: 123
+});
+```
+
+```python Python
+from smartbills import SmartbillsClient
+import os
+
+# Sandbox
+sandbox_client = SmartbillsClient(
+    access_token="sk_test_1234567890abcdef",
+    business_id=123
+)
+
+# Or configure via environment variables
+client = SmartbillsClient(
+    access_token=os.environ.get("SMARTBILLS_API_KEY"),
+    business_id=123
+)
+```
+
+</CodeGroup>
+
+## Environment Configuration
+
+### Using Environment Variables
+
+Store your API keys and base URLs as environment variables to easily switch between environments:
+
+```bash
+# .env.development
+SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+SMARTBILLS_API_KEY=sk_test_your_sandbox_key
+
+# .env.production
+SMARTBILLS_API_URL=https://api.smartbills.io
+SMARTBILLS_API_KEY=sk_live_your_production_key
+```
+
+### Configuration Example
+
+<CodeGroup>
+
+```javascript JavaScript
+const config = {
+  sandbox: {
+    baseUrl: 'https://sandbox.api.smartbills.io/v1',
+    apiKey: process.env.SMARTBILLS_TEST_KEY
+  },
+  production: {
+    baseUrl: 'https://api.smartbills.io/v1',
+    apiKey: process.env.SMARTBILLS_LIVE_KEY
+  }
+};
+
+const env = process.env.NODE_ENV === 'production' ? 'production' : 'sandbox';
+const { baseUrl, apiKey } = config[env];
+```
+
+```python Python
+import os
+
+config = {
+    'sandbox': {
+        'base_url': 'https://sandbox.api.smartbills.io/v1',
+        'api_key': os.environ.get('SMARTBILLS_TEST_KEY')
+    },
+    'production': {
+        'base_url': 'https://api.smartbills.io/v1',
+        'api_key': os.environ.get('SMARTBILLS_LIVE_KEY')
+    }
+}
+
+env = 'production' if os.environ.get('ENV') == 'production' else 'sandbox'
+base_url = config[env]['base_url']
+api_key = config[env]['api_key']
+```
+
+</CodeGroup>
+
+## Test Data in Sandbox
+
+The sandbox environment comes pre-populated with sample data to help you test your integration:
+
+- **Sample businesses** with pre-configured settings
+- **Sample expenses** in various statuses (pending, approved, rejected)
+- **Sample expense reports** with complete approval workflows
+- **Sample categories, departments, and locations**
+- **Sample vendors** with different configurations
+
+You can also create your own test data in the sandbox. All test data is periodically reset.
+
+<Warning>
+  **Data reset**: Sandbox data may be periodically reset. Do not rely on sandbox data for long-term storage. Always use production for persistent data.
+</Warning>
+
+## Data Isolation
+
+Data between environments is completely isolated:
+
+- Users created in sandbox do not exist in production
+- Expenses and reports are environment-specific
+- Webhooks are sent to different endpoints per environment
+- API keys only work in their respective environments
+
+This ensures that your testing activities never affect your production data or users.
+
+## Getting Access
+
+### Sandbox Access
+
+1. Create a Smartbills account at [smartbills.io](https://smartbills.io)
+2. Visit the [developer portal](https://developers.smartbills.io)
+3. Create a new application
+4. Your sandbox API keys will be generated immediately
+
+### Production Access
+
+<Steps>
+  <Step title="Complete Integration in Sandbox">
+    Build and test your integration using sandbox API keys.
+  </Step>
+  
+  <Step title="Submit for Review">
+    Submit your application for review through the developer portal.
+  </Step>
+  
+  <Step title="Review Process">
+    Our team reviews your integration to ensure it meets our guidelines.
+  </Step>
+  
+  <Step title="Production Keys Activated">
+    Once approved, your production API keys will be activated.
+  </Step>
+</Steps>
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Use Environment Variables" icon="gear">
+    Store API keys and base URLs as environment variables. Never hardcode them.
+  </Accordion>
+
+  <Accordion title="Test Thoroughly in Sandbox" icon="flask">
+    Always test your integration thoroughly in sandbox before deploying to production. Test all API endpoints, error handling, webhook delivery, and data formats.
+  </Accordion>
+
+  <Accordion title="Keep Separate API Keys" icon="key">
+    Use different API keys for each environment and never use production keys in development or testing.
+  </Accordion>
+
+  <Accordion title="Monitor Both Environments" icon="chart-line">
+    Set up monitoring and logging for both environments to catch issues early.
+  </Accordion>
+</AccordionGroup>
+
+## Related Resources
+
+<CardGroup cols={2}>
+  <Card title="API Keys" icon="key" href="/api-reference/api-keys">
+    Create and manage API keys
+  </Card>
+  <Card title="Authentication" icon="shield" href="/api-reference/authentication">
+    Authentication setup
+  </Card>
+  <Card title="API Introduction" icon="book" href="/api-reference/introduction">
+    API overview and getting started
+  </Card>
+  <Card title="Rate Limits" icon="gauge" href="/api-reference/rate-limits">
+    Environment-specific rate limits
+  </Card>
+</CardGroup>
