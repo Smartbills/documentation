@@ -73,12 +73,12 @@ Accept-Language: fr-CA
 
 Utilisez ce flux pour la communication serveur à serveur sans interaction utilisateur.
 
-**Point d'accès :** `POST https://api.smartbills.io/connect/token`
+**Point d'accès :** `POST https://api.smartbills.io/auth/connect/token`
 
 **Requête :**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 
@@ -101,7 +101,7 @@ grant_type=client_credentials&client_id=VOTRE_CLIENT_ID&client_secret=VOTRE_CLIE
 
 ```bash cURL
 curl --request POST \
-  --url https://api.smartbills.io/connect/token \
+  --url https://api.smartbills.io/auth/connect/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=client_credentials' \
   --data 'client_id=VOTRE_CLIENT_ID' \
@@ -118,7 +118,7 @@ const client = new SmartbillsClient({
 
 // Le SDK géré automatiquement la gestion des jetons.
 // Pour les flux OAuth2 manuels :
-const tokenResponse = await fetch('https://api.smartbills.io/connect/token', {
+const tokenResponse = await fetch('https://api.smartbills.io/auth/connect/token', {
   method: 'POST',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
@@ -140,7 +140,7 @@ client = SmartbillsClient(access_token="VOTRE_CLE_API", business_id=123)
 # Le SDK géré automatiquement la gestion des jetons.
 # Pour les flux OAuth2 manuels :
 token_response = requests.post(
-    'https://api.smartbills.io/connect/token',
+    'https://api.smartbills.io/auth/connect/token',
     data={
         'grant_type': 'client_credentials',
         'client_id': 'VOTRE_CLIENT_ID',
@@ -162,14 +162,14 @@ Utilisez ce flux pour les applications orientees utilisateur ou vous devez agir 
 **Étape 1 : Rediriger vers le point d'accès d'autorisation**
 
 ```http
-GET /connect/authorize?response_type=code&client_id=VOTRE_CLIENT_ID&redirect_uri=VOTRE_URI_REDIRECTION&scope=read:expenses write:expenses
+GET /auth/connect/authorize?response_type=code&client_id=VOTRE_CLIENT_ID&redirect_uri=VOTRE_URI_REDIRECTION&scope=expenses.read expenses.write
 Host: api.smartbills.io
 ```
 
 **Étape 2 : Echanger le code d'autorisation contre un jeton d'accès**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 
@@ -199,7 +199,7 @@ Lorsque votre jeton d'accès expiré, utilisez le jeton de rafraichissement pour
 
 ```bash cURL
 curl --request POST \
-  --url https://api.smartbills.io/connect/token \
+  --url https://api.smartbills.io/auth/connect/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=refresh_token' \
   --data 'refresh_token=VOTRE_REFRESH_TOKEN' \
@@ -209,7 +209,7 @@ curl --request POST \
 
 ```javascript JavaScript
 async function refreshAccessToken(refreshToken) {
-  const response = await fetch('https://api.smartbills.io/connect/token', {
+  const response = await fetch('https://api.smartbills.io/auth/connect/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
@@ -228,7 +228,7 @@ async function refreshAccessToken(refreshToken) {
 ```python Python
 def refresh_access_token(refresh_token):
     response = requests.post(
-        'https://api.smartbills.io/connect/token',
+        'https://api.smartbills.io/auth/connect/token',
         data={
             'grant_type': 'refresh_token',
             'refresh_token': refresh_token,

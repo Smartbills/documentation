@@ -144,37 +144,57 @@ Les clés API héritent des permissions de l'utilisateur qui les à créées. Si
 
 ### Portees disponibles
 
+Les portées suivent le format `ressource.action`. La liste complète et faisant autorité est publiée
+sur [`/auth/.well-known/openid-configuration`](https://api.smartbills.io/auth/.well-known/openid-configuration)
+sous `scopes_supported`.
+
 <AccordionGroup>
   <Accordion title="Portees entreprises" icon="building">
-    **read:businesses** - Voir les informations des entreprises, lister les entreprises, obtenir les détails
+    **businesses.read** - Voir les informations des entreprises, lister les entreprises, obtenir les détails
 
-    **write:businesses** - Créer de nouvelles entreprises, mettre à jour les informations, modifier les paramètres
-
-    **delete:businesses** - Supprimer des entreprises (avec confirmation)
+    **businesses.write** - Créer de nouvelles entreprises, mettre à jour les informations, modifier les paramètres
   </Accordion>
 
   <Accordion title="Portees dépenses" icon="receipt">
-    **read:expenses** - Lister toutes les dépenses, obtenir les détails, télécharger les pieces jointes, exporter les données
+    **expenses.read** - Lister les dépenses, obtenir les détails, télécharger les pieces jointes, exporter les données
 
-    **write:expenses** - Télécharger de nouvelles dépenses, mettre à jour les informations, ajouter/supprimer des pieces jointes, catégoriser
+    **expenses.write** - Téléverser des dépenses, mettre à jour les informations, ajouter ou supprimer des pieces jointes, catégoriser
 
-    **delete:expenses** - Supprimer des dépenses individuelles, opérations de suppression en lot
+    **receipts.read** / **receipts.write** - Accéder aux reçus sous-jacents et les modifier
   </Accordion>
 
-  <Accordion title="Portees rapports" icon="file-invoice">
-    **read:reports** - Lister les rapports, obtenir les détails, voir la chronologie, accéder aux journaux d'audit
+  <Accordion title="Portees rapports de dépenses" icon="file-invoice">
+    **expense-reports.read** - Lister les rapports, obtenir les détails, voir la chronologie
 
-    **write:reports** - Créer de nouveaux rapports, mettre à jour les détails, ajouter/supprimer des dépenses, soumettre
+    **expense-reports.write** - Créer des rapports, mettre à jour les détails, ajouter ou supprimer des dépenses
 
-    **approve:reports** - Approuver les rapports, rejeter, demander des changements, ajouter des commentaires
+    **expense-reports.submit** - Soumettre des rapports pour approbation
+
+    **expense-reports.approve** / **expense-reports.reject** - Agir sur les rapports en attente de votre approbation
+
+    **expense-reports.reimburse** - Marquer des rapports comme remboursés
   </Accordion>
 
-  <Accordion title="Portees utilisateurs" icon="user">
-    **read:user** - Obtenir les détails de son propre utilisateur, voir les paramètres
+  <Accordion title="Portees comptes fournisseurs" icon="file-invoice-dollar">
+    **bills.read** / **bills.write** - Accéder aux factures et les modifier
 
-    **write:user** - Mettre à jour le profil, changer les paramètres
+    **vendors.read** / **vendors.write** - Accéder aux fournisseurs et les modifier
+  </Accordion>
 
-    **manage:users** - Inviter des utilisateurs, supprimer des utilisateurs, mettre à jour les permissions (administrateur uniquement)
+  <Accordion title="Portees identité" icon="user">
+    **openid** - Requis pour tout flux OpenID Connect
+
+    **profile**, **email**, **phone**, **address**, **full_name** - Revendications sur l'utilisateur connecté
+
+    **offline_access** - Émettre un jeton de rafraîchissement avec le jeton d'accès
+  </Accordion>
+
+  <Accordion title="Portees plateforme" icon="gear">
+    **webhooks.read** / **webhooks.write** - Gérer les points de terminaison webhook
+
+    **developers.read** / **developers.write** - Gérer les paramètres développeur
+
+    **notifications.read** / **notifications.write** - Accéder aux notifications et les gérer
   </Accordion>
 </AccordionGroup>
 

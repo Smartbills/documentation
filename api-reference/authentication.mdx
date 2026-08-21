@@ -73,12 +73,12 @@ Accept-Language: en-CA
 
 Use this flow for server-to-server communication where no user interaction is required.
 
-**Endpoint:** `POST https://api.smartbills.io/connect/token`
+**Endpoint:** `POST https://api.smartbills.io/auth/connect/token`
 
 **Request:**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 
@@ -101,7 +101,7 @@ grant_type=client_credentials&client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT
 
 ```bash cURL
 curl --request POST \
-  --url https://api.smartbills.io/connect/token \
+  --url https://api.smartbills.io/auth/connect/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=client_credentials' \
   --data 'client_id=YOUR_CLIENT_ID' \
@@ -118,7 +118,7 @@ const client = new SmartbillsClient({
 
 // The SDK handles token management automatically.
 // For manual OAuth2 flows:
-const tokenResponse = await fetch('https://api.smartbills.io/connect/token', {
+const tokenResponse = await fetch('https://api.smartbills.io/auth/connect/token', {
   method: 'POST',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
@@ -140,7 +140,7 @@ client = SmartbillsClient(access_token="YOUR_API_KEY", business_id=123)
 # The SDK handles token management automatically.
 # For manual OAuth2 flows:
 token_response = requests.post(
-    'https://api.smartbills.io/connect/token',
+    'https://api.smartbills.io/auth/connect/token',
     data={
         'grant_type': 'client_credentials',
         'client_id': 'YOUR_CLIENT_ID',
@@ -162,14 +162,14 @@ Use this flow for user-facing applications where you need to act on behalf of a 
 **Step 1: Redirect to Authorization Endpoint**
 
 ```http
-GET /connect/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=read:expenses write:expenses
+GET /auth/connect/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=expenses.read expenses.write
 Host: api.smartbills.io
 ```
 
 **Step 2: Exchange Authorization Code for Access Token**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 
@@ -194,7 +194,7 @@ grant_type=authorization_code&code=AUTHORIZATION_CODE&redirect_uri=YOUR_REDIRECT
 ```bash cURL
 # Step 2: Exchange authorization code for token
 curl --request POST \
-  --url https://api.smartbills.io/connect/token \
+  --url https://api.smartbills.io/auth/connect/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=authorization_code' \
   --data 'code=AUTHORIZATION_CODE' \
@@ -205,15 +205,15 @@ curl --request POST \
 
 ```javascript JavaScript
 // Step 1: Redirect user to authorization page
-const authUrl = new URL('https://api.smartbills.io/connect/authorize');
+const authUrl = new URL('https://api.smartbills.io/auth/connect/authorize');
 authUrl.searchParams.set('response_type', 'code');
 authUrl.searchParams.set('client_id', 'YOUR_CLIENT_ID');
 authUrl.searchParams.set('redirect_uri', 'YOUR_REDIRECT_URI');
-authUrl.searchParams.set('scope', 'read:expenses write:expenses');
+authUrl.searchParams.set('scope', 'expenses.read expenses.write');
 // Redirect: window.location.href = authUrl.toString();
 
 // Step 2: Exchange code for token (in your callback handler)
-const tokenResponse = await fetch('https://api.smartbills.io/connect/token', {
+const tokenResponse = await fetch('https://api.smartbills.io/auth/connect/token', {
   method: 'POST',
   headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   body: new URLSearchParams({
@@ -237,14 +237,14 @@ auth_params = {
     'response_type': 'code',
     'client_id': 'YOUR_CLIENT_ID',
     'redirect_uri': 'YOUR_REDIRECT_URI',
-    'scope': 'read:expenses write:expenses'
+    'scope': 'expenses.read expenses.write'
 }
-auth_url = f"https://api.smartbills.io/connect/authorize?{urlencode(auth_params)}"
+auth_url = f"https://api.smartbills.io/auth/connect/authorize?{urlencode(auth_params)}"
 # Redirect user to auth_url
 
 # Step 2: Exchange code for token (in your callback handler)
 token_response = requests.post(
-    'https://api.smartbills.io/connect/token',
+    'https://api.smartbills.io/auth/connect/token',
     data={
         'grant_type': 'authorization_code',
         'code': 'AUTHORIZATION_CODE',
@@ -273,7 +273,7 @@ When your access token expires, use the refresh token to obtain a new one withou
 
 ```bash cURL
 curl --request POST \
-  --url https://api.smartbills.io/connect/token \
+  --url https://api.smartbills.io/auth/connect/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data 'grant_type=refresh_token' \
   --data 'refresh_token=YOUR_REFRESH_TOKEN' \
@@ -283,7 +283,7 @@ curl --request POST \
 
 ```javascript JavaScript
 async function refreshAccessToken(refreshToken) {
-  const response = await fetch('https://api.smartbills.io/connect/token', {
+  const response = await fetch('https://api.smartbills.io/auth/connect/token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
@@ -304,7 +304,7 @@ async function refreshAccessToken(refreshToken) {
 ```python Python
 def refresh_access_token(refresh_token):
     response = requests.post(
-        'https://api.smartbills.io/connect/token',
+        'https://api.smartbills.io/auth/connect/token',
         data={
             'grant_type': 'refresh_token',
             'refresh_token': refresh_token,

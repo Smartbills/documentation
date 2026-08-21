@@ -4,16 +4,17 @@
   "description": "Smartbills product guides, API reference, and SDKs for expense management, mileage, accounts payable, and approvals.",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.png",
+    "href": "https://smartbills.io"
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#6366F1",
-    "light": "#818CF8",
-    "dark": "#4F46E5"
+    "primary": "#171717",
+    "light": "#FAFAFA",
+    "dark": "#171717"
   },
   "theme": "mint",
-  "modeToggle": {
+  "appearance": {
     "default": "dark"
   },
   "seo": {
@@ -22,7 +23,9 @@
       "og:site_name": "Smartbills Documentation",
       "og:type": "website",
       "og:locale": "en_CA",
+      "og:image": "https://cdn.smartbills.io/public/assets/icons/512x512.png",
       "twitter:card": "summary_large_image",
+      "twitter:image": "https://cdn.smartbills.io/public/assets/icons/512x512.png",
       "twitter:site": "@smartbills",
       "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
@@ -37,38 +40,26 @@
       ]
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@smartbills.io"
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@smartbills.io"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://app.smartbills.io"
     }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://app.smartbills.io"
   },
-  "anchors": [
-    {
-      "name": "API Reference",
-      "icon": "code",
-      "url": "api-reference"
-    },
-    {
-      "name": "SDKs",
-      "icon": "cube",
-      "url": "sdks"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://community.smartbills.io"
-    },
-    {
-      "name": "Status",
-      "icon": "signal-bars",
-      "url": "https://status.smartbills.io"
+  "footer": {
+    "socials": {
+      "x": "https://x.com/smartbills",
+      "github": "https://github.com/smartbills",
+      "linkedin": "https://www.linkedin.com/company/smartbills"
     }
-  ],
+  },
   "integrations": {
     "gtm": {
       "tagId": "GTM-XXXXXXX"
@@ -814,16 +805,6 @@
       }
     ]
   },
-  "footerSocials": {
-    "twitter": "https://twitter.com/smartbills",
-    "github": "https://github.com/smartbills",
-    "linkedin": "https://www.linkedin.com/company/smartbills"
-  },
-  "feedback": {
-    "thumbsRating": true,
-    "suggestEdit": true,
-    "raiseIssue": true
-  },
   "redirects": [
     {
       "source": "/guides/web-app/wallet/overview",
@@ -1304,6 +1285,62 @@
     {
       "source": "/versioning",
       "destination": "/api-reference/versioning"
+    },
+    {
+      "source": "/dotnet/authentication/",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/authentication",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/dotnet-core/",
+      "destination": "/sdks/dotnet/overview"
+    },
+    {
+      "source": "/dotnet/dotnet-core",
+      "destination": "/sdks/dotnet/overview"
+    },
+    {
+      "source": "/dotnet/installation/",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/installation",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/javascript/authentication/",
+      "destination": "/sdks/javascript/authentication"
+    },
+    {
+      "source": "/javascript/authentication",
+      "destination": "/sdks/javascript/authentication"
+    },
+    {
+      "source": "/javascript/installation/",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/javascript/installation",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/products/images/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products/images",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products/variants/",
+      "destination": "/api-reference/introduction"
+    },
+    {
+      "source": "/products/variants",
+      "destination": "/api-reference/introduction"
     }
   ]
 }

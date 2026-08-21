@@ -16,7 +16,7 @@ L'environnement bac à sable est un espace sécurisé pour le développement et 
 **URL de base :**
 
 ```
-https://sandbox.api.smartbills.io/v1
+https://sandbox-api.smartbills.io/v1
 ```
 
 **Caracteristiques :**
@@ -56,7 +56,7 @@ https://api.smartbills.io/v1
 
 | Caracteristique | Bac à sable | Production |
 |-----------------|-------------|------------|
-| **URL de base** | `sandbox.api.smartbills.io` | `api.smartbills.io` |
+| **URL de base** | `sandbox-api.smartbills.io` | `api.smartbills.io` |
 | **Clés API** | `sk_test_...` | `sk_live_...` |
 | **Données** | Données de test uniquement | Données réelles des clients |
 | **Accès** | Disponible immédiatement | Nécessité une approbation |
@@ -73,7 +73,7 @@ Vous pouvez changer d'environnement en modifiant l'URL de base et la clé API da
 ```bash cURL
 # Bac à sable
 curl --request GET \
-  --url https://sandbox.api.smartbills.io/v1/expenses \
+  --url https://sandbox-api.smartbills.io/v1/expenses \
   --header 'Authorization: Bearer sk_test_1234567890abcdef' \
   --header 'x-tenant-id: 123'
 
@@ -127,7 +127,7 @@ Stockez vos clés API et URL de base comme variables d'environnement pour change
 
 ```bash
 # .env.development
-SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+SMARTBILLS_API_URL=https://sandbox-api.smartbills.io
 SMARTBILLS_API_KEY=sk_test_votre_cle_sandbox
 
 # .env.production

@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-
-Host: https://docs.smartbills.io
-
-Sitemap: https://docs.smartbills.io/sitemap.xml

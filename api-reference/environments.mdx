@@ -16,7 +16,7 @@ The sandbox environment is a safe space for development and testing. No real dat
 **Base URL:**
 
 ```
-https://sandbox.api.smartbills.io/v1
+https://sandbox-api.smartbills.io/v1
 ```
 
 **Characteristics:**
@@ -56,7 +56,7 @@ https://api.smartbills.io/v1
 
 | Feature | Sandbox | Production |
 |---------|---------|------------|
-| **Base URL** | `sandbox.api.smartbills.io` | `api.smartbills.io` |
+| **Base URL** | `sandbox-api.smartbills.io` | `api.smartbills.io` |
 | **API Keys** | `sk_test_...` | `sk_live_...` |
 | **Data** | Test data only | Real customer data |
 | **Access** | Available immediately | Requires approval |
@@ -73,7 +73,7 @@ You can switch between environments by changing the base URL and API key in your
 ```bash cURL
 # Sandbox
 curl --request GET \
-  --url https://sandbox.api.smartbills.io/v1/expenses \
+  --url https://sandbox-api.smartbills.io/v1/expenses \
   --header 'Authorization: Bearer sk_test_1234567890abcdef' \
   --header 'x-tenant-id: 123'
 
@@ -94,7 +94,7 @@ const sandboxClient = new SmartbillsClient({
 });
 
 // Or configure via environment variables
-// SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+// SMARTBILLS_API_URL=https://sandbox-api.smartbills.io
 // SMARTBILLS_API_KEY=sk_test_1234567890abcdef
 
 const client = new SmartbillsClient({
@@ -130,7 +130,7 @@ Store your API keys and base URLs as environment variables to easily switch betw
 
 ```bash
 # .env.development
-SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+SMARTBILLS_API_URL=https://sandbox-api.smartbills.io
 SMARTBILLS_API_KEY=sk_test_your_sandbox_key
 
 # .env.production
@@ -145,7 +145,7 @@ SMARTBILLS_API_KEY=sk_live_your_production_key
 ```javascript JavaScript
 const config = {
   sandbox: {
-    baseUrl: 'https://sandbox.api.smartbills.io/v1',
+    baseUrl: 'https://sandbox-api.smartbills.io/v1',
     apiKey: process.env.SMARTBILLS_TEST_KEY
   },
   production: {
@@ -163,7 +163,7 @@ import os
 
 config = {
     'sandbox': {
-        'base_url': 'https://sandbox.api.smartbills.io/v1',
+        'base_url': 'https://sandbox-api.smartbills.io/v1',
         'api_key': os.environ.get('SMARTBILLS_TEST_KEY')
     },
     'production': {
