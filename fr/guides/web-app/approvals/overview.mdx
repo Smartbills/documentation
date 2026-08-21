@@ -5,10 +5,10 @@ description: "Gérez les approbations de dépenses et de rapports en tant que ge
 
 ## Introduction
 
-La section Approbations est l'endroit où les gestionnaires et les approbateurs designes examinent, approuvent, rejettent ou d.mandent des modifications sur les rapports de dépenses soumis. Smartbills prend en charge deux niveaux d'approbation pour offrir aux organisations la flexibilité dont elles ont besoin.
+La section Approbations est l'endroit où les gestionnaires et les approbateurs designes examinent, approuvent, rejettent ou demandent des modifications sur les rapports de dépenses soumis. Smartbills prend en charge deux niveaux d'approbation pour offrir aux organisations la flexibilité dont elles ont besoin.
 
 <Note>
-  **Qui voit les Approbations ?** Seuls les utilisateurs disposant de permissions d'approbation voient la section Approbations dans la barre latérale. Si vous ne la voyez pas, contactez votre administrateur pour vérifiér votre role.
+  **Qui voit les Approbations ?** Seuls les utilisateurs disposant de permissions d'approbation voient la section Approbations dans la barre latérale. Si vous ne la voyez pas, contactez votre administrateur pour vérifier votre rôle.
 </Note>
 
 ## Deux Types d'Approbations
@@ -17,19 +17,19 @@ Smartbills offre deux flux d'approbation distincts qui peuvent être utilisés i
 
 ### Approbations au Niveau des Dépenses
 
-Accessibles à `/:slug/approvals`, les approbations au niveau des dépenses permettent aux approbateurs d'examiner les dépenses individuelles avant qu'elles ne soient regroupees dans un rapport. Cela est utile pour les organisations qui souhaitent un contrôle granulaire sur chaque transaction.
+Accessibles à `/:slug/approvals`, les approbations au niveau des dépenses permettent aux approbateurs d'examiner les dépenses individuelles avant qu'elles ne soient regroupées dans un rapport. Cela est utile pour les organisations qui souhaitent un contrôle granulaire sur chaque transaction.
 
-- Les approbateurs voient une file d'attente de dépenses individuelles en attente de revision
+- Les approbateurs voient une file d'attente de dépenses individuelles en attente de révision
 - Chaque dépense peut être approuvée ou signalée indépendamment
-- Les dépenses doivent être approuvées avant de pouvoir être ajoutees à un rapport (lorsque ce flux est active)
+- Les dépenses doivent être approuvées avant de pouvoir être ajoutées à un rapport (lorsque ce flux est activé)
 
 ### Approbations au Niveau des Rapports
 
-Accessibles à `/:slug/approbations`, les approbations au niveau des rapports operent sur des rapports de dépenses entiers. C'est le flux de travail plus traditionnel ou les employés regroupent les dépenses dans un rapport et le soumettent comme une unite unique.
+Accessibles à `/:slug/approbations`, les approbations au niveau des rapports operent sur des rapports de dépenses entiers. C'est le flux de travail plus traditionnel ou les employés regroupent les dépenses dans un rapport et le soumettent comme une unité unique.
 
 - Les approbateurs voient une file d'attente de rapports de dépenses soumis
-- Le rapport complet est examine, incluant toutes les dépenses jointes
-- L'approbateur peut approuver, rejeter ou d.mander des modifications sur l'ensemble du rapport
+- Le rapport complet est examiné, incluant toutes les dépenses jointes
+- L'approbateur peut approuver, rejeter ou demander des modifications sur l'ensemble du rapport
 
 ## La File d'Approbation
 
@@ -48,7 +48,7 @@ Lorsque vous ouvrez Approbations dans la barre latérale, vous voyez une liste d
 | Colonne | Description |
 |---------|-------------|
 | **Soumetteur** | L'employé qui à soumis l'élément |
-| **Titre** | Nom du rapport ou d.scription de la dépense |
+| **Titre** | Nom du rapport ou description de la dépense |
 | **Montant** | Montant total du rapport ou de la dépense |
 | **Date** | Date de soumission |
 | **Statut** | Statut actuel (En attente, Approuvé, Rejeté, Modifications demandées) |
@@ -66,16 +66,16 @@ Pour chaque élément en attente, vous pouvez effectuer l'une des trois actions 
     Refuser le rapport avec une raison obligatoire
   </Card>
   <Card title="Demander des Modifications" icon="pen" href="/fr/guides/web-app/approvals/request-changes">
-    Renvoyer le rapport pour revisions
+    Renvoyer le rapport pour révisions
   </Card>
 </CardGroup>
 
 ## Notifications
 
-Smartbills tient les approbateurs et les soumetteurs informes tout au long du processus :
+Smartbills tient les approbateurs et les soumetteurs informés tout au long du processus :
 
-- **Les approbateurs** recoivent des notifications lorsqu'un nouvel élément est soumis pour leur revision
-- **Les soumetteurs** recoivent des notifications lorsque leur élément est approuvé, rejeté ou retourné pour modifications
+- **Les approbateurs** reçoivent des notifications lorsqu'un nouvel élément est soumis pour leur révision
+- **Les soumetteurs** reçoivent des notifications lorsque leur élément est approuvé, rejeté ou retourné pour modifications
 - Les notifications apparaissent dans l'icône de cloche de la barre supérieure et sont également envoyées par courriel (configurable dans les Paramètres)
 
 ## Approbations Multi-Niveaux
@@ -84,14 +84,14 @@ Pour les organisations qui nécessitent plus d'un niveau de validation, Smartbil
 
 1. Le premier approbateur examine et approuvé
 2. L'élément avance vers le prochain approbateur dans la chaîne
-3. Le processus se repete jusqu'a ce que toutes les approbations requises soient collectees
-4. Le soumetteur n'est notifie qu'après l'approbation finale ou si un approbateur rejette
+3. Le processus se repete jusqu'à ce que toutes les approbations requises soient collectées
+4. Le soumetteur n'est notifié qu'après l'approbation finale ou si un approbateur rejette
 
 <Tip>
-  Les chaînes d'approbation sont configurées par les administrateurs dans **Paramètres > Flux d'approbation**. Contactez votre administrateur si vous devez ajuster la hierarchie d'approbation.
+  Les chaînes d'approbation sont configurées par les administrateurs dans **Paramètres > Flux d'approbation**. Contactez votre administrateur si vous devez ajuster la hiérarchie d'approbation.
 </Tip>
 
-## Prochaînes Étapes
+## Prochaines Étapes
 
 <CardGroup cols={2}>
   <Card title="Approuver un Rapport" icon="circle-check" href="/fr/guides/web-app/approvals/approve-report">
@@ -101,9 +101,9 @@ Pour les organisations qui nécessitent plus d'un niveau de validation, Smartbil
     Comment rejeter un rapport et notifier le soumetteur
   </Card>
   <Card title="Demander des Modifications" icon="comment-dots" href="/fr/guides/web-app/approvals/request-changes">
-    Renvoyer un rapport pour revisions
+    Renvoyer un rapport pour révisions
   </Card>
   <Card title="Rapports de Dépenses" icon="file-invoice" href="/fr/guides/web-app/reports/overview">
-    Decouvrir le cycle de vie des rapports
+    Découvrir le cycle de vie des rapports
   </Card>
 </CardGroup>

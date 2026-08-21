@@ -8,12 +8,12 @@ description: "Comprendre les politiques de limitation de débit de l'API Smartbi
 Pour garantir une utilisation equitable et maintenir des performances optimales, l'API Smartbills implemente une limitation de débit. Cela aide à contrôler le trafic des requêtes entrantes et offre une expérience API fluide et previsible pour tous les utilisateurs.
 
 <Note>
-  **Utilisation equitable** : Les limites de débit garantissent qu'aucun utilisateur ne peut monopoliser les ressources de l'API, maintenant un service de qualite pour tous.
+  **Utilisation equitable** : Les limites de débit garantissent qu'aucun utilisateur ne peut monopoliser les ressources de l'API, maintenant un service de qualité pour tous.
 </Note>
 
 ## Limites de débit par plan
 
-| Plan | Requêtes par minute | Capacite de pointe | Limite quotidienne |
+| Plan | Requêtes par minute | Capacité de pointe | Limite quotidienne |
 |------|---------------------|--------------------|--------------------|
 | **Gratuit** | 60 | 60 | 5 000 |
 | **Professionnel** | 300 | 300 | 50 000 |
@@ -141,9 +141,9 @@ if remaining < limit * 0.1:
 
 </CodeGroup>
 
-### Implementer un backoff exponentiel
+### Implémenter un backoff exponentiel
 
-Lorsque vous recevez une erreur 429, implementez un backoff exponentiel :
+Lorsque vous recevez une erreur 429, implémentez un backoff exponentiel :
 
 <CodeGroup>
 
@@ -202,7 +202,7 @@ expense = make_request_with_retry(lambda: client.expenses.get(12345))
 
 <AccordionGroup>
   <Accordion title="Utiliser la mise en cache" icon="database">
-    Mettez en cache les réponses API pour réduire les requêtes redondantes. Utilisez une invalidation de cache basee sur le temps pour les données qui ne changent pas frequemment.
+    Mettez en cache les réponses API pour réduire les requêtes redondantes. Utilisez une invalidation de cache basée sur le temps pour les données qui ne changent pas frequemment.
   </Accordion>
 
   <Accordion title="Utiliser la pagination efficacement" icon="list">
@@ -217,7 +217,7 @@ expense = make_request_with_retry(lambda: client.expenses.get(12345))
     Utilisez les webhooks pour recevoir des notifications en temps réel au lieu d'interroger l'API pour les changements. Consultez [Webhooks](/fr/api-reference/webhooks) pour les instructions de configuration.
   </Accordion>
 
-  <Accordion title="Implementer une file d'attente de requêtes" icon="list-ol">
+  <Accordion title="Implémenter une file d'attente de requêtes" icon="list-ol">
     Mettez les requêtes en file d'attente et traitez-les à un débit contrôle pour eviter les rafales qui depassent votre limite de débit.
   </Accordion>
 
@@ -237,9 +237,9 @@ Les clients Entreprise peuvent demander des limites de débit personnalisées :
 ## Dépannage
 
 <AccordionGroup>
-  <Accordion title="Atteindre regulierement les limites de débit" icon="gauge-high">
+  <Accordion title="Atteindre régulièrement les limites de débit" icon="gauge-high">
     1. Optimisez votre code pour réduire les requêtes inutiles
-    2. Implementez la mise en cache pour les données frequemment accedees
+    2. Implémentez la mise en cache pour les données frequemment accedees
     3. Utilisez les webhooks pour remplacer les modèles de polling
     4. Regroupez les opérations quand c'est possible
     5. Envisagez de mettre à niveau votre plan
@@ -250,7 +250,7 @@ Les clients Entreprise peuvent demander des limites de débit personnalisées :
   </Accordion>
 
   <Accordion title="Erreurs 429 inattendues" icon="triangle-exclamation">
-    Vérifiez s'il y à plusieurs instances de votre application en cours d'exécution, des clés API partagées entre les services, ou des scripts automatises utilisant la même clé. Utilisez des clés API séparées pour chaque environnement et service.
+    Vérifiez s'il y a plusieurs instances de votre application en cours d'exécution, des clés API partagées entre les services, ou des scripts automatises utilisant la même clé. Utilisez des clés API séparées pour chaque environnement et service.
   </Accordion>
 </AccordionGroup>
 

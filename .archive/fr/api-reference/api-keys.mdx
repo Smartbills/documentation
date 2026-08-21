@@ -5,7 +5,7 @@ description: "Apprenez à créer, gérer et securiser vos clés API Smartbills"
 
 ## Aperçu
 
-Les clés API sont la méthode principale d'authentification avec l'API Smartbills. Chaque clé est liee à votre compte utilisateur et hérité de vos permissions. Ce guide couvre tout ce que vous devez savoir sur la création, l'utilisation et la gestion sécurisée des clés API.
+Les clés API sont la méthode principale d'authentification avec l'API Smartbills. Chaque clé est liée à votre compte utilisateur et hérité de vos permissions. Ce guide couvre tout ce que vous devez savoir sur la création, l'utilisation et la gestion sécurisée des clés API.
 
 <Note>
   **Les clés API sont puissantes** : Elles fournissent un accès complet à votre compte via l'API. Traitez-les comme des mots de passe et ne les partagez jamais publiquement.
@@ -40,12 +40,12 @@ Les clés API sont la méthode principale d'authentification avec l'API Smartbil
 </Steps>
 
 <Warning>
-  **Important** : Les clés API ne sont affichées qu'une seule fois lors de la création. Si vous perdez une clé, vous devez la révoquér et en créer une nouvelle.
+  **Important** : Les clés API ne sont affichées qu'une seule fois lors de la création. Si vous perdez une clé, vous devez la révoquer et en créer une nouvelle.
 </Warning>
 
 ## Types de clés API
 
-Smartbills fournit deux types de clés API pour differents environnements :
+Smartbills fournit deux types de clés API pour différents environnements :
 
 ### Clés de test
 
@@ -60,7 +60,7 @@ sk_test_1234567890abcdef...
 - Apprentissage de l'API
 
 **Caracteristiques :**
-- Prefixe : `sk_test_`
+- Préfixe : `sk_test_`
 - Données de test séparées
 - Limites de débit plus elevees pour les tests
 - Aucune charge ou transaction réelle
@@ -83,7 +83,7 @@ sk_live_1234567890abcdef...
 - Intégrations de production
 
 **Caracteristiques :**
-- Prefixe : `sk_live_`
+- Préfixe : `sk_live_`
 - Données de production réelles
 - Limites de débit standard
 - Traite les dépenses réelles
@@ -142,59 +142,79 @@ expenses = client.expenses.list()
 
 Les clés API héritent des permissions de l'utilisateur qui les à créées. Si vous avez accès à plusieurs entreprises, votre clé fonctionnera avec toutes via l'en-tête `x-tenant-id`.
 
-### Portees disponibles
+### Portées disponibles
+
+Les portées suivent le format `ressource.action`. La liste complète et faisant autorité est publiée
+sur [`/auth/.well-known/openid-configuration`](https://api.smartbills.io/auth/.well-known/openid-configuration)
+sous `scopes_supported`.
 
 <AccordionGroup>
-  <Accordion title="Portees entreprises" icon="building">
-    **read:businesses** - Voir les informations des entreprises, lister les entreprises, obtenir les détails
+  <Accordion title="Portées entreprises" icon="building">
+    **businesses.read** - Voir les informations des entreprises, lister les entreprises, obtenir les détails
 
-    **write:businesses** - Créer de nouvelles entreprises, mettre à jour les informations, modifier les paramètres
-
-    **delete:businesses** - Supprimer des entreprises (avec confirmation)
+    **businesses.write** - Créer de nouvelles entreprises, mettre à jour les informations, modifier les paramètres
   </Accordion>
 
-  <Accordion title="Portees dépenses" icon="receipt">
-    **read:expenses** - Lister toutes les dépenses, obtenir les détails, télécharger les pieces jointes, exporter les données
+  <Accordion title="Portées dépenses" icon="receipt">
+    **expenses.read** - Lister les dépenses, obtenir les détails, télécharger les pièces jointes, exporter les données
 
-    **write:expenses** - Télécharger de nouvelles dépenses, mettre à jour les informations, ajouter/supprimer des pieces jointes, catégoriser
+    **expenses.write** - Téléverser des dépenses, mettre à jour les informations, ajouter ou supprimer des pièces jointes, catégoriser
 
-    **delete:expenses** - Supprimer des dépenses individuelles, opérations de suppression en lot
+    **receipts.read** / **receipts.write** - Accéder aux reçus sous-jacents et les modifier
   </Accordion>
 
-  <Accordion title="Portees rapports" icon="file-invoice">
-    **read:reports** - Lister les rapports, obtenir les détails, voir la chronologie, accéder aux journaux d'audit
+  <Accordion title="Portées rapports de dépenses" icon="file-invoice">
+    **expense-reports.read** - Lister les rapports, obtenir les détails, voir la chronologie
 
-    **write:reports** - Créer de nouveaux rapports, mettre à jour les détails, ajouter/supprimer des dépenses, soumettre
+    **expense-reports.write** - Créer des rapports, mettre à jour les détails, ajouter ou supprimer des dépenses
 
-    **approve:reports** - Approuver les rapports, rejeter, demander des changements, ajouter des commentaires
+    **expense-reports.submit** - Soumettre des rapports pour approbation
+
+    **expense-reports.approve** / **expense-reports.reject** - Agir sur les rapports en attente de votre approbation
+
+    **expense-reports.reimburse** - Marquer des rapports comme remboursés
   </Accordion>
 
-  <Accordion title="Portees utilisateurs" icon="user">
-    **read:user** - Obtenir les détails de son propre utilisateur, voir les paramètres
+  <Accordion title="Portées comptes fournisseurs" icon="file-invoice-dollar">
+    **bills.read** / **bills.write** - Accéder aux factures et les modifier
 
-    **write:user** - Mettre à jour le profil, changer les paramètres
+    **vendors.read** / **vendors.write** - Accéder aux fournisseurs et les modifier
+  </Accordion>
 
-    **manage:users** - Inviter des utilisateurs, supprimer des utilisateurs, mettre à jour les permissions (administrateur uniquement)
+  <Accordion title="Portées identité" icon="user">
+    **openid** - Requis pour tout flux OpenID Connect
+
+    **profile**, **email**, **phone**, **address**, **full_name** - Revendications sur l'utilisateur connecté
+
+    **offline_access** - Émettre un jeton de rafraîchissement avec le jeton d'accès
+  </Accordion>
+
+  <Accordion title="Portées plateforme" icon="gear">
+    **webhooks.read** / **webhooks.write** - Gérer les points de terminaison webhook
+
+    **developers.read** / **developers.write** - Gérer les paramètres développeur
+
+    **notifications.read** / **notifications.write** - Accéder aux notifications et les gérer
   </Accordion>
 </AccordionGroup>
 
 ## Gérer les clés API
 
-### Revoquer des clés
+### Révoquer des clés
 
 Désactivez immédiatement une clé API :
 
 1. Naviguez vers votre liste de clés API
-2. Trouvez la clé à révoquér
-3. Cliquez sur **Revoquer** ou l'icône de corbeille
+2. Trouvez la clé à révoquer
+3. Cliquez sur **Révoquer** ou l'icône de corbeille
 4. Confirmez l'action
 
 <Warning>
   **Effet immédiat** : La revocation d'une clé arrete immédiatement toutes les requêtes utilisant cette clé. Assurez-vous d'avoir une clé de remplacement en place avant la revocation.
 </Warning>
 
-**Quand révoquér :**
-- La clé à été compromise ou exposee
+**Quand révoquer :**
+- La clé a été compromise ou exposée
 - Un employé ayant l'accès à quitte l'organisation
 - Migration vers une nouvelle clé
 - Intégration plus utilisée
@@ -202,7 +222,7 @@ Désactivez immédiatement une clé API :
 
 ### Rotation des clés
 
-Bonne pratique : effectuez la rotation des clés regulierement.
+Bonne pratique : effectuez la rotation des clés régulièrement.
 
 <Steps>
   <Step title="Créer une nouvelle clé">
@@ -217,8 +237,8 @@ Bonne pratique : effectuez la rotation des clés regulierement.
     Surveillez les requêtes utilisant encore l'ancienne clé. Vérifiez l'horodatage "Dernière utilisation".
   </Step>
   
-  <Step title="Revoquer l'ancienne clé">
-    Une fois que vous etes sur que la nouvelle clé fonctionne, révoquéz l'ancienne.
+  <Step title="Révoquer l'ancienne clé">
+    Une fois que vous êtes sur que la nouvelle clé fonctionne, révoquez l'ancienne.
   </Step>
 </Steps>
 
@@ -246,7 +266,7 @@ import os
 api_key = os.environ.get('SMARTBILLS_API_KEY')
 ```
 
-### Utiliser des clés differentes par environnement
+### Utiliser des clés différentes par environnement
 
 - **Développement** : clé de test (`sk_test_...`)
 - **Pre-production** : clé de test séparée
@@ -276,7 +296,7 @@ N'utilisez jamais la même clé dans plusieurs environnements.
     **Causes possibles :**
     
     1. **En-tête Authorization manquant** - Incluez `Authorization: Bearer VOTRE_CLE_API`
-    2. **Format incorrect** - Assurez-vous que le prefixe "Bearer " est inclus sans espaces supplémentaires
+    2. **Format incorrect** - Assurez-vous que le préfixe "Bearer " est inclus sans espaces supplémentaires
     3. **Clé révoquée ou expirée** - Vérifiez si la clé est toujours active dans le tableau de bord
     4. **Mauvais type de clé** - Utilisez `sk_live_` pour la production et `sk_test_` pour le bac à sable
   </Accordion>
@@ -286,14 +306,14 @@ N'utilisez jamais la même clé dans plusieurs environnements.
     
     1. **Permissions insuffisantes** - Votre compte utilisateur n'a pas les permissions nécessaires
     2. **Restriction IP** - Requête depuis une adresse IP non autorisée
-    3. **Accès à l'entreprise** - Tentative d'accès à une entreprise dont vous n'etes pas membre
+    3. **Accès à l'entreprise** - Tentative d'accès à une entreprise dont vous n'êtes pas membre
   </Accordion>
 
   <Accordion title="Impossible de créer une clé API" icon="circle-exclamation">
     **Causes possibles :**
     
-    1. **Limite de clés atteinte** - Plan gratuit : 2 clés max, Professionnel : 10 clés max, Entreprise : Illimite
-    2. **Permissions insuffisantes** - Seuls les proprietaires de compte et les administrateurs peuvent créer des clés API
+    1. **Limite de clés atteinte** - Plan gratuit : 2 clés max, Professionnel : 10 clés max, Entreprise : Illimité
+    2. **Permissions insuffisantes** - Seuls les propriétaires de compte et les administrateurs peuvent créer des clés API
   </Accordion>
 </AccordionGroup>
 

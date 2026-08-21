@@ -1,103 +1,103 @@
 ---
-title: "ParamÃ¨très de la BoÃ®te de RÃ©ception"
-description: "Configurez les paramÃ¨très et rÃ¨gles de la boÃ®te de rÃ©ception des dÃ©penses"
+title: "Paramètres de la Boîte de Réception"
+description: "Configurez les paramètres et règles de la boîte de réception des dépenses"
 ---
 
 ## Introduction
 
-La page des ParamÃ¨très de la BoÃ®te de RÃ©ception permet aux administrateurs de configurer le comportement de la BoÃ®te de RÃ©ception des DÃ©penses. Vous pouvez dÃ©finir des catÃ©gories par dÃ©faut, crÃ©er des rÃ¨gles d'approbation automatique, activer la dÃ©tection de doublons et gÃ©rer les prÃ©fÃ©rences de notification. AccÃ©dez aux paramÃ¨très en naviguant vers `/{slug}/expenses/settings` ou en cliquant sur l'**icÃ´ne d'engrenage** dans le coin supÃ©rieur droit de la boÃ®te de rÃ©ception.
+La page des Paramètres de la Boîte de Réception permet aux administrateurs de configurer le comportement de la Boîte de Réception des Dépenses. Vous pouvez définir des catégories par défaut, créer des règles d'approbation automatique, activer la détection de doublons et gérer les préférences de notification. Accédez aux paramètres en naviguant vers `/{slug}/expenses/settings` ou en cliquant sur l'**icône d'engrenage** dans le coin supérieur droit de la boîte de réception.
 
 <Note>
-  Les paramÃ¨très de la boÃ®te de rÃ©ception nÃ©cessitent la permission `SETTINGS_GENERAL_MANAGE`. Par dÃ©faut, seuls les Proprietaires et les Administrateurs peuvent modifier ces paramÃ¨très.
+  Les paramètres de la boîte de réception nécessitent la permission `SETTINGS_GENERAL_MANAGE`. Par défaut, seuls les Propriétaires et les Administrateurs peuvent modifier ces paramètres.
 </Note>
 
-## CatÃ©gorie par dÃ©faut
+## Catégorie par défaut
 
-DÃ©finissez une catÃ©gorie par dÃ©faut qui est automatiquement assignee aux nouvelles dÃ©penses lorsqu'aucune catÃ©gorie ne peut Ãªtre determinee Ã  partir du reÃ§u :
+Définissez une catégorie par défaut qui est automatiquement assignée aux nouvelles dépenses lorsqu'aucune catégorie ne peut être déterminée à partir du reçu :
 
-1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
-2. Sous **CatÃ©gorie par dÃ©faut**, sÃ©lectionnez une catÃ©gorie dans le menu dÃ©roulant
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Catégorie par défaut**, sélectionnez une catégorie dans le menu déroulant
 3. Cliquez sur **Enregistrer**
 
-Lorsque Smartbills ne peut pas dÃ©tectÃ©r automatiquement une catÃ©gorie Ã  partir du marchand ou du contenu du reÃ§u, la catÃ©gorie par dÃ©faut est appliquee. Les examinateurs peuvent toujours modifier la catÃ©gorie lors du processus d'examen.
+Lorsque Smartbills ne peut pas détecter automatiquement une catégorie à partir du marchand ou du contenu du reçu, la catégorie par défaut est appliquée. Les examinateurs peuvent toujours modifier la catégorie lors du processus d'examen.
 
-## RÃ¨gles d'approbation automatique
+## Règles d'approbation automatique
 
-Les rÃ¨gles d'approbation automatique permettent Ã  certaines dÃ©penses d'être automatiquement approuvÃ©es sans examen manuel. Ceci est utile pour les dÃ©penses routiniÃ¨res Ã  faible risque qui ne nÃ©cessitent pas de vÃ©rification humaine.
+Les règles d'approbation automatique permettent à certaines dépenses d'être automatiquement approuvées sans examen manuel. Ceci est utile pour les dépenses routinières à faible risque qui ne nécessitent pas de vérification humaine.
 
-### CrÃ©er une règle
+### Créer une règle
 
-1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
-2. Sous **RÃ¨gles d'approbation automatique**, cliquez sur **Ajouter une règle**
-3. DÃ©finissez les conditions de la rÃ¨gle :
-   - **Seuil de montant**: Approuver automatiquement les dÃ©penses sous un montant spÃ©cifique (p. ex. moins de 25 $)
-   - **CatÃ©gorie**: Appliquer la rÃ¨gle uniquement Ã  des catÃ©gories spÃ©cifiques (p. ex. Fournitures de bureau)
-   - **EmployÃ©**: Limiter la rÃ¨gle Ã  des employÃ©s ou Ã©quipes spÃ©cifiques
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Règles d'approbation automatique**, cliquez sur **Ajouter une règle**
+3. Définissez les conditions de la règle :
+   - **Seuil de montant**: Approuver automatiquement les dépenses sous un montant spécifique (p. ex. moins de 25 $)
+   - **Catégorie**: Appliquer la règle uniquement à des catégories spécifiques (p. ex. Fournitures de bureau)
+   - **Employé**: Limiter la règle à des employés ou équipes spécifiques
 4. Cliquez sur **Enregistrer la règle**
 
-### Exemples de rÃ¨gles
+### Exemples de règles
 
-| RÃ¨gle | Condition | RÃ©sultat |
+| Règle | Condition | Résultat |
 |-------|-----------|----------|
-| Petits achats | Montant infÃ©rieur Ã  25 $ | Approbation automatique |
-| Diners d'Ã©quipe | CatÃ©gorie "Repas" et montant infÃ©rieur Ã  50 $ | Approbation automatique |
-| Personnel senior | Role de l'employÃ© est Gestionnaire et montant infÃ©rieur Ã  200 $ | Approbation automatique |
+| Petits achats | Montant inférieur à 25 $ | Approbation automatique |
+| Dîners d'équipe | Catégorie "Repas" et montant inférieur à 50 $ | Approbation automatique |
+| Personnel senior | Rôle de l'employé est Gestionnaire et montant inférieur à 200 $ | Approbation automatique |
 
 <Warning>
-  Les dÃ©penses auto-approuvÃ©es contournent entiÃ¨rement la file d'examen. Utilisez les rÃ¨gles d'approbation automatique avec precaution et dÃ©finissez des seuils raisonnables. Vous pouvez toujours examiner les dÃ©penses auto-approuvÃ©es retroactivement depuis le filtre Approuvees.
+  Les dépenses auto-approuvées contournent entièrement la file d'examen. Utilisez les règles d'approbation automatique avec precaution et définissez des seuils raisonnables. Vous pouvez toujours examiner les dépenses auto-approuvées rétroactivement depuis le filtre Approuvées.
 </Warning>
 
-## DÃ©tection de doublons
+## Détection de doublons
 
-Smartbills peut dÃ©tectÃ©r les doublons potentiels de dÃ©penses en fonction de criteres de correspondance. Lorsqu'un doublon est dÃ©tectÃ©, la dÃ©pense est signalÃ©e pour un examen manuel au lieu d'être traitee automatiquement.
+Smartbills peut détecter les doublons potentiels de dépenses en fonction de criteres de correspondance. Lorsqu'un doublon est détecté, la dépense est signalée pour un examen manuel au lieu d'être traitée automatiquement.
 
-### Configurer la dÃ©tection
+### Configurer la détection
 
-1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
-2. Sous **DÃ©tection de doublons**, activez la fonctionnalitÃ©
-3. SÃ©lectionnez les criteres de correspondance :
-   - **Même montant et date**: Signaler les dÃ©penses avec des montants identiques le même jour
-   - **Même marchand et montant**: Signaler les dÃ©penses du même fournisseur avec le même total
-   - **Même image de reÃ§u**: Utiliser la comparaison d'images pour dÃ©tectÃ©r les reÃ§us re-tÃ©lÃ©chargÃ©s
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Détection de doublons**, activez la fonctionnalité
+3. Sélectionnez les criteres de correspondance :
+   - **Même montant et date**: Signaler les dépenses avec des montants identiques le même jour
+   - **Même marchand et montant**: Signaler les dépenses du même fournisseur avec le même total
+   - **Même image de reçu**: Utiliser la comparaison d'images pour détecter les reçus re-téléchargés
 4. Cliquez sur **Enregistrer**
 
-Lorsqu'un doublon potentiel est dÃ©tectÃ©, la dÃ©pense apparaÃ®t dans la boÃ®te de rÃ©ception avec un badge d'avertissement **Doublon**. Cliquez sur la dÃ©pense pour la comparer avec l'original suspecte et dÃ©cidÃ©r de la conserver ou de la supprimer.
+Lorsqu'un doublon potentiel est détecté, la dépense apparaît dans la boîte de réception avec un badge d'avertissement **Doublon**. Cliquez sur la dépense pour la comparer avec l'original suspecte et décider de la conserver ou de la supprimer.
 
-## PrÃ©fÃ©rences de notification
+## Préférences de notification
 
-Controlez quels Ã©vÃ©nements de la boÃ®te de rÃ©ception declenchent des notifications par courriel ou d.ns l'application pour votre Ã©quipe :
+Controlez quels événements de la boîte de réception declenchent des notifications par courriel ou dans l'application pour votre équipe :
 
-| Ã‰vÃ©nement | Description | Par dÃ©faut |
+| Événement | Description | Par défaut |
 |-----------|-------------|------------|
-| **Nouvelle dÃ©pense reÃ§ue** | Un employÃ© tÃ©lÃ©chargÃ© ou transmet une nouvelle dÃ©pense | ActivÃ© |
-| **DÃ©pense signalÃ©e** | Une dÃ©pense est signalÃ©e lors de l'examen | ActivÃ© |
-| **DÃ©pense retournÃ©e** | Une dÃ©pense est renvoyÃ©e Ã  l'employÃ© pour revision | ActivÃ© |
-| **Approbation automatique** | Une dÃ©pense est automatiquement approuvÃ©e par une rÃ¨gle | DesactivÃ©e |
-| **Doublon dÃ©tectÃ©** | Un doublon potentiel de dÃ©pense est identifiÃ© | ActivÃ© |
+| **Nouvelle dépense reçue** | Un employé téléchargé ou transmet une nouvelle dépense | Activé |
+| **Dépense signalée** | Une dépense est signalée lors de l'examen | Activé |
+| **Dépense retournée** | Une dépense est renvoyée à l'employé pour révision | Activé |
+| **Approbation automatique** | Une dépense est automatiquement approuvée par une règle | Désactivée |
+| **Doublon détecté** | Un doublon potentiel de dépense est identifié | Activé |
 
-Pour modifier les prÃ©fÃ©rences de notification :
+Pour modifier les préférences de notification :
 
-1. Naviguez vers les **ParamÃ¨très de la BoÃ®te de RÃ©ception**
-2. Sous **Notifications**, activez ou d.©sactivez chaque Ã©vÃ©nement
+1. Naviguez vers les **Paramètres de la Boîte de Réception**
+2. Sous **Notifications**, activez ou désactivez chaque événement
 3. Cliquez sur **Enregistrer**
 
 <Tip>
-  Si votre Ã©quipe recoit un volume Ã©levÃ© de dÃ©penses, envisagez de dÃ©sactiver les notifications "Nouvelle dÃ©pense reÃ§ue" et de vous fier Ã  des examens pÃ©riodiques de la boÃ®te de rÃ©ception.
+  Si votre équipe reçoit un volume élevé de dépenses, envisagez de désactiver les notifications "Nouvelle dépense reçue" et de vous fier à des examens périodiques de la boîte de réception.
 </Tip>
 
 ## Guides connexes
 
 <CardGroup cols={2}>
-  <Card title="Boite de RÃ©ception des DÃ©penses" icon="inbox" href="/fr/guides/web-app/business-expenses/overview">
-    AperÃ§u de la boÃ®te de rÃ©ception des dÃ©penses de l'entreprise
+  <Card title="Boîte de Réception des Dépenses" icon="inbox" href="/fr/guides/web-app/business-expenses/overview">
+    Aperçu de la boîte de réception des dépenses de l'entreprise
   </Card>
-  <Card title="Examiner les DÃ©penses" icon="magnifying-glass" href="/fr/guides/web-app/business-expenses/review-expenses">
-    Guide Ã©tape par Ã©tape pour examiner les dÃ©penses entrantes
+  <Card title="Examiner les Dépenses" icon="magnifying-glass" href="/fr/guides/web-app/business-expenses/review-expenses">
+    Guide étape par étape pour examiner les dépenses entrantes
   </Card>
-  <Card title="CatÃ©gories et DÃ©partements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
-    Configurer les catÃ©gories utilisees pour l'assignation par dÃ©faut et l'approbation automatique
+  <Card title="Catégories et Départements" icon="tags" href="/fr/guides/concepts/categories-and-departments">
+    Configurer les catégories utilisées pour l'assignation par défaut et l'approbation automatique
   </Card>
-  <Card title="Roles et Permissions" icon="user-gear" href="/fr/guides/concepts/roles-and-permissions">
-    Comprendre qui peut accÃ©der et configurer les paramÃ¨très de la boÃ®te de rÃ©ception
+  <Card title="Rôles et Permissions" icon="user-gear" href="/fr/guides/concepts/roles-and-permissions">
+    Comprendre qui peut accéder et configurer les paramètres de la boîte de réception
   </Card>
 </CardGroup>

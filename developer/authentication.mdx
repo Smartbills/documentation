@@ -17,12 +17,12 @@ To act on behalf of connected accounts, clients can make requests using the spec
 
 Use this flow for server-to-server communication.
 
-**Endpoint:** `https://api.smartbills.io/connect/token`
+**Endpoint:** `https://api.smartbills.io/auth/connect/token`
 
 **Request:**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 
@@ -75,14 +75,14 @@ Use this flow for user authentication.
 **Step 1: Redirect to Authorization Endpoint**
 
 ```http
-GET /connect/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=YOUR_SCOPES
+GET /auth/connect/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=YOUR_SCOPES
 Host: api.smartbills.io
 ```
 
 **Step 2: Exchange Authorization Code for Access Token**
 
 ```http
-POST /connect/token HTTP/1.1
+POST /auth/connect/token HTTP/1.1
 Host: api.smartbills.io
 Content-Type: application/x-www-form-urlencoded
 

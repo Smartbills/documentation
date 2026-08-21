@@ -29,7 +29,7 @@ Tous les points d'accès de liste acceptent ces paramètres de pagination et de 
 
 ## Format de réponse
 
-Les réponses paginéess incluent le tableau de données et un objet de métadonnées de pagination :
+Les réponses paginées incluent le tableau de données et un objet de métadonnées de pagination :
 
 ```json
 {
@@ -79,11 +79,11 @@ Les réponses paginéess incluent le tableau de données et un objet de métadon
     </ResponseField>
     
     <ResponseField name="hasNext" type="boolean">
-      Indique s'il y à une page suivante disponible
+      Indique s'il y a une page suivante disponible
     </ResponseField>
     
     <ResponseField name="hasPrevious" type="boolean">
-      Indique s'il y à une page précédente disponible
+      Indique s'il y a une page précédente disponible
     </ResponseField>
   </Expandable>
 </ResponseField>
@@ -142,7 +142,7 @@ print(f"Total d'éléments : {result.pagination.total_count}")
 
 ### Page suivante
 
-Naviguer à la page suivante en verifiant `hasNext` :
+Naviguer à la page suivante en vérifiant `hasNext` :
 
 <CodeGroup>
 
@@ -385,11 +385,11 @@ result = client.expenses.list(
   </Accordion>
 
   <Accordion title="Nombre de pages incohérent" icon="calculator">
-    **Raison** : C'est normal. Les données peuvent être ajoutees ou supprimées pendant la pagination. **Solution** : Utilisez `hasNext` au lieu de `totalPages` pour la logique d'iteration.
+    **Raison** : C'est normal. Les données peuvent être ajoutées ou supprimées pendant la pagination. **Solution** : Utilisez `hasNext` au lieu de `totalPages` pour la logique d'iteration.
   </Accordion>
 
   <Accordion title="Performance de pagination lente" icon="hourglass">
-    **Solutions** : Utilisez des tailles de page plus grandes (jusqu'a 100), ajoutez des filtres pour réduire le jeu de données total, mettez en cache les résultats, ou utilisez des webhooks pour les mises à jour en temps réel au lieu du polling.
+    **Solutions** : Utilisez des tailles de page plus grandes (jusqu'à 100), ajoutez des filtres pour réduire le jeu de données total, mettez en cache les résultats, ou utilisez des webhooks pour les mises à jour en temps réel au lieu du polling.
   </Accordion>
 </AccordionGroup>
 

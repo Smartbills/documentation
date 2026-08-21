@@ -96,7 +96,7 @@ Console.WriteLine($"Facture envoyée à : {sent.SentAt}");
 
 ### Annuler une Facture
 
-Marque la facture comme annulée (irreversible) :
+Marque la facture comme annulée (irréversible) :
 
 ```csharp
 var voided = await client.Invoices.VoidAsync(42);
@@ -224,7 +224,7 @@ catch (OpérationCanceledException)
 
 ### Opérations Paralleles
 
-Exécutez plusieurs opérations independantes simultanement :
+Exécutez plusieurs opérations indépendantes simultanement :
 
 ```csharp
 var invoiceTask = client.Invoices.GetByIdAsync(42);

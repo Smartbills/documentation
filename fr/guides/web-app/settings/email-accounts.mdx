@@ -5,12 +5,12 @@ description: "Connectez des comptes email pour l'importation automatique des re�
 
 ## Aperçu
 
-Smartbills peut se connecter à vos comptes email et scanner automatiquement les courriels contenant des reçus. Lorsqu'un courriel de reçu est détecté, le système extrait les données du reçu et créé une entree de dépense dans votre boîte de réception. Cela elimine le besoin de transferer ou télécharger manuellement les reçus.
+Smartbills peut se connecter à vos comptes email et scanner automatiquement les courriels contenant des reçus. Lorsqu'un courriel de reçu est détecté, le système extrait les données du reçu et crée une entrée de dépense dans votre boîte de réception. Cela elimine le besoin de transférer ou télécharger manuellement les reçus.
 
 Pour gérer les comptes email, naviguez vers **Paramètres > Comptes Email** dans la barre latérale gauche.
 
 <Note>
-  Seuls les utilisateurs ayant le role **Administrateur** ou **Proprietaire** peuvent connecter et gérer les comptes email.
+  Seuls les utilisateurs ayant le rôle **Administrateur** ou **Propriétaire** peuvent connecter et gérer les comptes email.
 </Note>
 
 ## Fournisseurs de Messagerie Pris en Charge
@@ -26,7 +26,7 @@ Smartbills prend en charge les fournisseurs de messagerie suivants :
 
 <Steps>
   <Step title="Ouvrez les Paramètres de Comptes Email">
-    Naviguez vers **Paramètres > Comptes Email**. La page affiché les comptes actuellement connectes.
+    Naviguez vers **Paramètres > Comptes Email**. La page affiche les comptes actuellement connectés.
 
   </Step>
 
@@ -39,39 +39,39 @@ Smartbills prend en charge les fournisseurs de messagerie suivants :
     Une nouvelle fenêtre s'ouvre pour le flux de connexion OAuth de votre fournisseur de messagerie. Connectez-vous avec le compte email que vous souhaitez associer et accordez à Smartbills l'accès en lecture à votre boîte de réception.
 
     <Note>
-      Smartbills ne demande qu'un accès en lecture pour scanner les courriels de reçus. Il n'envoie, ne supprime et ne modifié aucun courriel dans votre compte.
+      Smartbills ne demande qu'un accès en lecture pour scanner les courriels de reçus. Il n'envoie, ne supprime et ne modifie aucun courriel dans votre compte.
     </Note>
   </Step>
 
   <Step title="Confirmez la Connexion">
-    Une fois l'autorisation terminee, vous etes redirige vers Smartbills. Le compte email connecte apparaît dans la liste avec un statut **Actif**.
+    Une fois l'autorisation terminée, vous êtes redirigé vers Smartbills. Le compte email connecté apparaît dans la liste avec un statut **Actif**.
 
   </Step>
 </Steps>
 
 <Check>
-  Votre compte email est connecte. Smartbills commencera à scanner automatiquement les courriels de reçus.
+  Votre compte email est connecté. Smartbills commencera à scanner automatiquement les courriels de reçus.
 </Check>
 
 ## Fonctionnement du Scan Automatique
 
-Une fois connecte, Smartbills vérifié périodiquement le compte email connecte à la recherche de messages contenant des reçus ou des factures. Le système :
+Une fois connecté, Smartbills vérifie périodiquement le compte email connecté à la recherche de messages contenant des reçus ou des factures. Le système :
 
 1. Scanne les courriels entrants à la recherche de contenu de type reçu (confirmations de commande, factures, reçus de paiement)
 2. Extrait les données du reçu incluant le nom du fournisseur, le montant, la date et les informations fiscales
-3. Créé une entree de dépense dans la boîte de réception de votre entreprise
+3. Créé une entrée de dépense dans la boîte de réception de votre entreprise
 4. Joint le courriel original ou le PDF comme document justificatif
 
-Smartbills utilisé l'IA pour distinguer les courriels de reçus de la correspondance reguliere, de sorte que seuls les courriels pertinents sont traites.
+Smartbills utilisé l'IA pour distinguer les courriels de reçus de la correspondance régulière, de sorte que seuls les courriels pertinents sont traités.
 
-## Gérer les Comptes Connectes
+## Gérer les Comptes Connectés
 
-### Déconnectér un Compte
+### Déconnecter un Compte
 
 Pour arreter le scan d'un compte email :
 
-1. Cliquez sur le compte dans la liste des comptes connectes
-2. Cliquez sur **Déconnectér**
+1. Cliquez sur le compte dans la liste des comptes connectés
+2. Cliquez sur **Déconnecter**
 3. Confirmez l'action
 
 La déconnexion supprime l'accès de Smartbills au compte email. Les dépenses déjà importées depuis ce compte sont conservées.
@@ -80,7 +80,7 @@ La déconnexion supprime l'accès de Smartbills au compte email. Les dépenses d
 
 Si l'autorisation de votre fournisseur de messagerie expiré ou est révoquée, le statut du compte passe à **Déconnecté**. Cliquez sur **Reconnecter** à côté du compte et complétez à nouveau le flux OAuth.
 
-## Prochaînes Étapes
+## Prochaines Étapes
 
 <CardGroup cols={2}>
   <Card title="Paramètres Généraux" icon="gear" href="/fr/guides/web-app/settings/general">

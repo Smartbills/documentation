@@ -9,9 +9,9 @@ Le `BillService` (`client.bills`) gère les comptes fournisseurs. Les factures r
 
 ## Cycle de vie des factures
 
-**Brouillon** -> **En attente d'approbation** -> **Approuvée** -> **Planifiee** -> **Payee**
+**Brouillon** -> **En attente d'approbation** -> **Approuvée** -> **Planifiée** -> **Payée**
 
-A tout moment, une facture peut être **Annulee** ou **Revertie en brouillon**.
+A tout moment, une facture peut être **Annulée** ou **Revertie en brouillon**.
 
 ## Lister les factures
 
@@ -101,7 +101,7 @@ const result = await client.bills.schedulePayment(billId, {
 });
 ```
 
-### Marquer comme payee
+### Marquer comme payée
 
 ```typescript
 const result = await client.bills.markPaid(billId, {

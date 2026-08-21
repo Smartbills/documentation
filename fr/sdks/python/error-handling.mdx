@@ -102,7 +102,7 @@ from smartbills.errors import SmartbillsConflictError
 try:
     await client.expense_reports.submit(report_id=123)
 except SmartbillsConflictError:
-    print("Le rapport est deja soumis ou d.ns un etat incompatible")
+    print("Le rapport est deja soumis ou dans un etat incompatible")
 ```
 
 ### SmartbillsRateLimitError (429)
@@ -169,7 +169,7 @@ async def appel_api_securise(coro):
 
 ## Patron de tentatives
 
-Le SDK à des tentatives intégrées pour les erreurs transitoires (429, 5xx, erreurs réseau). Pour un contrôle supplémentaire, implementez votre propre logique de tentatives :
+Le SDK à des tentatives intégrées pour les erreurs transitoires (429, 5xx, erreurs réseau). Pour un contrôle supplémentaire, implémentez votre propre logique de tentatives :
 
 ```python
 import asyncio
@@ -204,7 +204,7 @@ Le SDK retente automatiquement les scénarios suivants :
 | **429 Trop de requêtes** | Attend la valeur de l'en-tête `Retry-After`, puis retente |
 | **Erreurs serveur 5xx** | Retente avec back-off exponentiel (délai * 2^tentative) |
 | **Erreurs de connexion** | Retente avec back-off exponentiel |
-| **Timeouts lecture/ecriture** | Retente avec back-off exponentiel |
+| **Timeouts lecture/écriture** | Retente avec back-off exponentiel |
 
 Les erreurs non-retentables (400, 401, 403, 404, 409) sont levées immédiatement sans tentative.
 

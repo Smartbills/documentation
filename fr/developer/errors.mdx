@@ -3,7 +3,7 @@ title: "Gestion des Erreurs"
 description: "Gérer les erreurs de l'API Smartbills"
 ---
 
-L'API Smartbills utilisé les codes de statut HTTP standards : 2xx pour le succès, 4xx pour les erreurs client et 5xx pour les erreurs serveur. Les erreurs de validation renvoient un corps JSON structuré avec un code, un message et des détails par champ.
+L'API Smartbills utilise les codes de statut HTTP standards : 2xx pour le succès, 4xx pour les erreurs client et 5xx pour les erreurs serveur. Les erreurs de validation renvoient un corps JSON structuré avec un code, un message et des détails par champ.
 
 Les codes courants incluent `UNAUTHORIZED` (401), `FORBIDDEN` (403), `NOT_FOUND` (404), `VALIDATION_FAILED` (400/422) et `RATE_LIMIT_EXCEEDED` (429). Chaque erreur inclut un `requestId` pour le débogage auprès du support.
 

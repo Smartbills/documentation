@@ -5,7 +5,7 @@ description: "Composants natifs d'affichage de reçus et utilitaires mobiles pou
 
 ## Introduction
 
-Le SDK `@smartbills/react-native` fournit des composants mobiles natifs pour afficher des reçus numériques, des codes-barres et des codes QR dans les applications React Native. Il comprend un provider de configuration, des composants de reçus pré-construits et des hooks pour la gestion des reçus.
+Le SDK `@smartbills/react-native` fournit des composants mobiles natifs pour afficher des reçus numériques, des codes-barres et des codes QR dans les applications React Native. Il comprend un provider de configuration, des composants de reçus préconstruits et des hooks pour la gestion des reçus.
 
 <Info>
   Ce SDK est construit sur `@smartbills/react-hooks` et `@smartbills/sdk`. Tous les hooks React du SDK hooks sont disponibles avec ce package.
@@ -33,7 +33,7 @@ npx expo install @smartbills/react-native @smartbills/react-hooks @smartbills/sd
 
 ## Configuration du Provider
 
-Encapsulez votre application avec `SmartbillsReactNativeProvider`. Il nécessité une instance `SBClient` et un objet de configuration :
+Encapsulez votre application avec `SmartbillsReactNativeProvider`. Il nécessite une instance `SBClient` et un objet de configuration :
 
 ```tsx
 import { SmartbillsReactNativeProvider } from "@smartbills/react-native";
@@ -71,7 +71,7 @@ export default function App() {
 
 ### Receipt
 
-Le composant `Receipt` affiché un reçu numérique complet avec les informations du commercant, les articles, les détails de paiement et les totaux :
+Le composant `Receipt` affiche un reçu numérique complet avec les informations du commerçant, les articles, les détails de paiement et les totaux :
 
 ```tsx
 import { Receipt } from "@smartbills/react-native";
@@ -86,17 +86,17 @@ Le composant Receipt est composé de plusieurs sous-composants qui peuvent aussi
 | Composant | Description |
 |-----------|-------------|
 | `Receipt` | Mise en page complète combinant tous les sous-composants |
-| `ReceiptMerchant` | En-tête avec nom, logo et emplacement du commercant |
+| `ReceiptMerchant` | En-tête avec nom, logo et emplacement du commerçant |
 | `ReceiptItems` | Liste des articles avec descriptions et prix |
 | `ReceiptItemListItem` | Ligne d'article individuelle |
 | `ReceiptPayment` | Section de résumé de paiement |
 | `ReceiptPaymentCard` | Détails de paiement par carte (4 derniers chiffres, marque) |
-| `ReceiptPaymentCash` | Détails de paiement en especes (montant remis, monnaie) |
+| `ReceiptPaymentCash` | Détails de paiement en espèces (montant remis, monnaie) |
 | `ReceiptLocation` | Adresse et emplacement du magasin |
 | `ReceiptFooter` | Pied de page avec numéro de reçu et date |
 | `ReceiptSkeleton` | Placeholder de chargement squelette |
 | `ReceiptError` | Affichage de l'état d'erreur |
-| `ReceiptOriginal` | Vue de l'image du reçu original numerise |
+| `ReceiptOriginal` | Vue de l'image du reçu original numérise |
 
 ### Barcode
 
@@ -124,7 +124,7 @@ function AffichageQR({ value }) {
 
 ### Brand
 
-Affiché le logo de la marque d'un commercant :
+Affiché le logo de la marque d'un commerçant :
 
 ```tsx
 import { Brand } from "@smartbills/react-native";
@@ -136,7 +136,7 @@ function LogoCommercant({ brandData }) {
 
 ### Money
 
-Formate et affiché une valeur monetaire selon la locale et la devise configurées :
+Formate et affiche une valeur monétaire selon la locale et la devise configurées :
 
 ```tsx
 import { Money } from "@smartbills/react-native";
@@ -166,9 +166,9 @@ function VisionneusRecu({ data }) {
 
 Puisque le SDK React Native encapsule `@smartbills/react-hooks`, tous les hooks du SDK hooks sont disponibles dans votre application React Native. Consultez la [Référence des Hooks React](/fr/sdks/react-hooks/reference) pour la liste complète.
 
-## Intégration Camera pour la Capture de Reçus
+## Intégration Caméra pour la Capture de Reçus
 
-Le SDK fonctionne avec les bibliothèques camera de React Native pour les flux de numérisation de reçus. Utilisez la camera de l'appareil pour capturer des images de reçus, puis téléchargez-les via le hook `usePresignedUpload` :
+Le SDK fonctionne avec les bibliothèques caméra de React Native pour les flux de numérisation de reçus. Utilisez la caméra de l'appareil pour capturer des images de reçus, puis téléchargez-les via le hook `usePresignedUpload` :
 
 ```tsx
 import { usePresignedUpload } from "@smartbills/react-hooks";

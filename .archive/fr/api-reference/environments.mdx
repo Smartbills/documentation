@@ -16,7 +16,7 @@ L'environnement bac à sable est un espace sécurisé pour le développement et 
 **URL de base :**
 
 ```
-https://sandbox.api.smartbills.io/v1
+https://sandbox-api.smartbills.io/v1
 ```
 
 **Caracteristiques :**
@@ -49,19 +49,19 @@ https://api.smartbills.io/v1
 - Nécessité l'approbation de l'application avant l'accès
 
 <Note>
-  Les clés API de production sont activées une fois que votre application à été examinee et approuvée.
+  Les clés API de production sont activées une fois que votre application a été examinée et approuvée.
 </Note>
 
-## Differences principales
+## Différences principales
 
 | Caracteristique | Bac à sable | Production |
 |-----------------|-------------|------------|
-| **URL de base** | `sandbox.api.smartbills.io` | `api.smartbills.io` |
+| **URL de base** | `sandbox-api.smartbills.io` | `api.smartbills.io` |
 | **Clés API** | `sk_test_...` | `sk_live_...` |
 | **Données** | Données de test uniquement | Données réelles des clients |
 | **Accès** | Disponible immédiatement | Nécessité une approbation |
 | **Limites de débit** | Plus indulgentes | Limites standard |
-| **Webhooks** | Envoyes aux URL de test | Envoyes aux URL de production |
+| **Webhooks** | Envoyés aux URL de test | Envoyés aux URL de production |
 | **Transactions** | Simulees | Réelles |
 
 ## Changer d'environnement
@@ -73,7 +73,7 @@ Vous pouvez changer d'environnement en modifiant l'URL de base et la clé API da
 ```bash cURL
 # Bac à sable
 curl --request GET \
-  --url https://sandbox.api.smartbills.io/v1/expenses \
+  --url https://sandbox-api.smartbills.io/v1/expenses \
   --header 'Authorization: Bearer sk_test_1234567890abcdef' \
   --header 'x-tenant-id: 123'
 
@@ -127,7 +127,7 @@ Stockez vos clés API et URL de base comme variables d'environnement pour change
 
 ```bash
 # .env.development
-SMARTBILLS_API_URL=https://sandbox.api.smartbills.io
+SMARTBILLS_API_URL=https://sandbox-api.smartbills.io
 SMARTBILLS_API_KEY=sk_test_votre_cle_sandbox
 
 # .env.production
@@ -143,12 +143,12 @@ L'environnement bac à sable est pre-rempli avec des données d'exemple pour vou
 - **Dépenses d'exemple** dans divers statuts (en attente, approuvé, rejeté)
 - **Rapports de dépenses d'exemple** avec des flux d'approbation complets
 - **Catégories, départements et emplacements d'exemple**
-- **Fournisseurs d'exemple** avec differentes configurations
+- **Fournisseurs d'exemple** avec différentes configurations
 
 Vous pouvez également créer vos propres données de test dans le bac à sable. Toutes les données de test sont périodiquement réinitialises.
 
 <Warning>
-  **Reinitialisation des données** : Les données du bac à sable peuvent être périodiquement réinitialises. Ne vous fiez pas aux données du bac à sable pour un stockage à long terme.
+  **Réinitialisation des données** : Les données du bac à sable peuvent être périodiquement réinitialises. Ne vous fiez pas aux données du bac à sable pour un stockage à long terme.
 </Warning>
 
 ## Isolation des données
@@ -157,7 +157,7 @@ Les données entre les environnements sont complètement isolees :
 
 - Les utilisateurs créés dans le bac à sable n'existent pas en production
 - Les dépenses et rapports sont spécifiques à chaque environnement
-- Les webhooks sont envoyes à des points d'accès differents par environnement
+- Les webhooks sont envoyés à des points d'accès différents par environnement
 - Les clés API ne fonctionnent que dans leurs environnements respectifs
 
 Cela garantit que vos activités de test n'affectent jamais vos données ou utilisateurs de production.
@@ -203,11 +203,11 @@ Cela garantit que vos activités de test n'affectent jamais vos données ou util
   </Accordion>
 
   <Accordion title="Garder des clés API séparées" icon="key">
-    Utilisez des clés API differentes pour chaque environnement et n'utilisez jamais les clés de production en développement ou en test.
+    Utilisez des clés API différentes pour chaque environnement et n'utilisez jamais les clés de production en développement ou en test.
   </Accordion>
 
   <Accordion title="Surveiller les deux environnements" icon="chart-line">
-    Configurez la surveillance et la journalisation pour les deux environnements afin de détectér les problèmes tot.
+    Configurez la surveillance et la journalisation pour les deux environnements afin de détecter les problèmes tot.
   </Accordion>
 </AccordionGroup>
 

@@ -4,16 +4,17 @@
   "description": "Smartbills product guides, API reference, and SDKs for expense management, mileage, accounts payable, and approvals.",
   "logo": {
     "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "light": "/logo/light.svg",
+    "href": "https://smartbills.io"
   },
-  "favicon": "/favicon.png",
+  "favicon": "/favicon.ico",
   "colors": {
-    "primary": "#6366F1",
-    "light": "#818CF8",
-    "dark": "#4F46E5"
+    "primary": "#171717",
+    "light": "#FAFAFA",
+    "dark": "#171717"
   },
   "theme": "mint",
-  "modeToggle": {
+  "appearance": {
     "default": "dark"
   },
   "seo": {
@@ -22,7 +23,9 @@
       "og:site_name": "Smartbills Documentation",
       "og:type": "website",
       "og:locale": "en_CA",
+      "og:image": "https://cdn.smartbills.io/public/assets/icons/512x512.png",
       "twitter:card": "summary_large_image",
+      "twitter:image": "https://cdn.smartbills.io/public/assets/icons/512x512.png",
       "twitter:site": "@smartbills",
       "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
     },
@@ -37,38 +40,26 @@
       ]
     }
   },
-  "topbarLinks": [
-    {
-      "name": "Support",
-      "url": "mailto:support@smartbills.io"
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@smartbills.io"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://app.smartbills.io"
     }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://app.smartbills.io"
   },
-  "anchors": [
-    {
-      "name": "API Reference",
-      "icon": "code",
-      "url": "api-reference"
-    },
-    {
-      "name": "SDKs",
-      "icon": "cube",
-      "url": "sdks"
-    },
-    {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://community.smartbills.io"
-    },
-    {
-      "name": "Status",
-      "icon": "signal-bars",
-      "url": "https://status.smartbills.io"
+  "footer": {
+    "socials": {
+      "x": "https://x.com/smartbills",
+      "github": "https://github.com/smartbills",
+      "linkedin": "https://www.linkedin.com/company/smartbills"
     }
-  ],
+  },
   "integrations": {
     "gtm": {
       "tagId": "GTM-XXXXXXX"
@@ -223,27 +214,6 @@
                 ]
               }
             ]
-          },
-          {
-            "tab": "API Reference",
-            "groups": [
-              {
-                "group": "Getting Started",
-                "pages": [
-                  "api-reference/introduction",
-                  "api-reference/authentication",
-                  "api-reference/api-keys",
-                  "api-reference/environments",
-                  "api-reference/errors",
-                  "api-reference/pagination",
-                  "api-reference/rate-limits",
-                  "api-reference/versioning",
-                  "api-reference/localizations",
-                  "api-reference/webhooks"
-                ]
-              }
-            ],
-            "openapi": "/api-reference/openapi.json"
           },
           {
             "tab": "SDKs",
@@ -562,27 +532,6 @@
             ]
           },
           {
-            "tab": "Référence API",
-            "groups": [
-              {
-                "group": "Pour commencer",
-                "pages": [
-                  "fr/api-reference/introduction",
-                  "fr/api-reference/authentication",
-                  "fr/api-reference/api-keys",
-                  "fr/api-reference/environments",
-                  "fr/api-reference/errors",
-                  "fr/api-reference/pagination",
-                  "fr/api-reference/rate-limits",
-                  "fr/api-reference/versioning",
-                  "fr/api-reference/localizations",
-                  "fr/api-reference/webhooks"
-                ]
-              }
-            ],
-            "openapi": "/api-reference/openapi.json"
-          },
-          {
             "tab": "SDKs",
             "groups": [
               {
@@ -814,16 +763,6 @@
       }
     ]
   },
-  "footerSocials": {
-    "twitter": "https://twitter.com/smartbills",
-    "github": "https://github.com/smartbills",
-    "linkedin": "https://www.linkedin.com/company/smartbills"
-  },
-  "feedback": {
-    "thumbsRating": true,
-    "suggestEdit": true,
-    "raiseIssue": true
-  },
   "redirects": [
     {
       "source": "/guides/web-app/wallet/overview",
@@ -915,7 +854,7 @@
     },
     {
       "source": "/api-reference/webhooks/get-webhook",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/fr/api-reference/webhooks/get-webhook",
@@ -923,7 +862,7 @@
     },
     {
       "source": "/api-reference/webhooks/update-webhook",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/fr/api-reference/webhooks/update-webhook",
@@ -947,171 +886,171 @@
     },
     {
       "source": "/SBCustomer/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBCustomer",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBEmployee/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBEmployee",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBFee/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBFee",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBLocation/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBLocation",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBMerchant/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBMerchant",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBMoney/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBMoney",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct/SBProductImage/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct/SBProductImage",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct/SBProductVariant/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBProduct/SBProductVariant",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBPromoCode/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBPromoCode",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItem/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItem",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemDiscount/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemDiscount",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemTax/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemTax",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemfee/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptLineItemfee",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptPayment/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptPayment",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptTax/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBReceipt/SBReceiptTax",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBTax/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBTax",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBVendor/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/SBVendor",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/authentication/",
-      "destination": "/api-reference/authentication"
+      "destination": "/introduction"
     },
     {
       "source": "/authentication",
-      "destination": "/api-reference/authentication"
+      "destination": "/introduction"
     },
     {
       "source": "/customers/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/customers",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/dotnet/getting-started/",
@@ -1123,35 +1062,35 @@
     },
     {
       "source": "/employees/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/employees",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/environments/",
-      "destination": "/api-reference/environments"
+      "destination": "/introduction"
     },
     {
       "source": "/environments",
-      "destination": "/api-reference/environments"
+      "destination": "/introduction"
     },
     {
       "source": "/errors/",
-      "destination": "/api-reference/errors"
+      "destination": "/introduction"
     },
     {
       "source": "/errors",
-      "destination": "/api-reference/errors"
+      "destination": "/introduction"
     },
     {
       "source": "/fees/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/fees",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/getting-started/",
@@ -1179,83 +1118,83 @@
     },
     {
       "source": "/localizations/",
-      "destination": "/api-reference/localizations"
+      "destination": "/introduction"
     },
     {
       "source": "/localizations",
-      "destination": "/api-reference/localizations"
+      "destination": "/introduction"
     },
     {
       "source": "/locations/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/locations",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/merchants/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/merchants",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/metadata/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/metadata",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/pagination/",
-      "destination": "/api-reference/pagination"
+      "destination": "/introduction"
     },
     {
       "source": "/pagination",
-      "destination": "/api-reference/pagination"
+      "destination": "/introduction"
     },
     {
       "source": "/production/",
-      "destination": "/api-reference/environments"
+      "destination": "/introduction"
     },
     {
       "source": "/production",
-      "destination": "/api-reference/environments"
+      "destination": "/introduction"
     },
     {
       "source": "/products/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/products",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/products/product-variants/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/products/product-variants",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/promo-codes/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/promo-codes",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/rate-limit/",
-      "destination": "/api-reference/rate-limits"
+      "destination": "/introduction"
     },
     {
       "source": "/rate-limit",
-      "destination": "/api-reference/rate-limits"
+      "destination": "/introduction"
     },
     {
       "source": "/react/gettingStarted/",
@@ -1267,43 +1206,107 @@
     },
     {
       "source": "/receipts/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/receipts",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/receipts/items/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/receipts/items",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/taxes/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/taxes",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/vendors/",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/vendors",
-      "destination": "/api-reference/introduction"
+      "destination": "/introduction"
     },
     {
       "source": "/versioning/",
-      "destination": "/api-reference/versioning"
+      "destination": "/introduction"
     },
     {
       "source": "/versioning",
-      "destination": "/api-reference/versioning"
+      "destination": "/introduction"
+    },
+    {
+      "source": "/dotnet/authentication/",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/authentication",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/dotnet-core/",
+      "destination": "/sdks/dotnet/overview"
+    },
+    {
+      "source": "/dotnet/dotnet-core",
+      "destination": "/sdks/dotnet/overview"
+    },
+    {
+      "source": "/dotnet/installation/",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/dotnet/installation",
+      "destination": "/sdks/dotnet/installation"
+    },
+    {
+      "source": "/javascript/authentication/",
+      "destination": "/sdks/javascript/authentication"
+    },
+    {
+      "source": "/javascript/authentication",
+      "destination": "/sdks/javascript/authentication"
+    },
+    {
+      "source": "/javascript/installation/",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/javascript/installation",
+      "destination": "/sdks/javascript/installation"
+    },
+    {
+      "source": "/products/images/",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/products/images",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/products/variants/",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/products/variants",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/api-reference/:slug*",
+      "destination": "/introduction"
+    },
+    {
+      "source": "/fr/api-reference/:slug*",
+      "destination": "/fr/introduction"
     }
   ]
 }

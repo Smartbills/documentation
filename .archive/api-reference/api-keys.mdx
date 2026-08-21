@@ -144,37 +144,57 @@ API keys inherit the permissions of the user who created them. If you have acces
 
 ### Available Scopes
 
+Scopes follow a `resource.action` format. The complete, authoritative list is published at
+[`/auth/.well-known/openid-configuration`](https://api.smartbills.io/auth/.well-known/openid-configuration)
+under `scopes_supported`.
+
 <AccordionGroup>
   <Accordion title="Business Scopes" icon="building">
-    **read:businesses** - View business information, list businesses, get business details
+    **businesses.read** - View business information, list businesses, get business details
 
-    **write:businesses** - Create new businesses, update business information, modify settings
-
-    **delete:businesses** - Remove businesses (with confirmation)
+    **businesses.write** - Create new businesses, update business information, modify settings
   </Accordion>
 
   <Accordion title="Expense Scopes" icon="receipt">
-    **read:expenses** - List all expenses, get expense details, download attachments, export data
+    **expenses.read** - List expenses, get expense details, download attachments, export data
 
-    **write:expenses** - Upload new expenses, update expense information, add/remove attachments, categorize expenses
+    **expenses.write** - Upload expenses, update expense information, add or remove attachments, categorize expenses
 
-    **delete:expenses** - Delete individual expenses, bulk delete operations
+    **receipts.read** / **receipts.write** - Access and modify the underlying receipts
   </Accordion>
 
-  <Accordion title="Report Scopes" icon="file-invoice">
-    **read:reports** - List reports, get report details, view report timeline, access audit logs
+  <Accordion title="Expense Report Scopes" icon="file-invoice">
+    **expense-reports.read** - List reports, get report details, view report timeline
 
-    **write:reports** - Create new reports, update report details, add/remove expenses, submit reports
+    **expense-reports.write** - Create reports, update report details, add or remove expenses
 
-    **approve:reports** - Approve reports, reject reports, require changes, add comments
+    **expense-reports.submit** - Submit reports for approval
+
+    **expense-reports.approve** / **expense-reports.reject** - Act on reports awaiting your approval
+
+    **expense-reports.reimburse** - Mark reports as reimbursed
   </Accordion>
 
-  <Accordion title="User Scopes" icon="user">
-    **read:user** - Get own user details, view user settings
+  <Accordion title="Accounts Payable Scopes" icon="file-invoice-dollar">
+    **bills.read** / **bills.write** - Access and modify bills
 
-    **write:user** - Update profile, change settings
+    **vendors.read** / **vendors.write** - Access and modify vendors
+  </Accordion>
 
-    **manage:users** - Invite users, remove users, update permissions (admin only)
+  <Accordion title="Identity Scopes" icon="user">
+    **openid** - Required for any OpenID Connect flow
+
+    **profile**, **email**, **phone**, **address**, **full_name** - Claims about the signed-in user
+
+    **offline_access** - Issue a refresh token alongside the access token
+  </Accordion>
+
+  <Accordion title="Platform Scopes" icon="gear">
+    **webhooks.read** / **webhooks.write** - Manage webhook endpoints
+
+    **developers.read** / **developers.write** - Manage developer settings
+
+    **notifications.read** / **notifications.write** - Access and manage notifications
   </Accordion>
 </AccordionGroup>
 
