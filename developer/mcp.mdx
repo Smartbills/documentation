@@ -1,0 +1,216 @@
+---
+title: 'MCP Server'
+description: 'Connect Claude, ChatGPT, Cursor and other AI clients to Smartbills over the Model Context Protocol'
+---
+
+## Overview
+
+The Smartbills MCP server lets AI assistants read and act on your Smartbills data through
+the [Model Context Protocol](https://modelcontextprotocol.io). It is a **remote** server —
+nothing to install, nothing to run locally. You add a URL to your AI client, sign in with
+Smartbills, and the assistant gains a set of tools scoped to exactly what your own account
+can already do.
+
+| | |
+|---|---|
+| **Endpoint** | `https://mcp.smartbills.io/mcp` |
+| **Transport** | Streamable HTTP |
+| **Authentication** | OAuth 2.1 — authorization code with PKCE |
+| **Authorization server** | `https://auth.smartbills.io` |
+| **Client registration** | Dynamic (RFC 7591) — no client ID or secret to configure |
+| **Protected-resource metadata** | `https://mcp.smartbills.io/.well-known/oauth-protected-resource` |
+
+<Note>
+  **MCP tool calls do not consume your Smartbills AI credit allowance.** Your AI client pays
+  for its own inference. Only [`ai_job_start_policy_import`](#ai-tools) runs a model on
+  Smartbills' side, and it tells you so before it starts.
+</Note>
+
+## Setup
+
+<CardGroup cols={3}>
+  <Card title="Claude" icon="message" href="/integrations/claude">
+    claude.ai, Claude Desktop and Claude Code
+  </Card>
+  <Card title="ChatGPT" icon="robot" href="/integrations/chatgpt">
+    Connectors and deep research
+  </Card>
+  <Card title="Cursor & VS Code" icon="code" href="/integrations/cursor">
+    IDE agent modes
+  </Card>
+</CardGroup>
+
+## Authentication flow
+
+The server implements the MCP authorization spec. Your client discovers everything it needs;
+you never copy a token by hand.
+
+<Steps>
+  <Step title="Discovery">
+    The client fetches `https://mcp.smartbills.io/.well-known/oauth-protected-resource`
+    (RFC 9728) and learns the resource identifier, the authorization server
+    (`https://auth.smartbills.io`) and the supported scopes. An unauthenticated request to
+    `/mcp` returns `401` with a `WWW-Authenticate: Bearer resource_metadata="…"` header
+    pointing at the same document.
+  </Step>
+  <Step title="Registration">
+    The client registers itself at `https://auth.smartbills.io/connect/register`
+    (RFC 7591). Public clients receive no secret. There is nothing for you to pre-configure.
+  </Step>
+  <Step title="Authorization">
+    An authorization-code flow with **PKCE (S256, required)** opens in your browser. You
+    sign in to Smartbills, **choose which business** the assistant may act on, and review
+    the requested scopes.
+  </Step>
+  <Step title="Token">
+    The issued access token is audience-bound to the MCP server using resource indicators
+    (RFC 8707) and carries a `business_id` claim for the business you picked. Tokens issued
+    for any other resource are rejected.
+  </Step>
+  <Step title="Tools">
+    On `tools/list`, the server returns **only** the tools your token's scopes and your
+    role in that business allow. Tools you cannot use are absent, not merely failing.
+  </Step>
+</Steps>
+
+<Warning>
+  The MCP connection never grants more than your own Smartbills permissions. Every tool call
+  is re-checked server-side against your scopes, your business membership and your role —
+  the assistant does not decide what you may access.
+</Warning>
+
+### Switching business
+
+The business is fixed at consent time and embedded in the token. To point the assistant at
+a different business, disconnect and reconnect the connector, then pick the other business.
+
+### Scopes
+
+`mcp:connect` is required in every MCP token. Beyond that, each tool requires the same
+fine-grained scope as the equivalent REST endpoint.
+
+| Scope | Grants |
+|---|---|
+| `mcp:connect` | Required to open an MCP session at all |
+| `businesses.read` | Business list, employees, policy, violations |
+| `businesses.write` | Waive policy violations, start AI jobs (Administrator role also required) |
+| `merchants.expenses.read` | Search and read expenses, categories, spend summaries |
+| `merchants.expenses.write` | Create and update expenses |
+| `merchants.receipts.read` | Search receipts, read job status |
+| `merchants.receipts.write` | Upload receipts |
+| `merchants.suppliers.read` | Search vendors |
+| `expenses.reports.read` | Read expense reports and run policy checks |
+| `expenses.reports.write` | Create, modify and submit expense reports |
+| `expenses.reports.approve` | Pending approvals, approve, reject |
+
+## Tool catalog
+
+Every tool takes an explicit `business_id`, validated against your memberships. Read tools
+are annotated `readOnlyHint: true`. Write tools ask for confirmation before they run — in
+clients that support MCP elicitation the server asks directly; elsewhere the client's own
+approval prompt applies.
+
+### Read tools
+
+| Tool | Scope | What it does |
+|---|---|---|
+| `business_list` | `businesses.read` | Businesses you belong to and your role. Call first to resolve `business_id`. |
+| `expense_search` | `merchants.expenses.read` | Search expenses by date, amount, category, vendor, status or employee |
+| `expense_get` | `merchants.expenses.read` | One expense with line items, taxes and receipt links |
+| `expense_report_list` | `expenses.reports.read` | Expense reports by status, employee or date range |
+| `expense_report_get` | `expenses.reports.read` | One report with expenses, approvals and violations |
+| `expense_report_pending_approvals` | `expenses.reports.approve` | Reports waiting for **your** approval |
+| `expense_report_policy_check` | `expenses.reports.read` | Dry-run the policy engine against a report |
+| `receipt_search` | `merchants.receipts.read` | Receipts and their OCR status |
+| `vendor_search` | `merchants.suppliers.read` | Vendors and year-to-date spend |
+| `category_list` | `merchants.expenses.read` | Expense categories and ledger accounts |
+| `employee_search` | `businesses.read` | Employees, departments, managers |
+| `policy_get` | `businesses.read` | The spend policy: sections, rules, conditions, actions |
+| `policy_violation_list` | `businesses.read` | Open policy violations and the spend behind them |
+| `spend_summary` | `merchants.expenses.read` | Totals grouped by category, vendor, department, employee or month |
+| `job_status_get` | `merchants.receipts.read` | Status of a receipt or AI job |
+
+### Write tools
+
+| Tool | Scope | Confirmation |
+|---|---|---|
+| `expense_create` | `merchants.expenses.write` | Required |
+| `expense_update` | `merchants.expenses.write` | Required |
+| `expense_report_create` | `expenses.reports.write` | Required |
+| `expense_report_add_expenses` | `expenses.reports.write` | Required |
+| `expense_report_submit` | `expenses.reports.write` | Required — runs the policy check first and refuses on a blocking violation |
+| `expense_report_approve` | `expenses.reports.approve` | Always required |
+| `expense_report_reject` | `expenses.reports.approve` | **Destructive** — always required, reason mandatory |
+| `receipt_upload_from_url` | `merchants.receipts.write` | Required |
+| `policy_violation_waive` | `businesses.write` + Administrator | **Destructive** — always required, reason mandatory |
+
+<Note>
+  Money movement is deliberately **not** exposed. Reimbursement execution, payment
+  initiation, bank-connection management, bulk deletion, user invitations and subscription
+  changes have no MCP tools.
+</Note>
+
+### AI tools
+
+| Tool | Scope | Notes |
+|---|---|---|
+| `ai_job_start_policy_import` | `businesses.write` + Administrator | Extracts policy rules from an uploaded document into a **reviewable draft** — never applied automatically. This is the one tool that consumes Smartbills AI credits; the cost is stated in the confirmation prompt. |
+
+### ChatGPT compatibility tools
+
+For ChatGPT's connector and deep-research surfaces the server also exposes `search` and
+`fetch`, thin read-only aliases that federate over the tools above and return citable
+records. They enforce the same scopes.
+
+### Resources and prompts
+
+Resources: `smartbills://business/{id}/policy`, `smartbills://business/{id}/categories`,
+`smartbills://expense/{id}/receipt`. Receipts and attachments are always returned as links,
+never inlined, so they do not flood the assistant's context.
+
+Prompts: `submit_monthly_expenses`, `review_pending_approvals`, `find_policy_violations`,
+`explain_our_expense_policy`.
+
+## Rate limits
+
+| Limit | Value |
+|---|---|
+| Tool calls | `mcp_tool_calls_per_hour` quota, per business, plan-dependent |
+| Per-token bucket | Shared with the REST API's token-bucket limiter |
+| List page size | 50 items maximum; use the returned opaque `cursor` to page |
+| Response size | Capped at roughly 100 KB per tool result |
+
+Exceeding a limit returns a `429` with `Retry-After`; the assistant sees a plain-language
+explanation rather than an exception. Domain failures return an MCP error result with an
+actionable message — never a stack trace. See [Rate Limits](/developer/rate-limits) for the
+REST API equivalents.
+
+## Auditing
+
+Every mutating tool call is written to the Smartbills audit log with the acting user, the
+OAuth client that made the call, the business, and the tool name (`agent.<tool_name>`).
+Administrators can review agent activity in **Settings → Audit Log** alongside every other
+change.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The assistant only sees a few tools" icon="wrench">
+    Your token is missing scopes, or your role in the selected business is limited.
+    Disconnect the connector, reconnect, and check the consent screen. Approval tools only
+    appear if you are an approver.
+  </Accordion>
+  <Accordion title="Wrong business" icon="building">
+    The business is bound to the token at consent time. Disconnect and reconnect, then pick
+    the correct business.
+  </Accordion>
+  <Accordion title="Connection fails immediately" icon="plug">
+    Confirm the URL is exactly `https://mcp.smartbills.io/mcp` (with the `/mcp` path) and
+    that your client supports the Streamable HTTP transport. Older clients need the
+    `mcp-remote` proxy — see the [Claude](/integrations/claude) page.
+  </Accordion>
+  <Accordion title="Writes never execute" icon="shield-check">
+    That is by design: every write waits for your confirmation. If your client shows no
+    prompt, look for a pending approval in its tool UI.
+  </Accordion>
+</AccordionGroup>

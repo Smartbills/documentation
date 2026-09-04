@@ -1,0 +1,114 @@
+---
+title: "Cursor & VS Code"
+description: "Add the Smartbills MCP server to Cursor or VS Code agent mode"
+---
+
+## Overview
+
+Cursor and VS Code both speak the Model Context Protocol, so the same remote
+[Smartbills MCP server](/developer/mcp) works in either editor's agent mode. Useful when you
+are building against the Smartbills API and want the agent to look at real expenses,
+reports and policy instead of guessing.
+
+## Prerequisites
+
+- A Smartbills account with access to at least one business
+- Cursor, or VS Code with GitHub Copilot agent mode, in a version that supports remote MCP
+  servers
+- A trusted workspace (both editors refuse to start MCP servers in untrusted folders)
+
+## Cursor
+
+<Steps>
+  <Step title="Add the config">
+    Create `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` to enable it
+    everywhere):
+
+    ```json
+    {
+      "mcpServers": {
+        "smartbills": {
+          "url": "https://mcp.smartbills.io/mcp"
+        }
+      }
+    }
+    ```
+  </Step>
+  <Step title="Open MCP settings">
+    Go to **Cursor Settings → MCP & Integrations**. The `smartbills` entry appears and shows
+    that it needs authentication.
+  </Step>
+  <Step title="Sign in">
+    Click **Login**. A browser opens `auth.smartbills.io`; sign in, choose the business, and
+    approve the permissions. The entry turns green with a tool count.
+  </Step>
+</Steps>
+
+## VS Code
+
+<Steps>
+  <Step title="Add the config">
+    Create `.vscode/mcp.json`:
+
+    ```json
+    {
+      "servers": {
+        "smartbills": {
+          "type": "http",
+          "url": "https://mcp.smartbills.io/mcp"
+        }
+      }
+    }
+    ```
+
+    Note the key is `servers`, and `"type": "http"` is VS Code's name for the Streamable
+    HTTP transport. For a user-level install, run **MCP: Open User Configuration** from the
+    Command Palette and use the same block.
+  </Step>
+  <Step title="Start the server">
+    Command Palette → **MCP: List Servers** → **smartbills** → **Start Server**, or use the
+    **Start** code lens above the entry in `mcp.json`.
+  </Step>
+  <Step title="Sign in">
+    Approve the authentication prompt; a browser opens for the Smartbills sign-in.
+  </Step>
+  <Step title="Use it">
+    Open Chat in **Agent mode** and pick the Smartbills tools from the tools menu.
+  </Step>
+</Steps>
+
+## Older versions
+
+Editors without remote MCP support can run a local proxy instead. Requires Node.js 18+.
+
+```json
+{
+  "mcpServers": {
+    "smartbills": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote@latest", "https://mcp.smartbills.io/mcp", "--transport", "http-only"]
+    }
+  }
+}
+```
+
+## Notes
+
+- These config files contain **no secrets** — tokens are stored by the editor, not in the
+  file. Keep it that way and it is safe to commit.
+- Editors cap how many tools they send to the model. Smartbills already filters its tool
+  list by your granted scopes; if you hit a cap, disable other MCP servers rather than
+  reducing your Smartbills permissions.
+- Write tools prompt twice — once from the editor's own tool approval, once from Smartbills.
+  Both are intentional.
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="MCP Server" icon="plug" href="/developer/mcp">
+    Endpoint, auth flow, scopes and rate limits
+  </Card>
+  <Card title="Claude" icon="message" href="/integrations/claude">
+    The same server in Claude
+  </Card>
+</CardGroup>

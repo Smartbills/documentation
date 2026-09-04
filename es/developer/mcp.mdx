@@ -1,0 +1,152 @@
+---
+title: 'Servidor MCP'
+description: "Conecta Claude, ChatGPT, Cursor y otros clientes de IA a Smartbills mediante el Model Context Protocol"
+---
+
+## Descripción general
+
+El servidor MCP de Smartbills permite que los asistentes de IA consulten y modifiquen tus
+datos de Smartbills a través del [Model Context Protocol](https://modelcontextprotocol.io).
+Es un servidor **remoto**: no hay nada que instalar. Añades una URL en tu cliente de IA,
+inicias sesión en Smartbills y el asistente obtiene herramientas limitadas a lo que tu
+propia cuenta ya puede hacer.
+
+| | |
+|---|---|
+| **Endpoint** | `https://mcp.smartbills.io/mcp` |
+| **Transporte** | Streamable HTTP |
+| **Autenticación** | OAuth 2.1 — código de autorización con PKCE (S256) |
+| **Servidor de autorización** | `https://auth.smartbills.io` |
+| **Registro del cliente** | Dinámico (RFC 7591) — sin ID ni secreto que configurar |
+| **Metadatos del recurso** | `https://mcp.smartbills.io/.well-known/oauth-protected-resource` |
+
+<Note>
+  **Las llamadas a herramientas MCP no consumen tu cuota de créditos de IA de Smartbills.** Tu
+  cliente de IA paga su propia inferencia. Solo `ai_job_start_policy_import` ejecuta un
+  modelo del lado de Smartbills, y te lo advierte antes de empezar.
+</Note>
+
+## Flujo de autenticación
+
+<Steps>
+  <Step title="Descubrimiento">
+    El cliente consulta `/.well-known/oauth-protected-resource` (RFC 9728) y obtiene el
+    servidor de autorización y los ámbitos disponibles. Una petición sin autenticar
+    devuelve `401` con la cabecera `WWW-Authenticate: Bearer resource_metadata="…"`.
+  </Step>
+  <Step title="Registro">
+    El cliente se registra en `https://auth.smartbills.io/connect/register` (RFC 7591). Los
+    clientes públicos no reciben secreto.
+  </Step>
+  <Step title="Autorización">
+    Se abre en el navegador un flujo de código de autorización con **PKCE (S256,
+    obligatorio)**. Inicias sesión, **eliges la empresa** y revisas los ámbitos solicitados.
+  </Step>
+  <Step title="Token">
+    El token queda ligado al servidor MCP mediante indicadores de recurso (RFC 8707) e
+    incluye la empresa elegida. Se rechaza cualquier token emitido para otro recurso.
+  </Step>
+  <Step title="Herramientas">
+    `tools/list` devuelve únicamente las herramientas que permiten tus ámbitos y tu rol en
+    esa empresa.
+  </Step>
+</Steps>
+
+<Warning>
+  La conexión MCP nunca concede más que tus propios permisos de Smartbills. Cada llamada se
+  vuelve a verificar en el servidor.
+</Warning>
+
+Para cambiar de empresa, desconecta y vuelve a conectar el conector: la empresa queda fijada
+en el token.
+
+### Ámbitos
+
+`mcp:connect` es obligatorio en todo token MCP. Cada herramienta exige además el mismo
+ámbito específico que el endpoint REST equivalente.
+
+| Ámbito | Concede |
+|---|---|
+| `mcp:connect` | Abrir una sesión MCP |
+| `businesses.read` | Empresas, empleados, política, infracciones |
+| `businesses.write` | Exonerar infracciones, iniciar trabajos de IA (requiere rol Administrador) |
+| `merchants.expenses.read` | Gastos, categorías, resúmenes de gasto |
+| `merchants.expenses.write` | Crear y actualizar gastos |
+| `merchants.receipts.read` | Recibos y estado de procesos |
+| `merchants.receipts.write` | Subir recibos |
+| `merchants.suppliers.read` | Proveedores |
+| `expenses.reports.read` | Informes de gastos y verificación de política |
+| `expenses.reports.write` | Crear, modificar y enviar informes |
+| `expenses.reports.approve` | Aprobaciones pendientes, aprobar, rechazar |
+
+## Catálogo de herramientas
+
+Todas reciben un `business_id` explícito validado contra tus accesos. Las de lectura llevan
+`readOnlyHint: true`; las de escritura piden confirmación.
+
+### Lectura
+
+| Herramienta | Ámbito | Función |
+|---|---|---|
+| `business_list` | `businesses.read` | Tus empresas y tu rol. Llámala primero. |
+| `expense_search` | `merchants.expenses.read` | Buscar gastos |
+| `expense_get` | `merchants.expenses.read` | Un gasto con líneas, impuestos y recibos |
+| `expense_report_list` | `expenses.reports.read` | Listar informes de gastos |
+| `expense_report_get` | `expenses.reports.read` | Un informe completo |
+| `expense_report_pending_approvals` | `expenses.reports.approve` | Informes pendientes de **tu** aprobación |
+| `expense_report_policy_check` | `expenses.reports.read` | Simulación de la política |
+| `receipt_search` | `merchants.receipts.read` | Recibos y estado del OCR |
+| `vendor_search` | `merchants.suppliers.read` | Proveedores y gasto anual |
+| `category_list` | `merchants.expenses.read` | Categorías y cuentas contables |
+| `employee_search` | `businesses.read` | Empleados, departamentos, responsables |
+| `policy_get` | `businesses.read` | La política de gastos |
+| `policy_violation_list` | `businesses.read` | Infracciones abiertas |
+| `spend_summary` | `merchants.expenses.read` | Totales por categoría, proveedor, departamento, empleado o mes |
+| `job_status_get` | `merchants.receipts.read` | Estado de un proceso |
+
+### Escritura
+
+| Herramienta | Ámbito | Confirmación |
+|---|---|---|
+| `expense_create` | `merchants.expenses.write` | Obligatoria |
+| `expense_update` | `merchants.expenses.write` | Obligatoria |
+| `expense_report_create` | `expenses.reports.write` | Obligatoria |
+| `expense_report_add_expenses` | `expenses.reports.write` | Obligatoria |
+| `expense_report_submit` | `expenses.reports.write` | Obligatoria — se rechaza si hay una infracción bloqueante |
+| `expense_report_approve` | `expenses.reports.approve` | Siempre obligatoria |
+| `expense_report_reject` | `expenses.reports.approve` | **Destructiva** — motivo obligatorio |
+| `receipt_upload_from_url` | `merchants.receipts.write` | Obligatoria |
+| `policy_violation_waive` | `businesses.write` + Administrador | **Destructiva** — motivo obligatorio |
+| `ai_job_start_policy_import` | `businesses.write` + Administrador | Consume créditos de IA de Smartbills |
+
+<Note>
+  Los movimientos de dinero **no** están expuestos: ni reembolsos, ni pagos, ni gestión de
+  cuentas bancarias, ni borrados masivos.
+</Note>
+
+Para ChatGPT el servidor expone además `search` y `fetch`, alias de solo lectura sujetos a
+los mismos ámbitos.
+
+## Límites
+
+| Límite | Valor |
+|---|---|
+| Llamadas a herramientas | Cuota `mcp_tool_calls_per_hour`, por empresa, según el plan |
+| Tamaño de página | 50 elementos; usa el `cursor` devuelto |
+| Tamaño de respuesta | unos 100 KB por resultado |
+
+Al superarlos se devuelve `429` con `Retry-After`.
+
+## Auditoría
+
+Cada llamada que modifica datos se registra en el log de auditoría con el usuario, el
+cliente OAuth, la empresa y el nombre de la herramienta (`agent.<herramienta>`). Los
+administradores lo consultan en **Ajustes → Registro de auditoría**.
+
+## Configuración de clientes
+
+<CardGroup cols={3}>
+  <Card title="Claude" icon="message" href="/integrations/claude">claude.ai, Claude Desktop</Card>
+  <Card title="ChatGPT" icon="robot" href="/integrations/chatgpt">Conectores, investigación profunda</Card>
+  <Card title="Cursor & VS Code" icon="code" href="/integrations/cursor">Modo agente</Card>
+</CardGroup>

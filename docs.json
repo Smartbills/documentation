@@ -277,6 +277,15 @@
                 ]
               },
               {
+                "group": "AI Assistants (MCP)",
+                "pages": [
+                  "developer/mcp",
+                  "integrations/claude",
+                  "integrations/chatgpt",
+                  "integrations/cursor"
+                ]
+              },
+              {
                 "group": "Accounting",
                 "pages": [
                   "integrations/quickbooks",
@@ -593,6 +602,12 @@
                 ]
               },
               {
+                "group": "Assistants IA (MCP)",
+                "pages": [
+                  "fr/developer/mcp"
+                ]
+              },
+              {
                 "group": "Comptabilité",
                 "pages": [
                   "fr/integrations/quickbooks",
@@ -708,6 +723,12 @@
                 "group": "Conceptos",
                 "pages": [
                   "es/guides/concepts/roles-and-permissions"
+                ]
+              },
+              {
+                "group": "Asistentes de IA (MCP)",
+                "pages": [
+                  "es/developer/mcp"
                 ]
               },
               {

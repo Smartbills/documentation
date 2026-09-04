@@ -1,0 +1,127 @@
+---
+title: "Claude"
+description: "Use Smartbills from claude.ai, Claude Desktop and Claude Code through the Smartbills MCP connector"
+---
+
+## Overview
+
+Connect Claude to Smartbills and ask it to find expenses, summarise spend, check policy,
+build an expense report, or review the approvals waiting for you. The connection is a
+remote [MCP server](/developer/mcp) — nothing to install, and Claude only ever gets the
+permissions your own Smartbills account already has.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Natural-language search** | "What did we spend on travel in Q2?" across expenses, reports, receipts and vendors |
+| **Report filing** | Gather the month's expenses into a report, run the policy check, and submit |
+| **Approvals** | Review reports pending your approval with their violations summarised |
+| **Policy answers** | Ask what needs a receipt or approval, answered from your live policy |
+| **Confirmation on writes** | Claude never creates, submits, approves or rejects anything without asking you first |
+
+## Prerequisites
+
+- A Smartbills account with access to at least one business
+- Claude on a Free, Pro, Max, Team or Enterprise plan (Free accounts are limited to one
+  custom connector)
+- For Team and Enterprise: an Owner adds the connector in organization settings first
+
+## Setup
+
+<Steps>
+  <Step title="Open Connectors">
+    In Claude, go to **Customize → Connectors**.
+  </Step>
+  <Step title="Add a custom connector">
+    Click **+**, then **Add custom connector**.
+  </Step>
+  <Step title="Enter the Smartbills URL">
+    Paste `https://mcp.smartbills.io/mcp` and click **Add**. Leave *Advanced settings*
+    empty — Smartbills registers Claude automatically, so there is no client ID or secret
+    to enter.
+  </Step>
+  <Step title="Connect">
+    Click **Connect**, sign in to Smartbills, choose the business Claude may act on, and
+    review the requested permissions.
+  </Step>
+  <Step title="Try it">
+    Ask Claude: *"List my Smartbills businesses"*, then *"How much did we spend on software
+    last quarter?"*
+  </Step>
+</Steps>
+
+<Note>
+  On Team and Enterprise plans, members find the connector already listed under
+  **Customize → Connectors** and simply click **Connect** to authenticate with their own
+  Smartbills account.
+</Note>
+
+## Claude Code
+
+```bash
+claude mcp add --transport http smartbills https://mcp.smartbills.io/mcp
+```
+
+Then run `/mcp` in the session to complete the sign-in.
+
+## Claude Desktop without connectors
+
+If your build of Claude Desktop has no connector UI, add a local proxy to
+`claude_desktop_config.json` (macOS `~/Library/Application Support/Claude/`,
+Windows `%APPDATA%\Claude\`) and restart Claude. Node.js 18+ is required.
+
+```json
+{
+  "mcpServers": {
+    "smartbills": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote@latest", "https://mcp.smartbills.io/mcp", "--transport", "http-only"]
+    }
+  }
+}
+```
+
+The proxy only relays traffic to the same remote server; the browser sign-in is identical.
+
+## What Claude can do
+
+Read tools cover expenses, expense reports, receipts, vendors, categories, employees,
+policy, violations and spend summaries. Write tools cover creating and updating expenses,
+building and submitting reports, uploading receipts, approving and rejecting reports, and
+waiving violations. Money movement is not exposed at all. The full list is in the
+[tool catalog](/developer/mcp#tool-catalog).
+
+## Billing
+
+Claude's usage counts against your Claude plan. Smartbills does **not** charge AI credits for
+MCP tool calls.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Claude cannot reach the server" icon="plug">
+    The URL must be exactly `https://mcp.smartbills.io/mcp`. Anthropic connects from its own
+    IP ranges, so the server must be publicly reachable — that is the case for
+    `mcp.smartbills.io`.
+  </Accordion>
+  <Accordion title="Fewer tools than expected" icon="wrench">
+    Tools are filtered by your scopes and your role in the selected business. Reconnect and
+    review the consent screen.
+  </Accordion>
+  <Accordion title="Wrong business" icon="building">
+    The business is chosen during sign-in and fixed for the connection. Disconnect,
+    reconnect, and pick the other business.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="MCP Server" icon="plug" href="/developer/mcp">
+    Endpoint, auth flow, scopes and rate limits
+  </Card>
+  <Card title="ChatGPT" icon="robot" href="/integrations/chatgpt">
+    The same server in ChatGPT
+  </Card>
+</CardGroup>

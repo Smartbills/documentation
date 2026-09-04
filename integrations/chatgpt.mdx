@@ -1,0 +1,106 @@
+---
+title: "ChatGPT"
+description: "Connect ChatGPT to Smartbills for expense search, spend analysis and deep research over your financial records"
+---
+
+## Overview
+
+ChatGPT connects to Smartbills through the same remote [MCP server](/developer/mcp) that
+powers the Claude integration. Once connected, ChatGPT can search your expenses, reports,
+receipts, vendors and spend policy, cite the records it used, and — with your confirmation —
+file and submit expense reports.
+
+## Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Connector search** | Ask about spend in plain language; ChatGPT queries Smartbills directly |
+| **Deep research** | Smartbills appears as a research source with citations back to `app.smartbills.io` |
+| **Report workflows** | Build, policy-check and submit expense reports |
+| **Approvals** | Review what is waiting for your sign-off |
+| **Read-only by default** | Every write action asks you to confirm first |
+
+## Prerequisites
+
+- A Smartbills account with access to at least one business
+- A paid ChatGPT plan with connector support
+- On Business and Enterprise workspaces, an admin must enable developer-mode connectors
+
+## Setup
+
+<Steps>
+  <Step title="Enable developer mode">
+    In ChatGPT, go to **Settings → Connectors → Advanced** and turn on **Developer mode**.
+    (Once the Smartbills connector is published in the ChatGPT directory this step goes
+    away.)
+  </Step>
+  <Step title="Create the connector">
+    Choose **Create**, name it `Smartbills`, set the MCP server URL to
+    `https://mcp.smartbills.io/mcp`, and select **OAuth** authentication. There is no client
+    ID or secret to paste — Smartbills registers ChatGPT automatically.
+  </Step>
+  <Step title="Connect">
+    Click **Connect**, sign in to Smartbills, choose the business ChatGPT may act on, and
+    approve the requested permissions.
+  </Step>
+  <Step title="Use it in a chat">
+    Open the **+ → Connectors** menu in a new chat and enable Smartbills, or select it as a
+    source under **Deep research**.
+  </Step>
+</Steps>
+
+<Note>
+  Menu names in ChatGPT change from time to time. If the wording differs, look for the
+  connector or MCP server settings and enter the same URL.
+</Note>
+
+## Search and citations
+
+For ChatGPT's research surfaces Smartbills exposes two extra read-only tools:
+
+| Tool | Returns |
+|---|---|
+| `search` | Matching records across expenses, reports, receipts, vendors and policy, each with an id, title and citable URL |
+| `fetch` | The full text of one record by id, with a link back to Smartbills |
+
+Both respect your scopes and business membership exactly like every other tool — deep
+research can read, but never change anything.
+
+## Example prompts
+
+- *"Using Smartbills, what were my top five vendors by spend last quarter?"*
+- *"Which of my expenses from March are missing receipts?"*
+- *"Summarise our expense policy for meals and travel."*
+- *"Build an expense report from my unreported May expenses and check it against policy."*
+
+## Billing
+
+ChatGPT usage counts against your OpenAI plan. Smartbills does **not** charge AI credits for
+MCP tool calls.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="The connector will not authenticate" icon="key">
+    Confirm the URL ends in `/mcp` and that authentication is set to OAuth rather than an
+    API key. Smartbills does not accept API keys over MCP.
+  </Accordion>
+  <Accordion title="Deep research does not see Smartbills" icon="magnifying-glass">
+    Enable the connector as a source in the deep-research picker for that specific request;
+    enabling it in Settings alone is not enough.
+  </Accordion>
+  <Accordion title="Fewer tools than expected" icon="wrench">
+    Tools are filtered by your Smartbills scopes and your role in the selected business.
+  </Accordion>
+</AccordionGroup>
+
+## Related
+
+<CardGroup cols={2}>
+  <Card title="MCP Server" icon="plug" href="/developer/mcp">
+    Endpoint, auth flow, scopes and rate limits
+  </Card>
+  <Card title="Claude" icon="message" href="/integrations/claude">
+    The same server in Claude
+  </Card>
+</CardGroup>
