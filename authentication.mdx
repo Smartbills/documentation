@@ -89,32 +89,51 @@ Smartbills provides two types of API keys:
 
 ## Scopes and Permissions
 
-API keys inherit the permissions of the user who created them. The available scopes include:
+API keys inherit the permissions of the user who created them. A key or token can never do
+more than the user behind it: scopes narrow access, they never widen it. The available
+scopes include:
 
 <AccordionGroup>
   <Accordion title="Business Scopes" icon="building">
-    - `business:read` - Read business information
-    - `business:write` - Create and update businesses
-    - `business:delete` - Delete businesses
+    - `businesses.read` - Read business information, employees, departments
+    - `businesses.write` - Create and update business configuration
   </Accordion>
 
   <Accordion title="Expense Scopes" icon="receipt">
-    - `expenses:read` - Read expenses
-    - `expenses:write` - Create and update expenses
-    - `expenses:delete` - Delete expenses
+    - `merchants.expenses.read` - Read expenses and categories
+    - `merchants.expenses.write` - Create and update expenses
   </Accordion>
 
   <Accordion title="Expense Report Scopes" icon="file-invoice">
-    - `expense_reports:read` - Read expense reports
-    - `expense_reports:write` - Create and update expense reports
-    - `expense_reports:approve` - Approve or reject expense reports
+    - `expenses.reports.read` - Read expense reports
+    - `expenses.reports.write` - Create, update and submit expense reports
+    - `expenses.reports.approve` - Approve or reject expense reports
   </Accordion>
 
-  <Accordion title="User Scopes" icon="user">
-    - `user:read` - Read user information
-    - `user:write` - Update user information
+  <Accordion title="Receipt & Vendor Scopes" icon="file-lines">
+    - `merchants.receipts.read` - Read receipts and processing status
+    - `merchants.receipts.write` - Upload receipts
+    - `merchants.suppliers.read` - Read vendors
+  </Accordion>
+
+  <Accordion title="Delegation Scopes" icon="user-group">
+    - `delegates.read` - Read delegation grants
+    - `delegates.write` - Manage delegation grants
+  </Accordion>
+
+  <Accordion title="AI & MCP Scopes" icon="plug">
+    - `mcp:connect` - Required in every token used with the [MCP server](/developer/mcp)
+    - `ai:read` - Read AI usage and budgets, and your own Copilot conversations
+    - `ai:write` - Write Copilot conversations, create and decide AI jobs
+    - `ai:admin` - Manage AI budgets and read the agent audit trail
   </Accordion>
 </AccordionGroup>
+
+<Note>
+  Scope naming is not uniform across the platform: most scopes use dots
+  (`merchants.expenses.read`), while the newer AI and MCP scopes use colons (`mcp:connect`).
+  Use the exact strings above.
+</Note>
 
 ## Security Best Practices
 
