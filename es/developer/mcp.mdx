@@ -21,7 +21,7 @@ propia cuenta ya puede hacer.
 | **Metadatos del recurso** | `https://mcp.smartbills.io/.well-known/oauth-protected-resource` |
 
 <Note>
-  **Las llamadas a herramientas MCP no consumen tu cuota de tokens de IA de Smartbills.** Tu
+  **Las llamadas a herramientas MCP no consumen tu cuota de créditos de IA de Smartbills.** Tu
   cliente de IA paga su propia inferencia. Solo `ai_job_start_policy_import` ejecuta un
   modelo del lado de Smartbills, y te lo advierte antes de empezar.
 </Note>
@@ -117,7 +117,7 @@ Todas reciben un `business_id` explícito validado contra tus accesos. Las de le
 | `expense_report_reject` | `expenses.reports.approve` | **Destructiva** — motivo obligatorio |
 | `receipt_upload_from_url` | `merchants.receipts.write` | Obligatoria |
 | `policy_violation_waive` | `businesses.write` + Administrador | **Destructiva** — motivo obligatorio |
-| `ai_job_start_policy_import` | `businesses.write` + Administrador | Consume tokens de IA de Smartbills |
+| `ai_job_start_policy_import` | `businesses.write` + Administrador | Consume créditos de IA de Smartbills |
 
 <Note>
   Los movimientos de dinero **no** están expuestos: ni reembolsos, ni pagos, ni gestión de
