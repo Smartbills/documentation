@@ -21,7 +21,7 @@ can already do.
 | **Protected-resource metadata** | `https://mcp.smartbills.io/.well-known/oauth-protected-resource` |
 
 <Note>
-  **MCP tool calls do not consume your Smartbills AI token allowance.** Your AI client pays
+  **MCP tool calls do not consume your Smartbills AI credit allowance.** Your AI client pays
   for its own inference. Only [`ai_job_start_policy_import`](#ai-tools) runs a model on
   Smartbills' side, and it tells you so before it starts.
 </Note>
@@ -154,7 +154,7 @@ approval prompt applies.
 
 | Tool | Scope | Notes |
 |---|---|---|
-| `ai_job_start_policy_import` | `businesses.write` + Administrator | Extracts policy rules from an uploaded document into a **reviewable draft** — never applied automatically. This is the one tool that consumes Smartbills AI tokens; the cost is stated in the confirmation prompt. |
+| `ai_job_start_policy_import` | `businesses.write` + Administrator | Extracts policy rules from an uploaded document into a **reviewable draft** — never applied automatically. This is the one tool that consumes Smartbills AI credits; the cost is stated in the confirmation prompt. |
 
 ### ChatGPT compatibility tools
 
